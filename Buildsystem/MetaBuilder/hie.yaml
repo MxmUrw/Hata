@@ -1,0 +1,6 @@
+cradle:
+  stack:
+    - path: './src'
+      component: 'MetaBuilder2:lib'
+    - path: './app'
+      component: 'MetaBuilder2:exe:metabuild'
