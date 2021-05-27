@@ -1,17 +1,17 @@
 
 # Table of Contents
 
-1.  [旗企画 「Project Hata」](#org538d5ab)
-    1.  [Goal](#org0844d44)
-    2.  [Specific Developments](#org0e79d47)
+1.  [旗企画 「Project Hata」](#org6d4e0a9)
+    1.  [Goal](#org0e7d39a)
+    2.  [Specific Developments](#orgde4b89e)
 
 
-<a id="org538d5ab"></a>
+<a id="org6d4e0a9"></a>
 
 # 旗企画 「Project Hata」
 
 
-<a id="org0844d44"></a>
+<a id="org0e7d39a"></a>
 
 ## Goal
 
@@ -30,7 +30,7 @@ compromises as possible:
     than e.g. Tex.
 
 
-<a id="org0e79d47"></a>
+<a id="orgde4b89e"></a>
 
 ## Specific Developments
 
@@ -41,8 +41,8 @@ Explanation of the checkboxes:
     (with a certain amount of corresponding proofs which would usually be expected)
 -   [ ] An unchecked box means that this topic is not implemented yet,
     but is considered for future implementation.
--   [-] A partial box means that this topic is currently in development, or that it
-    once was implemented, but is currently pending a rewrite (being out of date because of rewrites in other places).
+-   [ ] [REW/WIP] An unchecked box with an annotation means that this topic is currently in development (WIP), or that it
+    once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
 
 Full list: 
 
@@ -74,21 +74,21 @@ Full list:
         -   Limits
             -   Specific
                 -   [X] Coequalizer
-                -   [-] Others
-            -   [-] Definition as Kan extensions
+                -   [ ] [REW] Others
+            -   [ ] [REW] Definition as Kan extensions
     -   (∞,1)-category theory
         -   [ ] Via simplicial sets
 -   Formal systems
     -   Theory of Computational problems
         -   [X] Category of problems
         -   Specific
-            -   [-] Unification
+            -   [ ] [WIP] Unification
             -   [ ] Generic parsing
             -   [ ] Generic type checking
     -   Type theories
         -   Specific
             -   [X] Implementation of Church-style λ-Calculus (Type checking, evaluation)
-            -   [-] Implementation Curry-style λ-Calculus (Type checking)
-            -   [-] Implementation of Hindley-Milner type system (Type checking)
+            -   [ ] [WIP] Implementation Curry-style λ-Calculus (Type checking)
+            -   [ ] [WIP] Implementation of Hindley-Milner type system (Type checking)
         -   [ ] Generic definition of the concept of a "type theory"
 
