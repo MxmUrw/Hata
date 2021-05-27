@@ -8,6 +8,15 @@ haskellStackProjects:
     haskellStackAutobuild: false
     installGlobal: true
 
+agdaProjects:
+  - sourceRelDir: .
+    sourceOverwrite_RelDir: UnsafeOverwrite
+    mainRelFile: Application/Main.agda
+    agdaBin_RelFile: hata
+    haskellStackTemplateRelDir: Runtime
+    agdaAutobuild: false
+    libraryDefinitions_Filename: hata.agda-lib
+
 agdaPublishProject:
   projectName: VTC
   autobuild: true

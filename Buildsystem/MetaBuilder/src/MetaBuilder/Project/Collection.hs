@@ -7,12 +7,13 @@ import MetaBuilder.Imports.Shake
 import MetaBuilder.Core
 import MetaBuilder.Project.Environment
 import MetaBuilder.Project.Type.Haskell
+import MetaBuilder.Project.Type.Agda
 
 import qualified Data.Yaml
 
 data Collection = Collection
   { globalConfig         :: GlobalConfig
-  -- , agdaProject          :: Maybe AgdaProjectConfig
+  , agdaProjects          :: [AgdaProjectConfig]
   -- , agdaPublishProject   :: Maybe AgdaPublishProjectConfig
   , haskellStackProjects :: [HaskellStackProjectConfig]
   } deriving (Generic)
@@ -20,7 +21,7 @@ instance FromJSON Collection
 
 data ExtraCollection = ExtraCollection
   { extraGlobalConfig         :: ExtraGlobalConfig
-  -- , extraAgdaProject          :: Maybe ExtraAgdaProjectConfig
+  , extraAgdaProjects          :: [ExtraAgdaProjectConfig]
   -- , extraAgdaPublishProject   :: Maybe ExtraAgdaPublishProjectConfig
   , extraHaskellStackProjects :: [ExtraHaskellStackProjectConfig]
   }
@@ -39,6 +40,7 @@ getCollection env = do
 makeCollectionRules :: ExtraCollection -> Rules ()
 makeCollectionRules col = do
   mapM (makeRules (col.>extraGlobalConfig)) (col.>extraHaskellStackProjects)
+  mapM (makeRules (col.>extraGlobalConfig)) (col.>extraAgdaProjects)
   makeCleanRules (col.>extraGlobalConfig)
   return ()
 
@@ -54,12 +56,12 @@ makeCleanRules epc = do
 deriveExtraCollection :: ProjectEnv -> Collection -> IO ExtraCollection
 deriveExtraCollection env c = do
   extraGlobalConfig <- deriveExtraProjectConfig_Global (env.>projectRootFile) (c.>globalConfig)
-  -- let extraAgdaProject  = deriveExtraProjectConfig_Agda extraGlobalConfig <$> (c.>agdaProject)
+  let extraAgdaProjects  = deriveExtraProjectConfig_Agda extraGlobalConfig <$> (c.>agdaProjects)
   -- let extraAgdaPublishProject  = deriveExtraProjectConfig_AgdaPublish extraGlobalConfig <$> (c.>agdaPublishProject)
   let extraHaskellStackProjects = deriveExtraConfig extraGlobalConfig <$> (c.>haskellStackProjects)
   return ExtraCollection
      { extraGlobalConfig         = extraGlobalConfig
-     -- , extraAgdaProject          = extraAgdaProject
+     , extraAgdaProjects          = extraAgdaProjects
      -- , extraAgdaPublishProject   = extraAgdaPublishProject
      , extraHaskellStackProjects = extraHaskellStackProjects
      }

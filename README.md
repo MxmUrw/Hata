@@ -1,20 +1,20 @@
 
 # Table of Contents
 
-1.  [Project Hata 旗企画](#orgf4383b2)
-    1.  [Goal](#org6536f97)
-    2.  [Current state](#org4e7fd2d)
-        1.  [Concerning formalization of mathematics](#orgb0316d4)
-        2.  [Concerning execution of the code](#orgb839e62)
-        3.  [Concerning compilation to pdf](#org04f4f86)
+1.  [Project Hata](#org1de8a96)
+    1.  [Goal](#org2b31e94)
+    2.  [Current state](#org250d53f)
+        1.  [Concerning formalization of mathematics](#orgdabdfb0)
+        2.  [Concerning execution of the code](#org878bb2f)
+        3.  [Concerning compilation to pdf](#org312aaa4)
 
 
-<a id="orgf4383b2"></a>
+<a id="org1de8a96"></a>
 
-# Project Hata 旗企画
+# Project Hata
 
 
-<a id="org6536f97"></a>
+<a id="org2b31e94"></a>
 
 ## Goal
 
@@ -33,7 +33,7 @@ compromises as possible:
     than e.g. Tex.
 
 
-<a id="org4e7fd2d"></a>
+<a id="org250d53f"></a>
 
 ## Current state
 
@@ -48,7 +48,7 @@ Explanation of the checkboxes:
     once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
 
 
-<a id="orgb0316d4"></a>
+<a id="orgdabdfb0"></a>
 
 ### Concerning formalization of mathematics
 
@@ -99,7 +99,7 @@ Explanation of the checkboxes:
         -   [ ] Generic definition of the concept of a "type theory"
 
 
-<a id="orgb839e62"></a>
+<a id="org878bb2f"></a>
 
 ### Concerning execution of the code
 
@@ -110,7 +110,7 @@ Explanation of the checkboxes:
     -   [ ] Parsing of lambda calculus terms into AST
 
 
-<a id="org04f4f86"></a>
+<a id="org312aaa4"></a>
 
 ### Concerning compilation to pdf
 

@@ -1,0 +1,5 @@
+name: Hata
+depend: cubical
+include: .
+  Archive
+flags: --cubical --allow-unsolved-metas --no-import-sorts
