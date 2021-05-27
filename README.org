@@ -15,7 +15,7 @@
       than e.g. Tex.
 
 
-** Specific Developments
+** Current state
    In the following the current state of different features is shown.
    Explanation of the checkboxes:
    - [X] A checked box means that this topic is implemented.
@@ -25,7 +25,7 @@
    - [ ] [REW/WIP] An unchecked box with an annotation means that this topic is currently in development (WIP), or that it
      once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
     
-  Full list: 
+*** Concerning formalization of mathematics 
    - Infrastructural/Meta:
      - [X] System for dealing with mathematical subtyping hierarchies (e.g. Group ⊑ Ring ⊑ Field)
      - [X] Decrease syntactic overhead for universe levels
@@ -33,7 +33,7 @@
      - [X] Definition of Monoid, Group, Abelian, Ring, CRing
      - [X] Definition of Ordered rings
      - [X] Localization of CRings
-     - Specific
+     - [ ] Specific
        - [X] ℚ as localization of ℤ
        - [X] ℝ as Dedekind completion of ℚ
    - Order theory
@@ -45,14 +45,14 @@
    - Spaces
      - Topological
        - [ ] Topology/Locale "on" ℝ
-       - [ ] Proof of compactness
+       - [ ] Proof of compactness of interval
    - Category theory
      - Setoid based 1-category theory
        - [X] Definition of Category, Functor, Natural transformation
        - [X] Definition of Monad, Kleisli category
        - [X] Yoneda lemma
-       - Limits
-         - Specific
+       - [ ] Limits
+         - [ ] Specific
            - [X] Coequalizer
            - [ ] [REW] Others
          - [ ] [REW] Definition as Kan extensions
@@ -61,16 +61,25 @@
    - Formal systems
      - Theory of Computational problems
        - [X] Category of problems
-       - Specific
+       - [ ] Specific
          - [ ] [WIP] Unification
          - [ ] Generic parsing
          - [ ] Generic type checking
      - Type theories
-       - Specific
+       - [ ] Specific
          - [X] Implementation of Church-style λ-Calculus (Type checking, evaluation)
-         - [ ] [WIP] Implementation Curry-style λ-Calculus (Type checking)
+         - [ ] [WIP] Implementation of Curry-style λ-Calculus (Type checking)
          - [ ] [WIP] Implementation of Hindley-Milner type system (Type checking)
        - [ ] Generic definition of the concept of a "type theory"
   
+*** Concerning execution of the code
+    - Custom build system
+      - [ ] Compilation of Agda code as a haskell-stack project
+      - [ ] Interdependency between Agda and Haskell source code
+    - Supporting haskell code
+      - [ ] Parsing of lambda calculus terms into AST
 
+*** Concerning compilation to pdf 
+    - [ ] Support for compilation to pdf in build system
+    - [ ] Prettifying the output
    

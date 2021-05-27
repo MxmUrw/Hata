@@ -1,17 +1,20 @@
 
 # Table of Contents
 
-1.  [旗企画 「Project Hata」](#org6d4e0a9)
-    1.  [Goal](#org0e7d39a)
-    2.  [Specific Developments](#orgde4b89e)
+1.  [旗企画 「Project Hata」](#org8128c19)
+    1.  [Goal](#orgd6c49ff)
+    2.  [Current state](#orgc6ce603)
+        1.  [Concerning formalization of mathematics](#org6624713)
+        2.  [Concerning execution of the code](#orge4a6c9b)
+        3.  [Concerning compilation to pdf](#org16866d8)
 
 
-<a id="org6d4e0a9"></a>
+<a id="org8128c19"></a>
 
 # 旗企画 「Project Hata」
 
 
-<a id="org0e7d39a"></a>
+<a id="orgd6c49ff"></a>
 
 ## Goal
 
@@ -30,9 +33,9 @@ compromises as possible:
     than e.g. Tex.
 
 
-<a id="orgde4b89e"></a>
+<a id="orgc6ce603"></a>
 
-## Specific Developments
+## Current state
 
 In the following the current state of different features is shown.
 Explanation of the checkboxes:
@@ -44,7 +47,10 @@ Explanation of the checkboxes:
 -   [ ] [REW/WIP] An unchecked box with an annotation means that this topic is currently in development (WIP), or that it
     once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
 
-Full list: 
+
+<a id="org6624713"></a>
+
+### Concerning formalization of mathematics
 
 -   Infrastructural/Meta:
     -   [X] System for dealing with mathematical subtyping hierarchies (e.g. Group ⊑ Ring ⊑ Field)
@@ -53,7 +59,7 @@ Full list:
     -   [X] Definition of Monoid, Group, Abelian, Ring, CRing
     -   [X] Definition of Ordered rings
     -   [X] Localization of CRings
-    -   Specific
+    -   [ ] Specific
         -   [X] ℚ as localization of ℤ
         -   [X] ℝ as Dedekind completion of ℚ
 -   Order theory
@@ -65,14 +71,14 @@ Full list:
 -   Spaces
     -   Topological
         -   [ ] Topology/Locale "on" ℝ
-        -   [ ] Proof of compactness
+        -   [ ] Proof of compactness of interval
 -   Category theory
     -   Setoid based 1-category theory
         -   [X] Definition of Category, Functor, Natural transformation
         -   [X] Definition of Monad, Kleisli category
         -   [X] Yoneda lemma
-        -   Limits
-            -   Specific
+        -   [ ] Limits
+            -   [ ] Specific
                 -   [X] Coequalizer
                 -   [ ] [REW] Others
             -   [ ] [REW] Definition as Kan extensions
@@ -81,14 +87,33 @@ Full list:
 -   Formal systems
     -   Theory of Computational problems
         -   [X] Category of problems
-        -   Specific
+        -   [ ] Specific
             -   [ ] [WIP] Unification
             -   [ ] Generic parsing
             -   [ ] Generic type checking
     -   Type theories
-        -   Specific
+        -   [ ] Specific
             -   [X] Implementation of Church-style λ-Calculus (Type checking, evaluation)
-            -   [ ] [WIP] Implementation Curry-style λ-Calculus (Type checking)
+            -   [ ] [WIP] Implementation of Curry-style λ-Calculus (Type checking)
             -   [ ] [WIP] Implementation of Hindley-Milner type system (Type checking)
         -   [ ] Generic definition of the concept of a "type theory"
+
+
+<a id="orge4a6c9b"></a>
+
+### Concerning execution of the code
+
+-   Custom build system
+    -   [ ] Compilation of Agda code as a haskell-stack project
+    -   [ ] Interdependency between Agda and Haskell source code
+-   Supporting haskell code
+    -   [ ] Parsing of lambda calculus terms into AST
+
+
+<a id="org16866d8"></a>
+
+### Concerning compilation to pdf
+
+-   [ ] Support for compilation to pdf in build system
+-   [ ] Prettifying the output
 
