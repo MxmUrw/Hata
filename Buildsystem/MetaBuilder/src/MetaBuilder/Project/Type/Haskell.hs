@@ -12,7 +12,7 @@ data HaskellStackProjectConfig = HaskellStackProjectConfig
   , haskellStackAutobuild     :: Bool
   , installGlobal             :: Bool
   }
-  deriving (Generic)
+  deriving (Generic, Show)
 instance FromJSON HaskellStackProjectConfig
 
 
@@ -22,6 +22,7 @@ data ExtraHaskellStackProjectConfig = ExtraHaskellStackProjectConfig
   -- original settings
   , originalHaskellStackConfig :: HaskellStackProjectConfig
   }
+  deriving (Show)
 
 deriveExtraProjectConfig_HaskellStack :: ExtraGlobalConfig -> HaskellStackProjectConfig -> ExtraHaskellStackProjectConfig
 deriveExtraProjectConfig_HaskellStack egpc hpc =
@@ -35,8 +36,24 @@ deriveExtraProjectConfig_HaskellStack egpc hpc =
      , originalHaskellStackConfig  = hpc
      }
 
+makeRules_HaskellStackProject :: ExtraGlobalConfig -> ExtraHaskellStackProjectConfig -> Rules ()
+makeRules_HaskellStackProject egpc ehc = do
+  if (ehc.>originalHaskellStackConfig.>haskellStackAutobuild)
+    then want [ehc.>haskellStackBin_AbFile]
+    else return ()
+
+  phony (ehc.>originalHaskellStackConfig.>haskellStackBin_RelFile) $ do
+    need [ehc.>haskellStackBin_AbFile]
+
+  haskellStack_Files <- liftIO $ getDirectoryFilesIO (ehc.>haskellStackSource_AbDir) ["//*.hs", "//*.yaml", "//*.cabal", "//*.metabuild-template"]
+  let haskellStackSource_Files = ((ehc.>haskellStackSource_AbDir </>) <$> haskellStack_Files)
+
+  ehc.>haskellStackBin_AbFile %> \_ -> do
+    need haskellStackSource_Files
+    cmd_ "stack" (Cwd (ehc.>haskellStackSource_AbDir)) ["install", "--local-bin-path=" ++ (dropFileName (ehc.>haskellStackBin_AbFile))]
+
 instance ProjectType HaskellStackProjectConfig ExtraHaskellStackProjectConfig where
   deriveExtraConfig = deriveExtraProjectConfig_HaskellStack
-  makeRules = undefined
+  makeRules = makeRules_HaskellStackProject
 
 

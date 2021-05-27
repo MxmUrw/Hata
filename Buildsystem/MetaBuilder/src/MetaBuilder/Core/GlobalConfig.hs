@@ -3,6 +3,8 @@ module MetaBuilder.Core.GlobalConfig where
 
 import MetaBuilder.Imports.Common
 import MetaBuilder.Imports.Yaml
+import MetaBuilder.Imports.Shake
+import MetaBuilder.Core.Notation
 -- import MetaBuilder.Project.Environment
 
 
@@ -21,7 +23,23 @@ data ExtraGlobalConfig = ExtraGlobalConfig
   , metabuilder_AbFile    :: FilePath
   , home_AbDir           :: FilePath
   }
+  deriving (Show)
 
+deriveExtraProjectConfig_Global :: FilePath -> GlobalConfig -> IO ExtraGlobalConfig
+deriveExtraProjectConfig_Global rootfile gpc = do
+  let root = takeDirectory rootfile
+  let buildAbDir = root </> gpc.>buildRelDir
+  let binAbDir   = root </> gpc.>binRelDir
+  metabuilder_AbFile <- getExecutablePath
+  home_AbDir <- getHomeDirectory
+  return ExtraGlobalConfig
+     { rootAbDir  = root
+     , root_AbFile = rootfile
+     , buildAbDir = buildAbDir
+     , binAbDir   = binAbDir
+     , metabuilder_AbFile = metabuilder_AbFile
+     , home_AbDir = home_AbDir
+     }
 
 -- module MetaBuilder.Core.GlobalConfig where
 

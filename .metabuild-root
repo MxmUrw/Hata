@@ -1,0 +1,71 @@
+globalConfig:
+  buildRelDir: _build/metabuild
+  binRelDir: _build/bin
+
+haskellStackProjects:
+  - haskellStackBin_RelFile: metabuild
+    haskellStackSource_RelDir: Buildsystem/MetaBuilder
+    haskellStackAutobuild: false
+    installGlobal: true
+
+agdaPublishProject:
+  projectName: VTC
+  autobuild: true
+  fastbuild: false
+  source_RelDir: Verification
+  include_RelFiles:
+    - Writing/Introduction.agda
+    # - Core/Type.agda
+    # - Core/Type/Equiv.agda
+    - Core/Category.agda
+    - Core/Category/Definition.agda
+    - Core/Category/Instance.agda
+    - Core/Category/Instance/Type.agda
+    - Core/Category/Instance/Set/Definition.agda
+    - Core/Category/Instance/Opposite.agda
+    - Core/Category/Instance/Functor.agda
+    # - Core/Category/Instance/Cat/Definition.agda
+    # - Core/Category/Functor/Category.agda
+    - Core/Category/Functor.agda
+    - Core/Category/Functor/Adjunction.agda
+    - Core/Category/Functor/Representable.agda
+    - Core/Category/Functor/Presheaf.agda
+    - Core/Category/Quiver.agda
+    - Core/Category/FreeCategory.agda
+    # - Core/Category/Limit.agda
+    - Core/Category/Limit/Specific.agda
+    # - Core/Category/Limit/Specific/Coequalizer.agda
+    # - Core/Category/Limit/Specific/Coproduct.agda
+    # - Core/Category/Limit/Specific/Initial.agda
+    - Core/Category/Limit/Kan.agda
+    # - Core/Category/Limit/Kan/Definition.agda
+    # - Core/Category/Limit/Kan/Local.agda
+    # - Core/Category/Instance/Type.agda
+    # - Core/Category/Instance/Set/Equalizers.agda
+    # - Core/Category/Instance/IdxSet/Definition.agda
+    # - Core/Category/Instance/IdxSet/Coproducts.agda
+    # - Core/Category/Instance/Kleisli/Definition.agda
+
+    - Core/Category/Monad/Definition.agda
+    # - Core/Category/Monad/Instance/Coproduct.agda
+    - Core/Algebra.agda
+    - Core/Algebra/Basic.agda
+    - Core/Algebra/Basic/Monoid.agda
+    # - Core/Algebra/Basic/Group.agda
+    # - Core/Algebra/Basic/Abelian.agda
+    # - Core/Algebra/Basic/Ring.agda
+    # - Core/Algebra/Action.agda
+    # - Core/Algebra/Action/MonoidModule.agda
+    # # - Core/Algebra/Action/LinearCombination.agda
+    # # - Core/Algebra/Action/Algebra.agda
+    - Unification/Definition.agda
+    - Unification/RecAccessible.agda
+    - Unification/Instance/Signature.agda
+
+
+    # - Unification/Substitution.agda
+    # - Unification/RecMonad.agda
+    # - Unification/RecModule.agda
+    # - Unification/TheFunctor.agda
+    # - Typechecking.agda
+  libraryDefinitions_Filename: hata.agda-lib

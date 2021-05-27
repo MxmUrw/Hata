@@ -1,5 +1,5 @@
 
-* 旗企画 「Project Hata」
+* Project Hata 旗企画
 ** Goal
    The goal of this project is to formalize enough mathematics (category theory, algebra) to
    be able to do proper verified development of theoretical computer science, i.e., type theory,

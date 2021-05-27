@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ba859aeefffa61aedb264e0d98abff16cb4a03d12f0ad01156df486fb5028998
+-- hash: e2a0683ed06ae1b719029163d20fc70fbe4fb91a923d3072b58ed9a1829d7bf9
 
 name:           MetaBuilder
 version:        0.1.0.0
@@ -38,6 +38,7 @@ library
       MetaBuilder.Main
       MetaBuilder.Project.Collection
       MetaBuilder.Project.Environment
+      MetaBuilder.Project.Type.Agda
       MetaBuilder.Project.Type.Haskell
   other-modules:
       Paths_MetaBuilder

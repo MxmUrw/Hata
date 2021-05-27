@@ -1,24 +1,24 @@
 
 # Table of Contents
 
-1.  [旗企画 「Project Hata」](#orgb9407e4)
-    1.  [Goal](#org2da78f5)
-    2.  [Current state](#orgcbef6fb)
-        1.  [Concerning formalization of mathematics](#orgfab47c4)
-        2.  [Concerning execution of the code](#orgd583ffc)
-        3.  [Concerning compilation to pdf](#org89e0076)
+1.  [Project Hata 旗企画](#orgf4383b2)
+    1.  [Goal](#org6536f97)
+    2.  [Current state](#org4e7fd2d)
+        1.  [Concerning formalization of mathematics](#orgb0316d4)
+        2.  [Concerning execution of the code](#orgb839e62)
+        3.  [Concerning compilation to pdf](#org04f4f86)
 
 
-<a id="orgb9407e4"></a>
+<a id="orgf4383b2"></a>
 
-# 旗企画 「Project Hata」
+# Project Hata 旗企画
 
 
-<a id="org2da78f5"></a>
+<a id="org6536f97"></a>
 
 ## Goal
 
-The ambitious goal of this project is to formalize enough mathematics (category theory, algebra) to
+The goal of this project is to formalize enough mathematics (category theory, algebra) to
 be able to do proper verified development of theoretical computer science, i.e., type theory,
 logic, algorithms, compilation.
 
@@ -33,7 +33,7 @@ compromises as possible:
     than e.g. Tex.
 
 
-<a id="orgcbef6fb"></a>
+<a id="org4e7fd2d"></a>
 
 ## Current state
 
@@ -48,7 +48,7 @@ Explanation of the checkboxes:
     once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
 
 
-<a id="orgfab47c4"></a>
+<a id="orgb0316d4"></a>
 
 ### Concerning formalization of mathematics
 
@@ -99,7 +99,7 @@ Explanation of the checkboxes:
         -   [ ] Generic definition of the concept of a "type theory"
 
 
-<a id="orgd583ffc"></a>
+<a id="orgb839e62"></a>
 
 ### Concerning execution of the code
 
@@ -110,7 +110,7 @@ Explanation of the checkboxes:
     -   [ ] Parsing of lambda calculus terms into AST
 
 
-<a id="org89e0076"></a>
+<a id="org04f4f86"></a>
 
 ### Concerning compilation to pdf
 

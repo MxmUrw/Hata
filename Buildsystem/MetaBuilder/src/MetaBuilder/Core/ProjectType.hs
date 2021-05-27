@@ -12,7 +12,7 @@ import MetaBuilder.Core.GlobalConfig
 
 class (Generic d, FromJSON d) => ProjectType d e | e -> d where
   deriveExtraConfig :: ExtraGlobalConfig -> d -> e
-  makeRules :: e -> Rules ()
+  makeRules :: ExtraGlobalConfig -> e -> Rules ()
 
 
 
