@@ -1,13 +1,12 @@
 
 module MetaBuilder.Core
   (
-    module MetaBuilder.Core.GlobalConfig
-  , module MetaBuilder.Core.ProjectType
-  , module MetaBuilder.Core.Notation
+    module All
   )
   where
 
-import MetaBuilder.Core.GlobalConfig
-import MetaBuilder.Core.ProjectType
-import MetaBuilder.Core.Notation
+import MetaBuilder.Core.GlobalConfig as All
+import MetaBuilder.Core.ProjectType as All
+import MetaBuilder.Core.Notation as All
+import MetaBuilder.Core.Exception as All
 

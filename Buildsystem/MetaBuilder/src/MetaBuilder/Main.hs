@@ -1,11 +1,18 @@
 module MetaBuilder.Main
-    ( someFunc
+    ( run
     ) where
+
+import MetaBuilder.Project.Environment
+import MetaBuilder.Project.Collection
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
-testf :: Int -> Int
-testf 0 = 0
-
+run :: IO ()
+run = do
+  env <- getEnvironment
+  putStrLn $ show env
+  -- collection <- getCollection env
+  -- putStrLn $ show collection
+  return ()
 

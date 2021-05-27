@@ -1,5 +1,5 @@
 
-module MetaBuilder.ProjectType.Haskell where
+module MetaBuilder.Project.Type.Haskell where
 
 import MetaBuilder.Imports.Yaml
 import MetaBuilder.Imports.Shake

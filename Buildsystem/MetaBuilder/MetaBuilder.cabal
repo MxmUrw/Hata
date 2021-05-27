@@ -4,13 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9fb7189d4207e11b109eb517ef6937a3e83c4dbc6450fe3b2f2d7acbed76123d
+-- hash: ba859aeefffa61aedb264e0d98abff16cb4a03d12f0ad01156df486fb5028998
 
-name:           MetaBuilder2
+name:           MetaBuilder
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/MetaBuilder2#readme>
-homepage:       https://github.com/MxmUrw/MetaBuilder2#readme
-bug-reports:    https://github.com/MxmUrw/MetaBuilder2/issues
+description:    Please see the README on GitHub at <https://github.com/githubuser/MetaBuilder#readme>
+homepage:       https://github.com/MxmUrw/MetaBuilder#readme
+bug-reports:    https://github.com/MxmUrw/MetaBuilder/issues
 author:         Maxim Urschumzew
 maintainer:     example@example.com
 copyright:      2021 Maxim Urschumzew
@@ -23,21 +23,24 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/MxmUrw/MetaBuilder2
+  location: https://github.com/MxmUrw/MetaBuilder
 
 library
   exposed-modules:
       MetaBuilder.Core
+      MetaBuilder.Core.Exception
       MetaBuilder.Core.GlobalConfig
       MetaBuilder.Core.Notation
       MetaBuilder.Core.ProjectType
+      MetaBuilder.Imports.Common
       MetaBuilder.Imports.Shake
       MetaBuilder.Imports.Yaml
       MetaBuilder.Main
-      MetaBuilder.ProjectType.Haskell
-      MetaBuilder.ProjectType.Julia
+      MetaBuilder.Project.Collection
+      MetaBuilder.Project.Environment
+      MetaBuilder.Project.Type.Haskell
   other-modules:
-      Paths_MetaBuilder2
+      Paths_MetaBuilder
   hs-source-dirs:
       src
   default-extensions: DuplicateRecordFields DeriveGeneric RankNTypes MultiParamTypeClasses FunctionalDependencies
@@ -58,24 +61,24 @@ library
 executable metabuild
   main-is: Main.hs
   other-modules:
-      Paths_MetaBuilder2
+      Paths_MetaBuilder
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      MetaBuilder2
+      MetaBuilder
     , base >=4.7 && <5
   default-language: Haskell2010
 
-test-suite MetaBuilder2-test
+test-suite MetaBuilder-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_MetaBuilder2
+      Paths_MetaBuilder
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      MetaBuilder2
+      MetaBuilder
     , base >=4.7 && <5
   default-language: Haskell2010
