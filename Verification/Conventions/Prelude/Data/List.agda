@@ -1,11 +1,17 @@
 
-{-# OPTIONS --cubical --allow-unsolved-metas #-}
 
 module Verification.Conventions.Prelude.Data.List where
 
 open import Verification.Conventions.Proprelude
 open import Verification.Conventions.Prelude.Classes
 open import Verification.Conventions.Prelude.Data.String
+open import Verification.Conventions.Prelude.Data.Nat
+open import Verification.Conventions.Prelude.Data.Bool
+
+open import Verification.Conventions.Prelude.Data.List.Base hiding ([_]) renaming (_++_ to _++-List_ ; length to length-List) public
+-- open import Verification.Conventions.Prelude.Data.List.Properties renaming (++-assoc to ++-List-assoc ; ¬cons≡nil to cons≢nil ; ¬nil≡cons to nil≢cons) public
+
+
 
 instance
   IShow:List : ∀{A : 𝒰 𝑖} {{_ : IShow A}} -> IShow (List A)

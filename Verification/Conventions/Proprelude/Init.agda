@@ -173,3 +173,36 @@ _⫗_ : ∀{A : 𝒰 𝑖} -> (P Q : A -> 𝒰 𝑗) -> 𝒰 _
 _⫗_ P Q = P ⊆ Q ×-𝒰 Q ⊆ P
 
 infix 40 _⊆_ _⫗_
+
+
+
+
+-- bottom
+data 𝟘-𝒰 : 𝒰₀ where
+
+𝟘-rec : ∀ {ℓ} {A : 𝒰 ℓ} → 𝟘-𝒰 → A
+𝟘-rec ()
+
+𝟘-elim : ∀ {ℓ} {A : 𝟘-𝒰 → 𝒰 ℓ} → (x : 𝟘-𝒰) → A x
+𝟘-elim ()
+
+-- top
+
+open import Agda.Builtin.Unit public
+  renaming ( ⊤ to 𝟙-𝒰 )
+
+
+-- Negation
+infix 3 ¬_
+
+¬_ : 𝒰 ℓ → 𝒰 ℓ
+¬ A = A → 𝟘-𝒰
+
+-- Decidable types (inspired by standard library)
+data Decision (P : 𝒰 ℓ) : 𝒰 ℓ where
+  yes : ( p :   P) → Decision P
+  no  : (¬p : ¬ P) → Decision P
+
+
+
+

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a3ce347c9de69c265d1da84b9aaef5d41fedb704d5301a3bc29f907e43180d06
+-- hash: e07260fd65e9ec0628ed71fc5a3d9e9b1bfff0e271229827724905833346dc8e
 
 name:           Hata
 version:        0.1.0.0
@@ -34,9 +34,10 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , text
   default-language: Haskell2010
 
-executable Hata-exe
+executable hata
   main-is: Main.hs
   other-modules:
       Paths_Hata

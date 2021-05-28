@@ -4,7 +4,7 @@ module Verification.Experimental.Meta.Structure where
 open import Verification.Conventions hiding (′_′)
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
-open import Verification.Core.Order.Preorder renaming (IPreorder to isPreorder)
+-- open import Verification.Core.Order.Preorder renaming (IPreorder to isPreorder)
 
 record ∑i_ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
   instance constructor make∑i

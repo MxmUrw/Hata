@@ -1,5 +1,4 @@
 
-{-# OPTIONS --cubical --allow-unsolved-metas #-}
 
 module Verification.Conventions.Prelude.Data.Product where
 
@@ -8,6 +7,7 @@ open import Verification.Conventions.Prelude.Classes
 open import Verification.Conventions.Prelude.Data.String
 open import Verification.Conventions.Prelude.Data.Maybe
 open import Verification.Conventions.Prelude.Data.Nat
+open import Verification.Conventions.Prelude.Data.Fin
 
 variable m n k : ℕ
 

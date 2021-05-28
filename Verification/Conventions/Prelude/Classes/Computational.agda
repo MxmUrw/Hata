@@ -4,6 +4,7 @@
 module Verification.Conventions.Prelude.Classes.Computational where
 
 open import Verification.Conventions.Proprelude
+open import Verification.Conventions.Prelude.Data.Bool
 
 record IShow (A : 𝒰 𝑖) : 𝒰 𝑖 where
   field show : A -> String

@@ -24,9 +24,11 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+    - text
 
 executables:
-  Hata-exe:
+  hata:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

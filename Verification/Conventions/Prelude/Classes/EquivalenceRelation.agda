@@ -41,6 +41,11 @@ instance
   isEquivRel._∙_   isEquivRel:Path = trans-Path
 
 
+-- module _ {X : 𝒰 𝑖} (_∼_ : X -> X -> 𝒰 𝑗) where
+--   record hasTransport : 𝒰 𝑗 where
+--     field transport : ∀{a b : X} (a ∼ b) -> 
+
+
 
 module _ {X : 𝒰 𝑖} {_∼_ : X -> X -> 𝒰 𝑗} {{_ : isEquivRel _∼_}} where
   fromPath : ∀{a b : X} -> a ≡ b -> a ∼ b
@@ -49,6 +54,7 @@ module _ {X : 𝒰 𝑖} {_∼_ : X -> X -> 𝒰 𝑗} {{_ : isEquivRel _∼_}} 
 -- sym-Id : ∀{X : 𝒰 𝑖} {x y : X} -> Id x y -> Id y x
 -- sym-Id {x = x} {y = y} p = J-Id (λ y _ -> Id y x) refl-Id p
 
+{-
 trans-Id : ∀{X : 𝒰 𝑖} {x y z : X} -> Id x y -> Id y z -> Id x z
 trans-Id {x = x} {y} {z} p q = J-Id (λ z _ -> Id x z) p q
 
@@ -75,6 +81,7 @@ cong₂-Id-helper f = J-∀Id (J-∀Id refl-Id)
 
 cong₂-Id : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} -> {a1 a2 : A} {b1 b2 : B} -> (f : A -> B -> C) -> (Id a1 a2) -> (Id b1 b2) -> Id (f a1 b1) (f a2 b2)
 cong₂-Id f p q = cong₂-Id-helper f .getProof p .getProof q
+-}
 
 instance
 -- module _ where
@@ -83,15 +90,6 @@ instance
   isEquivRel.sym isEquivRel:StrId refl-StrId = refl-StrId
   (isEquivRel:StrId isEquivRel.∙ refl-StrId) q = q
 
-
-_≡-Str_ = StrId
-
-
-_≢-Str_ : ∀{X : 𝒰 𝑙} -> (a b : X) -> 𝒰 𝑙
-a ≢-Str b = ¬ StrId a b
-
-transport-Str : ∀{A B : 𝒰 𝑖} -> (p : A ≡-Str B) -> (a : A) -> B
-transport-Str refl-StrId a = a
 
 instance
   Cast:≡Str : ∀{X : 𝒰 𝑖} -> ∀{a b : X} -> Cast (a ≡-Str b) IAnything (a ≡ b)
@@ -102,9 +100,6 @@ instance
 
 ≡→≡-Str : ∀{X : 𝒰 𝑖} -> ∀{a b : X} -> (a ≡ b) -> (a ≡-Str b)
 ≡→≡-Str {a = a} {b} p = transport (λ i -> a ≡-Str (p i)) refl-StrId
-
-cong-Str : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {a b : A} -> (f : A -> B) -> (a ≡-Str b) -> (f a ≡-Str f b)
-cong-Str f refl-StrId = refl-StrId
 
 -- right≢left-Str : ∀{a : A}
 

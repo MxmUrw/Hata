@@ -63,7 +63,7 @@ deriveExtraProjectConfig_Agda egpc ap =
   , haskellStack_TemplateTarget_AbDir = egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir
   , agdaBin_AbFile                    = egpc.>binAbDir </> ap.>agdaBin_RelFile <.> exe
   -- fixed paths:
-  , ghcshim_AbFile                    = egpc.>buildAbDir </> "ghcshim" </> "ghc"
+  , ghcshim_AbFile                    = egpc.>buildAbDir </> "ghcshim" </> "ghc" <.> exe
   , libraryDefinitions_Source_AbFile = egpc.>rootAbDir </> ap.>libraryDefinitions_Filename
   , libraryDefinitions_Target_AbFile = transpilationSource_AbDir </> ap.>libraryDefinitions_Filename
   , originalAgdaConfig                = ap
@@ -87,7 +87,7 @@ makeRules_AgdaProject egpc eapc = do
   phony (eapc.>originalAgdaConfig.>agdaBin_RelFile) $ do
     need [eapc.>agdaBin_AbFile]
 
-  haskellStack_Template_Files <- liftIO $ getDirectoryFilesIO (eapc.>haskellStack_TemplateSource_AbDir) ["//*.hs", "//*.yaml"]
+  haskellStack_Template_Files <- liftIO $ getDirectoryFilesIO (eapc.>haskellStack_TemplateSource_AbDir) ["//*.hs", "//*.yaml", "//*.md"]
   let filtered_haskellStack_Template_Files = filter (\f -> not (elem ".stack-work" (splitDirectories f))) haskellStack_Template_Files
   let haskellStack_TemplateSource_Files = ((eapc.>haskellStack_TemplateSource_AbDir </>) <$> filtered_haskellStack_Template_Files)
   let haskellStack_TemplateTarget_Files = ((eapc.>haskellStack_TemplateTarget_AbDir </>) <$> filtered_haskellStack_Template_Files)
@@ -124,7 +124,7 @@ makeRules_AgdaProject egpc eapc = do
     -- putInfo $ "- sourceFile2: " <> sourceFile2
     -- putInfo $ "- targetFile:  " <> targetFile
 
-    -- putInfo $ "I want to copy file " <> sourceFile <> " to " <> targetFile
+    putInfo $ "Copying agda file " <> sourceFile <> " to " <> targetFile
     liftIO $ createDirectoryIfMissing True (takeDirectory targetFile)
 
     copyFile' sourceFile targetFile
@@ -136,31 +136,53 @@ makeRules_AgdaProject egpc eapc = do
   let transpilationSource_Files = ((\f -> eapc.>transpilationSource_AbDir </> f)            <$> transpilation_Files)
   let transpilationTarget_Files = ((\f -> eapc.>transpilationTarget_AbDir </> f -<.> ".hs") <$> transpilation_Files)
 
-  transpilationTarget_Files &%> \files -> do
+  -- transpilationTarget_Files &%> \files -> do
+  -- eapc.>mainTranspilationSource_AbFile %> \file -> do
+  phony ":agda-main:" $ do
     need $ transpilationSource_Files
       ++ [ eapc.>ghcshim_AbFile
          , eapc.>libraryDefinitions_Target_AbFile]
 
     let ghc_shimpath = takeDirectory (eapc.>ghcshim_AbFile)
-    cmd_ "agda" [AddPath [ghc_shimpath] [], Cwd (eapc.>transpilationSource_AbDir)] ["--compile", "--compile-dir=" ++ eapc.>agdaTarget_AbDir, eapc.>mainTranspilationSource_AbFile]
+    cmd_ "agda" [AddPath [ghc_shimpath] [], Cwd (eapc.>transpilationSource_AbDir)] ["--compile", "--no-main", "--compile-dir=" ++ eapc.>agdaTarget_AbDir, eapc.>mainTranspilationSource_AbFile]
 
   ----------------------------------------------
   -- last step (... -- stack --> binaries)
-  eapc.>agdaBin_AbFile %> \a -> do
-    need (transpilationTarget_Files ++ haskellStack_TemplateTarget_Files)
-    cmd_ "stack" (Cwd (eapc.>haskellStack_TemplateTarget_AbDir)) ["install", "--local-bin-path=" ++ egpc.>binAbDir]
+  eapc.>agdaBin_AbFile %> \file -> do
+    need (":agda-main:" : haskellStack_TemplateTarget_Files)
+    -- need (transpilationTarget_Files ++ haskellStack_TemplateTarget_Files)
+
+    -- we need the install location of the file, such that we can temporarily
+    -- add it to the path such that stack does not complain
+    let agdaBin_AbDir = takeDirectory file
+    -- need (eapc.>mainTranspilationSource_AbFile : haskellStack_TemplateTarget_Files)
+    cmd_ "stack" ([AddPath [agdaBin_AbDir] [], Cwd (eapc.>haskellStack_TemplateTarget_AbDir)]) ["install", "--local-bin-path=" ++ egpc.>binAbDir]
 
 
   (eapc.>haskellStack_TemplateTarget_AbDir ++ "//*") %> \file -> do
-    let relfile = makeRelative (eapc.>haskellStack_TemplateTarget_AbDir) file
+    let relfile = makeRelative (normalise $ eapc.>haskellStack_TemplateTarget_AbDir) (normalise file)
     let sourceFile = eapc.>haskellStack_TemplateSource_AbDir </> relfile
     let targetFile = eapc.>haskellStack_TemplateTarget_AbDir </> relfile
-    putInfo $ "Copying " ++ relfile ++ " from " ++ eapc.>haskellStack_TemplateSource_AbDir
+    putInfo $ "Copying haskell  " ++ sourceFile ++ " to " ++ targetFile
     copyFile' sourceFile targetFile
 
   (eapc.>ghcshim_AbFile) %> \file -> do
     putInfo "Generating ghc shim"
-    liftIO $ writeFile file "#!/bin/bash\n echo \"==== executing shim ====\""
+
+    let ghc_code = "#include <iostream> \n int main() \n { \n std::cout << \"==== executing ghc shim ====\"; \n }"
+
+    let sourcefile = (file -<.> "cc")
+
+    liftIO $ writeFile sourcefile ghc_code
+    -- "#!/bin/bash\n echo \"==== executing shim ====\""
+
+    let shim_AbDir = takeDirectory sourcefile
+    -- let shim_FileName = takeFileName sourcefile
+    -- let shim_BaseName = takeBaseName sourcefile
+
+    -- compile the file
+    cmd_ "g++" (Cwd (shim_AbDir)) [sourcefile, "-o", file]
+
     perm <- liftIO $ getPermissions file
     let perm2 = setOwnerExecutable True perm
     liftIO $ setPermissions file perm2

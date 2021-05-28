@@ -2,7 +2,7 @@
 -- {-# OPTIONS --cubical --no-import-sorts --safe #-}
 module Verification.Conventions.Proprelude.Replacement.Sum where
 
-open import Verification.Conventions.Proprelude.Replacement.LocalConventions
+open import Verification.Conventions.Proprelude.CubicalConventions
 
 private
   variable
