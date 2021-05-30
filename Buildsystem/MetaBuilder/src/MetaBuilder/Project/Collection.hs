@@ -48,9 +48,9 @@ makeCleanRules :: ExtraGlobalConfig -> Rules ()
 makeCleanRules epc = do
   phony "clean" $ do
     putInfo $ "Cleaning files in " ++ epc.>buildAbDir
-    removeFilesAfter (epc.>buildAbDir) ["//*"]
+    removeFilesAfter (epc.>buildAbDir) ["" <//> "*"]
     putInfo $ "Cleaning files in " ++ epc.>binAbDir
-    removeFilesAfter (epc.>binAbDir) ["//*"]
+    removeFilesAfter (epc.>binAbDir) ["" <//> "*"]
 
 
 deriveExtraCollection :: ProjectEnv -> Collection -> IO ExtraCollection

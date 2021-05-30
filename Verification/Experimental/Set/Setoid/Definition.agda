@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Set.Setoid.Definition where
 
-open import Verification.Conventions
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Data.Prop.Definition
 
@@ -17,6 +17,12 @@ instance
   isEquivRel.refl isEquivRel:≡∼-Base = incl refl-Path
   isEquivRel.sym isEquivRel:≡∼-Base (incl p) = incl (sym-Path p)
   isEquivRel._∙_ isEquivRel:≡∼-Base (incl p) (incl q) = incl (trans-Path p q)
+
+instance
+  isEquivRel:≣∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≣_ {A = A}))
+  isEquivRel.refl isEquivRel:≣∼-Base = incl refl-StrId
+  isEquivRel.sym isEquivRel:≣∼-Base (incl p) = incl (p ⁻¹)
+  isEquivRel._∙_ isEquivRel:≣∼-Base (incl p) (incl q) = incl (p ∙ q)
 
 -- record isSetoid 𝑗 A {{_ : From (𝒰 𝑖) A}} : 𝒰 (𝑖 ､ 𝑗 ⁺) where
 -- open isTypoid {{...}} public

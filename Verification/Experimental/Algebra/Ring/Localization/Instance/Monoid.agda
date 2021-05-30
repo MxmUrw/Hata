@@ -5,6 +5,7 @@ module Verification.Experimental.Algebra.Ring.Localization.Instance.Monoid where
 
 open import Verification.Conventions
 open import Verification.Experimental.Meta.Structure
+open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Group.Definition
@@ -36,7 +37,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
 
     -- | ⋆ on Localize is commutative:
     lem-10 : ∀{a b : Localize R M} -> a ⋆-Loc b ∼ b ⋆-Loc a
-    lem-10 {a / (da ∈ _)} {b / (db ∈ _)} =
+    lem-10 {a / (da ∢ _)} {b / (db ∢ _)} =
       let P : (a ⋅ db ⋆ b ⋅ da) ⋅ (db ⋅ da) ⋅ ⨡  ∼  (b ⋅ da ⋆ a ⋅ db) ⋅ (da ⋅ db) ⋅ ⨡
           P = (a ⋅ db ⋆ b ⋅ da) ⋅ (db ⋅ da) ⋅ ⨡  ≣⟨ comm-⋆ ≀⋅≀ comm-⋅ ≀⋅≀ ─ ⟩
               (b ⋅ da ⋆ a ⋅ db) ⋅ (da ⋅ db) ⋅ ⨡  ∎
@@ -44,7 +45,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
 
     -- | ◌ is left unit
     lem-20 : ∀{a : Localize R M} -> ◌-Loc ⋆-Loc a ∼ a
-    lem-20 {a / (da ∈ _)} =
+    lem-20 {a / (da ∢ _)} =
       let P₅ : ((◌ ⋅ da) ⋆ (a ⋅ ⨡)) ⋅ da ⋅ ⨡  ∼  a ⋅ (⨡ ⋅ da) ⋅ ⨡
           P₅ = ((◌ ⋅ da) ⋆ (a ⋅ ⨡)) ⋅ da ⋅ ⨡   ≣⟨ (reduce-⋅◌-l ≀⋆≀ ─) ≀⋅≀ ─ ≀⋅≀ ─ ⟩
                (◌ ⋆ (a ⋅ ⨡)) ⋅ da ⋅ ⨡          ≣⟨ unit-l-⋆ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
@@ -58,7 +59,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
 
     -- | ⋆ is associative
     lem-40 : ∀{a b c : Localize R M} -> (a ⋆-Loc b) ⋆-Loc c ∼ a ⋆-Loc (b ⋆-Loc c)
-    lem-40 {a / (da ∈ _)} {b / (db ∈ _)} {c / (dc ∈ _)} =
+    lem-40 {a / (da ∢ _)} {b / (db ∢ _)} {c / (dc ∢ _)} =
       let P₀ : ((a ⋅ db ⋆ b ⋅ da) ⋅ dc ⋆ c ⋅ (da ⋅ db))  ∼  (a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc ⋆ c ⋅ db) ⋅ da)
           P₀ = (a ⋅ db ⋆ b ⋅ da) ⋅ dc ⋆ c ⋅ (da ⋅ db)         ≣⟨ distr-r-⋅ ≀⋆≀ ─ ⟩
                a ⋅ db ⋅ dc ⋆ b ⋅ da ⋅ dc ⋆ c ⋅ (da ⋅ db)      ≣⟨ assoc-l-⋅ ≀⋆≀ (assoc-l-⋅ ∙ (─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ≀⋆≀ ((─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ⟩
@@ -72,7 +73,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
 
     -- | ∼ is congruence over ⋆
     lem-50 : ∀{a₀ a₁ b₀ b₁ : Localize R M} -> a₀ ∼ a₁ -> b₀ ∼ b₁ -> a₀ ⋆-Loc b₀ ∼ a₁ ⋆-Loc b₁
-    lem-50 {a₀ / (da₀ ∈ Da₀)} {a₁ / (da₁ ∈ Da₁)} {b₀ / (db₀ ∈ Db₀)} {b₁ / (db₁ ∈ Db₁)} (incl (t , p)) (incl (s , q)) =
+    lem-50 {a₀ / (da₀ ∢ Da₀)} {a₁ / (da₁ ∢ Da₁)} {b₀ / (db₀ ∢ Db₀)} {b₁ / (db₁ ∢ Db₁)} (incl (t , p)) (incl (s , q)) =
       let dt = ⟨ t ⟩
           ds = ⟨ s ⟩
 

@@ -49,5 +49,14 @@ postulate
   transport : ∀{𝑖} -> ∀{A B : Type 𝑖} -> (P : A ≡ B) -> (a : A) -> B
   transportRefl : ∀{𝑖} -> ∀{A : Type 𝑖} -> (x : A) → transport (refl-Path {a = A}) x ≡ x
 
+private
+  variable
+    ℓ' : Level
+    B : A → Type ℓ'
+    x y z w : A
+
+cong : ∀ (f : (a : A) → B a) (p : x ≡ y) → PathP (λ i → B (p i)) (f (p false)) (f (p true))
+cong f p b = f (p b)
+
 
 

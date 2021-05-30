@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Data.Int.Definition where
 
-open import Verification.Experimental.Conventions renaming (ℤ to Int)
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Algebra.Monoid
@@ -19,7 +19,7 @@ macro
 
 instance
   isSetoid:ℤ : isSetoid _ Int
-  isSetoid._∼'_ isSetoid:ℤ = _≡_
+  isSetoid._∼'_ isSetoid:ℤ = _≣_
   isSetoid.isEquivRel:∼ isSetoid:ℤ = it
 
 
@@ -32,19 +32,19 @@ instance
   isMonoid.unit-r-⋆ isMonoid:ℤ = refl
   isMonoid.assoc-l-⋆ isMonoid:ℤ {a} {b} {c} = incl (assoc-+-ℤ a b c ⁻¹)
   isMonoid.assoc-r-⋆ isMonoid:ℤ {a} {b} {c} = incl (assoc-+-ℤ a b c)
-  isMonoid._`cong-⋆`_ isMonoid:ℤ (incl p) (incl q) = incl $ λ i -> p i +-ℤ q i
+  isMonoid._`cong-⋆`_ isMonoid:ℤ (incl p) (incl q) = {!!} -- incl $ λ i -> p i +-ℤ q i
 
   isCommutative:ℤ : isCommutative ℤ
   isCommutative.comm-⋆ isCommutative:ℤ {a} {b} = incl $ comm-+-ℤ a b
 
 instance
   isGroup:ℤ : isGroup ℤ
-  isGroup.◡_ isGroup:ℤ a = 0 -ℤ a
+  isGroup.◡_ isGroup:ℤ a = _-ℤ_ 0 a
   isGroup.inv-l-⋆ isGroup:ℤ {a} = incl $ minusPlus a (pos 0)
   isGroup.inv-r-⋆ isGroup:ℤ {a} = comm-⋆ {a = a} ∙ (incl $ minusPlus a (pos 0))
-  isGroup.cong-◡_ isGroup:ℤ (incl p) = incl $ λ i -> pos 0 -ℤ p i
+  isGroup.cong-◡_ isGroup:ℤ (incl p) = {!!} -- incl $ λ i -> pos 0 -ℤ p i
 
-open import Cubical.Data.Bool renaming (_⊕_ to _⊕-Bool_)
+-- open import Cubical.Data.Bool renaming (_⊕_ to _⊕-Bool_)
 
 fromSign : Bool -> ℕ -> Int
 fromSign false zero = pos 0

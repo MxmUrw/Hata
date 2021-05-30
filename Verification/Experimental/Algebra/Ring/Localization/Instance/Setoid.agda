@@ -3,6 +3,7 @@ module Verification.Experimental.Algebra.Ring.Localization.Instance.Setoid where
 
 open import Verification.Conventions
 open import Verification.Experimental.Meta.Structure
+open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Group.Definition
@@ -19,11 +20,11 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
 
   instance
     isEquivRel:LocRel : isEquivRel (∼-Base LocRel)
-    isEquivRel.refl isEquivRel:LocRel {x = a / da} = incl ((⨡ ∈ closed-⨡) , refl)
+    isEquivRel.refl isEquivRel:LocRel {x = a / da} = incl ((⨡ ∢ closed-⨡) , refl)
     isEquivRel.sym isEquivRel:LocRel {x = a / da} {y = b / db} (incl (t , p)) = incl (t , sym p)
-    isEquivRel._∙_ isEquivRel:LocRel {x = a / (da ∈ _)} {y = b / (db ∈ dbP)} {z = c / (dc ∈ _)} (incl ((s ∈ sP) , p)) (incl ((t ∈ tP) , q)) =
+    isEquivRel._∙_ isEquivRel:LocRel {x = a / (da ∢ _)} {y = b / (db ∢ dbP)} {z = c / (dc ∢ _)} (incl ((s ∢ sP) , p)) (incl ((t ∢ tP) , q)) =
       let u : ⦋ ⟨ M ⟩ ⦌
-          u = db ⋅ s ⋅ t ∈ closed-⋅ (closed-⋅ dbP sP) tP
+          u = db ⋅ s ⋅ t ∢ closed-⋅ (closed-⋅ dbP sP) tP
 
           P : a ⋅ dc ⋅ ⟨ u ⟩ ∼ c ⋅ da ⋅ ⟨ u ⟩
           P = a ⋅ dc ⋅ (db ⋅ s ⋅ t)     ≣⟨ assoc-l-⋅ ⟩

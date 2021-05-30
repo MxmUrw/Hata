@@ -1,20 +1,20 @@
 
 # Table of Contents
 
-1.  [Project Hata](#org1de8a96)
-    1.  [Goal](#org2b31e94)
-    2.  [Current state](#org250d53f)
-        1.  [Concerning formalization of mathematics](#orgdabdfb0)
-        2.  [Concerning execution of the code](#org878bb2f)
-        3.  [Concerning compilation to pdf](#org312aaa4)
+1.  [Project Hata](#org825c4bf)
+    1.  [Goal](#org6724814)
+    2.  [Current state](#orgc81ea6a)
+        1.  [Concerning formalization of mathematics](#org9e0e0d2)
+        2.  [Concerning execution of the code](#orgd5938f8)
+        3.  [Concerning compilation to pdf](#orgdc5a71d)
 
 
-<a id="org1de8a96"></a>
+<a id="org825c4bf"></a>
 
 # Project Hata
 
 
-<a id="org2b31e94"></a>
+<a id="org6724814"></a>
 
 ## Goal
 
@@ -33,7 +33,7 @@ compromises as possible:
     than e.g. Tex.
 
 
-<a id="org250d53f"></a>
+<a id="orgc81ea6a"></a>
 
 ## Current state
 
@@ -48,7 +48,7 @@ Explanation of the checkboxes:
     once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
 
 
-<a id="orgdabdfb0"></a>
+<a id="org9e0e0d2"></a>
 
 ### Concerning formalization of mathematics
 
@@ -99,18 +99,18 @@ Explanation of the checkboxes:
         -   [ ] Generic definition of the concept of a "type theory"
 
 
-<a id="org878bb2f"></a>
+<a id="orgd5938f8"></a>
 
 ### Concerning execution of the code
 
 -   Custom build system
-    -   [ ] Compilation of Agda code as a haskell-stack project
-    -   [ ] Interdependency between Agda and Haskell source code
+    -   [X] Compilation of Agda code as a haskell-stack project
+    -   [X] Interdependency between Agda and Haskell source code
 -   Supporting haskell code
     -   [ ] Parsing of lambda calculus terms into AST
 
 
-<a id="org312aaa4"></a>
+<a id="orgdc5a71d"></a>
 
 ### Concerning compilation to pdf
 

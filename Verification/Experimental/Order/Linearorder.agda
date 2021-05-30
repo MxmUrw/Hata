@@ -2,8 +2,8 @@
 module Verification.Experimental.Order.Linearorder where
 
 open import Verification.Conventions
-open import Verification.Core.Category.Definition
-open import Verification.Core.Category.Instance.Set.Definition
+-- open import Verification.Core.Category.Definition
+-- open import Verification.Core.Category.Instance.Set.Definition
 -- open import Verification.Core.Type
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid.Definition
@@ -44,16 +44,14 @@ open isLinearorder {{...}} public
 Linearorder : ∀ (𝑖 : 𝔏 ^ 3) -> 𝒰 (𝑖 ⁺)
 Linearorder 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isSetoid (𝑖 ⌄ 1) :& isLinearorder (𝑖 ⌄ 2)
 
-{-
 record isUnbound {𝑖 : 𝔏 ^ 3} (L : Linearorder 𝑖) : 𝒰 𝑖 where
-  field getLess     : (a : ⟨ L ⟩) -> ⦋ _< a ⦌
-  field getGreater  : (a : ⟨ L ⟩) -> ⦋ a <_ ⦌
+  field getLess     : (a : ⟨ L ⟩) -> ⦋ (λ x -> ∣ x < a ∣) ⦌
+  field getGreater  : (a : ⟨ L ⟩) -> ⦋ (λ x -> ∣ a < x ∣) ⦌
 open isUnbound {{...}} public
 
 record isDense {𝑖 : 𝔏 ^ 3} (L : Linearorder 𝑖) : 𝒰 𝑖 where
-  field between : {a b : ⟨ L ⟩} -> a < b -> ⦋ (λ x -> a < x ×-𝒰 x < b) ⦌
+  field between : {a b : ⟨ L ⟩} -> a < b -> ⦋ (λ x -> ∣ a < x ×-𝒰 x < b ∣) ⦌
 open isDense {{...}} public
--}
 
 --------------------------------------------------------------------
 -- as Totalorder⁻

@@ -5,6 +5,7 @@ module Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder 
 
 open import Verification.Conventions
 open import Verification.Experimental.Meta.Structure
+open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Group.Definition
@@ -32,7 +33,7 @@ open hasRepr public
 module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R} {{_ : isOrderedRing 𝑗 ′ ⟨ R ⟩ ′}} where
 
   hasPositiveDenom : Localize R M -> 𝒰 _
-  hasPositiveDenom (a / (da ∈ _)) = isPositive da
+  hasPositiveDenom (a / (da ∢ _)) = isPositive da
 
 module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
          {{_ : isOrderedRing 𝑗 ′ ⟨ R ⟩ ′}}
@@ -74,9 +75,9 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
     lem-30 : ∀{a b : Localize R M} -> a <-Loc b -> (c : Localize R M)
               -> (a <-Loc c) +-𝒰 (c <-Loc b)
     lem-30 {a'} {b'} (incl p) c' =
-      let (a / (da ∈ _)) = ⟨ δ .repr a' ⟩
-          (b / (db ∈ _)) = ⟨ δ .repr b' ⟩
-          (c / (dc ∈ _)) = ⟨ δ .repr c' ⟩
+      let (a / (da ∢ _)) = ⟨ δ .repr a' ⟩
+          (b / (db ∢ _)) = ⟨ δ .repr b' ⟩
+          (c / (dc ∢ _)) = ⟨ δ .repr c' ⟩
           P₀ : a ⋅ dc ⋅ db < b ⋅ dc ⋅ da
           P₀ = a ⋅ dc ⋅ db   ⟨ assoc-l-⋅ ∙ (refl ≀⋅≀ comm-⋅) ∙ assoc-r-⋅ ⟩-∼-<
                 a ⋅ db ⋅ dc   ⟨ cong-⋅-<-r p (δ .repr c' .hasProperty) ⟩-<-∼
@@ -100,8 +101,8 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
 
     lem-40 : ∀{a b : Localize R M} -> ¬ a <-Loc b -> ¬ b <-Loc a -> a ∼ b
     lem-40 {a'} {b'} p q =
-      let (a / (da ∈ daP)) = ⟨ δ .repr a' ⟩
-          (b / (db ∈ dbP)) = ⟨ δ .repr b' ⟩
+      let (a / (da ∢ daP)) = ⟨ δ .repr a' ⟩
+          (b / (db ∢ dbP)) = ⟨ δ .repr b' ⟩
 
           P₂ : a ⋅ db ∼ b ⋅ da
           P₂ = connected-< (λ x -> p (incl x)) (λ y -> q (incl y))
@@ -113,10 +114,10 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
 
     lem-50 : ∀{a₀ a₁ b₀ b₁ : Localize R M} -> a₀ ∼ a₁ -> b₀ ∼ b₁ -> a₀ <-Loc b₀ -> a₁ <-Loc b₁
     lem-50 {a₀'} {a₁'} {b₀'} {b₁'} pa pb (incl q) =
-      let (a₀ / (da₀ ∈ da₀P)) = ⟨ δ .repr a₀' ⟩
-          (a₁ / (da₁ ∈ da₁P)) = ⟨ δ .repr a₁' ⟩
-          (b₀ / (db₀ ∈ db₀P)) = ⟨ δ .repr b₀' ⟩
-          (b₁ / (db₁ ∈ db₁P)) = ⟨ δ .repr b₁' ⟩
+      let (a₀ / (da₀ ∢ da₀P)) = ⟨ δ .repr a₀' ⟩
+          (a₁ / (da₁ ∢ da₁P)) = ⟨ δ .repr a₁' ⟩
+          (b₀ / (db₀ ∢ db₀P)) = ⟨ δ .repr b₀' ⟩
+          (b₁ / (db₁ ∢ db₁P)) = ⟨ δ .repr b₁' ⟩
 
           P₀ : ⟨ δ .repr a₀' ⟩ ∼ ⟨ δ .repr a₁' ⟩
           P₀ = δ .repr a₀' .represents ⁻¹ ∙ pa ∙ δ .repr a₁' .represents
@@ -171,7 +172,7 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
 
       -- lem-10 : ∀{a : Localize R M} -> a <-Loc a
       -- lem-10 {a'} = incl refl-<
-        -- let (a / (da ∈ _)) = ⟨ δ .repr a' ⟩
+        -- let (a / (da ∢ _)) = ⟨ δ .repr a' ⟩
         --     -- P : a ⋅ da < a ⋅ da
         --     -- P = refl-<
         -- in incl (refl-<)
@@ -179,9 +180,9 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
 {-
       lem-20 : ∀{a b c : Localize R M} -> a <-Loc b -> b <-Loc c -> a <-Loc c
       lem-20 {a'} {b'} {c'} (incl p) (incl q) =
-        let (a / (da ∈ _)) = ⟨ δ .repr a' ⟩
-            (b / (db ∈ _)) = ⟨ δ .repr b' ⟩
-            (c / (dc ∈ _)) = ⟨ δ .repr c' ⟩
+        let (a / (da ∢ _)) = ⟨ δ .repr a' ⟩
+            (b / (db ∢ _)) = ⟨ δ .repr b' ⟩
+            (c / (dc ∢ _)) = ⟨ δ .repr c' ⟩
 
             P₀ : a ⋅ db ⋅ dc < b ⋅ da ⋅ dc
             P₀ = cong-⋅-<-r p (δ .repr c' .hasProperty .π-<)

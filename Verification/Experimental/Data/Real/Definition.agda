@@ -14,10 +14,10 @@ open import Verification.Experimental.Order.DedekindCompletion.Definition3
 -- open import Verification.Experimental.Order.DedekindCompletion.Instance.Linearorder
 open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder
 
-FFF : Linearorder (ℓ₀ , ℓ₀ , ℓ₀)
-FFF = ′ ℚ ′
+-- FFF : Linearorder (ℓ₀ , ℓ₀ , ℓ₀)
+-- FFF = ℚ
 
-ℝ = Cut ′ ℚ ′ ℓ₀
+ℝ = Cut ℚ ℓ₀
 
 -- mytest2 : ℝ -> ℝ -> 𝒰₀
 -- mytest2 a b = a < b

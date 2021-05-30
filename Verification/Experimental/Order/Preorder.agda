@@ -2,8 +2,8 @@
 module Verification.Experimental.Order.Preorder where
 
 open import Verification.Conventions
-open import Verification.Core.Category.Definition
-open import Verification.Core.Category.Instance.Set.Definition
+-- open import Verification.Core.Category.Definition
+-- open import Verification.Core.Category.Instance.Set.Definition
 -- open import Verification.Core.Type
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid.Definition

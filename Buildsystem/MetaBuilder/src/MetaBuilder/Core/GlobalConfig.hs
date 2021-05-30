@@ -33,12 +33,12 @@ deriveExtraProjectConfig_Global rootfile gpc = do
   metabuilder_AbFile <- getExecutablePath
   home_AbDir <- getHomeDirectory
   return ExtraGlobalConfig
-     { rootAbDir  = root
-     , root_AbFile = rootfile
-     , buildAbDir = buildAbDir
-     , binAbDir   = binAbDir
-     , metabuilder_AbFile = metabuilder_AbFile
-     , home_AbDir = home_AbDir
+     { rootAbDir   = normalise root
+     , root_AbFile = normalise rootfile
+     , buildAbDir  = normalise buildAbDir
+     , binAbDir    = normalise binAbDir
+     , metabuilder_AbFile = normalise metabuilder_AbFile
+     , home_AbDir  = normalise home_AbDir
      }
 
 -- module MetaBuilder.Core.GlobalConfig where

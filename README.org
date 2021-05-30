@@ -74,8 +74,8 @@
   
 *** Concerning execution of the code
     - Custom build system
-      - [ ] Compilation of Agda code as a haskell-stack project
-      - [ ] Interdependency between Agda and Haskell source code
+      - [X] Compilation of Agda code as a haskell-stack project
+      - [X] Interdependency between Agda and Haskell source code
     - Supporting haskell code
       - [ ] Parsing of lambda calculus terms into AST
 

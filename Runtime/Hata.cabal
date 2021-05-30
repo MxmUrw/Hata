@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e07260fd65e9ec0628ed71fc5a3d9e9b1bfff0e271229827724905833346dc8e
+-- hash: 2ae5015651e9b9dc5313fa5c56017857e7bc87ed599cdf140329ce455700267f
 
 name:           Hata
 version:        0.1.0.0
@@ -27,13 +27,17 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Hata.Runtime.Application
+      Hata.Runtime.CLI
+      Hata.Runtime.Main
+      MAlonzo.Code.Application.Main
   other-modules:
       Paths_Hata
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , optparse-applicative
     , text
   default-language: Haskell2010
 

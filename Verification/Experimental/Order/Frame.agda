@@ -4,7 +4,7 @@
 module Verification.Experimental.Order.Frame where
 
 open import Verification.Conventions
-open import Verification.Core.Category.Definition
+-- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice

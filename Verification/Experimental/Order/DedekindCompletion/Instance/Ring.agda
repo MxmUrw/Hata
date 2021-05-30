@@ -3,9 +3,10 @@ module Verification.Experimental.Order.DedekindCompletion.Instance.Ring where
 
 open import Verification.Conventions
 open import Verification.Experimental.Data.Int.Definition
+open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Data.Rational.Definition
 open import Verification.Experimental.Meta.Structure
-open import Verification.Experimental.Algebra.Setoid
+open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Algebra.Monoid
 open import Verification.Experimental.Algebra.Group
 open import Verification.Experimental.Algebra.Ring
@@ -31,25 +32,27 @@ module _ {𝑖 : 𝔏} (X : Linearorder (𝑖 , 𝑖 , 𝑖))
          {{_ : isDense X}}
   where
   instance
-    isSubsetoid':< : ∀{a : ⟨ X ⟩} -> isSubsetoid' (λ x -> x < a)
+    isSubsetoid':< : ∀{a : ⟨ X ⟩} -> isSubsetoid' (λ x -> ∣ x < a ∣)
     isSubsetoid'.transp-Subsetoid' isSubsetoid':< p = transp-< p refl
 
-    isSubsetoid':<2 : ∀{a : ⟨ X ⟩} -> isSubsetoid' (λ x -> a < x)
+    isSubsetoid':<2 : ∀{a : ⟨ X ⟩} -> isSubsetoid' (λ x -> ∣ a < x ∣)
     isSubsetoid'.transp-Subsetoid' isSubsetoid':<2 p = transp-< refl p
 
   return-Cut : ⟨ X ⟩ -> Cut X 𝑖
-  ⩘ (return-Cut x) = ′ (λ a -> a < x) ′
-  ⩗ (return-Cut x) = ′ (λ a -> x < a) ′
+  ⩘ (return-Cut x) = ′ (λ a -> ∣ a < x ∣) ′
+  ⩗ (return-Cut x) = ′ (λ a -> ∣ x < a ∣) ′
   isCut.inhabited-⩘ (isCutProof (return-Cut x)) = getLess x
   isCut.inhabited-⩗ (isCutProof (return-Cut x)) = getGreater x
-  isCut.open-⩘ (isCutProof (return-Cut x)) {a} a<x = let (z ∈ (p , q)) = between a<x in (z ∈ q) , p
-  isCut.open-⩗ (isCutProof (return-Cut x)) {a} x<a = let (z ∈ (p , q)) = between x<a in (z ∈ p) , q
+  isCut.open-⩘ (isCutProof (return-Cut x)) {a} a<x = let (z ∢ (p , q)) = between a<x in (z ∢ q) , p
+  isCut.open-⩗ (isCutProof (return-Cut x)) {a} x<a = let (z ∢ (p , q)) = between x<a in (z ∢ p) , q
   isCut.compare-Cut (isCutProof (return-Cut x)) {a} {b} a<b = compare-< a<b x
   isCut.by-⩘⩗-< (isCutProof (return-Cut x)) {a} {b} p q = p ∙-< q
 
   instance
     isSetoidHom:return-Cut : isSetoidHom ′ ⟨ X ⟩ ′ ′ Cut X 𝑖 ′ (return-Cut)
-    isSetoidHom.preserves-∼ isSetoidHom:return-Cut p = incl (incl ((transp-< refl p) , transp-< refl (sym p)) , incl (transp-< p refl , transp-< (sym p) refl))
+    isSetoidHom.preserves-∼ isSetoidHom:return-Cut p = {!!} -- incl (incl ((transp-< refl p) , transp-< refl (sym p)) , incl (transp-< p refl , transp-< (sym p) refl))
+
+{-
 
   -- sup-Cut : Subsetoid' ′ Cut X 𝑖 ′ 𝑖 -> Subsetoid' ′ ⟨ X ⟩ ′ 𝑖
   -- sup-Cut Cs =
@@ -61,22 +64,22 @@ module _ {𝑖 : 𝔏} (X : Linearorder (𝑖 , 𝑖 , 𝑖))
     lower-Cut C x = C (return-Cut x)
 
     sup-Cut : (Cut X 𝑖 -> 𝒰 𝑖) -> ⟨ X ⟩ -> 𝒰 (𝑖 ⁺)
-    sup-Cut C x = ∑ λ c -> C c ×-𝒰 ⟨ ⩘ c ⟩ x
+    sup-Cut C x = ∑ λ c -> C c ×-𝒰 (x ∈ ⟨ ⩘ c ⟩)
 
     inf-Cut : (Cut X 𝑖 -> 𝒰 𝑖) -> ⟨ X ⟩ -> 𝒰 (𝑖 ⁺)
-    inf-Cut C x = ∑ λ c -> C c ×-𝒰 ⟨ ⩗ c ⟩ x
+    inf-Cut C x = ∑ λ c -> C c ×-𝒰 (x ∈ (⩗ c))
 
     equiv-lower-sup : ∀(C : Cut ′ Cut X 𝑖 ′ 𝑖) -> ∀{x} -> lower-Cut (⟨ ⩘ C ⟩) x -> sup-Cut (⟨ ⩘ C ⟩) x
     equiv-lower-sup (⩘C , ⩗C) {x} p =
-      let ((⩘r , ⩗r) ∈ rP) , (incl (y , x<y , y∈⩘r)) = open-⩘ p
-      in (⩘r , ⩗r) , rP , closed-⩘ x<y y∈⩘r
+      let ((⩘r , ⩗r) ∢ rP) , (incl (y , x<y , y∢⩘r)) = open-⩘ p
+      in (⩘r , ⩗r) , rP , closed-⩘ x<y y∢⩘r
 
     equiv-lower-sup⁻¹ : ∀(C : Cut ′ Cut X 𝑖 ′ 𝑖) -> ∀{x} -> sup-Cut (⟨ ⩘ C ⟩) x -> lower-Cut (⟨ ⩘ C ⟩) x
-    equiv-lower-sup⁻¹ (⩘C , ⩗C) {x} ((⩘r , ⩗r) , r∈C , x∈⩘r) =
-      let (y ∈ yP) , x<y = open-⩘ x∈⩘r
+    equiv-lower-sup⁻¹ (⩘C , ⩗C) {x} ((⩘r , ⩗r) , r∢C , x∢⩘r) =
+      let (y ∢ yP) , x<y = open-⩘ x∢⩘r
           P₀ : return-Cut x < (⩘r , ⩗r)
           P₀ = incl (y , x<y , yP)
-      in closed-⩘ P₀ r∈C
+      in closed-⩘ P₀ r∢C
 
     instance
       isSubsetoid':sup-Cut : ∀{Cs : Cut X 𝑖 -> 𝒰 𝑖} {{_ : isSubsetoid' Cs}} -> isSubsetoid' (sup-Cut Cs)
@@ -89,10 +92,10 @@ module _ {𝑖 : 𝔏} (X : Linearorder (𝑖 , 𝑖 , 𝑖))
     isCut.inhabited-⩘ (isCut:supinf (⩘C , ⩗C)) =
       let c : ⦋ ⟨ ⩘C ⟩ ⦌
           c = inhabited-⩘
-          -- (c' ∈ cP) = c
+          -- (c' ∢ cP) = c
           x : ⦋ ⟨ ⩘ ⟨ c ⟩ ⟩ ⦌
           x = inhabited-⩘
-      in ⟨ x ⟩ ∈ (⟨ c ⟩ , (c .Proof) , (x .Proof))
+      in ⟨ x ⟩ ∢ (⟨ c ⟩ , (c .Proof) , (x .Proof))
     isCut.inhabited-⩗ (isCut:supinf C) = {!!}
     isCut.open-⩘ (isCut:supinf C) = {!!}
     isCut.open-⩗ (isCut:supinf C) = {!!}
@@ -149,5 +152,5 @@ module _ {𝑖 : 𝔏} {𝑗 : 𝔏} (X : Linearorder (𝑖 , 𝑗 , 𝑖)) {{_ 
 
 
 
-
+-}
 

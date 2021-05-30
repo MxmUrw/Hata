@@ -51,21 +51,21 @@ deriveExtraProjectConfig_Agda egpc ap =
   ExtraAgdaProjectConfig
   {
   -- original sources
-  originalSource_AbDir                = egpc.>rootAbDir </> ap.>sourceRelDir
-  , originalSourceOverwrite_AbDir     = egpc.>rootAbDir </> ap.>sourceOverwrite_RelDir
+  originalSource_AbDir                = normalise $ egpc.>rootAbDir </> ap.>sourceRelDir
+  , originalSourceOverwrite_AbDir     = normalise $ egpc.>rootAbDir </> ap.>sourceOverwrite_RelDir
   -- transpilation sources:
-  , transpilationSource_AbDir         = transpilationSource_AbDir
-  , mainTranspilationSource_AbFile    = transpilationSource_AbDir </> ap.>mainRelFile
-  , haskellStack_TemplateSource_AbDir = egpc.>rootAbDir </> ap.>haskellStackTemplateRelDir
+  , transpilationSource_AbDir         = normalise $ transpilationSource_AbDir
+  , mainTranspilationSource_AbFile    = normalise $ transpilationSource_AbDir </> ap.>mainRelFile
+  , haskellStack_TemplateSource_AbDir = normalise $ egpc.>rootAbDir </> ap.>haskellStackTemplateRelDir
   -- targets:
-  , agdaTarget_AbDir                  = egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir </> "src"
-  , transpilationTarget_AbDir         = egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir </> "src" </> "MAlonzo" </> "Code"
-  , haskellStack_TemplateTarget_AbDir = egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir
-  , agdaBin_AbFile                    = egpc.>binAbDir </> ap.>agdaBin_RelFile <.> exe
+  , agdaTarget_AbDir                  = normalise $ egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir </> "src"
+  , transpilationTarget_AbDir         = normalise $ egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir </> "src" </> "MAlonzo" </> "Code"
+  , haskellStack_TemplateTarget_AbDir = normalise $ egpc.>buildAbDir </> ap.>haskellStackTemplateRelDir
+  , agdaBin_AbFile                    = normalise $ egpc.>binAbDir </> ap.>agdaBin_RelFile <.> exe
   -- fixed paths:
-  , ghcshim_AbFile                    = egpc.>buildAbDir </> "ghcshim" </> "ghc" <.> exe
-  , libraryDefinitions_Source_AbFile = egpc.>rootAbDir </> ap.>libraryDefinitions_Filename
-  , libraryDefinitions_Target_AbFile = transpilationSource_AbDir </> ap.>libraryDefinitions_Filename
+  , ghcshim_AbFile                    = normalise $ egpc.>buildAbDir </> "ghcshim" </> "ghc" <.> exe
+  , libraryDefinitions_Source_AbFile = normalise $ egpc.>rootAbDir </> ap.>libraryDefinitions_Filename
+  , libraryDefinitions_Target_AbFile = normalise $ transpilationSource_AbDir </> ap.>libraryDefinitions_Filename
   , originalAgdaConfig                = ap
   }
 
@@ -79,16 +79,18 @@ makeRules_AgdaProject egpc eapc = do
   -- TODO: WARNING!
   -- we test here for whether the directory path contains "_build", but it is in no way guaranteed that
   -- the build path will always contain this string!
-  let getGoodDirectoryFilesIO path patterns = do
+  let getGoodDirectoryFilesIO path patterns excludedDirs = do
         files <- liftIO $ getDirectoryFilesIO path patterns
-        let good_files = filter (\f -> let dirs = splitDirectories f in not (or [elem "_build" dirs, elem ".stack-work" dirs])) files
+        let good_files = filter (\f -> let dirs = splitDirectories f in not (or ((`elem` dirs) <$> excludedDirs))) files
+        -- let good_files = filter (\f -> let dirs = splitDirectories f in not (or [elem "_build" dirs, elem ".stack-work" dirs])) files
         return good_files
 
   phony (eapc.>originalAgdaConfig.>agdaBin_RelFile) $ do
     need [eapc.>agdaBin_AbFile]
 
-  haskellStack_Template_Files <- liftIO $ getDirectoryFilesIO (eapc.>haskellStack_TemplateSource_AbDir) ["//*.hs", "//*.yaml", "//*.md"]
-  let filtered_haskellStack_Template_Files = filter (\f -> not (elem ".stack-work" (splitDirectories f))) haskellStack_Template_Files
+  -- haskellStack_Template_Files <- liftIO $ getDirectoryFilesIO (eapc.>haskellStack_TemplateSource_AbDir) ["" <//> "*.hs", "" <//> "*.yaml", "" <//> "*.md"]
+  -- let filtered_haskellStack_Template_Files = filter (\f -> not (elem ".stack-work" (splitDirectories f))) haskellStack_Template_Files
+  filtered_haskellStack_Template_Files <- getGoodDirectoryFilesIO (eapc.>haskellStack_TemplateSource_AbDir) ["" <//> "*.hs", "" <//> "*.yaml", "" <//> "*.md"] ([".stack-work", "MAlonzo"])
   let haskellStack_TemplateSource_Files = ((eapc.>haskellStack_TemplateSource_AbDir </>) <$> filtered_haskellStack_Template_Files)
   let haskellStack_TemplateTarget_Files = ((eapc.>haskellStack_TemplateTarget_AbDir </>) <$> filtered_haskellStack_Template_Files)
 
@@ -102,7 +104,7 @@ makeRules_AgdaProject egpc eapc = do
   -- Original Files ---> Transpilation source files
 
   -- copy the original files to their transpilation source directory
-  (eapc.>transpilationSource_AbDir ++ "//*") %> \file -> do
+  (eapc.>transpilationSource_AbDir ++ "" <//> "*") %> \file -> do
     -- given a target file, we find it's relative path
     let relfile = makeRelative (normalise (eapc.>transpilationSource_AbDir)) (normalise file)
 
@@ -132,7 +134,7 @@ makeRules_AgdaProject egpc eapc = do
   ----------------------------------------------
   -- Transpilation source files (.agda) ---> Transpilation target (.hs)
 
-  transpilation_Files <- liftIO $ getGoodDirectoryFilesIO (normalise (eapc.>originalSource_AbDir)) ["//*.agda"]
+  transpilation_Files <- liftIO $ getGoodDirectoryFilesIO (normalise (eapc.>originalSource_AbDir)) ["" <//> "*.agda"] ["_build", ".stack-work"]
   let transpilationSource_Files = ((\f -> eapc.>transpilationSource_AbDir </> f)            <$> transpilation_Files)
   let transpilationTarget_Files = ((\f -> eapc.>transpilationTarget_AbDir </> f -<.> ".hs") <$> transpilation_Files)
 
@@ -159,7 +161,7 @@ makeRules_AgdaProject egpc eapc = do
     cmd_ "stack" ([AddPath [agdaBin_AbDir] [], Cwd (eapc.>haskellStack_TemplateTarget_AbDir)]) ["install", "--local-bin-path=" ++ egpc.>binAbDir]
 
 
-  (eapc.>haskellStack_TemplateTarget_AbDir ++ "//*") %> \file -> do
+  (eapc.>haskellStack_TemplateTarget_AbDir ++ "" <//> "*") %> \file -> do
     let relfile = makeRelative (normalise $ eapc.>haskellStack_TemplateTarget_AbDir) (normalise file)
     let sourceFile = eapc.>haskellStack_TemplateSource_AbDir </> relfile
     let targetFile = eapc.>haskellStack_TemplateTarget_AbDir </> relfile

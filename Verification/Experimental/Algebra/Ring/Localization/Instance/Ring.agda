@@ -3,6 +3,7 @@ module Verification.Experimental.Algebra.Ring.Localization.Instance.Ring where
 
 open import Verification.Conventions
 open import Verification.Experimental.Meta.Structure
+open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Group.Definition
@@ -27,13 +28,13 @@ module _ {𝑖 : 𝔏 ×-𝒰 𝔏} {R : CRing 𝑖} {M : MCS R} where
     ⨡-Loc = ⨡ / ⨡-MCS
 
     lem-10 : ∀{a b : Localize R M} -> a ⋅-Loc b ∼ b ⋅-Loc a
-    lem-10 {a / (da ∈ _)} {b / (db ∈ _)} =
+    lem-10 {a / (da ∢ _)} {b / (db ∢ _)} =
       let P : (a ⋅ b) ⋅ (db ⋅ da) ∼ (b ⋅ a) ⋅ (da ⋅ db)
           P = comm-⋅ ≀⋅≀ comm-⋅
       in incl (⨡-MCS , P ≀⋅≀ ─)
 
     lem-20 : ∀{a : Localize R M} -> ⨡-Loc ⋅-Loc a ∼ a
-    lem-20 {a / (da ∈ _)} =
+    lem-20 {a / (da ∢ _)} =
       let P : (⨡ ⋅ a) ⋅ da ∼ a ⋅ (⨡ ⋅ da)
           P = (⨡ ⋅ a) ⋅ da   ≣⟨ unit-l-⋅ ≀⋅≀ ─ ⟩
               a ⋅ da         ≣⟨ ─ ≀⋅≀ unit-l-⋅ ⁻¹ ⟩
@@ -42,13 +43,13 @@ module _ {𝑖 : 𝔏 ×-𝒰 𝔏} {R : CRing 𝑖} {M : MCS R} where
       in incl (⨡-MCS , P ≀⋅≀ ─)
 
     lem-30 : ∀{a b c : Localize R M} -> (a ⋅-Loc b) ⋅-Loc c ∼ a ⋅-Loc (b ⋅-Loc c)
-    lem-30 {a / (da ∈ _)} {b / (db ∈ _)} {c / (dc ∈ _)} =
+    lem-30 {a / (da ∢ _)} {b / (db ∢ _)} {c / (dc ∢ _)} =
       let P : (a ⋅ b ⋅ c) ⋅ (da ⋅ (db ⋅ dc)) ∼ (a ⋅ (b ⋅ c)) ⋅ (da ⋅ db ⋅ dc)
           P = assoc-l-⋅ ≀⋅≀ assoc-r-⋅
       in incl (⨡-MCS , P ≀⋅≀ ─)
 
     lem-40 : ∀{a b c : Localize R M} -> a ⋅-Loc (b ⋆ c) ∼ (a ⋅-Loc b) ⋆ (a ⋅-Loc c)
-    lem-40 {a / (da ∈ _)} {b / (db ∈ _)} {c / (dc ∈ _)} =
+    lem-40 {a / (da ∢ _)} {b / (db ∢ _)} {c / (dc ∢ _)} =
       let P₀ : ∀{a b da db dc : ⟨ R ⟩} -> (a ⋅ (b ⋅ dc)) ⋅ ((da ⋅ db) ⋅ (da ⋅ dc))  ∼  ((a ⋅ b) ⋅ (da ⋅ dc)) ⋅ (da ⋅ (db ⋅ dc))
           P₀ {a} {b} {da} {db} {dc} =
                (a ⋅ (b ⋅ dc)) ⋅ ((da ⋅ db) ⋅ (da ⋅ dc))  ≣⟨ assoc-r-⋅ ≀⋅≀ assoc-r-⋅ ⟩
@@ -78,7 +79,7 @@ module _ {𝑖 : 𝔏 ×-𝒰 𝔏} {R : CRing 𝑖} {M : MCS R} where
       in incl (⨡-MCS , P₂ ≀⋅≀ ─)
 
     lem-50 : ∀{a₀ a₁ b₀ b₁ : Localize R M} -> (a₀ ∼ a₁) -> (b₀ ∼ b₁) -> (a₀ ⋅-Loc b₀ ∼ a₁ ⋅-Loc b₁)
-    lem-50 {a₀ / (da₀ ∈ _)} {a₁ / (da₁ ∈ _)} {b₀ / (db₀ ∈ _)} {b₁ / (db₁ ∈ _)} (incl ((s ∈ sP) , p)) (incl ((t ∈ tP) , q)) =
+    lem-50 {a₀ / (da₀ ∢ _)} {a₁ / (da₁ ∢ _)} {b₀ / (db₀ ∢ _)} {b₁ / (db₁ ∢ _)} (incl ((s ∢ sP) , p)) (incl ((t ∢ tP) , q)) =
       let P₀ : ∀{a₀ b₀ da₁ db₁ s t} -> (a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ (s ⋅ t) ∼ (a₀ ⋅ da₁ ⋅ s) ⋅ (b₀ ⋅ db₁ ⋅ t)
           P₀ {a₀} {b₀} {da₁} {db₁} {s} {t} =
                (a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ (s ⋅ t)   ≣⟨ assoc-r-⋅ ⟩
@@ -96,7 +97,7 @@ module _ {𝑖 : 𝔏 ×-𝒰 𝔏} {R : CRing 𝑖} {M : MCS R} where
 
           P₁ : (a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ (s ⋅ t) ∼ (a₁ ⋅ b₁) ⋅ (da₀ ⋅ db₀) ⋅ (s ⋅ t)
           P₁ = P₀ ∙ (p ≀⋅≀ q) ∙ P₀ ⁻¹
-      in incl (((s ∈ sP) ⋅-MCS (t ∈ tP)) , P₁)
+      in incl (((s ∢ sP) ⋅-MCS (t ∢ tP)) , P₁)
 
   instance
     isSemiring:Localize : isSemiring ′ Localize R M ′
