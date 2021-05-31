@@ -23,6 +23,8 @@ record Base< {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a b : A) : 𝒰 𝑗 whe
   constructor incl
   field Proof : (R a b)
 
+open Base< public
+
 record isLinearorder 𝑘 (A : 𝒰 𝑖 :& isSetoid 𝑗) : 𝒰 (𝑘 ⁺ ､ 𝑗 ､ 𝑖) where
   field my< : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
   _<_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
@@ -57,25 +59,62 @@ open isDense {{...}} public
 -- as Totalorder⁻
 
 module LinearAsTotal {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {A : Setoid 𝑖} {{_ : isLinearorder 𝑗 A}} where
-  instance
-    isTotal:Linear : isPreorder 𝑗 A
-    isPreorder._≤'_ isTotal:Linear a b = b ≮ a
-    isPreorder.reflexive isTotal:Linear = incl irrefl-<
-    isPreorder._⟡_ isTotal:Linear {a} {b} {c} (incl p) (incl q) = incl P
-      where
-          P : c < a -> ⊥
-          P r with compare-< r b
-          ... | left x = q x
-          ... | just x = p x
-    isPreorder.transp-≤ isTotal:Linear = {!!}
+  private
+    instance
+      isTotal:Linear : isPreorder 𝑗 A
+      isPreorder._≤'_ isTotal:Linear a b = b ≮ a
+      isPreorder.reflexive isTotal:Linear = incl irrefl-<
+      isPreorder._⟡_ isTotal:Linear {a} {b} {c} (incl p) (incl q) = incl P
+        where
+            P : c < a -> ⊥
+            P r with compare-< r b
+            ... | left x = q x
+            ... | just x = p x
+      isPreorder.transp-≤ isTotal:Linear = {!!}
 
-  instance
-    isPartialorder:Linear : isPartialorder ′ ⟨ A ⟩ ′
-    isPartialorder.antisym isPartialorder:Linear (incl p) (incl q) = connected-< q p
+    instance
+      isPartialorder:Linear : isPartialorder ′ ⟨ A ⟩ ′
+      isPartialorder.antisym isPartialorder:Linear (incl p) (incl q) = connected-< q p
 
-  instance
-    isTotalorder⁻:Linear : isTotalorder⁻ ′ ⟨ A ⟩ ′
-    isTotalorder⁻.total⁻ isTotalorder⁻:Linear p = incl (λ a<b -> p (incl (λ {b<a -> asym-< a<b b<a})))
+    instance
+      isTotalorder⁻:Linear : isTotalorder⁻ ′ ⟨ A ⟩ ′
+      isTotalorder⁻.total⁻ isTotalorder⁻:Linear _ _ p = incl (λ a<b -> p (incl (λ {b<a -> asym-< a<b b<a})))
+
+
+--------------------------------------------------------------------
+-- Totalorder as Linearorder
+isLinearorder:Totalorder⁺ : (X : Totalorder⁺ 𝑖) -> isLinearorder _ ′ ⟨ X ⟩ ′
+isLinearorder:Totalorder⁺ X = record
+  { my< = λ a b → b ≰ a
+  ; irrefl-< = λ (incl x) → x reflexive
+  ; asym-< = λ {a} {b} a≰b b≰a -> let q = total⁺ a b
+                                  in case-Trichotomy q of
+                                  (λ (b≤a , _) → b≰a .Proof b≤a)
+                                  (λ a∼b -> b≰a .Proof (by-∼-≤_ a∼b ) )
+                                  (λ (a≤b , _) → a≰b .Proof a≤b)
+  ; compare-< = lem-10
+  ; connected-< = lem-20
+  ; transp-< = lem-30
+  }
+  where
+    _<'_ : ⟨ X ⟩ -> ⟨ X ⟩ -> 𝒰 _
+    _<'_ x y = Base< (λ a b -> b ≰ a) x y
+
+    lem-10 : ∀{a c : ⟨ X ⟩} -> a <' c -> ∀(b : ⟨ X ⟩) -> (a <' b) +-𝒰 (b <' c)
+    lem-10 {a} {c} (incl c≰a) b with total⁺ a b | total⁺ b c
+    ... | gt (b≤a , b≁a) | Y = right (incl λ c≤b → c≰a (c≤b ⟡ b≤a))
+    ... | eq b∼a         | Y = right (incl λ c≤b → c≰a (c≤b ⟡ (by-∼-≤ (b∼a ⁻¹))))
+    ... | lt (a≤b , a≁b) | _ = left (incl λ b≤a → a≁b (antisym a≤b b≤a))
+
+    lem-20 : ∀{a b} -> ¬ (a <' b) -> ¬ (b <' a) -> a ∼ b
+    lem-20 {a} {b} ¬a<b ¬b<a with total⁺ a b
+    ... | lt (a≤b , a≁b) = 𝟘-rec (¬a<b (incl λ b≤a → a≁b (antisym a≤b b≤a)))
+    ... | eq a∼b = a∼b
+    ... | gt (b≤a , b≁a) = 𝟘-rec (¬b<a (incl λ a≤b → b≁a (antisym b≤a a≤b)))
+
+    lem-30 : ∀{a0 a1 b0 b1} -> (a0 ∼ a1) -> (b0 ∼ b1) -> a0 <' b0 -> a1 <' b1
+    lem-30 p q (incl a0<b0) = incl λ b1≤a1 → a0<b0 (transp-≤ (q ⁻¹) (p ⁻¹) b1≤a1)
+
 
 --------------------------------------------------------------------
 -- Syntax
@@ -105,7 +144,8 @@ module _ {𝑗 : 𝔏 ^ 3} {A : 𝒰 _} {{_ : Linearorder 𝑗 on A}} where
   -- _ ∎-< = refl-<
 
   _⟨_⟩-∼-<_ : (x : A) {y : A} {z : A} → x ∼ y → y < z → x < z
-  _ ⟨ x<y ⟩-∼-< y<z = {!!} -- x<y ∙-< y<z
+  _ ⟨ x∼y ⟩-∼-< y<z = transp-< (x∼y ⁻¹) refl y<z
+  -- x<y ∙-< y<z
 
   ⟨⟩-∼-<-syntax : (x : A) {y z : A} → x ∼ y → y < z → x < z
   ⟨⟩-∼-<-syntax = _⟨_⟩-∼-<_
@@ -113,7 +153,8 @@ module _ {𝑗 : 𝔏 ^ 3} {A : 𝒰 _} {{_ : Linearorder 𝑗 on A}} where
   infixr 2 _⟨_⟩-∼-<_
 
   _⟨_⟩-<-∼_ : (x : A) {y : A} {z : A} → x < y → y ∼ z → x < z
-  _ ⟨ x<y ⟩-<-∼ y<z = {!!} -- x<y ∙-< y<z
+  _ ⟨ x<y ⟩-<-∼ y∼z = transp-< refl y∼z x<y
+  -- x<y ∙-< y<z
 
   ⟨⟩-<-∼-syntax : (x : A) {y z : A} → x < y → y ∼ z → x < z
   ⟨⟩-<-∼-syntax = _⟨_⟩-<-∼_

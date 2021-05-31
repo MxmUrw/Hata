@@ -37,15 +37,15 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R} {{_ : isOr
 
 module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {R : CRing 𝑖} {M : MCS R}
          {{_ : isOrderedRing 𝑗 ′ ⟨ R ⟩ ′}}
-         {{_ : hasNotZero-MCS M}} where
-  -- module _ {{δ : hasRepr (Localize R M) hasPositiveDenom}} where
+         {{_ : hasNotZero-MCS M}}
+         {{δ : hasRepr (Localize R M) hasPositiveDenom}} where
 
-  instance
-    hasRepr:hasPositiveDenom:Localize : hasRepr (Localize R M) hasPositiveDenom
-    hasRepr:hasPositiveDenom:Localize = {!!}
+  -- instance
+  --   hasRepr:hasPositiveDenom:Localize : hasRepr (Localize R M) hasPositiveDenom
+  --   hasRepr:hasPositiveDenom:Localize = {!!}
 
   private
-    δ = hasRepr:hasPositiveDenom:Localize
+    -- δ = hasRepr:hasPositiveDenom:Localize
 
     instance _ = isDomain:OrderedRing
 

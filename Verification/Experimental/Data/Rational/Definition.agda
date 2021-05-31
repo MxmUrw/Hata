@@ -12,6 +12,7 @@ open import Verification.Experimental.Algebra.Ring
 open import Verification.Experimental.Algebra.Ring.Localization
 open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder
 open import Verification.Experimental.Order.Linearorder
+open import Verification.Experimental.Order.Preorder
 
 private
   ℤ⁺ : 𝒫 ℤ
@@ -35,6 +36,19 @@ Rational = Localize ℤ ′ ℤ⁺ ′
 macro
   ℚ : SomeStructure
   ℚ = #structureOn Rational
+
+instance
+  hasReprHasPositiveDenom:ℚ : hasRepr ℚ hasPositiveDenom
+  hasReprHasPositiveDenom:ℚ = record
+    { repr = lem-10
+    }
+    where
+      lem-10 : ∀ (a : ℚ) -> Repr hasPositiveDenom a
+      lem-10 (a / (pos n ∢ (x , refl-StrId))) = record
+        { ⟨_⟩ = (a / pos n ∢ (x , refl-StrId))
+        ; represents = refl
+        ; hasProperty = incl (λ {(incl (pos Sx≤0)) → ¬-<-zero ⟨ Sx≤0 ⟩})
+        }
 
 instance
   isUnbound:ℚ : isUnbound ℚ

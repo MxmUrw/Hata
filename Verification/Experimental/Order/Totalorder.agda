@@ -17,18 +17,39 @@ open import Verification.Experimental.Order.Preorder
 -- Partialorder : (𝑖 : 𝔏 ^ 3) -> 𝒰 _
 -- Partialorder 𝑖 = Preorder 𝑖 :& isPartialorder
 
+
+
+
+data Trichotomy' (A : Preorder 𝑖) (a b : ⟨ A ⟩) : 𝒰 𝑖 where
+  lt : a ⋦ b -> Trichotomy' A a b
+  eq : a ∼ b -> Trichotomy' A a b
+  gt : b ⋦ a -> Trichotomy' A a b
+
+case-Trichotomy_of : {A : Preorder 𝑖} {a b : ⟨ A ⟩} -> Trichotomy' A a b -> {P : 𝒰 𝑗} -> (a ⋦ b -> P) -> (a ∼ b -> P) -> (b ⋦ a -> P) -> P
+case-Trichotomy_of = {!!}
+
+
+
 module _ {𝑖 : 𝔏 ^ 3} where
   record isTotalorder⁻ (A : Partialorder 𝑖) : 𝒰 𝑖 where
-    field total⁻ : ∀{a b : ⟨ A ⟩} -> (a ≰ b) -> b ≤ a
+    field total⁻ : ∀(a b : ⟨ A ⟩) -> (a ≰ b) -> b ≤ a
+
+  open isTotalorder⁻ {{...}} public
 
   record isTotalorder⁺ (A : Partialorder 𝑖) : 𝒰 𝑖 where
-    field total⁺ : ∀{a b : ⟨ A ⟩} -> (a ≤ b) +-𝒰 b ≤ a
+    field total⁺ : ∀(a b : ⟨ A ⟩) -> Trichotomy' ′ ⟨ A ⟩ ′ a b
+    -- (a ≤ b) +-𝒰 b ≤ a
+
+  open isTotalorder⁺ {{...}} public
 
 Totalorder⁻ : (𝑖 : 𝔏 ^ 3) -> 𝒰 _
 Totalorder⁻ 𝑖 = Preorder 𝑖 :& isPartialorder :& isTotalorder⁻
 
 Totalorder⁺ : (𝑖 : 𝔏 ^ 3) -> 𝒰 _
 Totalorder⁺ 𝑖 = Preorder 𝑖 :& isPartialorder :& isTotalorder⁺
+
+
+
 
 
 

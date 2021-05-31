@@ -11,6 +11,7 @@ open import Verification.Conventions.Prelude.Data.Nat.Base renaming (_+_ to _+-�
 open import Verification.Conventions.Prelude.Data.Nat.Properties renaming (znots to zero≢suc ; snotz to suc≢zero ; +-assoc to assoc-+-ℕ ; +-comm to comm-+-ℕ) public
 open import Verification.Conventions.Prelude.Data.Nat.Order renaming (_≤_ to _≤-ℕ_ ; _<_ to _<-ℕ_ ; _≟_ to _≟-ℕ_ ; ≤-refl to refl-≤-ℕ ; ≤-trans to trans-≤-ℕ ; ≤-antisym to antisym-≤-ℕ) public
 
+
 instance
   IShow:ℕ : IShow ℕ
   IShow.show IShow:ℕ = primShowNat
