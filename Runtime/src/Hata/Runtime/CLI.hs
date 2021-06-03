@@ -43,7 +43,7 @@ execute = do
       file_content <- readFile targetFile
       putStrLn "Executing app."
       let result = func (T.pack file_content)
-      putStrLn $ "Result is:" <> (T.unpack result)
+      putStrLn $ "Result is:" <> (show result)
 
     -- throw errors if we find to few/many apps
     [] -> putStrLn $ "Error: no app with the name '" <> appName <> "' exists."

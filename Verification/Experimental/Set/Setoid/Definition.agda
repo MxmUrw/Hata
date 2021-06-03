@@ -103,7 +103,7 @@ module _ {UU : 𝒰 𝑖} {{U : hasU UU 𝑗 𝑘}} {{_ : isSetoid 𝑙 (getU U)
 
 -- record isSubsetoid {𝑗 : 𝔏 ^ 2} (X : Setoid 𝑗) (P : 𝒫 ⟨ X ⟩) : 𝒰 𝑗 where
 
-record isSubsetoid {𝑗 : 𝔏 ^ 2} {X : 𝒰 _} {{_ : Setoid 𝑗 on X}} (P : 𝒫 X) : 𝒰 𝑗 where
+record isSubsetoid {𝑗 : 𝔏 ^ 2} {X : 𝒰' _} {{_ : Setoid 𝑗 on X}} (P : 𝒫 X) : 𝒰 𝑗 where
   field transp-Subsetoid : ∀{a b : X} -> a ∼ b -> a ∈ P -> b ∈ P
 
 open isSubsetoid {{...}} public

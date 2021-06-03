@@ -56,8 +56,11 @@ fromSign false zero = pos 0
 fromSign false (suc n) = negsuc n
 fromSign true n = pos n
 
+_⊗-Bool_ : Bool -> Bool -> Bool
+_⊗-Bool_ a b = not (not a ⊕-Bool not b)
+
 _⋅-ℤ_ : Int -> Int -> Int
-a ⋅-ℤ b = fromSign (sgn a ⊕-Bool sgn b) (abs a *-ℕ abs b)
+a ⋅-ℤ b = fromSign (sgn a ⊗-Bool sgn b) (abs a *-ℕ abs b)
 
 instance
   isSemiring:ℤ : isSemiring ℤ
@@ -196,7 +199,7 @@ instance
 instance
   isOrderedRing:ℤ : isOrderedRing _ ℤ
   isOrderedRing.OProof isOrderedRing:ℤ = isLinearorder:ℤ
-  isOrderedRing.cong-⋆-<-r isOrderedRing:ℤ = {!!}
-  isOrderedRing._⋅-isPositive_ isOrderedRing:ℤ = {!!}
+  isOrderedRing.stronglyMonotone-l-⋆ isOrderedRing:ℤ = {!!}
+  isOrderedRing.preservesPositivity-⋅ isOrderedRing:ℤ = {!!}
 
 

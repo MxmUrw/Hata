@@ -9,6 +9,13 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Group.Definition
 open import Verification.Experimental.Algebra.Abelian.Definition
 
+module AbelianMonoidNotation where
+  infixl 50 _+_
+  infix 100 -_
+  _+_ = _⋆_
+  -_ = ◡_
+
+open AbelianMonoidNotation
 
 record isSemiring {𝑗 : 𝔏 ^ 2} (A : Monoid 𝑗 :& isCommutative) : 𝒰 𝑗 where
   field _⋅_ : ⟨ A ⟩ -> ⟨ A ⟩ -> ⟨ A ⟩
@@ -48,44 +55,57 @@ module _ {𝑗 : 𝔏 ^ 2} {R : 𝒰 _} {{_ : Ring 𝑗 on R}} where
 --   private
 --     R = ⟨ R' ⟩
 
+  infix 200 _²
+  _² : R -> R
+  _² a = a ⋅ a
+
   assoc-r-⋅ : ∀{a b c : R} -> a ⋅ (b ⋅ c) ∼ a ⋅ b ⋅ c
   assoc-r-⋅ = assoc-l-⋅ ⁻¹
 
   reduce-⋅◌-r : ∀{a : R} -> a ⋅ ◌ ∼ ◌
-  reduce-⋅◌-r {a} =
-    let P : a ⋅ ◌ ⋆ a ⋅ ◌ ∼ a ⋅ ◌ ⋆ ◌
-        P = a ⋅ ◌ ⋆ a ⋅ ◌     ≣⟨ distr-l-⋅ ⁻¹ ⟩
-            a ⋅ (◌ ⋆ ◌)      ≣⟨ refl `cong-⋅` unit-r-⋆ ⟩
-            a ⋅ ◌            ≣⟨ unit-r-⋆ ⁻¹ ⟩
-            a ⋅ ◌ ⋆ ◌        ∎
-    in cancel-⋆-l P
+  reduce-⋅◌-r {a} = cancel-⋆-l P
+    where P : a ⋅ ◌ ⋆ a ⋅ ◌ ∼ a ⋅ ◌ ⋆ ◌
+          P = a ⋅ ◌ ⋆ a ⋅ ◌     ≣⟨ distr-l-⋅ ⁻¹ ⟩
+              a ⋅ (◌ ⋆ ◌)      ≣⟨ refl `cong-⋅` unit-r-⋆ ⟩
+              a ⋅ ◌            ≣⟨ unit-r-⋆ ⁻¹ ⟩
+              a ⋅ ◌ ⋆ ◌        ∎
 
   reduce-⋅◌-l : ∀{a : R} -> ◌ ⋅ a ∼ ◌
-  reduce-⋅◌-l {a} =
-    let P : ◌ ⋅ a ⋆ ◌ ⋅ a ∼ ◌ ⋅ a ⋆ ◌
-        P = ◌ ⋅ a ⋆ ◌ ⋅ a ≣⟨ distr-r-⋅ ⁻¹ ⟩
-            (◌ ⋆ ◌) ⋅ a   ≣⟨ unit-r-⋆ `cong-⋅` refl ⟩
-            ◌ ⋅ a         ≣⟨ unit-r-⋆ ⁻¹ ⟩
-            ◌ ⋅ a ⋆ ◌     ∎
-    in cancel-⋆-l P
+  reduce-⋅◌-l {a} = cancel-⋆-l P
+    where P : ◌ ⋅ a ⋆ ◌ ⋅ a ∼ ◌ ⋅ a ⋆ ◌
+          P = ◌ ⋅ a ⋆ ◌ ⋅ a ≣⟨ distr-r-⋅ ⁻¹ ⟩
+              (◌ ⋆ ◌) ⋅ a   ≣⟨ unit-r-⋆ `cong-⋅` refl ⟩
+              ◌ ⋅ a         ≣⟨ unit-r-⋆ ⁻¹ ⟩
+              ◌ ⋅ a ⋆ ◌     ∎
 
   switch-◡-⋅-l : ∀{a b : R} -> ◡ (a ⋅ b) ∼ ◡ a ⋅ b
-  switch-◡-⋅-l {a} {b} =
-    let P₀ : (a ⋅ b) ⋆ (◡ a ⋅ b) ∼ ◌
-        P₀ = (a ⋅ b) ⋆ (◡ a ⋅ b) ≣⟨ distr-r-⋅ ⁻¹ ⟩
-             (a ⋆ ◡ a) ⋅ b       ≣⟨ inv-r-⋆ `cong-⋅` refl ⟩
-             ◌ ⋅ b              ≣⟨ reduce-⋅◌-l ⟩
-             ◌                  ∎
-    in unique-inverse-⋆-r P₀
+  switch-◡-⋅-l {a} {b} = unique-inverse-⋆-r P₀
+    where P₀ : (a ⋅ b) ⋆ (◡ a ⋅ b) ∼ ◌
+          P₀ = (a ⋅ b) ⋆ (◡ a ⋅ b) ≣⟨ distr-r-⋅ ⁻¹ ⟩
+              (a ⋆ ◡ a) ⋅ b       ≣⟨ inv-r-⋆ `cong-⋅` refl ⟩
+              ◌ ⋅ b              ≣⟨ reduce-⋅◌-l ⟩
+              ◌                  ∎
 
   switch-◡-⋅-r : ∀{a b : R} -> ◡ (a ⋅ b) ∼ a ⋅ ◡ b
-  switch-◡-⋅-r {a} {b} =
-    let P₀ : (a ⋅ b) ⋆ (a ⋅ ◡ b) ∼ ◌
-        P₀ = (a ⋅ b) ⋆ (a ⋅ ◡ b)    ≣⟨ distr-l-⋅ ⁻¹ ⟩
-             a ⋅ (b ⋆ ◡ b)         ≣⟨ refl `cong-⋅` inv-r-⋆ ⟩
-             a ⋅ ◌                 ≣⟨ reduce-⋅◌-r ⟩
-             ◌                     ∎
-    in unique-inverse-⋆-r P₀
+  switch-◡-⋅-r {a} {b} = unique-inverse-⋆-r P₀
+    where P₀ : (a ⋅ b) ⋆ (a ⋅ ◡ b) ∼ ◌
+          P₀ = (a ⋅ b) ⋆ (a ⋅ ◡ b)    ≣⟨ distr-l-⋅ ⁻¹ ⟩
+              a ⋅ (b ⋆ ◡ b)         ≣⟨ refl `cong-⋅` inv-r-⋆ ⟩
+              a ⋅ ◌                 ≣⟨ reduce-⋅◌-r ⟩
+              ◌                     ∎
+
+module _ {𝑗 : 𝔏 ^ 2} {R : 𝒰 _} {{_ : CRing 𝑗 on R}} where
+  binomial-2 : ∀{a b : R} -> (a + b)² ∼ a ² + ((⨡ + ⨡) ⋅ (a ⋅ b)) + b ²
+  binomial-2 {a} {b} =
+    (a + b) ⋅ (a + b)                        ⟨ distr-l-⋅ ⟩-∼
+    (a + b) ⋅ a + (a + b) ⋅ b                ⟨ distr-r-⋅ ≀⋆≀ distr-r-⋅ ⟩-∼
+    (a ² + b ⋅ a) + (a ⋅ b + b ²)            ⟨ assoc-r-⋆ ⟩-∼
+    (a ² + b ⋅ a) + a ⋅ b + b ²              ⟨ assoc-l-⋆ ≀⋆≀ refl ⟩-∼
+    a ² + (b ⋅ a + a ⋅ b) + b ²              ⟨ refl ≀⋆≀ (comm-⋅ ≀⋆≀ refl) ≀⋆≀ refl ⟩-∼
+    a ² + (a ⋅ b + a ⋅ b) + b ²              ⟨ refl ≀⋆≀ (unit-l-⋅ ⁻¹ ≀⋆≀ unit-l-⋅ ⁻¹) ≀⋆≀ refl ⟩-∼
+    a ² + (⨡ ⋅ (a ⋅ b) + ⨡ ⋅ (a ⋅ b)) + b ²   ⟨ refl ≀⋆≀ (distr-r-⋅ ⁻¹) ≀⋆≀ refl ⟩-∼
+    a ² + ((⨡ + ⨡) ⋅ (a ⋅ b)) + b ²          ∎
+
 
 --------------------------------------------------------------------------------
 -- Ideals

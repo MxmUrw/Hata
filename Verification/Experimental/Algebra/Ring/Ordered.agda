@@ -15,8 +15,8 @@ open import Verification.Experimental.Order.Linearorder
 module _ {𝑖 : 𝔏 ^ 2} where
   record isOrderedRing (𝑗 : 𝔏) (R : Ring 𝑖)  : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
     field overlap {{OProof}} : isLinearorder 𝑗 ′ ⟨ R ⟩ ′
-    field cong-⋆-<-r : ∀{a b c : ⟨ R ⟩} -> a < b -> a ⋆ c < b ⋆ c
-          _⋅-isPositive_ : ∀{a b : ⟨ R ⟩} -> ◌ < a -> ◌ < b -> ◌ < a ⋅ b
+    field stronglyMonotone-l-⋆ : ∀{a b : ⟨ R ⟩} -> a < b -> ∀ {c} -> a ⋆ c < b ⋆ c
+          preservesPositivity-⋅ : ∀{a b : ⟨ R ⟩} -> ◌ < a -> ◌ < b -> ◌ < a ⋅ b
 
   open isOrderedRing {{...}} public
 
@@ -24,27 +24,31 @@ module _ {𝑖 : 𝔏 ^ 2} where
 module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} where
   module _ {R : 𝒰 _} {_ : Ring 𝑖 on R} {{_ : isOrderedRing 𝑗 ′ R ′}} where
 
-    ta : isRing ′ R ′
-    ta = it
-  -- module _ {R : Ring 𝑖} {{_ : isOrderedRing 𝑗 ′ ⟨ R ⟩ ′}} where
-    cong-⋅-<-r : ∀{a b c : R} -> a < b -> (◌ < c) -> a ⋅ c < b ⋅ c
-    cong-⋅-<-r {a} {b} {c} p q =
-      let P₀ = ◌       ⟨ inv-r-⋆ ⁻¹ ⟩-∼-<
-              a ⋆ ◡ a  ⟨ cong-⋆-<-r p ⟩-<-∼
+    stronglyMonotone-r-⋆ : ∀{c} -> ∀{a b : R} -> (a < b) -> c ⋆ a < c ⋆ b
+    stronglyMonotone-r-⋆ {c} {a} {b} p =
+      c ⋆ a   ⟨ comm-⋆ ⟩-∼-<
+      a ⋆ c   ⟨ stronglyMonotone-l-⋆ p ⟩-<-∼
+      b ⋆ c   ⟨ comm-⋆ ⟩-∼
+      c ⋆ b   ∎
+
+    stronglyMonotone-l-⋅ : ∀{a b c : R} -> a < b -> (◌ < c) -> a ⋅ c < b ⋅ c
+    stronglyMonotone-l-⋅ {a} {b} {c} p q = P₂
+      where
+          P₀ = ◌       ⟨ inv-r-⋆ ⁻¹ ⟩-∼-<
+              a ⋆ ◡ a  ⟨ stronglyMonotone-l-⋆ p ⟩-<-∼
               b ⋆ ◡ a  ∎-∼
 
-          P₁ = ◌                ⟨ P₀ ⋅-isPositive q ⟩-<-∼
+          P₁ = ◌                ⟨ preservesPositivity-⋅ P₀ q ⟩-<-∼
                (b ⋆ ◡ a) ⋅ c    ⟨ distr-r-⋅ ⟩-∼
                b ⋅ c ⋆ ◡ a ⋅ c  ∎-∼
 
           P₂ = a ⋅ c                      ⟨ unit-l-⋆ ⁻¹ ⟩-∼-<
-               ◌ ⋆ a ⋅ c                  ⟨ cong-⋆-<-r P₁ ⟩-<-∼
+               ◌ ⋆ a ⋅ c                  ⟨ stronglyMonotone-l-⋆ P₁ ⟩-<-∼
                (b ⋅ c ⋆ ◡ a ⋅ c) ⋆ a ⋅ c   ⟨ assoc-l-⋆ ⟩-∼
                b ⋅ c ⋆ (◡ a ⋅ c ⋆ a ⋅ c)   ⟨ refl ≀⋆≀ (switch-◡-⋅-l ⁻¹ ≀⋆≀ refl) ⟩-∼
                b ⋅ c ⋆ (◡(a ⋅ c) ⋆ a ⋅ c)  ⟨ refl ≀⋆≀ inv-l-⋆ ⟩-∼
                b ⋅ c ⋆ ◌                  ⟨ unit-r-⋆ ⟩-∼
                b ⋅ c                      ∎
-      in P₂
 
 
 
@@ -62,7 +66,7 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} where
            {{_ : isOrderedRing 𝑗 R}} where
            -- {{_ : isDecidable-OrderedRing ′ ⟨ R ⟩ ′}} where
 
-    -- cong-⋅-<-r
+    -- stronglyMonotone-l-⋅
 
     cancel-⋅-<-r : ∀{a b c : ⟨ R ⟩} -> a ⋅ c < b ⋅ c -> isPositive c -> a < b
     cancel-⋅-<-r = {!!}
@@ -103,6 +107,5 @@ module _ {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} where
 
 -}
 -}
-
 
 

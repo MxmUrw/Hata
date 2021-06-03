@@ -27,11 +27,23 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} where
 
   open hasNotZero-MCS {{...}} public
 
-record Localize {𝑖 : 𝔏 ^ 2} (R : CRing 𝑖) (M : MCS R) : 𝒰 𝑖 where
-  constructor _/_
-  field loc↑ : ⟨ R ⟩
-  field loc↓ : ⦋ ⟨ M ⟩ ⦌
-open Localize public
+-- record Localize {𝑖 : 𝔏 ^ 2} (R : CRing 𝑖) (M : MCS R) : 𝒰 𝑖 where
+--   no-eta-equality
+--   pattern
+--   constructor _/_
+--   field loc↑ : ⟨ R ⟩
+--   field loc↓ : ⦋ ⟨ M ⟩ ⦌
+-- open Localize public
+
+data Localize {𝑖 : 𝔏 ^ 2} (R : CRing 𝑖) (M : MCS R) : 𝒰 𝑖 where
+  _/_ : ⟨ R ⟩ -> ⦋ ⟨ M ⟩ ⦌ -> Localize R M
+
+module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
+  loc↑ : Localize R M -> ⟨ R ⟩
+  loc↑ (a / b) = a
+
+  loc↓ : Localize R M -> ⦋ ⟨ M ⟩ ⦌
+  loc↓ (a / b) = b
 
 module _ {𝑖 : 𝔏 ^ 2} {R : 𝒰 _} {M : 𝒫 R} {{_ : CRing 𝑖 on R}} {{_ : MCS ′ R ′ on M}} where
   _⋅-MCS_ : ⦋ M ⦌ -> ⦋ M ⦌ -> ⦋ M ⦌

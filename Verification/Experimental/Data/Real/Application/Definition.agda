@@ -50,23 +50,31 @@ approx-ℝ : ℕ -> ℝ -> List ℚ
 approx-ℝ n r = approx-ℝ-impl n r _ (inhabited-⩘ .Proof) []
 
 {-# NON_TERMINATING #-}
-approx-ℝ2-impl : (δ δ' : ℚ) -> (δp : δ < δ') -> (r : ℝ) -> (q1 : ⦋ ⟨ ⩘ r ⟩ ⦌) -> (q2 : ⦋ ⟨ ⩗ r ⟩ ⦌) -> (ℚ ×-𝒰 ℚ)
-approx-ℝ2-impl δ δ' δp r (q1 ∢ q1p) (q2 ∢ q2p) = case compare-< δp (q2 ⋆ (◡ q1)) of
-  (λ x → approx-ℝ2-impl _ _ δp r (open-⩘ (q1p) .fst) (open-⩗ (q2p) .fst) )
-  (λ x → q1 , q2)
+approx-ℝ2-impl : ℕ -> (δ δ' : ℚ) -> (δp : δ < δ') -> (r : ℝ) -> (q1 : ⦋ ⟨ ⩘ r ⟩ ⦌) -> (q2 : ⦋ ⟨ ⩗ r ⟩ ⦌) -> (ℕ ×-𝒰 ℚ ×-𝒰 ℚ)
+approx-ℝ2-impl n δ δ' δp r (q1 ∢ q1p) (q2 ∢ q2p) = case compare-< δp (q2 ⋆ (◡ q1)) of
+  (λ x → approx-ℝ2-impl (suc n) _ _ δp r (open-⩘ (q1p) .fst) (open-⩗ (q2p) .fst) )
+  (λ x → n , q1 , q2)
 
-approx-ℝ2 : (δ : ℚ) -> (◌ < δ) -> (r : ℝ) -> (ℚ ×-𝒰 ℚ)
-approx-ℝ2 δ δp r = approx-ℝ2-impl (δ) (δ ⋆ δ) lem-10 r (inhabited-⩘) (inhabited-⩗)
+approx-ℝ2 : (δ : ℚ) -> (◌ < δ) -> (r : ℝ) -> (ℕ ×-𝒰 ℚ ×-𝒰 ℚ)
+approx-ℝ2 δ δp r = approx-ℝ2-impl 0 (δ) (δ ⋆ δ) lem-10 r (inhabited-⩘) (inhabited-⩗)
   where lem-10 : δ < (δ ⋆ δ)
         lem-10 = {!!}
 
 
-doapp : (ℚ ×-𝒰 ℚ)
+doapp : (ℕ ×-𝒰 ℚ ×-𝒰 ℚ)
 doapp = approx-ℝ2 (δ) δp mynumber
-  where δ = (1 / (4 ∢ (_ , refl)))
+  where δ = (1 / (20 ∢ (_ , refl)))
         δp : ◌ < (δ)
         δp = incl (incl (λ (incl x) → {!!}))
 
 realapp : Application
-realapp = execute "real" (λ _ -> show doapp)
+realapp = execute "real" (λ _ -> printApp doapp)
+  where
+    printℚ : ℚ -> Printable
+    printℚ (a / b ∢ _) = PFrac a b
+
+    printApp : (ℕ ×-𝒰 ℚ ×-𝒰 ℚ) -> Printable
+    printApp (n , p , q) =
+      PList (PAnnot (PString "iterations: ") (PInt (ι n)) ∷
+            (printℚ p) ∷ printℚ q ∷ [])
 

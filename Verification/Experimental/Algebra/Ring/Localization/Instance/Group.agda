@@ -20,6 +20,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
     ◡-Loc : Localize R M -> Localize R M
     ◡-Loc (a / da) = ◡ a / da
 
+
     lem-10 : ∀{a : Localize R M} -> ◡-Loc a ⋆ a ∼ ◌
     lem-10 {a / (da ∢ _)} =
       let P : (◡ a ⋅ da ⋆ a ⋅ da) ⋅ ⨡ ∼ ◌ ⋅ (da ⋅ da)
@@ -47,6 +48,5 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
     isGroup.inv-l-⋆ isGroup:Localize = lem-10
     isGroup.inv-r-⋆ isGroup:Localize = comm-⋆ ∙ lem-10
     isGroup.cong-◡_ isGroup:Localize = lem-20
-
 
 

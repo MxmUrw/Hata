@@ -21,12 +21,15 @@ open import Verification.Conventions.Prelude.Data.Nat.Properties
 open import Verification.Conventions.Proprelude
 open import Verification.Conventions.Prelude.Data.StrictId
 
+open import Agda.Builtin.Int public
 
+-- data Int : Type₀ where
+--   pos    : (n : ℕ) → Int
+--   negsuc : (n : ℕ) → Int
 
-
-data Int : Type₀ where
-  pos    : (n : ℕ) → Int
-  negsuc : (n : ℕ) → Int
+-- {-# BUILTIN INTEGER       Int    #-}
+-- {-# BUILTIN INTEGERPOS    pos    #-}
+-- {-# BUILTIN INTEGERNEGSUC negsuc #-}
 
 neg : (n : ℕ) → Int
 neg zero = pos zero

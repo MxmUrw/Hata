@@ -158,7 +158,7 @@ module TypeNotation where
 
 data ⊥-𝒰 {𝑖} : 𝒰 𝑖 where
 data ⊤-𝒰 {𝑖} : 𝒰 𝑖 where
-  tt : ⊤-𝒰
+  instance tt : ⊤-𝒰
 
 
 

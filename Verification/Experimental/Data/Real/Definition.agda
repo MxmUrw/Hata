@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Data.Real.Definition where
 
-open import Verification.Conventions
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Data.Int.Definition
 open import Verification.Experimental.Data.Rational.Definition
 open import Verification.Experimental.Meta.Structure
@@ -17,7 +17,10 @@ open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearo
 -- FFF : Linearorder (ℓ₀ , ℓ₀ , ℓ₀)
 -- FFF = ℚ
 
-ℝ = Cut ℚ ℓ₀
+
+ℝᵘ = Cut ℚ ℓ₀
+
+macro ℝ = #structureOn ℝᵘ
 
 -- mytest2 : ℝ -> ℝ -> 𝒰₀
 -- mytest2 a b = a < b

@@ -34,15 +34,17 @@ _∈_ a u {{UU}} {{p}} with destructEl UU u | p
 ... | f | refl-StrId = ⟨ f a ⟩
 
 
+infix 1 exists
+
 exists : ∀{A : 𝒰 ℓ} -> (B : A -> 𝒰 ℓ') -> Prop (ℓ ⊔ ℓ')
 exists B = ∣ ∑ B ∣
 
-syntax exists (λ x -> F) = ∃ x ∶ F
+syntax exists (λ x -> F) = ∃ x , F
 
 -- module _  where
 existsIn : {A : 𝒰 𝑙} {U : 𝒰 𝑖} -> (u : U) -> {{UU : hasU U (𝑗 ⁺ ⊔ 𝑙) 𝑘}} {{_ : getU UU ≡-Str (A -> Prop 𝑗)}} -> (C : A -> 𝒰 𝑖₁) -> Prop (𝑙 ､ 𝑗 ､ 𝑖₁)
 existsIn u C = ∣ ∑ (λ a -> (a ∈ u) ×-𝒰 C a) ∣
 
-syntax existsIn U (λ x -> F) = ∃ x ∈ U ∶ F
+syntax existsIn U (λ x -> F) = ∃ x ∈ U , F
 
 
