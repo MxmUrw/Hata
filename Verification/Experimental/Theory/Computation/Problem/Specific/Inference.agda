@@ -33,8 +33,9 @@ record InferenceSolution (Π : InferenceProblem 𝑖) : 𝒰 𝑖 where
 
 open InferenceSolution public
 
-INFER : ∀ 𝑖 -> SomeStructure
-INFER 𝑖 = structureOn (InferenceProblem 𝑖)
+macro
+  INFER : ∀ 𝑖 -> SomeStructure
+  INFER 𝑖 = #structureOn (InferenceProblem 𝑖)
 
 instance
   isProblem:INFER : ∀ {𝑖} -> isProblem _ (INFER 𝑖)

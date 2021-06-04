@@ -19,6 +19,7 @@ instance
   isFunctor:coDisc : isFunctor (𝐏𝐫𝐨𝐛 𝑖) (𝐏𝐫𝐨𝐛 𝑖) coDisc
   isFunctor:coDisc = {!!}
 
+
 ε-coDisc : ∀{A : 𝐏𝐫𝐨𝐛 𝑖} -> coDisc A ⟶ A
 ε-coDisc =
   let p = incl (λ ())

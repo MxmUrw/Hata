@@ -10,10 +10,6 @@ open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Order.WellFounded.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Category.Std.Category.Definition
--- open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
--- open import Verification.Experimental.Category.Std.Category.As.Monoid
--- open import Verification.Experimental.Algebra.MonoidWithZero.Definition
--- open import Verification.Experimental.Algebra.MonoidWithZero.Ideal
 open import Verification.Experimental.Theory.Computation.Problem.Definition
 
 record CheckingProblem (𝑖 : 𝔏 ^ 3) : 𝒰 (𝑖 ⁺) where
@@ -29,8 +25,9 @@ open CheckingProblem public
 record CheckingSolution (Π : CheckingProblem 𝑖) : 𝒰 𝑖 where
   field decideSolution : ∀ q a -> isDecidable (Π .Correct q a)
 
-CHECK : ∀ 𝑖 -> SomeStructure
-CHECK 𝑖 = structureOn (CheckingProblem 𝑖)
+macro
+  CHECK : ∀ 𝑖 -> SomeStructure
+  CHECK 𝑖 = #structureOn (CheckingProblem 𝑖)
 
 instance
   isProblem:CHECK : ∀ {𝑖} -> isProblem _ (CHECK 𝑖)

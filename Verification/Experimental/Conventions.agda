@@ -66,3 +66,19 @@ SomeStructure = Term -> TC 𝟙-𝒰
 --     Val <- quoteTC (UnificationProblem 𝑖)
 --     let Fun = con (quote (′_′)) (arg (arg-info visible (modality relevant quantity-ω)) Val ∷ [])
 --     unify hole Fun
+
+
+
+
+infixr 20 _[_]→_
+_[_]→_ : ∀{𝑗} (X : 𝒰 𝑗) -> ∀ (𝑖 : 𝔏 ^ 2) -> (R : 𝒰 𝑙) -> (𝒰 _)
+_[_]→_ {𝑗 = 𝑗} X 𝑖 R = {U : 𝒰 (𝑖 ⌄ 0)} -> (u : U) -> {{UU : hasU U (𝑗) (𝑖 ⌄ 1)}} -> {{p : getU UU ≡-Str (X)}} -> R
+
+-- WithStructureOnω : (X : 𝒰 𝑗) -> (R : 𝒰ω) -> (𝒰ω)
+-- WithStructureOnω {𝑗} X R = ∀{𝑖 𝑘} -> {U : 𝒰 𝑖} -> (u : U) -> {{UU : hasU U (𝑗) 𝑘}} -> {{p : getU UU ≡-Str (X)}} -> R
+
+infixr 20 λstr-syntax
+λstr-syntax : ∀{𝑖 : 𝔏 ^ 2} -> ∀{X : 𝒰 𝑗} {R : 𝒰 𝑙} -> {U : 𝒰 (𝑖 ⌄ 0)} -> (X -> R) -> (u : U) -> {{UU : hasU U (𝑗) (𝑖 ⌄ 1)}} -> {{p : getU UU ≡-Str (X)}} -> R
+λstr-syntax f u {{UU}} {{refl-StrId}} = f (destructEl UU u)
+
+syntax λstr-syntax (λ x -> F) = λstr x ↦ F
