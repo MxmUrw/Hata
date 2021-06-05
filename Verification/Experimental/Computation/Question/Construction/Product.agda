@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Question.Construction.Product where
+module Verification.Experimental.Computation.Question.Construction.Product where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
@@ -9,7 +9,7 @@ open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Computation.Question.Definition
+open import Verification.Experimental.Computation.Question.Definition
 
 
 

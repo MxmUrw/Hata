@@ -6,6 +6,8 @@ open import Verification.Experimental.Meta.Structure public
 
 open import Verification.Conventions.Meta.Term
 
+pattern _since_ a b = ′ a ′ {{b}}
+
 const : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} -> B -> A -> B
 const b _ = b
 

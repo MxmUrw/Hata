@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Question.Definition where
+module Verification.Experimental.Computation.Question.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
@@ -10,7 +10,6 @@ open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Category.Std.Category.Definition
 
 
-pattern _since_ a b = ′ a ′ {{b}}
 
 ---------------------------------------------------------------
 -- Definition of a question
