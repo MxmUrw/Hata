@@ -37,20 +37,51 @@ open import Verification.Experimental.Theory.Std.Theory.Definition
 -- private macro
 --   U = instance[ "forget" , 𝑖 ] (Category 𝑖 -> 𝒰 _) ◀
 
+{-
+arg1-syntax : ∀{A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} -> ((a : A) -> B a) -> {a : A} -> B a
+arg1-syntax f {a} = f a
+
+syntax arg1-syntax (λ a -> f) = arg1 a ∶ f
+
+    isGraph:CompTerm = arg1 c ∶ (of CompTermᵈ c)
+  testttt = arg1 c ∶ (of CompTermᵈ c)
+-}
+
+  -- field CompTermᵘ : 𝓒 -> 𝒰 (𝑗 ⌄ 0)
+  -- field {{isGraph:CompTerm}} : ∀ {c} -> isGraph {𝑗 ⌄ 1} (CompTermᵘ c)
+
 record isComputational {𝑗 : 𝔏 ^ 2} {𝑖} (𝓒 : 𝒰 𝑖) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
   constructor computational
-  field CompTerm : 𝓒 -> 𝒰 (𝑗 ⌄ 0)
-  field {{isGraph:CompTerm}} : ∀ {c} -> isGraph {𝑗 ⌄ 1} (CompTerm c)
+  field CompTermᵈ : (c : 𝓒) -> Graph 𝑗
+
+  -------
+  -- usual overloading of notation
+  instance
+    isGraph:CompTerm : ∀{c} -> isGraph ⟨ (CompTermᵈ c) ⟩
+    isGraph:CompTerm {c} = of CompTermᵈ c
+
+  macro
+    CompTerm : ∀(c) -> SomeStructure
+    CompTerm (c) = #structureOn ⟨ (CompTermᵈ c) ⟩
 
 open isComputational {{...}} public
 
 Computational : (𝑖 : 𝔏 ^ 3) -> 𝒰 _
 Computational 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isComputational {𝑖 ⌄ 1 , 𝑖 ⌄ 2}
 
+
+
+private macro
+  𝐺𝑟 = instance[ "" , 𝑖 ] (Graph 𝑖 -> Setoid _) ◀
+
 Computational→Theory : Computational 𝑖 -> Theory _
-Computational→Theory 𝓒 = ⟨ 𝓒 ⟩ since theory CompTerm {{λ {c} -> of S ′ CompTerm c ′}}
-  where private macro
-    S = instance[ "" , 𝑖 ] (Graph 𝑖 -> Setoid _) ◀
+Computational→Theory 𝓒 = ⟨ 𝓒 ⟩ since theory (λ γ -> 𝐺𝑟 (CompTerm γ))
+
+instance
+  Register:Computational→Theory = register[ "" , 𝑖 ] (Computational→Theory {𝑖})
+
+
+-- {{λ {c} -> of S ′ CompTerm c ′}}
 
 
 -- Computational : (𝑖 : 𝔏 ^ 5) -> 𝒰 _

@@ -14,12 +14,27 @@ open import Verification.Experimental.Set.Setoid.Definition
 -- open import Verification.Experimental.Category.Std.Category.Definition
 -- open import Verification.Experimental.Category.Std.Morphism.Iso
 
+#structure = #structureOn
 
 record isTheory (𝑖 : 𝔏 ^ 2) (𝓣 : 𝒰 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗) where
   constructor theory
-  field _■ : 𝓣 -> 𝒰 (𝑖 ⌄ 0)
-  field {{isSetoid:■}} : ∀{ϕ : 𝓣} -> isSetoid (𝑖 ⌄ 1) (ϕ ■)
-  infix 80 _■
+
+  field _■ᵈ : 𝓣 -> Setoid 𝑖
+
+  -------
+  -- usual overloading of notation
+  macro
+    _■ : 𝓣 -> SomeStructure
+    _■ τ = #structure ⟨(τ ■ᵈ)⟩
+
+  instance
+    isSetoid:■ : ∀{τ} -> isSetoid _ (τ ■)
+    isSetoid:■ {τ} = of (τ ■ᵈ)
+
+  -------
+  -- fixities
+  infix 80 _■ _■ᵈ
+
 
 open isTheory {{...}} public
 
@@ -30,7 +45,7 @@ Theory 𝑖 = (𝒰 (𝑖 ⌄ 0)) :& isTheory (𝑖 ⌄ 1 , 𝑖 ⌄ 2)
 
 record isTheoryHom (𝓢 : Theory 𝑖) (𝓣 : Theory 𝑗) (F : ⟨ 𝓢 ⟩ -> ⟨ 𝓣 ⟩) : 𝒰 (𝑖 ､ 𝑗) where
   constructor theoryHom
-  field map-■ : ∀ (ϕ : ⟨ 𝓢 ⟩) -> SetoidHom ′(ϕ ■)′ ′(F ϕ ■)′
+  field map-■ : ∀ (ϕ : ⟨ 𝓢 ⟩) -> SetoidHom (ϕ ■) (F ϕ ■)
 
 open isTheoryHom {{...}} public
 
