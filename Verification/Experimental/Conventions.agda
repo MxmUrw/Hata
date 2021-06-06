@@ -84,3 +84,52 @@ infixr 20 λstr-syntax
 λstr-syntax f u {{UU}} {{refl-StrId}} = f (destructEl UU u)
 
 syntax λstr-syntax (λ x -> F) = λstr x ↦ F
+
+
+
+-------------------------------------------------------------------------------
+-- anonymous terms via registering and types
+
+
+-- registering terms
+
+record Register {f : 𝔏 ^ n -> 𝔏} (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) (t : String) : 𝒰ω where
+  constructor register
+  field registered : ∀{𝑖} -> A 𝑖
+
+open Register public
+
+register-syntax : {f : 𝔏 ^ n -> 𝔏} {A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)} (a : ∀ 𝑖 -> A 𝑖) (t : String) -> Register A t
+register-syntax a t = register (λ {𝑖} -> a 𝑖)
+
+syntax register-syntax (λ i -> A) t = register[ t , i ] A
+
+
+
+-- instantiating terms
+
+inst : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{Register A t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
+inst A t {{R}} 𝑖 = #structureOn (registered R {𝑖})
+
+
+instantiate-syntax : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{Register A t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
+instantiate-syntax {f} A t 𝑖 = inst (λ i -> A i) t 𝑖
+
+infix 25 instantiate-syntax
+-- syntax instantiate-syntax (λ i -> A) t = A instance[ i , t ]
+syntax instantiate-syntax (λ i -> A) t = instance[ t , i ] A
+
+_◀ : (A : ∀(𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰) -> {𝑖 : 𝔏 ^ n} -> Term -> TC 𝟙-𝒰
+_◀ A {𝑖} t = A 𝑖 t
+
+
+-- level-syntax : (A : ∀(𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰) -> (𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰
+-- level-syntax A t 𝑖 = A t 𝑖
+
+-- syntax level-syntax (λ i -> A) = withlev i , A
+
+-- F = λ (𝑖 : 𝔏 ^ _) -> inst (λ 𝑖 -> Graph 𝑖 -> Setoid _) "" 𝑖
+-- F' = withlev 𝑖 , inst (λ 𝑖 -> Graph 𝑖 -> Setoid _) "" 𝑖
+-- F'' = level-syntax (inst (λ 𝑖 -> Graph 𝑖 -> Setoid _) "")
+
+

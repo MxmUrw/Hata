@@ -29,6 +29,7 @@ instance
 
 
 record isSetoid (𝑗 : 𝔏) (A : 𝒰 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where
+  constructor setoid
   -- field _∼_ : A -> A -> 𝒰 𝑗
   --       {{isEquivRel:∼}} : isEquivRel _∼_
   field _∼'_ : A -> A -> 𝒰 𝑗

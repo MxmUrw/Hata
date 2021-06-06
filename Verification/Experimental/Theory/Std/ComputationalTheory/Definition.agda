@@ -2,6 +2,7 @@
 module Verification.Experimental.Theory.Std.ComputationalTheory.Definition where
 
 open import Verification.Experimental.Conventions
+open import Verification.Experimental.Category.Std.Graph.Definition
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Decidable
@@ -19,20 +20,47 @@ open import Verification.Experimental.Theory.Std.Theory.Definition
 
 --------------------------------------------------------------------
 
-record Repr (A : Setoid 𝑖) (P : ⟨ A ⟩ -> 𝒰 𝑘) (a : ⟨ A ⟩) : 𝒰 (𝑖 ､ 𝑘) where
-  constructor mkrepr
-  field ⟨_⟩ : ⟨ A ⟩
-  field represents : a ∼ ⟨_⟩
-  field hasProperty : P ⟨_⟩
-open Repr public
+-- record Repr (A : Setoid 𝑖) (P : ⟨ A ⟩ -> 𝒰 𝑘) (a : ⟨ A ⟩) : 𝒰 (𝑖 ､ 𝑘) where
+--   constructor mkrepr
+--   field ⟨_⟩ : ⟨ A ⟩
+--   field represents : a ∼ ⟨_⟩
+--   field hasProperty : P ⟨_⟩
+-- open Repr public
 
-record hasRepr (A : Setoid 𝑖) (P : ⟨ A ⟩ -> 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
-  field repr : ∀(a : ⟨ A ⟩) -> Repr A P a
-open hasRepr public
+-- record hasRepr (A : Setoid 𝑖) (P : ⟨ A ⟩ -> 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
+--   field repr : ∀(a : ⟨ A ⟩) -> Repr A P a
+-- open hasRepr public
 
 --------------------------------------------------------------------
 -- theory with computational interpretation
 
+-- private macro
+--   U = instance[ "forget" , 𝑖 ] (Category 𝑖 -> 𝒰 _) ◀
+
+record isComputational {𝑗 : 𝔏 ^ 2} {𝑖} (𝓒 : 𝒰 𝑖) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
+  constructor computational
+  field CompTerm : 𝓒 -> 𝒰 (𝑗 ⌄ 0)
+  field {{isGraph:CompTerm}} : ∀ {c} -> isGraph {𝑗 ⌄ 1} (CompTerm c)
+
+open isComputational {{...}} public
+
+Computational : (𝑖 : 𝔏 ^ 3) -> 𝒰 _
+Computational 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isComputational {𝑖 ⌄ 1 , 𝑖 ⌄ 2}
+
+Computational→Theory : Computational 𝑖 -> Theory _
+Computational→Theory 𝓒 = ⟨ 𝓒 ⟩ since theory CompTerm {{λ {c} -> of S ′ CompTerm c ′}}
+  where private macro
+    S = instance[ "" , 𝑖 ] (Graph 𝑖 -> Setoid _) ◀
+
+
+-- Computational : (𝑖 : 𝔏 ^ 5) -> 𝒰 _
+-- Computational 𝑖 = Theory (𝑖 ⌄ 0 , 𝑖 ⌄ 1 , 𝑖 ⌄ 2) :& isComputational (𝑖 ⌄ 3 , 𝑖 ⌄ 4)
+
+
+
+
+
+{-
 record isComputational (𝑗 : 𝔏 ^ 2) (𝓣 : Theory 𝑖) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
   constructor computational
   field isNormal : ∀{ϕ : ⟨ 𝓣 ⟩} -> ⟨ ϕ ■ ⟩ -> 𝒰 (𝑗 ⌄ 0)
@@ -52,10 +80,6 @@ record isComputational (𝑗 : 𝔏 ^ 2) (𝓣 : Theory 𝑖) : 𝒰 (𝑖 ⁺ �
 
   -- field can : Canonical -> ⟨ 𝓣 ⟩
 
-open isComputational {{...}} public
-
-Computational : (𝑖 : 𝔏 ^ 5) -> 𝒰 _
-Computational 𝑖 = Theory (𝑖 ⌄ 0 , 𝑖 ⌄ 1 , 𝑖 ⌄ 2) :& isComputational (𝑖 ⌄ 3 , 𝑖 ⌄ 4)
 
 -- maps between computational theories
 record isComputationalHom (𝓒 : Computational 𝑖) (𝓓 : Computational 𝑗) (F : TheoryHom ′ ⟨ 𝓒 ⟩ ′ ′ ⟨ 𝓓 ⟩ ′) : 𝒰 (𝑖 ､ 𝑗) where
@@ -95,6 +119,6 @@ instance
 
 
 
-
+-}
 
 

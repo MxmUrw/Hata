@@ -19,6 +19,7 @@ open import Verification.Conventions.Prelude.Data.StrictId
 
 -- [Definition]
 record isEquivRel {X : 𝒰 𝑖} (_≣_ : X -> X -> 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
+  constructor equivRel
   field refl : ∀{x : X} -> x ≣ x
         sym : ∀{x y : X} -> x ≣ y -> y ≣ x
         _∙_ : ∀{x y z : X} -> x ≣ y -> y ≣ z -> x ≣ z
