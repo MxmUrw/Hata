@@ -11,7 +11,7 @@ open import Verification.Experimental.Set.Setoid.Definition
 -- open import Verification.Experimental.Data.Sum.Definition
 -- open import Verification.Experimental.Data.Rational.Definition
 -- open import Verification.Experimental.Algebra.Monoid.Definition
--- open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Definition
 -- open import Verification.Experimental.Category.Std.Morphism.Iso
 
 #structure = #structureOn
@@ -19,21 +19,22 @@ open import Verification.Experimental.Set.Setoid.Definition
 record isTheory (𝑖 : 𝔏 ^ 2) (𝓣 : 𝒰 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗) where
   constructor theory
 
-  field _■ᵈ : 𝓣 -> Setoid 𝑖
+  field _■ᵘ : 𝓣 -> 𝒰 (𝑖 ⌄ 0)
+  field {{isSetoid:■}} : ∀{τ} -> isSetoid (𝑖 ⌄ 1) (τ ■ᵘ)
 
-  -------
-  -- usual overloading of notation
+  -- -------
+  -- -- usual overloading of notation
   macro
     _■ : 𝓣 -> SomeStructure
-    _■ τ = #structure ⟨(τ ■ᵈ)⟩
+    _■ τ = #structureOn (τ ■ᵘ)
 
-  instance
-    isSetoid:■ : ∀{τ} -> isSetoid _ (τ ■)
-    isSetoid:■ {τ} = of (τ ■ᵈ)
+  -- instance
+  --   isSetoid:■ : ∀{τ} -> isSetoid _ (τ ■)
+  --   isSetoid:■ {τ} = of (τ ■ᵈ)
 
-  -------
-  -- fixities
-  infix 80 _■ _■ᵈ
+  -- -------
+  -- -- fixities
+  infix 80 _■ _■ᵘ
 
 
 open isTheory {{...}} public
@@ -53,6 +54,10 @@ TheoryHom : (𝓢 : Theory 𝑖) (𝓣 : Theory 𝑗) -> 𝒰 _
 TheoryHom 𝓢 𝓣 = _ :& isTheoryHom 𝓢 𝓣
 
 
+
+instance
+  isCategory:Theory : isCategory (_ , ⨆ 𝑖) (Theory 𝑖)
+  isCategory:Theory = category TheoryHom {{{!!}}} {!!} {!!} {!!} {!!} {!!} {!!} {!!} {!!}
 
 
 

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Question.Specific.Check where
+module Verification.Experimental.Computation.Question.Specific.Check where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
@@ -10,7 +10,7 @@ open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Order.WellFounded.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Computation.Question.Definition
+open import Verification.Experimental.Computation.Question.Definition
 
 record Check (𝑖 : 𝔏 ^ 3) : 𝒰 (𝑖 ⁺) where
   constructor check

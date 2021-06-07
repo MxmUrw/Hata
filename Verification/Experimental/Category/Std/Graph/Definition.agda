@@ -37,7 +37,7 @@ instance
 Graph→Setoid : Graph 𝑖 -> Setoid _
 Graph→Setoid G = GraphSetoid G since it
 
-instance Register:Graph→Setoid = register[ "" , 𝑖 ] Graph→Setoid {𝑖}
+instance Register:Graph→Setoid = register₁[ "" , 𝑖 ] Graph→Setoid {𝑖}
 
 
 private macro

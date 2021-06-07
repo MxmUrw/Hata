@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Type.Simple.Definition where
+module Verification.Experimental.Theory.Std.ProgrammingLanguage.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
@@ -16,7 +16,46 @@ open import Verification.Experimental.Data.Sum.Definition
 -- open import Verification.Experimental.Category.Std.Morphism.Iso
 -- open import Verification.Experimental.Theory.Computation.Question.Construction.Product
 
+open import Verification.Experimental.Theory.Std.TypeTheory.Definition
+open import Verification.Experimental.Theory.Std.Theory.Definition
+open import Verification.Experimental.Theory.Std.ComputationalTheory.Definition
 
+open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+
+-- {𝑖 : 𝔏 ×-𝒰 𝔏 ×-𝒰 𝔏 ×-𝒰 𝔏} →
+-- TypeTheory 𝑖 →
+-- Theory
+-- (fst 𝑖 , ℓ-max (fst (snd 𝑖)) (snd (snd (snd 𝑖))) , fst (snd 𝑖))
+
+
+private macro
+  F1 = instance[ "" , 𝑖 ] (TypeTheory 𝑖 -> Theory _) ◀
+  F2 = instance[ "" , 𝑖 ] (𝐅𝐮𝐥𝐥 (F1 {𝑖}) -> Theory _) ◀
+  F3 = instance[ "" , 𝑖 ] (Computational 𝑖 -> Theory _) ◀
+
+-- private
+--   F1' : Hom {{of 𝐂𝐚𝐭}} _ _
+--   F1' = incl F1
+
+-- ProgrammingLanguage = F1 ◰ F2
+
+
+
+-- XX : ∀ (𝑖 : 𝔏 ^ 3) -> _
+-- XX 𝑖 = Register:ForgetFullFull {𝒞 = Theory 𝑖} {{it}} {ι = F1 {_}}
+
+-- XXX : ∀{𝑗} -> Register (λ 𝑖 -> (𝐅𝐮𝐥𝐥 (F1 {𝑖}) -> Theory 𝑗)) ""
+-- XXX = it
+
+
+
+-- ⇱ : 
+
+-- ⇲ a 
+
+
+{-
 --------------------------------------------------------------------
 -- A programming language is a type theory with solved checking problem
 -- and a computational model
@@ -61,4 +100,4 @@ interpretProgram I program input =
               (const (left (typeerror I)))
               λ τ → right (printOutput I (run (p , τ) i))
 
-
+-}

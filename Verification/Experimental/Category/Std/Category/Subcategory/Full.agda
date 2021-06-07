@@ -1,11 +1,12 @@
 
 module Verification.Experimental.Category.Std.Category.Subcategory.Full where
 
-open import Verification.Experimental.Conventions
+open import Verification.Experimental.Conventions hiding (Forget)
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
@@ -57,6 +58,26 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
       isCategory.assoc-l-◆ isCategory:FullSubcategory = {!!}
       isCategory.assoc-r-◆ isCategory:FullSubcategory = {!!}
       isCategory._◈_ isCategory:FullSubcategory = {!!}
+
+
+    -- private
+    ForgetFull : 𝐅𝐮𝐥𝐥 ι -> 𝒞
+    ForgetFull x = ι ⟨ x ⟩
+
+    instance
+      Register:ForgetFull = register[ "" ] (ForgetFull)
+
+    instance
+      isFunctor:ForgetFull : isFunctor (𝐅𝐮𝐥𝐥 ι) ′ 𝒞 ′ (ForgetFull)
+      isFunctor:ForgetFull = {!!}
+
+
+
+-- instance
+--   Register:ForgetFull : ∀{𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} {X : 𝒰 𝑘} {ι : X -> 𝒞} -> Register (𝐅𝐮𝐥𝐥 ι -> 𝒞) ""
+--   Register:ForgetFull {ι = ι} = register (ForgetFull {ι = ι})
+
+
 
 
 

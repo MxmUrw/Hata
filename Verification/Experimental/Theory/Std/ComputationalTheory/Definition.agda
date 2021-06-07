@@ -16,6 +16,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
 -- open import Verification.Experimental.Computation.Question.Construction.Product
 open import Verification.Experimental.Theory.Std.Theory.Definition
+open import Verification.Experimental.Category.Std.Category.Subcategory.Full
 
 
 --------------------------------------------------------------------
@@ -52,17 +53,14 @@ syntax arg1-syntax (λ a -> f) = arg1 a ∶ f
 
 record isComputational {𝑗 : 𝔏 ^ 2} {𝑖} (𝓒 : 𝒰 𝑖) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
   constructor computational
-  field CompTermᵈ : (c : 𝓒) -> Graph 𝑗
+  field CompTermᵘ : (c : 𝓒) -> 𝒰 (𝑗 ⌄ 0)
+  field {{isGraph:CompTerm}} : ∀{c} -> isGraph {𝑗 ⌄ 1} (CompTermᵘ c)
 
   -------
   -- usual overloading of notation
-  instance
-    isGraph:CompTerm : ∀{c} -> isGraph ⟨ (CompTermᵈ c) ⟩
-    isGraph:CompTerm {c} = of CompTermᵈ c
-
   macro
     CompTerm : ∀(c) -> SomeStructure
-    CompTerm (c) = #structureOn ⟨ (CompTermᵈ c) ⟩
+    CompTerm (c) = #structureOn (CompTermᵘ c)
 
 open isComputational {{...}} public
 
@@ -70,15 +68,17 @@ Computational : (𝑖 : 𝔏 ^ 3) -> 𝒰 _
 Computational 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isComputational {𝑖 ⌄ 1 , 𝑖 ⌄ 2}
 
 
-
 private macro
   𝐺𝑟 = instance[ "" , 𝑖 ] (Graph 𝑖 -> Setoid _) ◀
 
 Computational→Theory : Computational 𝑖 -> Theory _
-Computational→Theory 𝓒 = ⟨ 𝓒 ⟩ since theory (λ γ -> 𝐺𝑟 (CompTerm γ))
+Computational→Theory 𝓒 = ⟨ 𝓒 ⟩ since theory (λ γ -> ⟨ 𝐺𝑟 (CompTerm γ) ⟩)
 
 instance
-  Register:Computational→Theory = register[ "" , 𝑖 ] (Computational→Theory {𝑖})
+  Register:Computational→Theory = register₁[ "" , 𝑖 ] (Computational→Theory {𝑖})
+
+-- instance
+--   Register:ForgetTypeTheory = registerω[ "" , 𝑖 ] (ForgetTT {𝑖})
 
 
 -- {{λ {c} -> of S ′ CompTerm c ′}}

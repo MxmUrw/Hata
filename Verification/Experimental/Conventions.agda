@@ -90,43 +90,67 @@ syntax λstr-syntax (λ x -> F) = λstr x ↦ F
 
 -- registering terms
 
-record Register {f : 𝔏 ^ n -> 𝔏} (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) (t : String) : 𝒰ω where
+record Register (A : 𝒰 𝑖) (t : String) : 𝒰 (𝑖 ⁺) where
   constructor register
-  field registered : ∀{𝑖} -> A 𝑖
+  field registered : A
 
 open Register public
 
-register-syntax : {f : 𝔏 ^ n -> 𝔏} {A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)} (a : ∀ 𝑖 -> A 𝑖) (t : String) -> Register A t
-register-syntax a t = register (λ {𝑖} -> a 𝑖)
+-- registering with level polymorphism
 
-syntax register-syntax (λ i -> A) t = register[ t , i ] A
+register-syntax1 : {f : 𝔏 ^ n -> 𝔏} {A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)} (a : ∀ 𝑖 -> A 𝑖) (t : String) -> ∀{𝑖} -> Register (A 𝑖) t
+register-syntax1 a t {𝑖} = register (a 𝑖)
+
+syntax register-syntax1 (λ i -> A) t = register₁[ t , i ] A
+
+-- registering without level polymorphism
+
+register-syntax0 : {A : 𝒰 𝑖} (a : A) (t : String) -> Register (A) t
+register-syntax0 a t = register a
+
+syntax register-syntax0 A t = register[ t ] A
+
+
+inst : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{∀{𝑖} -> Register (A 𝑖) t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
+inst A t {{R}} 𝑖 = #structureOn (registered (R {𝑖}))
 
 
 
--- instantiating terms
-
-inst : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{Register A t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
-inst A t {{R}} 𝑖 = #structureOn (registered R {𝑖})
-
-
-instantiate-syntax : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{Register A t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
+instantiate-syntax : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{∀{𝑖} -> Register (A 𝑖) t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
 instantiate-syntax {f} A t 𝑖 = inst (λ i -> A i) t 𝑖
 
 infix 25 instantiate-syntax
--- syntax instantiate-syntax (λ i -> A) t = A instance[ i , t ]
 syntax instantiate-syntax (λ i -> A) t = instance[ t , i ] A
+
 
 _◀ : (A : ∀(𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰) -> {𝑖 : 𝔏 ^ n} -> Term -> TC 𝟙-𝒰
 _◀ A {𝑖} t = A 𝑖 t
 
 
--- level-syntax : (A : ∀(𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰) -> (𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰
--- level-syntax A t 𝑖 = A t 𝑖
 
--- syntax level-syntax (λ i -> A) = withlev i , A
 
--- F = λ (𝑖 : 𝔏 ^ _) -> inst (λ 𝑖 -> Graph 𝑖 -> Setoid _) "" 𝑖
--- F' = withlev 𝑖 , inst (λ 𝑖 -> Graph 𝑖 -> Setoid _) "" 𝑖
--- F'' = level-syntax (inst (λ 𝑖 -> Graph 𝑖 -> Setoid _) "")
 
+---------------------------------------------------------------
+-- one line definitions (which may contain types) using unquoteDecl
+
+#idefAs-impl : Name -> (A : 𝒰 𝑖) -> (a : A) -> TC 𝟙-𝒰
+#idefAs-impl targetName A a = do
+
+  targetType <- quoteTC A
+  targetTerm <- quoteTC a
+
+  let targetFun = def targetName []
+  let targetFunClause = clause [] [] targetTerm
+
+  declareDef (iarg targetName) targetType
+  defineFun targetName (targetFunClause ∷ [])
+
+
+#idef-impl : Name -> {A : 𝒰 𝑖} -> (a : A) -> TC 𝟙-𝒰
+#idef-impl targetName {A} a = #idefAs-impl targetName A a
+
+
+infix 1 #idef-impl #idefAs-impl
+syntax #idef-impl name a = #idef name := a
+syntax #idefAs-impl name A a = #idef name ∶ A := a
 
