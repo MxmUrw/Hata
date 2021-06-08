@@ -1,13 +1,14 @@
 
 module Verification.Experimental.Computation.Question.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Experimental.Conventions hiding (Forget)
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Order.WellFounded.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
 
 
 
@@ -84,5 +85,20 @@ instance
     ; _◈_        = {!!}
     }
 
-{-
--}
+private
+  Forget : 𝐐𝐮𝐞𝐬𝐭 𝑖 -> 𝐓𝐲𝐩𝐞 _
+  Forget 𝔔 = ⟨ 𝔔 ⟩
+
+instance
+  Register:ForgetQuestion = register₁[ "" , 𝑖 ] Forget {𝑖}
+
+instance
+  isFunctor:ForgetQuestion : isFunctor (𝐐𝐮𝐞𝐬𝐭 𝑖) (𝐓𝐲𝐩𝐞 _) Forget
+  isFunctor.map isFunctor:ForgetQuestion = λ f -> incl ⟨ ⟨ f ⟩ ⟩
+  isFunctor.isSetoidHom:map isFunctor:ForgetQuestion = {!!}
+  isFunctor.functoriality-id isFunctor:ForgetQuestion = {!!}
+  isFunctor.functoriality-◆ isFunctor:ForgetQuestion = {!!}
+
+
+
+

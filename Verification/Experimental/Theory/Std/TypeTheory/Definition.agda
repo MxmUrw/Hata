@@ -16,6 +16,8 @@ open import Verification.Experimental.Category.Std.Category.Subcategory.Full
 open import Verification.Experimental.Category.Std.Morphism.Iso
 -- open import Verification.Experimental.Computation.Question.Construction.Product
 open import Verification.Experimental.Theory.Std.Theory.Definition
+open import Verification.Experimental.Computation.Question.Definition
+open import Verification.Experimental.Computation.Question.Specific.Check
 
 --------------------------------------------------------------------
 -- The type theoretical perspective on a theory
@@ -40,23 +42,34 @@ record isTypeTheory (𝑖 : 𝔏 ^ 3) (Type : 𝒰' 𝑗) : 𝒰' (𝑖 ⁺ ､ 
     isSetoid:TypedTerm = {!!}
 
 
-  -- TTerm : Type -> Setoid _
-  -- TTerm τ = (∑ λ (t : Term) -> t ∶ τ) since record { _∼'_ = λ (t , _) (s , _) -> t ∼ s ; isEquivRel:∼ = {!!} }
-
 open isTypeTheory {{...}} public
 
 TypeTheory : (𝑖 : 𝔏 ^ 4) -> 𝒰 _
 TypeTheory 𝑖 = (𝒰 (𝑖 ⌄ 0)) :& isTypeTheory (𝑖 ⌄ 1 ⋯ 3)
 
 
--- private
-ForgetTT : TypeTheory 𝑖 -> Theory _
-ForgetTT 𝓣  = ⟨ 𝓣 ⟩ since theory λ τ → TypedTermᵘ τ
-
--- instance Register:ForgetTypeTheory = register[ "" , 𝑖 ] ForgetTT {𝑖}
+private
+  Forget : TypeTheory 𝑖 -> Theory _
+  Forget 𝓣  = ⟨ 𝓣 ⟩ since theory λ τ → TypedTermᵘ τ
 
 instance
-  Register:ForgetTypeTheory = register₁[ "" , 𝑖 ] (ForgetTT {𝑖})
+  Register:ForgetTypeTheory = register₁[ "" , 𝑖 ] (Forget {𝑖})
+
+macro
+  𝐓𝐓 : ∀(𝑖) -> SomeStructure
+  𝐓𝐓 (𝑖) = #structureOn (FullSubcategory (Forget {𝑖}))
+
+---------------------------------------------------------------
+-- Solved Type theories are ones for which the type checking
+-- problem is solved
+
+private
+  Q : 𝐓𝐓 𝑖 -> CHECK _
+  Q (incl 𝓣) = {!!}
+
+-- instance
+--   isQuestion:𝐓𝐓 : isQuestion _ (𝐓𝐓 𝑖)
+--   isQuestion:𝐓𝐓 = answerWith (λ (incl x) → isDecidable )
 
 
 ---------------------------------------------------------------

@@ -31,8 +31,9 @@ open import Verification.Experimental.Category.Std.Category.Subcategory.Full
 
 private macro
   F1 = instance[ "" , 𝑖 ] (TypeTheory 𝑖 -> Theory _) ◀
-  F2 = instance[ "" , 𝑖 ] (𝐅𝐮𝐥𝐥 (F1 {𝑖}) -> Theory _) ◀
+  F2 = instance[ "" , 𝑖 ] (𝐓𝐓 𝑖 -> Theory _) ◀
   F3 = instance[ "" , 𝑖 ] (Computational 𝑖 -> Theory _) ◀
+
 
 -- private
 --   F1' : Hom {{of 𝐂𝐚𝐭}} _ _
@@ -40,26 +41,11 @@ private macro
 
 -- ProgrammingLanguage = F1 ◰ F2
 
-
-
--- XX : ∀ (𝑖 : 𝔏 ^ 3) -> _
--- XX 𝑖 = Register:ForgetFullFull {𝒞 = Theory 𝑖} {{it}} {ι = F1 {_}}
-
--- XXX : ∀{𝑗} -> Register (λ 𝑖 -> (𝐅𝐮𝐥𝐥 (F1 {𝑖}) -> Theory 𝑗)) ""
--- XXX = it
-
-
-
--- ⇱ : 
-
--- ⇲ a 
-
-
-{-
 --------------------------------------------------------------------
 -- A programming language is a type theory with solved checking problem
 -- and a computational model
 
+{-
 record isProgrammingLanguage 𝑗 (𝓣 : TypeTheory 𝑖) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
   field {{Comp}} : isComputational 𝑗 (ttheo 𝓣)
   field Input : Canonical {{Comp}}
