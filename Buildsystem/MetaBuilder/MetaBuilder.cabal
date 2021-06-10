@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e2a0683ed06ae1b719029163d20fc70fbe4fb91a923d3072b58ed9a1829d7bf9
+-- hash: 68d3370f40e9ddfcf66ed078d7aacfaeed5e31ac33586d6656bc72e851d8e888
 
 name:           MetaBuilder
 version:        0.1.0.0
@@ -44,7 +44,12 @@ library
       Paths_MetaBuilder
   hs-source-dirs:
       src
-  default-extensions: DuplicateRecordFields DeriveGeneric RankNTypes MultiParamTypeClasses FunctionalDependencies
+  default-extensions:
+      DuplicateRecordFields
+      DeriveGeneric
+      RankNTypes
+      MultiParamTypeClasses
+      FunctionalDependencies
   build-depends:
       aeson
     , attoparsec

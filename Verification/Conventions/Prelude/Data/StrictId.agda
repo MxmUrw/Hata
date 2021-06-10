@@ -1,5 +1,5 @@
 
-{-# OPTIONS --cubical --allow-unsolved-metas #-}
+-- {-# OPTIONS --cubical --allow-unsolved-metas #-}
 
 module Verification.Conventions.Prelude.Data.StrictId where
 

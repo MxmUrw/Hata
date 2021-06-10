@@ -1,5 +1,4 @@
 
-{-# OPTIONS --cubical --no-import-sorts #-}
 
 module Verification.Conventions.Prelude.Notation.UniverseLevel where
 

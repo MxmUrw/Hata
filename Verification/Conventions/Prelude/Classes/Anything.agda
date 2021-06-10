@@ -1,5 +1,4 @@
 
-{-# OPTIONS --cubical --allow-unsolved-metas #-}
 
 module Verification.Conventions.Prelude.Classes.Anything where
 

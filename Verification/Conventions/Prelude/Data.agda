@@ -13,3 +13,5 @@ open import Verification.Conventions.Prelude.Data.Vec public
 open import Verification.Conventions.Prelude.Data.Maybe public
 open import Verification.Conventions.Prelude.Data.OtherPrimitives public
 open import Verification.Conventions.Prelude.Data.StrictId public
+open import Verification.Conventions.Prelude.Data.Sum public
+

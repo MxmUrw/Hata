@@ -1,5 +1,5 @@
 
-{-# OPTIONS --cubical --no-import-sorts #-}
+-- {-# OPTIONS --cubical --no-import-sorts #-}
 
 module Verification.Conventions.Proprelude.Imports where
 
@@ -30,7 +30,7 @@ open import Cubical.Foundations.Id using (Id ; idToPath) renaming (refl to refl-
 
 
 open import Cubical.HITs.SetTruncation renaming (elim to ∥_∥₂-elim ; elim2 to ∥_∥₂-elim2 ; elim3 to ∥_∥₂-elim3 ; rec to ∥_∥₂-rec) public
-open import Cubical.HITs.PropositionalTruncation renaming (∣_∣ to ∣_∣-Prop ; elim to ∥_∥₁-elim ; elim2 to ∥_∥₁-elim2 ; elim3 to ∥_∥₁-elim3 ; rec to ∥_∥₁-rec ; map to map-∥₁) public
+open import Cubical.HITs.PropositionalTruncation renaming (∣_∣ to ∣_∣-Prop ; elim to ∥_∥₁-elim ; elim2 to ∥_∥₁-elim2 ; elim3 to ∥_∥₁-elim3 ; rec to ∥_∥₁-rec ; rec2 to rec2-∥₁ ; map to map-∥₁) public
 
 -- open import Cubical.Data.Empty renaming (⊥ to 𝟘-𝒰 ; rec to 𝟘-rec ; elim to 𝟘-elim) public
 -- open import Cubical.Data.Unit renaming (Unit to 𝟙-𝒰 ; isSetUnit to isSet𝟙) public
@@ -54,5 +54,7 @@ open import Cubical.HITs.PropositionalTruncation renaming (∣_∣ to ∣_∣-Pr
 
 
 -- open import Cubical.Data.Int renaming (Int to ℤ ; _+_ to _+-ℤ_ ; _-_ to _-ℤ_ ; +-assoc to assoc-+-ℤ ; +-comm to comm-+-ℤ) public
-open import Cubical.Data.Sum renaming (_⊎_ to _+-𝒰_ ; elim to elim-+-𝒰 ; inl to left ; inr to right ) hiding (map ; rec) public
+-- open import Cubical.Data.Sum renaming (_⊎_ to _+-𝒰_ ; elim to elim-+-𝒰 ; inl to left ; inr to right ) hiding (map ; rec) public
+
+
 open import Cubical.Induction.WellFounded hiding (Rel) public

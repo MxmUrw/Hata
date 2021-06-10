@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Category.Std.Category.Instance.Category where
 
-open import Verification.Conventions
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Universe.Definition
@@ -54,4 +54,9 @@ instance
   isCategory.assoc-l-◆ isCategory:Category = {!!}
   isCategory.assoc-r-◆ isCategory:Category = {!!}
   isCategory._◈_ isCategory:Category = {!!}
+
+𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
+𝐂𝐚𝐭 𝑖 = #structureOn (Category 𝑖)
+
+
 

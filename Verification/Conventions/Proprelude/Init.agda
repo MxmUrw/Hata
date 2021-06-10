@@ -1,5 +1,5 @@
 
-{-# OPTIONS --cubical --no-import-sorts #-}
+-- {-# OPTIONS --cubical --no-import-sorts #-}
 
 module Verification.Conventions.Proprelude.Init where
 
@@ -127,7 +127,7 @@ cong₂ f p q i = f (p i) (q i)
 -- special functions
 
 pattern ↥ x = lift x
-↧ = lower
+-- ↧ = lower
 
 it : ∀{A : 𝒰 𝑖} -> {{a : A}} -> A
 it {{a}} = a
@@ -164,6 +164,9 @@ data ⊥-𝒰 {𝑖} : 𝒰 𝑖 where
 data ⊤-𝒰 {𝑖} : 𝒰 𝑖 where
   instance tt : ⊤-𝒰
 
+data _+-𝒰_ (A : 𝒰 ℓ)(B : 𝒰 ℓ') : 𝒰 (ℓ-max ℓ ℓ') where
+  left : A → A +-𝒰 B
+  right : B → A +-𝒰 B
 
 
 case_of : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} (a : A +-𝒰 B) -> (A -> C) -> (B -> C) -> C

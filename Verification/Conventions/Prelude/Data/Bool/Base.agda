@@ -16,6 +16,7 @@ open import Verification.Conventions.Proprelude.CubicalConventions
 open import Verification.Conventions.Prelude.Classes.Discrete
 open import Verification.Conventions.Prelude.Classes.EquivalenceRelation
 open import Verification.Conventions.Prelude.Data.StrictId
+open import Verification.Conventions.Prelude.Data.Sum
 open import Verification.Conventions.Proprelude
 
 
