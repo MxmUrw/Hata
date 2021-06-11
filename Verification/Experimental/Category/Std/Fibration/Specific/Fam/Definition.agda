@@ -31,11 +31,15 @@ macro
   𝐅𝐚𝐦 : ∀(𝒞 : Category 𝑖) -> ∀ 𝑗 -> SomeStructure
   𝐅𝐚𝐦 𝒞 𝑗 = #structureOn (Family 𝒞 𝑗)
 
-module _ {𝒞 : Category 𝑖} (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) where
-  record isFamilyHom (f : ⟨ X ⟩ -> ⟨ Y ⟩) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
+module _ {𝒞 : Category 𝑖} where
+  record isFamilyHom (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) (f : ⟨ X ⟩ -> ⟨ Y ⟩) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
     field map-■ : ∀{a : ⟨ X ⟩} -> a ■ ⟶ f a ■
 
-  FamilyHom = _ :& isFamilyHom
+  open isFamilyHom {{...}} public
+
+module _ {𝒞 : Category 𝑖} (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) where
+  FamilyHom : _
+  FamilyHom = _ :& isFamilyHom X Y
 
 
 instance

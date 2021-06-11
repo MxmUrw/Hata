@@ -84,11 +84,16 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
 
   module _ (p : Fibration ℰ ℬ) (b : ⟨ ℬ ⟩) where
     record isFiber (e : Obj ℰ) : 𝒰 (𝑗 ､ 𝑖) where
+      constructor isfiber
       field isSectionFiber : ⟨ p ⟩ ⟨ e ⟩ ≣ b
 
     open isFiber public
 
     Fiber = _ :& isFiber
+
+  instance
+    isFiber:Refl : ∀{p : Fibration ℰ ℬ} {e : ⟨ ℰ ⟩} -> isFiber p (⟨ p ⟩ e) (obj e)
+    isFiber:Refl = isfiber refl
 
   module _ {p : Fibration ℰ ℬ} {b : ⟨ ℬ ⟩} where
 
@@ -160,10 +165,20 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
       isCategory._◈_ isCategory:Fiber = {!!}
 
   FiberF : (p : Fibration ℰ ℬ) -> Functor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _)
-  FiberF p = F since {!!}
+  FiberF p = F since it
     where
       F : ⟨ ℬ ⟩ -> Category _
       F b = ′ Fiber p b ′
+
+      Ff : ∀{a b : ⟨ ℬ ⟩} (f : a ⟶ b) -> Fiber p b -> Fiber p a
+      Ff f e = {!!}
+
+      instance
+        isFunctor:F : isFunctor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _) F
+        isFunctor.map isFunctor:F = λ x → {!!}
+        isFunctor.isSetoidHom:map isFunctor:F = {!!}
+        isFunctor.functoriality-id isFunctor:F = {!!}
+        isFunctor.functoriality-◆ isFunctor:F = {!!}
 
 
 
