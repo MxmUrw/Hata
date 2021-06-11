@@ -43,6 +43,8 @@ isContr-Std : (A : 𝒰 _) {{_ : Setoid 𝑖 on A}} -> 𝒰 _
 isContr-Std A = ∑ λ (a : A) -> ∀ (b : A) -> a ∼ b
 -- ∀ (a b : A) -> a ∼ b
 
+{-
+
 
 module _ (ℰ : Category 𝑗) (ℬ : Category 𝑖) where
   module _ (p : Functor ℰ ℬ) where
@@ -148,7 +150,7 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
 
     instance
       isCategory:Fiber : isCategory _ (Fiber p b)
-      isCategory.Hom' isCategory:Fiber = FiberHom
+      isCategory.Hom isCategory:Fiber = FiberHom
       isCategory.isSetoid:Hom isCategory:Fiber = it
       isCategory.id isCategory:Fiber {e} = incl (id-Fiber {e})
       isCategory._◆_ isCategory:Fiber ϕ ψ = incl (comp-Fiber ⟨ ϕ ⟩ ⟨ ψ ⟩)
@@ -170,4 +172,4 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
 
 
 
-
+-}

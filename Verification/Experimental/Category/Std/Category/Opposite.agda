@@ -16,13 +16,13 @@ open import Verification.Experimental.Category.Std.Category.Definition
 _ᵒᵖ : Category 𝑖 -> Category 𝑖
 _ᵒᵖ 𝒞 = ′ ⟨ 𝒞 ⟩ ′ {{Op}}
   where Op : isCategory _ ⟨ 𝒞 ⟩
-        isCategory.Hom' Op a b = Hom' b a
-        isSetoid._∼'_ (isCategory.isSetoid:Hom Op {x} {y}) (incl f) (incl g) = _∼'_ {{isSetoid:Hom {{of 𝒞}} {a = y} {x} }} (incl f) (incl g)
+        isCategory.Hom Op a b = Hom b a
+        isSetoid._∼'_ (isCategory.isSetoid:Hom Op {x} {y}) (f) (g) = _∼'_ {{isSetoid:Hom {{of 𝒞}} {a = y} {x} }} (f) (g)
         isEquivRel.refl (isSetoid.isEquivRel:∼ (isCategory.isSetoid:Hom Op {x} {y})) = incl ⟨ refl {{isEquivRel:∼ {{isSetoid:Hom {{of 𝒞}}}}}} ⟩
         isEquivRel.sym (isSetoid.isEquivRel:∼ (isCategory.isSetoid:Hom Op {x} {y})) (incl p) = incl ⟨ sym {{isEquivRel:∼ {{isSetoid:Hom {{of 𝒞}}}}}} (incl p) ⟩
         isEquivRel._∙_ (isSetoid.isEquivRel:∼ (isCategory.isSetoid:Hom Op {x} {y})) (incl p) (incl q) = incl ⟨ _∙_ {{isEquivRel:∼ {{isSetoid:Hom {{of 𝒞}}}}}} (incl p) (incl q) ⟩
-        isCategory.id Op = incl ⟨ id ⟩
-        isCategory._◆_ Op f g = incl ⟨ incl ⟨ g ⟩ ◆ incl ⟨ f ⟩ ⟩
+        isCategory.id Op = id
+        isCategory._◆_ Op f g = g ◆ f
         isCategory.unit-l-◆ Op = incl ⟨ unit-r-◆ ⟩
         isCategory.unit-r-◆ Op = incl ⟨ unit-l-◆ ⟩
         isCategory.unit-2-◆ Op = incl ⟨ unit-2-◆ ⟩

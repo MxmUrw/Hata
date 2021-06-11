@@ -14,7 +14,7 @@ open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
   instance
     isCategory:Functor : isCategory _ (Functor 𝒞 𝒟)
-    isCategory.Hom' isCategory:Functor = Natural
+    isCategory.Hom isCategory:Functor = Hom-Base Natural
     isCategory.isSetoid:Hom isCategory:Functor = isSetoid:Natural
     isCategory.id isCategory:Functor = {!!}
     isCategory._◆_ isCategory:Functor = {!!}

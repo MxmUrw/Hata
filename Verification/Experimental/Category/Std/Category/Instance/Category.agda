@@ -44,7 +44,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {𝒢 : Category 𝑘} wh
 
 instance
   isCategory:Category : ∀{𝑗 : 𝔏 ^ 3} -> isCategory (_) (Category 𝑗)
-  isCategory.Hom' isCategory:Category = Functor
+  isCategory.Hom isCategory:Category = Hom-Base Functor
   isCategory.isSetoid:Hom (isCategory:Category {𝑗}) = isSetoid:Hom-Base {{isSetoid:Category}}
   isCategory.id isCategory:Category = incl id-Cat
   isCategory._◆_ isCategory:Category F G = incl (⟨ F ⟩ ◆-Cat ⟨ G ⟩)
