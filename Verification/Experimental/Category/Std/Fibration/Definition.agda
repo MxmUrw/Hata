@@ -159,14 +159,11 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
       isCategory.assoc-r-◆ isCategory:Fiber = incl assoc-r-◆
       isCategory._◈_ isCategory:Fiber = {!!}
 
-  -- Fiber : (p : Fibration ℰ ℬ) -> Functor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _)
-  -- Fiber p = F since {!!}
-  --   where
-  --     F : ⟨ ℬ ⟩ -> Category _
-  --     F b = Fb since {!!}
-  --       where
-  --         Fb : 𝒰 _
-  --         Fb = ∑ λ (e : ⟨ ℰ ⟩) -> ⟨ p ⟩ e ≡ b
+  FiberF : (p : Fibration ℰ ℬ) -> Functor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _)
+  FiberF p = F since {!!}
+    where
+      F : ⟨ ℬ ⟩ -> Category _
+      F b = ′ Fiber p b ′
 
 
 

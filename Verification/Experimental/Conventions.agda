@@ -127,6 +127,16 @@ _◀ : (A : ∀(𝑖 : 𝔏 ^ n) -> Term -> TC 𝟙-𝒰) -> {𝑖 : 𝔏 ^ n} -
 _◀ A {𝑖} t = A 𝑖 t
 
 
+-- instantiate-syntax2 : {f : 𝔏 ^ n -> 𝔏 ^ m -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> (𝑗 : 𝔏 ^ m) -> 𝒰 (f 𝑖 𝑗)) -> (t : String) -> {{∀{𝑖 𝑗} -> Register (A 𝑖 𝑗) t}} -> ∀ (𝑖 : 𝔏 ^ n) -> ∀(𝑗 : 𝔏 ^ m) ->  SomeStructure
+-- instantiate-syntax2 {f} A t 𝑖 𝑗 = inst (λ i j -> A i j) t 𝑖 𝑗
+
+instantiate-syntax2 : {f : 𝔏 ^ n -> 𝔏} -> (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (f 𝑖)) -> (t : String) -> {{∀{𝑖} -> Register (A 𝑖) t}} -> ∀ (𝑖 : 𝔏 ^ n) ->  SomeStructure
+instantiate-syntax2 {f} A t 𝑖 = inst (λ i -> A i) t 𝑖
+
+infix 25 instantiate-syntax2
+syntax instantiate-syntax2 {n = n} (λ i -> A) t = instance[ t , i / n ] A
+
+
 
 
 

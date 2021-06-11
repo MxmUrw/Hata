@@ -22,6 +22,10 @@ open import Verification.Experimental.Theory.Std.Theory.Definition
 open import Verification.Experimental.Computation.Question.Definition
 open import Verification.Experimental.Computation.Question.Specific.Check
 
+open import Verification.Experimental.Category.Std.Fibration.BaseChange.Definition
+open import Verification.Experimental.Category.Std.Fibration.Definition
+open import Verification.Experimental.Category.Std.Fibration.Instance.BaseChange
+
 --------------------------------------------------------------------
 -- The type theoretical perspective on a theory
 
@@ -77,6 +81,16 @@ private
 𝐓𝐓Fam : ∀(𝑖) -> Family (𝐐𝐮𝐞𝐬𝐭 _) _
 𝐓𝐓Fam 𝑖 = TypeTheory 𝑖 since family Q
 
+private macro
+  p = instance[ "" , 𝑖 / 3 ] (𝐅𝐚𝐦 (𝐐𝐮𝐞𝐬𝐭 (𝑖 ⌄ 0 ⋯ 1)) (𝑖 ⌄ 2) -> 𝐓𝐲𝐩𝐞 _) ◀
+
+𝐓𝐓Fib : ∀ 𝑖 -> Fiber (p) (TypeTheory 𝑖)
+𝐓𝐓Fib 𝑖 = 𝐓𝐓Fam _ since record { isSectionFiber = refl }
+
+
+instance
+  hasBaseChange:𝐓𝐲𝐩𝐞 : ∀ {𝑖 : 𝔏 ^ 3} -> hasBaseChange _ (𝐓𝐲𝐩𝐞 _)
+  hasBaseChange:𝐓𝐲𝐩𝐞 {𝑖} = hasBaseChange:Fibration (p {𝑖})
 
 
 ---------------------------------------------------------------

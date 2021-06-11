@@ -12,6 +12,8 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Data.Universe.Everything
 
+open import Verification.Experimental.Category.Std.Fibration.Definition
+
 private variable
   𝒞 : Category 𝑖
 
@@ -67,5 +69,9 @@ module _ {𝒞 : Category 𝑗} {𝑖} where
     isFunctor.isSetoidHom:map isFunctor:ForgetFam = {!!}
     isFunctor.functoriality-id isFunctor:ForgetFam = {!!}
     isFunctor.functoriality-◆ isFunctor:ForgetFam = {!!}
+
+  instance
+    isFibration:ForgetFam : isFibration (𝐅𝐚𝐦 𝒞 𝑖) (𝐓𝐲𝐩𝐞 _) ′ Forget ′
+    isFibration:ForgetFam = {!!}
 
 

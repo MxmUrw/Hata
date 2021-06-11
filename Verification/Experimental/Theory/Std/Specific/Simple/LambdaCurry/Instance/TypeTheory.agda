@@ -11,6 +11,12 @@ open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Def
 open import Verification.Experimental.Theory.Std.TypeTheory.Definition
 open import Verification.Experimental.Computation.Question.Definition
 
+open import Verification.Experimental.Category.Std.Fibration.BaseChange.Definition
+open import Verification.Experimental.Category.Std.Fibration.Definition
+open import Verification.Experimental.Category.Std.Fibration.Instance.BaseChange
+
+open import Verification.Experimental.Category.Std.Limit.Specific.Pullback
+
 private
   instance
     λCurry : isTypeTheory _ ′ Curry.Statement ′
@@ -28,8 +34,16 @@ private
   f : ⊤-𝒰 ⟶ TypeTheory _
   f = incl (const ′ Curry.Statement ′)
 
-  g : ⊤-𝒰 ⟶ 𝐐𝐮𝐞𝐬𝐭 _
-  g = f
+zeta : Fiber _ ⊤-𝒰
+zeta = ⟨ f *! ⟩ (𝐓𝐓Fib _)
+
+-- (𝐓𝐓Fam _ since record { isSectionFiber = refl })
+
+
+  -- (obj (𝐓𝐓Fam _))
+
+  -- g : ⊤-𝒰 ⟶ 𝐐𝐮𝐞𝐬𝐭 _
+  -- g = {!!}
 
 
 
