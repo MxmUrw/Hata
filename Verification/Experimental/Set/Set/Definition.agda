@@ -1,8 +1,10 @@
 
 module Verification.Experimental.Set.Set.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Experimental.Conventions renaming (isSet to isSetᵈ)
 
+record isSet (A : 𝒰 𝑖) : 𝒰 𝑖 where
+  field fillPath-Set : isSetᵈ A
 
 Set : ∀ 𝑖 -> 𝒰 _
 Set 𝑖 = 𝒰 𝑖 :& isSet

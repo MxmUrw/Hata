@@ -1,9 +1,11 @@
 
 module Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition where
 
-open import Verification.Experimental.Conventions hiding (Forget)
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Experimental.Set.Set.Definition
+open import Verification.Experimental.Set.Set.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 

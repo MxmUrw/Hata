@@ -10,8 +10,11 @@ open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Totalorder
 
-𝔽 : ∀ n -> SomeStructure
-𝔽 n = structureOn (Fin n)
+open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
+
+macro
+  𝔽 : ∀ n -> SomeStructure
+  𝔽 n = #structureOn (Fin n)
 
 
 

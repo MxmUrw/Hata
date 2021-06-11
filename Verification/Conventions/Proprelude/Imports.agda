@@ -29,13 +29,13 @@ open import Cubical.Foundations.Id using (Id ; idToPath) renaming (refl to refl-
 -- open import Cubical.Foundations.Isomorphism public renaming (Iso to Iso-𝒰 ; iso to iso-𝒰)
 
 
-open import Cubical.HITs.SetTruncation renaming (elim to ∥_∥₂-elim ; elim2 to ∥_∥₂-elim2 ; elim3 to ∥_∥₂-elim3 ; rec to ∥_∥₂-rec) public
+open import Cubical.HITs.SetTruncation renaming (elim to ∥_∥₂-elim ; elim2 to ∥_∥₂-elim2 ; elim3 to ∥_∥₂-elim3 ; rec to ∥_∥₂-rec ; map to map-∥₂) public
 open import Cubical.HITs.PropositionalTruncation renaming (∣_∣ to ∣_∣-Prop ; elim to ∥_∥₁-elim ; elim2 to ∥_∥₁-elim2 ; elim3 to ∥_∥₁-elim3 ; rec to ∥_∥₁-rec ; rec2 to rec2-∥₁ ; map to map-∥₁) public
 
 -- open import Cubical.Data.Empty renaming (⊥ to 𝟘-𝒰 ; rec to 𝟘-rec ; elim to 𝟘-elim) public
 -- open import Cubical.Data.Unit renaming (Unit to 𝟙-𝒰 ; isSetUnit to isSet𝟙) public
 -- open import Cubical.Data.FinData.Base renaming (Fin to Fin-R ; toℕ to toℕ-Fin-R ; ¬Fin0 to ¬Fin0-R) public
--- open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
+open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
 -- open import Cubical.Data.Bool.Base renaming (_≟_ to _≟-Bool_ ; _⊕_ to _⊕-Bool_) public
 -- open import Cubical.Data.Bool.Properties public
 -- open import Cubical.Data.Vec.Properties public

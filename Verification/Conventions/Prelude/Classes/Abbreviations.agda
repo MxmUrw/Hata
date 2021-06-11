@@ -9,13 +9,13 @@ record INotation:Algebra (A : 𝒰 𝑖) 𝑗 : 𝒰 (𝑖 ⊔ (𝑗 ⁺)) where
   infix 400 _-Alg
 open INotation:Algebra {{...}} public
 
-record INotation:Forget (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
-  field Forget : A -> B
-open INotation:Forget {{...}} public
+-- record INotation:Forget (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
+--   field Forget : A -> B
+-- open INotation:Forget {{...}} public
 
-record INotation:Free (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
-  field Free : A -> B
-open INotation:Free {{...}} public
+-- record INotation:Free (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
+--   field Free : A -> B
+-- open INotation:Free {{...}} public
 
 record INotation:Reinterpret (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
   field reinterpret : A -> B

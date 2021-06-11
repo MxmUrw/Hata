@@ -1,10 +1,12 @@
 
 module Verification.Experimental.Theory.Std.TypeTheory.Definition where
 
-open import Verification.Experimental.Conventions hiding (Forget)
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Decidable
+open import Verification.Experimental.Set.Set.Definition
+open import Verification.Experimental.Set.Set.Instance.Category
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Universe.Instance.Category
 open import Verification.Experimental.Data.Prop.Everything
@@ -12,8 +14,9 @@ open import Verification.Experimental.Data.Prop.Everything
 -- open import Verification.Experimental.Data.Rational.Definition
 -- open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+open import Verification.Experimental.Category.Std.Category.Subcategory.Full2
 open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
 -- open import Verification.Experimental.Computation.Question.Construction.Product
 open import Verification.Experimental.Theory.Std.Theory.Definition
 open import Verification.Experimental.Computation.Question.Definition
@@ -22,30 +25,29 @@ open import Verification.Experimental.Computation.Question.Specific.Check
 --------------------------------------------------------------------
 -- The type theoretical perspective on a theory
 
-record isTypeTheory (𝑖 : 𝔏 ^ 3) (Type : 𝒰' 𝑗) : 𝒰' (𝑖 ⁺ ､ 𝑗) where
+record isTypeTheory (𝑖 : 𝔏 ^ 3) (Type : Set 𝑗) : 𝒰' (𝑖 ⁺ ､ 𝑗) where
   constructor typeTheory
-
 
   field Termᵘ : 𝒰 (𝑖 ⌄ 0)
   field {{isSetoid:Term}} : isSetoid (𝑖 ⌄ 1) Termᵘ
 
-  field _∶_ : Termᵘ -> Type -> 𝒰 (𝑖 ⌄ 2)
-  field preserveType : ∀ {t₁ t₂} -> (t₁ ∼ t₂) -> ∀{τ : Type} -> t₁ ∶ τ -> t₂ ∶ τ
+  field _∶_ : Termᵘ -> ⟨ Type ⟩ -> 𝒰 (𝑖 ⌄ 2)
+  field preserveType : ∀ {t₁ t₂} -> (t₁ ∼ t₂) -> ∀{τ : ⟨ Type ⟩} -> t₁ ∶ τ -> t₂ ∶ τ
 
   macro Term = #structureOn Termᵘ
 
-  TypedTermᵘ : Type -> 𝒰 _
+  TypedTermᵘ : ⟨ Type ⟩ -> 𝒰 _
   TypedTermᵘ τ = (∑ λ (t : Term) -> t ∶ τ)
 
   instance
-    isSetoid:TypedTerm : ∀{τ : Type} -> isSetoid (𝑖 ⌄ 0) (TypedTermᵘ τ)
+    isSetoid:TypedTerm : ∀{τ : ⟨ Type ⟩} -> isSetoid (𝑖 ⌄ 0) (TypedTermᵘ τ)
     isSetoid:TypedTerm = {!!}
 
 
 open isTypeTheory {{...}} public
 
 TypeTheory : (𝑖 : 𝔏 ^ 4) -> 𝒰 _
-TypeTheory 𝑖 = (𝒰 (𝑖 ⌄ 0)) :& isTypeTheory (𝑖 ⌄ 1 ⋯ 3)
+TypeTheory 𝑖 = (Set (𝑖 ⌄ 0)) :& isTypeTheory (𝑖 ⌄ 1 ⋯ 3)
 
 
 private
@@ -57,19 +59,24 @@ instance
 
 macro
   𝐓𝐓 : ∀(𝑖) -> SomeStructure
-  𝐓𝐓 (𝑖) = #structureOn (FullSubcategory (Forget {𝑖}))
+  𝐓𝐓 (𝑖) = #structureOn (TypeTheory 𝑖)
+
+instance
+  isCategory:𝐓𝐓 : isCategory _ (𝐓𝐓 𝑖)
+  isCategory:𝐓𝐓 = isCategory:FullSubcategory Forget
 
 ---------------------------------------------------------------
 -- Solved Type theories are ones for which the type checking
 -- problem is solved
 
 private
-  Q : 𝐓𝐓 𝑖 -> CHECK _
-  Q (incl 𝓣) = {!!}
+  Q : 𝐓𝐓 𝑖 -> 𝐐𝐮𝐞𝐬𝐭 _
+  Q 𝓣 = (Term ×-𝒰 ⟨ 𝓣 ⟩) since answerWith (λ (t , τ) -> isDecidable (t ∶ τ))
 
--- instance
---   isQuestion:𝐓𝐓 : isQuestion _ (𝐓𝐓 𝑖)
---   isQuestion:𝐓𝐓 = answerWith (λ (incl x) → isDecidable )
+
+𝐓𝐓Fam : ∀(𝑖) -> Family (𝐐𝐮𝐞𝐬𝐭 _) _
+𝐓𝐓Fam 𝑖 = TypeTheory 𝑖 since family Q
+
 
 
 ---------------------------------------------------------------

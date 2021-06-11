@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Category.Std.Category.Subcategory.Full2 where
 
-open import Verification.Experimental.Conventions hiding (Forget)
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Discrete

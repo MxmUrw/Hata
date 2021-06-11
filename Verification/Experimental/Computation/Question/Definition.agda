@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Computation.Question.Definition where
 
-open import Verification.Experimental.Conventions hiding (Forget)
+open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Prop.Everything

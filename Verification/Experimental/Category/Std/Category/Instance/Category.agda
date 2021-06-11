@@ -55,8 +55,9 @@ instance
   isCategory.assoc-r-◆ isCategory:Category = {!!}
   isCategory._◈_ isCategory:Category = {!!}
 
-𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
-𝐂𝐚𝐭 𝑖 = #structureOn (Category 𝑖)
+macro
+  𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
+  𝐂𝐚𝐭 𝑖 = #structureOn (Category 𝑖)
 
 
 

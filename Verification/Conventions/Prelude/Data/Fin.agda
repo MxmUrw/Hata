@@ -5,7 +5,9 @@ open import Verification.Conventions.Proprelude
 open import Verification.Conventions.Prelude.Classes
 open import Verification.Conventions.Prelude.Data.Nat
 
-open import Verification.Conventions.Prelude.Data.FinData.Base renaming (Fin to Fin-R ; toℕ to toℕ-Fin-R ; ¬Fin0 to ¬Fin0-R) public
+open import Verification.Conventions.Prelude.Data.FinData.Base public
+-- renaming (Fin to Fin-R) public
+-- ; toℕ to toℕ-Fin-R ; ¬Fin0 to ¬Fin0-R) public
 
 
 ≤→Fin : ∀{a b} -> {{_ : a ≤-ℕ-Dec b}} -> (Fin-R (suc b))
