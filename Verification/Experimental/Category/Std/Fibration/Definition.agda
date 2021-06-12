@@ -35,12 +35,6 @@ cong₂-Str f refl-StrId refl-StrId = refl-StrId
 --   field 
 
 
-isSetoid:FullSubsetoid : (X : Setoid 𝑖) {A : 𝒰 𝑗} (ϕ : A -> ⟨ X ⟩) -> isSetoid _ A
-isSetoid._∼'_ (isSetoid:FullSubsetoid X ϕ) = λ a b -> ϕ a ∼ ϕ b
-isSetoid.isEquivRel:∼ (isSetoid:FullSubsetoid X ϕ) = equivRel (incl refl) (λ p -> incl (sym ⟨ p ⟩)) (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
-
-isContr-Std : (A : 𝒰 _) {{_ : Setoid 𝑖 on A}} -> 𝒰 _
-isContr-Std A = ∑ λ (a : A) -> ∀ (b : A) -> a ∼ b
 -- ∀ (a b : A) -> a ∼ b
 
 
