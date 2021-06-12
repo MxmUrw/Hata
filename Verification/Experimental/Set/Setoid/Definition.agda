@@ -2,7 +2,6 @@
 module Verification.Experimental.Set.Setoid.Definition where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Data.Prop.Definition
 
 

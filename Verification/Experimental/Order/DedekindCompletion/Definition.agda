@@ -4,7 +4,7 @@ module Verification.Experimental.Order.DedekindCompletion.Definition where
 open import Verification.Conventions
 open import Verification.Experimental.Data.Int.Definition
 open import Verification.Experimental.Data.Rational.Definition
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Algebra.Setoid
 open import Verification.Experimental.Order.Linearorder
 

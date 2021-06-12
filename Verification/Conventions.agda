@@ -2,8 +2,10 @@
 
 module Verification.Conventions where
 
-open import Verification.Conventions.Prelude hiding (𝑖 ; 𝑗 ; 𝑘 ; 𝑙) public
+open import Verification.Conventions.Prelude hiding (𝑖 ; 𝑗 ; 𝑘 ; 𝑙 ; ′_′) public
 open import Verification.Conventions.Meta public
+open import Verification.Conventions.Meta2.Macros public
+open import Verification.Conventions.Meta2.Structure public
 
 variable
   n-𝑖𝑖 n-𝑗𝑗 n-𝑘𝑘 n-𝑙𝑙 : ℕ

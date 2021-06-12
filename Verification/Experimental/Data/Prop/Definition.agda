@@ -2,7 +2,6 @@
 module Verification.Experimental.Data.Prop.Definition where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
 
 record Prop (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   -- no-eta-equality

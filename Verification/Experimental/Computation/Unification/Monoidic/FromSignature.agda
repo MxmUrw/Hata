@@ -2,7 +2,7 @@
 module Verification.Experimental.Theory.Computation.Unification.Monoidic.FromSignature where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
 open import Verification.Experimental.Category.Std.Category.As.Monoid

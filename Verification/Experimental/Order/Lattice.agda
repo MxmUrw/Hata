@@ -8,7 +8,6 @@ open import Verification.Experimental.Set.Setoid.Definition
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Meta.Structure
 
 
 module _ {A : 𝒰 _} {{_ : Preorder 𝑗 on A}} where

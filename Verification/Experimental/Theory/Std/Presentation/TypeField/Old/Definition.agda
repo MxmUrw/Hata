@@ -2,7 +2,7 @@
 module Verification.Experimental.Theory.Syndetic.v2.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Definition

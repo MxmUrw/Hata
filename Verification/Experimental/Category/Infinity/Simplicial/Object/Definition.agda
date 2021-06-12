@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Infinity.Simplicial.Object.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Data.Fin.Definition
 open import Verification.Experimental.Set.Finite.Definition
 open import Verification.Experimental.Set.Setoid.Definition

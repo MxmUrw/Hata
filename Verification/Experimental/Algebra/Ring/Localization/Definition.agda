@@ -2,7 +2,7 @@
 module Verification.Experimental.Algebra.Ring.Localization.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Algebra.Monoid.Definition

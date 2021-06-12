@@ -2,7 +2,7 @@
 module Verification.Experimental.Data.FinR.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 
 module VEDFD where
   private

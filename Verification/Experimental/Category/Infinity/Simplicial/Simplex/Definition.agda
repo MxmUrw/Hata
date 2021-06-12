@@ -3,7 +3,7 @@ module Verification.Experimental.Category.Infinity.Simplicial.Simplex.Definition
 
 open import Verification.Conventions
 open import Verification.Experimental.Set.Finite.Definition
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Order.Preorder

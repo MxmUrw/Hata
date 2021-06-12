@@ -2,7 +2,7 @@
 module Verification.Experimental.Data.Int.Definition where
 
 open import Verification.Experimental.Conventions hiding (ℕ)
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Algebra.Monoid
 open import Verification.Experimental.Algebra.Group

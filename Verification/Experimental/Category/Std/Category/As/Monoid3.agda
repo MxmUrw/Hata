@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Category.As.Monoid3 where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Algebra.Monoid.Definition

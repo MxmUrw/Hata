@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Fibration.Definition where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Set.Instance.Category

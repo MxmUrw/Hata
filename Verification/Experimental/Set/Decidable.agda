@@ -2,7 +2,7 @@
 module Verification.Experimental.Set.Decidable where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 -- open import Verification.Experimental.Data.Prop.Everything
 
 isDecidable : ∀(A : 𝒰 𝑖) -> 𝒰 _

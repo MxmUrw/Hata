@@ -2,7 +2,7 @@
 module Verification.Experimental.Data.Universe.Instance.Preorder where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Data.Universe.Definition

@@ -7,6 +7,10 @@ open import Verification.Experimental.Set.Function.Injective
 -- open import Verification.Core.Category.EpiMono
 -- open import Verification.Core.Category.Instance.Type
 
+
+
+
+
 module _ {A : 𝒰 ℓ} {B : 𝒰 ℓ'} where
   split-+-Str : (x : A +-𝒰 B) -> (∑ λ (a : A) -> x ≡-Str left a) +-𝒰 (∑ λ b -> x ≡-Str right b)
   split-+-Str (left x) = left (x , refl)

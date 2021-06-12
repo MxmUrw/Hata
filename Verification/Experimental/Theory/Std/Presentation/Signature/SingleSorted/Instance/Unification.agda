@@ -2,7 +2,7 @@
 module Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Unification where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Data.Fin.Definition
 open import Verification.Experimental.Set.Setoid

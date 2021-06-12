@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Graph.Definition where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 
 open import Verification.Conventions.Meta.Term
