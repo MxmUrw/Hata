@@ -6,6 +6,10 @@ open import Application.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Computation.Question.Definition
 open import Verification.Experimental.Computation.Question.Specific.Small
+open import Verification.Experimental.Data.Sum.Definition
+open import Verification.Experimental.Data.Sum.Instance.Monad
+open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Experimental.Category.Std.Monad.Definition
 
 {-# FOREIGN GHC import Hata.Runtime.Service.Parse.GeneralizedLambdaTerm #-}
 
@@ -53,7 +57,7 @@ data Term-GL (σ : Signature-GL) : 𝒰₀ where
 
 instance
   isQuestion:Signature-GL : isQuestion _ Signature-GL
-  isQuestion:Signature-GL = answerWith (λ σ → String -> Error +-𝒰 Term-GL σ)
+  isQuestion:Signature-GL = answerWith (λ σ → String -> Error + Term-GL σ)
 
 
 module _ {A : 𝒰 𝑖} where
@@ -61,11 +65,17 @@ module _ {A : 𝒰 𝑖} where
   Vec→List [] = []
   Vec→List (v ∷ vs) = v ∷ Vec→List vs
 
-check-TermBase : ∀{σ} -> TermBase-GL -> Error +-𝒰 Term-GL σ
-check-TermBase (te x x₁) = {!!}
-check-TermBase (var x) = right (var x)
-check-TermBase (lam x t) = {!!}
-check-TermBase (app t t₁) = {!!}
+check-TermBase : ∀(σ) -> TermBase-GL -> Error + Term-GL σ
+check-TermBase σ (te x x₁) = {!!}
+check-TermBase σ (var x) = right (var x)
+check-TermBase σ (lam x t) = do
+  t <- check-TermBase σ t
+  return (lam x t)
+check-TermBase σ (app t s) = do
+  t' <- check-TermBase σ t
+  s' <- check-TermBase σ s
+  return (app t' s')
+
 
 
 private
@@ -76,10 +86,14 @@ instance
   isReduction:ρ : isReductive ′ Signature-GL ′ TRIVIAL ρ
   isReduction:ρ = reductive λ {σ} x input →
     let σ' = Vec→List (σ. keywords)
-        baseTerm = parseTerm-GL σ' input
-    in case baseTerm of
-         (left)
-         (λ t -> check-TermBase t)
+    in do
+      t <- parseTerm-GL σ' input
+      check-TermBase σ t
+
+    --     baseTerm = 
+    -- in case baseTerm of
+    --      (left)
+    --      (λ t -> check-TermBase σ t)
 
 
 
