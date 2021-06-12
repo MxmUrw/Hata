@@ -25,4 +25,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
     isCategory.assoc-r-◆ isCategory:Functor = {!!}
     isCategory._◈_ isCategory:Functor = {!!}
 
+module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
+  macro 𝐅𝐮𝐧𝐜 = #structureOn (Functor 𝒞 𝒟)
+
 

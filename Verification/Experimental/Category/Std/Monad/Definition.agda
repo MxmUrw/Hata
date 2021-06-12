@@ -25,6 +25,7 @@ module _ {𝒞 : Category 𝑖} where
 -- [Definition]
 -- | A functor |F : 𝒞 ⟶ 𝒞| is a monad,
   record isMonad (F : Functor 𝒞 𝒞) : 𝒰 (⨆ 𝑖) where
+    constructor monad
 --  | if the following additional data is given:
 
 -- | - Two maps |pure| and |join|:
