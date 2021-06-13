@@ -3,11 +3,11 @@
 module Verification.Experimental.Category.Multi.Definition where
 
 open import Verification.Conventions
-open import Verification.Core.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Definition
 
-record isPlainMultiCat (𝒞 : 𝒰 𝑖) 𝑗 : 𝒰 (𝑖 ､ 𝑗 ⁺) where
-  field Hom-MC : List 𝒞 -> 𝒞 -> 𝒰 𝑗
-        id-MC : ∀{a : 𝒞} -> Hom-MC (a ∷ []) a
+record isMultiCategory (𝒞 : 𝒰 𝑖) 𝑗 : 𝒰 (𝑖 ､ 𝑗 ⁺) where
+  field Hom-MC : ∀ n -> (Fin n -> 𝒞) -> 𝒞 -> 𝒰 𝑗
+        id-MC : ∀{a : 𝒞} -> Hom-MC 1 (const a) a
         -- comp-MC : ∀(as : List (List 𝒞 ×-𝒰 𝒞)) -> ()
 
 

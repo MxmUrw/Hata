@@ -84,6 +84,7 @@ module _ {A : 𝒰 𝑖}
     hasFiniteJoins.[_,_]-∨   hasFiniteJoins:Family = λ f g -> incl ⟨ [ incl ⟨ f ⟩ , incl ⟨ g ⟩ ]-∨ ⟩
 
 
+
 module _ {A : 𝒰 𝑖}
          {{_ : isSetoid 𝑗 A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
@@ -104,8 +105,14 @@ module _ {A : 𝒰 𝑖}
     _≀∧≀_ : {a b c d : A} -> (a ∼ b) -> (c ∼ d) -> a ∧ c ∼ b ∧ d
     _≀∧≀_ p q = antisym (map-∧ (by-∼-≤ p) (by-∼-≤ q)) (map-∧ (by-∼-≤ (p ⁻¹)) (by-∼-≤ (q ⁻¹)))
 
+    sym-∧ : ∀{a b : A} -> a ∧ b ∼ b ∧ a
+    sym-∧ = antisym (⟨ π₁-∧ , π₀-∧ ⟩-∧) (⟨ π₁-∧ , π₀-∧ ⟩-∧)
+
     unit-r-∧ : ∀{a : A} -> a ∧ ⊤ ∼ a
     unit-r-∧ = antisym π₀-∧ ⟨ reflexive , terminal-⊤ ⟩-∧
+
+    unit-l-∧ : ∀{a : A} -> ⊤ ∧ a ∼ a
+    unit-l-∧ = sym-∧ ∙ unit-r-∧
 
     assoc-l-∧ : ∀{a b c : A} -> (a ∧ b) ∧ c ∼ a ∧ (b ∧ c)
     assoc-l-∧ = antisym
@@ -133,6 +140,17 @@ module _ {A : 𝒰 𝑖}
     hasAllJoins.ι-⋁ hasAllJoins:Family = λ x → {!!}
     hasAllJoins.[ hasAllJoins:Family ]-⋁ = {!!}
 
+
+  module _ {{_ : isPartialorder ′ A ′}}
+         {{_ : hasFiniteJoins ′ A ′}} where
+
+    empty-⋁ : ∀{B : 𝒰 𝑙} -> (B -> 𝟘-𝒰) -> {F : B -> A} -> ⋁ F ∼ ⊥
+    empty-⋁ P {F} = antisym [ (λ b -> 𝟘-rec (P b)) ]-⋁ (initial-⊥)
+
+    duplicate-r-⋁ : ∀{B : 𝒰 𝑙} -> {F : B -> A} -> (b : B) -> {a : A}
+                    -> F b ∼ a -> ⋁ F ∨ a ∼ ⋁ F
+    duplicate-r-⋁ b {a} p = antisym [ reflexive , (by-∼-≤ (p ⁻¹)) ⟡ ι-⋁ b ]-∨ (ι₀-∨)
+
 module _ {A : 𝒰 𝑖}
          {{_ : isSetoid 𝑗 A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
@@ -142,6 +160,20 @@ module _ {A : 𝒰 𝑖}
     hasAllMeets.⋀ hasAllMeets:Family F = λ i -> ⋀ (λ x -> F x i)
     hasAllMeets.π-⋀ hasAllMeets:Family = λ x → {!!}
     hasAllMeets.⟨ hasAllMeets:Family ⟩-⋀ = {!!}
+
+module _ {A : 𝒰 𝑖}
+         {{_ : isSetoid 𝑗 A}}
+         {{_ : isPreorder 𝑘 ′ A ′}}
+         {{_ : isPartialorder ′ A ′}}
+         {{_ : hasFiniteJoins ′ A ′}}
+         {{_ : hasFiniteMeets ′ A ′}} where
+
+  absorb-l-∧ : ∀{a : A} -> ⊥ ∧ a ∼ ⊥
+  absorb-l-∧ = antisym π₀-∧ initial-⊥
+
+  absorb-r-∨ : ∀{a : A} -> a ∨ ⊤ ∼ ⊤
+  absorb-r-∨ = antisym terminal-⊤ ι₁-∨
+
 
 
 
