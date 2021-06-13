@@ -10,6 +10,7 @@ open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Data.Sum.Instance.Monad
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Experimental.Data.List.Instance.Traversable
 
 {-# FOREIGN GHC import Hata.Runtime.Service.Parse.GeneralizedLambdaTerm #-}
 
@@ -66,7 +67,12 @@ module _ {A : 𝒰 𝑖} where
   Vec→List (v ∷ vs) = v ∷ Vec→List vs
 
 check-TermBase : ∀(σ) -> TermBase-GL -> Error + Term-GL σ
-check-TermBase σ (te x x₁) = {!!}
+check-TermBase σ (te x ts) = do
+      ts <- traverse (f ts)
+      return {!!}
+    where f : List TermBase-GL -> List (Error + Term-GL σ)
+          f [] = []
+          f (x ∷ xs) = check-TermBase σ x ∷ f xs
 check-TermBase σ (var x) = right (var x)
 check-TermBase σ (lam x t) = do
   t <- check-TermBase σ t

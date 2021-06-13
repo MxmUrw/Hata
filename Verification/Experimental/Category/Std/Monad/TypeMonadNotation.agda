@@ -28,4 +28,13 @@ module _ {T : _ -> _} {{_ : Monad (𝐓𝐲𝐩𝐞 𝑖) on T}} where
   return = ⟨ pure ⟩
 
 
+record isTraversable (T : 𝒰 𝑖 -> 𝒰 𝑖) : 𝒰 (𝑖 ⁺) where
+  constructor traversable
+  field traverse : ∀{M : _ -> _} {{_ : Monad (𝐓𝐲𝐩𝐞 𝑖) on M}}
+                 -> ∀{A}
+                 -> T (M A) -> M (T A)
+
+
+open isTraversable {{...}} public
+
 
