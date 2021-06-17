@@ -100,3 +100,11 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
     isFinite:∑ : {{_ : isFinite A}} -> {{_ : ∀{a : A} -> isFinite (B a)}} -> isFinite (∑ B)
     isFinite:∑ = {!!}
 
+module _ (A : 𝒰 𝑖) {{_ : isFinite A}} where
+  size : ℕ
+  size = {!!}
+
+module _ {A : 𝒰 𝑖} {{_ : isFinite A}} where
+  fromFin : 𝔽ʳ (size A) -> A
+  fromFin = {!!}
+

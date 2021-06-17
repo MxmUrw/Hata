@@ -12,6 +12,7 @@ open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Algebra.Monoid.Definition
 
 open import Verification.Experimental.Category.Multi.Graph.Definition
+open import Verification.Experimental.Category.Multi.Category.Definition
 
 
 module _ {A : 𝒰 _} {{_ : Monoid 𝑖 on A}} where
@@ -25,27 +26,37 @@ module _ {A : ℕ} {B : 𝔽ʳ A -> ℕ} {C : 𝒰 𝑖}where
   uncurry-𝔽ʳ f x = {!!}
 
 module _ (G : MultiGraph 𝑖) where
-  data FreeHomᵐ : ∀{n} -> (Fin-R n -> ⟨ G ⟩) -> ⟨ G ⟩ -> 𝒰 𝑖 where
-    idᵐ-Free : ∀{g : ⟨ G ⟩} -> FreeHomᵐ {1} (const g) g
+  data FreeHomᵐ : {A : 𝒰₀} -> {{_ : isFinite A}} -> (A -> ⟨ G ⟩) -> ⟨ G ⟩ -> 𝒰 (𝑖 ⁺) where
+    idᵐ-Free : ∀{g : ⟨ G ⟩} -> FreeHomᵐ {𝔽ʳ 1} (const g) g
     ιᵐ-Free : ∀{n : ℕ} {o : Fin-R n -> ⟨ G ⟩} {g : ⟨ G ⟩} -> (Edgeᵐ o g)
               -> FreeHomᵐ o g
-    compᵐ-Free : ∀{A : ℕ} -> {B : 𝔽ʳ A -> ℕ}
+    compᵐ-Free : ∀{A : 𝒰₀} -> {B : A -> 𝒰₀}
+               -- the finiteness proofs
+                  -> {{_ : isFinite A}} -> {{_ : ∀{a : A} -> isFinite (B a)}}
                -- the objects
-                  -> {x : ⟨ G ⟩} -> {y : 𝔽ʳ A -> ⟨ G ⟩} {z : ∀(a : 𝔽ʳ A) -> 𝔽ʳ (B a) -> ⟨ G ⟩}
+                  -> {x : ⟨ G ⟩} -> {y : A -> ⟨ G ⟩} {z : ∀(a : A) -> B a -> ⟨ G ⟩}
                -- the homs
                   -> FreeHomᵐ y x
-                  -> (∀{a : 𝔽ʳ A} -> FreeHomᵐ (z a) (y a))
-                  -> FreeHomᵐ {⭑ B} (uncurry-𝔽ʳ z) x
+                  -> (∀{a : A} -> FreeHomᵐ (z a) (y a))
+                  -> FreeHomᵐ (uncurry z) x
 
-  data FreeHomᵐ-↓ : ∀{n} -> (Fin-R n -> ⟨ G ⟩) -> ⟨ G ⟩ -> 𝒰 𝑖 where
-    idᵐ-Free : ∀{g : ⟨ G ⟩} -> FreeHomᵐ-↓ {1} (const g) g
-    compᵐ-Free : ∀{A : ℕ} -> {B : 𝔽ʳ A -> ℕ}
+
+  data FreeHomᵐ-↓ : {A : 𝒰₀} -> {{_ : isFinite A}} -> (A -> ⟨ G ⟩) -> ⟨ G ⟩ -> 𝒰 (𝑖 ⁺) where
+    idᵐ-Free : ∀{g : ⟨ G ⟩} -> FreeHomᵐ-↓ {𝔽ʳ 1} (const g) g
+    compᵐ-Free : ∀{A : 𝒰₀} -> {B : A -> 𝒰₀}
+               -- the finiteness proofs
+                  -> {{_ : isFinite A}} -> {{_ : ∀{a : A} -> isFinite (B a)}}
                -- the objects
-                  -> {x : ⟨ G ⟩} -> {y : 𝔽ʳ A -> ⟨ G ⟩} {z : ∀(a : 𝔽ʳ A) -> 𝔽ʳ (B a) -> ⟨ G ⟩}
+                  -> {x : ⟨ G ⟩} -> {y : A -> ⟨ G ⟩} {z : ∀(a : A) -> B a -> ⟨ G ⟩}
                -- the homs
-                  -> Edgeᵐ y x
-                  -> (∀{a : 𝔽ʳ A} -> FreeHomᵐ-↓ (z a) (y a))
-                  -> FreeHomᵐ-↓ {⭑ B} (uncurry-𝔽ʳ z) x
+                  -> Edgeᵐ (y ∘ fromFin) x
+                  -> (∀{a : A} -> FreeHomᵐ-↓ (z a) (y a))
+                  -> FreeHomᵐ-↓ (uncurry z) x
+
+
+
+
+{-
 
   private
     module _ {n} {t : Fin-R n -> ⟨ G ⟩} {h : ⟨ G ⟩} where
@@ -54,7 +65,7 @@ module _ (G : MultiGraph 𝑖) where
       normalise idᵐ-Free = idᵐ-Free
       normalise (ιᵐ-Free x) = {!!}
       normalise (compᵐ-Free idᵐ-Free y) = {!!}
-      normalise (compᵐ-Free (ιᵐ-Free x) y) = compᵐ-Free x (λ {a} -> ?)
+      normalise (compᵐ-Free (ιᵐ-Free x) y) = compᵐ-Free x (λ {a} -> {!!})
       normalise (compᵐ-Free (compᵐ-Free x x₁) y) = {!!}
 
-
+-}
