@@ -3,6 +3,7 @@ module Verification.Experimental.Set.Finite.ReachableSubsets.Definition where
 
 open import Verification.Conventions
 
+open import Verification.Experimental.Data.Fin.Definition
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Data.Sum.Definition
@@ -69,7 +70,7 @@ module _ {A B : 𝒰 _} {{_ : Finite 𝑖 on A}} {{_ : Finite 𝑖 on B}} where
           xx = {!!}
 
           w : Fin-R m +-𝒰 Fin-R n -> A +-𝒰 B
-          w = map-+-𝒰 u v
+          w = map-+ u v
 
           p' : (P ∣ left) ∨ Im u ∼ (Q ∣ left)
           p' = p
@@ -89,4 +90,13 @@ module _ {A B : 𝒰 _} {{_ : Finite 𝑖 on A}} {{_ : Finite 𝑖 on B}} where
         ; reachEq = P₁
         }
 
+instance
+  isFinite:𝔽 : isFinite (Fin-R n)
+  isFinite:𝔽 = {!!}
+
+
+module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
+  instance
+    isFinite:∑ : {{_ : isFinite A}} -> {{_ : ∀{a : A} -> isFinite (B a)}} -> isFinite (∑ B)
+    isFinite:∑ = {!!}
 
