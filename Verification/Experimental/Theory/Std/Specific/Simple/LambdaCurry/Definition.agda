@@ -5,6 +5,9 @@ open import Verification.Experimental.Conventions hiding (isSet)
 open import Verification.Experimental.Data.Fin.Definition
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Setoid
+open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Order.Preorder
+open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
 
 data TySig : ℕ -> 𝒰₀ where
@@ -36,6 +39,25 @@ data Term-λ : 𝒰₀ where
 data Ctx-λ (A : 𝒰₀) : 𝒰₀ where
   [] : Ctx-λ A
   _,_ : Ctx-λ A -> Ty-λ A -> Ctx-λ A
+
+instance
+  IBootEq:⊥ : ∀{𝑖} -> IBootEq {𝑖} (⊥)
+  IBootEq:⊥ = {!!}
+
+instance
+  IBootEq:Ctx-λ : ∀{A} -> {{_ : IBootEq A}} -> IBootEq (Ctx-λ A)
+  IBootEq:Ctx-λ = {!!}
+
+instance
+  IBootEq:TySig : IBootEq (TySig n)
+  IBootEq:TySig = {!!}
+
+instance
+  IBootEq:Term : ∀{A σ} -> {{_ : IBootEq A}} -> {{∀ {n} -> IBootEq (σ n)}} -> IBootEq (Term {𝑖} σ A)
+  IBootEq:Term = {!!}
+
+Info : 𝒰₀
+Info = Judgement (Ctx-λ ⊥) (Ty-λ ⊥)
 
 Statement : 𝒰₀
 Statement = ∑ λ n -> Judgement (Ctx-λ (Fin n)) (Ty-λ (Fin n))

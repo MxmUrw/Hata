@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Space.Topological.Definition where
+module Verification.Experimental.Space.Typological.Definition where
 
 open import Verification.Conventions hiding (Discrete ; ∅ ; Bool ; _and_)
 open import Verification.Experimental.Set.Setoid
@@ -21,11 +21,11 @@ module _ {A B : 𝒰 𝑖} where
 
   syntax ↓-syntax ℬ a b = a ↓[ ℬ ] b
 
-record isTopologicalBaseᶜ {A : 𝒰 𝑖} {Base : 𝒰 𝑖} (ℬ : Base -> (A -> Prop 𝑖)) : 𝒰 (𝑖 ⁺) where
+record isTypologicalBase {A : 𝒰 𝑖} {Base : 𝒰 𝑖} (ℬ : Base -> (A -> Prop 𝑖)) : 𝒰 (𝑖 ⁺) where
   -- field Base : 𝒰 𝑖
   -- field ℬ : Base -> (A -> Prop 𝑖)
 
-record isTopologicalᶜ (A : 𝒰 𝑖) : 𝒰 (𝑖 ⁺) where
+record isTypological (A : 𝒰 𝑖) : 𝒰 (𝑖 ⁺) where
   constructor topological
   field Base : 𝒰 𝑖
   field ℬ : Base -> (A -> Prop 𝑖)
@@ -47,12 +47,16 @@ record isTopologicalᶜ (A : 𝒰 𝑖) : 𝒰 (𝑖 ⁺) where
   isOpen U = ∑ λ (I : 𝒰 𝑖) -> ∑ λ (F : I -> Base) -> U ∼ ⋁ (ℬ ∘ F)
 
 
-open isTopologicalᶜ {{...}} public
+open isTypological {{...}} public
 
-Topologicalᶜ : ∀ 𝑖 -> 𝒰 _
-Topologicalᶜ 𝑖 = 𝒰 𝑖 :& isTopologicalᶜ
+Typological : ∀ 𝑖 -> 𝒰 _
+Typological 𝑖 = 𝒰 𝑖 :& isTypological
 
-𝐓𝐨𝐩ᶜ : ∀ 𝑖 -> SomeStructure
-𝐓𝐨𝐩ᶜ 𝑖 = #structureOn (Topologicalᶜ 𝑖)
+𝐓𝐲𝐩 : ∀ 𝑖 -> SomeStructure
+𝐓𝐲𝐩 𝑖 = #structureOn (Typological 𝑖)
+
+
+
+
 
 
