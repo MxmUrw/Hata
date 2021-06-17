@@ -28,15 +28,15 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} w
 
 record isMultiCategory (𝑗 : 𝔏) (ℳ : 𝒰 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where
   field Homᵐ : ∀{A : 𝒰₀} {{_ : isFinite A}} -> (A -> ℳ) -> ℳ -> 𝒰 𝑗
-        idᵐ : ∀{a : ℳ} -> Homᵐ {Fin-R 1} (const a) a
+        idᵐ : ∀{a : ℳ} -> Homᵐ {𝔽ʳ 1} (const a) a
         _◆ᵐ_ : ∀{A : 𝒰₀} -> {B : A -> 𝒰₀}
                -- the finiteness proofs
                   -> {{_ : isFinite A}} -> {{_ : ∀{a : A} -> isFinite (B a)}}
                -- the objects
                   -> {x : ℳ} -> {y : A -> ℳ} {z : ∀(a : A) -> B a -> ℳ}
                -- the homs
-                  -> (∀{a : A} -> Homᵐ (z a) (y a))
                   -> Homᵐ y x
+                  -> (∀{a : A} -> Homᵐ (z a) (y a))
                   -> Homᵐ (uncurry z) x
 
 

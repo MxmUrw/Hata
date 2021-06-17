@@ -16,6 +16,9 @@ isUniverse : Term -> Bool
 isUniverse (agda-sort s) = true
 isUniverse (def (quote 𝒰') _) = true
 isUniverse (def (quote 𝒰) _) = true
+isUniverse (def (quote 𝒰₀) _) = true
+isUniverse (def (quote 𝒰₁) _) = true
+isUniverse (def (quote 𝒰₂) _) = true
 isUniverse (pi _ _) = true
 isUniverse _ = false
 

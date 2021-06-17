@@ -10,10 +10,13 @@ open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
 
 
--- record isMultiGraph (𝑗 : 𝔏 ^ 2) (G : 𝒰 𝑖) : 𝒰 𝑖 where
---   field Edgeᵐ : ∀(A : )
+record isMultiGraph (𝑗 : 𝔏) (G : 𝒰 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where
+  field Edgeᵐ : ∀{n : ℕ} -> (𝔽ʳ n -> G) -> G -> 𝒰 𝑗
 
+open isMultiGraph {{...}} public
 
+MultiGraph : (𝑖 : 𝔏 ^ 2) -> _
+MultiGraph 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isMultiGraph (𝑖 ⌄ 1)
 
 
 

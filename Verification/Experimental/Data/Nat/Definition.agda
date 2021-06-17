@@ -20,6 +20,18 @@ instance
   isSetoid._∼'_ isSetoid:ℕ = _≣_
   isSetoid.isEquivRel:∼ isSetoid:ℕ = it
 
+instance
+  isMonoid:ℕ : isMonoid ℕ
+  isMonoid:ℕ = record
+                 { _⋆_ = _+-ℕ_
+                 ; ◌ = 0
+                 ; unit-l-⋆ = refl
+                 ; unit-r-⋆ = {!!}
+                 ; assoc-l-⋆ = {!!}
+                 ; assoc-r-⋆ = {!!}
+                 ; _`cong-⋆`_ = {!!}
+                 }
+
 
 instance
   isPreorder:ℕ : isPreorder _ ′ ℕ ′
