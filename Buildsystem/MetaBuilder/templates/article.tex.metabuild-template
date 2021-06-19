@@ -1,0 +1,138 @@
+
+% Created 2020-11-13 Fri 14:14
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+% \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[amakuri]{agda}
+\usepackage[debug]{dot2texi}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{enumitem}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Formatting
+\usepackage{geometry}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Theorem environments
+\usepackage{amsthm}
+\usepackage{thmtools}
+
+% theorem like
+\declaretheorem[
+style=plain,
+parent=section
+]{theorem}
+
+\declaretheorem[
+style=plain,
+sibling=theorem
+]{lemma}
+
+\declaretheorem[
+style=plain,
+sibling=theorem
+]{corollary}
+
+
+% definition like
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=1em,
+qed=$\lhd$
+]{mystyle}
+
+\declaretheorem[
+style=mystyle,
+sibling=theorem
+]{definition}
+
+
+\declaretheorem[
+style=definition,
+sibling=theorem
+]{example}
+
+
+% remark like
+\declaretheorem[
+style=remark,
+numbered=no
+]{remark}
+
+\declaretheorem[
+style=remark,
+numbered=no
+]{notation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Agda styles
+\newcommand{\AD}{\AgdaDatatype}
+\newcommand{\AIC}{\AgdaInductiveConstructor}
+\newcommand{\AF}{\AgdaFunction}
+\newcommand{\AFd}{\AgdaField}
+\newcommand{\AP}{\AgdaPostulate}
+\newcommand{\AR}{\AgdaRecord}
+\newcommand{\AK}{\AgdaKeyword}
+\newcommand{\AB}[1]{\AgdaBound{#1}}
+
+% without color
+% \newcommand{\AD}[1]{\text{\AgdaNoSpaceMath{\AgdaFontStyle{#1}}}}
+% \newcommand{\AIC}[1]{\text{\AgdaNoSpaceMath{\AgdaFontStyle{#1}}}}
+% \newcommand{\AF}[1]{\text{\AgdaNoSpaceMath{\AgdaFontStyle{#1}}}}
+% \newcommand{\AFd}[1]{\text{\AgdaNoSpaceMath{\AgdaFontStyle{#1}}}}
+% % \newcommand{\AP}{\AgdaPostulate}
+% \newcommand{\AR}[1]{\text{\AgdaNoSpaceMath{\AgdaFontStyle{#1}}}}
+% \newcommand{\AK}[1]{\text{\AgdaNoSpaceMath{\AgdaKeyword{#1}}}}
+% \newcommand{\AB}[1]{\text{\AgdaNoSpaceMath{\AgdaBoundFontStyle{#1}}}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start
+
+% \raggedbottom
+\author{Maxim Urschumzew}
+\date{\today}
+\title{Verified Type Checking\\\medskip
+  \large Exposé for a master's thesis}
+\hypersetup{
+  pdfauthor={Maxim Urschumzew},
+  pdftitle={Verified Type Checking},
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 27.1 (Org mode 9.4)}, 
+  pdflang={English}}
+\begin{document}
+
+\maketitle
+% \tableofcontents
+
+My files:
+
+{{CONTENT}}
+
+Hello! Do you get this? And this? Did you get this text??
+
+It becomes bigger???
+
+\end{document}

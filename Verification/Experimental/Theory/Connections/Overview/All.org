@@ -29,31 +29,28 @@ between the three perspectives is as follows:
   
 
 
-
-
-
-
-# https://q.uiver.app/?q=WzAsOSxbMSwzLCJcXHRleHRiZntUeXBlVH1ee1xcdGV4dHtjaGVja319Il0sWzYsMl0sWzAsMywiXFx0ZXh0YmZ7VHlwZVR9X1xcbGVee1xcdGV4dHtpbmZlcn19Il0sWzQsNSwiXFx0ZXh0e1RoZW99Il0sWzQsNCwiXFx0ZXh0e0NvbXBUfSJdLFs1LDQsIlxcdGV4dHtDYXRUfSJdLFs0LDIsIlxcdGV4dHtUcmluaVR9Il0sWzMsNCwiXFx0ZXh0e1R5cGVUfSJdLFs0LDAsIlxcbWF0aGJmezF9Il0sWzIsMF0sWzQsM10sWzUsM10sWzYsNSwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzYsNCwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzcsM10sWzYsNywiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzgsNiwiXFxMYW1iZGEiLDEseyJjdXJ2ZSI6MX1dLFs4LDYsIlxcUGkiLDEseyJjdXJ2ZSI6LTF9XSxbOCw2LCJcXG11bHRpbWFwIiwxLHsiY3VydmUiOjN9XSxbOCw2LCJcXHNxdWFyZSIsMSx7ImN1cnZlIjotM31dLFs4LDcsIlxcZm9yYWxsIiwxLHsiY3VydmUiOjR9XV0=
+# https://q.uiver.app/?q=WzAsNyxbMiwyXSxbMSw1LCJcXHRleHRiZntUaGVvfSJdLFsyLDQsIlxcdGV4dGJme0NvbXB9Il0sWzEsNCwiXFx0ZXh0YmZ7Q2F0fSJdLFsxLDIsIlxcdGV4dGJme1RoZW99XisiXSxbMCw0LCJcXHRleHRiZntUVH0iXSxbMSwwLCJcXG1hdGhiZnsxfSJdLFsyLDFdLFszLDFdLFs0LDMsIiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs0LDIsIiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs1LDFdLFs0LDUsIiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs2LDQsIlxcTGFtYmRhIiwxLHsiY3VydmUiOjF9XSxbNiw0LCJcXFBpIiwxLHsiY3VydmUiOi0xfV0sWzYsNCwiXFxtdWx0aW1hcCIsMSx7ImN1cnZlIjozfV0sWzYsNCwiXFxtYXRoaXR7Q1RUfSIsMSx7ImN1cnZlIjotM31dLFs2LDUsIlxcZm9yYWxsIiwxLHsiY3VydmUiOjR9XSxbNiwyLCJcXG1hdGhpdHtBU019IiwxLHsiY3VydmUiOi00fV1d
 \begin{tikzcd}
-	&&&& {\mathbf{1}} \\
+	& {\mathbf{1}} \\
 	\\
-	&&&& {\text{TriniT}} && {} \\
-	{\textbf{TypeT}_\le^{\text{infer}}} & {\textbf{TypeT}^{\text{check}}} \\
-	&&& {\text{TypeT}} & {\text{CompT}} & {\text{CatT}} \\
-	&&&& {\text{Theo}}
-	\arrow[from=4-1, to=4-2]
-	\arrow[from=5-5, to=6-5]
-	\arrow[from=5-6, to=6-5]
-	\arrow[dashed, from=3-5, to=5-6]
-	\arrow[dashed, from=3-5, to=5-5]
-	\arrow[from=5-4, to=6-5]
-	\arrow[dashed, from=3-5, to=5-4]
-	\arrow["\Lambda"{description}, curve={height=6pt}, from=1-5, to=3-5]
-	\arrow["\Pi"{description}, curve={height=-6pt}, from=1-5, to=3-5]
-	\arrow["\multimap"{description}, curve={height=18pt}, from=1-5, to=3-5]
-	\arrow["\square"{description}, curve={height=-18pt}, from=1-5, to=3-5]
-	\arrow["\forall"{description}, curve={height=24pt}, from=1-5, to=5-4]
+	& {\textbf{Theo}^+} & {} \\
+	\\
+	{\textbf{TT}} & {\textbf{Cat}} & {\textbf{Comp}} \\
+	& {\textbf{Theo}}
+	\arrow[from=5-3, to=6-2]
+	\arrow[from=5-2, to=6-2]
+	\arrow[dashed, from=3-2, to=5-2]
+	\arrow[dashed, from=3-2, to=5-3]
+	\arrow[from=5-1, to=6-2]
+	\arrow[dashed, from=3-2, to=5-1]
+	\arrow["\Lambda"{description}, curve={height=6pt}, from=1-2, to=3-2]
+	\arrow["\Pi"{description}, curve={height=-6pt}, from=1-2, to=3-2]
+	\arrow["\multimap"{description}, curve={height=18pt}, from=1-2, to=3-2]
+	\arrow["{\mathit{CTT}}"{description}, curve={height=-18pt}, from=1-2, to=3-2]
+	\arrow["\forall"{description}, curve={height=24pt}, from=1-2, to=5-1]
+	\arrow["{\mathit{ASM}}"{description}, curve={height=-24pt}, from=1-2, to=5-3]
 \end{tikzcd}
+
 
 
 

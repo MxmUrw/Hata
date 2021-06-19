@@ -1,4 +1,4 @@
-% Created 2021-06-19 Sat 18:36
+% Created 2021-06-19 Sat 22:35
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -32,7 +32,7 @@
 \tableofcontents
 
 \section{Theories}
-\label{sec:org2132292}
+\label{sec:orgcecb208}
 
 The purpose of this \emph{theory of theories} is to explicitly describe a framework in
 which all efforts in the area of syntax and semantics of type theories and programming languages
@@ -62,24 +62,25 @@ between the three perspectives is as follows:
 \end{definition}
 
 
+
 \begin{tikzcd}
-	&&&& {\mathbf{1}} \\
+	& {\mathbf{1}} \\
 	\\
-	&&&& {\text{TriniT}} && {} \\
-	{\textbf{TypeT}_\le^{\text{infer}}} & {\textbf{TypeT}^{\text{check}}} \\
-	&&& {\text{TypeT}} & {\text{CompT}} & {\text{CatT}} \\
-	&&&& {\text{Theo}}
-	\arrow[from=4-1, to=4-2]
-	\arrow[from=5-5, to=6-5]
-	\arrow[from=5-6, to=6-5]
-	\arrow[dashed, from=3-5, to=5-6]
-	\arrow[dashed, from=3-5, to=5-5]
-	\arrow[from=5-4, to=6-5]
-	\arrow[dashed, from=3-5, to=5-4]
-	\arrow["\Lambda"{description}, curve={height=6pt}, from=1-5, to=3-5]
-	\arrow["\Pi"{description}, curve={height=-6pt}, from=1-5, to=3-5]
-	\arrow["\multimap"{description}, curve={height=18pt}, from=1-5, to=3-5]
-	\arrow["\square"{description}, curve={height=-18pt}, from=1-5, to=3-5]
-	\arrow["\forall"{description}, curve={height=24pt}, from=1-5, to=5-4]
+	& {\textbf{Theo}^+} & {} \\
+	\\
+	{\textbf{TT}} & {\textbf{Cat}} & {\textbf{Comp}} \\
+	& {\textbf{Theo}}
+	\arrow[from=5-3, to=6-2]
+	\arrow[from=5-2, to=6-2]
+	\arrow[dashed, from=3-2, to=5-2]
+	\arrow[dashed, from=3-2, to=5-3]
+	\arrow[from=5-1, to=6-2]
+	\arrow[dashed, from=3-2, to=5-1]
+	\arrow["\Lambda"{description}, curve={height=6pt}, from=1-2, to=3-2]
+	\arrow["\Pi"{description}, curve={height=-6pt}, from=1-2, to=3-2]
+	\arrow["\multimap"{description}, curve={height=18pt}, from=1-2, to=3-2]
+	\arrow["{\mathit{CTT}}"{description}, curve={height=-18pt}, from=1-2, to=3-2]
+	\arrow["\forall"{description}, curve={height=24pt}, from=1-2, to=5-1]
+	\arrow["{\mathit{ASM}}"{description}, curve={height=-24pt}, from=1-2, to=5-3]
 \end{tikzcd}
 \end{document}

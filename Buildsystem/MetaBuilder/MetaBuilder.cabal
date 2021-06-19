@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 39ff83ae42b93a38a3639ef56acf2104ece707bfdd87360d00df9ef98ae77d2d
+-- hash: 47a4c3b292b816aca9b8470099e6e7b330e7a69604f8e0b1bb992d7426475955
 
 name:           MetaBuilder
 version:        0.1.0.0
@@ -20,6 +20,10 @@ build-type:     Simple
 extra-source-files:
     README.md
     ChangeLog.md
+data-files:
+    templates/article.tex.metabuild-template
+    templates/screport.tex.metabuild-template
+    templates/agda.sty.metabuild-template
 
 source-repository head
   type: git
