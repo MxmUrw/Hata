@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.Simple.MetaTermCalculus.Definition where
+module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -13,12 +13,13 @@ module _ (MetaKind : 𝒰₀) where
 
 data SimpleCtx (A : 𝒰 𝑖) : 𝒰 𝑖 where
   [] : SimpleCtx A
-  _,_ : SimpleCtx A -> A -> SimpleCtx A
+  _,,_ : SimpleCtx A -> A -> SimpleCtx A
+infixl 15 _,,_
 
 module _ {A : 𝒰 𝑖} where
   data π-Ctx : (Γ : SimpleCtx A) (a : A) -> 𝒰 𝑖 where
-    zero : ∀{Γ a} -> π-Ctx (Γ , a) a
-    suc : ∀{Γ a b} -> π-Ctx Γ a -> π-Ctx (Γ , b) a
+    zero : ∀{Γ a} -> π-Ctx (Γ ,, a) a
+    suc : ∀{Γ a b} -> π-Ctx Γ a -> π-Ctx (Γ ,, b) a
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   map-SimpleCtx : (f : A -> B) -> SimpleCtx A -> SimpleCtx B
@@ -56,11 +57,11 @@ module MTC where
 
     --- σ terms
 
-    data [_]_⊢_ (Meta : SimpleCtx (TermConType (MetaKind σ)) -> MetaKind σ -> 𝒰₀) : Ctx -> Type -> 𝒰₀ where
-      meta : ∀{Γ τ} -> (Meta Γ τ)     -> [ Meta ] (map-SimpleCtx ⟦_⟧-Con Γ) ⊢ kind τ
+    data [_]_⊢_ (Meta : SimpleCtx (MetaKind σ) -> MetaKind σ -> 𝒰₀) : Ctx -> Type -> 𝒰₀ where
+      meta : ∀{Γ τ} -> (Meta Γ τ)     -> [ Meta ] (map-SimpleCtx kind Γ) ⊢ kind τ
       con : ∀{Γ τ} -> (TermCon σ Γ τ) -> [ Meta ] (map-SimpleCtx ⟦_⟧-Con Γ) ⊢ kind τ
       var : ∀{Γ τ} -> (π-Ctx Γ τ) -> [ Meta ] Γ ⊢ τ
-      lam : ∀{Γ α β} -> [ Meta ] (Γ , α) ⊢ β -> [ Meta ] Γ ⊢ (α ⇒ β)
+      lam : ∀{Γ α β} -> [ Meta ] (Γ ,, α) ⊢ β -> [ Meta ] Γ ⊢ (α ⇒ β)
       app : ∀{Γ α β} -> [ Meta ] Γ ⊢ (α ⇒ β) -> [ Meta ] Γ ⊢ α -> [ Meta ] Γ ⊢ β
 
 
