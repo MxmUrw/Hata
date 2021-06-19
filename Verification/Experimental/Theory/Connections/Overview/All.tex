@@ -1,4 +1,4 @@
-% Created 2021-06-19 Sat 17:25
+% Created 2021-06-19 Sat 18:36
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -14,6 +14,7 @@
 \usepackage{amssymb}
 \usepackage{capt-of}
 \usepackage{hyperref}
+\usepackage{mypackages}
 \usepackage{quiver}
 \usepackage{tikz-cd}
 \usepackage{tikz}
@@ -31,16 +32,34 @@
 \tableofcontents
 
 \section{Theories}
-\label{sec:orga630965}
+\label{sec:org2132292}
 
 The purpose of this \emph{theory of theories} is to explicitly describe a framework in
 which all efforts in the area of syntax and semantics of type theories and programming languages
 can be located. We want to include everything one would intuitively expect to be part of such research.
 Thus we necessarily end up with a very rudimentary picture, based on a least common denominator.
-Such a picture does not help with proving new theorems, and will not be surprising to anyone with familiar
+Such a picture does not help with proving new theorems, and will not be surprising to anyone familiar
 with the usual concepts and goals. In fact it should merely reflect this state of mind in a formal environment.
 
+We follow the common notion that a (type) theory may be viewed from the following perspectives:
+\begin{itemize}
+\item \emph{Type Theory}: A formal system with a set of terms and types/contexts, and a typing judgement relating them with each other.
+\item \emph{Category}: A set of objects, and sets of arrows between them, encoding the notion of composition.
+\item \emph{Computational Model}: A set of (possibly typed) terms with rewriting rules between them.
+\end{itemize}
 
+The "best" type theories (simple type theory, dependent type theory) incorporate all of these perspectives,
+and this is known as \emph{computational trilogy} [cite]. But our goal at the moment is not to describe the "best" type theories,
+but to give a definition which subsumes anything which looks like a theory at all. Our attempt at describing the least common denominator
+between the three perspectives is as follows:
+
+\begin{definition}
+  A theory is given by:
+  \begin{enumerate}
+    \item A type $\mathscr{T} : \mathscr{U}$ of statements.
+    \item For any statement $\phi : \mathscr{T}$, a setoid $\phi\,\square : \mathbf{Std}$ of proofs of this statement.
+  \end{enumerate}
+\end{definition}
 
 
 \begin{tikzcd}

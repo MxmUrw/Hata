@@ -3,10 +3,21 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    name: Agda
+    version: 2.6.3
+    git: https://github.com/MxmUrw/agda.git
+    pantry-tree:
+      size: 705672
+      sha256: ab9510fa009847499fb67009955aa9544c7131c5c0fb61f6b1b0266a9dfbd120
+    commit: 594e7ae356ecd31ab96f7338d79d290855887feb
+  original:
+    git: https://github.com/MxmUrw/agda.git
+    commit: 594e7ae356ecd31ab96f7338d79d290855887feb
 snapshots:
 - completed:
-    size: 567675
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/13.yaml
-    sha256: 84fa3ab606af79b1239ec213e8db5d49e4857f461eda9ac61fe589c967643b7d
-  original: lts-17.13
+    size: 468996
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/6/19.yaml
+    sha256: 3f6833c2dc01fff47f10cf1493b42b3d1d1b017c74b3829eb5bd937e74fb879d
+  original: nightly-2021-06-19

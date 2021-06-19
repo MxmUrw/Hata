@@ -1,15 +1,37 @@
 
+
 * Theories
 
 The purpose of this /theory of theories/ is to explicitly describe a framework in
 which all efforts in the area of syntax and semantics of type theories and programming languages
 can be located. We want to include everything one would intuitively expect to be part of such research.
 Thus we necessarily end up with a very rudimentary picture, based on a least common denominator.
-Such a picture does not help with proving new theorems, and will not be surprising to anyone with familiar
+Such a picture does not help with proving new theorems, and will not be surprising to anyone familiar
 with the usual concepts and goals. In fact it should merely reflect this state of mind in a formal environment.
 
+We follow the common notion that a (type) theory may be viewed from the following perspectives:
+- /Type Theory/: A formal system with a set of terms and types/contexts, and a typing judgement relating them with each other.
+- /Category/: A set of objects, and sets of arrows between them, encoding the notion of composition.
+- /Computational Model/: A set of (possibly typed) terms with rewriting rules between them.
 
+The "best" type theories (simple type theory, dependent type theory) incorporate all of these perspectives,
+and this is known as /computational trilogy/ [cite]. But our goal at the moment is not to describe the "best" type theories,
+but to give a definition which subsumes anything which looks like a theory at all. Our attempt at describing the least common denominator
+between the three perspectives is as follows:
+
+\begin{definition}
+  A theory is given by:
+  \begin{enumerate}
+    \item A type $\mathscr{T} : \mathscr{U}$ of statements.
+    \item For any statement $\phi : \mathscr{T}$, a setoid $\phi\,\square : \mathbf{Std}$ of proofs of this statement.
+  \end{enumerate}
+\end{definition}
   
+
+
+
+
+
 
 # https://q.uiver.app/?q=WzAsOSxbMSwzLCJcXHRleHRiZntUeXBlVH1ee1xcdGV4dHtjaGVja319Il0sWzYsMl0sWzAsMywiXFx0ZXh0YmZ7VHlwZVR9X1xcbGVee1xcdGV4dHtpbmZlcn19Il0sWzQsNSwiXFx0ZXh0e1RoZW99Il0sWzQsNCwiXFx0ZXh0e0NvbXBUfSJdLFs1LDQsIlxcdGV4dHtDYXRUfSJdLFs0LDIsIlxcdGV4dHtUcmluaVR9Il0sWzMsNCwiXFx0ZXh0e1R5cGVUfSJdLFs0LDAsIlxcbWF0aGJmezF9Il0sWzIsMF0sWzQsM10sWzUsM10sWzYsNSwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzYsNCwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzcsM10sWzYsNywiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzgsNiwiXFxMYW1iZGEiLDEseyJjdXJ2ZSI6MX1dLFs4LDYsIlxcUGkiLDEseyJjdXJ2ZSI6LTF9XSxbOCw2LCJcXG11bHRpbWFwIiwxLHsiY3VydmUiOjN9XSxbOCw2LCJcXHNxdWFyZSIsMSx7ImN1cnZlIjotM31dLFs4LDcsIlxcZm9yYWxsIiwxLHsiY3VydmUiOjR9XV0=
 \begin{tikzcd}
