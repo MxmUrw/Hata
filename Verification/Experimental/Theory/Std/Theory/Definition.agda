@@ -3,39 +3,58 @@ module Verification.Experimental.Theory.Std.Theory.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
--- open import Verification.Experimental.Set.Discrete
--- open import Verification.Experimental.Set.Decidable
--- open import Verification.Experimental.Data.Universe.Everything
--- open import Verification.Experimental.Data.Universe.Instance.Category
--- open import Verification.Experimental.Data.Prop.Everything
--- open import Verification.Experimental.Data.Sum.Definition
--- open import Verification.Experimental.Data.Rational.Definition
--- open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
--- open import Verification.Experimental.Category.Std.Morphism.Iso
 
-#structure = #structureOn
+-- =* Theories
 
+
+-- | The purpose of this /theory of theories/ is to explicitly describe a framework in
+-- which all efforts in the area of syntax and semantics of type theories and programming languages
+-- can be located. We want to include everything one would intuitively expect to be part of such research.
+-- Thus we necessarily end up with a very rudimentary picture, based on a least common denominator.
+-- Such a picture does not help with proving new theorems, and will not be surprising to anyone familiar
+-- with the usual concepts and goals. In fact it should merely reflect this state of mind in a formal environment.
+
+-- | We follow the common notion that a (type) theory may be viewed from the following perspectives:
+-- | - /Type Theory/: A formal system with a set of terms and types, and a typing judgement relating them with each other.
+-- | - /Category/: A set of objects, and sets of arrows between them, encoding the notion of composition.
+-- | - /Computational Model/: A set of (possibly typed) terms with rewriting rules between them.
+
+
+-- | The "best" type theories (simple type theory, dependent type theory) incorporate all of these perspectives,
+-- and this is known as /computational trilogy/. But our goal at the moment is not to describe the "best" type theories,
+-- but to give a definition which subsumes anything which looks like a theory at all. Our attempt at describing the least common denominator
+-- between the three perspectives is as follows:
+
+
+
+
+
+-- #Notation/Rewrite# ■ᵘ = □
+-- #Notation/Rewrite# ■ = □
+
+-- #Notation/SemanticCategory# \mathbf{Mon} = Monoid
+-- #Notation/Annotatable# assoc
+
+_◀Str : (SomeStructure) -> SomeStructure
+_◀Str a = a
+
+
+-- [Definition]
+-- | A theory is given by:
 record isTheory (𝑖 : 𝔏 ^ 2) (𝓣 : 𝒰 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗) where
   constructor theory
 
   field _■ᵘ : 𝓣 -> 𝒰 (𝑖 ⌄ 0)
   field {{isSetoid:■}} : ∀{τ} -> isSetoid (𝑖 ⌄ 1) (τ ■ᵘ)
 
-  -- -------
-  -- -- usual overloading of notation
-  macro
-    _■ : 𝓣 -> SomeStructure
-    _■ τ = #structureOn (τ ■ᵘ)
-
-  -- instance
-  --   isSetoid:■ : ∀{τ} -> isSetoid _ (τ ■)
-  --   isSetoid:■ {τ} = of (τ ■ᵈ)
+  macro _■ = λ (τ : 𝓣) -> #structureOn (τ ■ᵘ)
 
   -- -------
   -- -- fixities
   infix 80 _■ _■ᵘ
 
+-- //
 
 open isTheory {{...}} public
 

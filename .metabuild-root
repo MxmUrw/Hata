@@ -22,7 +22,8 @@ agdaPublishProjects:
     autobuild: false
     fastbuild: false
     source_RelDir: Verification
-    include_RelFiles: []
+    include_RelFiles:
+      - Experimental/Theory/Std/Theory/Definition.agda
       # - Writing/Introduction.agda
       # - Core/Type.agda
       # - Core/Type/Equiv.agda

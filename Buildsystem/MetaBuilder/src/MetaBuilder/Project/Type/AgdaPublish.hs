@@ -60,6 +60,7 @@ data ExtraAgdaPublishProjectConfig = ExtraAgdaPublishProjectConfig
   , generatePdf_Source_AbDir          :: FilePath
   , generateTex_Target_AbFiles        :: [FilePath]
   , generateTex_ImportantSource_AbFiles :: [FilePath]
+  , readCommands_ImportantSource_AbFiles :: [FilePath]
   , libraryDefinitions_Source_AbFile  :: FilePath
   , libraryDefinitions_Target_AbFile  :: FilePath
   , agdaSty_Target_AbFile             :: FilePath
@@ -85,7 +86,8 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       generatePdf_Source_AbDir     = buildTex
 
       generateTex_Target_AbFiles = ((\f -> generateTex_Target_AbDir </> appc.>source_RelDir </> f -<.> ".tex") <$> (appc.>include_RelFiles))
-      generateTex_ImportantSource_AbFiles = ((\f -> generateTex_Source_AbDir </> f -<.> "lagda") <$> (appc.>include_RelFiles))
+      generateTex_ImportantSource_AbFiles = ((\f -> normalise (generateTex_Source_AbDir </> f -<.> "lagda")) <$> (appc.>include_RelFiles))
+      readCommands_ImportantSource_AbFiles = ((\f -> source_AbDir </> f) <$> (appc.>include_RelFiles))
 
       libraryDefinitions_Source_AbFile = egc.>rootAbDir </> appc.>libraryDefinitions_Filename
       libraryDefinitions_Target_AbFile = buildLiterateRoot </> appc.>libraryDefinitions_Filename
@@ -107,6 +109,7 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
   , generatePdf_Source_AbDir = generatePdf_Source_AbDir
   , generateTex_Target_AbFiles = generateTex_Target_AbFiles
   , generateTex_ImportantSource_AbFiles = generateTex_ImportantSource_AbFiles
+  , readCommands_ImportantSource_AbFiles = readCommands_ImportantSource_AbFiles
   , libraryDefinitions_Source_AbFile = libraryDefinitions_Source_AbFile
   , libraryDefinitions_Target_AbFile = libraryDefinitions_Target_AbFile
   , agdaSty_Target_AbFile = agdaSty_Target_AbFile
@@ -163,15 +166,15 @@ makeRules_AgdaPublishProject egc eappc = do
     need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile]
 
     let importantList = (eappc.>generateTex_ImportantSource_AbFiles)
-    putInfo $ "Checking if file " <> file <> " is in file list: " <> show importantList
+    -- putInfo $ "Checking if file " <> file <> " is in file list: " <> show importantList
 
-    let isImportant = file `elem` importantList
+    let isImportant = normalise file `elem` importantList
     case isImportant of
       False -> do
         -------
         -- If we only copy this file as a dependency
         content <- liftIO $ TIO.readFile sourcefile
-        let content2 = (T.pack "\\begin{agda}\n") <> content <> (T.pack "\n\\end{agda}")
+        let content2 = (T.pack "\\begin{code}\n") <> content <> (T.pack "\n\\end{code}")
         liftIO $ TIO.writeFile targetfile content2
 
       True -> do
@@ -198,7 +201,7 @@ makeRules_AgdaPublishProject egc eappc = do
   (eappc.>commands_AbFile) %> \file -> do
     -- source_Files <- getDirectoryFiles (eappc.>source_AbDir) ["//*.agda"]
     -- let source_AbFiles = [eappc.>source_AbDir </> f | f <- source_Files]
-    let source_AbFiles = (eappc.>generateTex_ImportantSource_AbFiles)
+    let source_AbFiles = (eappc.>readCommands_ImportantSource_AbFiles)
     need ([egc.>metabuilder_AbFile] <> source_AbFiles)
     contents <- liftIO $ mapM (TIO.readFile) source_AbFiles
     commands <- liftIO $ assumeRight $ generateCommands contents
@@ -290,7 +293,7 @@ generateMainTex files = do
 
   return content
   where makeIncludes :: Text
-        makeIncludes = T.concat ((\a -> T.pack ("\\input{" ++  a ++ "}\n")) <$> files)
+        makeIncludes = T.concat ((\a -> T.pack ("\\input{" ++  (toStandard a) ++ "}\n")) <$> files)
 
 templatefileAgdaSty :: IO FilePath
 templatefileAgdaSty = getDataFileName "templates/agda.sty.metabuild-template"
