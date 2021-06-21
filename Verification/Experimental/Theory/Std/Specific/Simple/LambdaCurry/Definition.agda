@@ -8,7 +8,8 @@ open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
+open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition as SingleSorted
+open import Verification.Experimental.Theory.Std.TypeTheory.Definition
 
 data TySig : ℕ -> 𝒰₀ where
   `ℕ` `𝔹` : TySig 0
@@ -18,66 +19,63 @@ data TySig : ℕ -> 𝒰₀ where
 -- Defining types
 
 Ty-λ : 𝒰₀ -> 𝒰₀
-Ty-λ = Term TySig
+Ty-λ = SingleSorted.Term TySig
 
 infixr 50 _⇒_
 pattern _⇒_ σ τ = te `⇒` (σ ∷ τ ∷ [])
 
-record Judgement (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
-  constructor _⊢_
-  field fst : A
-  field snd : B
-
-open Judgement public
 
 
-data Term-λ : 𝒰₀ where
-  app : (f g : Term-λ) -> Term-λ
-  lam : (t : Term-λ) -> Term-λ
-  var : ℕ -> Term-λ
+data Term-λ : ℕ -> 𝒰₀ where
+  app : (f g : Term-λ n) -> Term-λ n
+  lam : (t : Term-λ (suc n)) -> Term-λ n
+  var : 𝔽ʳ n -> Term-λ n
+  zero : Term-λ n
+  suc : Term-λ n -> Term-λ n
+  rec-ℕ : Term-λ (suc n) -> Term-λ n -> Term-λ n -> Term-λ n
 
-data Ctx-λ (A : 𝒰₀) : 𝒰₀ where
-  [] : Ctx-λ A
-  _,_ : Ctx-λ A -> Ty-λ A -> Ctx-λ A
+-- data SCtx (A : 𝒰₀) : 𝒰₀ where
+--   [] : SCtx A
+--   _,_ : SCtx A -> Ty-λ A -> SCtx A
 
 instance
   IBootEq:⊥ : ∀{𝑖} -> IBootEq {𝑖} (⊥)
   IBootEq:⊥ = {!!}
 
-instance
-  IBootEq:Ctx-λ : ∀{A} -> {{_ : IBootEq A}} -> IBootEq (Ctx-λ A)
-  IBootEq:Ctx-λ = {!!}
+-- instance
+--   IBootEq:SCtx : ∀{A} -> {{_ : IBootEq A}} -> IBootEq (SCtx A)
+--   IBootEq:SCtx = {!!}
 
 instance
   IBootEq:TySig : IBootEq (TySig n)
   IBootEq:TySig = {!!}
 
 instance
-  IBootEq:Term : ∀{A σ} -> {{_ : IBootEq A}} -> {{∀ {n} -> IBootEq (σ n)}} -> IBootEq (Term {𝑖} σ A)
+  IBootEq:Term : ∀{A σ} -> {{_ : IBootEq A}} -> {{∀ {n} -> IBootEq (σ n)}} -> IBootEq (SingleSorted.Term {𝑖} σ A)
   IBootEq:Term = {!!}
 
 Info : 𝒰₀
-Info = Judgement (Ctx-λ ⊥) (Ty-λ ⊥)
+Info = Judgement (SCtx ⊥) (Ty-λ ⊥)
 
 Statement : 𝒰₀
-Statement = ∑ λ n -> Judgement (Ctx-λ (Fin n)) (Ty-λ (Fin n))
+Statement = ∑ λ n -> Judgement (SCtx (Fin n)) (Ty-λ (Fin n))
 
 instance
   isSet:Statement : isSet Statement
   isSet:Statement = record { fillPath-Set = {!!} }
 
-instance
-  isSetoid:Term : isSetoid _ Term-λ
-  isSetoid:Term = setoid _≣_
+-- instance
+--   isSetoid:Term : isSetoid _ Term-λ
+--   isSetoid:Term = setoid _≣_
 
-data πVar : ∀{A} -> ℕ -> Ctx-λ A -> Ty-λ A -> 𝒰₁ where
-  zero : ∀{A} -> ∀{Γ : Ctx-λ A} -> {τ : Ty-λ A} -> πVar 0 (Γ , τ) τ
-  suc : ∀{A n} -> ∀{Γ : Ctx-λ A} -> {σ τ : Ty-λ A} -> πVar n Γ σ -> πVar (suc n) (Γ , τ) σ
+-- data πVar : ∀{A} -> ℕ -> SCtx A -> Ty-λ A -> 𝒰₁ where
+--   zero : ∀{A} -> ∀{Γ : SCtx A} -> {τ : Ty-λ A} -> πVar 0 (Γ , τ) τ
+--   suc : ∀{A n} -> ∀{Γ : SCtx A} -> {σ τ : Ty-λ A} -> πVar n Γ σ -> πVar (suc n) (Γ , τ) σ
 
-data _∶_⊢_ : ∀{A} -> Term-λ -> Ctx-λ A -> Ty-λ A -> 𝒰₁ where
-  var : ∀{A n} -> ∀{Γ : Ctx-λ A} {τ : Ty-λ A} -> πVar n Γ τ -> (var n) ∶ Γ ⊢ τ
-  app : ∀{A} -> ∀{t s} -> ∀{Γ : Ctx-λ A} {τ σ : Ty-λ A} -> (t ∶ Γ ⊢ σ ⇒ τ) -> (s ∶ Γ ⊢ σ) -> (app s t ∶ Γ ⊢ τ)
-  lam : ∀{A} -> ∀{t} -> ∀{Γ : Ctx-λ A} {τ σ : Ty-λ A} -> (t ∶ (Γ , σ) ⊢ τ) -> (lam t ∶ Γ ⊢ σ ⇒ τ)
+-- data _∶_⊢_ : ∀{A} -> Term-λ -> SCtx A -> Ty-λ A -> 𝒰₁ where
+--   var : ∀{A n} -> ∀{Γ : SCtx A} {τ : Ty-λ A} -> πVar n Γ τ -> (var n) ∶ Γ ⊢ τ
+--   app : ∀{A} -> ∀{t s} -> ∀{Γ : SCtx A} {τ σ : Ty-λ A} -> (t ∶ Γ ⊢ σ ⇒ τ) -> (s ∶ Γ ⊢ σ) -> (app s t ∶ Γ ⊢ τ)
+--   lam : ∀{A} -> ∀{t} -> ∀{Γ : SCtx A} {τ σ : Ty-λ A} -> (t ∶ (Γ , σ) ⊢ τ) -> (lam t ∶ Γ ⊢ σ ⇒ τ)
 
 
 

@@ -21,7 +21,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 -- | - /Computational Model/: A set of (possibly typed) terms with rewriting rules between them.
 
 
--- | The "best" type theories (simple type theory, dependent type theory) incorporate all of these perspectives,
+-- |: The "best" type theories (simple type theory, dependent type theory) incorporate all of these perspectives,
 -- and this is known as /computational trilogy/. But our goal at the moment is not to describe the "best" type theories,
 -- but to give a definition which subsumes anything which looks like a theory at all. Our attempt at describing the least common denominator
 -- between the three perspectives is as follows:
@@ -65,7 +65,7 @@ Theory 𝑖 = (𝒰 (𝑖 ⌄ 0)) :& isTheory (𝑖 ⌄ 1 , 𝑖 ⌄ 2)
 
 record isTheoryHom (𝓢 : Theory 𝑖) (𝓣 : Theory 𝑗) (F : ⟨ 𝓢 ⟩ -> ⟨ 𝓣 ⟩) : 𝒰 (𝑖 ､ 𝑗) where
   constructor theoryHom
-  field map-■ : ∀ (ϕ : ⟨ 𝓢 ⟩) -> SetoidHom (ϕ ■) (F ϕ ■)
+  field map-■ : ∀(ϕ : ⟨ 𝓢 ⟩) -> SetoidHom (ϕ ■) (F ϕ ■)
 
 open isTheoryHom {{...}} public
 

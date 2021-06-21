@@ -104,6 +104,31 @@ module _ {A : 𝒰 _} {B} (X : Fiber (p {𝑖}) B) (π : A -> B) where
 
 
 
+record Judgement (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
+  constructor _⊢_
+  field fst : A
+  field snd : B
+
+infix 30 _⊢_
+
+
+
+data SCtx (A : 𝒰 𝑖) : 𝒰 𝑖 where
+  [] : SCtx A
+  _,,_ : SCtx A -> A -> SCtx A
+infixl 15 _,,_
+
+module _ {A : 𝒰 𝑖} where
+  data _⊢̌_ : (Γ : SCtx A) (a : A) -> 𝒰 𝑖 where
+    zero : ∀{Γ a} -> (Γ ,, a) ⊢̌ a
+    suc : ∀{Γ a b} -> Γ ⊢̌ a -> (Γ ,, b) ⊢̌ a
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  map-SCtx : (f : A -> B) -> SCtx A -> SCtx B
+  map-SCtx f = {!!}
+
+
+
 {-
 record SolvedTypeTheoryClass 𝑖 : 𝒰 (𝑖 ⁺ ⁺) where
   field Param : 𝒰 _
