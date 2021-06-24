@@ -30,6 +30,7 @@ data BlockML =
   | HiddenCodeML [Line]
   | CodeML [Line]
   | SpecialML FullSpecial
+  deriving (Show)
 
 --- | TagML Tag
 data BlockFlat =
@@ -39,6 +40,7 @@ data BlockFlat =
   | SpecialFlat FullSpecial
   | NewlineFlat
   | SpaceFlat
+  deriving (Show)
 
 instance MapCommentPart BlockFlat where
   mapcp f (CommentFlat pf) = CommentFlat (mapcp f pf)
@@ -110,12 +112,29 @@ codeLL = myToken f
 
 
 
+  -- we do not allow paragraphs with reset annotations
+paragraphLL_OnlyContinuation :: Maybe Annotation -> Parsec [BlockLL] () Paragraph
+paragraphLL_OnlyContinuation ann = myToken f
+  where f :: BlockLL -> Maybe Paragraph
+        f (CommentLL (FullComment mod ls)) =
+          case mod of
+            -- this is the case which we do not accept here,
+            -- we only parse paragraphs which do not have the reset annotation
+            (Just PM_ResetAnnotation) -> trace "### Backtracking because found ResetAnnotation." Nothing
+            _ -> case p of
+                      Right par -> Just par
+                      Left err -> Nothing -- trace ("Encountered error: " <> show err <> "\nwhile parsing a comment.") Nothing
+            -- where p = parse (pParagraph mod ann) "" ((T.unlines (getMainPart <$> ls)))
+            where p = parse (pParagraph mod ann) "" ((T.intercalate "\n" (getMainPart <$> ls)))
+                  getMainPart (Prefixed _ a) = a
+        f _ = Nothing
 
 paragraphLL :: Maybe Annotation -> Parsec [BlockLL] () Paragraph
 paragraphLL ann = myToken f
   where f :: BlockLL -> Maybe Paragraph
         f (CommentLL (FullComment mod ls)) = case p of
-                            Right par -> Just par
+                            -- Right par -> Just par
+                            Right par -> trace ("parsed paragraph [" <> show mod <> "]\n" <> show par <> "\n----\n")(Just par)
                             Left err -> Nothing -- trace ("Encountered error: " <> show err <> "\nwhile parsing a comment.") Nothing
             -- where p = parse (pParagraph mod ann) "" ((T.unlines (getMainPart <$> ls)))
             where p = parse (pParagraph mod ann) "" ((T.intercalate "\n" (getMainPart <$> ls)))
@@ -154,6 +173,16 @@ parseUntaggedBlockML = (CommentML <$> paragraphLL Nothing)
 parseUntaggedBlocksML :: Parsec [BlockLL] () [BlockML]
 parseUntaggedBlocksML = many parseUntaggedBlockML
 
+parseUntaggedBlockML_OnlyContinuation :: Parsec [BlockLL] () BlockML
+parseUntaggedBlockML_OnlyContinuation = (CommentML <$> paragraphLL_OnlyContinuation Nothing)
+               <|> (HiddenCodeML <$> hiddenCodeLL)
+               <|> (CodeML <$> (many1 codeLL))
+               <|> (SpecialML <$> specialLL)
+               -- <|> (TagML <$> anyTagLL)
+
+parseUntaggedBlocksML_OnlyContinuation :: Parsec [BlockLL] () [BlockML]
+parseUntaggedBlocksML_OnlyContinuation = many parseUntaggedBlockML_OnlyContinuation
+
 ------------------------------------------------
 -- Parsing comments
 
@@ -174,6 +203,8 @@ latexFormat Bold = "\\textbf"
 data CommentPart =
   CommentPart (Maybe CommentFormat) String
   | CommentPartCode AgdaTokens
+  | LiteralTexCommentPart String
+  | FootnoteCommentPart String
   deriving (Show)
 
 data Wildcard =
@@ -212,16 +243,21 @@ instance MapCommentPart ParagraphFlat where
 
 data Annotation =
   EnumItem | ItemizeItem
+  deriving (Show)
 
 data ParagraphAnn =
   ParagraphAnn (Maybe Annotation) Paragraph
+  deriving (Show)
 
 data ParagraphFlat = ParagraphFlat [CommentPart]
+  deriving (Show)
 
 instance TShow CommentPart where
   tshow (CommentPart Nothing s) = T.pack s
   tshow (CommentPart (Just fmt) s) = latexFormat fmt <> "{" <> T.pack s <> "}"
   tshow (CommentPartCode at) = "$" <> tshow at <> "$"
+  tshow (LiteralTexCommentPart s) = T.pack s
+  tshow (FootnoteCommentPart s) = "\\footnote{" <> T.pack s <> "}"
 
 instance TShow ParagraphFlat where
   tshow (ParagraphFlat parts) = T.concat (tshow <$> parts)
@@ -239,7 +275,7 @@ modalityDoNewline _ = ""
 
 
 specialChars :: [Char]
-specialChars = "/*[]|"
+specialChars = "/*[]|$"
 
 enumChars = "1234567890"
 itemizeChars = "-"
@@ -266,15 +302,25 @@ pCommentFormatted = f Italic <|> f Bold
 pCommentCode :: Parsec Text () CommentPart
 pCommentCode = CommentPartCode <$> between (char '|') (char '|') parseAgdaTokens
 
+pLiteralTexComment :: Parsec Text () CommentPart
+pLiteralTexComment = LiteralTexCommentPart <$> between (char '$') (char '$') (many1 (satisfy (`notElem` ("$" :: String))))
+
+pFootnote :: Parsec Text () CommentPart
+pFootnote = FootnoteCommentPart <$> between (string "[fn:: ") (char ']') (many1 (satisfy (`notElem` ("]" :: String))))
+
 pCommentPart :: Parsec Text () CommentPart
 pCommentPart = try (CommentPart Nothing <$> pCommentBase)
               <|> try pCommentFormatted
               <|> try pCommentCode
+              <|> try pLiteralTexComment
+              <|> try pFootnote
 
 pCommentPart_NoParagraphBeginning :: Parsec Text () CommentPart
 pCommentPart_NoParagraphBeginning = try (CommentPart Nothing <$> pCommentBase_NoParagraphBeginning)
                                     <|> try pCommentFormatted
                                     <|> try pCommentCode
+                                    <|> try pLiteralTexComment
+                                    <|> try pFootnote
 
 pAnnotation :: Annotation -> Parsec Text () ()
 pAnnotation EnumItem    = finalize <$> oneOf enumChars <*> string ". "
@@ -404,7 +450,7 @@ flattenLU2 (AnnotatedLU ann lus) = AnnotatedLU ann <$> mapM flattenLUAnn lus
 type LogicalUnitAnn = LogicalUnitAnn_ BlockML
 
 data LogicalUnitAnn_ a = LogicalUnitAnn Paragraph (Toplevel a)
-  deriving (Functor)
+  deriving (Functor,Show)
 
 type LogicalUnit2 = LogicalUnit2_ BlockML
 
@@ -412,10 +458,10 @@ data LogicalUnit2_ a =
     SimpleLU [a]
   | TaggedLU2 Text Tag (Toplevel a)
   | AnnotatedLU Annotation [LogicalUnitAnn_ a]
-  deriving (Functor)
+  deriving (Functor,Show)
 
 data Toplevel a = Toplevel [LogicalUnit2_ a]
-  deriving (Functor)
+  deriving (Functor,Show)
 
 instance MapCommentPart (LogicalUnitAnn_ a) where
   mapcp f (LogicalUnitAnn p tl) = LogicalUnitAnn (mapcp f p) tl
@@ -433,17 +479,27 @@ parseLU2_Tagged :: ParserLL LogicalUnit2
 parseLU2_Tagged = try (TaggedLU2 "<<def name>>" <$> anyTagLL <*> parseToplevel <* tagLL End)
 
 parseLU2_Annotated_Single :: Annotation -> ParserLL LogicalUnitAnn
-parseLU2_Annotated_Single ann = try $ LogicalUnitAnn <$> paragraphLL (Just ann) <*> parseLU2_NotAnnotated
+parseLU2_Annotated_Single ann = try $ LogicalUnitAnn <$> paragraphLL (Just ann) <*> parseLU2_NotAnnotated_OnlyContinuation
+
+parseLU2_Annotated_Single_OnlyContinuation :: Annotation -> ParserLL LogicalUnitAnn
+parseLU2_Annotated_Single_OnlyContinuation ann = try $ LogicalUnitAnn <$> paragraphLL_OnlyContinuation (Just ann) <*> parseLU2_NotAnnotated_OnlyContinuation
 
 parseLU2_Annotated :: ParserLL LogicalUnit2
 parseLU2_Annotated = f EnumItem <|> f ItemizeItem
-  where f ann = AnnotatedLU ann <$> many1 (parseLU2_Annotated_Single ann)
+  where f ann = merge ann <$> (parseLU2_Annotated_Single ann) <*> many (parseLU2_Annotated_Single_OnlyContinuation ann)
+        merge ann a as = AnnotatedLU ann (a : as)
 
-parseLU2_NotAnnotated :: ParserLL (Toplevel BlockML)
-parseLU2_NotAnnotated = Toplevel <$> many (parseLU2_Tagged <|> parseLU2_Simple)
+parseLU2_NotAnnotated_OnlyContinuation :: ParserLL (Toplevel BlockML)
+parseLU2_NotAnnotated_OnlyContinuation = Toplevel <$> many (parseLU2_Tagged <|> parseLU2_Simple_OnlyContinuation)
+
+parseLU2_Simple_OnlyContinuation :: ParserLL LogicalUnit2
+parseLU2_Simple_OnlyContinuation = try (SimpleLU <$> many1 parseUntaggedBlockML_OnlyContinuation)
 
 parseLU2_Simple :: ParserLL LogicalUnit2
 parseLU2_Simple = try (SimpleLU <$> many1 parseUntaggedBlockML)
+
+-- parseToplevel_OnlyContinuation :: ParserLL (Toplevel BlockML)
+-- parseToplevel_OnlyContinuation = Toplevel <$> many (try parseLU2_Tagged <|> try parseLU2_Annotated_OnlyContinuation <|> try parseLU2_Simple)
 
 parseToplevel :: ParserLL (Toplevel BlockML)
 parseToplevel = Toplevel <$> many (try parseLU2_Tagged <|> try parseLU2_Annotated <|> try parseLU2_Simple)
@@ -455,10 +511,12 @@ data LogicalUnit =
   -- TheoremLU Text [BlockML]
   -- DefinitionLU Text [BlockML]
   | FreestyleLU [BlockML]
+  deriving (Show)
 
 data LogicalUnitFlat =
   TaggedLUFlat Text Tag [BlockFlat]
   | FreestyleLUFlat [BlockFlat]
+  deriving (Show)
 
 
 -- parseTheorem :: ParserLL LogicalUnit
@@ -532,6 +590,7 @@ doParseML cmd blocks =
   let blocks2 = Prelude.filter (/= HiddenCommentLL) blocks
 
   in do lus <- showleft $ parse (parseToplevel <* eof) "" blocks2 
+        traceM $ "#####################################\n before flattening:\n " <> show lus <> "\n#########################################\n"
         flats <- flattenToplevel lus
         let changedFlats = executeCodeCommands cmd flats
         return changedFlats

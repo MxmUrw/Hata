@@ -22,6 +22,9 @@
 \usepackage{tabularx}
 \usepackage{enumitem}
 
+%% local sty
+\usepackage{quiver}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 

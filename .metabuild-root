@@ -24,6 +24,7 @@ agdaPublishProjects:
     source_RelDir: Verification
     include_RelFiles:
       - Experimental/Theory/Std/Theory/Definition.agda
+      - Experimental/Theory/Std/LogicalTheory/Definition.agda
       # - Writing/Introduction.agda
       # - Core/Type.agda
       # - Core/Type/Equiv.agda

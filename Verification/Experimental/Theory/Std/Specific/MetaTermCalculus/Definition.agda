@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Theory.Std.TypeTheory.Definition
 
@@ -26,6 +26,24 @@ module _ (K : 𝒰₀) where
 
   data MetaJ : 𝒰₀ where
     _◀_ : Judgement (SCtx Type') Type' -> MetaSort -> MetaJ
+
+  data isKindSCtx : SCtx Type' -> 𝒰₀ where
+    [] : isKindSCtx []
+    _,,_ : ∀ k {Γ} -> isKindSCtx Γ -> isKindSCtx (Γ ,, kind k)
+
+  data isKindMetaJ : MetaJ -> 𝒰₀ where
+    _◀_ : ∀{Γ} -> isKindSCtx Γ -> ∀ k s -> isKindMetaJ (Γ ⊢ kind k ◀ s)
+
+  KindMetaJ = ∑ isKindMetaJ
+
+  data isConArg : Type' -> 𝒰₀ where
+    kind : ∀ k -> isConArg (kind k)
+    _⇒_ : ∀ k {a} -> isConArg a -> isConArg (kind k ⇒ a)
+
+  data isConType : Type' -> 𝒰₀ where
+    kind : ∀ k -> isConType (kind k)
+    _⇒_ : ∀ {a t} -> isConArg a -> isConType t -> isConType (a ⇒ t)
+
 
 module MTC where
   record Signature : 𝒰₁ where
@@ -54,26 +72,26 @@ module MTC where
 
     data OptMeta (𝔧 : MetaJ') (Opt : MetaJ' -> 𝒰₀) (Fam : MetaJ' -> 𝒰₀) : 𝒰₀ where
       skip : Opt 𝔧 -> OptMeta 𝔧 Opt Fam
-      give : Fam 𝔧 -> OptMeta 𝔧 Opt Fam
+      give : Fam 𝔧 -> (¬ Opt 𝔧) -> OptMeta 𝔧 Opt Fam
 
 
+
+    appendCon : ∀{Γ} -> isKindSCtx (MetaKind σ) Γ -> ∀{τ} -> isConType (MetaKind σ) τ -> Judgement (SCtx (KindMetaJ (MetaKind σ))) (KindMetaJ (MetaKind σ))
+    appendCon Γ (kind k) = [] ⊢ (_ , {!!})
+    appendCon G (x ⇒ t) = {!!}
 
     --- σ structures
-    --- i.e., a category and an interpretation of the kinds and constructors of σ
-    record ProductStructure (𝒞 : Category 𝑖) : 𝒰 𝑖 where
-      -- field 
-
-    --- σ terms
-    -- MetaVar = (Judgement (SCtx (MetaKind σ)) (MetaKind σ)) ×-𝒰 Meta?
-    -- MetaVar = (Judgement Ctx Type) ×-𝒰 MetaSort
+      --- i.e., a category and an interpretation of the kinds and constructors of σ
+    record Structure (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+      field interp-Type : ∀{Μ} -> isKindMetaJ (MetaKind σ) Μ -> ⟨ 𝒞 ⟩
+      -- field interp-Con : ∀{Γ τ τp} -> TermCon σ τ τp -> 
 
 
-    --   main : Judgement Ctx Type -> MetaJ
-    --   var : Judgement Ctx Type -> MetaJ
-    --   sucParam : Judgement Ctx Type -> MetaJ
 
-    data _⊩_ (Μ : SCtx (MetaJ (MetaKind σ))) : MetaJ (MetaKind σ) -> 𝒰₀ where
-      meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ ⊢̌_) -> Μ ⊩ 𝔧
+
+
+    data _⊩_ (Μ : (MetaJ (MetaKind σ)) -> 𝒰₀) : MetaJ (MetaKind σ) -> 𝒰₀ where
+      meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ) -> Μ ⊩ 𝔧
       var : ∀{Γ τ} -> (Μ ⊩ (Γ ⊢ τ ◀ var)) -> Μ ⊩ (Γ ⊢ τ ◀ main)
       con :  ∀{Γ τ τp} -> (TermCon σ τ τp) -> Μ ⊩ (Γ ⊢ τ ◀ main)
       lam : ∀{Γ α β} -> Μ ⊩ ((Γ ,, α) ⊢ β ◀ main) -> Μ ⊩ (Γ ⊢ (α ⇒ β) ◀ main)
@@ -82,6 +100,12 @@ module MTC where
       suc  : ∀{Γ α β} -> Μ ⊩ (Γ ⊢ kind (varsuc σ) ◀ special)  -> Μ ⊩ (Γ ⊢ β ◀ var) -> Μ ⊩ ((Γ ,, α) ⊢ β ◀ var)
       zero : ∀{Γ α}   -> Μ ⊩ (Γ ⊢ kind (varzero σ) ◀ special) -> Μ ⊩ ((Γ ,, α) ⊢ α ◀ var)
 
+
+
+
+
+
+{-
     mutual
       data _⊩↓-app_ (Μ : SCtx (MetaJ (MetaKind σ))) : MetaJ (MetaKind σ) -> 𝒰₀ where
         app : ∀{Γ α β} -> Μ ⊩↓-app (Γ ⊢ (α ⇒ β) ◀ main) -> Μ ⊩↓ (Γ ⊢ α ◀ main) -> Μ ⊩↓-app (Γ ⊢ β ◀ main)
@@ -96,8 +120,7 @@ module MTC where
 
         suc  : ∀{Γ α β} -> Μ ⊩↓ (Γ ⊢ kind (varsuc σ) ◀ special)  -> Μ ⊩↓ (Γ ⊢ β ◀ var) -> Μ ⊩↓ ((Γ ,, α) ⊢ β ◀ var)
         zero : ∀{Γ α}   -> Μ ⊩↓ (Γ ⊢ kind (varzero σ) ◀ special) -> Μ ⊩↓ ((Γ ,, α) ⊢ α ◀ var)
-
-
+-}
 
 
       -- suc  : ∀{Γ α β} -> Μ ⊩ (Γ ⊢ β ◀ var) -> Μ ⊩ ((Γ ,, α) ⊢ β ◀ var)

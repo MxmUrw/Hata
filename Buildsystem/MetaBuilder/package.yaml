@@ -23,6 +23,7 @@ data-files:
   - templates/article.tex.metabuild-template
   - templates/screport.tex.metabuild-template
   - templates/agda.sty.metabuild-template
+  - templates/quiver.sty.metabuild-template
 
 dependencies:
 - base >= 4.7 && < 5

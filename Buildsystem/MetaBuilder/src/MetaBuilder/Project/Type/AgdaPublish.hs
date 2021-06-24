@@ -64,6 +64,7 @@ data ExtraAgdaPublishProjectConfig = ExtraAgdaPublishProjectConfig
   , libraryDefinitions_Source_AbFile  :: FilePath
   , libraryDefinitions_Target_AbFile  :: FilePath
   , agdaSty_Target_AbFile             :: FilePath
+  , quiverSty_Target_AbFile             :: FilePath
   , commands_AbFile                   :: FilePath
   }
   deriving (Show)
@@ -93,6 +94,7 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       libraryDefinitions_Target_AbFile = buildLiterateRoot </> appc.>libraryDefinitions_Filename
 
       agdaSty_Target_AbFile = buildTex </> "agda.sty"
+      quiverSty_Target_AbFile = buildTex </> "quiver.sty"
 
       commands_AbFile                   = egc.>buildAbDir </> "generated" </> "all.metabuild-cmd"
 
@@ -113,6 +115,7 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
   , libraryDefinitions_Source_AbFile = libraryDefinitions_Source_AbFile
   , libraryDefinitions_Target_AbFile = libraryDefinitions_Target_AbFile
   , agdaSty_Target_AbFile = agdaSty_Target_AbFile
+  , quiverSty_Target_AbFile = quiverSty_Target_AbFile
   , originalConfig = appc
   , commands_AbFile = commands_AbFile
   }
@@ -144,7 +147,7 @@ makeRules_AgdaPublishProject egc eappc = do
     -- but being needed for successfull agda processing
     let generateTex_Source_Files = ((\f -> eappc.>generateTex_Source_AbDir </> f -<.> "lagda")            <$> source_Files)
 
-    let deps = [eappc.>mainTex_AbFile , eappc.>agdaSty_Target_AbFile] ++ (eappc.>generateTex_Target_AbFiles) ++ generateTex_Source_Files
+    let deps = [eappc.>mainTex_AbFile , eappc.>agdaSty_Target_AbFile , eappc.>quiverSty_Target_AbFile] ++ (eappc.>generateTex_Target_AbFiles) ++ generateTex_Source_Files
     need deps
 
     let build = cmd_ "xelatex" (Cwd (eappc.>generatePdf_Source_AbDir)) [eappc.>mainTex_AbFile]
@@ -163,7 +166,7 @@ makeRules_AgdaPublishProject egc eappc = do
     let sourcefile = eappc.>generateLiterate_Source_AbDir </> relfile -<.> ".agda"
     let targetfile = eappc.>generateLiterate_Target_AbDir </> relfile -<.> ".lagda"
     putInfo $ "Generating literate file " ++ targetfile ++ " for " ++ sourcefile
-    need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile]
+    need [sourcefile, egc.>metabuilder_AbFile] -- , eappc.>commands_AbFile]
 
     let importantList = (eappc.>generateTex_ImportantSource_AbFiles)
     -- putInfo $ "Checking if file " <> file <> " is in file list: " <> show importantList
@@ -192,11 +195,20 @@ makeRules_AgdaPublishProject egc eappc = do
   (eappc.>libraryDefinitions_Target_AbFile) %> \file -> do
     copyFile' (eappc.>libraryDefinitions_Source_AbFile) (eappc.>libraryDefinitions_Target_AbFile)
 
+  -- agda.sty
   (eappc.>agdaSty_Target_AbFile) %> \file -> do
     template <- liftIO templatefileAgdaSty
     need [template, egc.>metabuilder_AbFile]
     content <- liftIO (generateAgdaSty)
     liftIO $ TIO.writeFile file content
+
+  -- quiver.sty
+  (eappc.>quiverSty_Target_AbFile) %> \file -> do
+    template <- liftIO templatefileQuiverSty
+    need [template, egc.>metabuilder_AbFile]
+    content <- liftIO (generateQuiverSty)
+    liftIO $ TIO.writeFile file content
+
 
   (eappc.>commands_AbFile) %> \file -> do
     -- source_Files <- getDirectoryFiles (eappc.>source_AbDir) ["//*.agda"]
@@ -298,9 +310,18 @@ generateMainTex files = do
 templatefileAgdaSty :: IO FilePath
 templatefileAgdaSty = getDataFileName "templates/agda.sty.metabuild-template"
 
+templatefileQuiverSty :: IO FilePath
+templatefileQuiverSty = getDataFileName "templates/quiver.sty.metabuild-template"
+
 generateAgdaSty :: IO Text
 generateAgdaSty = do
   file <- templatefileAgdaSty
+  content <- TIO.readFile file
+  return content
+
+generateQuiverSty :: IO Text
+generateQuiverSty = do
+  file <- templatefileQuiverSty
   content <- TIO.readFile file
   return content
 

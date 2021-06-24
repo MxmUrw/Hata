@@ -45,11 +45,15 @@ instance Show (TokenContainer a) where
 data IsImplicit = IsImplicit | NotImplicit
   deriving (Show)
 
+data Keyword = KeywordWhere
+  deriving (Show)
+
 data MultiTokenContainer a =
   SingleTC (TokenContainer a)
   | MultipleTC [MTC a]
   | WhitespaceTC (TokenContainer a)
-  | RecordDef [(TokenContainer a)]
+  | RecordHead [(TokenContainer a)]
+  | KeywordTC Keyword (TokenContainer a)
   | AllClause IsImplicit [MTC a]
   | UniverseClause (TokenContainer a) [MTC a]
   | UniverseLevelClause
@@ -89,10 +93,14 @@ liftTC parser = myToken g
 anyTC :: (TokenLike a, Show a) => Parsec [a] () (TokenContainer a)
 anyTC = liftTC tokenHL
 
+pKeywordMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
+pKeywordMTC = KeywordTC KeywordWhere <$> stringTC "where"
+
 -- parsing records
-pRecordDefMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
-pRecordDefMTC = merge <$> stringTC "record" <*> stringTC " " <*> liftTC simpleNameTokenHL
-  where merge a b c = RecordDef (a : b : c : [])
+pRecordHeadMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
+pRecordHeadMTC = merge <$> stringTC "record" <*> stringTC " " <*> liftTC simpleNameTokenHL
+  -- we ignore the "record" in `a`
+  where merge a b c = RecordHead (b : c : [])
 
 stringsTC :: (TokenLike a, Show a) => [Text] -> Parsec [a] () [TC a]
 stringsTC [] = return []
@@ -194,7 +202,7 @@ pUniverseLevel_withArrow_MTC = (f <$> try (between (stringTC "(") (spaceTermTC (
   where f t = UniverseLevelClause 
 
 pMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
-pMTC = try pRecordDefMTC
+pMTC = try pRecordHeadMTC
       <|> try pAllClauseMTC
       <|> try pAllClauseExplicitMTC
       <|> try pStructureAccessMTC
@@ -207,6 +215,7 @@ pMTC = try pRecordDefMTC
       <|> try pSubscriptClauseMTC
       <|> try pImplicitAssignmentClauseMTC
       <|> try pLambdaClauseMTC
+      <|> try pKeywordMTC
       <|> try pWhitespaceMTC
       <|> try pAnyMTC
 
@@ -417,9 +426,9 @@ executeCommand cmd = pure . executeCommand_Simple cmd
 -- executeCommand (_) (tc) = [tc]
 
 executeCommand_MTC :: TokenLike a => SpecialCommand -> MTC a -> [MTC a]
-executeCommand_MTC (NotationSC _ r t)         (RecordDef tc) = [RecordDef (tc >>= executeCommand (NotationSC MathBF r t))]
-executeCommand_MTC (NotationSC_Short fmt r t) (RecordDef tc) = [RecordDef (tc >>= executeCommand (NotationSC_Short fmt r t))]
-executeCommand_MTC _                          (RecordDef tc) = [RecordDef tc]
+executeCommand_MTC (NotationSC _ r t)         (RecordHead tc) = [RecordHead (tc >>= executeCommand (NotationSC MathBF r t))]
+executeCommand_MTC (NotationSC_Short fmt r t) (RecordHead tc) = [RecordHead (tc >>= executeCommand (NotationSC_Short fmt r t))]
+executeCommand_MTC _                          (RecordHead tc) = [RecordHead tc]
 executeCommand_MTC cmd (SingleTC tc) = SingleTC <$> executeCommand cmd tc
 executeCommand_MTC cmd (MultipleTC tc) = [MultipleTC (executeCommand_MTC cmd =<< tc)]
 executeCommand_MTC cmd (WhitespaceTC tc) = [WhitespaceTC tc]
@@ -433,6 +442,7 @@ executeCommand_MTC cmd (LambdaClause lam vars arr) = [LambdaClause lam (executeC
 executeCommand_MTC cmd (HiddenDelimiterClause tcs) = [HiddenDelimiterClause (executeCommand_MTC cmd =<< tcs)]
 executeCommand_MTC cmd (StructureOfClause tcs) = [StructureOfClause (executeCommand_MTC cmd =<< tcs)]
 executeCommand_MTC cmd (UniverseLevelClause) = [UniverseLevelClause]
+executeCommand_MTC cmd (KeywordTC k t) = [KeywordTC k t]
 
 
 -- QualifedHL :: TokenLike a => Commands -> a -> [String] -> [a]
@@ -457,7 +467,8 @@ generateToken_MTC :: TokenLike a => MTC a -> [Either KillCommand a]
 generateToken_MTC (SingleTC tc) = [generateToken tc]
 generateToken_MTC (MultipleTC tc) = generateToken_MTC =<< tc
 generateToken_MTC (WhitespaceTC tc) = [generateToken tc]
-generateToken_MTC (RecordDef tc) = generateToken <$> tc
+generateToken_MTC (RecordHead tc) = generateToken <$> tc
+generateToken_MTC (KeywordTC (KeywordWhere) _) = []
 generateToken_MTC (AllClause implicit tcs) = [Right $ makePlainToken Nothing (T.pack l)]
                                     <> (generateToken_MTC =<< tcs)
                                     <> [Right $ makePlainToken Nothing (T.pack r)]
@@ -540,7 +551,8 @@ killSpace (Right w : Right v : xs)                              = w : killSpace 
 regenerateTokens_MTC :: TokenLike a => Commands -> MTC a -> [Either KillCommand a]
 regenerateTokens_MTC cmd container =
   let containers = concatM (executeCommand_MTC <$> cmd) container
-      res = trace ("\nAfter commands: " <> show containers) containers
+      -- res = trace ("\nAfter commands: " <> show containers) containers
+      res = containers
   in (res >>= generateToken_MTC)
 
 -- regenerateTokens :: TokenLike a => Commands -> TokenContainer a -> [a]
@@ -575,8 +587,9 @@ changeTC :: TokenLike a => (TC a -> TC a) -> MTC a -> MTC a
 changeTC f (SingleTC tc)      = SingleTC (f tc)
 changeTC f (MultipleTC mtc)   = MultipleTC (changeTC f <$> mtc)
 changeTC f (WhitespaceTC tc)  = WhitespaceTC (f tc)
-changeTC f (RecordDef a)      = RecordDef (f <$> a)
-changeTC f (AllClause i mtcs)  = AllClause i (changeTC f <$> mtcs)
+changeTC f (RecordHead a)     = RecordHead (f <$> a)
+changeTC f (KeywordTC k a)      = KeywordTC k (f a)
+changeTC f (AllClause i mtcs) = AllClause i (changeTC f <$> mtcs)
 changeTC f (UniverseClause tc mtcs)           = UniverseClause (f tc) (changeTC f <$> mtcs)     
 changeTC f (ExponentialClause mtcs)          = ExponentialClause (changeTC f <$> mtcs) 
 changeTC f (SubscriptClause mtcs)            = SubscriptClause (changeTC f <$> mtcs)
@@ -649,10 +662,11 @@ parseAndGenerate cmd input0 =
     let input = (splitToken . replaceToken) =<< input0
         res = parse (many pMTC) "<<input>>" input
         res2 = case res of
-                Right x -> trace ("\nBefore processing:\n" <> show x) x
+                Right x -> x -- trace ("\nBefore processing:\n" <> show x) x
                 Left err -> trace ("Error in parsing tokens: " <> show err) (intoMTC <$> input )
         res3 = embedQualifiedIntoMTC_MTC . processToken_MTC <$> res2
-        res4 = trace ("\n\nAfter processing:\n" <> show res3) res3
+        -- res4 = trace ("\n\nAfter processing:\n" <> show res3) res3
+        res4 = res3
         res5 = killSpace $ res4 >>= regenerateTokens_MTC cmd
     in res5
 

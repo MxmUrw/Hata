@@ -33,6 +33,9 @@ fontsize=11pt,
 \usepackage{enumitem}
 \usepackage{comment} % For hidden environments
 
+%% local sty
+\usepackage{quiver}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % Configuring Agda
