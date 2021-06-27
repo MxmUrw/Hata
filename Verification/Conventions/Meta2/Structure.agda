@@ -149,8 +149,10 @@ instance
 _on_ : (UU : 𝒰 𝑖) {{U : hasU UU 𝑘 𝑙}} -> (a : getU U) -> 𝒰 _
 _on_ UU {{U}} a = getP U a
 
-is_ : (UU : 𝒰 𝑖) {{U : hasU UU 𝑘 𝑙}} -> (a : getU U) -> 𝒰 _
-is_ UU {{U}} a = getP U a
+is-syntax : (UU : 𝒰 𝑖) {{U : hasU UU 𝑘 𝑙}} -> (a : getU U) -> 𝒰 _
+is-syntax UU {{U}} a = getP U a
+
+syntax is-syntax a b = b is a
 
 
 

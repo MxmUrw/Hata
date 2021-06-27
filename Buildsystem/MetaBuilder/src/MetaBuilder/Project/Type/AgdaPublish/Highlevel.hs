@@ -64,6 +64,7 @@ data MultiTokenContainer a =
   | LambdaClause (TC a) [MTC a] (TC a)
   | HiddenDelimiterClause [MTC a]
   | StructureOfClause [MTC a]
+  | HiddenFieldClause [MTC a] (TC a) (TC a)
   deriving (Show)
 
 -- SingleTC a = MultipleTC [a]
@@ -184,6 +185,10 @@ pStructureOfMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
 pStructureOfMTC = f <$> try (between (stringsTC ["⦃", "of", " "]) (stringTC "⦄") (many1 pIntraMTC))
   where f t = StructureOfClause t
 
+pHiddenField :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
+pHiddenField = try (f <$> between (stringTC "⦃") (stringTC "⦄") (many1 pIntraMTC) <*> stringTC " " <*> stringTC ":")
+  where f name sp colon = HiddenFieldClause name sp colon
+
 pUniverseLevel :: (TokenLike a, Show a) => Parsec [a] () (TC a)
 pUniverseLevel = stringTC "𝑖"
                 <|> stringTC "𝑗"
@@ -215,6 +220,7 @@ pMTC = try pRecordHeadMTC
       <|> try pSubscriptClauseMTC
       <|> try pImplicitAssignmentClauseMTC
       <|> try pLambdaClauseMTC
+      <|> try pHiddenField
       <|> try pKeywordMTC
       <|> try pWhitespaceMTC
       <|> try pAnyMTC
@@ -443,6 +449,7 @@ executeCommand_MTC cmd (HiddenDelimiterClause tcs) = [HiddenDelimiterClause (exe
 executeCommand_MTC cmd (StructureOfClause tcs) = [StructureOfClause (executeCommand_MTC cmd =<< tcs)]
 executeCommand_MTC cmd (UniverseLevelClause) = [UniverseLevelClause]
 executeCommand_MTC cmd (KeywordTC k t) = [KeywordTC k t]
+executeCommand_MTC cmd (HiddenFieldClause name k t) = [HiddenFieldClause (name >>= executeCommand_MTC cmd) k t]
 
 
 -- QualifedHL :: TokenLike a => Commands -> a -> [String] -> [a]
@@ -515,6 +522,7 @@ generateToken_MTC (LambdaClause lam vars (TokenContainer arr _)) =
         sepToken = makePlainToken Nothing " "
         arrToken = updateToken arr (AnyHL (descape "\\mapsto"))
 generateToken_MTC (HiddenDelimiterClause mtcs) = [Left KillSpaceRight] <> (generateToken_MTC =<< mtcs) <> [Left KillSpaceLeft]
+generateToken_MTC (HiddenFieldClause name sp c) = [Right (makePlainToken Nothing (T.pack (descape "\\star"))) , generateToken sp , generateToken c]
 generateToken_MTC (StructureOfClause mtcs) =
     [Left KillSpaceLeft]
     <> [Right $ makePlainToken Nothing (T.pack l)]
@@ -599,6 +607,8 @@ changeTC f (LambdaClause tc mtcs tc2) = LambdaClause (f tc) (changeTC f <$> mtcs
 changeTC f (HiddenDelimiterClause mtcs) = HiddenDelimiterClause (changeTC f <$> mtcs)
 changeTC f (StructureOfClause mtcs) = StructureOfClause (changeTC f <$> mtcs)
 changeTC f (UniverseLevelClause) = UniverseLevelClause
+changeTC f (HiddenFieldClause name t k) = HiddenFieldClause (changeTC f <$> name) (f t) (f k)
+
 
 processToken_MTC :: TokenLike a => MTC a -> MTC a
 processToken_MTC = changeTC processToken

@@ -58,19 +58,25 @@ open import Verification.Experimental.Data.Universe.Everything
 --   i.e., we define the record type [...] as follows:
 record isLogicalFramework (ℳ : Category 𝑖) (Σ : Category 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
 
-  -- |: 1. We require two functions
+  -- | 1. We require two functions [..] and [..] between them.
   field Free : ⟨ Σ ⟩ -> ⟨ ℳ ⟩
   field Forget : ⟨ ℳ ⟩ -> ⟨ Σ ⟩
 
-  -- | 2. Both have to be functors
-  field {{isFunctor:Free}} : isFunctor Σ ℳ Free
-  field {{isFunctor:Forget}} : isFunctor ℳ Σ Forget
+  -- | 2. There should be proofs [..] and [..] that they are actually functors between
+  --      the corresponding categories.
+  field {{isFunctor:Free}} : Free is (Functor Σ ℳ)
+  field {{isFunctor:Forget}} : Forget is (Functor ℳ Σ)
 
   -- | 3. And finally we want a map which shows that every |σ| structure
   --      is a model of |Free Σ|
-  field ⟦_⟧ : ∀{σ m} -> (σ ⟶ Forget m) -> (Free σ ⟶ m)
+  field ⟦_⟧ : ∀{σ m} -> (Hom σ (Forget m)) -> (Hom (Free σ) m)
 
-  -- |: 1. Here we should end... And this?
+  -- |: We define a |σ| structure on an object |m| as:
+  Structure : ⟨ Σ ⟩ -> ⟨ ℳ ⟩ -> 𝒰 _
+  Structure σ m = Hom σ (Forget m)
+
+  mytest : ∀{a b : ⟨ Σ ⟩} -> (f : a ⟶ b) -> Free a ⟶ Free b
+  mytest f = map f
 
 -- //
 
