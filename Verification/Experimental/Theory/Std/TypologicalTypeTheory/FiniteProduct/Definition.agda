@@ -12,8 +12,8 @@ open import Verification.Experimental.Theory.Std.TypeTheory.Definition
 -- | We define a class of type theories, called /finite product type theory/, short |TT-×| as:
 
 
-record isTermTheory-× (𝒞 : CartesianCategory 𝑖) : 𝒰 (𝑖 ⁺) where
-  field isInput : ⟨ 𝒞 ⟩ -> 𝒰 𝑖
+-- record isTermTheory-× (𝒞 : CartesianCategory 𝑖) : 𝒰 (𝑖 ⁺) where
+--   field isInput : ⟨ 𝒞 ⟩ -> 𝒰 𝑖
 
 
 

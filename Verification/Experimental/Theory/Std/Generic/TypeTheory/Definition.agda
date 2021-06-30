@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.TypeTheory.Definition where
+module Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
@@ -17,7 +17,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full2
 open import Verification.Experimental.Category.Std.Morphism.Iso
 -- open import Verification.Experimental.Computation.Question.Construction.Product
-open import Verification.Experimental.Theory.Std.Theory.Definition
+open import Verification.Experimental.Theory.Std.Generic.Theory.Definition
 open import Verification.Experimental.Computation.Question.Definition
 open import Verification.Experimental.Computation.Question.Specific.Check
 open import Verification.Experimental.Computation.Question.Specific.Small

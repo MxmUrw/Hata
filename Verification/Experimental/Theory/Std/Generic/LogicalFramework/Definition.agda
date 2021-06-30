@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.LogicalTheory.Definition where
+module Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition where
 
 open import Verification.Experimental.Conventions hiding (Structure ; Σ)
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -75,8 +75,8 @@ record isLogicalFramework (ℳ : Category 𝑖) (Σ : Category 𝑗) : 𝒰 (�
   Structure : ⟨ Σ ⟩ -> ⟨ ℳ ⟩ -> 𝒰 _
   Structure σ m = Hom σ (Forget m)
 
-  mytest : ∀{a b : ⟨ Σ ⟩} -> (f : a ⟶ b) -> Free a ⟶ Free b
-  mytest f = map f
+  -- mytest : ∀{a b : ⟨ Σ ⟩} -> (f : a ⟶ b) -> Free a ⟶ Free b
+  -- mytest f = map f
 
 -- //
 

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Theory.Definition where
+module Verification.Experimental.Theory.Std.Generic.Theory.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
