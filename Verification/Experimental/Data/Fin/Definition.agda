@@ -16,6 +16,9 @@ macro
   𝔽 : ∀ n -> SomeStructure
   𝔽 n = #structureOn (Fin n)
 
+macro
+  𝔽ʳ : ∀ n -> SomeStructure
+  𝔽ʳ n = #structureOn (Fin-R n)
 
 
 

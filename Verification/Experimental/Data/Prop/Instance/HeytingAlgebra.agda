@@ -2,7 +2,6 @@
 module Verification.Experimental.Data.Prop.Instance.HeytingAlgebra where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice

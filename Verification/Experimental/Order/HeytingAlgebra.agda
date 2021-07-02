@@ -5,7 +5,6 @@ open import Verification.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Meta.Structure
 
 
 record isHeytingAlgebra {𝑖 : 𝔏 ^ 3} (L : Lattice 𝑖) : 𝒰 𝑖 where

@@ -8,7 +8,7 @@ open import Verification.Conventions
 -- open import Verification.Core.Category.Instance.Set.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Meta.Structure
+
 
 data Test : 𝒰₀ where
 

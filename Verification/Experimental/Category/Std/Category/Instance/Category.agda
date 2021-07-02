@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Category.Instance.Category where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Category.Std.Category.Definition

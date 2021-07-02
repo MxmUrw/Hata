@@ -1,0 +1,86 @@
+% Created 2021-06-19 Sat 22:35
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{mypackages}
+\usepackage{quiver}
+\usepackage{tikz-cd}
+\usepackage{tikz}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.2 (Org mode 9.4.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Theories}
+\label{sec:orgcecb208}
+
+The purpose of this \emph{theory of theories} is to explicitly describe a framework in
+which all efforts in the area of syntax and semantics of type theories and programming languages
+can be located. We want to include everything one would intuitively expect to be part of such research.
+Thus we necessarily end up with a very rudimentary picture, based on a least common denominator.
+Such a picture does not help with proving new theorems, and will not be surprising to anyone familiar
+with the usual concepts and goals. In fact it should merely reflect this state of mind in a formal environment.
+
+We follow the common notion that a (type) theory may be viewed from the following perspectives:
+\begin{itemize}
+\item \emph{Type Theory}: A formal system with a set of terms and types/contexts, and a typing judgement relating them with each other.
+\item \emph{Category}: A set of objects, and sets of arrows between them, encoding the notion of composition.
+\item \emph{Computational Model}: A set of (possibly typed) terms with rewriting rules between them.
+\end{itemize}
+
+The "best" type theories (simple type theory, dependent type theory) incorporate all of these perspectives,
+and this is known as \emph{computational trilogy} [cite]. But our goal at the moment is not to describe the "best" type theories,
+but to give a definition which subsumes anything which looks like a theory at all. Our attempt at describing the least common denominator
+between the three perspectives is as follows:
+
+\begin{definition}
+  A theory is given by:
+  \begin{enumerate}
+    \item A type $\mathscr{T} : \mathscr{U}$ of statements.
+    \item For any statement $\phi : \mathscr{T}$, a setoid $\phi\,\square : \mathbf{Std}$ of proofs of this statement.
+  \end{enumerate}
+\end{definition}
+
+
+
+\begin{tikzcd}
+	& {\mathbf{1}} \\
+	\\
+	& {\textbf{Theo}^+} & {} \\
+	\\
+	{\textbf{TT}} & {\textbf{Cat}} & {\textbf{Comp}} \\
+	& {\textbf{Theo}}
+	\arrow[from=5-3, to=6-2]
+	\arrow[from=5-2, to=6-2]
+	\arrow[dashed, from=3-2, to=5-2]
+	\arrow[dashed, from=3-2, to=5-3]
+	\arrow[from=5-1, to=6-2]
+	\arrow[dashed, from=3-2, to=5-1]
+	\arrow["\Lambda"{description}, curve={height=6pt}, from=1-2, to=3-2]
+	\arrow["\Pi"{description}, curve={height=-6pt}, from=1-2, to=3-2]
+	\arrow["\multimap"{description}, curve={height=18pt}, from=1-2, to=3-2]
+	\arrow["{\mathit{CTT}}"{description}, curve={height=-18pt}, from=1-2, to=3-2]
+	\arrow["\forall"{description}, curve={height=24pt}, from=1-2, to=5-1]
+	\arrow["{\mathit{ASM}}"{description}, curve={height=-24pt}, from=1-2, to=5-3]
+\end{tikzcd}
+\end{document}

@@ -38,8 +38,8 @@ open import Cubical.HITs.PropositionalTruncation renaming (∣_∣ to ∣_∣-Pr
 open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
 -- open import Cubical.Data.Bool.Base renaming (_≟_ to _≟-Bool_ ; _⊕_ to _⊕-Bool_) public
 -- open import Cubical.Data.Bool.Properties public
--- open import Cubical.Data.Vec.Properties public
--- open import Cubical.Data.Vec.Base renaming (map to map-Vec ; _++_ to _++-Vec_ ; length to length-Vec) public
+open import Cubical.Data.Vec.Properties public
+open import Cubical.Data.Vec.Base renaming (map to map-Vec ; _++_ to _++-Vec_ ; length to length-Vec) public
 -- open import Cubical.Data.List hiding ([_]) renaming (_++_ to _++-List_ ; length to length-List ; ++-assoc to ++-List-assoc ; ¬cons≡nil to cons≢nil ; ¬nil≡cons to nil≢cons) public
 
 

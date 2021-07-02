@@ -2,7 +2,7 @@
 module Verification.Experimental.Algebra.MonoidAction.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Prop.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition

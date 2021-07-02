@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Set.Instance.Category
@@ -11,6 +11,8 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 
 open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Data.Universe.Everything
+
+open import Verification.Experimental.Category.Std.Fibration.Definition
 
 private variable
   𝒞 : Category 𝑖
@@ -29,11 +31,15 @@ macro
   𝐅𝐚𝐦 : ∀(𝒞 : Category 𝑖) -> ∀ 𝑗 -> SomeStructure
   𝐅𝐚𝐦 𝒞 𝑗 = #structureOn (Family 𝒞 𝑗)
 
-module _ {𝒞 : Category 𝑖} (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) where
-  record isFamilyHom (f : ⟨ X ⟩ -> ⟨ Y ⟩) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
+module _ {𝒞 : Category 𝑖} where
+  record isFamilyHom (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) (f : ⟨ X ⟩ -> ⟨ Y ⟩) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
     field map-■ : ∀{a : ⟨ X ⟩} -> a ■ ⟶ f a ■
 
-  FamilyHom = _ :& isFamilyHom
+  open isFamilyHom {{...}} public
+
+module _ {𝒞 : Category 𝑖} (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) where
+  FamilyHom : _
+  FamilyHom = _ :& isFamilyHom X Y
 
 
 instance
@@ -67,5 +73,9 @@ module _ {𝒞 : Category 𝑗} {𝑖} where
     isFunctor.isSetoidHom:map isFunctor:ForgetFam = {!!}
     isFunctor.functoriality-id isFunctor:ForgetFam = {!!}
     isFunctor.functoriality-◆ isFunctor:ForgetFam = {!!}
+
+  instance
+    isFibration:ForgetFam : isFibration (𝐅𝐚𝐦 𝒞 𝑖) (𝐓𝐲𝐩𝐞 _) ′ Forget ′
+    isFibration:ForgetFam = {!!}
 
 

@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Functor.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 
@@ -19,6 +19,7 @@ module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
 -- |> A function |F|, mapping objects of |𝒞| to objects of |𝒟|
 --    is called a functor [...] if the following additional data is given:
   record isFunctor (F : ⟨ 𝒞 ⟩ -> ⟨ 𝒟 ⟩) : 𝒰 (𝑖 ､ 𝑗) where
+    constructor functor
 
           -- | - An operation [..] mapping arrows of |𝒞| to arrows in |𝒟|.
     field map : ∀{a b : ⟨ 𝒞 ⟩} -> Hom a b -> Hom (F a) (F b)

@@ -2,7 +2,7 @@
 module Verification.Experimental.Data.Nat.Definition where
 
 open import Verification.Experimental.Conventions renaming (ℕ to Nat)
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Algebra.Monoid
@@ -19,6 +19,18 @@ instance
   isSetoid:ℕ : isSetoid _ ℕ
   isSetoid._∼'_ isSetoid:ℕ = _≣_
   isSetoid.isEquivRel:∼ isSetoid:ℕ = it
+
+instance
+  isMonoid:ℕ : isMonoid ℕ
+  isMonoid:ℕ = record
+                 { _⋆_ = _+-ℕ_
+                 ; ◌ = 0
+                 ; unit-l-⋆ = refl
+                 ; unit-r-⋆ = {!!}
+                 ; assoc-l-⋆ = {!!}
+                 ; assoc-r-⋆ = {!!}
+                 ; _`cong-⋆`_ = {!!}
+                 }
 
 
 instance

@@ -21,8 +21,8 @@
 # resolver:
 #   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/5.yaml
 
-resolver: lts-17.13
-compiler: ghc-8.10.4
+resolver: nightly-2021-06-19
+compiler: ghc-9.0.1
 # compiler-check: match-exact
 
 # User packages to be built.
@@ -39,6 +39,10 @@ packages:
 
 ghc-options:
   "$locals": -fwarn-incomplete-patterns
+
+extra-deps:
+- git: https://github.com/MxmUrw/agda.git
+  commit: 1163a8432a7f4659cecf2fed87db65de26628fb8
 
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as

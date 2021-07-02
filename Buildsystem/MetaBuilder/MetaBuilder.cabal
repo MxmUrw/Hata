@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 68d3370f40e9ddfcf66ed078d7aacfaeed5e31ac33586d6656bc72e851d8e888
+-- hash: cb09ce34c34cfe0c18c21bfd2f2357ebb4331e486cdb8a1e95e488a4c18f3de0
 
 name:           MetaBuilder
 version:        0.1.0.0
@@ -20,6 +20,11 @@ build-type:     Simple
 extra-source-files:
     README.md
     ChangeLog.md
+data-files:
+    templates/article.tex.metabuild-template
+    templates/screport.tex.metabuild-template
+    templates/agda.sty.metabuild-template
+    templates/quiver.sty.metabuild-template
 
 source-repository head
   type: git
@@ -39,6 +44,13 @@ library
       MetaBuilder.Project.Collection
       MetaBuilder.Project.Environment
       MetaBuilder.Project.Type.Agda
+      MetaBuilder.Project.Type.AgdaPublish
+      MetaBuilder.Project.Type.AgdaPublish.Common
+      MetaBuilder.Project.Type.AgdaPublish.Highlevel
+      MetaBuilder.Project.Type.AgdaPublish.Lowlevel
+      MetaBuilder.Project.Type.AgdaPublish.Midlevel
+      MetaBuilder.Project.Type.AgdaPublish.MidlevelCode
+      MetaBuilder.Project.Type.AgdaPublish.Persistent
       MetaBuilder.Project.Type.Haskell
   other-modules:
       Paths_MetaBuilder
@@ -51,7 +63,8 @@ library
       MultiParamTypeClasses
       FunctionalDependencies
   build-depends:
-      aeson
+      Agda
+    , aeson
     , attoparsec
     , base >=4.7 && <5
     , directory

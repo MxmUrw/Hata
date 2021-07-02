@@ -21,4 +21,8 @@ data Application : 𝒰₀ where
 
 {-# COMPILE GHC Application = data Application (Execute) #-}
 
+data Error : 𝒰₀ where
+  parseError : String -> Error
+
+{-# COMPILE GHC Error = data HataError (ParseError) #-}
 

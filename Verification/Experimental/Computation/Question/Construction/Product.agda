@@ -34,10 +34,6 @@ macro
 --   _×_ : ∀(A : 𝒰 𝑖) (B : 𝒰 𝑗) -> SomeStructure
 --   _×_ A B = #structureOn (A ×-𝒰 B)
 
-macro
-  _+_ : ∀(A : 𝒰 𝑖) (B : 𝒰 𝑗) -> SomeStructure
-  _+_ A B = #structureOn (A +-𝒰 B)
-
 
 module _ {𝔓 : 𝒰 _} {𝔔 : 𝒰 _} {{_ : Question 𝑖 on 𝔓}} {{_ : Question 𝑗 on 𝔔}} where
   instance

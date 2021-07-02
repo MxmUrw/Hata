@@ -1,0 +1,145 @@
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mypackages}[2021/01/11 quiver]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Theorem environments
+\RequirePackage{amsthm}
+\RequirePackage{thmtools}
+\RequirePackage[scr=rsfs]{mathalpha}
+
+% theorem like
+\declaretheorem[
+style=plain,
+parent=section
+]{theorem}
+
+\declaretheorem[
+style=plain,
+sibling=theorem
+]{lemma}
+
+\declaretheorem[
+style=plain,
+sibling=theorem
+]{corollary}
+
+
+% definition like
+\declaretheoremstyle[
+spaceabove=6pt, spacebelow=6pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=1em,
+qed=$\lhd$
+]{mystyle}
+
+\declaretheorem[
+style=mystyle,
+sibling=theorem
+]{definition}
+
+
+\declaretheorem[
+style=definition,
+sibling=theorem
+]{example}
+
+
+% remark like
+\declaretheorem[
+style=remark,
+numbered=no
+]{remark}
+
+\declaretheorem[
+style=remark,
+numbered=no
+]{notation}
+
+% Setting up fonts
+
+
+\RequirePackage{ifxetex, ifluatex, xifthen, xcolor, polytable, etoolbox,
+  calc, environ, xparse, xkeyval, mathtools}
+
+% https://tex.stackexchange.com/questions/47576/combining-ifxetex-and-ifluatex-with-the-logical-or-operation
+\newif\ifxetexorluatex
+\ifxetex
+  \xetexorluatextrue
+\else
+  \ifluatex
+    \xetexorluatextrue
+  \else
+    \xetexorluatexfalse
+  \fi
+\fi
+
+
+\ifxetexorluatex%
+
+  % Hack to get the amsthm package working.
+  % https://tex.stackexchange.com/questions/130491/xelatex-error-paragraph-ended-before-tempa-was-complete
+  % \let\AgdaOpenBracket\[\let\AgdaCloseBracket\]
+  \RequirePackage{fontspec}
+  % \let\[\AgdaOpenBracket\let\]\AgdaCloseBracket
+  \RequirePackage{unicode-math}
+
+  % \RequirePackage{mathpazo}
+  % \RequirePackage[scaled=0.95]{helvet}
+
+
+  %%% ORIGINAL
+  % \setmainfont
+  % [ Ligatures      = TeX
+  % , BoldItalicFont = xits-bolditalic.otf
+  % , BoldFont       = xits-bold.otf
+  % , ItalicFont     = xits-italic.otf
+  % ]
+  % {xits-regular.otf}
+  % \setmathfont {xits-math.otf}
+  %%%% ORIGINAL END
+
+
+  \setmainfont%
+    % [ Ligatures      = TeX
+    % , BoldItalicFont = XITS-BoldItalic.otf
+    % , BoldFont       = XITS-Bold.otf
+    % , ItalicFont     = XITS-Italic.otf
+    % ]
+    % {XITS-Regular.otf}
+    {Latin Modern Roman}
+
+    \setmathfont{XITSMath-Regular.otf}
+    % \setmonofont[Mapping=tex-text]{FreeMono.otf}
+  \setmathfont{Latin Modern Math}
+  \setmonofont[Mapping=tex-text]{Latin Modern Mono}
+  % \setmathfont[range={"2200-"22FF}]{XITSMath-Regular.otf}
+  % OLD \setmathfont[range={"2200-"22FF}]{STIX Two Math}
+
+  % Make mathcal and mathscr appear as different.
+  % https://tex.stackexchange.com/questions/120065/xetex-what-happened-to-mathcal-and-mathscr
+  % \setmathfont[range={\mathcal,\mathbfcal},StylisticSet=1]{Latin Modern Math}
+  % \setmathfont[range={\mathcal,\mathbfcal},StylisticSet=1]{XITSMath-Regular.otf}
+  \setmathfont[range={\mathcal,\mathbfcal}]{XITSMath-Regular.otf}
+  \setmathfont[range={\mathscr,\mathbfscr}]{XITSMath-Regular.otf}
+
+  % \setmathfont{latinmodern-math.otf}[range=sfit/{greek,Greek}]
+  % \setsansfont{Latin Modern Math}
+
+% pdfLaTeX
+\else
+
+  % https://tex.stackexchange.com/questions/1774/how-to-insert-pipe-symbol-in-latex
+  \RequirePackage[T1]{fontenc}
+
+  \RequirePackage{amsfonts, amssymb}
+  \RequirePackage[safe]{tipa} % See page 12 of the tipa manual for what
+                              % safe does.
+
+\fi
+
+
+\endinput

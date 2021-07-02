@@ -2,7 +2,6 @@
 module Verification.Experimental.Set.Function.Injective where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
 
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where

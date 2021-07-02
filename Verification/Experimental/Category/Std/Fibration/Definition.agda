@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Fibration.Definition where
 
 open import Verification.Experimental.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Set.Instance.Category
@@ -35,12 +35,6 @@ cong₂-Str f refl-StrId refl-StrId = refl-StrId
 --   field 
 
 
-isSetoid:FullSubsetoid : (X : Setoid 𝑖) {A : 𝒰 𝑗} (ϕ : A -> ⟨ X ⟩) -> isSetoid _ A
-isSetoid._∼'_ (isSetoid:FullSubsetoid X ϕ) = λ a b -> ϕ a ∼ ϕ b
-isSetoid.isEquivRel:∼ (isSetoid:FullSubsetoid X ϕ) = equivRel (incl refl) (λ p -> incl (sym ⟨ p ⟩)) (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
-
-isContr-Std : (A : 𝒰 _) {{_ : Setoid 𝑖 on A}} -> 𝒰 _
-isContr-Std A = ∑ λ (a : A) -> ∀ (b : A) -> a ∼ b
 -- ∀ (a b : A) -> a ∼ b
 
 {-
@@ -86,11 +80,16 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
 
   module _ (p : Fibration ℰ ℬ) (b : ⟨ ℬ ⟩) where
     record isFiber (e : Obj ℰ) : 𝒰 (𝑗 ､ 𝑖) where
+      constructor isfiber
       field isSectionFiber : ⟨ p ⟩ ⟨ e ⟩ ≣ b
 
     open isFiber public
 
     Fiber = _ :& isFiber
+
+  instance
+    isFiber:Refl : ∀{p : Fibration ℰ ℬ} {e : ⟨ ℰ ⟩} -> isFiber p (⟨ p ⟩ e) (obj e)
+    isFiber:Refl = isfiber refl
 
   module _ {p : Fibration ℰ ℬ} {b : ⟨ ℬ ⟩} where
 
@@ -161,14 +160,21 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
       isCategory.assoc-r-◆ isCategory:Fiber = incl assoc-r-◆
       isCategory._◈_ isCategory:Fiber = {!!}
 
-  -- Fiber : (p : Fibration ℰ ℬ) -> Functor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _)
-  -- Fiber p = F since {!!}
-  --   where
-  --     F : ⟨ ℬ ⟩ -> Category _
-  --     F b = Fb since {!!}
-  --       where
-  --         Fb : 𝒰 _
-  --         Fb = ∑ λ (e : ⟨ ℰ ⟩) -> ⟨ p ⟩ e ≡ b
+  FiberF : (p : Fibration ℰ ℬ) -> Functor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _)
+  FiberF p = F since it
+    where
+      F : ⟨ ℬ ⟩ -> Category _
+      F b = ′ Fiber p b ′
+
+      Ff : ∀{a b : ⟨ ℬ ⟩} (f : a ⟶ b) -> Fiber p b -> Fiber p a
+      Ff f e = {!!}
+
+      instance
+        isFunctor:F : isFunctor (ℬ ᵒᵖ) (𝐂𝐚𝐭 _) F
+        isFunctor.map isFunctor:F = λ x → {!!}
+        isFunctor.isSetoidHom:map isFunctor:F = {!!}
+        isFunctor.functoriality-id isFunctor:F = {!!}
+        isFunctor.functoriality-◆ isFunctor:F = {!!}
 
 
 

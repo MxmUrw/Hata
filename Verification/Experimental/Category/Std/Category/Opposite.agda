@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Category.Opposite where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Category.Std.Category.Definition
 

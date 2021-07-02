@@ -2,7 +2,7 @@
 module Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Monad where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Setoid.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Definition

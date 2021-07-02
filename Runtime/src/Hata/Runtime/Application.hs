@@ -19,4 +19,7 @@ instance Show Printable where
   show (PAnnot p q) = show p <> show q
   show (PList ps) = show ps
 
+data HataError =
+  ParseError Text
+
 

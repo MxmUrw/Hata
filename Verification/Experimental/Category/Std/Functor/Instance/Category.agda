@@ -2,7 +2,7 @@
 module Verification.Experimental.Category.Std.Functor.Instance.Category where
 
 open import Verification.Conventions
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
@@ -24,5 +24,8 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
     isCategory.assoc-l-◆ isCategory:Functor = {!!}
     isCategory.assoc-r-◆ isCategory:Functor = {!!}
     isCategory._◈_ isCategory:Functor = {!!}
+
+module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
+  macro 𝐅𝐮𝐧𝐜 = #structureOn (Functor 𝒞 𝒟)
 
 

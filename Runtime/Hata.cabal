@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2ae5015651e9b9dc5313fa5c56017857e7bc87ed599cdf140329ce455700267f
+-- hash: ca7fc7af87350d2176f96d79d8283cb1b3354ecfc348ef474b6641e2c31d0eb6
 
 name:           Hata
 version:        0.1.0.0
@@ -30,6 +30,7 @@ library
       Hata.Runtime.Application
       Hata.Runtime.CLI
       Hata.Runtime.Main
+      Hata.Runtime.Service.Parse.GeneralizedLambdaTerm
       MAlonzo.Code.Application.Main
   other-modules:
       Paths_Hata

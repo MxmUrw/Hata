@@ -4,7 +4,7 @@ module Verification.Experimental.Data.Real.Definition where
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Data.Int.Definition
 open import Verification.Experimental.Data.Rational.Definition
-open import Verification.Experimental.Meta.Structure
+
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Algebra.Monoid
 open import Verification.Experimental.Algebra.Group
