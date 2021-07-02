@@ -34,7 +34,7 @@ record isTypeTheory (𝑖 : 𝔏 ^ 3) (Type : 𝒰 𝑗) : 𝒰' (𝑖 ⁺ ､ �
   constructor typeTheory
 
   field Termᵘ : 𝒰 (𝑖 ⌄ 0)
-  field {{isSetoid:Term}} : isSetoid (𝑖 ⌄ 1) Termᵘ
+  field {{isSetoid:Term}} : isSetoid {𝑖 ⌄ 1} Termᵘ
 
   field _∶_ : Termᵘ -> Type -> 𝒰 (𝑖 ⌄ 2)
   field preserveType : ∀ {t₁ t₂} -> (t₁ ∼ t₂) -> ∀{τ : Type} -> t₁ ∶ τ -> t₂ ∶ τ
@@ -45,7 +45,7 @@ record isTypeTheory (𝑖 : 𝔏 ^ 3) (Type : 𝒰 𝑗) : 𝒰' (𝑖 ⁺ ､ �
   TypedTermᵘ τ = (∑ λ (t : Term) -> t ∶ τ)
 
   instance
-    isSetoid:TypedTerm : ∀{τ : Type} -> isSetoid (𝑖 ⌄ 0) (TypedTermᵘ τ)
+    isSetoid:TypedTerm : ∀{τ : Type} -> isSetoid {𝑖 ⌄ 0} (TypedTermᵘ τ)
     isSetoid:TypedTerm = {!!}
 
 
@@ -67,7 +67,7 @@ macro
   𝐓𝐓 (𝑖) = #structureOn (TypeTheory 𝑖)
 
 instance
-  isCategory:𝐓𝐓 : isCategory _ (𝐓𝐓 𝑖)
+  isCategory:𝐓𝐓 : isCategory (𝐓𝐓 𝑖)
   isCategory:𝐓𝐓 = isCategory:FullSubcategory Forget
 
 ---------------------------------------------------------------
@@ -86,7 +86,7 @@ private macro
   p = instance[ "" , 𝑖 / 3 ] (𝐅𝐚𝐦 (𝐐𝐮𝐞𝐬𝐭 (𝑖 ⌄ 0 ⋯ 1)) (𝑖 ⌄ 2) -> 𝐓𝐲𝐩𝐞 _) ◀
 
 𝐓𝐓Fib : ∀ 𝑖 -> Fiber (p) (TypeTheory 𝑖)
-𝐓𝐓Fib 𝑖 = 𝐓𝐓Fam _ since record { isSectionFiber = refl }
+𝐓𝐓Fib 𝑖 = 𝐓𝐓Fam 𝑖 since record { isSectionFiber = refl-≣ }
 
 
 instance
@@ -96,11 +96,11 @@ instance
 
 trivialF : ∀{𝑖} -> ∀{A} -> Fiber (p {𝑖}) A
 trivialF {A = A} = (A since family (λ _ -> TRIVIAL))
-           since record { isSectionFiber = refl }
+           since record { isSectionFiber = refl-≣ }
 
 module _ {A : 𝒰 _} {B} (X : Fiber (p {𝑖}) B) (π : A -> B) where
   Solution : 𝒰 _
-  Solution = ⟨ incl π *! ⟩ X ⟶ trivialF
+  Solution = ⟨ π *! ⟩ X ⟶ trivialF
 
 
 

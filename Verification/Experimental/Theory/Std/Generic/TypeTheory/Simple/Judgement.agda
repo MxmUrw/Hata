@@ -27,8 +27,8 @@ private
 
 module _ {A : 𝒰 𝑖} where
   instance
-    isSetoid:Jdg-⦿ : isSetoid _ (Jdg-⦿ A)
-    isSetoid:Jdg-⦿ = setoid _≡_
+    isSetoid:Jdg-⦿ : isSetoid (Jdg-⦿ A)
+    isSetoid:Jdg-⦿ = isSetoid:byPath
 
     hasAction-l:Jdg-⦿ : hasAction-l (𝖢-⦿ A) (𝖩-⦿ A)
     hasAction-l:Jdg-⦿ = record

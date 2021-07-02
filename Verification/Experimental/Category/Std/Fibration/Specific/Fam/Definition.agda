@@ -43,8 +43,8 @@ module _ {𝒞 : Category 𝑖} (X : Family 𝒞 𝑗) (Y : Family 𝒞 𝑘) wh
 
 
 instance
-  isCategory:Family : ∀{𝒞 : Category 𝑖} -> isCategory (_ , ⨆ 𝑖 ⊔ 𝑗) (Family 𝒞 𝑗)
-  isCategory.Hom' isCategory:Family = FamilyHom
+  isCategory:Family : ∀{𝒞 : Category 𝑖} -> isCategory {_ , ⨆ 𝑗} (Family 𝒞 𝑗)
+  isCategory.Hom isCategory:Family = FamilyHom
   isCategory.isSetoid:Hom isCategory:Family = {!!}
   isCategory.id isCategory:Family = {!!}
   isCategory._◆_ isCategory:Family = {!!}
@@ -69,7 +69,7 @@ module _ {𝒞 : Category 𝑗} {𝑖} where
 
   instance
     isFunctor:ForgetFam : isFunctor (𝐅𝐚𝐦 𝒞 𝑖) (𝐓𝐲𝐩𝐞 _) Forget
-    isFunctor.map isFunctor:ForgetFam = λ f -> incl ⟨ ⟨ f ⟩ ⟩
+    isFunctor.map isFunctor:ForgetFam = λ f -> ⟨ f ⟩
     isFunctor.isSetoidHom:map isFunctor:ForgetFam = {!!}
     isFunctor.functoriality-id isFunctor:ForgetFam = {!!}
     isFunctor.functoriality-◆ isFunctor:ForgetFam = {!!}

@@ -28,7 +28,7 @@ module _ {𝒞 : 𝒰 _} {{_ : MonoidalCategory 𝑖 on 𝒞}} where
 
 module _ {𝑖} where
   instance
-    isCategory:MonoidalCategory : isCategory {?} (MonoidalCategory 𝑖)
+    isCategory:MonoidalCategory : isCategory {{!!}} (MonoidalCategory 𝑖)
     isCategory:MonoidalCategory = {!!}
 
 macro

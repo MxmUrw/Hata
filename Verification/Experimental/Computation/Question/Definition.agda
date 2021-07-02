@@ -70,18 +70,18 @@ private
 -- The category of questions
 
 instance
-  isCategory:𝐐𝐮𝐞𝐬𝐭 : isCategory _ (𝐐𝐮𝐞𝐬𝐭 𝑖)
+  isCategory:𝐐𝐮𝐞𝐬𝐭 : isCategory (𝐐𝐮𝐞𝐬𝐭 𝑖)
   isCategory:𝐐𝐮𝐞𝐬𝐭 =
     record
-    { Hom'         = Reduction
-    ; isSetoid:Hom = record { _∼'_ = (λ f g -> ⟨ f ⟩ ≡ ⟨ g ⟩) ; isEquivRel:∼ = {!!} }
-    ; id           = incl (′ id-𝒰 ′ {{id-Question}})
-    ; _◆_          = λ f g -> incl (′ ⟨ ⟨ f ⟩ ⟩ ◆-𝒰 ⟨ ⟨ g ⟩ ⟩ ′ {{comp-Question {f = ⟨ f ⟩} {⟨ g ⟩}}})
-    ; unit-l-◆   = incl refl
-    ; unit-r-◆   = incl refl
-    ; unit-2-◆   = incl refl
-    ; assoc-l-◆  = incl refl
-    ; assoc-r-◆  = incl refl
+    { Hom         = Reduction
+    ; isSetoid:Hom = setoid (λ f g -> ⟨ f ⟩ ≡ ⟨ g ⟩) {!!} {!!} {!!}
+    ; id           = (′ id-𝒰 ′ {{id-Question}})
+    ; _◆_          = λ f g -> (′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{comp-Question {f = f} {g}}})
+    ; unit-l-◆   = refl
+    ; unit-r-◆   = refl
+    ; unit-2-◆   = refl
+    ; assoc-l-◆  = refl
+    ; assoc-r-◆  = refl
     ; _◈_        = {!!}
     }
 
@@ -94,7 +94,7 @@ instance
 
 instance
   isFunctor:ForgetQuestion : isFunctor (𝐐𝐮𝐞𝐬𝐭 𝑖) (𝐓𝐲𝐩𝐞 _) Forget
-  isFunctor.map isFunctor:ForgetQuestion = λ f -> incl ⟨ ⟨ f ⟩ ⟩
+  isFunctor.map isFunctor:ForgetQuestion = λ f -> ⟨ f ⟩
   isFunctor.isSetoidHom:map isFunctor:ForgetQuestion = {!!}
   isFunctor.functoriality-id isFunctor:ForgetQuestion = {!!}
   isFunctor.functoriality-◆ isFunctor:ForgetQuestion = {!!}

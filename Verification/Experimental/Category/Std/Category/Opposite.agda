@@ -15,24 +15,21 @@ open import Verification.Experimental.Category.Std.Category.Definition
 -- | There is a function [..], mapping a category to its opposite. It is defined as:
 _ᵒᵖ : Category 𝑖 -> Category 𝑖
 _ᵒᵖ 𝒞 = ′ ⟨ 𝒞 ⟩ ′ {{Op}}
-  where Op : isCategory _ ⟨ 𝒞 ⟩
+  where Op : isCategory ⟨ 𝒞 ⟩
         isCategory.Hom Op a b = Hom b a
-        isSetoid._∼'_ (isCategory.isSetoid:Hom Op {x} {y}) (f) (g) = _∼'_ {{isSetoid:Hom {{of 𝒞}} {a = y} {x} }} (f) (g)
-        isEquivRel.refl (isSetoid.isEquivRel:∼ (isCategory.isSetoid:Hom Op {x} {y})) = incl ⟨ refl {{isEquivRel:∼ {{isSetoid:Hom {{of 𝒞}}}}}} ⟩
-        isEquivRel.sym (isSetoid.isEquivRel:∼ (isCategory.isSetoid:Hom Op {x} {y})) (incl p) = incl ⟨ sym {{isEquivRel:∼ {{isSetoid:Hom {{of 𝒞}}}}}} (incl p) ⟩
-        isEquivRel._∙_ (isSetoid.isEquivRel:∼ (isCategory.isSetoid:Hom Op {x} {y})) (incl p) (incl q) = incl ⟨ _∙_ {{isEquivRel:∼ {{isSetoid:Hom {{of 𝒞}}}}}} (incl p) (incl q) ⟩
+        isCategory.isSetoid:Hom Op = isSetoid:Hom {{of 𝒞}}
         isCategory.id Op = id
         isCategory._◆_ Op f g = g ◆ f
-        isCategory.unit-l-◆ Op = incl ⟨ unit-r-◆ ⟩
-        isCategory.unit-r-◆ Op = incl ⟨ unit-l-◆ ⟩
-        isCategory.unit-2-◆ Op = incl ⟨ unit-2-◆ ⟩
-        isCategory.assoc-l-◆ Op = incl ⟨ assoc-r-◆ ⟩
-        isCategory.assoc-r-◆ Op = incl ⟨ assoc-l-◆ ⟩
-        isCategory._◈_ Op (incl p) (incl q) = incl ⟨ incl q ◈ incl p ⟩
+        isCategory.unit-l-◆ Op = unit-r-◆
+        isCategory.unit-r-◆ Op    = unit-l-◆       -- incl ⟨ unit-l-◆ ⟩
+        isCategory.unit-2-◆ Op    = unit-2-◆       -- incl ⟨ unit-2-◆ ⟩
+        isCategory.assoc-l-◆ Op   = assoc-r-◆      -- incl ⟨ assoc-r-◆ ⟩
+        isCategory.assoc-r-◆ Op   = assoc-l-◆      -- incl ⟨ assoc-l-◆ ⟩
+        isCategory._◈_ Op (p) (q) = q ◈ p -- incl ⟨ incl q ◈ incl p ⟩
 
 module _ {𝒞 : Category 𝑖} where
   ᵒᵖᵒᵖ : (𝒞 ᵒᵖ ᵒᵖ) ≡-Str 𝒞
-  ᵒᵖᵒᵖ = refl
+  ᵒᵖᵒᵖ = refl-≣
 
 -- ⟨ 𝒞 ᵒᵖ ⟩                         = ⟨ 𝒞 ⟩
 -- isCategory.Hom' (of 𝒞 ᵒᵖ) a b  = Hom' {{of 𝒞}} b a

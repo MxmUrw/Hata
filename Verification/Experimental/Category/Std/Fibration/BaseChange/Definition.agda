@@ -18,7 +18,7 @@ record hasBaseChange 𝑗 (𝒞 : Category 𝑖) : 𝒰 (𝑗 ⁺ ､ 𝑖) wher
   field Change : Functor (𝒞 ᵒᵖ) (𝐂𝐚𝐭 𝑗)
 
   _*! : ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> Functor (⟨ Change ⟩ b) (⟨ Change ⟩ a)
-  _*! f = ⟨ map {{of Change}} (incl ⟨ f ⟩) ⟩
+  _*! f = map {{of Change}} (f)
 
   field ∃! : ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> Functor (⟨ Change ⟩ a) (⟨ Change ⟩ b)
   field ∀! : ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> Functor (⟨ Change ⟩ a) (⟨ Change ⟩ b)

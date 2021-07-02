@@ -4,6 +4,8 @@ module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Instance.L
 open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Algebra.MonoidAction.Definition
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 -- open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition
@@ -65,12 +67,11 @@ module _ {K : 𝒰 𝑖} {𝒞 : 𝒰 _} {{_ : 𝒞 is MonoidalCategory 𝑗}} w
   -- appendC : SCtx (K) -> JBoundaryT (K) -> JBoundaryT (K)
   -- appendC Δ (fst₁ ⊢ snd₁) = {!!}
 
-  rec-Rule-⦿ : (Jdg-⦿ K -> 𝒞) -> Rule-⦿ K -> 𝒰 _
-  rec-Rule-⦿ f (βs ⊩ β₀) = rec-Ctx-⦿ f βs ⟶ f β₀
+  rec-𝖱-⦿ : (Jdg-⦿ K -> 𝒞) -> Rule-⦿ K -> 𝒰 _
+  rec-𝖱-⦿ f (βs ⊩ β₀) = rec-Ctx-⦿ f βs ⟶ f β₀
 
   iFam : (Jdg-⦿ K -> 𝒞) -> Rule-⦿ K -> 𝒰 _
-  iFam f β = ?
-  -- ∀(Δ : SCtx K) -> iB f (appendC Δ β)
+  iFam f β = ∀(Δ : Ctx-⦿ K) -> rec-𝖱-⦿ f (Δ ↷ β)
 
 
 -----------------------------------
@@ -96,18 +97,18 @@ record hasJudgements 𝑗 (𝒞 : MonoidalCategory 𝑖) : 𝒰 (𝑗 ⁺ ､ �
 
 open hasJudgements {{...}} public
 
-
-
-
 CategoryWithJudgements : ∀ (𝑖 : 𝔏 ^ 4) -> _
 CategoryWithJudgements 𝑖 = MonoidalCategory (𝑖 ⌄ 0 ⋯ 2) :& hasJudgements (𝑖 ⌄ 3)
 
-
 instance
-  isCategory:CategoryWithJudgements : ∀{𝑖} -> isCategory (ℓ₀ , ℓ₀) (CategoryWithJudgements 𝑖)
+  isCategory:CategoryWithJudgements : ∀{𝑖} -> isCategory {ℓ₀ , ℓ₀} (CategoryWithJudgements 𝑖)
   isCategory:CategoryWithJudgements = {!!}
 
 CwJ = CategoryWithJudgements
+
+module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is CwJ 𝑖}} where
+  ▼₁ : Rule-⦿ JKind -> 𝒰 _
+  ▼₁ = rec-𝖱-⦿ JObj
 
 private
   U : CwJ 𝑖 -> MetaTermCalculus _
@@ -118,6 +119,11 @@ private
           ; isHiddenMeta = const ⊥
           ; TermCon = iFam JObj
           }
+
+
+  F : MetaTermCalculus 𝑖 -> CwJ _
+  F Σ = {!!}
+
 
 {-
 

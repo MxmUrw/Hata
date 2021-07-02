@@ -46,7 +46,10 @@ module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
   --   isEquivRel._∙_  isEquivRel:≅ (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆ ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
 
   isSetoid:byCategory : isSetoid 𝒞
-  isSetoid:byCategory = setoid _≅_ {!!} {!!} {!!}
+  isSetoid:byCategory = setoid _≅_
+    (id since lem-10)
+    {!!}
+    {!!}
   -- isSetoid._∼'_ isSetoid:Category A B = A ≅ B
   -- isSetoid.isEquivRel:∼ isSetoid:Category = isEquivRel:≅
 

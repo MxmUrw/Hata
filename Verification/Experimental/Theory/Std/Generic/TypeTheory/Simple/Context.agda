@@ -38,8 +38,8 @@ module _ (A : 𝒰 𝑖) where
 
 module _ {A : 𝒰 𝑖} where
   instance
-    isSetoid:Ctx-⦿ : isSetoid _ (𝖢-⦿ A)
-    isSetoid:Ctx-⦿ = setoid (_≡_)
+    isSetoid:Ctx-⦿ : isSetoid (𝖢-⦿ A)
+    isSetoid:Ctx-⦿ = isSetoid:byPath
 
     isMonoid:Ctx-⦿ : isMonoid (𝖢-⦿ A)
     isMonoid:Ctx-⦿ = record

@@ -30,8 +30,8 @@ private
 
 module _ {A : 𝒰 𝑖} where
   instance
-    isSetoid:Rule-⦿ : isSetoid _ (𝖱-⦿ A)
-    isSetoid:Rule-⦿ = setoid _≡_
+    isSetoid:Rule-⦿ : isSetoid (𝖱-⦿ A)
+    isSetoid:Rule-⦿ = isSetoid:byPath
 
     hasAction-l:Rule-⦿ : hasAction-l (𝖢-⦿ A) (𝖱-⦿ A)
     hasAction-l:Rule-⦿ = record

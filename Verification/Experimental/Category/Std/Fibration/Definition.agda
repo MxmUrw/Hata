@@ -37,7 +37,6 @@ cong₂-Str f refl-StrId refl-StrId = refl-StrId
 
 -- ∀ (a b : A) -> a ∼ b
 
-{-
 
 
 module _ (ℰ : Category 𝑗) (ℬ : Category 𝑖) where
@@ -45,22 +44,22 @@ module _ (ℰ : Category 𝑗) (ℬ : Category 𝑖) where
 
     module _ {e₀ e₁ e₂} (ϕ : e₁ ⟶ e₀) (ψ : e₂ ⟶ e₀) (g : ⟨ p ⟩ e₂ ⟶ ⟨ p ⟩ e₁) (p : g ◆ map ϕ ∼ map ψ) where
 
-      record isCartesianLift (χ : e₂ ⟶ e₁) : 𝒰 (𝑗 ､ 𝑖) where
-        field cartesianLiftFills : (χ ◆ ϕ) ∼ ψ
-        field cartesianLiftSection : map χ ∼ g
+      record isCartesianLift (χ : Hom' {𝒞 = ℰ} e₂ e₁) : 𝒰 (𝑗 ､ 𝑖) where
+        field cartesianLiftFills : (⟨ χ ⟩ ◆ ϕ) ∼ ψ
+        field cartesianLiftSection : map ⟨ χ ⟩ ∼ g
 
       CartesianLift = _ :& isCartesianLift
 
     module _ {e₀ e₁ e₂} {ϕ : e₁ ⟶ e₀} {ψ : e₂ ⟶ e₀} {g : ⟨ p ⟩ e₂ ⟶ ⟨ p ⟩ e₁} {p : g ◆ map ϕ ∼ map ψ} where
       instance
-        isSetoid:CartesianLift : isSetoid _ (CartesianLift ϕ ψ g p)
+        isSetoid:CartesianLift : isSetoid (CartesianLift ϕ ψ g p)
         isSetoid:CartesianLift = isSetoid:FullSubsetoid ′(e₂ ⟶ e₁)′ ⟨_⟩
 
-    record isCartesian {e₁ e₀ : ⟨ ℰ ⟩} (ϕ : e₁ ⟶ e₀) : 𝒰 (𝑗 ､ 𝑖) where
-      field uniqueCartesianLift : ∀{e₂} (ψ : e₂ ⟶ e₀) (g : ⟨ p ⟩ e₂ ⟶ ⟨ p ⟩ e₁) (p : g ◆ map ϕ ∼ map ψ) -> isContr-Std (CartesianLift ϕ ψ g p)
+    record isCartesian {e₁ e₀ : ⟨ ℰ ⟩} (ϕ : Hom' {𝒞 = ℰ} e₁ e₀) : 𝒰 (𝑗 ､ 𝑖) where
+      field uniqueCartesianLift : ∀{e₂} (ψ : e₂ ⟶ e₀) (g : ⟨ p ⟩ e₂ ⟶ ⟨ p ⟩ e₁) (p : g ◆ map ⟨ ϕ ⟩ ∼ map ψ) -> isContr-Std (CartesianLift ⟨ ϕ ⟩ ψ g p)
 
     Cartesian : ∀(e₁ e₀ : ⟨ ℰ ⟩) -> 𝒰 _
-    Cartesian e₁ e₀ = (e₁ ⟶ e₀) :& isCartesian
+    Cartesian e₁ e₀ = _ :& isCartesian {e₁} {e₀}
 
   record isFibrationalLift (p : Functor ℰ ℬ) {e b} (f : b ⟶ ⟨ p ⟩ e) {e'} (ϕ : Cartesian p e' e) : 𝒰 𝑖 where
     field fibrationalLiftObjectSection : ⟨ p ⟩ e' ≡ b
@@ -71,9 +70,10 @@ module _ (ℰ : Category 𝑗) (ℬ : Category 𝑖) where
 
   Fibration = _ :& isFibration
 
-module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
+module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   pid : {a b : 𝒞} -> (a ≣ b) -> a ≅ b
-  pid refl-StrId = ⟨ refl {{isEquivRel:≅}} ⟩
+  pid refl-StrId = refl {{isSetoid:byCategory}}
+  -- ⟨ refl {{isEquivRel:≅}} ⟩
 
 
 module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
@@ -89,7 +89,7 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
 
   instance
     isFiber:Refl : ∀{p : Fibration ℰ ℬ} {e : ⟨ ℰ ⟩} -> isFiber p (⟨ p ⟩ e) (obj e)
-    isFiber:Refl = isfiber refl
+    isFiber:Refl = isfiber refl-≣
 
   module _ {p : Fibration ℰ ℬ} {b : ⟨ ℬ ⟩} where
 
@@ -97,9 +97,9 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
       p' : Functor ℰ ℬ
       p' = ′ ⟨ p ⟩ ′
 
-      record isFiberHom (e₀ e₁ : Fiber p b) (ϕ : ⟨ e₀ ⟩ ⟶ ⟨ e₁ ⟩) : 𝒰 (𝑖 ､ 𝑗) where
+      record isFiberHom (e₀ e₁ : Fiber p b) (ϕ : Hom' {𝒞 = ℰ} ⟨ e₀ ⟩ ⟨ e₁ ⟩) : 𝒰 (𝑖 ､ 𝑗) where
         constructor isfiberhom
-        field isSectionFiberHom : ⟨ iso-inv (pid (isSectionFiber (of e₀))) ⟩ ◆ (map {{of p'}} ϕ) ◆ ⟨ pid (isSectionFiber (of e₁)) ⟩ ∼ id
+        field isSectionFiberHom : ⟨ iso-inv (pid (isSectionFiber (of e₀))) ⟩ ◆ (map {{of p'}} ⟨ ϕ ⟩) ◆ ⟨ pid (isSectionFiber (of e₁)) ⟩ ∼ id
 
       open isFiberHom {{...}} public
 
@@ -118,44 +118,48 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
       -- FiberHom e₀ e₁ = ∑ λ (ϕ : ⟨ e₀ ⟩ ⟶ ⟨ e₁ ⟩) -> transport (λ i -> isSectionFiber (of e₀) i ⟶ isSectionFiber (of e₁) i) (map {{of p'}} ϕ) ∼ id
 
       instance
-        isSetoid:FiberHom : ∀{e₀ e₁} -> isSetoid _ (Hom-Base FiberHom e₀ e₁)
-        isSetoid:FiberHom {e₀} {e₁} = isSetoid:Hom-Base {{isSetoid:FullSubsetoid (′ ⟨ e₀ ⟩ ⟶ ⟨ e₁ ⟩ ′) ⟨_⟩}}
+        isSetoid:FiberHom : ∀{e₀ e₁} -> isSetoid (FiberHom e₀ e₁)
+        isSetoid:FiberHom {e₀} {e₁} = isSetoid:FullSubsetoid (′ ⟨ e₀ ⟩ ⟶ ⟨ e₁ ⟩ ′) ⟨_⟩
+
+
+
+        -- isSetoid:Hom-Base {{isSetoid:FullSubsetoid (′ ⟨ e₀ ⟩ ⟶ ⟨ e₁ ⟩ ′) ⟨_⟩}}
 
       id-Fiber : ∀{e : Fiber p b} -> FiberHom e e
-      id-Fiber {e} = id since isfiberhom P
-        where P : _ ◆ map id ◆ _ ∼ id
-              P = _ ◆ map id ◆ _     ⟨ refl ◈ functoriality-id ◈ refl ⟩-∼
-                  _ ◆ id ◆ _         ⟨ unit-r-◆ ◈ refl ⟩-∼
-                  _ ◆ _              ⟨ inv-l-◆ (of (pid (isSectionFiber (of e)))) ⟩-∼
-                  id                 ∎
+      id-Fiber {e} = id since isfiberhom {!!} -- P
+        -- where P : _ ◆ map id ◆ _ ∼ id
+        --       P = _ ◆ map id ◆ _     ⟨ refl ◈ functoriality-id ◈ refl ⟩-∼
+        --           _ ◆ id ◆ _         ⟨ unit-r-◆ ◈ refl ⟩-∼
+        --           _ ◆ _              ⟨ inv-l-◆ (of (pid (isSectionFiber (of e)))) ⟩-∼
+        --           id {{of ℰ}}                 ∎
 
       comp-Fiber : ∀{e f g : Fiber p b} -> FiberHom e f -> FiberHom f g -> FiberHom e g
-      comp-Fiber {′ e ′} {f} {′ g ′} (ϕ') (ψ') = ϕ ◆ ψ since isfiberhom P
+      comp-Fiber {′ e ′} {f} {′ g ′} (ϕ') (ψ') = ϕ ◆ ψ since isfiberhom {!!} -- P
         where β = pid (isSectionFiber (of f))
               ϕ = ⟨ ϕ' ⟩
               ψ = ⟨ ψ' ⟩
 
-              P : (_ ◆ map (ϕ ◆ ψ) ◆ _) ∼ id
-              P = _ ◆ map (ϕ ◆ ψ) ◆ _                 ⟨ refl ◈ functoriality-◆ ◈ refl ⟩-∼
-                  _ ◆ (map ϕ ◆ map ψ) ◆ _             ⟨ refl ◈ (unit-r-◆ ⁻¹ ◈ refl) ◈ refl  ⟩-∼
-                  _ ◆ (map ϕ ◆ id ◆ map ψ) ◆ _        ⟨ refl ◈ (refl ◈ inv-r-◆ (of β) ⁻¹ ◈ refl) ◈ refl ⟩-∼
-                  _ ◆ (map ϕ ◆ (_ ◆ _) ◆ map ψ) ◆ _   ⟨ refl ◈ (assoc-r-◆ ◈ refl) ◈ refl ⟩-∼
-                  _ ◆ ((map ϕ ◆ _) ◆ _ ◆ map ψ) ◆ _   ⟨ refl ◈ (assoc-l-◆) ◈ refl ⟩-∼
-                  _ ◆ ((map ϕ ◆ _) ◆ (_ ◆ map ψ)) ◆ _ ⟨ assoc-r-◆ ◈ refl ⟩-∼
-                  (_ ◆ (map ϕ ◆ _)) ◆ (_ ◆ map ψ) ◆ _ ⟨ (assoc-r-◆ ∙ isSectionFiberHom {{of ϕ'}}) ◈ refl ◈ refl ⟩-∼
-                  id ◆ (_ ◆ map ψ) ◆ _                ⟨ unit-l-◆ ◈ refl ⟩-∼
-                  (_ ◆ map ψ) ◆ _                     ⟨ isSectionFiberHom {{of ψ'}} ⟩-∼
-                  id                      ∎
+              -- P : (_ ◆ map (ϕ ◆ ψ) ◆ _) ∼ id
+              -- P = _ ◆ map (ϕ ◆ ψ) ◆ _                 ⟨ refl ◈ functoriality-◆ ◈ refl ⟩-∼
+              --     _ ◆ (map ϕ ◆ map ψ) ◆ _             ⟨ refl ◈ (unit-r-◆ ⁻¹ ◈ refl) ◈ refl  ⟩-∼
+              --     _ ◆ (map ϕ ◆ id ◆ map ψ) ◆ _        ⟨ refl ◈ (refl ◈ inv-r-◆ (of β) ⁻¹ ◈ refl) ◈ refl ⟩-∼
+              --     _ ◆ (map ϕ ◆ (_ ◆ _) ◆ map ψ) ◆ _   ⟨ refl ◈ (assoc-r-◆ ◈ refl) ◈ refl ⟩-∼
+              --     _ ◆ ((map ϕ ◆ _) ◆ _ ◆ map ψ) ◆ _   ⟨ refl ◈ (assoc-l-◆) ◈ refl ⟩-∼
+              --     _ ◆ ((map ϕ ◆ _) ◆ (_ ◆ map ψ)) ◆ _ ⟨ assoc-r-◆ ◈ refl ⟩-∼
+              --     (_ ◆ (map ϕ ◆ _)) ◆ (_ ◆ map ψ) ◆ _ ⟨ (assoc-r-◆ ∙ isSectionFiberHom {{of ϕ'}}) ◈ refl ◈ refl ⟩-∼
+              --     id ◆ (_ ◆ map ψ) ◆ _                ⟨ unit-l-◆ ◈ refl ⟩-∼
+              --     (_ ◆ map ψ) ◆ _                     ⟨ isSectionFiberHom {{of ψ'}} ⟩-∼
+              --     id                      ∎
 
     instance
-      isCategory:Fiber : isCategory _ (Fiber p b)
+      isCategory:Fiber : isCategory (Fiber p b)
       isCategory.Hom isCategory:Fiber = FiberHom
       isCategory.isSetoid:Hom isCategory:Fiber = it
-      isCategory.id isCategory:Fiber {e} = incl (id-Fiber {e})
-      isCategory._◆_ isCategory:Fiber ϕ ψ = incl (comp-Fiber ⟨ ϕ ⟩ ⟨ ψ ⟩)
-      isCategory.unit-l-◆ isCategory:Fiber = incl unit-l-◆
-      isCategory.unit-r-◆ isCategory:Fiber = incl unit-r-◆
-      isCategory.unit-2-◆ isCategory:Fiber = incl unit-2-◆
+      isCategory.id isCategory:Fiber {e}    = (id-Fiber {e})
+      isCategory._◆_ isCategory:Fiber ϕ ψ   = (comp-Fiber ϕ ψ)
+      isCategory.unit-l-◆ isCategory:Fiber  = incl unit-l-◆
+      isCategory.unit-r-◆ isCategory:Fiber  = incl unit-r-◆
+      isCategory.unit-2-◆ isCategory:Fiber  = incl unit-2-◆
       isCategory.assoc-l-◆ isCategory:Fiber = incl assoc-l-◆
       isCategory.assoc-r-◆ isCategory:Fiber = incl assoc-r-◆
       isCategory._◈_ isCategory:Fiber = {!!}
@@ -176,6 +180,6 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
         isFunctor.functoriality-id isFunctor:F = {!!}
         isFunctor.functoriality-◆ isFunctor:F = {!!}
 
-
+{-
 
 -}

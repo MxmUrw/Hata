@@ -46,7 +46,7 @@ record isTheory (𝑖 : 𝔏 ^ 2) (𝓣 : 𝒰 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗) 
   constructor theory
 
   field _■ᵘ : 𝓣 -> 𝒰 (𝑖 ⌄ 0)
-  field {{isSetoid:■}} : ∀{τ} -> isSetoid (𝑖 ⌄ 1) (τ ■ᵘ)
+  field {{isSetoid:■}} : ∀{τ} -> isSetoid {𝑖 ⌄ 1} (τ ■ᵘ)
 
   macro _■ = λ (τ : 𝓣) -> #structureOn (τ ■ᵘ)
 
@@ -75,7 +75,7 @@ TheoryHom 𝓢 𝓣 = _ :& isTheoryHom 𝓢 𝓣
 
 
 instance
-  isCategory:Theory : isCategory (_ , ⨆ 𝑖) (Theory 𝑖)
+  isCategory:Theory : isCategory {_ , ⨆ 𝑖} (Theory 𝑖)
   isCategory:Theory = category TheoryHom {{{!!}}} {!!} {!!} {!!} {!!} {!!} {!!} {!!} {!!}
 
 

@@ -5,6 +5,7 @@ open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Data.Universe.Instance.Category
 
 
 -- module _ {P : 𝒰 𝑖 -> 𝒰 𝑗} where
@@ -18,18 +19,20 @@ open import Verification.Experimental.Category.Std.Category.Definition
 --             lem-1 = equivRel (incl (λ a -> refl)) (λ p -> incl (λ a -> sym (⟨ p ⟩ a))) (λ p q -> incl (λ a -> ⟨ p ⟩ a ∙ ⟨ q ⟩ a))
 
 
-
 instance
-  isCategory:Set : isCategory _ (𝐒𝐞𝐭 𝑖)
+  -- isSetoid:Function : ∀{A B : 𝐒𝐞𝐭 𝑖} -> isSetoid (⟨ A ⟩ -> ⟨ B ⟩)
+  -- isSetoid:Function = isSetoid:byPath
+
+  isCategory:Set : isCategory (𝐒𝐞𝐭 𝑖)
   isCategory.Hom isCategory:Set = (λ A B -> ⟨ A ⟩ -> ⟨ B ⟩)
-  isCategory.isSetoid:Hom isCategory:Set = setoid (λ f g -> ∀ a -> f a ≣ g a) {{{!!}}}
+  isCategory.isSetoid:Hom isCategory:Set = isSetoid:Function
   isCategory.id isCategory:Set = (λ a -> a)
   isCategory._◆_ isCategory:Set = λ f g -> (λ a -> g (f a))
-  isCategory.unit-l-◆ isCategory:Set = incl (λ a -> refl)
-  isCategory.unit-r-◆ isCategory:Set = incl $ λ a -> refl
-  isCategory.unit-2-◆ isCategory:Set = incl $ λ a -> refl
-  isCategory.assoc-l-◆ isCategory:Set = incl $ λ a -> refl
-  isCategory.assoc-r-◆ isCategory:Set = incl $ λ a -> refl
+  isCategory.unit-l-◆ isCategory:Set  = refl -- (λ a -> refl)
+  isCategory.unit-r-◆ isCategory:Set  = refl -- λ a -> refl
+  isCategory.unit-2-◆ isCategory:Set  = refl -- λ a -> refl
+  isCategory.assoc-l-◆ isCategory:Set = refl -- λ a -> refl
+  isCategory.assoc-r-◆ isCategory:Set = refl -- λ a -> refl
   isCategory._◈_ isCategory:Set = {!!}
 
 
