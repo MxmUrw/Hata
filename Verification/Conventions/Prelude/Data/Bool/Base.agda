@@ -42,6 +42,11 @@ infixr 6 _and_
 infixr 5 _or_
 infix  0 if_then_else_
 
+instance
+  isSetoid:Bool : isSetoid Bool
+  isSetoid:Bool = isSetoid:byStrId
+
+
 not : Bool → Bool
 not true = false
 not false = true
@@ -79,7 +84,7 @@ Dec→Bool : Decision A → Bool
 Dec→Bool (yes p) = true
 Dec→Bool (no ¬p) = false
 
-dichotomyBool : (x : Bool) → (x ≡ true) +-𝒰 (x ≡ false)
+dichotomyBool : (x : Bool) → (x ≣ true) +-𝒰 (x ≣ false)
 dichotomyBool true  = left refl
 dichotomyBool false = right refl
 

@@ -15,10 +15,10 @@ macro
   ℕ : SomeStructure
   ℕ = #structureOn Nat
 
-instance
-  isSetoid:ℕ : isSetoid _ ℕ
-  isSetoid._∼'_ isSetoid:ℕ = _≣_
-  isSetoid.isEquivRel:∼ isSetoid:ℕ = it
+-- instance
+--   isSetoid:ℕ : isSetoid _ ℕ
+--   isSetoid._∼'_ isSetoid:ℕ = _≣_
+--   isSetoid.isEquivRel:∼ isSetoid:ℕ = it
 
 instance
   isMonoid:ℕ : isMonoid ℕ
@@ -38,13 +38,13 @@ instance
   isPreorder._≤'_ isPreorder:ℕ = _≤-ℕ_
   isPreorder.reflexive isPreorder:ℕ = incl refl-≤-ℕ
   isPreorder._⟡_ isPreorder:ℕ (incl p) (incl q) = incl (trans-≤-ℕ p q)
-  isPreorder.transp-≤ isPreorder:ℕ (incl refl-StrId) (incl refl-StrId) r = r
+  isPreorder.transp-≤ isPreorder:ℕ (refl-StrId) (refl-StrId) r = r
   -- incl (transport (λ i -> p i ≤-ℕ q i) r)
 
 instance
   isPartialorder:ℕ : isPartialorder ℕ
   isPartialorder:ℕ = record
-    { antisym = λ p q -> incl (antisym-≤-ℕ ⟨ p ⟩ ⟨ q ⟩)
+    { antisym = λ p q -> (antisym-≤-ℕ ⟨ p ⟩ ⟨ q ⟩)
     }
 
 instance
@@ -54,12 +54,12 @@ instance
     }
     where
       lem-5 : ∀ {a b} -> (a <-ℕ b) -> a ∼ b -> 𝟘-𝒰
-      lem-5 p (incl refl-StrId) = ¬m<m p
+      lem-5 p (refl-StrId) = ¬m<m p
 
       lem-10 : ∀ a b -> Trichotomy' ℕ a b
       lem-10 a b with a ≟-ℕ b
       ... | lt x = lt (incl (<-weaken x) , lem-5 x)
-      ... | eq x = eq (incl x)
+      ... | eq x = eq (x)
       ... | gt x = gt (incl (<-weaken x) , lem-5 x)
 
 

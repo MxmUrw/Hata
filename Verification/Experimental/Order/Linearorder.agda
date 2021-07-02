@@ -25,7 +25,7 @@ record Base< {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a b : A) : 𝒰 𝑗 whe
 
 open Base< public
 
-record isLinearorder 𝑘 (A : 𝒰 𝑖 :& isSetoid 𝑗) : 𝒰 (𝑘 ⁺ ､ 𝑗 ､ 𝑖) where
+record isLinearorder 𝑘 (A : 𝒰 𝑖 :& isSetoid {𝑗}) : 𝒰 (𝑘 ⁺ ､ 𝑗 ､ 𝑖) where
   field my< : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
   _<_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
   _<_ = Base< my<
@@ -44,7 +44,7 @@ record isLinearorder 𝑘 (A : 𝒰 𝑖 :& isSetoid 𝑗) : 𝒰 (𝑘 ⁺ ､ 
 open isLinearorder {{...}} public
 
 Linearorder : ∀ (𝑖 : 𝔏 ^ 3) -> 𝒰 (𝑖 ⁺)
-Linearorder 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isSetoid (𝑖 ⌄ 1) :& isLinearorder (𝑖 ⌄ 2)
+Linearorder 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isSetoid {𝑖 ⌄ 1} :& isLinearorder (𝑖 ⌄ 2)
 
 record isUnbound {𝑖 : 𝔏 ^ 3} (L : Linearorder 𝑖) : 𝒰 𝑖 where
   field getLess     : (a : ⟨ L ⟩) -> ⦋ (λ x -> ∣ x < a ∣) ⦌

@@ -42,22 +42,25 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {𝒢 : Category 𝑘} wh
   -- id-Functor : Functor 𝒞 𝒞
   -- id-Functor = {!!}
 
-instance
-  isCategory:Category : ∀{𝑗 : 𝔏 ^ 3} -> isCategory (_) (Category 𝑗)
-  isCategory.Hom isCategory:Category = Hom-Base Functor
-  isCategory.isSetoid:Hom (isCategory:Category {𝑗}) = isSetoid:Hom-Base {{isSetoid:Category}}
-  isCategory.id isCategory:Category = incl id-Cat
-  isCategory._◆_ isCategory:Category F G = incl (⟨ F ⟩ ◆-Cat ⟨ G ⟩)
-  isCategory.unit-l-◆ isCategory:Category = {!!}
-  isCategory.unit-r-◆ isCategory:Category = {!!}
-  isCategory.unit-2-◆ isCategory:Category = {!!}
-  isCategory.assoc-l-◆ isCategory:Category = {!!}
-  isCategory.assoc-r-◆ isCategory:Category = {!!}
-  isCategory._◈_ isCategory:Category = {!!}
-
 macro
   𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
   𝐂𝐚𝐭 𝑖 = #structureOn (Category 𝑖)
+
+mutual
+
+  instance
+    isCategory:Category : ∀{𝑗 : 𝔏 ^ 3} -> isCategory (𝐂𝐚𝐭 𝑗)
+    isCategory.Hom isCategory:Category = Functor
+    isCategory.isSetoid:Hom (isCategory:Category {𝑗}) = isSetoid:byCategory
+    isCategory.id isCategory:Category = id-Cat
+    isCategory._◆_ isCategory:Category F G = (F ◆-Cat G)
+    isCategory.unit-l-◆ isCategory:Category = {!!}
+    isCategory.unit-r-◆ isCategory:Category = {!!}
+    isCategory.unit-2-◆ isCategory:Category = {!!}
+    isCategory.assoc-l-◆ isCategory:Category = {!!}
+    isCategory.assoc-r-◆ isCategory:Category = {!!}
+    isCategory._◈_ isCategory:Category = {!!}
+
 
 
 

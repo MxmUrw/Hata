@@ -71,7 +71,7 @@ Lattice 𝑖 = Preorder 𝑖 :& (hasFiniteMeets :, hasFiniteJoins) :& isLattice
 -- Derived instances
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : hasFiniteJoins ′ A ′}} where
   instance
@@ -86,7 +86,7 @@ module _ {A : 𝒰 𝑖}
 
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : hasFiniteMeets ′ A ′}} where
   instance
@@ -131,7 +131,7 @@ module _ {A : 𝒰 𝑖}
 
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : hasAllJoins 𝑙 ′ A ′}} where
   instance
@@ -152,7 +152,7 @@ module _ {A : 𝒰 𝑖}
     duplicate-r-⋁ b {a} p = antisym [ reflexive , (by-∼-≤ (p ⁻¹)) ⟡ ι-⋁ b ]-∨ (ι₀-∨)
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : hasAllMeets 𝑙 ′ A ′}} where
   instance
@@ -162,7 +162,7 @@ module _ {A : 𝒰 𝑖}
     hasAllMeets.⟨ hasAllMeets:Family ⟩-⋀ = {!!}
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : isPartialorder ′ A ′}}
          {{_ : hasFiniteJoins ′ A ′}}

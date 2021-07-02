@@ -14,9 +14,9 @@ instance
   isPreorder._≤'_      isPreorder:Prop A B = ⟨ A ⟩ -> ⟨ B ⟩
   isPreorder.reflexive isPreorder:Prop = incl id-𝒰
   isPreorder._⟡_       isPreorder:Prop f g = incl $ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩
-  isPreorder.transp-≤  isPreorder:Prop (incl (_ , p)) (incl (v , _)) f = incl (p ◆-𝒰 ⟨ f ⟩ ◆-𝒰 v)
+  isPreorder.transp-≤  isPreorder:Prop ((_ , p)) ((v , _)) f = incl (p ◆-𝒰 ⟨ f ⟩ ◆-𝒰 v)
 
 
 instance
   isPartialorder:Prop : isPartialorder ′ Prop 𝑖 ′
-  isPartialorder.antisym isPartialorder:Prop (incl p) (incl q) = incl (p , q)
+  isPartialorder.antisym isPartialorder:Prop (incl p) (incl q) = (p , q)

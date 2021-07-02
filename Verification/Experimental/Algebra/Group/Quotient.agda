@@ -41,9 +41,9 @@ module _ where
 
     instance
       isEquivRel:RelSubgroup : isEquivRel (RelSubgroup H)
-      isEquivRel.refl isEquivRel:RelSubgroup = lem-10
-      isEquivRel.sym isEquivRel:RelSubgroup = lem-20
-      isEquivRel._∙_ isEquivRel:RelSubgroup = lem-30
+      isEquivRel.refl-Equiv isEquivRel:RelSubgroup = lem-10
+      isEquivRel.sym-Equiv isEquivRel:RelSubgroup = lem-20
+      isEquivRel._∙-Equiv_ isEquivRel:RelSubgroup = lem-30
 
     instance
       isSetoidHom:[] : isSetoidHom ′(⟨ G ⟩)′ ′(⟨ G ⟩ /-𝒰 RelSubgroup H)′ [_]

@@ -22,10 +22,10 @@ macro
   ℤ : SomeStructure
   ℤ = #structureOn Int
 
-instance
-  isSetoid:ℤ : isSetoid _ Int
-  isSetoid._∼'_ isSetoid:ℤ = _≣_
-  isSetoid.isEquivRel:∼ isSetoid:ℤ = it
+-- instance
+--   isSetoid:ℤ : isSetoid _ Int
+--   isSetoid._∼'_ isSetoid:ℤ = _≣_
+--   isSetoid.isEquivRel:∼ isSetoid:ℤ = it
 
 
 
@@ -33,21 +33,21 @@ instance
   isMonoid:ℤ : isMonoid ℤ
   isMonoid._⋆_ isMonoid:ℤ = _+-ℤ_
   isMonoid.◌ isMonoid:ℤ = pos 0
-  isMonoid.unit-l-⋆ isMonoid:ℤ = incl (pos0+ _ ⁻¹)
+  isMonoid.unit-l-⋆ isMonoid:ℤ = (pos0+ _ ⁻¹)
   isMonoid.unit-r-⋆ isMonoid:ℤ = refl
-  isMonoid.assoc-l-⋆ isMonoid:ℤ {a} {b} {c} = incl (assoc-+-ℤ a b c ⁻¹)
-  isMonoid.assoc-r-⋆ isMonoid:ℤ {a} {b} {c} = incl (assoc-+-ℤ a b c)
-  isMonoid._`cong-⋆`_ isMonoid:ℤ (incl p) (incl q) = {!!} -- incl $ λ i -> p i +-ℤ q i
+  isMonoid.assoc-l-⋆ isMonoid:ℤ {a} {b} {c} = (assoc-+-ℤ a b c ⁻¹)
+  isMonoid.assoc-r-⋆ isMonoid:ℤ {a} {b} {c} = (assoc-+-ℤ a b c)
+  isMonoid._`cong-⋆`_ isMonoid:ℤ (p) (q) = {!!} -- incl $ λ i -> p i +-ℤ q i
 
   isCommutative:ℤ : isCommutative ℤ
-  isCommutative.comm-⋆ isCommutative:ℤ {a} {b} = incl $ comm-+-ℤ a b
+  isCommutative.comm-⋆ isCommutative:ℤ {a} {b} = comm-+-ℤ a b
 
 instance
   isGroup:ℤ : isGroup ℤ
   isGroup.◡_ isGroup:ℤ a = _-ℤ_ 0 a
-  isGroup.inv-l-⋆ isGroup:ℤ {a} = incl $ minusPlus a (pos 0)
-  isGroup.inv-r-⋆ isGroup:ℤ {a} = comm-⋆ {a = a} ∙ (incl $ minusPlus a (pos 0))
-  isGroup.cong-◡_ isGroup:ℤ (incl p) = {!!} -- incl $ λ i -> pos 0 -ℤ p i
+  isGroup.inv-l-⋆ isGroup:ℤ {a} = minusPlus a (pos 0)
+  isGroup.inv-r-⋆ isGroup:ℤ {a} = comm-⋆ {a = a} ∙ (minusPlus a (pos 0))
+  isGroup.cong-◡_ isGroup:ℤ (p) = {!!} -- incl $ λ i -> pos 0 -ℤ p i
 
 -- open import Cubical.Data.Bool renaming (_⊕_ to _⊕-Bool_)
 
@@ -155,7 +155,7 @@ instance
       lem-20 (incl negsucpos) (incl (pos q)) = incl negsucpos
 
       lem-30 : ∀{a0 a1 b0 b1 : ℤ} -> a0 ∼ a1 -> b0 ∼ b1 -> a0 ≤1 b0 -> a1 ≤1 b1
-      lem-30 (incl refl-StrId) (incl refl-StrId) r = r
+      lem-30 (refl-StrId) (refl-StrId) r = r
 
 instance
   isPartialorder:ℤ : isPartialorder ℤ
@@ -167,8 +167,8 @@ instance
       _≤1_ = ≤-Base _≤-ℤ_
 
       lem-10 : ∀{a b} -> a ≤1 b -> b ≤1 a -> a ∼ b
-      lem-10 (incl (pos p)) (incl (pos q)) = incl (cong-Str pos ⟨(antisym p q)⟩)
-      lem-10 (incl (negsuc p)) (incl (negsuc q)) = incl (cong-Str negsuc ⟨(antisym q p)⟩)
+      lem-10 (incl (pos p)) (incl (pos q)) = (cong-Str pos (antisym p q))
+      lem-10 (incl (negsuc p)) (incl (negsuc q)) = (cong-Str negsuc (antisym q p))
 
 instance
   isTotalorder⁺:ℤ : isTotalorder⁺ ℤ
@@ -181,15 +181,15 @@ instance
 
       lem-10 : ∀(a b : ℤ) -> Trichotomy' ℤ a b
       lem-10 (pos m) (pos n) with total⁺ m n
-      ... | lt (x , p) = lt ((incl (pos x)) , λ {(incl refl-StrId) → p (incl refl-StrId)})
-      ... | eq (incl refl-StrId) = eq (incl refl-StrId)
-      ... | gt (x , p) = gt ((incl (pos x)) , λ {(incl refl-StrId) → p (incl refl-StrId)})
+      ... | lt (x , p) = lt ((incl (pos x)) , λ {(refl-StrId) → p (refl-StrId)})
+      ... | eq (refl-StrId) = eq (refl-StrId)
+      ... | gt (x , p) = gt ((incl (pos x)) , λ {(refl-StrId) → p (refl-StrId)})
       lem-10 (pos n) (negsuc n₁) = gt ((incl negsucpos) , (λ ()))
       lem-10 (negsuc n) (pos n₁) = lt ((incl negsucpos) , (λ ()))
       lem-10 (negsuc m) (negsuc n) with total⁺ m n
-      ... | lt (x , p) = gt ((incl (negsuc x)) , λ {(incl refl-StrId) → p (incl refl-StrId)})
-      ... | eq (incl refl-StrId) = eq (incl refl-StrId)
-      ... | gt (x , p) = lt ((incl (negsuc x)) , λ {(incl refl-StrId) → p (incl refl-StrId)})
+      ... | lt (x , p) = gt ((incl (negsuc x)) , λ {(refl-StrId) → p (refl-StrId)})
+      ... | eq (refl-StrId) = eq (refl-StrId)
+      ... | gt (x , p) = lt ((incl (negsuc x)) , λ {(refl-StrId) → p (refl-StrId)})
 
 
 instance

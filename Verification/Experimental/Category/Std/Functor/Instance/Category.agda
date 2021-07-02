@@ -10,11 +10,13 @@ open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
 
 
+module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
+  macro 𝐅𝐮𝐧𝐜 = #structureOn (Functor 𝒞 𝒟)
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
   instance
-    isCategory:Functor : isCategory _ (Functor 𝒞 𝒟)
-    isCategory.Hom isCategory:Functor = Hom-Base Natural
+    isCategory:Functor : isCategory (𝐅𝐮𝐧𝐜 𝒞 𝒟)
+    isCategory.Hom isCategory:Functor = Natural
     isCategory.isSetoid:Hom isCategory:Functor = isSetoid:Natural
     isCategory.id isCategory:Functor = {!!}
     isCategory._◆_ isCategory:Functor = {!!}
@@ -25,7 +27,5 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
     isCategory.assoc-r-◆ isCategory:Functor = {!!}
     isCategory._◈_ isCategory:Functor = {!!}
 
-module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
-  macro 𝐅𝐮𝐧𝐜 = #structureOn (Functor 𝒞 𝒟)
 
 

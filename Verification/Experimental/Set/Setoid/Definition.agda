@@ -11,42 +11,51 @@ record ∼-Base {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a : A) (b : A) : 𝒰
   -- incl : R a b -> ∼-Base R a b -- a ∼[ R ] b
 open ∼-Base public
 
-instance
-  isEquivRel:≡∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≡_ {A = A}))
-  isEquivRel.refl isEquivRel:≡∼-Base = incl refl-Path
-  isEquivRel.sym isEquivRel:≡∼-Base (incl p) = incl (sym-Path p)
-  isEquivRel._∙_ isEquivRel:≡∼-Base (incl p) (incl q) = incl (trans-Path p q)
+-- instance
+--   isEquivRel:≡∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≡_ {A = A}))
+--   isEquivRel.refl isEquivRel:≡∼-Base = incl refl-Path
+--   isEquivRel.sym isEquivRel:≡∼-Base (incl p) = incl (sym-Path p)
+--   isEquivRel._∙_ isEquivRel:≡∼-Base (incl p) (incl q) = incl (trans-Path p q)
 
-instance
-  isEquivRel:≣∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≣_ {A = A}))
-  isEquivRel.refl isEquivRel:≣∼-Base = incl refl-StrId
-  isEquivRel.sym isEquivRel:≣∼-Base (incl p) = incl (p ⁻¹)
-  isEquivRel._∙_ isEquivRel:≣∼-Base (incl p) (incl q) = incl (p ∙ q)
+-- instance
+--   isEquivRel:≣∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≣_ {A = A}))
+--   isEquivRel.refl isEquivRel:≣∼-Base = incl refl-StrId
+--   isEquivRel.sym isEquivRel:≣∼-Base (incl p) = incl (p ⁻¹)
+--   isEquivRel._∙_ isEquivRel:≣∼-Base (incl p) (incl q) = incl (p ∙ q)
 
 -- record isSetoid 𝑗 A {{_ : From (𝒰 𝑖) A}} : 𝒰 (𝑖 ､ 𝑗 ⁺) where
 -- open isTypoid {{...}} public
 
 
-record isSetoid (𝑗 : 𝔏) (A : 𝒰 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where
+{-
+record isSetoid {𝑗 𝑖 : 𝔏} (A : 𝒰 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where
   constructor setoid
-  -- field _∼_ : A -> A -> 𝒰 𝑗
-  --       {{isEquivRel:∼}} : isEquivRel _∼_
-  field _∼'_ : A -> A -> 𝒰 𝑗
-  _∼_ : A -> A -> 𝒰 (𝑗)
-  _∼_ = ∼-Base _∼'_ -- _∼[ _∼'_ ]_
+  field _∼_ : A -> A -> 𝒰 𝑗
+        refl : ∀{x : A} -> x ∼ x
+        sym : ∀{x y : A} -> x ∼ y -> y ∼ x
+        _∙_ : ∀{x y z : A} -> x ∼ y -> y ∼ z -> x ∼ z
 
-  field {{isEquivRel:∼}} : isEquivRel _∼_
+  infixl 30 _∙_
+
+  -- _∼_ : A -> A -> 𝒰 (𝑗)
+  -- _∼_ = ∼-Base _∼'_
+
+  -- field {{isEquivRel:∼}} : isEquivRel _∼_
 
   _≁_ : A -> A -> 𝒰 (𝑗)
   _≁_ a b = ¬ a ∼ b
 open isSetoid {{...}} public
 
-Setoid : (𝑗 : 𝔏 ^ 2) -> 𝒰 _
-Setoid 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isSetoid (𝑗 ⌄ 1)
+module _ {X : 𝒰 _} {{_ : X is Setoid 𝑖}} where
+  instance
+    Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ∼ y) (y ∼ x)
+    Notation-Inverse:Equiv Notation-Inverse.⁻¹ = sym
 
--- record isSetoidHom {𝑖 𝑗 : 𝔏 ^ 2} (A : Setoid 𝑖) (B : Setoid 𝑗) (f : ⟨ A ⟩ -> ⟨ B ⟩) : 𝒰 (𝑖 ､ 𝑗) where
---   field preserves-∼ : ∀{a b} -> a ∼ b -> f a ∼ f b
--- open isSetoidHom {{...}} public
+-}
+
+
+Setoid : (𝑗 : 𝔏 ^ 2) -> 𝒰 _
+Setoid 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isSetoid {𝑗 ⌄ 1}
 
 record isSetoidHom {𝑖 𝑗 : 𝔏 ^ 2} (A : Setoid 𝑖) (B : Setoid 𝑗) (f : ⟨ A ⟩ -> ⟨ B ⟩) : 𝒰 (𝑖 ､ 𝑗) where
 -- record isSetoidHom {𝑖 𝑗 : 𝔏 ^ 2} {A : 𝒰 _} {B : 𝒰 _} {{_ : Setoid 𝑖 on A}} {{_ : Setoid 𝑗 on B}} (f : A -> B) : 𝒰 (𝑖 ､ 𝑗)where
@@ -56,6 +65,12 @@ open isSetoidHom {{...}} public
 SetoidHom : (A : Setoid 𝑖) (B : Setoid 𝑗) -> 𝒰 _
 SetoidHom A B = (⟨ A ⟩ -> ⟨ B ⟩) :& isSetoidHom A B
 
+
+
+
+
+
+{-
 module _ {A : Setoid 𝑖} {B : Setoid 𝑗} where
   _∼-SetoidHom_ : (f g : SetoidHom A B) -> 𝒰 _
   _∼-SetoidHom_ f g = ∀{a} -> ⟨ f ⟩ a ∼ ⟨ g ⟩ a
@@ -97,6 +112,7 @@ module _ {UU : 𝒰 𝑖} {{U : hasU UU 𝑗 𝑘}} {{_ : isSetoid 𝑙 (getU U)
 
 
 
+-}
 --------------------------------------------------------------------------------
 -- Subsetoids
 
@@ -112,6 +128,7 @@ Subsetoid : {𝑗 : 𝔏 ^ 2} (X : Setoid 𝑗) -> 𝒰 _
 Subsetoid X = 𝒫 ⟨ X ⟩ :& isSubsetoid
 
 
+{-
 ---------------------------------------------------------------
 -- induced subsetoid
 
@@ -143,34 +160,48 @@ isContr-Std A = ∑ λ (a : A) -> ∀ (b : A) -> a ∼ b
 
 --------------------------------------------------------------------------------
 -- Quotients
+-}
 
 data _/-𝒰_ {𝑖 𝑗 : 𝔏} (A : 𝒰 𝑖) (R : A -> A -> 𝒰 𝑗) : 𝒰 (𝑖 ) where
   [_] : A -> A /-𝒰 R
 
+-- private
+--   module _ {𝑖 𝑘 : 𝔏} {A : 𝒰 𝑖} -> {R : A -> A -> 𝒰 𝑘} -> {{_ : isEquivRel R}} where
+--     lem-10 : ∀{a : A /-𝒰 R} -> 
+
 
 instance
-  isSetoid:/-𝒰 : {𝑖 𝑘 : 𝔏} {A : 𝒰 𝑖} -> {R : A -> A -> 𝒰 𝑘} -> {{_ : isEquivRel R}} -> isSetoid _ (A /-𝒰 R)
-  isSetoid._∼'_ (isSetoid:/-𝒰 {R = R}) [ a ] [ b ] = R a b
-  isEquivRel.refl (isSetoid.isEquivRel:∼ isSetoid:/-𝒰) {x = [ x ]} = incl refl
-  isEquivRel.sym (isSetoid.isEquivRel:∼ isSetoid:/-𝒰) {x = [ x ]} {y = [ y ]} (incl p) = incl (sym p)
-  isEquivRel._∙_ (isSetoid.isEquivRel:∼ isSetoid:/-𝒰) {x = [ x ]} {y = [ y ]} {z = [ z ]} (incl p) (incl q) = incl (p ∙ q)
+  isSetoid:/-𝒰 : {𝑖 𝑘 : 𝔏} {A : 𝒰 𝑖} -> {R : A -> A -> 𝒰 𝑘} -> {{_ : isEquivRel R}} -> isSetoid (A /-𝒰 R)
+  isSetoid:/-𝒰 {R = R} = setoid (λ {[ a ] [ b ] -> ∼-Base R a b}) {!!} {!!} {!!}
+    -- (λ {[ x ]} -> refl-Equiv)
+    -- {!!} {!!}
+  -- isSetoid._∼'_ (isSetoid:/-𝒰 {R = R}) [ a ] [ b ] = R a b
+  -- isEquivRel.refl (isSetoid.isEquivRel:∼ isSetoid:/-𝒰) {x = [ x ]} = incl refl-Equiv
+  -- isEquivRel.sym (isSetoid.isEquivRel:∼ isSetoid:/-𝒰) {x = [ x ]} {y = [ y ]} (incl p) = incl (sym-Equiv p)
+  -- isEquivRel._∙_ (isSetoid.isEquivRel:∼ isSetoid:/-𝒰) {x = [ x ]} {y = [ y ]} {z = [ z ]} (incl p) (incl q) = incl (p ∙-Equiv q)
 
 --------------------------------------------------------------------------------
 -- Induced setoid
 
-module _ {A : 𝒰 𝑖} {{_ : isSetoid 𝑗 A}} {I : 𝒰 𝑘} where
+
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} {I : 𝒰 𝑘} where
   _∼-Family_ : (f g : I -> A) -> 𝒰 _
-  _∼-Family_ f g = ∀{i} -> f i ∼' g i
+  _∼-Family_ f g = ∀{i} -> f i ∼ g i
+
+  -- instance
+  --   isEquivRel:∼-Family : isEquivRel (∼-Base _∼-Family_)
+  --   isEquivRel.refl isEquivRel:∼-Family {f} = incl (λ {a} -> ⟨ refl {x = f a} ⟩)
+  --   isEquivRel.sym isEquivRel:∼-Family (incl p) = incl (⟨ incl p ⁻¹ ⟩)
+  --   isEquivRel._∙_ isEquivRel:∼-Family (incl p) (incl q) = incl (⟨ incl p ∙ incl q ⟩)
 
   instance
-    isEquivRel:∼-Family : isEquivRel (∼-Base _∼-Family_)
-    isEquivRel.refl isEquivRel:∼-Family {f} = incl (λ {a} -> ⟨ refl {x = f a} ⟩)
-    isEquivRel.sym isEquivRel:∼-Family (incl p) = incl (⟨ incl p ⁻¹ ⟩)
-    isEquivRel._∙_ isEquivRel:∼-Family (incl p) (incl q) = incl (⟨ incl p ∙ incl q ⟩)
+    isSetoid:Family : isSetoid (I -> A)
+    isSetoid:Family = setoid _∼-Family_
+      refl
+      (λ p {i} -> sym (p {i}))
+      (λ p q {i} -> p {i} ∙ q {i})
 
-  instance
-    isSetoid:Family : isSetoid _ (I -> A)
-    isSetoid._∼'_ isSetoid:Family f g = f ∼-Family g
+    -- isSetoid._∼'_ isSetoid:Family f g = f ∼-Family g
 
     -- isEquivRel.refl (isSetoid.isEquivRel:∼ isSetoid:Family) = incl (⟨ refl ⟩)
     -- isEquivRel.sym (isSetoid.isEquivRel:∼ isSetoid:Family) (incl p) = incl (⟨ incl p ⁻¹ ⟩)
@@ -178,7 +209,6 @@ module _ {A : 𝒰 𝑖} {{_ : isSetoid 𝑗 A}} {I : 𝒰 𝑘} where
 
 -------------------------------------------------------------------------------
 -- Isomorphism of setoids
-
 
 
 

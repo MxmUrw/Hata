@@ -25,7 +25,7 @@ open isHeytingAlgebra {{...}} public
 
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : hasFiniteJoins ′ A ′}}
          {{_ : hasFiniteMeets ′ A ′}}
@@ -36,7 +36,7 @@ module _ {A : 𝒰 𝑖}
 
 
 module _ {A : 𝒰 𝑖}
-         {{_ : isSetoid 𝑗 A}}
+         {{_ : isSetoid {𝑗} A}}
          {{_ : isPreorder 𝑘 ′ A ′}}
          {{_ : hasFiniteJoins ′ A ′}}
          {{_ : hasFiniteMeets ′ A ′}}

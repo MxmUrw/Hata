@@ -8,6 +8,7 @@ open import Verification.Conventions.Prelude.Classes.Operators.Unary
 open import Verification.Conventions.Prelude.Classes.Cast
 open import Verification.Conventions.Prelude.Classes.Anything
 open import Verification.Conventions.Prelude.Data.StrictId
+-- open import Verification.Conventions.Prelude.Data.Product
 
 
 --------------------------------------------------------------------------------
@@ -17,29 +18,70 @@ open import Verification.Conventions.Prelude.Data.StrictId
 -- #Notation/Annotatable# trans
 -- #Notation/SemanticCategory# \mathrm{Eqv} = Equiv
 
--- [Definition]
-record isEquivRel {X : 𝒰 𝑖} (_≣_ : X -> X -> 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
-  constructor equivRel
-  field refl : ∀{x : X} -> x ≣ x
-        sym : ∀{x y : X} -> x ≣ y -> y ≣ x
-        _∙_ : ∀{x y z : X} -> x ≣ y -> y ≣ z -> x ≣ z
+record isSetoid {𝑗 𝑖 : 𝔏} (A : 𝒰 𝑖) : 𝒰 (𝑖 ⊔ 𝑗 ⁺) where
+  constructor setoid
+  field _∼_ : A -> A -> 𝒰 𝑗
+        refl : ∀{x : A} -> x ∼ x
+        sym : ∀{x y : A} -> x ∼ y -> y ∼ x
+        _∙_ : ∀{x y z : A} -> x ∼ y -> y ∼ z -> x ∼ z
 
   infixl 30 _∙_
-open isEquivRel {{...}} public
--- //
 
-module _ {X : 𝒰 𝑖} {_≣_ : X -> X -> 𝒰 𝑗} {{_ : isEquivRel _≣_}} where
+  -- _∼_ : A -> A -> 𝒰 (𝑗)
+  -- _∼_ = ∼-Base _∼'_
+
+  -- field {{isEquivRel:∼}} : isEquivRel _∼_
+
+  _≁_ : A -> A -> 𝒰 (𝑗)
+  _≁_ a b = ¬ a ∼ b
+open isSetoid {{...}} public
+
+-- Setoid : (𝑗 : 𝔏 ×-𝒰 𝔏) -> 𝒰 _
+-- Setoid 𝑗 = 𝒰 (fst 𝑗) :& isSetoid {snd 𝑗}
+
+module _ {X : 𝒰 𝑗} {{_ : isSetoid {𝑖} X}} where
   instance
-    Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ≣ y) (y ≣ x)
+    Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ∼ y) (y ∼ x)
     Notation-Inverse:Equiv Notation-Inverse.⁻¹ = sym
 
 
-instance
+
+
+
+module _ {A : 𝒰 𝑖} where
+  refl-≡ : ∀{a : A} -> a ≡ a
+  refl-≡ = refl-Path
+
+
+-- [Definition]
+record isEquivRel {X : 𝒰 𝑖} (_≣_ : X -> X -> 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
+  constructor equivRel
+  field refl-Equiv : ∀{x : X} -> x ≣ x
+        sym-Equiv : ∀{x y : X} -> x ≣ y -> y ≣ x
+        _∙-Equiv_ : ∀{x y z : X} -> x ≣ y -> y ≣ z -> x ≣ z
+
+  infixl 30 _∙-Equiv_
+open isEquivRel {{...}} public
+-- //
+
+-- module _ {X : 𝒰 𝑖} {_≣_ : X -> X -> 𝒰 𝑗} {{_ : isEquivRel _≣_}} where
+--   instance
+--     Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ≣ y) (y ≣ x)
+--     Notation-Inverse:Equiv Notation-Inverse.⁻¹ = sym
+
+
+module _ {X : 𝒰 𝑖} where
+  isSetoid:byPath : isSetoid X
+  isSetoid:byPath = setoid _≡_ refl-Path sym-Path trans-Path
+
+  isSetoid:byStrId : isSetoid X
+  isSetoid:byStrId = setoid _≣_ refl-≣ (λ {refl-≣ -> refl-≣}) (λ{refl-≣ q -> q})
+-- instance
 -- module _ where
-  isEquivRel:Path : {X : 𝒰 𝑖} -> isEquivRel (λ (x y : X) -> x ≡ y)
-  isEquivRel.refl  isEquivRel:Path = refl-Path
-  isEquivRel.sym   isEquivRel:Path = sym-Path
-  isEquivRel._∙_   isEquivRel:Path = trans-Path
+  -- isEquivRel:Path : {X : 𝒰 𝑖} -> isEquivRel (λ (x y : X) -> x ≡ y)
+  -- isEquivRel.refl  isEquivRel:Path = refl-Path
+  -- isEquivRel.sym   isEquivRel:Path = sym-Path
+  -- isEquivRel._∙_   isEquivRel:Path = trans-Path
 
 
 -- module _ {X : 𝒰 𝑖} (_∼_ : X -> X -> 𝒰 𝑗) where
@@ -48,9 +90,9 @@ instance
 
 
 
-module _ {X : 𝒰 𝑖} {_∼_ : X -> X -> 𝒰 𝑗} {{_ : isEquivRel _∼_}} where
-  fromPath : ∀{a b : X} -> a ≡ b -> a ∼ b
-  fromPath {a = a} p = transport (λ i -> a ∼ p i) refl
+-- module _ {X : 𝒰 𝑖} {_∼_ : X -> X -> 𝒰 𝑗} {{_ : isEquivRel _∼_}} where
+--   fromPath : ∀{a b : X} -> a ≡ b -> a ∼ b
+--   fromPath {a = a} p = transport (λ i -> a ∼ p i) refl
 
 -- sym-Id : ∀{X : 𝒰 𝑖} {x y : X} -> Id x y -> Id y x
 -- sym-Id {x = x} {y = y} p = J-Id (λ y _ -> Id y x) refl-Id p
@@ -84,12 +126,12 @@ cong₂-Id : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} -> {a1 a2 : A} {
 cong₂-Id f p q = cong₂-Id-helper f .getProof p .getProof q
 -}
 
-instance
+-- instance
 -- module _ where
-  isEquivRel:StrId : {X : 𝒰 𝑖} -> isEquivRel (λ (x y : X) -> StrId x y)
-  isEquivRel.refl isEquivRel:StrId = refl-StrId
-  isEquivRel.sym isEquivRel:StrId refl-StrId = refl-StrId
-  (isEquivRel:StrId isEquivRel.∙ refl-StrId) q = q
+  -- isEquivRel:StrId : {X : 𝒰 𝑖} -> isEquivRel (λ (x y : X) -> StrId x y)
+  -- isEquivRel.refl isEquivRel:StrId = refl-StrId
+  -- isEquivRel.sym isEquivRel:StrId refl-StrId = refl-StrId
+  -- (isEquivRel:StrId isEquivRel.∙ refl-StrId) q = q
 
 
 instance
@@ -110,22 +152,22 @@ instance
 --------------------------------------------------------------------------------
 -- === path syntax
 
-module _ {A : 𝒰 𝑖} {_≣_ : A -> A -> 𝒰 𝑗} {{_ : isEquivRel _≣_}} where
-  _≣⟨_⟩_ : (x : A) {y : A} {z : A} → x ≣ y → y ≣ z → x ≣ z
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
+  _≣⟨_⟩_ : (x : A) {y : A} {z : A} → x ∼ y → y ∼ z → x ∼ z
   _ ≣⟨ x≡y ⟩ y≡z = x≡y ∙ y≡z
 
-  ≣⟨⟩-syntax : (x : A) {y z : A} → x ≣ y → y ≣ z → x ≣ z
+  ≣⟨⟩-syntax : (x : A) {y z : A} → x ∼ y → y ∼ z → x ∼ z
   ≣⟨⟩-syntax = _≣⟨_⟩_
   infixr 2 ≣⟨⟩-syntax
   infix  3 _∎
   infixr 2 _≣⟨_⟩_
 
-  _∎ : (x : A) → x ≣ x
+  _∎ : (x : A) → x ∼ x
   _ ∎ = refl
 
 
 -- new syntax with ∼
-module _ {A : 𝒰 𝑖} {_∼_ : A -> A -> 𝒰 𝑗} {{_ : isEquivRel _∼_}} where
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
   _⟨_⟩-∼_ : (x : A) {y : A} {z : A} → x ∼ y → y ∼ z → x ∼ z
   _ ⟨ x≡y ⟩-∼ y≡z = x≡y ∙ y≡z
 
@@ -138,6 +180,5 @@ module _ {A : 𝒰 𝑖} {_∼_ : A -> A -> 𝒰 𝑗} {{_ : isEquivRel _∼_}} 
 
   _∎-∼ : (x : A) → x ∼ x
   _ ∎-∼ = refl
-
 
 

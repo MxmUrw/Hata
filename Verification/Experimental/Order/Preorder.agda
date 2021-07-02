@@ -16,7 +16,7 @@ record ≤-Base {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a b : A) : 𝒰 𝑗 
   field ⟨_⟩ : (R a b)
 open ≤-Base public
 
-record isPreorder 𝑘 (A : 𝒰 𝑖 :& isSetoid 𝑗) : 𝒰 (𝑘 ⁺ ､ 𝑗 ､ 𝑖) where
+record isPreorder 𝑘 (A : 𝒰 𝑖 :& isSetoid {𝑗}) : 𝒰 (𝑘 ⁺ ､ 𝑗 ､ 𝑖) where
   field _≤'_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
   _≤_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
   _≤_ = ≤-Base _≤'_
@@ -30,7 +30,7 @@ record isPreorder 𝑘 (A : 𝒰 𝑖 :& isSetoid 𝑗) : 𝒰 (𝑘 ⁺ ､ �
 open isPreorder {{...}} public
 
 Preorder : ∀ (𝑖 : 𝔏 ^ 3) -> 𝒰 (𝑖 ⁺)
-Preorder 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isSetoid (𝑖 ⌄ 1) :& isPreorder (𝑖 ⌄ 2)
+Preorder 𝑖 = 𝒰 (𝑖 ⌄ 0) :& isSetoid {𝑖 ⌄ 1} :& isPreorder (𝑖 ⌄ 2)
 
 module _ {𝑖 : 𝔏 ^ 3} {A : 𝒰 _} {{_ : Preorder 𝑖 on A}} where
   _≰_ : A -> A -> 𝒰 _
@@ -55,19 +55,20 @@ Partialorder 𝑖 = Preorder 𝑖 :& isPartialorder
 ----------------------------------------------------------
 -- Derived instances
 
-module _ {A : 𝒰 𝑖} {{_ : isSetoid 𝑗 A}} {{_ : isPreorder 𝑘 ′ A ′}} where
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} {{_ : isPreorder 𝑘 ′ A ′}} where
   instance
     isPreorder:Family : ∀{I : 𝒰 𝑙} -> isPreorder _ (′ (I -> A) ′)
     isPreorder._≤'_      isPreorder:Family f g = ∀{a} -> f a ≤' g a
     isPreorder.reflexive isPreorder:Family = incl ⟨ reflexive ⟩
     isPreorder._⟡_       isPreorder:Family (incl f) (incl g) = incl (⟨ incl f ⟡ incl g ⟩)
-    isPreorder.transp-≤  isPreorder:Family (incl p) (incl q) f = incl (⟨ transp-≤ (incl p) (incl q) (incl ⟨ f ⟩) ⟩)
+    isPreorder.transp-≤  isPreorder:Family (p) (q) f = incl (⟨ transp-≤ (p) (q) (incl ⟨ f ⟩) ⟩)
 
-module _ {A : 𝒰 𝑖} {{_ : isSetoid 𝑗 A}} {{_ : isPreorder 𝑘 ′ A ′}} {{_ : isPartialorder ′ A ′}} where
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} {{_ : isPreorder 𝑘 ′ A ′}} {{_ : isPartialorder ′ A ′}} where
   instance
     isPartialorder:Family : ∀{I : 𝒰 𝑙} -> isPartialorder (′ (I -> A) ′)
-    isPartialorder.antisym isPartialorder:Family (incl p) (incl q) = incl ⟨ antisym (incl p) (incl q) ⟩
-
+    isPartialorder.antisym isPartialorder:Family (incl p) (incl q) = antisym (incl p) (incl q)
+{-
+-}
 ----------------------------------------------------------
 -- Category of preorders
 
@@ -86,9 +87,10 @@ Monotone A B = _ :& isMonotone A B
 
 module _ {A : Preorder 𝑖} {B : Preorder 𝑗} where
   instance
-    isSetoid:Monotone : isSetoid _ (Monotone A B)
-    isSetoid._∼'_ isSetoid:Monotone f g = ⟨ f ⟩ ∼' ⟨ g ⟩
-    isSetoid.isEquivRel:∼ isSetoid:Monotone = {!!}
+    isSetoid:Monotone : isSetoid (Monotone A B)
+    isSetoid:Monotone = setoid (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl sym _∙_
+    -- isSetoid._∼'_ isSetoid:Monotone f g = ⟨ f ⟩ ∼' ⟨ g ⟩
+    -- isSetoid.isEquivRel:∼ isSetoid:Monotone = {!!}
 
 -- unquoteDecl Monotone makeMonotone = #struct "Monotone" (quote isMonotone) "f" Monotone makeMonotone
 

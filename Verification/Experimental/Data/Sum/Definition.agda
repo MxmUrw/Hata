@@ -18,6 +18,8 @@ macro
   _+⧿ {𝑖 = 𝑖} = λstr A ↦ #structureOn (λ (B : 𝒰 𝑖) -> A +-𝒰 B)
   infix 40 _+⧿
 
+private instance _ = isSetoid:byStrId
+private instance _ = isSetoid:byPath
 
 module _ {A : 𝒰' ℓ} {B : 𝒰' ℓ'} where
   split-+-Str : (x : A + B) -> (∑ λ (a : A) -> x ≡-Str left a) + (∑ λ b -> x ≡-Str right b)

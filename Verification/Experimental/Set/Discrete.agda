@@ -6,7 +6,7 @@ open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Prop.Everything
 
 
-record isDiscrete-∼ (A : 𝒰 𝑖) {{_ : isSetoid 𝑗 A}} : 𝒰 (𝑗 ､ 𝑖) where
+record isDiscrete-∼ (A : 𝒰 𝑖) {{_ : isSetoid {𝑗} A}} : 𝒰 (𝑗 ､ 𝑖) where
   field _≟-∼_ : (a b : A) -> Decision (a ∼ b)
 open isDiscrete-∼ {{...}} public
 

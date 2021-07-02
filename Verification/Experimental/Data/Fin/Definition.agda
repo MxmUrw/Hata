@@ -25,9 +25,10 @@ macro
 
 module _ {n : ℕ} where
   instance
-    isSetoid:Fin : isSetoid _ (𝔽 n)
-    isSetoid._∼'_ (isSetoid:Fin) = _≡_
-    isSetoid.isEquivRel:∼ (isSetoid:Fin) = it
+    isSetoid:Fin : isSetoid (𝔽 n)
+    isSetoid:Fin = isSetoid:byPath
+    -- isSetoid._∼'_ (isSetoid:Fin) = _≡_
+    -- isSetoid.isEquivRel:∼ (isSetoid:Fin) = it
 
   instance
     isPreorder:Fin : isPreorder _ (𝔽 n)

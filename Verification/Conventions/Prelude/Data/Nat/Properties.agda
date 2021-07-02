@@ -37,6 +37,10 @@ private
   variable
     l m n : ℕ
 
+instance
+  isSetoid:ℕ : isSetoid ℕ
+  isSetoid:ℕ = isSetoid:byStrId
+
 znots : ¬ (0 ≣ suc n)
 znots eq = subst-Str (caseNat ℕ ⊥) eq 0
 

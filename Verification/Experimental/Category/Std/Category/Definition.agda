@@ -31,7 +31,7 @@ open Hom-Base public
 -- [Definition]
 -- | Given a type $𝒞$, whose elements we are going to call /objects/, we say that it has the structure of a category [...] if
 --   the following additional data is given:
-record isCategory {𝑖 : 𝔏} (𝑗 : 𝔏 ^ 2) (𝒞 : 𝒰' 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where
+record isCategory {𝑗 : 𝔏 ^ 2} {𝑖 : 𝔏} (𝒞 : 𝒰 𝑖) : 𝒰 ((𝑖 ⌄ 0) ⊔ 𝑗 ⁺) where
   constructor category
   infixl 50 _◆_ _◈_
 
@@ -39,9 +39,10 @@ record isCategory {𝑖 : 𝔏} (𝑗 : 𝔏 ^ 2) (𝒞 : 𝒰' 𝑖) : 𝒰 (�
 --      a type of /homomorphisms/ |Hom a b| between them.
 --      We call elements of this type also simply /morphisms/ or /arrows/.
   field Hom : 𝒞 -> 𝒞 -> 𝒰 (𝑗 ⌄ 0)
+
   -- Hom : 𝒞 -> 𝒞 -> 𝒰 (𝑗 ⌄ 0)
   -- Hom a b = Hom-Base Hom' a b
-  field {{isSetoid:Hom}} : ∀{a b : 𝒞} -> isSetoid (𝑗 ⌄ 1) (Hom a b)
+  field {{isSetoid:Hom}} : ∀{a b : 𝒞} -> isSetoid {𝑗 ⌄ 1} (Hom a b)
 
 -- | 3. An operation [..], assigning to every object |a| an identity morphism on this object.
   field id : ∀{a : 𝒞} -> Hom a a
@@ -59,9 +60,9 @@ record isCategory {𝑖 : 𝔏} (𝑗 : 𝔏 ^ 2) (𝒞 : 𝒰' 𝑖) : 𝒰 (�
 -- | 7. A proof that composition is compatible with the equivalence relation.
         _◈_               : ∀{a b c : 𝒞} -> ∀{f g : Hom a b} -> ∀{h i : Hom b c} -> f ∼ g -> h ∼ i -> f ◆ h ∼ g ◆ i
 -- //
-  instance
-    isEquivRel:∼-Cat : ∀{a b : 𝒞} -> isEquivRel (λ (f g : Hom a b) -> f ∼ g)
-    isEquivRel:∼-Cat = isEquivRel:∼
+  -- instance
+  --   isEquivRel:∼-Cat : ∀{a b : 𝒞} -> isEquivRel (λ (f g : Hom a b) -> f ∼ g)
+  --   isEquivRel:∼-Cat = isEquivRel:∼
 
 open isCategory ⦃...⦄ public
 
@@ -71,7 +72,7 @@ open isCategory ⦃...⦄ public
 --     isEquivRel:∼-Cat = isEquivRel:∼
 
 Category : (𝑗 : 𝔏 ^ 3) -> 𝒰 _
-Category (𝑗₀ , 𝑗₁ , 𝑗₂) = 𝒰 𝑗₀ :& isCategory (𝑗₁ , 𝑗₂)
+Category 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isCategory {𝑗 ⌄ 1 ⋯ 2}
 
 
 -- [Notation]
@@ -80,6 +81,7 @@ _⟶_ = Hom
 infixr 40 _⟶_
 -- //
 
+{-
 -- module _ {C : 𝒰 _} {{_ : Category 𝑖 on C}} where
 --   instance
 --     hasU:Hom : ∀{a b : C} -> hasU (Hom a b) _ _
@@ -97,6 +99,7 @@ isSetoid.isEquivRel:∼ isSetoid:Hom-Base = {!!}
 -- ISmallCategory : (𝒞 : 𝒰₀) -> 𝒰₁
 -- ISmallCategory 𝒞 = isCategory (ℓ₀ , ℓ₀) 𝒞
 -- //
+-}
 
 record Hom' {𝒞 : Category 𝑖} (a b : ⟨ 𝒞 ⟩) : 𝒰 (𝑖 ⌄ 1) where
   constructor hom
@@ -113,5 +116,4 @@ instance
                ; destructEl = ⟨_⟩
                ; destructP = const tt
                }
-
 

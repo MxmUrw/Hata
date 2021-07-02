@@ -6,15 +6,16 @@ open import Verification.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 
-module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory 𝑖 𝒞}} where
 
-  record isIso {a b : 𝒞} (f : Hom' {𝒞 = ′ 𝒞 ′} a b) : 𝒰 (𝑗 ､ 𝑖) where
+module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
+
+  record isIso {a b : 𝒞} (f : Hom' {𝒞 = ′ 𝒞 ′} a b) : 𝒰 (𝑖) where
     field inverse-◆ : b ⟶ a
           inv-r-◆ : ⟨ f ⟩ ◆ inverse-◆ ∼ id
           inv-l-◆ : inverse-◆ ◆ ⟨ f ⟩ ∼ id
   open isIso public
 
-  _≅_ : (a b : 𝒞) -> 𝒰 (𝑗 ､ 𝑖)
+  _≅_ : (a b : 𝒞) -> 𝒰 (𝑖)
   A ≅ B = Hom' A B :& isIso
 
   private
@@ -38,13 +39,14 @@ module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory 𝑖 𝒞}} where
   _:&_.oldProof (iso-inv ϕ) = record {}
   _:&_.of iso-inv ϕ = lem-20 {f = ϕ}
 
-  instance
-    isEquivRel:≅ : isEquivRel (∼-Base (_≅_))
-    isEquivRel.refl isEquivRel:≅ = incl (′ id ′ {{lem-10}})
-    isEquivRel.sym  isEquivRel:≅ (incl f) = incl (′ inverse-◆ (of f) ′ {{lem-20 {f = f}}})
-    isEquivRel._∙_  isEquivRel:≅ (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆ ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
+  -- instance
+  --   isEquivRel:≅ : isEquivRel (∼-Base (_≅_))
+  --   isEquivRel.refl isEquivRel:≅ = incl (′ id ′ {{lem-10}})
+  --   isEquivRel.sym  isEquivRel:≅ (incl f) = incl (′ inverse-◆ (of f) ′ {{lem-20 {f = f}}})
+  --   isEquivRel._∙_  isEquivRel:≅ (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆ ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
 
-  isSetoid:Category : isSetoid _ 𝒞
-  isSetoid._∼'_ isSetoid:Category A B = A ≅ B
-  isSetoid.isEquivRel:∼ isSetoid:Category = isEquivRel:≅
+  isSetoid:byCategory : isSetoid 𝒞
+  isSetoid:byCategory = setoid _≅_ {!!} {!!} {!!}
+  -- isSetoid._∼'_ isSetoid:Category A B = A ≅ B
+  -- isSetoid.isEquivRel:∼ isSetoid:Category = isEquivRel:≅
 

@@ -19,8 +19,8 @@ A ≅-𝒰 B = (A -> B) :& isIso-𝒰
 private
   lem-10 : ∀{A : 𝒰 𝑖} -> isIso-𝒰 (id-𝒰 {A = A})
   isIso-𝒰.inverse-𝒰 lem-10 = id-𝒰
-  isIso-𝒰.inv-r-◆-𝒰 lem-10 = refl
-  isIso-𝒰.inv-l-◆-𝒰 lem-10 = refl
+  isIso-𝒰.inv-r-◆-𝒰 lem-10 = refl-≡
+  isIso-𝒰.inv-l-◆-𝒰 lem-10 = refl-≡
 
   lem-20 : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} -> {f : A ≅-𝒰 B} -> isIso-𝒰 inverse-𝒰
   isIso-𝒰.inverse-𝒰 (lem-20 {f = f}) = ⟨ f ⟩
@@ -32,15 +32,20 @@ private
   isIso-𝒰.inv-r-◆-𝒰 (lem-30 {f = f}) = {!!}
   isIso-𝒰.inv-l-◆-𝒰 (lem-30 {f = f}) = {!!}
 
-instance
-  isEquivRel:≅-𝒰 : isEquivRel (∼-Base (_≅-𝒰_ {𝑖} {𝑖}))
-  isEquivRel.refl isEquivRel:≅-𝒰 = incl (′ id-𝒰 ′ {{lem-10}})
-  isEquivRel.sym  isEquivRel:≅-𝒰 (incl f) = incl (′ inverse-𝒰 ′ {{lem-20 {f = f}}})
-  isEquivRel._∙_  isEquivRel:≅-𝒰 (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
+-- instance
+  -- isEquivRel:≅-𝒰 : isEquivRel (∼-Base (_≅-𝒰_ {𝑖} {𝑖}))
+  -- isEquivRel:≅-𝒰 = {!!}
+  -- isEquivRel.refl isEquivRel:≅-𝒰 = incl (′ id-𝒰 ′ {{lem-10}})
+  -- isEquivRel.sym  isEquivRel:≅-𝒰 (incl f) = incl (′ inverse-𝒰 ′ {{lem-20 {f = f}}})
+  -- isEquivRel._∙_  isEquivRel:≅-𝒰 (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
 
 instance
-  isSetoid:𝒰 : isSetoid _ (𝒰 𝑖)
-  isSetoid._∼'_ isSetoid:𝒰 A B = A ≅-𝒰 B
+  isSetoid:𝒰 : isSetoid (𝒰 𝑖)
+  isSetoid:𝒰 = setoid
+    _≅-𝒰_
+    (id-𝒰 since lem-10)
+    (λ f -> inverse-𝒰 since lem-20 {f = f})
+    (λ f g -> ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ since lem-30 {f = f} {g = g})
 
 
 

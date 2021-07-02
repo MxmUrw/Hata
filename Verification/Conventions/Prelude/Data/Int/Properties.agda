@@ -222,6 +222,8 @@ ind-comm _∙_ f g p g∙ ∙g base z (suc n) = {!!}
   -- where
   -- IH = ind-comm _∙_ f g p g∙ ∙g base z n
 
+private instance _ = isSetoid:byStrId
+
 ind-assoc : {A : Type₀} (_·_ : A → A → A) (f : ℕ → A)
         (g : A → A) (p : ∀ a b → g (a · b) ≣ a · (g b))
         (q : ∀ {c} → f (suc c) ≣ g (f c))
