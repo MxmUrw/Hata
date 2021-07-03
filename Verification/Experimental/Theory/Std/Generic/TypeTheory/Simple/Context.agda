@@ -58,4 +58,8 @@ module _ {A : 𝒰 𝑖} where
     isFunctor.functoriality-id isFunctor:Ctx-⦿ = {!!}
     isFunctor.functoriality-◆ isFunctor:Ctx-⦿ = {!!}
 
+data Sub-⦿ {K : 𝒰 𝑖} (R : Ctx-⦿ K -> K -> 𝒰 𝑗) (Γ : Ctx-⦿ K) : (Δ : Ctx-⦿ K) -> 𝒰 (𝑖 ､ 𝑗) where
+  [] : Sub-⦿ R Γ []
+  _,,_ : ∀{Δ k} -> Sub-⦿ R Γ Δ  -> R Γ k -> Sub-⦿ R Γ (Δ ,, k)
+
 

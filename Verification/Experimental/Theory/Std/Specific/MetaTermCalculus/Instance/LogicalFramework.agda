@@ -3,33 +3,21 @@ module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Instance.L
 
 open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.MonoidAction.Definition
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
--- open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition
+open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
 
 -----------------------------------
 -- ==* MTC signatures
 
-data MetaSort : 𝒰₀ where
-  main var special : MetaSort
-
-module _ (K : 𝒰 𝑖) where
-  --- basic definitions
-
-  data Type' : 𝒰 𝑖 where
-    kind : K -> Type'
-    _⇒_ : Type' -> Type' -> Type'
-
-  infixr 30 _⇒_
-
-  data MetaJ : 𝒰 𝑖 where
-    _◀_ : Jdg-⦿ Type' -> MetaSort -> MetaJ
 
   -- data isKindSCtx : SCtx Type' -> 𝒰 𝑖 where
   --   [] : isKindSCtx []
@@ -60,69 +48,31 @@ module _ (K : 𝒰 𝑖) where
 --   JBoundaryT : 𝒰 𝑖
 --   JBoundaryT = Judgement (SCtx (JObjT)) JObjT
 
-module _ {K : 𝒰 𝑖} {𝒞 : 𝒰 _} {{_ : 𝒞 is MonoidalCategory 𝑗}} where
-  -- iSO : (JObjT K -> 𝒞) -> SCtx (JObjT K) -> 𝒞
-  -- iSO f X = {!!}
-
-  -- appendC : SCtx (K) -> JBoundaryT (K) -> JBoundaryT (K)
-  -- appendC Δ (fst₁ ⊢ snd₁) = {!!}
-
-  rec-𝖱-⦿ : (Jdg-⦿ K -> 𝒞) -> Rule-⦿ K -> 𝒰 _
-  rec-𝖱-⦿ f (βs ⊩ β₀) = rec-Ctx-⦿ f βs ⟶ f β₀
-
-  iFam : (Jdg-⦿ K -> 𝒞) -> Rule-⦿ K -> 𝒰 _
-  iFam f β = ∀(Δ : Ctx-⦿ K) -> rec-𝖱-⦿ f (Δ ↷ β)
-
-
------------------------------------
--- ==* MTC signatures
-
-
-record MetaTermCalculus (𝑖 : 𝔏 ^ 2): 𝒰 (𝑖 ⁺) where
-  field MetaKind : 𝒰 (𝑖 ⌄ 0)
-  field varzero : MetaKind
-  field varsuc : MetaKind
-  -- field isGoodType : Type' MetaKind -> 𝒰₀
-  field isHiddenMeta : MetaJ MetaKind -> 𝒰 (𝑖 ⌄ 0)
-  field TermCon : (τ : Rule-⦿ MetaKind) -> 𝒰 (𝑖 ⌄ 1)
-
------------------------------------
--- ==* judgement categories
-
-
-record hasJudgements 𝑗 (𝒞 : MonoidalCategory 𝑖) : 𝒰 (𝑗 ⁺ ､ 𝑖) where
-  field JKind : 𝒰 𝑗
-  field JObj : Jdg-⦿ JKind -> ⟨ 𝒞 ⟩
-  -- field JHom : (β : JBoundaryT JKind) -> iFam JObj β
-
-open hasJudgements {{...}} public
-
-CategoryWithJudgements : ∀ (𝑖 : 𝔏 ^ 4) -> _
-CategoryWithJudgements 𝑖 = MonoidalCategory (𝑖 ⌄ 0 ⋯ 2) :& hasJudgements (𝑖 ⌄ 3)
-
-instance
-  isCategory:CategoryWithJudgements : ∀{𝑖} -> isCategory {ℓ₀ , ℓ₀} (CategoryWithJudgements 𝑖)
-  isCategory:CategoryWithJudgements = {!!}
-
-CwJ = CategoryWithJudgements
-
-module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is CwJ 𝑖}} where
-  ▼₁ : Rule-⦿ JKind -> 𝒰 _
-  ▼₁ = rec-𝖱-⦿ JObj
 
 private
-  U : CwJ 𝑖 -> MetaTermCalculus _
+  U : CwJ (𝑘 , 𝑖 , 𝑗 , _) -> MetaTermCalculus (𝑖 , 𝑖)
   U 𝒞 = record
-          { MetaKind = JKind
+          { MetaKind = JKind {{of 𝒞}}
           ; varzero = {!!}
           ; varsuc = {!!}
           ; isHiddenMeta = const ⊥
-          ; TermCon = iFam JObj
+          ; TermCon = iFam (JObj {{of 𝒞}})
           }
 
 
   F : MetaTermCalculus 𝑖 -> CwJ _
-  F Σ = {!!}
+  F γ = Ctx-⦿ (MetaJ (MetaKind γ)) since (isCwJ:Ctx-MTC {γ = γ})
+    where open MTCDefinitions γ
+
+
+
+instance
+  isLogicalFramework:MTC : isLogicalFramework (CwJ (_ , _ , _ , 𝑖)) (MTC (_ , 𝑖))
+  isLogicalFramework.LFTerm isLogicalFramework:MTC = F
+  isLogicalFramework.LFSig isLogicalFramework:MTC = U
+  isLogicalFramework.isFunctor:LFTerm isLogicalFramework:MTC = {!!}
+  isLogicalFramework.isFunctor:LFSig isLogicalFramework:MTC = {!!}
+  isLogicalFramework.⟦ isLogicalFramework:MTC ⟧ = {!!}
 
 
 {-
@@ -146,10 +96,10 @@ private
 
 -- instance
 --   isLogicalFramework:MetaTermCalculus : isLogicalFramework (𝐌𝐨𝐧𝐂𝐚𝐭 _) 𝐌𝐓𝐂
---   isLogicalFramework.Free isLogicalFramework:MetaTermCalculus = {!!}
---   isLogicalFramework.Forget isLogicalFramework:MetaTermCalculus = {!!}
---   isLogicalFramework.isFunctor:Free isLogicalFramework:MetaTermCalculus = {!!}
---   isLogicalFramework.isFunctor:Forget isLogicalFramework:MetaTermCalculus = {!!}
+--   isLogicalFramework.Term isLogicalFramework:MetaTermCalculus = {!!}
+--   isLogicalFramework.Sig isLogicalFramework:MetaTermCalculus = {!!}
+--   isLogicalFramework.isFunctor:Term isLogicalFramework:MetaTermCalculus = {!!}
+--   isLogicalFramework.isFunctor:Sig isLogicalFramework:MetaTermCalculus = {!!}
 --   isLogicalFramework.⟦ isLogicalFramework:MetaTermCalculus ⟧ = {!!}
 
 

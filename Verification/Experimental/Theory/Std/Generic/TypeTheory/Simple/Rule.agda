@@ -13,6 +13,7 @@ record Rule-⦿ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   constructor _⊩_
   field fst : Ctx-⦿ (Jdg-⦿ A)
   field snd : Jdg-⦿ A
+open Rule-⦿
 
 infix 28 _⊩_
 

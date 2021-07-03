@@ -21,9 +21,9 @@ open import Verification.Experimental.Data.Universe.Everything
 --
 -- |> $ % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFNpZ21hIl0sWzIsMCwiXFxtYXRoc2Nye019Il0sWzAsMSwiXFx0ZXh0e0ZyZWV9IiwwLHsiY3VydmUiOi0yfV0sWzEsMCwiXFx0ZXh0e0ZvcmdldH0iLDAseyJjdXJ2ZSI6LTJ9XSxbMiwzLCIiLDAseyJsZXZlbCI6MSwic3R5bGUiOnsibmFtZSI6ImFkanVuY3Rpb24ifX1dXQ==
 -- \[\begin{tikzcd}
---  \Sigma && {\mathscr{M}}
---  \arrow[""{name=0, anchor=center, inner sep=0}, "{\text{Free}}", curve={height=-12pt}, from=1-1, to=1-3]
---  \arrow[""{name=1, anchor=center, inner sep=0}, "{\text{Forget}}", curve={height=-12pt}, from=1-3, to=1-1]
+--  \LFSigma && {\mathscr{M}}
+--  \arrow[""{name=0, anchor=center, inner sep=0}, "{\text{LFTerm}}", curve={height=-12pt}, from=1-1, to=1-3]
+--  \arrow[""{name=1, anchor=center, inner sep=0}, "{\text{LFSig}}", curve={height=-12pt}, from=1-3, to=1-1]
 --  \arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
 -- \end{tikzcd}\] $
 
@@ -33,8 +33,8 @@ open import Verification.Experimental.Data.Universe.Everything
 
 -- |> $ % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXHRleHR7U2h9KFxcU2lnbWEpIl0sWzIsMCwiXFxtYXRoc2Nye019Il0sWzAsMSwiXFx0ZXh0e1Rlcm19IiwwLHsiY3VydmUiOi0yfV0sWzEsMCwiXFx0ZXh0e2lzU3RydWN0dXJlfSIsMCx7ImN1cnZlIjotMn1dLFsyLDMsIiIsMCx7ImxldmVsIjoxLCJzdHlsZSI6eyJuYW1lIjoiYWRqdW5jdGlvbiJ9fV1d
 -- \[\begin{tikzcd}
---  {\text{Sh}(\Sigma)} && {\mathscr{M}}
---  \arrow[""{name=0, anchor=center, inner sep=0}, "{\text{Term}}", curve={height=-12pt}, from=1-1, to=1-3]
+--  {\text{Sh}(\LFSigma)} && {\mathscr{M}}
+--  \arrow[""{name=0, anchor=center, inner sep=0}, "{\text{LFTerm}}", curve={height=-12pt}, from=1-1, to=1-3]
 --  \arrow[""{name=1, anchor=center, inner sep=0}, "{\text{isStructure}}", curve={height=-12pt}, from=1-3, to=1-1]
 --  \arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
 -- \end{tikzcd}\] $
@@ -48,7 +48,7 @@ open import Verification.Experimental.Data.Universe.Everything
 -- | Instead we define what a /logical framework/ is using the same data
 --   and language of adjunctions, but without actually requiring it
 --   to be an adjunction. This is useful in our case since we also want
---   to speak about logical frameworks such as the |MetaTermCalculus|
+--   to speak about logical frameworks such as the |MetaLFTermCalculus|
 --   which do generate cartesian categories but are not the initial
 --   among their models.
 
@@ -59,26 +59,27 @@ open import Verification.Experimental.Data.Universe.Everything
 record isLogicalFramework (ℳ : Category 𝑖) (Σ : Category 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where
 
   -- | 1. We require two functions [..] and [..] between them.
-  field Free : ⟨ Σ ⟩ -> ⟨ ℳ ⟩
-  field Forget : ⟨ ℳ ⟩ -> ⟨ Σ ⟩
+  field LFTerm : ⟨ Σ ⟩ -> ⟨ ℳ ⟩
+  field LFSig : ⟨ ℳ ⟩ -> ⟨ Σ ⟩
 
   -- | 2. There should be proofs [..] and [..] that they are actually functors between
   --      the corresponding categories.
-  field {{isFunctor:Free}} : Free is (Functor Σ ℳ)
-  field {{isFunctor:Forget}} : Forget is (Functor ℳ Σ)
+  field {{isFunctor:LFTerm}} : LFTerm is (Functor Σ ℳ)
+  field {{isFunctor:LFSig}} : LFSig is (Functor ℳ Σ)
 
   -- | 3. And finally we want a map which shows that every |σ| structure
-  --      is a model of |Free Σ|
-  field ⟦_⟧ : ∀{σ m} -> (Hom σ (Forget m)) -> (Hom (Free σ) m)
+  --      is a model of |LFTerm Σ|
+  field ⟦_⟧ : ∀{σ m} -> (Hom σ (LFSig m)) -> (Hom (LFTerm σ) m)
 
   -- |: We define a |σ| structure on an object |m| as:
   Structure : ⟨ Σ ⟩ -> ⟨ ℳ ⟩ -> 𝒰 _
-  Structure σ m = Hom σ (Forget m)
+  Structure σ m = Hom σ (LFSig m)
 
-  -- mytest : ∀{a b : ⟨ Σ ⟩} -> (f : a ⟶ b) -> Free a ⟶ Free b
+  -- mytest : ∀{a b : ⟨ Σ ⟩} -> (f : a ⟶ b) -> LFTerm a ⟶ LFTerm b
   -- mytest f = map f
 
 -- //
+open isLogicalFramework {{...}} public
 
 
 
@@ -92,10 +93,10 @@ record isLogicalFramework (ℳ : Category 𝑖) (Σ : Category 𝑗) : 𝒰 (�
   --   StructureCat : ∀ {σ} -> isCategory _ (Structure σ)
   --   StructureCat = isCategory:FullSubcategory (fst)
 
-  -- field Term : (σ : Σ) -> ⟨ ℳ ⟩
-  -- field ⟦_⟧ : ∀{σ} -> {A : ⟨ ℳ ⟩} -> isStructure σ A -> (Term σ) ⟶ A
-  -- field makeStr : ∀{σ A} -> (Term σ) ⟶ A -> isStructure σ A
+  -- field LFTerm : (σ : Σ) -> ⟨ ℳ ⟩
+  -- field ⟦_⟧ : ∀{σ} -> {A : ⟨ ℳ ⟩} -> isStructure σ A -> (LFTerm σ) ⟶ A
+  -- field makeStr : ∀{σ A} -> (LFTerm σ) ⟶ A -> isStructure σ A
 
-  -- field isInitial:Term : ∀{σ} -> isInitial (Term σ)
+  -- field isInitial:LFTerm : ∀{σ} -> isInitial (LFTerm σ)
 
 

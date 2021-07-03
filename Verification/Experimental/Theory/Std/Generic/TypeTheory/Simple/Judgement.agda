@@ -12,6 +12,7 @@ record Jdg-⦿ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   constructor _⊢_
   field fst : Ctx-⦿ A
   field snd : A
+open Jdg-⦿
 
 infix 30 _⊢_
 

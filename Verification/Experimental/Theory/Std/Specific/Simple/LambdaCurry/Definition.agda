@@ -9,7 +9,8 @@ open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition as SingleSorted
-open import Verification.Experimental.Theory.Std.TypeTheory.Definition
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 
 data TySig : ℕ -> 𝒰₀ where
   `ℕ` `𝔹` : TySig 0
@@ -55,10 +56,12 @@ instance
   IBootEq:Term = {!!}
 
 Info : 𝒰₀
-Info = Judgement (SCtx ⊥) (Ty-λ ⊥)
+Info = Jdg-⦿ (Ty-λ ⊥)
+-- (SCtx ⊥) 
 
 Statement : 𝒰₀
-Statement = ∑ λ n -> Judgement (SCtx (Fin n)) (Ty-λ (Fin n))
+Statement = ∑ λ n -> Jdg-⦿ (Ty-λ (Fin n))
+-- (SCtx (Fin n)) 
 
 instance
   isSet:Statement : isSet Statement
