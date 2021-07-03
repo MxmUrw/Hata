@@ -126,7 +126,15 @@ cong₂ f p q i = f (p i) (q i)
 -------------------------
 -- special functions
 
+
+record Lift {j i} (A : 𝒰 i) : 𝒰 (i ⊔ j) where
+  constructor lift
+  field
+    lower : A
+open Lift public
+
 pattern ↥ x = lift x
+
 -- ↧ = lower
 
 it : ∀{A : 𝒰 𝑖} -> {{a : A}} -> A

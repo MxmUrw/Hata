@@ -66,6 +66,7 @@ private
 
 
 
+
 instance
   isLogicalFramework:MTC : isLogicalFramework (CwJ (_ , _ , _ , 𝑖)) (MTC (_ , 𝑖))
   isLogicalFramework.LFTerm isLogicalFramework:MTC = F

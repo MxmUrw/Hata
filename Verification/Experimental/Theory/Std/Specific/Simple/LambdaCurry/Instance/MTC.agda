@@ -68,8 +68,8 @@ module Λ-Curry where
 
   ΛTT : TypeTheory-⊗ 𝑖
   TypeTheory-⊗.𝒯erm ΛTT = LFTerm Λ
-  -- TypeTheory-⊗.Types ΛTT = {!!}
-  -- TypeTheory-⊗.typing ΛTT = {!!}
+  TypeTheory-⊗.Types ΛTT = {!!}
+  TypeTheory-⊗.typing ΛTT = {!!}
 
 
 

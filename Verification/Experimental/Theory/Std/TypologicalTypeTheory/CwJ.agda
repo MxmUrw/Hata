@@ -4,6 +4,8 @@ module Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ where
 open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Functor.Instance.Category
+open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.MonoidAction.Definition
@@ -39,8 +41,17 @@ CategoryWithJudgements : ∀ (𝑖 : 𝔏 ^ 4) -> _
 CategoryWithJudgements 𝑖 = MonoidalCategory (𝑖 ⌄ 0 ⋯ 2) :& hasJudgements {𝑖 ⌄ 3}
 
 instance
-  isCategory:CategoryWithJudgements : ∀{𝑖} -> isCategory {ℓ₀ , ℓ₀} (CategoryWithJudgements 𝑖)
-  isCategory:CategoryWithJudgements = {!!}
+  isCategory:CategoryWithJudgements : ∀{𝑖} -> isCategory (CategoryWithJudgements 𝑖)
+  isCategory.Hom isCategory:CategoryWithJudgements = (λ 𝒞 𝒟 -> Functor ′ ⟨ 𝒞 ⟩ ′ ′ ⟨ 𝒟 ⟩ ′)
+  isCategory.isSetoid:Hom isCategory:CategoryWithJudgements = isSetoid:byCategory
+  isCategory.id isCategory:CategoryWithJudgements = {!!}
+  isCategory._◆_ isCategory:CategoryWithJudgements = {!!}
+  isCategory.unit-l-◆ isCategory:CategoryWithJudgements = {!!}
+  isCategory.unit-r-◆ isCategory:CategoryWithJudgements = {!!}
+  isCategory.unit-2-◆ isCategory:CategoryWithJudgements = {!!}
+  isCategory.assoc-l-◆ isCategory:CategoryWithJudgements = {!!}
+  isCategory.assoc-r-◆ isCategory:CategoryWithJudgements = {!!}
+  isCategory._◈_ isCategory:CategoryWithJudgements = {!!}
 
 macro
   CwJ : ∀ 𝑖 -> SomeStructure
