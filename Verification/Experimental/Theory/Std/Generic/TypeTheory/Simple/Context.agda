@@ -12,7 +12,7 @@ open import Verification.Experimental.Data.Universe.Everything
 
 data Ctx-⦿ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   [] : Ctx-⦿ A
-  _,,_ : Ctx-⦿ A -> A -> Ctx-⦿ A
+  _,,_ : (xs : Ctx-⦿ A) -> (x : A) -> Ctx-⦿ A
 infixl 15 _,,_
 
 module _ {A : 𝒰 𝑖} where
@@ -27,7 +27,8 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   map-Ctx-⦿ : (f : A -> B) -> Ctx-⦿ A -> Ctx-⦿ B
-  map-Ctx-⦿ f = {!!}
+  map-Ctx-⦿ f [] = []
+  map-Ctx-⦿ f (xs ,, x) = map-Ctx-⦿ f xs ,, f x
 
 
 
@@ -37,14 +38,20 @@ module _ (A : 𝒰 𝑖) where
   -- 𝖱-⦿
 
 module _ {A : 𝒰 𝑖} where
+  _⋆-Ctx-⦿_ : Ctx-⦿ A -> Ctx-⦿ A -> Ctx-⦿ A
+  a ⋆-Ctx-⦿ [] = a
+  a ⋆-Ctx-⦿ (b ,, x) = a ⋆-Ctx-⦿ b ,, x
+
+
+module _ {A : 𝒰 𝑖} where
   instance
     isSetoid:Ctx-⦿ : isSetoid (𝖢-⦿ A)
     isSetoid:Ctx-⦿ = isSetoid:byPath
 
     isMonoid:Ctx-⦿ : isMonoid (𝖢-⦿ A)
     isMonoid:Ctx-⦿ = record
-                       { _⋆_ = {!!}
-                       ; ◌ = {!!}
+                       { _⋆_ = _⋆-Ctx-⦿_
+                       ; ◌ = []
                        ; unit-l-⋆ = {!!}
                        ; unit-r-⋆ = {!!}
                        ; assoc-l-⋆ = {!!}
@@ -53,7 +60,7 @@ module _ {A : 𝒰 𝑖} where
                        }
 
     isFunctor:Ctx-⦿ : isFunctor (𝐓𝐲𝐩𝐞 𝑖) (𝐓𝐲𝐩𝐞 𝑖) Ctx-⦿
-    isFunctor.map isFunctor:Ctx-⦿ = {!!}
+    isFunctor.map isFunctor:Ctx-⦿ = map-Ctx-⦿
     isFunctor.isSetoidHom:map isFunctor:Ctx-⦿ = {!!}
     isFunctor.functoriality-id isFunctor:Ctx-⦿ = {!!}
     isFunctor.functoriality-◆ isFunctor:Ctx-⦿ = {!!}

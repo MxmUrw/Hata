@@ -69,7 +69,7 @@ record isLogicalFramework (ℳ : Category 𝑖) (Σ : Category 𝑗) : 𝒰 (�
 
   -- | 3. And finally we want a map which shows that every |σ| structure
   --      is a model of |LFTerm Σ|
-  field ⟦_⟧ : ∀{σ m} -> (Hom σ (LFSig m)) -> (Hom (LFTerm σ) m)
+  field interp : ∀{σ m} -> (Hom σ (LFSig m)) -> (Hom (LFTerm σ) m)
 
   -- |: We define a |σ| structure on an object |m| as:
   Structure : ⟨ Σ ⟩ -> ⟨ ℳ ⟩ -> 𝒰 _

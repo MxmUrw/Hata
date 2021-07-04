@@ -7,7 +7,8 @@ open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Decidable
 open import Verification.Experimental.Data.Fin.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Universe.Instance.Category
+open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Data.Universe.Everything
 -- open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
 import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition as Λ
 open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition hiding (_⇒_)
@@ -17,6 +18,9 @@ open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Defini
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.Monoidal.Definition
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
+open import Verification.Experimental.Data.Lift.Definition
+open import Verification.Experimental.Data.Type.Definition
 
 pattern ⦋⦌ = []
 pattern ⦋_⦌ a = [] ,, a
@@ -30,6 +34,11 @@ module Λ-Curry where
     VarSuc : Kind
     VarZero : Kind
 
+  relevel-Kind : Kind {𝑖} -> Kind {𝑗}
+  relevel-Kind Te = Te
+  relevel-Kind VarSuc = VarSuc
+  relevel-Kind VarZero = VarZero
+
   -- data isGood' : Type-MTC Kind -> ℕ -> 𝒰₀ where
   --   zero : ∀ {k} -> isGood' (kind k) 0
   --   suc : ∀{k τ} -> isGood' τ n -> isGood' (kind k ⇒ τ) (suc n)
@@ -42,13 +51,18 @@ module Λ-Curry where
   --   GLam : isGood ((kind Te ⇒ kind Te) ⇒ kind Te)
   --   GAll : ∀{τ} -> isGood τ
 
+  data Ty (A : 𝒰₀) : 𝒰₀ where
+    `ℕ` : Ty A
+    _⇒_ : Ty A -> Ty A -> Ty A
+    var : A -> Ty A
+
   data TermCon-Λ {𝑖} : (τ : Rule-⦿ (Kind {𝑖})) -> 𝒰 𝑖 where
     App : TermCon-Λ (⦋ (⦋⦌ ⊢ Te) ، (⦋⦌ ⊢ Te)⦌ ⊩ ⦋⦌ ⊢ Te)
 
     Lam : TermCon-Λ (⦋ ⦋ Te ⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te)
 
     Suc : TermCon-Λ ((⦋ ⦋⦌ ⊢ Te ⦌) ⊩ ⦋⦌ ⊢ Te)
-    Zero : TermCon-Λ (⦋⦌ ⊩ ⦋⦌ ⊢ Te)
+    Zero : TermCon-Λ (⦋ ⦋⦌ ⊢ VarZero ⦌ ⊩ ⦋⦌ ⊢ Te)
     Rec-ℕ : TermCon-Λ
             (
             ⦋ ⦋ Te ⦌ ⊢ Te ، ⦋⦌ ⊢ Te ، ⦋⦌ ⊢ Te ⦌
@@ -65,11 +79,53 @@ module Λ-Curry where
     Λ : MetaTermCalculus (𝑖 , 𝑖)
     Λ = record { MetaKind = Kind ; varsuc = VarSuc ; varzero = VarZero ; isHiddenMeta = isHidden ; TermCon = TermCon-Λ }
 
+  data TyCtx {𝑗} : (G : Ctx-⦿ (Kind {𝑗})) -> 𝒰 𝑗 where
+    [] : TyCtx []
+    _,,_ : ∀{Γ} -> TyCtx Γ -> Ty (𝔽ʳ 0) -> TyCtx (Γ ,, Te)
+
+
+  -- io : Jdg-⦿ (Lift {𝑖 ⁺} (Kind {𝑖})) -> 𝒰 _
+  -- io (Γ ⊢ ↥ Te) = TyCtx (map-Ctx-⦿ lower Γ) ×-𝒰 (Ty (𝔽ʳ 0))
+  -- io (Γ ⊢ ↥ VarSuc) = Lift (Ty (𝔽ʳ 0))
+  -- io (Γ ⊢ ↥ VarZero) = TyCtx (map-Ctx-⦿ lower Γ)
+
+
+  io : Jdg-⦿ ((Kind {𝑖})) -> 𝒰 _
+  io (Γ ⊢ Te) = TyCtx (Γ) ×-𝒰 (Ty (𝔽ʳ 0))
+  io (Γ ⊢ VarSuc) = Lift (Ty (𝔽ʳ 0))
+  io (Γ ⊢ VarZero) = TyCtx (Γ)
+
+  private instance
+    hasJudgements:𝐓𝐲𝐩𝐞 : hasJudgements {𝑗 ⁺} (𝐓𝐲𝐩𝐞' 𝑗)
+    hasJudgements:𝐓𝐲𝐩𝐞 {𝑗} = record { JKind = Kind ; JObj = λ x -> lift (io (map-Jdg-⦿ relevel-Kind x)) }
+
+  myi-TermCon : (ρ : Rule-⦿ (Kind {𝑖 ⁺})) →
+                TermCon-Λ ρ →
+                iFam {𝒞 = 𝐓𝐲𝐩𝐞' 𝑖} (λ x → lift (io (map-Jdg-⦿ relevel-Kind x)))
+                (map-Rule-⦿ id-𝒰 ρ)
+  myi-TermCon .(⦋ ⦋⦌ ⊢ Te ، ⦋⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) App = {!!}
+  myi-TermCon .(⦋ ⦋ Te ⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) Lam = {!!}
+  myi-TermCon .(⦋ ⦋⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) Suc = {!!}
+  myi-TermCon .(⦋ ⦋⦌ ⊢ VarZero ⦌ ⊩ ⦋⦌ ⊢ Te) Zero = λ Δ' → incl λ (a , Δ) → Δ , `ℕ`
+  myi-TermCon .(⦋ ⦋ Te ⦌ ⊢ Te ، ⦋⦌ ⊢ Te ، ⦋⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) Rec-ℕ = {!!}
+  -- myi-TermCon .(⦋ ⦋⦌ ⊢ Te ، ⦋⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) App = {!!}
+  -- myi-TermCon .(⦋ ⦋ Te ⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) Lam = {!!}
+  -- myi-TermCon .(⦋ ⦋⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) Suc = {!!}
+  -- myi-TermCon .(⦋⦌ ⊩ ⦋⦌ ⊢ Te) Zero = {!!}
+  -- myi-TermCon .(⦋ ⦋ Te ⦌ ⊢ Te ، ⦋⦌ ⊢ Te ، ⦋⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te) Rec-ℕ = {!!}
+
+  myi : Λ ⟶ (LFSig {{isLogicalFramework:MTC}} (𝐓𝐲𝐩𝐞' 𝑗))
+  myi = id since record {
+    map-varzero = {!!}
+    ; map-varsuc = {!!}
+    ; map-TermCon = myi-TermCon
+    }
+
 
   ΛTT : TypeTheory-⊗ 𝑖
   TypeTheory-⊗.𝒯erm ΛTT = LFTerm Λ
-  TypeTheory-⊗.Types ΛTT = {!!}
-  TypeTheory-⊗.typing ΛTT = {!!}
+  TypeTheory-⊗.Types ΛTT = hasJudgements:𝐓𝐲𝐩𝐞
+  TypeTheory-⊗.typing ΛTT = interp myi
 
 
 

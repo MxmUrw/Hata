@@ -3,6 +3,8 @@ module Verification.Experimental.Data.Lift.Definition where
 
 open import Verification.Conventions
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Experimental.Algebra.Monoid.Definition
 
 record Lift-Cat {j : 𝔏 ^ 3} {i} (A : 𝒰 i) : 𝒰 (i ⊔ (j ⌄ 0)) where
   constructor lift
@@ -47,6 +49,16 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
     isCategory.assoc-l-◆ (isCategory:Lift {𝑘}) = lift $ assoc-l-◆ {{𝒞p}}
     isCategory.assoc-r-◆ (isCategory:Lift {𝑘}) = lift $ assoc-r-◆ {{𝒞p}}
     isCategory._◈_ (isCategory:Lift {𝑘}) = {!!}
+
+  instance
+    isMonoidal:Lift : {{_ : isMonoidal ′ 𝒞 ′}} -> isMonoidal ′ Lift-Cat {𝑘} 𝒞 ′
+    isMonoid._⋆_ (isMonoidal.isMonoid:this isMonoidal:Lift) = λ a b -> lift (lower a ⋆ lower b)
+    isMonoid.◌ (isMonoidal.isMonoid:this isMonoidal:Lift) = lift ◌
+    isMonoid.unit-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
 
 
 

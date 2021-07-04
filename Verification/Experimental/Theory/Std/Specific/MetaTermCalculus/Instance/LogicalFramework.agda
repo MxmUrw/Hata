@@ -50,7 +50,7 @@ open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
 
 
 private
-  U : CwJ (𝑘 , 𝑖 , 𝑗 , _) -> MetaTermCalculus (𝑖 , 𝑖)
+  U : CwJ (𝑘 , 𝑖 , 𝑗 , 𝑙) -> MetaTermCalculus (𝑙 , 𝑖)
   U 𝒞 = record
           { MetaKind = JKind {{of 𝒞}}
           ; varzero = {!!}
@@ -60,20 +60,24 @@ private
           }
 
 
-  F : MetaTermCalculus 𝑖 -> CwJ _
-  F γ = Ctx-⦿ (MetaJ (MetaKind γ)) since (isCwJ:Ctx-MTC {γ = γ})
+
+  F : ∀{𝑖} -> MetaTermCalculus 𝑖 -> CwJ _
+  F γ = Ctx-MTC γ since (isCwJ:Ctx-MTC {γ = γ})
     where open MTCDefinitions γ
 
 
 
+  i : ∀{σ : MetaTermCalculus (𝑖 , 𝑖)} -> ∀ {m} -> (Hom σ (U m)) -> (Hom (F σ) m)
+  i f = {!!}
+
 
 instance
-  isLogicalFramework:MTC : isLogicalFramework (CwJ (_ , _ , _ , 𝑖)) (MTC (_ , 𝑖))
-  isLogicalFramework.LFTerm isLogicalFramework:MTC = F
+  isLogicalFramework:MTC : isLogicalFramework (CwJ (_ , _ , _ , 𝑖)) (MTC (_ , 𝑖)) -- (MTC (𝑙 , (𝑖 ⊔ 𝑙)))
+  isLogicalFramework.LFTerm (isLogicalFramework:MTC) = F
   isLogicalFramework.LFSig isLogicalFramework:MTC = U
   isLogicalFramework.isFunctor:LFTerm isLogicalFramework:MTC = {!!}
   isLogicalFramework.isFunctor:LFSig isLogicalFramework:MTC = {!!}
-  isLogicalFramework.⟦ isLogicalFramework:MTC ⟧ = {!!}
+  isLogicalFramework.interp isLogicalFramework:MTC = {!!} -- i
 
 
 {-

@@ -24,6 +24,11 @@ module _ {K : 𝒰 𝑖} {𝒞 : 𝒰 _} {{_ : 𝒞 is MonoidalCategory 𝑗}} w
   iFam : (Jdg-⦿ K -> 𝒞) -> Rule-⦿ K -> 𝒰 _
   iFam f β = ∀(Δ : Ctx-⦿ K) -> rec-𝖱-⦿ f (Δ ↷ β)
 
+  -- record iFam (f : Jdg-⦿ K -> 𝒞) (β : Rule-⦿ K) : 𝒰 (𝑖 ､ (𝑗 ⌄ 1)) where
+  --   constructor incl
+  --   field ⟨_⟩ : ∀(Δ : Ctx-⦿ K) -> rec-𝖱-⦿ f (Δ ↷ β)
+
+
 
 
 -----------------------------------
@@ -38,7 +43,7 @@ record hasJudgements {𝑗} {𝑖} (𝒞 : MonoidalCategory 𝑖) : 𝒰 (𝑗 �
 open hasJudgements {{...}} public
 
 CategoryWithJudgements : ∀ (𝑖 : 𝔏 ^ 4) -> _
-CategoryWithJudgements 𝑖 = MonoidalCategory (𝑖 ⌄ 0 ⋯ 2) :& hasJudgements {𝑖 ⌄ 3}
+CategoryWithJudgements (𝑖) = MonoidalCategory (𝑖 ⌄ 0 ⋯ 2) :& hasJudgements {𝑖 ⌄ 3}
 
 instance
   isCategory:CategoryWithJudgements : ∀{𝑖} -> isCategory (CategoryWithJudgements 𝑖)

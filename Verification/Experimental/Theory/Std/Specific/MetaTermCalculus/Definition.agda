@@ -8,6 +8,8 @@ open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 
 data MetaSort : 𝒰₀ where
   main var special : MetaSort
@@ -34,17 +36,35 @@ record MetaTermCalculus (𝑖 : 𝔏 ^ 2): 𝒰 (𝑖 ⁺) where
   field varsuc : MetaKind
   -- field isGoodType : Type' MetaKind -> 𝒰₀
   field isHiddenMeta : MetaJ MetaKind -> 𝒰 (𝑖 ⌄ 0)
-  field TermCon : (τ : Rule-⦿ MetaKind) -> 𝒰 (𝑖 ⌄ 1)
+  field TermCon : (τ : Rule-⦿ MetaKind) -> 𝒰 (𝑖)
 
 open MetaTermCalculus public
-
-instance
-  isCategory:MTC : isCategory {ℓ₀ , ℓ₀} (MetaTermCalculus 𝑖)
-  isCategory:MTC = {!!}
 
 macro
   MTC : ∀ 𝑖 -> SomeStructure
   MTC 𝑖 = #structureOn (MetaTermCalculus 𝑖)
+
+module _ (A B : MTC 𝑖) where
+  record isHom-MTC (f : MetaKind A -> MetaKind B) : 𝒰 𝑖 where
+    field map-varzero : f (varzero A) ≡ varzero B
+    field map-varsuc : f (varsuc A) ≡ varsuc B
+    field map-TermCon : ∀ ρ -> TermCon A ρ -> TermCon B (map f ρ)
+  Hom-MTC = _ :& isHom-MTC
+
+
+instance
+  isCategory:MTC : isCategory (MetaTermCalculus 𝑖)
+  isCategory.Hom isCategory:MTC = Hom-MTC
+  isCategory.isSetoid:Hom isCategory:MTC = isSetoid:byPath
+  isCategory.id isCategory:MTC = {!!}
+  isCategory._◆_ isCategory:MTC = {!!}
+  isCategory.unit-l-◆ isCategory:MTC = {!!}
+  isCategory.unit-r-◆ isCategory:MTC = {!!}
+  isCategory.unit-2-◆ isCategory:MTC = {!!}
+  isCategory.assoc-l-◆ isCategory:MTC = {!!}
+  isCategory.assoc-r-◆ isCategory:MTC = {!!}
+  isCategory._◈_ isCategory:MTC = {!!}
+
 
 
 module MTCDefinitions (σ : MetaTermCalculus 𝑖) where
@@ -109,11 +129,21 @@ module MTCDefinitions (σ : MetaTermCalculus 𝑖) where
       zero : ∀{Γ α}   -> Μ ⊩ᶠ↓ (Γ ⊢ kind (varzero σ) ◀ special) -> Μ ⊩ᶠ↓ ((Γ ,, α) ⊢ α ◀ var)
 
 
+record Ctx-MTC (γ : MetaTermCalculus 𝑖) : 𝒰 (𝑖 ⌄ 0) where
+  constructor incl
+  field ⟨_⟩ : (Ctx-⦿ (MetaJ (MetaKind γ)))
+open Ctx-MTC {{...}} public
+
 module _ {γ : MetaTermCalculus 𝑖} where
   open MTCDefinitions γ
+
+  -- instance
+  --   isCategory:Ctx-MTC : isCategory (Ctx-⦿ (MetaJ (MetaKind γ)))
+  --   isCategory.Hom isCategory:Ctx-MTC = Sub-⦿ (_⊩ᶠ↓_)
+
   instance
-    isCategory:Ctx-MTC : isCategory (Ctx-⦿ (MetaJ (MetaKind γ)))
-    isCategory.Hom isCategory:Ctx-MTC = Sub-⦿ (_⊩ᶠ↓_)
+    isCategory:Ctx-MTC : isCategory (Ctx-MTC γ)
+    isCategory.Hom isCategory:Ctx-MTC = λ A B -> Sub-⦿ (_⊩ᶠ↓_) ⟨ A ⟩ ⟨ B ⟩
     isCategory.isSetoid:Hom isCategory:Ctx-MTC = isSetoid:byPath
     isCategory.id isCategory:Ctx-MTC = {!!}
     isCategory._◆_ isCategory:Ctx-MTC = {!!}
@@ -124,13 +154,20 @@ module _ {γ : MetaTermCalculus 𝑖} where
     isCategory.assoc-r-◆ isCategory:Ctx-MTC = {!!}
     isCategory._◈_ isCategory:Ctx-MTC = {!!}
 
-
-    isMonoidal:Ctx-MTC : isMonoidal ′ Ctx-⦿ (MetaJ (MetaKind γ)) ′
+    isMonoidal:Ctx-MTC : isMonoidal ′ Ctx-MTC γ ′
     isMonoidal:Ctx-MTC = {!!}
 
   instance
-    isCwJ:Ctx-MTC : hasJudgements ′ Ctx-⦿ (MetaJ (MetaKind γ)) ′
-    isCwJ:Ctx-MTC = record { JKind = (MetaKind γ) ; JObj = λ 𝔧 -> [] ,, ([] ⊢ ⟦ 𝔧 ⟧-J ◀ main) }
+    isCwJ:Ctx-MTC : hasJudgements ′ Ctx-MTC γ ′
+    isCwJ:Ctx-MTC = record { JKind = (MetaKind γ) ; JObj = λ 𝔧 -> incl ([] ,, ([] ⊢ ⟦ 𝔧 ⟧-J ◀ main)) }
+
+
+  --   isMonoidal:Ctx-MTC : isMonoidal ′ Ctx-⦿ (MetaJ (MetaKind γ)) ′
+  --   isMonoidal:Ctx-MTC = {!!}
+
+  -- instance
+  --   isCwJ:Ctx-MTC : hasJudgements ′ Ctx-⦿ (MetaJ (MetaKind γ)) ′
+  --   isCwJ:Ctx-MTC = record { JKind = (MetaKind γ) ; JObj = λ 𝔧 -> [] ,, ([] ⊢ ⟦ 𝔧 ⟧-J ◀ main) }
 
 {-
 -}

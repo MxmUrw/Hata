@@ -3,6 +3,9 @@ module Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement 
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid
+open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.MonoidAction.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Context
@@ -38,7 +41,16 @@ module _ {A : 𝒰 𝑖} where
       ; _≀↷≀_ = {!!}
       }
 
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  map-Jdg-⦿ : (f : A -> B) -> Jdg-⦿ A -> Jdg-⦿ B
+  map-Jdg-⦿ f (Γ ⊢ α) = map-Ctx-⦿ f Γ ⊢ f α
 
+instance
+  isFunctor:Jdg-⦿ : isFunctor (𝐓𝐲𝐩𝐞 𝑖) (𝐓𝐲𝐩𝐞 𝑖) (Jdg-⦿)
+  isFunctor.map isFunctor:Jdg-⦿ = map-Jdg-⦿
+  isFunctor.isSetoidHom:map isFunctor:Jdg-⦿ = {!!}
+  isFunctor.functoriality-id isFunctor:Jdg-⦿ = {!!}
+  isFunctor.functoriality-◆ isFunctor:Jdg-⦿ = {!!}
 
 
 

@@ -14,10 +14,17 @@ open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Type.Definition
 open import Verification.Experimental.Data.Lift.Definition
+open import Verification.Experimental.Algebra.Monoid.Definition
 
 instance
-  isMonoidal:𝐓𝐲𝐩𝐞 : isMonoidal (𝐓𝐲𝐩𝐞' 𝑖)
-  isMonoidal:𝐓𝐲𝐩𝐞 = {!!}
+  isMonoidal:𝐓𝐲𝐩𝐞 : isMonoidal (𝐓𝐲𝐩𝐞 𝑖)
+  isMonoid._⋆_ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = _×-𝒰_
+  isMonoid.◌ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = ⊤-𝒰
+  isMonoid.unit-l-⋆ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = {!!}
+  isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = {!!}
+  isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = {!!}
+  isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = {!!}
+  isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:𝐓𝐲𝐩𝐞) = {!!}
 
 -- module _ {{Types : hasJudgements {_} (𝐓𝐲𝐩𝐞' (𝑗 , 𝑗 ⁺ , 𝑗 ⁺))}} where
 --   myTest : CwJ _
