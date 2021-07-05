@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Instance.LogicalFramework where
 
-open import Verification.Experimental.Conventions hiding (Structure)
+open import Verification.Experimental.Conventions hiding (Structure ; _◀)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
@@ -53,8 +53,9 @@ private
   U : CwJ (𝑘 , 𝑖 , 𝑗 , 𝑙) -> MetaTermCalculus (𝑙 , 𝑖)
   U 𝒞 = record
           { MetaKind = JKind {{of 𝒞}}
-          ; varzero = {!!}
-          ; varsuc = {!!}
+          -- ; varzero = {!!}
+          -- ; varsuc = {!!}
+          ; ∂ₘᵇ = {!!}
           ; isHiddenMeta = const ⊥
           ; TermCon = iFam (JObj {{of 𝒞}})
           }
@@ -67,8 +68,83 @@ private
 
 
 
-  i : ∀{σ : MetaTermCalculus (𝑖 , 𝑖)} -> ∀ {m} -> (Hom σ (U m)) -> (Hom (F σ) m)
-  i f = {!!}
+  i : ∀{γ : MetaTermCalculus (𝑖 , 𝑖)} -> ∀ {m} -> (Hom γ (U m)) -> (Hom (F γ) m)
+  i {γ = γ} {m} ϕ = f since isFunctor:f
+    where
+      f : ⟨ F γ ⟩ -> ⟨ m ⟩
+      f (incl x) = rec-Ctx-⦿ (λ 𝔧 -> JObj (map-Jdg-⦿ ⟨ ϕ ⟩ 𝔧)) x
+
+      open MTCDefinitions γ
+
+      mutual
+        map-f₀-var : ∀{a b} ->
+                (_⊩ᶠ↓_)
+                -- (map-Ctx-⦿ (λ 𝔧 -> map-Jdg-⦿ kind 𝔧 ◀ main) ⟨ a ⟩)
+                (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ a ⟩)
+                ((map-Jdg-⦿ kind) b ◀ var) →
+                Hom (f a) (f (incl ([] ,, b)))
+
+        map-f₀-var {a} {[] ⊢ α} (getapp ())
+        map-f₀-var {a} {(G ,, x) ⊢ α} (MTCDefinitions.getapp ())
+        map-f₀-var {a} {(G ,, x) ⊢ α} (suc te te₁) = {!!}
+        map-f₀-var {a} {(G ,, x) ⊢ .x} (zero te) = {!!}
+          -- let y1 = map-f₀ te
+          -- in y1 ◆ {!!}
+        -- map-f₀-var {a} {[] ⊢ α} (getapp x) = {!!}
+        -- map-f₀-var {a} {(Γ ,, β) ⊢ α} (getapp (meta x)) = {!!}
+        -- map-f₀-var {a} {(Γ ,, β) ⊢ α} (suc x x₁) = {!!}
+        -- map-f₀-var {a} {(Γ ,, β) ⊢ .β} (zero (getapp (meta (skip x)))) = {!!}
+        -- map-f₀-var {incl as} {(Γ ,, β) ⊢ .β} (zero (getapp (meta (give x x₁)))) = {!!}
+
+        map-f₀-app : ∀{a b} ->
+                (_⊩ᶠ↓-app_)
+                (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ a ⟩)
+                -- (map-Ctx-⦿ (λ 𝔧 -> map-Jdg-⦿ kind 𝔧 ◀ main) ⟨ a ⟩)
+                ((map-Jdg-⦿ kind) b ◀ main) →
+                Hom (f a) (f (incl ([] ,, b)))
+        map-f₀-app {a} {b} (MTCDefinitions.app (MTCDefinitions.app x x₂) x₁) = {!!}
+        map-f₀-app {a} {b} (MTCDefinitions.app (MTCDefinitions.var x) x₁) = {!!}
+        map-f₀-app {a} {b} (MTCDefinitions.app (MTCDefinitions.con x x₂) x₁) = let y = map-f₀ x₁ {!!}
+                                                                               in {!!}
+        map-f₀-app {a} {b} (MTCDefinitions.app (MTCDefinitions.meta x) x₁) = {!!}
+        map-f₀-app {a} {b} (var x) = map-f₀-var x
+        map-f₀-app {a} {b} (MTCDefinitions.con {_} {ts ⊩ t} {.(kind (Jdg-⦿.snd b))} x x₁) = {!!}
+        map-f₀-app {a} {b} (meta x) = {!!}
+
+        -- assign-r : Ctx-⦿ K
+
+        map-f₀ : ∀{a b τ α} ->
+                (_⊩ᶠ↓_)
+                (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ a ⟩)
+                -- ((map-Jdg-⦿ kind) b ◀ main) →
+                ((map-Ctx-⦿ kind) b ⊢ α ◀ main) →
+                (⟦ τ ⟧-J ≣ α) ->
+                Hom (f a) (f (incl ([] ,, b ↷ τ)))
+        map-f₀ {a} {b} {G ⊢ t} {(α ⇒ β)} (MTCDefinitions.lam x) p with arrify-J-split {G} p
+        ... | Γ' , α' , (refl-≣ , refl-≣) , r = let y = map-f₀ {τ = Γ' ⊢ t} x r
+                                                in y ◆ {!!}
+        map-f₀ {a} {b} {G ⊢ t} {.(kind _)} (MTCDefinitions.getapp x) p with arrify-J-kind {G} p
+        ... | (refl-≣ , refl-≣) = map-f₀-app x
+        -- map-f₀ {a} {b} (getapp x) = map-f₀-app x
+      -- map-f₀ {a} {([] ⊢ α)} (getapp x) = {!!}
+      -- map-f₀ {a} {((Γ ,, β) ⊢ α)} (getapp x) = {!!}
+      -- map-f₀ {a} {((Γ ,, β) ⊢ α) ◀ var} (t) = map-f₀-var t
+      -- map-f₀ {a} {((Γ ,, β) ⊢ .β) ◀ .var} (zero (getapp (meta x))) = {!!}
+
+      map-f : ∀{a b} ->
+              Sub-⦿ (MTCDefinitions._⊩ᶠ↓'_ γ)
+              -- (map-Ctx-⦿ (λ 𝔧 -> map-Jdg-⦿ kind 𝔧 ◀ main) ⟨ a ⟩)
+              -- (map-Ctx-⦿ (λ 𝔧 -> map-Jdg-⦿ kind 𝔧 ◀ main) ⟨ b ⟩) ->
+              (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ a ⟩)
+              (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ b ⟩) →
+              Hom (f a) (f b)
+      map-f = {!!}
+
+      isFunctor:f : isFunctor ′ ⟨ F γ ⟩ ′ ′ ⟨ m ⟩ ′ f
+      isFunctor.map isFunctor:f = map-f
+      isFunctor.isSetoidHom:map isFunctor:f = {!!}
+      isFunctor.functoriality-id isFunctor:f = {!!}
+      isFunctor.functoriality-◆ isFunctor:f = {!!}
 
 
 instance
@@ -77,7 +153,7 @@ instance
   isLogicalFramework.LFSig isLogicalFramework:MTC = U
   isLogicalFramework.isFunctor:LFTerm isLogicalFramework:MTC = {!!}
   isLogicalFramework.isFunctor:LFSig isLogicalFramework:MTC = {!!}
-  isLogicalFramework.interp isLogicalFramework:MTC = {!!} -- i
+  isLogicalFramework.interp isLogicalFramework:MTC = i
 
 
 {-

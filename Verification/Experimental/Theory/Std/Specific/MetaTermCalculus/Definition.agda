@@ -3,6 +3,9 @@
 module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition where
 
 open import Verification.Experimental.Conventions hiding (Structure)
+open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Order.Lattice
+open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
@@ -12,7 +15,7 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 
 data MetaSort : 𝒰₀ where
-  main var special : MetaSort
+  main var : MetaSort
 
 module _ (K : 𝒰 𝑖) where
   --- basic definitions
@@ -23,8 +26,12 @@ module _ (K : 𝒰 𝑖) where
 
   infixr 30 _⇒_
 
-  data MetaJ : 𝒰 𝑖 where
-    _◀_ : Jdg-⦿ Type-MTC -> MetaSort -> MetaJ
+data MetaJ (A : 𝒰 𝑖) : 𝒰 𝑖 where
+  _◀_ : Jdg-⦿ A -> MetaSort -> MetaJ A
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  map-MetaJ : (f : A -> B) -> MetaJ A -> MetaJ B
+  map-MetaJ f (x ◀ s) = map-Jdg-⦿ f x ◀ s
 
 -----------------------------------
 -- ==* MTC signatures
@@ -32,11 +39,14 @@ module _ (K : 𝒰 𝑖) where
 
 record MetaTermCalculus (𝑖 : 𝔏 ^ 2): 𝒰 (𝑖 ⁺) where
   field MetaKind : 𝒰 (𝑖 ⌄ 0)
-  field varzero : MetaKind
-  field varsuc : MetaKind
+  -- field varzero : MetaKind
+  field ∂ₘᵇ : MetaKind -> MetaKind
   -- field isGoodType : Type' MetaKind -> 𝒰₀
-  field isHiddenMeta : MetaJ MetaKind -> 𝒰 (𝑖 ⌄ 0)
+  field isHiddenMeta : Jdg-⦿ (Type-MTC MetaKind) -> 𝒰 (𝑖 ⌄ 0)
   field TermCon : (τ : Rule-⦿ MetaKind) -> 𝒰 (𝑖)
+  ∂ₘ : Type-MTC MetaKind -> Type-MTC MetaKind
+  ∂ₘ (kind x) = kind (∂ₘᵇ x)
+  ∂ₘ (a ⇒ b) = a ⇒ (∂ₘ b)
 
 open MetaTermCalculus public
 
@@ -46,8 +56,8 @@ macro
 
 module _ (A B : MTC 𝑖) where
   record isHom-MTC (f : MetaKind A -> MetaKind B) : 𝒰 𝑖 where
-    field map-varzero : f (varzero A) ≡ varzero B
-    field map-varsuc : f (varsuc A) ≡ varsuc B
+    -- field map-varzero : f (varzero A) ≡ varzero B
+    -- field map-varsuc : f (varsuc A) ≡ varsuc B
     field map-TermCon : ∀ ρ -> TermCon A ρ -> TermCon B (map f ρ)
   Hom-MTC = _ :& isHom-MTC
 
@@ -92,7 +102,13 @@ module MTCDefinitions (σ : MetaTermCalculus 𝑖) where
   ⟦_⟧-R : Rule-⦿ K -> Type-MTC K
   ⟦_⟧-R (𝔧s ⊩ 𝔦) = arrify ⟦_⟧-J 𝔧s (⟦_⟧-J 𝔦)
 
-  MetaJ'  = MetaJ (MetaKind σ)
+  arrify-J-kind : ∀{Γ α β} -> ⟦ Γ ⊢ α ⟧-J ≣ kind β -> (Γ ≣ []) ∧ (α ≣ β)
+  arrify-J-kind {G} {a} {b} p = {!!}
+
+  arrify-J-split : ∀{Γ α β τ} -> ⟦ Γ ⊢ τ ⟧-J ≣ (α ⇒ β) -> ∑ λ Γ' -> ∑ λ α' -> (α ≣ kind α') ∧ (Γ ≣ ([] ,, α') ⋆ Γ') ∧ (⟦ Γ' ⊢ τ ⟧-J ≣ β)
+  arrify-J-split = ?
+
+  MetaJ'  = Jdg-⦿ (Type-MTC (MetaKind σ))
 
   data OptMeta (𝔧 : MetaJ') (Opt : MetaJ' -> 𝒰 𝑗) (Fam : MetaJ' -> 𝒰 𝑘) : 𝒰 (𝑗 ､ 𝑘) where
     skip : Opt 𝔧 -> OptMeta 𝔧 Opt Fam
@@ -100,38 +116,42 @@ module MTCDefinitions (σ : MetaTermCalculus 𝑖) where
 
 
 
-  data _⊩ᶠ_ (Μ : Ctx-⦿ (MetaJ (MetaKind σ))) : MetaJ (MetaKind σ) -> 𝒰 𝑖 where
-    meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ ⊢-Ctx-⦿_) -> Μ ⊩ᶠ 𝔧
+  data _⊩ᶠ_ (Μ : Ctx-⦿ (Jdg-⦿ (Type-MTC (MetaKind σ)))) : MetaJ (Type-MTC (MetaKind σ)) -> 𝒰 𝑖 where
+    meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ ⊢-Ctx-⦿_) -> Μ ⊩ᶠ (𝔧 ◀ main)
     var : ∀{Γ τ} -> (Μ ⊩ᶠ (Γ ⊢ τ ◀ var)) -> Μ ⊩ᶠ (Γ ⊢ τ ◀ main)
-    con :  ∀{Γ τ τ'} -> (τ ≣ τ') -> (TermCon σ τ) -> Μ ⊩ᶠ (Γ ⊢ ⟦ τ' ⟧-R ◀ main)
+    con :  ∀{Γ τ τ'} -> (⟦ τ ⟧-R ≣ τ') -> (TermCon σ τ) -> Μ ⊩ᶠ (Γ ⊢ τ' ◀ main)
     lam : ∀{Γ α β} -> Μ ⊩ᶠ ((Γ ,, α) ⊢ β ◀ main) -> Μ ⊩ᶠ (Γ ⊢ (α ⇒ β) ◀ main)
     app : ∀{Γ α β} -> Μ ⊩ᶠ (Γ ⊢ (α ⇒ β) ◀ main) -> Μ ⊩ᶠ (Γ ⊢ α ◀ main) -> Μ ⊩ᶠ (Γ ⊢ β ◀ main)
 
-    suc  : ∀{Γ α β} -> Μ ⊩ᶠ (Γ ⊢ kind (varsuc σ) ◀ special)  -> Μ ⊩ᶠ (Γ ⊢ β ◀ var) -> Μ ⊩ᶠ ((Γ ,, α) ⊢ β ◀ var)
-    zero : ∀{Γ α}   -> Μ ⊩ᶠ (Γ ⊢ kind (varzero σ) ◀ special) -> Μ ⊩ᶠ ((Γ ,, α) ⊢ α ◀ var)
+    suc  : ∀{Γ α β} -> Μ ⊩ᶠ (Γ ⊢ ∂ₘ σ α ◀ main)  -> Μ ⊩ᶠ (Γ ⊢ β ◀ var) -> Μ ⊩ᶠ ((Γ ,, α) ⊢ β ◀ var)
+    zero : ∀{Γ α}   -> Μ ⊩ᶠ (Γ ⊢ ∂ₘ σ α ◀ main) -> Μ ⊩ᶠ ((Γ ,, α) ⊢ α ◀ var)
 
 
 
 
   mutual
-    data _⊩ᶠ↓-app_ (Μ : Ctx-⦿ (MetaJ (MetaKind σ))) : MetaJ (MetaKind σ) -> 𝒰 𝑖 where
+    data _⊩ᶠ↓-app_ (Μ : Ctx-⦿ (Jdg-⦿ (Type-MTC (MetaKind σ)))) : MetaJ (Type-MTC (MetaKind σ)) -> 𝒰 𝑖 where
       app : ∀{Γ α β} -> Μ ⊩ᶠ↓-app (Γ ⊢ (α ⇒ β) ◀ main) -> Μ ⊩ᶠ↓ (Γ ⊢ α ◀ main) -> Μ ⊩ᶠ↓-app (Γ ⊢ β ◀ main)
       var : ∀{Γ τ} -> (Μ ⊩ᶠ↓ (Γ ⊢ τ ◀ var)) -> Μ ⊩ᶠ↓-app (Γ ⊢ τ ◀ main)
-      con :  ∀{Γ τ τ'} -> τ ≣ τ' -> (TermCon σ τ) -> Μ ⊩ᶠ↓-app (Γ ⊢ ⟦ τ' ⟧-R ◀ main)
-      -- meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ ⊢̌_) -> Μ ⊩ᶠ↓-app 𝔧
+      con :  ∀{Γ τ τ'} -> ⟦ τ ⟧-R ≣ τ' -> (TermCon σ τ) -> Μ ⊩ᶠ↓-app (Γ ⊢ τ' ◀ main)
+      meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ ⊢-Ctx-⦿_) -> Μ ⊩ᶠ↓-app (𝔧 ◀ main)
+      -- meta : ∀{𝔧} -> OptMeta 𝔧 (isHiddenMeta σ) (Μ ⊢-Ctx-⦿_) -> Μ ⊩ᶠ 𝔧
 
 
-    data _⊩ᶠ↓_ (Μ : Ctx-⦿ (MetaJ (MetaKind σ))) : MetaJ (MetaKind σ) -> 𝒰 𝑖 where
+    data _⊩ᶠ↓_ (Μ : Ctx-⦿ (Jdg-⦿ (Type-MTC (MetaKind σ)))) : MetaJ (Type-MTC (MetaKind σ)) -> 𝒰 𝑖 where
       lam : ∀{Γ α β} -> Μ ⊩ᶠ↓ ((Γ ,, α) ⊢ β ◀ main) -> Μ ⊩ᶠ↓ (Γ ⊢ (α ⇒ β) ◀ main)
       getapp : ∀{Γ α s} -> Μ ⊩ᶠ↓-app (Γ ⊢ kind α ◀ s) -> Μ ⊩ᶠ↓ (Γ ⊢ kind α ◀ s)
 
-      suc  : ∀{Γ α β} -> Μ ⊩ᶠ↓ (Γ ⊢ kind (varsuc σ) ◀ special)  -> Μ ⊩ᶠ↓ (Γ ⊢ β ◀ var) -> Μ ⊩ᶠ↓ ((Γ ,, α) ⊢ β ◀ var)
-      zero : ∀{Γ α}   -> Μ ⊩ᶠ↓ (Γ ⊢ kind (varzero σ) ◀ special) -> Μ ⊩ᶠ↓ ((Γ ,, α) ⊢ α ◀ var)
+      suc  : ∀{Γ α β} -> Μ ⊩ᶠ↓ (Γ ⊢ ∂ₘ σ α ◀ main)  -> Μ ⊩ᶠ↓ (Γ ⊢ β ◀ var) -> Μ ⊩ᶠ↓ ((Γ ,, α) ⊢ β ◀ var)
+      zero : ∀{Γ α}   -> Μ ⊩ᶠ↓ (Γ ⊢ ∂ₘ σ α ◀ main) -> Μ ⊩ᶠ↓ ((Γ ,, α) ⊢ α ◀ var)
+
+    _⊩ᶠ↓'_ : (Μ : Ctx-⦿ (Jdg-⦿ (Type-MTC (MetaKind σ)))) -> MetaJ' -> 𝒰 𝑖
+    _⊩ᶠ↓'_ a b = _⊩ᶠ↓_ a (b ◀ main)
 
 
 record Ctx-MTC (γ : MetaTermCalculus 𝑖) : 𝒰 (𝑖 ⌄ 0) where
   constructor incl
-  field ⟨_⟩ : (Ctx-⦿ (MetaJ (MetaKind γ)))
+  field ⟨_⟩ : (Ctx-⦿ (Jdg-⦿ (MetaKind γ)))
 open Ctx-MTC {{...}} public
 
 module _ {γ : MetaTermCalculus 𝑖} where
@@ -143,7 +163,7 @@ module _ {γ : MetaTermCalculus 𝑖} where
 
   instance
     isCategory:Ctx-MTC : isCategory (Ctx-MTC γ)
-    isCategory.Hom isCategory:Ctx-MTC = λ A B -> Sub-⦿ (_⊩ᶠ↓_) ⟨ A ⟩ ⟨ B ⟩
+    isCategory.Hom isCategory:Ctx-MTC = λ A B -> Sub-⦿ (_⊩ᶠ↓'_) (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ A ⟩) (map-Ctx-⦿ (map-Jdg-⦿ kind) ⟨ B ⟩)
     isCategory.isSetoid:Hom isCategory:Ctx-MTC = isSetoid:byPath
     isCategory.id isCategory:Ctx-MTC = {!!}
     isCategory._◆_ isCategory:Ctx-MTC = {!!}
@@ -159,7 +179,7 @@ module _ {γ : MetaTermCalculus 𝑖} where
 
   instance
     isCwJ:Ctx-MTC : hasJudgements ′ Ctx-MTC γ ′
-    isCwJ:Ctx-MTC = record { JKind = (MetaKind γ) ; JObj = λ 𝔧 -> incl ([] ,, ([] ⊢ ⟦ 𝔧 ⟧-J ◀ main)) }
+    isCwJ:Ctx-MTC = record { JKind = (MetaKind γ) ; JObj = λ 𝔧 -> {!!} } -- incl ([] ,, ([] ⊢ ⟦ 𝔧 ⟧-J ◀ main)) }
 
 
   --   isMonoidal:Ctx-MTC : isMonoidal ′ Ctx-⦿ (MetaJ (MetaKind γ)) ′
