@@ -30,8 +30,8 @@ data RST (G : Graph 𝑖) : (a b : GraphSetoid G) -> 𝒰 𝑖 where
   trans-RST : ∀{a b c} -> RST G a b -> RST G b c -> RST G a c
 
 instance
-  isSetoid:RST : ∀{G : Graph 𝑖} -> isSetoid _ (GraphSetoid G)
-  isSetoid:RST {G = G} = setoid (RST G) {{equivRel (incl refl-RST) (λ x → incl (sym-RST ⟨ x ⟩)) λ x y → incl (trans-RST ⟨ x ⟩ ⟨ y ⟩) }}
+  isSetoid:RST : ∀{G : Graph 𝑖} -> isSetoid (GraphSetoid G)
+  isSetoid:RST {G = G} = setoid (RST G) (refl-RST) sym-RST trans-RST
 
 
 Graph→Setoid : Graph 𝑖 -> Setoid _

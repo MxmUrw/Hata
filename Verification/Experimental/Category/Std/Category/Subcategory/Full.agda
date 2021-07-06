@@ -9,7 +9,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 
 
-module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
+module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
   record FullSubcategory {X : 𝒰 𝑘} (f : X -> 𝒞) : 𝒰 𝑘 where
     constructor incl
     field ⟨_⟩ : X
@@ -42,15 +42,16 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
       --   isEquivRel:
 
       instance
-        isSetoid:FullSubcategoryHom : isSetoid _ (FullSubcategoryHom a b)
-        isSetoid._∼'_ isSetoid:FullSubcategoryHom = _∼-FullSubcategoryHom_
-        isSetoid.isEquivRel:∼ isSetoid:FullSubcategoryHom = {!!}
+        isSetoid:FullSubcategoryHom : isSetoid (FullSubcategoryHom a b)
+        isSetoid:FullSubcategoryHom = setoid _∼-FullSubcategoryHom_ {!!} {!!} {!!}
+        -- isSetoid._∼'_ isSetoid:FullSubcategoryHom = _∼-FullSubcategoryHom_
+        -- isSetoid.isEquivRel:∼ isSetoid:FullSubcategoryHom = {!!}
 
     instance
-      isCategory:FullSubcategory : isCategory _ (FullSubcategory ι)
-      isCategory.Hom' isCategory:FullSubcategory a b = ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩
+      isCategory:FullSubcategory : isCategory (FullSubcategory ι)
+      isCategory.Hom isCategory:FullSubcategory a b = ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩
       isCategory.isSetoid:Hom isCategory:FullSubcategory = it
-      isCategory.id isCategory:FullSubcategory = incl id
+      isCategory.id isCategory:FullSubcategory = id {{𝒞p}}
       isCategory._◆_ isCategory:FullSubcategory = {!!}
       isCategory.unit-l-◆ isCategory:FullSubcategory = {!!}
       isCategory.unit-r-◆ isCategory:FullSubcategory = {!!}

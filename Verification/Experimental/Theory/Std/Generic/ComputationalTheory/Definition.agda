@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.ComputationalTheory.Definition where
+module Verification.Experimental.Theory.Std.Generic.ComputationalTheory.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Category.Std.Graph.Definition
@@ -15,7 +15,7 @@ open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
 -- open import Verification.Experimental.Computation.Question.Construction.Product
-open import Verification.Experimental.Theory.Std.Theory.Definition
+open import Verification.Experimental.Theory.Std.Generic.Theory.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full
 
 

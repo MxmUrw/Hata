@@ -22,4 +22,28 @@ instance Show Printable where
 data HataError =
   ParseError Text
 
+data Event =
+  Event_ReadFile Text
+
+data Reaction =
+  Reaction_NewWindow
+  | Reaction_PrintDebug Text
+  | Reaction_Exit
+
+-- class Executable a where
+--   init :: a
+--   actOn :: Event -> a -> ([Reaction], a)
+
+-- data ExecutableDict a = Executable a => ExecutableDict
+
+
+data Executable a = Executable
+  { initExec :: a
+  , stepExec :: (Event -> a -> ([Reaction], a))
+  }
+
+data RegisterExecutable where
+  RegisterExecutable :: Text -> Executable a -> RegisterExecutable
+
+
 

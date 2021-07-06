@@ -4,10 +4,12 @@ module Hata.Runtime.CLI where
 import Options.Applicative
 import Data.Semigroup ((<>))
 
-import Hata.Runtime.Application
 import MAlonzo.Code.Application.Main
 import qualified Data.Text as T
 import Data.List
+
+import Hata.Runtime.Application
+import Hata.Runtime.EventLoop
 
 data HataArgs = HataArgs
   {
@@ -18,7 +20,13 @@ data HataArgs = HataArgs
 pArgs :: Parser HataArgs
 pArgs = HataArgs
   <$> argument str (metavar "APP")
-  <*> argument str (metavar "FILE")
+  <*> strOption
+    ( long "file"
+    <> short 'f'
+    <> metavar "FILE"
+    <> value ""
+    )
+  -- auto (metavar "FILE" <> value Nothing)
   -- strOption (long "app"
   --               <> )
 
@@ -34,16 +42,22 @@ execute = do
   (HataArgs appName targetFile) <- execParser opts
 
   let applist = getApplicationList
-  let filtered_list = [func | (Execute name func) <- applist , name == T.pack appName]
+  let filtered_list = [RegisterExecutable name func | (RegisterExecutable name func) <- applist , name == T.pack appName]
+
+  let targetFile' = case targetFile of
+        "" -> Nothing
+        a -> Just a
+
+  input <- mapM (\a -> putStrLn "Reading file." >> readFile a) targetFile'
+  let events = case input of
+        Nothing -> []
+        (Just a) -> [Event_ReadFile (T.pack a)]
 
   -- check if we have such an app
   case filtered_list of
     [func] -> do
-      putStrLn "Reading file."
-      file_content <- readFile targetFile
       putStrLn "Executing app."
-      let result = func (T.pack file_content)
-      putStrLn $ "Result is:" <> (show result)
+      el_singleRun func events
 
     -- throw errors if we find to few/many apps
     [] -> putStrLn $ "Error: no app with the name '" <> appName <> "' exists."

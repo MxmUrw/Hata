@@ -9,8 +9,8 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Data.Universe.Instance.Category
 -- open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
 open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition as Curry
-open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition using (_∶_⊢_)
-open import Verification.Experimental.Theory.Std.TypeTheory.Definition
+-- open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition using (_∶_⊢_)
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Computation.Question.Definition
 open import Verification.Experimental.Computation.Question.Specific.Small
 
@@ -22,28 +22,28 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Pullback
 open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
 open import Verification.Experimental.Data.Universe.Everything
 
-open import Verification.Experimental.Theory.Std.ProgrammingLanguage.Definition
+open import Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition
 open import Verification.Experimental.Category.Std.Graph.Definition
 
 
 private
   instance
-    isGraph:CurryTerm : isGraph Curry.Term-λ
+    isGraph:CurryTerm : isGraph (Curry.Term-λ 0)
     isGraph:CurryTerm = graph (const (const 𝟙-𝒰))
 
   instance
-    λCurry : isTypeTheory _ Curry.Statement
-    isTypeTheory.Termᵘ λCurry = Curry.Term-λ
-    isTypeTheory.isSetoid:Term λCurry = it
-    isTypeTheory._∶_ λCurry = λ t (_ , Γ ⊢ τ) -> t ∶ Γ ⊢ τ
-    isTypeTheory.preserveType λCurry (incl refl-StrId) t = t
+    λCurry : isTypeTheory (ℓ₀ , ℓ₀ , ℓ₀) Curry.Statement
+    isTypeTheory.Termᵘ λCurry = Curry.Term-λ 0
+    isTypeTheory.isSetoid:Term λCurry = {!!}
+    isTypeTheory._∶_ λCurry = {!!} -- λ t (_ , Γ ⊢ τ) -> t ∶ Γ ⊢ τ
+    isTypeTheory.preserveType λCurry = {!!} -- (refl-StrId) t = t
 
   instance
-    isLanguage:Curry : isLanguage _ (Curry.Statement)
+    isLanguage:Curry : isLanguage (ℓ₀ , ℓ₀ , ℓ₀) (Curry.Statement)
     isLanguage:Curry =
       language
-        Curry.Term-λ
-        (λ t (_ , Γ ⊢ τ) -> t ∶ Γ ⊢ τ)
+        (Curry.Term-λ 0)
+        {!!} -- (λ t (_ , Γ ⊢ τ) -> t ∶ Γ ⊢ τ)
         {!!}
 
 
@@ -53,7 +53,7 @@ macro
 
 private
   f : ⊤-𝒰 ⟶ TypeTheory _
-  f = incl (const ′ Curry.Statement ′)
+  f = (const ′ Curry.Statement ′)
 
 zeta : Fiber _ ⊤-𝒰
 zeta = ⟨ f *! ⟩ (𝐓𝐓Fib _)

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.ProgrammingLanguage.Definition where
+module Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
@@ -16,9 +16,9 @@ open import Verification.Experimental.Data.Sum.Definition
 -- open import Verification.Experimental.Category.Std.Morphism.Iso
 -- open import Verification.Experimental.Theory.Computation.Question.Construction.Product
 
-open import Verification.Experimental.Theory.Std.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Theory.Definition
-open import Verification.Experimental.Theory.Std.ComputationalTheory.Definition
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Experimental.Theory.Std.Generic.Theory.Definition
+open import Verification.Experimental.Theory.Std.Generic.ComputationalTheory.Definition
 
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full
@@ -67,7 +67,7 @@ record isLanguage (𝑖 : 𝔏 ^ 3) (Type : 𝒰 𝑗) : 𝒰 (𝑖 ⁺ ､ 𝑗
   --   isSetoid:TypedTerm-PL : ∀{τ} -> isSetoid _ (TypedTermᵘ-PL τ)
   --   isSetoid:TypedTerm-PL = {!!}
 
-  isSetoid:Term-PL : isSetoid _ (Term-PL)
+  isSetoid:Term-PL : isSetoid (Term-PL)
   isSetoid:Term-PL = isSetoid:FullSubsetoid (gstd Term-PL) (incl)
 
 open isLanguage {{...}} public
@@ -85,7 +85,7 @@ private macro
   p = instance[ "" , 𝑖 / 3 ] (𝐅𝐚𝐦 (𝐐𝐮𝐞𝐬𝐭 (𝑖 ⌄ 0 ⋯ 1)) (𝑖 ⌄ 2) -> 𝐓𝐲𝐩𝐞 _) ◀
 
 LangFib : Fiber p (𝐋𝐚𝐧𝐠 𝑖)
-LangFib {𝑖} = ⟨ incl (Forget {𝑖}) *! ⟩ (𝐓𝐓Fib _)
+LangFib {𝑖} = ⟨ (Forget {𝑖}) *! ⟩ (𝐓𝐓Fib _)
 
 record LanguageClass (𝑖 : 𝔏 ^ 4) : 𝒰 (𝑖 ⁺ ⁺) where
   constructor languageClass

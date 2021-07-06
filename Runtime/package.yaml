@@ -27,6 +27,12 @@ library:
   dependencies:
     - text
     - optparse-applicative
+    - haskell-gi-base
+    - gi-gtk
+    - gi-gmodule
+  default-extensions:
+    - GADTs
+    - ExistentialQuantification
 
 executables:
   hata:

@@ -106,7 +106,7 @@ module MTCDefinitions (σ : MetaTermCalculus 𝑖) where
   arrify-J-kind {G} {a} {b} p = {!!}
 
   arrify-J-split : ∀{Γ α β τ} -> ⟦ Γ ⊢ τ ⟧-J ≣ (α ⇒ β) -> ∑ λ Γ' -> ∑ λ α' -> (α ≣ kind α') ∧ (Γ ≣ ([] ,, α') ⋆ Γ') ∧ (⟦ Γ' ⊢ τ ⟧-J ≣ β)
-  arrify-J-split = ?
+  arrify-J-split = {!!}
 
   MetaJ'  = Jdg-⦿ (Type-MTC (MetaKind σ))
 
