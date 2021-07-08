@@ -21,6 +21,7 @@ createWindow = do
                                    #label := "Thanks for clicking me" ])
 
   #add win button
+  #add win button
 
   #showAll win
 
