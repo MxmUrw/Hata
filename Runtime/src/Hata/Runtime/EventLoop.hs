@@ -3,6 +3,7 @@ module Hata.Runtime.EventLoop where
 
 import Hata.Runtime.Application
 import Hata.Runtime.UI.Window
+import Hata.Runtime.UI.Test as Test
 
 import Data.Text as T
 
@@ -22,7 +23,7 @@ el_step x ev state = do
   return state'
 
 react :: Reaction -> IO ()
-react Reaction_NewWindow = createWindow
+react Reaction_NewWindow = Test.main
 react (Reaction_PrintDebug t) = putStrLn (T.unpack t)
 react (Reaction_Exit) = undefined
 

@@ -37,6 +37,7 @@ data ExtraAgdaProjectConfig = ExtraAgdaProjectConfig
   -- fixed paths
   , ghcshim_AbFile                      :: FilePath
   -- original settings
+  , agdaPhonyTarget_AbFile              :: FilePath
   , originalAgdaConfig                  :: AgdaProjectConfig
   , libraryDefinitions_Source_AbFile  :: FilePath
   , libraryDefinitions_Target_AbFile  :: FilePath
@@ -64,6 +65,7 @@ deriveExtraProjectConfig_Agda egpc ap =
   , agdaBin_AbFile                    = normalise $ egpc.>binAbDir </> ap.>agdaBin_RelFile <.> exe
   -- fixed paths:
   , ghcshim_AbFile                    = normalise $ egpc.>buildAbDir </> "ghcshim" </> "ghc" <.> exe
+  , agdaPhonyTarget_AbFile            = normalise $ egpc.>buildAbDir </> "agdaphony" </> "phony-target"
   , libraryDefinitions_Source_AbFile = normalise $ egpc.>rootAbDir </> ap.>libraryDefinitions_Filename
   , libraryDefinitions_Target_AbFile = normalise $ transpilationSource_AbDir </> ap.>libraryDefinitions_Filename
   , originalAgdaConfig                = ap
@@ -140,7 +142,7 @@ makeRules_AgdaProject egpc eapc = do
 
   -- transpilationTarget_Files &%> \files -> do
   -- eapc.>mainTranspilationSource_AbFile %> \file -> do
-  phony ":agda-main:" $ do
+  (eapc.>agdaPhonyTarget_AbFile) %> \target -> do
     need $ transpilationSource_Files
       ++ [ eapc.>ghcshim_AbFile
          , eapc.>libraryDefinitions_Target_AbFile]
@@ -148,10 +150,12 @@ makeRules_AgdaProject egpc eapc = do
     let ghc_shimpath = takeDirectory (eapc.>ghcshim_AbFile)
     cmd_ "agda" [AddPath [ghc_shimpath] [], Cwd (eapc.>transpilationSource_AbDir)] ["--compile", "--no-main", "--compile-dir=" ++ eapc.>agdaTarget_AbDir, eapc.>mainTranspilationSource_AbFile]
 
+    liftIO $ writeFile target "This file was automatically generated as part of the build process."
+
   ----------------------------------------------
   -- last step (... -- stack --> binaries)
   eapc.>agdaBin_AbFile %> \file -> do
-    need (":agda-main:" : haskellStack_TemplateTarget_Files)
+    need ((eapc.>agdaPhonyTarget_AbFile) : haskellStack_TemplateTarget_Files)
     -- need (transpilationTarget_Files ++ haskellStack_TemplateTarget_Files)
 
     -- we need the install location of the file, such that we can temporarily

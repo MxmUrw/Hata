@@ -21,7 +21,7 @@ testApp : Executable Bool
 testApp = executable false loop
   where
     loop : Event → Bool → List Reaction ×-H Bool
-    loop (Event-ReadFile x) s = (Reaction-PrintDebug "hello!!!" ∷ Reaction-NewWindow ∷ Reaction-PrintDebug "Do you get this?" ∷ []) , true
+    loop (Event-ReadFile x) s = (Reaction-PrintDebug "hello!!! Yes!" ∷ Reaction-NewWindow ∷ Reaction-PrintDebug "Do you get this?" ∷ []) , true
 
 
 getApplicationList : List RegisterExecutable

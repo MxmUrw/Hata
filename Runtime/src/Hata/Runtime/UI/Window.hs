@@ -15,13 +15,21 @@ createWindow = do
 
   on win #destroy Gtk.mainQuit
 
+  box <- new Gtk.Box []
+
   button <- new Gtk.Button [ #label := "Click me" ]
+  button2 <- new Gtk.Button [ #label := "Click me too" ]
 
-  on button #clicked (set button [ #sensitive := False,
-                                   #label := "Thanks for clicking me" ])
+  on button #clicked (do set button [ #sensitive := False,
+                                      #label := "Thanks for clicking me" ]
+                         putStrLn "I got something??!")
 
-  #add win button
-  #add win button
+  on button2 #released (putStrLn "Yes?")
+
+  #add box button
+  #add box button2
+
+  #add win box
 
   #showAll win
 

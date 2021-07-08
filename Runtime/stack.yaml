@@ -29,13 +29,19 @@ resolver: lts-18.0
 #   subdirs:
 #   - auto-update
 #   - wai
+
+allow-newer: true
+
 packages:
 - .
 
 ghc-options:
   "$locals": -Wno-overlapping-patterns
 
-# extra-deps:
+extra-deps:
+  - gi-cairo-render-0.1.0
+  - gi-cairo-connector-0.1.0
+
 #  - gi-gmodule-2.0.1
 #  - haskell-gi-0.25.0
 #  - haskell-gi-base-0.25.0

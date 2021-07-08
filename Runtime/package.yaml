@@ -26,10 +26,18 @@ library:
   source-dirs: src
   dependencies:
     - text
+    - time
+    - transformers
     - optparse-applicative
     - haskell-gi-base
     - gi-gtk
     - gi-gmodule
+    - gi-cairo
+    - gi-cairo-render
+    - gi-cairo-connector
+    - gi-glib
+    - gi-gdk
+    # - gi-cairo-render
   default-extensions:
     - GADTs
     - ExistentialQuantification

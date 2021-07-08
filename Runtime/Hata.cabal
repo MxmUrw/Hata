@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 50436d8e3e22959416416af719681ed04d328438f05f9f338056f3e635e9385a
+-- hash: be0bab151c6c0f24cbf2a5af136e83ba61ea5e310d3bb99735c7bb0d2bf664a1
 
 name:           Hata
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       Hata.Runtime.EventLoop
       Hata.Runtime.Main
       Hata.Runtime.Service.Parse.GeneralizedLambdaTerm
+      Hata.Runtime.UI.Test
       Hata.Runtime.UI.Window
       MAlonzo.Code.Application.Main
   other-modules:
@@ -43,11 +44,18 @@ library
       ExistentialQuantification
   build-depends:
       base >=4.7 && <5
+    , gi-cairo
+    , gi-cairo-connector
+    , gi-cairo-render
+    , gi-gdk
+    , gi-glib
     , gi-gmodule
     , gi-gtk
     , haskell-gi-base
     , optparse-applicative
     , text
+    , time
+    , transformers
   default-language: Haskell2010
 
 executable hata
