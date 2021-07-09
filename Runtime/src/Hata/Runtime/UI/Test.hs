@@ -391,7 +391,7 @@ main = do
 
   GTK.setWindowDecorated window True
   GTK.setWindowResizable window True
-  GTK.setWindowTitle window (pack "Cairo Clock")
+  GTK.setWindowTitle window (pack "Hata Editor")
 
   GTK.onWidgetDraw canvas $ renderWithContext (drawCanvasHandler canvas) 
 

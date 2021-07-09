@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cb09ce34c34cfe0c18c21bfd2f2357ebb4331e486cdb8a1e95e488a4c18f3de0
+-- hash: 98169d72c30725c318dacd05dd042867f91c1fd2b772032274bbb2fedc06a977
 
 name:           MetaBuilder
 version:        0.1.0.0
@@ -46,6 +46,7 @@ library
       MetaBuilder.Project.Type.Agda
       MetaBuilder.Project.Type.AgdaPublish
       MetaBuilder.Project.Type.AgdaPublish.Common
+      MetaBuilder.Project.Type.AgdaPublish.DocumentDescription
       MetaBuilder.Project.Type.AgdaPublish.Highlevel
       MetaBuilder.Project.Type.AgdaPublish.Lowlevel
       MetaBuilder.Project.Type.AgdaPublish.Midlevel

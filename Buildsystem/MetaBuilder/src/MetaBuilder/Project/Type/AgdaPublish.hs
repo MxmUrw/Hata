@@ -14,6 +14,7 @@ import MetaBuilder.Project.Type.AgdaPublish.Midlevel
 import MetaBuilder.Project.Type.AgdaPublish.Highlevel
 import MetaBuilder.Project.Type.AgdaPublish.Persistent
 import MetaBuilder.Project.Type.AgdaPublish.Common
+import MetaBuilder.Project.Type.AgdaPublish.DocumentDescription
 import Agda.Interaction.Highlighting.LaTeX.Prettify
 import Agda.Interaction.Highlighting.LaTeX.ExternalCall
 
@@ -36,7 +37,8 @@ instance ProjectType AgdaPublishProjectConfig ExtraAgdaPublishProjectConfig wher
 
 data AgdaPublishProjectConfig = AgdaPublishProjectConfig
   { source_RelDir          :: FilePath
-  , include_RelFiles       :: [FilePath]
+  -- , include_RelFiles       :: [FilePath]
+  , agdaPublishDocumentDescription :: DocumentDescription
   , autobuild              :: Bool
   , fastbuild              :: Bool
   , projectName            :: String
@@ -72,13 +74,14 @@ data ExtraAgdaPublishProjectConfig = ExtraAgdaPublishProjectConfig
 
 deriveExtraProjectConfig_AgdaPublish :: ExtraGlobalConfig -> AgdaPublishProjectConfig -> ExtraAgdaPublishProjectConfig
 deriveExtraProjectConfig_AgdaPublish egc appc =
-  let buildLiterateRoot = egc.>buildAbDir </> appc.>projectName </> "build-literate"
+  let include_RelFiles = getDocumentRelFiles (appc.>agdaPublishDocumentDescription)
+      buildLiterateRoot = egc.>buildAbDir </> appc.>projectName </> "build-literate"
       buildLiterate = buildLiterateRoot </> appc.>source_RelDir
       buildTex     = egc.>buildAbDir </> appc.>projectName </> "build-tex"
       bin          = egc.>binAbDir
 
       source_AbDir = egc.>rootAbDir </> appc.>source_RelDir
-      include_AbFiles = (source_AbDir </>) <$> appc.>include_RelFiles
+      include_AbFiles = (source_AbDir </>) <$> include_RelFiles
 
       generateLiterate_Source_AbDir = egc.>rootAbDir -- source_AbDir --
       generateLiterate_Target_AbDir = buildLiterateRoot
@@ -86,9 +89,9 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       generateTex_Target_AbDir     = buildTex
       generatePdf_Source_AbDir     = buildTex
 
-      generateTex_Target_AbFiles = ((\f -> generateTex_Target_AbDir </> appc.>source_RelDir </> f -<.> ".tex") <$> (appc.>include_RelFiles))
-      generateTex_ImportantSource_AbFiles = ((\f -> normalise (generateTex_Source_AbDir </> f -<.> "lagda")) <$> (appc.>include_RelFiles))
-      readCommands_ImportantSource_AbFiles = ((\f -> source_AbDir </> f) <$> (appc.>include_RelFiles))
+      generateTex_Target_AbFiles = ((\f -> generateTex_Target_AbDir </> appc.>source_RelDir </> f -<.> ".tex") <$> (include_RelFiles))
+      generateTex_ImportantSource_AbFiles = ((\f -> normalise (generateTex_Source_AbDir </> f -<.> "lagda")) <$> (include_RelFiles))
+      readCommands_ImportantSource_AbFiles = ((\f -> source_AbDir </> f) <$> (include_RelFiles))
 
       libraryDefinitions_Source_AbFile = egc.>rootAbDir </> appc.>libraryDefinitions_Filename
       libraryDefinitions_Target_AbFile = buildLiterateRoot </> appc.>libraryDefinitions_Filename
@@ -96,7 +99,7 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       agdaSty_Target_AbFile = buildTex </> "agda.sty"
       quiverSty_Target_AbFile = buildTex </> "quiver.sty"
 
-      commands_AbFile                   = egc.>buildAbDir </> "generated" </> "all.metabuild-cmd"
+      commands_AbFile                   = egc.>buildAbDir </> appc.>projectName </> "generated" </> "all.metabuild-cmd"
 
   in ExtraAgdaPublishProjectConfig
   { source_AbDir     = source_AbDir
@@ -128,6 +131,7 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
 
 makeRules_AgdaPublishProject :: ExtraGlobalConfig -> ExtraAgdaPublishProjectConfig -> Rules ()
 makeRules_AgdaPublishProject egc eappc = do
+  let appc = eappc.>originalConfig
   if (eappc.>originalConfig.>autobuild)
     then want [eappc.>mainPdf_AbFile]
     else return ()
@@ -156,9 +160,9 @@ makeRules_AgdaPublishProject egc eappc = do
       False -> build >> build
 
   eappc.>mainTex_AbFile %> \file -> do
-    template <- liftIO templatefileMainTex
+    template <- liftIO (templatefileMainTex (eappc.>originalConfig.>agdaPublishDocumentDescription))
     need [template, egc.>metabuilder_AbFile, egc.>root_AbFile]
-    content <- liftIO $ generateMainTex (eappc.>generateTex_Target_AbFiles)
+    content <- liftIO $ generateMainTex (eappc.>generateTex_Target_AbDir </> appc.>source_RelDir) (appc.>agdaPublishDocumentDescription)
     liftIO $ TIO.writeFile file content
 
   (eappc.>generateLiterate_Target_AbDir ++ "//*.lagda") %> \file -> do
@@ -293,19 +297,30 @@ generateCommands ts =
   -- ++ s
   -- ++ "\\end{code}\n"
 
-templatefileMainTex :: IO FilePath
-templatefileMainTex = getDataFileName "templates/screport.tex.metabuild-template"
+templatefileMainTex :: DocumentDescription -> IO FilePath
+templatefileMainTex doc = case (documentType doc) of
+  SCReport -> getDataFileName "templates/screport.tex.metabuild-template"
+  Book     -> getDataFileName "templates/screport.tex.metabuild-template"
 
-generateMainTex :: [FilePath] -> IO Text
-generateMainTex files = do
-  file <- templatefileMainTex
+
+generateMainTex :: FilePath -> DocumentDescription -> IO Text
+generateMainTex texroot doc = do
+  file <- templatefileMainTex doc
   template <- TIO.readFile file
 
-  let content = replace (T.pack "{{CONTENT}}") makeIncludes template
+  let content = (replace (T.pack "{{CONTENT}}") makeIncludes
+                . replace (T.pack "{{AUTHOR}}") (T.pack $ doc.>documentAuthor)
+                . replace (T.pack "{{TITLE}}") (T.pack $ doc.>documentTitle)
+                . replace (T.pack "{{DATE}}") (T.pack $ doc.>documentDate)
+                . replace (T.pack "{{SUBTITLE}}") (case doc.>documentSubtitle of
+                                                     Just a -> T.pack a
+                                                     Nothing -> T.pack "")
+                ) template
 
   return content
   where makeIncludes :: Text
-        makeIncludes = T.concat ((\a -> T.pack ("\\input{" ++  (toStandard a) ++ "}\n")) <$> files)
+        makeIncludes = T.pack (generateDocumentBody texroot (documentFilesAndHeadings doc))
+          -- T.concat ((\a -> T.pack ("\\input{" ++  (toStandard a) ++ "}\n")) <$> files)
 
 templatefileAgdaSty :: IO FilePath
 templatefileAgdaSty = getDataFileName "templates/agda.sty.metabuild-template"

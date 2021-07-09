@@ -37,6 +37,31 @@ fontsize=11pt,
 \usepackage{quiver}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% quote at beginning of chapter
+% taken from https://tex.stackexchange.com/questions/53377/inspirational-quote-at-start-of-chapter
+
+% customize chapter format:
+% \KOMAoption{headings}{twolinechapter}
+% \renewcommand*\chapterformat{\thechapter\autodot}
+
+% customize dictum format:
+\setkomafont{dictumtext}{\itshape\small}
+\setkomafont{dictumauthor}{\normalfont}
+\renewcommand*\dictumwidth{\linewidth}
+\renewcommand*\dictumauthorformat[1]{--- #1}
+\renewcommand*\dictumrule{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% configuring japanese font
+
+\usepackage{xeCJK}
+\setCJKmainfont{EPSON 正楷書体Ｍ}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % Configuring Agda
 % \setlength{\AgdaEmptySkip}{4pt}
@@ -191,12 +216,13 @@ numbered=no
 % Start
 
 % \raggedbottom
-\author{Maxim Urschumzew}
-\date{\today} 
-\title{Verified Type Checking}
+\author{{{AUTHOR}}}
+\date{{{DATE}}} 
+\title{{{TITLE}}}
+\subtitle{{{SUBTITLE}}}
 \hypersetup{
-  pdfauthor={Maxim Urschumzew},
-  pdftitle={Verified Type Checking},
+  pdfauthor={{{AUTHOR}}},
+  pdftitle={{{TITLE}}},
   pdfkeywords={},
   pdfsubject={},
   pdflang={English}}

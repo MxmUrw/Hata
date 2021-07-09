@@ -22,9 +22,41 @@ agdaPublishProjects:
     autobuild: false
     fastbuild: false
     source_RelDir: Verification
-    include_RelFiles:
-      - Experimental/Theory/Std/Theory/Definition.agda
-      - Experimental/Theory/Std/LogicalTheory/Definition.agda
+    # include_RelFiles:
+    #   - Experimental/Theory/Std/Generic/Theory/Definition.agda
+    #   - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
+    agdaPublishDocumentDescription:
+      documentTitle: "Verified Type Checking"
+      documentAuthor: "Maxim Urschumzew"
+      documentType: SCReport
+      documentDate: ""
+      documentFilesAndHeadings:
+      - Experimental/Theory/Std/Generic/Theory/Definition.agda
+      - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
+
+    libraryDefinitions_Filename: hata.agda-lib
+
+  - projectName: hata-book
+    autobuild: false
+    fastbuild: false
+    source_RelDir: Verification
+    agdaPublishDocumentDescription:
+      documentTitle: "Project 旗"
+      documentSubtitle: "Theory and Implementation of Programming Languages \\\\ \\vskip 0.8em Exposition, Development Notes and Manual"
+      documentAuthor: "Maxim Urschumzew"
+      documentType: SCReport
+      documentDate: ""
+      documentFilesAndHeadings:
+      - Overview.agda
+      - ==About
+      - Overview/About.agda
+    libraryDefinitions_Filename: hata.agda-lib
+
+
+      # - Experimental/Theory/Std/Generic/Theory/Definition.agda
+      # - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
+
+
       # - Writing/Introduction.agda
       # - Core/Type.agda
       # - Core/Type/Equiv.agda
@@ -74,4 +106,3 @@ agdaPublishProjects:
       # - Unification/RecModule.agda
       # - Unification/TheFunctor.agda
       # - Typechecking.agda
-    libraryDefinitions_Filename: hata.agda-lib

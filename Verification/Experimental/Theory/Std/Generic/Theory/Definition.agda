@@ -5,7 +5,7 @@ open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 
--- =* Theories
+-- ===* Theories
 
 
 -- | The purpose of this /theory of theories/ is to explicitly describe a framework in
