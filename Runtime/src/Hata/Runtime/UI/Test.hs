@@ -31,6 +31,89 @@ import Data.Maybe (isJust)
 import Data.IORef
 import Data.Text as Text
 import Data.Maybe (fromMaybe)
+import Data.HashMap.Strict as H
+
+import Hata.Runtime.Application.Render.Definition
+
+type DrawState = HashMap Text Extent
+
+setCairoState :: BaseItem -> Render ()
+setCairoState (StringBI (RGB r g b) size s) = do
+  selectFontFace "MxFont" FontSlantNormal FontWeightNormal
+  setSourceRGB (fromIntegral r / 255) (fromIntegral g / 255) (fromIntegral b / 255)
+  setFontSize (fromIntegral size)
+setCairoState (RectangleBI (RGB r g b) size) = do
+  setSourceRGB (fromIntegral r / 255) (fromIntegral g / 255) (fromIntegral b / 255)
+
+renderItem :: Item -> Render ()
+renderItem (Item loc a) = do
+  save
+  setCairoState a
+  render a
+  restore
+    where (x,y) = fromRationalCoord loc
+          render (StringBI _ _ s) = do
+              moveTo x y
+              showText s
+          render (RectangleBI _ s) = do
+            let (w,h) = fromRationalCoord s
+            rectangle x y w h
+            fill
+
+computeExtent :: BaseItem -> Render (Extent)
+computeExtent (StringBI _ _ s) = do
+  ex <- textExtents s
+  let (x,y) = (textExtentsXadvance ex , textExtentsYadvance ex)
+  return $ toRationalCoord (x,y)
+computeExtent (RectangleBI _ s) = pure s
+
+stateCommand :: GTK.IsWidget widget => widget
+             -> IORef DrawState
+             -> StateCmd Text BaseItem
+             -> Render ()
+stateCommand canvas drawRef ClearAll = liftIO $ modifyIORef' drawRef (\_ -> H.empty)
+stateCommand canvas drawRef (Clear n) = liftIO $ modifyIORef' drawRef (H.delete n)
+stateCommand canvas drawRef (Set n x) = do
+
+  -- We compute the extent of an item
+  save
+  setCairoState x
+  ex <- computeExtent x
+  restore
+
+  -- We save the extent in the hashmap
+  liftIO $ modifyIORef' drawRef (H.insert n ex)
+
+
+drawCommand :: GTK.IsWidget widget => widget
+             -> IORef DrawState
+             -> Cmd
+             -> Render ()
+drawCommand canvas drawRef (DoChangeState scmd) = stateCommand canvas drawRef scmd
+drawCommand canvas drawRef (DoRender getItems) = do
+
+  width  <- liftIO $ GTK.widgetGetAllocatedWidth  canvas
+  height <- liftIO $ GTK.widgetGetAllocatedHeight canvas
+
+  drawState <- liftIO $ readIORef drawRef
+  let items = getItems (\a -> case drawState !? a of
+                           Just x -> Right x
+                           Nothing -> Left ())
+                       (((fromIntegral width,1),(fromIntegral height,1)))
+  mapM renderItem items
+  return ()
+
+drawCommands :: GTK.IsWidget widget => widget
+             -> IORef DrawState
+             -> IORef a -> (a -> [Cmd])
+             -> Render Bool
+drawCommands canvas drawStateRef stateRef getCmds = do
+
+  state <- liftIO $ readIORef stateRef
+  let cmds = getCmds state
+  mapM (drawCommand canvas drawStateRef) cmds
+
+  return True
 
 drawMyLine :: GTK.IsWidget widget => widget -> Render ()
 drawMyLine canvas = do
@@ -344,8 +427,8 @@ drawCanvasHandler widget =
      drawMyLine widget
      return True
 
-main :: IO ()
-main = do
+main :: (forall widget. GTK.IsWidget widget => widget -> Render Bool) -> IO ()
+main renderer = do
   GTK.init Nothing
   window <- GTK.windowNew GTK.WindowTypeToplevel 
   GTK.windowSetPosition window GTK.WindowPositionCenterAlways
@@ -393,7 +476,7 @@ main = do
   GTK.setWindowResizable window True
   GTK.setWindowTitle window (pack "Hata Editor")
 
-  GTK.onWidgetDraw canvas $ renderWithContext (drawCanvasHandler canvas) 
+  GTK.onWidgetDraw canvas $ renderWithContext (renderer canvas) -- (drawCanvasHandler canvas) 
 
   GTK.widgetShowAll window
   timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (GTK.widgetQueueDraw window >> return True)

@@ -13,15 +13,15 @@ open import Verification.Experimental.Data.Universe.Everything
 
 
 -------------------------------------------------------------------
--- ==* Theories and models
+-- Theories and models
 ----------------------------------------------------
--- ===* Possible extensions of the current concept
+-- ====* Possible extensions of the current concept
 -- | The usual adjunction postulating the syntactical category of, e.g. lambda calculus
 --   is:
 --
 -- |> $ % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXFNpZ21hIl0sWzIsMCwiXFxtYXRoc2Nye019Il0sWzAsMSwiXFx0ZXh0e0ZyZWV9IiwwLHsiY3VydmUiOi0yfV0sWzEsMCwiXFx0ZXh0e0ZvcmdldH0iLDAseyJjdXJ2ZSI6LTJ9XSxbMiwzLCIiLDAseyJsZXZlbCI6MSwic3R5bGUiOnsibmFtZSI6ImFkanVuY3Rpb24ifX1dXQ==
 -- \[\begin{tikzcd}
---  \LFSigma && {\mathscr{M}}
+--  \Sigma && {\mathscr{M}}
 --  \arrow[""{name=0, anchor=center, inner sep=0}, "{\text{LFTerm}}", curve={height=-12pt}, from=1-1, to=1-3]
 --  \arrow[""{name=1, anchor=center, inner sep=0}, "{\text{LFSig}}", curve={height=-12pt}, from=1-3, to=1-1]
 --  \arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
@@ -33,7 +33,7 @@ open import Verification.Experimental.Data.Universe.Everything
 
 -- |> $ % https://q.uiver.app/?q=WzAsMixbMCwwLCJcXHRleHR7U2h9KFxcU2lnbWEpIl0sWzIsMCwiXFxtYXRoc2Nye019Il0sWzAsMSwiXFx0ZXh0e1Rlcm19IiwwLHsiY3VydmUiOi0yfV0sWzEsMCwiXFx0ZXh0e2lzU3RydWN0dXJlfSIsMCx7ImN1cnZlIjotMn1dLFsyLDMsIiIsMCx7ImxldmVsIjoxLCJzdHlsZSI6eyJuYW1lIjoiYWRqdW5jdGlvbiJ9fV1d
 -- \[\begin{tikzcd}
---  {\text{Sh}(\LFSigma)} && {\mathscr{M}}
+--  {\text{Sh}(\Sigma)} && {\mathscr{M}}
 --  \arrow[""{name=0, anchor=center, inner sep=0}, "{\text{LFTerm}}", curve={height=-12pt}, from=1-1, to=1-3]
 --  \arrow[""{name=1, anchor=center, inner sep=0}, "{\text{isStructure}}", curve={height=-12pt}, from=1-3, to=1-1]
 --  \arrow["\dashv"{anchor=center, rotate=-90}, draw=none, from=0, to=1]
@@ -44,7 +44,7 @@ open import Verification.Experimental.Data.Universe.Everything
 --   this possible extension to sheaves.
 
 ----------------------------------------------------
--- ===* Current concept
+-- ====* Current concept
 -- | Instead we define what a /logical framework/ is using the same data
 --   and language of adjunctions, but without actually requiring it
 --   to be an adjunction. This is useful in our case since we also want
@@ -74,9 +74,6 @@ record isLogicalFramework (ℳ : Category 𝑖) (Σ : Category 𝑗) : 𝒰 (�
   -- |: We define a |σ| structure on an object |m| as:
   Structure : ⟨ Σ ⟩ -> ⟨ ℳ ⟩ -> 𝒰 _
   Structure σ m = Hom σ (LFSig m)
-
-  -- mytest : ∀{a b : ⟨ Σ ⟩} -> (f : a ⟶ b) -> LFTerm a ⟶ LFTerm b
-  -- mytest f = map f
 
 -- //
 open isLogicalFramework {{...}} public

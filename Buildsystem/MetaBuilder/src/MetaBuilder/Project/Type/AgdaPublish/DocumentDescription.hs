@@ -37,9 +37,10 @@ generateDocumentBody docroot filesAndHeadings = concat $ f <$> filesAndHeadings
         f xs         = makeInclude xs
 
         makeHeading n ('=' : xs) = makeHeading (n + 1) xs
-        makeHeading 0 xs = "\\chapter{" <> xs <> "}\n"
-        makeHeading 1 xs = "\\section{" <> xs <> "}\n"
-        makeHeading 2 xs = "\\subsection{" <> xs <> "}\n"
+        makeHeading 0 xs = "\\part{" <> xs <> "}\n"
+        makeHeading 1 xs = "\\chapter{" <> xs <> "}\n"
+        makeHeading 2 xs = "\\section{" <> xs <> "}\n"
+        makeHeading 3 xs = "\\subsection{" <> xs <> "}\n"
         makeHeading _ xs = "\\subsubsection{" <> xs <> "}\n"
 
         makeInclude xs = "\\input{" <> toStandard (docroot </> dropExtensions xs) <> "}\n"

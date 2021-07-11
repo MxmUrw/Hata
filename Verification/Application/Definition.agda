@@ -1,7 +1,9 @@
 
-module Application.Definition where
+module Verification.Application.Definition where
 
 open import Verification.Experimental.Conventions
+open import Verification.Application.Render.Definition
+open import Verification.Experimental.Data.Product.Definition
 
 {-# FOREIGN GHC import Hata.Runtime.Application #-}
 
@@ -31,27 +33,20 @@ data Error : 𝒰₀ where
 --------------------------------------------------------------------
 -- Executable interface
 
-record _×-H_ (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
-  constructor _,_
-  field fst : A
-  field snd : B
-
-
-{-# FOREIGN GHC type AgdaProduct a b = (,) #-}
--- {-# FOREIGN GHC makeProduct a b = (a,b) #-}
-{-# COMPILE GHC _×-H_ = data AgdaProduct ((,)) #-}
 
 
 
 data Event : 𝒰₀ where
   Event-ReadFile : String -> Event
+  -- Event-CairoDraw : Event
 
 {-# COMPILE GHC Event = data Event (Event_ReadFile) #-}
 
-data Reaction : 𝒰₀ where
-  Reaction-NewWindow : Reaction
-  Reaction-PrintDebug : String -> Reaction
-  Reaction-Exit : Reaction
+data Reaction (A : 𝒰₀) : 𝒰₀ where
+  Reaction-NewWindow : (A -> List Cairo.Cmd) -> Reaction A
+  -- Reaction-CairoDraw : Cairo.Cmd -> Reaction A
+  Reaction-PrintDebug : String -> Reaction A
+  Reaction-Exit : Reaction A
 
 {-# COMPILE GHC Reaction = data Reaction (Reaction_NewWindow | Reaction_PrintDebug | Reaction_Exit) #-}
 
@@ -59,7 +54,7 @@ data Reaction : 𝒰₀ where
 record Executable (A : 𝒰₀) : 𝒰₀ where
   constructor executable
   field init : A
-  field step : Event -> A -> (List Reaction ×-H A)
+  field step : Event -> A -> (List (Reaction A) ×~ A)
 
 
 {-# COMPILE GHC Executable = data Executable (Executable) #-}

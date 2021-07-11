@@ -33,7 +33,7 @@ open import Verification.Experimental.Computation.Question.Definition
 open import Verification.Experimental.Computation.Question.Specific.Check
 
 
-open import Application.Definition
+open import Verification.Application.Definition
 
 -- {𝑖 : 𝔏 ×-𝒰 𝔏 ×-𝒰 𝔏 ×-𝒰 𝔏} →
 -- TypeTheory 𝑖 →

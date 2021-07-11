@@ -1,6 +1,7 @@
 
 module Hata.Runtime.Application where
 
+import Hata.Runtime.Application.Render.Definition
 import Data.Text as T
 
 data Application = Execute Text (Text -> Printable)
@@ -25,8 +26,8 @@ data HataError =
 data Event =
   Event_ReadFile Text
 
-data Reaction =
-  Reaction_NewWindow
+data Reaction a =
+  Reaction_NewWindow (a -> [Cmd])
   | Reaction_PrintDebug Text
   | Reaction_Exit
 
@@ -39,7 +40,7 @@ data Reaction =
 
 data Executable a = Executable
   { initExec :: a
-  , stepExec :: (Event -> a -> ([Reaction], a))
+  , stepExec :: (Event -> a -> ([Reaction a], a))
   }
 
 data RegisterExecutable where

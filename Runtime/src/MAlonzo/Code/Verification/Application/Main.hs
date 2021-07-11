@@ -1,5 +1,5 @@
 
-module MAlonzo.Code.Application.Main where
+module MAlonzo.Code.Verification.Application.Main where
 
 
 import Hata.Runtime.Application

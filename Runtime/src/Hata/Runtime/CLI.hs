@@ -4,7 +4,7 @@ module Hata.Runtime.CLI where
 import Options.Applicative
 import Data.Semigroup ((<>))
 
-import MAlonzo.Code.Application.Main
+import MAlonzo.Code.Verification.Application.Main
 import qualified Data.Text as T
 import Data.List
 

@@ -18,14 +18,14 @@ open import Verification.Experimental.Algebra.Ring.Domain
 
 open import Verification.Experimental.Order.Linearorder
 
-record Repr {𝑖 𝑗 : 𝔏} {A : 𝒰 𝑖} {{_ : isSetoid 𝑗 A}} (P : A -> 𝒰 𝑘) (a : A) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
+record Repr {𝑖 𝑗 : 𝔏} {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} (P : A -> 𝒰 𝑘) (a : A) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
   constructor mkrepr
   field ⟨_⟩ : A
   field represents : a ∼ ⟨_⟩
   field hasProperty : P ⟨_⟩
 open Repr public
 
-record hasRepr {𝑖 𝑗 : 𝔏} (A : 𝒰 𝑖) {{_ : isSetoid 𝑗 A}} (P : A -> 𝒰 𝑘) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
+record hasRepr {𝑖 𝑗 : 𝔏} (A : 𝒰 𝑖) {{_ : isSetoid {𝑗} A}} (P : A -> 𝒰 𝑘) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
   field repr : ∀(a : A) -> Repr P a
 open hasRepr public
 

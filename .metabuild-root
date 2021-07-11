@@ -11,7 +11,7 @@ haskellStackProjects:
 agdaProjects:
   - sourceRelDir: .
     sourceOverwrite_RelDir: UnsafeOverwrite
-    mainRelFile: Application/Main.agda
+    mainRelFile: Verification/Application/Main.agda
     agdaBin_RelFile: hata
     haskellStackTemplateRelDir: Runtime
     agdaAutobuild: false
@@ -42,14 +42,28 @@ agdaPublishProjects:
     source_RelDir: Verification
     agdaPublishDocumentDescription:
       documentTitle: "Project 旗"
-      documentSubtitle: "Theory and Implementation of Programming Languages \\\\ \\vskip 0.8em Exposition, Development Notes and Manual"
+      documentSubtitle: "Theory and Implementation of Programming Languages \\\\ \\vskip 0.8em Exposition, Development notes and Manual"
       documentAuthor: "Maxim Urschumzew"
       documentType: SCReport
       documentDate: ""
       documentFilesAndHeadings:
       - Overview.agda
-      - ==About
+      - ===About
       - Overview/About.agda
+      - =Theoretical Foundations
+      - ==Algebra
+      - ==Order Theory
+      - ==Category Theory
+      - ==Theories
+      - ===Std-Generic
+      - ====Theory
+      - Experimental/Theory/Std/Generic/Theory/Definition.agda
+      - ====Logical Framework
+      - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
+      - =Applications
+      - ==Editor
+      - ===Notes
+      - Editor/Notes.agda
     libraryDefinitions_Filename: hata.agda-lib
 
 

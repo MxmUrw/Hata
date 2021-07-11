@@ -176,6 +176,10 @@ data _+-𝒰_ (A : 𝒰 ℓ)(B : 𝒰 ℓ') : 𝒰 (ℓ-max ℓ ℓ') where
   left : A → A +-𝒰 B
   right : B → A +-𝒰 B
 
+{-# FOREIGN GHC type AgdaEither a b = (Either) #-}
+{-# COMPILE GHC _+-𝒰_ = data AgdaEither (Left | Right) #-}
+
+
 
 case_of : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} (a : A +-𝒰 B) -> (A -> C) -> (B -> C) -> C
 case left x of f g = f x
