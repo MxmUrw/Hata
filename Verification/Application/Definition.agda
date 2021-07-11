@@ -38,9 +38,10 @@ data Error : 𝒰₀ where
 
 data Event : 𝒰₀ where
   Event-ReadFile : String -> Event
+  Event-KeyPress : String -> Event
   -- Event-CairoDraw : Event
 
-{-# COMPILE GHC Event = data Event (Event_ReadFile) #-}
+{-# COMPILE GHC Event = data Event (Event_ReadFile | Event_KeyPress) #-}
 
 data Reaction (A : 𝒰₀) : 𝒰₀ where
   Reaction-NewWindow : (A -> List Cairo.Cmd) -> Reaction A

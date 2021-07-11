@@ -25,6 +25,7 @@ data HataError =
 
 data Event =
   Event_ReadFile Text
+  | Event_KeyPress Text
 
 data Reaction a =
   Reaction_NewWindow (a -> [Cmd])

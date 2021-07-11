@@ -38,16 +38,18 @@ el_step :: Executable a -> Event -> IORef a -> IO ()
 el_step x ev ref = do
   state <- readIORef ref
   let (reactions,state') = (stepExec x ev state)
-  mapM (react ref) reactions
+  mapM (react x ref) reactions
   writeIORef ref state'
 
 
-react :: IORef a -> Reaction a -> IO ()
-react ref (Reaction_NewWindow cmd) = do
+react :: Executable a -> IORef a -> Reaction a -> IO ()
+react exe ref (Reaction_NewWindow cmd) = do
   drawStateRef <- newIORef (H.empty @Text @Extent)
-  Test.main (\a -> Test.drawCommands a drawStateRef ref cmd)
-react ref (Reaction_PrintDebug t) = putStrLn (T.unpack t)
-react ref (Reaction_Exit) = undefined
+  Test.main
+    (\a -> Test.drawCommands a drawStateRef ref cmd)
+    (\key -> el_step exe (Event_KeyPress key) ref)
+react exe ref (Reaction_PrintDebug t) = putStrLn (T.unpack t)
+react exe ref (Reaction_Exit) = undefined
 
 
 

@@ -427,8 +427,10 @@ drawCanvasHandler widget =
      drawMyLine widget
      return True
 
-main :: (forall widget. GTK.IsWidget widget => widget -> Render Bool) -> IO ()
-main renderer = do
+main :: (forall widget. GTK.IsWidget widget => widget -> Render Bool)
+     -> (Text -> IO ())
+     -> IO ()
+main renderer keyhandler = do
   GTK.init Nothing
   window <- GTK.windowNew GTK.WindowTypeToplevel 
   GTK.windowSetPosition window GTK.WindowPositionCenterAlways
@@ -454,7 +456,8 @@ main renderer = do
     case Text.unpack keyName of
       "Escape" -> do GTK.mainQuit
                      return True
-      _        -> return False
+      _        -> keyhandler keyName >> GTK.widgetQueueDraw window >> return True
+        -- return False
 
   GTK.onWidgetButtonPressEvent window $ \button -> do
     btnNo <- GDK.getEventButtonButton button
