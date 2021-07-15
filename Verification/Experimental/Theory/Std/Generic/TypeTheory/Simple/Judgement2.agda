@@ -30,7 +30,13 @@ private
 
 
 
+
 module _ {A : 𝒰 𝑖} where
+  infix 3 _⊨-var_
+  data _⊨-var_ : List A -> A -> 𝒰 𝑖 where
+    zero : ∀{Γ α} -> α ∷ Γ ⊨-var α
+    suc  : ∀{Γ α β} -> Γ ⊨-var β -> α ∷ Γ ⊨-var β
+
   instance
     isSetoid:Jdg : isSetoid (Jdg A)
     isSetoid:Jdg = isSetoid:byPath

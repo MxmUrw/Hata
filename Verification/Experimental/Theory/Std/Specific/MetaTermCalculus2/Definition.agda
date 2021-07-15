@@ -10,7 +10,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ2
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
@@ -57,9 +57,10 @@ module _ {K : Kinding 𝑗} (A B : MTC K 𝑖) where
   --   -- field map-varsuc : f (varsuc A) ≡ varsuc B
   --   field map-TermCon : ∀ ρ -> TermCon A ρ -> TermCon B (map f ρ)
   -- Hom-MTC = _ :& isHom-MTC
+  record Hom-MTC : 𝒰 (𝑗 ⊔ 𝑖) where
+    field ⟨_⟩ : ∀ {Δ α} -> TermCon A Δ α -> TermCon B Δ α
 
-  postulate
-    Hom-MTC : 𝒰 (𝑗 ⊔ 𝑖)
+  open Hom-MTC public
 
 module _ {K : Kinding 𝑗} where
   instance
@@ -87,22 +88,25 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
 
   mutual
     data _⊩ᶠ-var_ : (𝔍s : List (Jdg ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖) where
-      -- suc  : ∀{𝔍 Γ Δ α β} -> 𝔍 ⊩ᶠ (Γ ∣ [] ⇒ ∂ₖ α) -> 𝔍 ⊩ᶠ-var (Γ ∣ Δ ⇒ β) ->  𝔍 ⊩ᶠ-var ((α ∷ Γ) ∣ Δ ⇒ β)
-      -- zero : ∀{𝔍 Γ α}      -> 𝔍 ⊩ᶠ (Γ ∣ [] ⇒ ∂ₖ α) -> 𝔍 ⊩ᶠ-var ((α ∷ Γ) ∣ [] ⇒ α)
+      suc  : ∀{𝔍 Γ α β} -> 𝔍 ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ ∂ₖ α)) -> 𝔍 ⊩ᶠ-var (Γ ∣ [] ⇒ β)
+             ->  𝔍 ⊩ᶠ-var ((Γ ⋆ ⦋ α ⦌) ∣ [] ⇒ β)
+      zero : ∀{𝔍 Γ α}      -> 𝔍 ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ ∂ₖ α)) -> 𝔍 ⊩ᶠ-var ((Γ ⋆ ⦋ α ⦌) ∣ [] ⇒ ([] ⊢ α))
 
 
     data _⊩ᶠ_ : (𝔍s : List (Jdg ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖) where
       meta : ∀{αs α} -> ⦋ αs ⊢ α ⦌ ⊩ᶠ ([] ∣ [] ⇒ (αs ⊢ α))
-      -- lam  : ∀{𝔍s Γ Δ α β} -> 𝔍s ⊩ᶠ (((α) ∷ Γ) ∣ Δ ⇒ β) -> 𝔍s ⊩ᶠ (Γ ∣ (([] ⊢ α) ∷ Δ) ⇒ β)
       lam  : ∀{𝔍 𝔍' Γ Δ α αs β} -> 𝔍 ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ ∂ₖ α))
                                   -> 𝔍' ⊩ᶠ ((Γ ⋆ (α ∷ [])) ∣ Δ ⇒ (αs ⊢ β))
                                   -> (𝔍 ⋆ 𝔍') ⊩ᶠ (Γ ∣ Δ ⇒ ((α ∷ αs) ⊢ β))
-      app  : ∀{𝔍s 𝔍s' 𝔎s Γ Δ 𝔧 β}
-            -> (𝔍s ⋆ 𝔍s' ≣ 𝔎s)
+      app  : ∀{𝔍s 𝔍s' Γ Δ 𝔧 β}
+            -- -> (𝔍s ⋆ 𝔍s' ≣ 𝔎s)
             -> 𝔍s ⊩ᶠ (Γ ∣ (𝔧 ∷ Δ) ⇒ β) -> 𝔍s' ⊩ᶠ (Γ ∣ [] ⇒ 𝔧)
-            -> 𝔎s ⊩ᶠ (Γ ∣ Δ ⇒ β)
+            -- -> 𝔎s ⊩ᶠ (Γ ∣ Δ ⇒ β)
+            -> (𝔍s ⋆ 𝔍s') ⊩ᶠ (Γ ∣ Δ ⇒ β)
 
       con : ∀{Γ Δ α} -> TermCon γ Δ α -> [] ⊩ᶠ (Γ ∣ Δ ⇒ α)
+
+      var : ∀{Γ α} -> Γ ⊨-var α -> [] ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ α))
 
       -- var : ∀{𝔍 Γ Δ α} -> 𝔍 ⊩ᶠ-var (Γ ∣ Δ ⇒ α) -> 𝔍 ⊩ᶠ (Γ ∣ Δ ⇒ α)
 

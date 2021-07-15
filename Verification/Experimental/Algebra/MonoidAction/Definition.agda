@@ -22,4 +22,14 @@ module _ {M : 𝒰 _} {A : 𝒰 _} {{_ : Monoid 𝑖 on M}} {{_ : Setoid 𝑗 on
   _≀↷≀'_ = {!!}
 
 
+record hasDistributiveAction-l (M : Monoid 𝑖) (A : Setoid 𝑗 :& (isMonoid :, hasAction-l M)) : 𝒰 (𝑖 ､ 𝑗) where
+  private
+    ◌A : ⟨ A ⟩
+    ◌A = ◌
+  field absorb-r-↷ : ∀{m : ⟨ M ⟩} -> m ↷ ◌A ∼ ◌A
+  field distr-l-↷ : ∀{m : ⟨ M ⟩} {a b : ⟨ A ⟩} -> m ↷ (a ⋆ b) ∼ ((m ↷ a) ⋆ (m ↷ b))
+
+open hasDistributiveAction-l {{...}} public
+
+
 
