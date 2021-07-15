@@ -55,7 +55,9 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
 
     -- | ◌ is right unit
     lem-30 : ∀{a : Localize R M} -> a ⋆-Loc ◌-Loc ∼ a
-    lem-30 {_ / _} = lem-10 ∙ lem-20
+    lem-30 {a} = a ⋆-Loc ◌-Loc    ≣⟨ lem-10 ⟩
+                 ◌-Loc ⋆-Loc a    ≣⟨ lem-20 ⟩
+                 a                ∎
 
     -- | ⋆ is associative
     lem-40 : ∀{a b c : Localize R M} -> (a ⋆-Loc b) ⋆-Loc c ∼ a ⋆-Loc (b ⋆-Loc c)

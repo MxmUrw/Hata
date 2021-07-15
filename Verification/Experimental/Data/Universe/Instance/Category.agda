@@ -5,6 +5,7 @@ open import Verification.Conventions
 
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Data.Universe.Definition
 
 
@@ -30,6 +31,8 @@ instance
   isCategory._◈_ isCategory:𝒰 p q = λ i -> p i ◆ q i
 
 
-
+instance
+  isSetoid:𝒰 : isSetoid (𝒰 𝑖)
+  isSetoid:𝒰 = isSetoid:byCategory
 
 

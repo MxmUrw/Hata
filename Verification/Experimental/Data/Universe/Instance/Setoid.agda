@@ -5,6 +5,7 @@ open import Verification.Conventions
 
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Data.Universe.Definition
+open import Verification.Experimental.Data.Universe.Instance.Category using (isSetoid:𝒰) public
 
 
 record isIso-𝒰 {a : 𝒰 𝑖} {b : 𝒰 𝑗} (f : a -> b) : 𝒰 (𝑖 ､ 𝑗) where
@@ -39,13 +40,13 @@ private
   -- isEquivRel.sym  isEquivRel:≅-𝒰 (incl f) = incl (′ inverse-𝒰 ′ {{lem-20 {f = f}}})
   -- isEquivRel._∙_  isEquivRel:≅-𝒰 (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
 
-instance
-  isSetoid:𝒰 : isSetoid (𝒰 𝑖)
-  isSetoid:𝒰 = setoid
-    _≅-𝒰_
-    (id-𝒰 since lem-10)
-    (λ f -> inverse-𝒰 since lem-20 {f = f})
-    (λ f g -> ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ since lem-30 {f = f} {g = g})
+-- instance
+--   isSetoid:𝒰 : isSetoid (𝒰 𝑖)
+--   isSetoid:𝒰 = setoid
+--     _≅-𝒰_
+--     (id-𝒰 since lem-10)
+--     (λ f -> inverse-𝒰 since lem-20 {f = f})
+--     (λ f g -> ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ since lem-30 {f = f} {g = g})
 
 
 

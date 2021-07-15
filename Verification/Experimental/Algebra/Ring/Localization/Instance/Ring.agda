@@ -80,7 +80,7 @@ module _ {𝑖 : 𝔏 ×-𝒰 𝔏} {R : CRing 𝑖} {M : MCS R} where
 
     lem-50 : ∀{a₀ a₁ b₀ b₁ : Localize R M} -> (a₀ ∼ a₁) -> (b₀ ∼ b₁) -> (a₀ ⋅-Loc b₀ ∼ a₁ ⋅-Loc b₁)
     lem-50 {a₀ / (da₀ ∢ _)} {a₁ / (da₁ ∢ _)} {b₀ / (db₀ ∢ _)} {b₁ / (db₁ ∢ _)} (incl ((s ∢ sP) , p)) (incl ((t ∢ tP) , q)) =
-      let P₀ : ∀{a₀ b₀ da₁ db₁ s t} -> (a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ (s ⋅ t) ∼ (a₀ ⋅ da₁ ⋅ s) ⋅ (b₀ ⋅ db₁ ⋅ t)
+      let P₀ : ∀{a₀ b₀ da₁ db₁ s t : ⟨ R ⟩} -> (a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ (s ⋅ t) ∼ (a₀ ⋅ da₁ ⋅ s) ⋅ (b₀ ⋅ db₁ ⋅ t)
           P₀ {a₀} {b₀} {da₁} {db₁} {s} {t} =
                (a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ (s ⋅ t)   ≣⟨ assoc-r-⋅ ⟩
                ((a₀ ⋅ b₀) ⋅ (da₁ ⋅ db₁) ⋅ s) ⋅ t   ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ⟩

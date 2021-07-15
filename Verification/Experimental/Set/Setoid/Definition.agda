@@ -11,6 +11,17 @@ record ∼-Base {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a : A) (b : A) : 𝒰
   -- incl : R a b -> ∼-Base R a b -- a ∼[ R ] b
 open ∼-Base public
 
+module _ {A : 𝒰 𝑖} (S : isSetoid {𝑗} A) where
+  private instance _ = S
+
+  isSetoid:∼-Base : isSetoid A
+  isSetoid:∼-Base = setoid
+    (∼-Base (_∼_ {{S}}))
+    (incl refl)
+    (λ p -> incl (sym ⟨ p ⟩))
+    (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
+
+
 -- instance
 --   isEquivRel:≡∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≡_ {A = A}))
 --   isEquivRel.refl isEquivRel:≡∼-Base = incl refl-Path
@@ -59,7 +70,7 @@ Setoid 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isSetoid {𝑗 ⌄ 1}
 
 record isSetoidHom {𝑖 𝑗 : 𝔏 ^ 2} (A : Setoid 𝑖) (B : Setoid 𝑗) (f : ⟨ A ⟩ -> ⟨ B ⟩) : 𝒰 (𝑖 ､ 𝑗) where
 -- record isSetoidHom {𝑖 𝑗 : 𝔏 ^ 2} {A : 𝒰 _} {B : 𝒰 _} {{_ : Setoid 𝑖 on A}} {{_ : Setoid 𝑗 on B}} (f : A -> B) : 𝒰 (𝑖 ､ 𝑗)where
-  field preserves-∼ : ∀{a b} -> a ∼ b -> f a ∼ f b
+  field cong-∼ : ∀{a b} -> a ∼ b -> f a ∼ f b
 open isSetoidHom {{...}} public
 
 SetoidHom : (A : Setoid 𝑖) (B : Setoid 𝑗) -> 𝒰 _
@@ -175,9 +186,17 @@ data _/-𝒰_ {𝑖 𝑗 : 𝔏} (A : 𝒰 𝑖) (R : A -> A -> 𝒰 𝑗) : �
 --     lem-10 : ∀{a : A /-𝒰 R} -> 
 
 
+
 instance
   isSetoid:/-𝒰 : {𝑖 𝑘 : 𝔏} {A : 𝒰 𝑖} -> {R : A -> A -> 𝒰 𝑘} -> {{_ : isEquivRel R}} -> isSetoid (A /-𝒰 R)
-  isSetoid:/-𝒰 {R = R} = setoid (λ {[ a ] [ b ] -> ∼-Base R a b}) {!!} {!!} {!!}
+  isSetoid._∼_ (isSetoid:/-𝒰 {R = R}) = ∼-Base (λ {[ a ] [ b ] -> R a b}) -- λ {[ a ] [ b ] -> ∼-Base R a b}
+  isSetoid.refl (isSetoid:/-𝒰 {R = R}) {[ x ]} = incl refl-Equiv
+  isSetoid.sym (isSetoid:/-𝒰 {R = R}) {[ x ]} {[ y ]} (incl p) = incl (sym-Equiv p)
+  isSetoid._∙_ (isSetoid:/-𝒰 {R = R}) {[ x ]} {[ y ]} {[ z ]} (incl p) (incl q) = incl (p ∙-Equiv q)
+  -- setoid (λ {[ a ] [ b ] -> ∼-Base R a b})
+  --                        (λ {x} → {!!})
+  --                        {!!}
+  --                        {!!}
     -- (λ {[ x ]} -> refl-Equiv)
     -- {!!} {!!}
   -- isSetoid._∼'_ (isSetoid:/-𝒰 {R = R}) [ a ] [ b ] = R a b

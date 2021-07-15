@@ -41,5 +41,9 @@ module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
   Functor : 𝒰 _
   Functor = (⟨ 𝒞 ⟩ -> ⟨ 𝒟 ⟩) :& isFunctor
 
-
 open isFunctor {{...}} public
+
+
+
+
+

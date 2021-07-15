@@ -47,7 +47,7 @@ module _ where
 
     instance
       isSetoidHom:[] : isSetoidHom ′(⟨ G ⟩)′ ′(⟨ G ⟩ /-𝒰 RelSubgroup H)′ [_]
-      isSetoidHom.preserves-∼ isSetoidHom:[] {a} {b} (p) =
+      isSetoidHom.cong-∼ isSetoidHom:[] {a} {b} (p) =
         let P = a ⋆ ◡ b ≣⟨ p `cong-⋆` refl ⟩
                 b ⋆ ◡ b ≣⟨ inv-r-⋆ ⟩
                 ◌       ∎
@@ -57,10 +57,10 @@ module _ where
       isMonoid:GroupQuot : isMonoid ′ ⟨ G ⟩ /-𝒰 RelSubgroup H ′
       isMonoid._⋆_ isMonoid:GroupQuot [ a ] [ b ] = [ a ⋆ b ]
       isMonoid.◌ isMonoid:GroupQuot = [ ◌ ]
-      isMonoid.unit-l-⋆ isMonoid:GroupQuot {a = [ a ]} = preserves-∼ unit-l-⋆
-      isMonoid.unit-r-⋆ isMonoid:GroupQuot {a = [ a ]} = preserves-∼ unit-r-⋆
-      isMonoid.assoc-l-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = preserves-∼ assoc-l-⋆
-      isMonoid.assoc-r-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = preserves-∼ assoc-r-⋆
+      isMonoid.unit-l-⋆ isMonoid:GroupQuot {a = [ a ]} = cong-∼ unit-l-⋆
+      isMonoid.unit-r-⋆ isMonoid:GroupQuot {a = [ a ]} = cong-∼ unit-r-⋆
+      isMonoid.assoc-l-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = cong-∼ assoc-l-⋆
+      isMonoid.assoc-r-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = cong-∼ assoc-r-⋆
       isMonoid._`cong-⋆`_ isMonoid:GroupQuot {a₀ = [ a₀ ]} {a₁ = [ a₁ ]} {b₀ = [ b₀ ]} {b₁ = [ b₁ ]} (incl (incl p)) (incl (incl q)) =
         let P₀ : ⟨ ⟨ H ⟩ (a₁ ⋆ (b₀ ⋆ ◡ b₁) ⋆ ◡ a₁) ⟩
             P₀ = normal a₁ q
@@ -86,8 +86,8 @@ module _ where
     instance
       isGroup:GroupQuot : isGroup ′ ⟨ G ⟩ /-𝒰 RelSubgroup H ′
       isGroup.◡_ isGroup:GroupQuot [ a ] = [ ◡ a ]
-      isGroup.inv-l-⋆ isGroup:GroupQuot {a = [ a ]} = preserves-∼ inv-l-⋆
-      isGroup.inv-r-⋆ isGroup:GroupQuot {a = [ a ]} = preserves-∼ inv-r-⋆
+      isGroup.inv-l-⋆ isGroup:GroupQuot {a = [ a ]} = cong-∼ inv-l-⋆
+      isGroup.inv-r-⋆ isGroup:GroupQuot {a = [ a ]} = cong-∼ inv-r-⋆
       isGroup.cong-◡_ isGroup:GroupQuot {a₀ = [ a₀ ]} {a₁ = [ a₁ ]} (incl (incl p)) =
         let P₀ = ◡ (a₀ ⋆ ◡ a₁)               ≣⟨ distr-⋆-◡ ⟩
                   ◡ ◡ a₁ ⋆ ◡ a₀               ≣⟨ double-◡ `cong-⋆` refl ⟩

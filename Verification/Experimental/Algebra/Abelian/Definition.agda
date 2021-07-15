@@ -71,7 +71,7 @@ module _ {𝑗 : 𝔏 ^ 2} {A : Group 𝑗} {{_ : isCommutative ′ ⟨ A ⟩ �
   instance
     isCommutative:AbelianQuot : isCommutative (′ ⟨ ′ ⟨ A ⟩ ′ /-Group ′ ⟨ B ⟩ ′ ⟩ ′)
     -- isCommutative:AbelianQuot = {!!}
-    isCommutative.comm-⋆ isCommutative:AbelianQuot {a = [ a ]} {b = [ b ]} = preserves-∼ comm-⋆
+    isCommutative.comm-⋆ isCommutative:AbelianQuot {a = [ a ]} {b = [ b ]} = cong-∼ comm-⋆
 
   -- _/-Abelian_ : Abelian _
   -- _/-Abelian_ = ′ ⟨ ′ A ′ /-Group ′ B ′ ⟩ ′

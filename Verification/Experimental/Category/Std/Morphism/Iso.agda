@@ -5,6 +5,7 @@ open import Verification.Conventions
 
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
 
 
 module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
@@ -17,6 +18,10 @@ module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
 
   _≅_ : (a b : 𝒞) -> 𝒰 (𝑖)
   A ≅ B = Hom' A B :& isIso
+
+  instance
+    isSetoid:≅ : ∀{a b : 𝒞} -> isSetoid (a ≅ b)
+    isSetoid:≅ = isSetoid:∼-Base (setoid (λ p q -> ⟨ p ⟩ ∼ ⟨ q ⟩) refl sym _∙_)
 
   private
     lem-10 : ∀{A : 𝒞} -> isIso (hom (id {a = A}))
@@ -34,22 +39,48 @@ module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
     isIso.inv-r-◆ (lem-30 {f = f}) = {!!}
     isIso.inv-l-◆ (lem-30 {f = f}) = {!!}
 
-  iso-inv : ∀{A B : 𝒞} -> A ≅ B -> B ≅ A
-  ⟨ iso-inv ϕ ⟩ = inverse-◆ (of ϕ)
-  _:&_.oldProof (iso-inv ϕ) = record {}
-  _:&_.of iso-inv ϕ = lem-20 {f = ϕ}
 
-  -- instance
-  --   isEquivRel:≅ : isEquivRel (∼-Base (_≅_))
-  --   isEquivRel.refl isEquivRel:≅ = incl (′ id ′ {{lem-10}})
-  --   isEquivRel.sym  isEquivRel:≅ (incl f) = incl (′ inverse-◆ (of f) ′ {{lem-20 {f = f}}})
-  --   isEquivRel._∙_  isEquivRel:≅ (incl f) (incl g) = incl (′ ⟨ f ⟩ ◆ ⟨ g ⟩ ′ {{lem-30 {f = f} {g = g}}})
+  refl-≅ : ∀{A : 𝒞} -> A ≅ A
+  refl-≅ = id since lem-10
+
+  sym-≅ : ∀{A B : 𝒞} -> A ≅ B -> B ≅ A
+  sym-≅ p = inverse-◆ (of p) since lem-20 {f = p}
+
+  _∙-≅_ : ∀{A B C : 𝒞} -> A ≅ B -> B ≅ C -> A ≅ C
+  _∙-≅_ p q = ⟨ p ⟩ ◆ ⟨ q ⟩ since lem-30 {f = p} {g = q}
+
 
   isSetoid:byCategory : isSetoid 𝒞
-  isSetoid:byCategory = setoid _≅_
-    (id since lem-10)
-    {!!}
-    {!!}
-  -- isSetoid._∼'_ isSetoid:Category A B = A ≅ B
-  -- isSetoid.isEquivRel:∼ isSetoid:Category = isEquivRel:≅
+  isSetoid:byCategory = setoid _≅_ refl-≅ sym-≅ _∙-≅_
+
+
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
+
+  module _ {F : ⟨ 𝒞 ⟩ -> ⟨ 𝒟 ⟩} {{_ : isFunctor 𝒞 𝒟 F}} where
+
+
+    cong-≅ : ∀{a b : ⟨ 𝒞 ⟩} -> (a ≅ b) -> F a ≅ F b
+    cong-≅ p = q₀ since P
+      where
+        q₀ = map ⟨ p ⟩
+        q₁ = map (inverse-◆ (of p))
+
+        P₀ : q₀ ◆ q₁ ∼ id
+        P₀ = map ⟨ p ⟩ ◆ map (inverse-◆ (of p))   ⟨ functoriality-◆ ⁻¹ ⟩-∼
+             map (⟨ p ⟩ ◆ inverse-◆ (of p))       ⟨ cong-∼ (inv-r-◆ (of p)) ⟩-∼
+             map id                               ⟨  functoriality-id ⟩-∼
+             id {{of 𝒟}}                         ∎
+
+        P₁ : q₁ ◆ q₀ ∼ id
+        P₁ = map (inverse-◆ (of p)) ◆ map ⟨ p ⟩   ⟨ functoriality-◆ ⁻¹ ⟩-∼
+             map (inverse-◆ (of p) ◆ ⟨ p ⟩)       ⟨ cong-∼ (inv-l-◆ (of p)) ⟩-∼
+             map id                               ⟨  functoriality-id ⟩-∼
+             id {{of 𝒟}}                         ∎
+
+        P : isIso (hom q₀)
+        P = record
+            { inverse-◆  = q₁
+            ; inv-r-◆    = P₀
+            ; inv-l-◆    = P₁
+            }
 

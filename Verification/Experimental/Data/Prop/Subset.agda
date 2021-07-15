@@ -25,7 +25,7 @@ module _ {A B : 𝒰 𝑖} where
 
   instance
     isSetoidHom:pb-𝒫 : ∀{f : A -> B} -> isSetoidHom ′(B -> Prop 𝑖)′ ′(A -> Prop 𝑖)′ (pb-𝒫 f)
-    isSetoidHom.preserves-∼ isSetoidHom:pb-𝒫 {a = P} {b = Q} (x) = x
+    isSetoidHom.cong-∼ isSetoidHom:pb-𝒫 {a = P} {b = Q} (x) = x
 
   instance
     isMonotone:pb-𝒫 : ∀{f : A -> B} -> isMonotone ′(B -> Prop 𝑖)′ ′(A -> Prop 𝑖)′ (′(pb-𝒫 f)′)

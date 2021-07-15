@@ -32,7 +32,7 @@ record _:&_ (UU : 𝒰 𝑖) {{U : hasU UU 𝑘 𝑙}} (P : UU -> 𝒰 𝑗) : �
   field ⟨_⟩ : getU U
   -- field overlap {{oldProof}} : getP U ⟨_⟩
   field {oldProof} : getP U ⟨_⟩
-  field overlap {{of_}} : P (reconstruct U (⟨_⟩ , oldProof))
+  field {{of_}} : P (reconstruct U (⟨_⟩ , oldProof))
 open _:&_ {{...}} public hiding (⟨_⟩)
 open _:&_ public using (⟨_⟩)
 
