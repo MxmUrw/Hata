@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ where
+module Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ2 where
 
 open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -8,12 +8,22 @@ open import Verification.Experimental.Category.Std.Functor.Instance.Category
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.MonoidAction.Definition
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
+
+
+
+
+record Notation:hasInterpret (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
+  field ⟦_⟧ : A -> B
+
+open Notation:hasInterpret {{...}} public
 
 
 module _ {K : 𝒰 𝑖} {𝒞 : 𝒰 _} {{_ : 𝒞 is MonoidalCategory 𝑗}} where
@@ -46,19 +56,33 @@ Kinding 𝑖 = _ :& isKinding {𝑖}
 -- ⫞ 	⫟
 -- U+2AEx 	⫠ 	⫡ 	⫢ 	⫣ 	⫤ 	⫥ 	⫦ 	⫧ 	⫨ 	⫩ 	⫪ 	⫫ 	⫬ 	⫭ 
 
+module _ {A : 𝒰 𝑖} where
+  toCtx : List A -> Ctx A
+  toCtx [] = []
+  toCtx (x ∷ a) = ([] ,, x) ⋆ toCtx a
+
 record isCwJ (K : Kinding 𝑗) {𝑖} (𝒞 : MonoidalCategory 𝑖) : 𝒰 (𝑗 ､ 𝑖) where
   field ⊦ : ⟨ K ⟩ -> ⟨ 𝒞 ⟩
-  field {{hasAction-l:K}} : hasAction-l (𝖢-⦿ ⟨ K ⟩) (⟨ 𝒞 ⟩ since isSetoid:byCategory)
-  field varTake : ∀{Γ : Ctx-⦿ ⟨ K ⟩} {a : ⟨ K ⟩} -> (Γ ↷ ⊦ (∂ₖ a)) ⟶ ((Γ ,, a) ↷ ⊦ a)
-  field varSkip : ∀{Γ : Ctx-⦿ ⟨ K ⟩} {a b : ⟨ K ⟩} -> (((Γ ↷ ⊦ (∂ₖ a)) ⊗ (Γ ↷ ⊦ b)) ⟶ ((Γ ,, a) ↷ ⊦ b))
+  field {{hasAction-l:K}} : hasAction-l ′(List ⟨ K ⟩)′ (⟨ 𝒞 ⟩ since isSetoid:byCategory)
+  field varTake : ∀{Γ : List ⟨ K ⟩} {a : ⟨ K ⟩} -> (Γ ↷ ⊦ (∂ₖ a)) ⟶ ((Γ ⋆ ⦋ a ⦌) ↷ ⊦ a)
+  field varSkip : ∀{Γ : List ⟨ K ⟩} {a : ⟨ K ⟩} {x} -> (((Γ ↷ ⊦ (∂ₖ a)) ⊗ (Γ ↷ x)) ⟶ ((Γ ⋆ ⦋ a ⦌) ↷ x))
   field diag : ∀{a : ⟨ 𝒞 ⟩} -> a ⟶ (a ⊗ a)
   field unit-l-⊗ : ∀{a : ⟨ 𝒞 ⟩} -> (◌ ⊗ a) ⟶ a
   field unit-l-⊗-⁻¹ : ∀{a : ⟨ 𝒞 ⟩} -> a ⟶ (◌ ⊗ a)
 
-  ⟦_⟧-CJ : Jdg-⦿ ⟨ K ⟩ -> ⟨ 𝒞 ⟩
+  ⟦_⟧-CJ : Jdg ⟨ K ⟩ -> ⟨ 𝒞 ⟩
   ⟦_⟧-CJ (Γ ⊢ α) = Γ ↷ ⊦ α
 
-  JObj = ⟦_⟧-CJ
+  instance
+    Notation:hasInterpret:CwJ : Notation:hasInterpret (Jdg ⟨ K ⟩) ⟨ 𝒞 ⟩
+    Notation:hasInterpret:CwJ = record { ⟦_⟧ = ⟦_⟧-CJ }
+
+  instance
+    Notation:hasInterpret:CwJ2 : Notation:hasInterpret (List (Jdg ⟨ K ⟩)) ⟨ 𝒞 ⟩
+    Notation:hasInterpret:CwJ2 = record { ⟦_⟧ = rec ⟦_⟧ }
+
+  JHom : List (Jdg ⟨ K ⟩) -> Jdg ⟨ K ⟩ -> 𝒰 _
+  JHom 𝔍 α = ⟦ 𝔍 ⟧ ⟶ ⟦ α ⟧
 
 
   -- field JKind : 𝒰 𝑗
@@ -100,4 +124,3 @@ module _ {K : Kinding 𝑙} where
 --   ▼₁ = rec-𝖱-⦿ JObj
 {-
 -}
-

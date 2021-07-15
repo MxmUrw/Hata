@@ -1,70 +1,40 @@
 
-module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Instance.LogicalFramework where
+module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Instance.LogicalFramework where
 
 open import Verification.Experimental.Conventions hiding (Structure ; _◀)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.MonoidAction.Definition
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition
+open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ2
 
------------------------------------
--- ==* MTC signatures
+module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is Category 𝑖}} where
+  infixr 10 _⟶⟨_⟩_
+  _⟶⟨_⟩_ : ∀(a : 𝒞) {b c : 𝒞} -> (ϕ : a ⟶ b) -> (ψ : b ⟶ c ) -> a ⟶ c
+  _⟶⟨_⟩_ _ ϕ ψ = ϕ ◆ ψ
 
-
-  -- data isKindSCtx : SCtx Type' -> 𝒰 𝑖 where
-  --   [] : isKindSCtx []
-  --   _,,_ : ∀ k {Γ} -> isKindSCtx Γ -> isKindSCtx (Γ ,, kind k)
-
-  -- data isKindMetaJ : MetaJ -> 𝒰 𝑖 where
-  --   _◀_ : ∀{Γ} -> isKindSCtx Γ -> ∀ k s -> isKindMetaJ (Γ ⊢ kind k ◀ s)
-
-  -- KindMetaJ = ∑ isKindMetaJ
-
-  -- data isConArg : Type' -> 𝒰 𝑖 where
-  --   kind : ∀ k -> isConArg (kind k)
-  --   _⇒_ : ∀ k {a} -> isConArg a -> isConArg (kind k ⇒ a)
-
-  -- data isConType : Type' -> 𝒰 𝑖 where
-  --   kind : ∀ k -> isConType (kind k)
-  --   _⇒_ : ∀ {a t} -> isConArg a -> isConType t -> isConType (a ⇒ t)
-
-
------------------------------------
--- rule boundaries
-
--- module _ (K : 𝒰 𝑖) where
-
---   JObjT : 𝒰 𝑖
---   JObjT = Judgement (SCtx K) K
-
---   JBoundaryT : 𝒰 𝑖
---   JBoundaryT = Judgement (SCtx (JObjT)) JObjT
+  _⟶id : ∀(a : 𝒞) -> a ⟶ a
+  _⟶id a = id
 
 
 private
   module _ {K : Kinding 𝑖₁} where
-    U : CwJ K (𝑘 , 𝑖 , 𝑗) -> MetaTermCalculus K (𝑖)
-    U 𝒞 = record
-            { -- MetaKind = JKind {{of 𝒞}}
-            -- ; varzero = {!!}
-            -- ; varsuc = {!!}
-            -- ; ∂ₘᵇ = {!!}
-              isHiddenMeta = const ⊥
-            ; TermCon = iFam (JObj {{of 𝒞}})
-            }
+    U : CwJ K (𝑘 , 𝑖₁ , 𝑗) -> MetaTermCalculus K 𝑖₁
+    U 𝒞 = record {TermCon = JHom}
 
 
 
     F : ∀{𝑖} -> MetaTermCalculus K 𝑖 -> CwJ K _
-    F γ = Ctx-MTC γ since (isCwJ:Ctx-MTC {γ = γ})
+    F γ = MTCCat γ since (isCwJ:MTCCat {γ = γ})
       where open MTCDefinitions γ
 
 
@@ -72,8 +42,84 @@ private
   i : ∀{K : Kinding 𝑖} {γ : MetaTermCalculus K (𝑖)} -> ∀ {ℳ} -> (Hom γ (U ℳ)) -> (Hom (F γ) ℳ)
   i {γ = γ} {ℳ} ϕ = f since isFunctor:f
     where
+      open MTCDefinitions γ
+
       f : ⟨ F γ ⟩ -> ⟨ ℳ ⟩
-      f (incl x) = rec-Ctx-⦿ JObj x -- (λ 𝔧 -> JObj (map-Jdg-⦿ ⟨ ϕ ⟩ 𝔧)) x
+      f (incl x) = ⟦ x ⟧
+
+      map-f₀ : ∀{𝔍 Δ Γ α} ->
+              𝔍 ⊩ᶠ (Γ ∣ Δ ⇒ α)
+              -> Hom (⟦ Γ ↷ (𝔍 ⋆ Δ) ⟧) (⟦ Γ ↷ α ⟧)
+      map-f₀ (meta {αs} {α}) = unit-r-⊗
+
+      map-f₀ {𝔍} {Δ} {Γ} {α} (app {𝔍₀} {𝔍₁} {𝔧 = 𝔧} refl-≣ t s) =
+        let t' = map-f₀ t
+            s' = map-f₀ s
+        in {!!}
+           -- ⟦ Γ ↷ (𝔍₀ ⋆ 𝔍₁) ⋆ Δ ⟧                 ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ (𝔍₀ ⋆ 𝔍₁) ⟧ ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ (Γ ↷ 𝔍₀) ⋆ (Γ ↷ 𝔍₁) ⟧ ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ⟦ Γ ↷ 𝔍₁ ⟧ ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ (⟦ Γ ↷ 𝔍₁ ⟧ ⊗ ◌) ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ map-⊗ (map-⊗ id {!!}) id  ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ (⟦ Γ ↷ 𝔍₁ ⟧ ⊗ ⟦ Γ ↷ [] ⟧) ⊗ ⟦ Γ ↷ Δ ⟧ ⟶⟨ map-⊗ (map-⊗ id s') id  ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ (⟦ Γ ↷ 𝔧 ⟧                ) ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ assoc-l-⊗ ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ (⟦ Γ ↷ 𝔧 ⟧ ⊗ ⟦ Γ ↷ Δ ⟧)        ⟶⟨ id ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ (⟦ (Γ ↷ 𝔧) ∷ (Γ ↷ Δ) ⟧)        ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ⟦ Γ ↷ (𝔧 ∷ Δ) ⟧          ⟶⟨ t' ⟩
+           -- ⟦ Γ ↷ α ⟧                               ⟶id
+
+      map-f₀ (con {Γ} {Δ} {α} x) = ⟦ Γ ↷ Δ ⟧   ⟶⟨ {!!} ⟩
+                                   ⟦ Γ ↷ α ⟧    ⟶id
+
+      map-f₀ {𝔍} {Δ} {Γ} {α} (lam {𝔍₀} {𝔍₁} {α = α'} {αs = αs'} {β} v x) =
+        let x' = map-f₀ x
+            v' = map-f₀ v
+        in {!!}
+           -- ⟦ Γ ↷ (𝔍₀ ⋆ 𝔍₁) ⋆ Δ ⟧                 ⟶⟨ ? ⟩
+           -- ⟦ Γ ↷ (𝔍₀ ⋆ 𝔍₁) ⟧ ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ (Γ ↷ 𝔍₀) ⋆ (Γ ↷ 𝔍₁) ⟧ ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ⟦ Γ ↷ 𝔍₁ ⟧ ⊗ ⟦ Γ ↷ Δ ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ⟦ (Γ ↷ 𝔍₁) ⋆ (Γ ↷ Δ) ⟧        ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ⟦ Γ ↷ (𝔍₁ ⋆ Δ) ⟧               ⟶⟨ {!!} ⟩
+           -- (⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ◌) ⊗ ⟦ Γ ↷ (𝔍₁ ⋆ Δ) ⟧         ⟶⟨ id ⟩
+           -- (⟦ Γ ↷ 𝔍₀ ⟧ ⊗ ⟦ Γ ↷ [] ⟧) ⊗ ⟦ Γ ↷ (𝔍₁ ⋆ Δ) ⟧  ⟶⟨ {!!} ⟩
+           -- ⟦(Γ ↷ ([] ⊢ ∂ₖ α'))⟧ ⊗ ⟦ Γ ↷ (𝔍₁ ⋆ Δ) ⟧         ⟶⟨ {!!} ⟩
+           -- ⟦(Γ ⊢ ∂ₖ α')⟧         ⊗ (Γ ↷ ⟦ (𝔍₁ ⋆ Δ) ⟧)       ⟶⟨ varSkip ⟩
+           -- (Γ ⋆ ⦋ α' ⦌) ↷ ⟦ 𝔍₁ ⋆ Δ ⟧                        ⟶⟨ {!!} ⟩
+           -- ⟦ (Γ ⋆ ⦋ α' ⦌) ↷ (𝔍₁ ⋆ Δ) ⟧                        ⟶⟨ {!!} ⟩
+           -- ⟦ ((Γ ⋆ ⦋ α' ⦌) ↷ 𝔍₁) ⋆ ((Γ ⋆ ⦋ α' ⦌) ↷ Δ) ⟧      ⟶⟨ {!!} ⟩
+           -- ⟦ ((Γ ⋆ ⦋ α' ⦌) ↷ 𝔍₁) ⟧ ⊗ ⟦ ((Γ ⋆ ⦋ α' ⦌) ↷ Δ) ⟧  ⟶⟨ x' ⟩
+           -- ⟦ ((Γ ⋆ ⦋ α' ⦌) ↷ (αs' ⊢ β)) ⟧                     ⟶⟨ {!!} ⟩
+           -- -- ⟦ ((Γ ⋆ ⦋ α' ⦌) ↷ (αs' ↷ ⊦ β)) ⟧                     ⟶⟨ {!!} ⟩
+           -- -- ⟦ (((Γ ⋆ ⦋ α' ⦌) ⋆ αs') ↷ ⊦ β) ⟧                     ⟶⟨ {!!} ⟩
+           -- ⟦ Γ ↷ ((α' ∷ αs') ⊢ β) ⟧   ⟶id
+
+
+      map-f : ∀{a b} ->
+              Subs (MTCDefinitions._⊩ᶠ'_ γ) ⟨ a ⟩ ⟨ b ⟩
+              -> Hom (f a) (f b)
+      map-f {incl .⦋⦌} {incl .⦋⦌} [] = id
+      map-f {incl .(Γ ⋆ Γ')} {incl .(_ ∷ _)} (_∷_ {Γ} {Γ'} x s) = {!!}
+
+      isFunctor:f : isFunctor ′ ⟨ F γ ⟩ ′ ′ ⟨ ℳ ⟩ ′ f
+      isFunctor.map isFunctor:f = map-f
+      isFunctor.isSetoidHom:map isFunctor:f = {!!}
+      isFunctor.functoriality-id isFunctor:f = {!!}
+      isFunctor.functoriality-◆ isFunctor:f = {!!}
+
+module _ {K : Kinding 𝑖₁} where
+  instance
+    isLogicalFramework:MTC : isLogicalFramework (CwJ K (_ , _ , _)) (MTC K _) -- (MTC (𝑙 , (𝑖 ⊔ 𝑙)))
+    isLogicalFramework.LFTerm (isLogicalFramework:MTC) = F
+    isLogicalFramework.LFSig isLogicalFramework:MTC = U
+    isLogicalFramework.isFunctor:LFTerm isLogicalFramework:MTC = {!!}
+    isLogicalFramework.isFunctor:LFSig isLogicalFramework:MTC = {!!}
+    isLogicalFramework.interp isLogicalFramework:MTC {γ} {ℳ} = i {γ = γ} {ℳ = ℳ}
+
+    -- where
+    --   f : ⟨ F γ ⟩ -> ⟨ ℳ ⟩
+    --   f (incl x) = rec-Ctx-⦿ JObj x -- (λ 𝔧 -> JObj (map-Jdg-⦿ ⟨ ϕ ⟩ 𝔧)) x
+    {-
 
       open MTCDefinitions γ
 
@@ -157,18 +203,11 @@ private
       isFunctor.isSetoidHom:map isFunctor:f = {!!}
       isFunctor.functoriality-id isFunctor:f = {!!}
       isFunctor.functoriality-◆ isFunctor:f = {!!}
+      -}
 
 
-module _ {K : Kinding 𝑖₁} where
-  instance
-    isLogicalFramework:MTC : isLogicalFramework (CwJ K (_ , _ , _)) (MTC K _) -- (MTC (𝑙 , (𝑖 ⊔ 𝑙)))
-    isLogicalFramework.LFTerm (isLogicalFramework:MTC) = F
-    isLogicalFramework.LFSig isLogicalFramework:MTC = U
-    isLogicalFramework.isFunctor:LFTerm isLogicalFramework:MTC = {!!}
-    isLogicalFramework.isFunctor:LFSig isLogicalFramework:MTC = {!!}
-    isLogicalFramework.interp isLogicalFramework:MTC {γ} {ℳ} = i {γ = γ} {ℳ = ℳ}
 
-
+{-
 {-
 
 -- instance
@@ -198,4 +237,4 @@ module _ {K : Kinding 𝑖₁} where
 
 
 -}
-
+-}

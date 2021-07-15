@@ -22,11 +22,6 @@ open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
 open import Verification.Experimental.Data.Lift.Definition
 open import Verification.Experimental.Data.Type.Definition
 
-pattern ⦋⦌ = []
-pattern ⦋_⦌ a = [] ,, a
-pattern ⦋_،_⦌ a b = [] ,, a ,, b
-pattern ⦋_،_،_⦌ a b c = [] ,, a ,, b ,, c
-
 module Λ-Curry where
 
   data Kind {𝑖} : 𝒰 𝑖 where

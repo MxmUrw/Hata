@@ -54,6 +54,6 @@ module _ {A : 𝒰 𝑖} where
   skip-List (suc n) (x ∷ xs) = skip-List n xs
 
 
-map-List : ∀{A B : 𝒰 𝑖} -> (A -> B) -> List A -> List B
+map-List : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} -> (A -> B) -> List A -> List B
 map-List f [] = []
 map-List f (x ∷ xs) = f x ∷ map-List f xs

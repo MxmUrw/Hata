@@ -9,11 +9,13 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
 
 
-
 data Ctx-⦿ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   [] : Ctx-⦿ A
   _,,_ : (xs : Ctx-⦿ A) -> (x : A) -> Ctx-⦿ A
 infixl 15 _,,_
+pattern _;_ a b = _,,_ a b
+
+Ctx = Ctx-⦿
 
 module _ {A : 𝒰 𝑖} where
   data _⊢-Ctx-⦿_ : (Γ : Ctx-⦿ A) (a : A) -> 𝒰 𝑖 where
