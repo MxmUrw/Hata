@@ -5,7 +5,7 @@ open import Verification.Conventions
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Category.Std.Category.Definition
 
-module _ {X : 𝒰 𝑖} {{_ : isCategory 𝑗 X}} where
+module _ {X : 𝒰 𝑖} {{_ : isCategory {𝑗} X}} where
   record isCoequalizer {a b : X} (f g : a ⟶ b) (x : X) : 𝒰 (𝑖 ､ 𝑗) where
     field π-Coeq : b ⟶ x
           ∼-Coeq : f ◆ π-Coeq ∼ g ◆ π-Coeq
@@ -19,7 +19,7 @@ module _ {X : 𝒰 𝑖} {{_ : isCategory 𝑗 X}} where
   -- hasCoequalizer : {a b : X} (f g : a ⟶ b) -> 𝒰 _
   -- hasCoequalizer
 
-  unquoteDecl hasCoequalizer hascoequalizer = #struct "isCoeq" (quote isCoequalizer) "x" hasCoequalizer hascoequalizer
+  -- unquoteDecl hasCoequalizer hascoequalizer = #struct "isCoeq" (quote isCoequalizer) "x" hasCoequalizer hascoequalizer
 
   record Coeq-ExUniq {a b : X} (f g : a ⟶ b) (x : X) :  𝒰 (𝑖 ､ 𝑗) where
     field π-CoeqEU : b ⟶ x

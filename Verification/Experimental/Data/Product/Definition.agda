@@ -9,11 +9,7 @@ macro
   _×_ = λstr A ↦ λstr B ↦ #structureOn (A ×-𝒰 B)
   infixr 40 _×_
 
-
-
-
 -- The product for haskell
-
 
 record _×~_ (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
   constructor _,_
@@ -24,4 +20,15 @@ record _×~_ (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
 {-# FOREIGN GHC type AgdaProduct a b = (,) #-}
 -- {-# FOREIGN GHC makeProduct a b = (a,b) #-}
 {-# COMPILE GHC _×~_ = data AgdaProduct ((,)) #-}
+
+
+
+--------------------------------------------------------------
+-- The 0-ary product
+
+macro
+  𝟙 : ∀ {𝑖} -> SomeStructure
+  𝟙 {𝑖} = #structureOn (⊤-𝒰 {𝑖})
+
+
 

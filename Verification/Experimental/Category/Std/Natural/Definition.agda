@@ -21,6 +21,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 -- |> A family of morphisms |α|, where for every |x : 𝒞|, |α ⌄ x : F x ⟶ G x| is an arrow in |𝒟|,
 --   is called a *natural transformation* from |F| to |G|,
     record isNatural (α : ∀{x : ⟨ 𝒞 ⟩} -> Hom (⟨ F ⟩ x) (⟨ G ⟩ x)) : 𝒰 (𝑖 ､ 𝑗) where
+      constructor natural
 
 -- |> if it is natural, i.e., the following equation holds:
       field naturality : ∀{x y : ⟨ 𝒞 ⟩} -> ∀(f : x ⟶ y) -> α ◆ map {{of G}} f ∼ map {{of F}} f ◆ α
