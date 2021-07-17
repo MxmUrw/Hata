@@ -8,7 +8,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Product
 
 FiniteProductCategory : ∀ 𝑖 -> 𝒰 _
-FiniteProductCategory 𝑖 = Category 𝑖 :& hasProducts
+FiniteProductCategory 𝑖 = Category 𝑖 :& hasFiniteProducts
 
 
 module _ {𝒞 : 𝒰 _} {{_ : FiniteProductCategory 𝑖 on 𝒞}} where

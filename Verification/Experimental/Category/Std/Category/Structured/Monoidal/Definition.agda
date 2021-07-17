@@ -5,11 +5,19 @@ open import Verification.Conventions
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Data.Product.Definition
 open import Verification.Experimental.Data.Fin.Definition
+open import Verification.Experimental.Data.Lift.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Construction.Product
+open import Verification.Experimental.Category.Std.Category.Instance.ProductMonoid
+open import Verification.Experimental.Category.Std.Limit.Specific.Product
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Natural.Definition
+open import Verification.Experimental.Category.Std.Natural.Iso
 open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.As.Monoid
+open import Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.Definition
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Product
 
 -- instance
@@ -27,6 +35,15 @@ record isMonoidal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field {{isMonoid:this}} : isMonoid (⟨ 𝒞 ⟩ since isSetoid:byCategory)
 
   field {{isFunctor:⋆}} : isFunctor ′(⟨ 𝒞 ⟩ ×-𝒰 ⟨ 𝒞 ⟩)′ 𝒞 (λ₋ _⋆_)
+
+  myI : ⊤ ⟶ 𝒞
+  myI = const ◌ since isFunctor:const
+
+  I⋆ : Functor 𝒞 𝒞
+  I⋆ = ⧼ intro-⊤ ◆ myI , id ⧽ ◆ ′(λ₋ _⋆_)′
+
+  field {{isNaturalIso:unit-l-⋆}} : isNaturalIso I⋆ id unit-l-⋆
+
   -- field {{isFunctor:⋆}} : isFunctor {𝑖} {𝑖} (𝒞 × 𝒞) 𝒞 (λ₋ _⋆_)
 
   -- field map-⊗ : ∀{a b c d : ⟨ 𝒞 ⟩} (f : a ⟶ b) (g : c ⟶ d) -> (a ⋆ c ⟶ b ⋆ d)
@@ -66,3 +83,18 @@ macro
   𝐌𝐨𝐧𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
   𝐌𝐨𝐧𝐂𝐚𝐭 𝑖 = #structureOn (MonoidalCategory 𝑖)
 
+
+module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
+  instance
+    isMonoidal:Lift : {{_ : isMonoidal ′ 𝒞 ′}} -> isMonoidal ′ Lift-Cat {𝑘} 𝒞 ′
+    isMonoid._⋆_ (isMonoidal.isMonoid:this isMonoidal:Lift) = λ a b -> lift (lower a ⋆ lower b)
+    isMonoid.◌ (isMonoidal.isMonoid:this isMonoidal:Lift) = lift ◌
+    isMonoid.unit-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift p q = {!!}
+    isMonoidal.isFunctor:⋆ isMonoidal:Lift = {!!}
+    isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:Lift = {!!}
+    -- isMonoidal.map-⊗ isMonoidal:Lift f g = {!!}

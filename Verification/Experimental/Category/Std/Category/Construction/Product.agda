@@ -4,11 +4,13 @@ module Verification.Experimental.Category.Std.Category.Construction.Product wher
 open import Verification.Conventions
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Data.Product.Definition
+open import Verification.Experimental.Data.Lift.Definition
 -- open import Verification.Experimental.Data.Fin.Definition
 -- open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Construction.Id
+open import Verification.Experimental.Category.Std.Limit.Specific.Product
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
@@ -18,14 +20,6 @@ open import Verification.Experimental.Category.Std.Morphism.Iso
 
 --------------------------------------------------------------
 -- Showing that _×_ on universes lifts to categories
-
-module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isSetoid {𝑖₁} A}} {{_ : isSetoid {𝑗₁} B}} where
-  instance
-    isSetoid:× : isSetoid (A × B)
-    isSetoid:× = setoid (λ (a₀ , b₀) (a₁ , b₁) -> (a₀ ∼ a₁) × (b₀ ∼ b₁))
-                 (refl , refl)
-                 (λ (p , q) -> (p ⁻¹ , q ⁻¹))
-                 (λ (p₀ , q₀) (p₁ , q₁) -> (p₀ ∙ p₁ , q₀ ∙ q₁))
 
 module _ {𝒞 : 𝒰 𝑖} {𝒟 : 𝒰 𝑗} {{_ : isCategory {𝑖₁} 𝒞}} {{_ : isCategory {𝑗₁} 𝒟}} where
 
@@ -53,6 +47,9 @@ module _ {𝒞 : 𝒰 𝑖} {𝒟 : 𝒰 𝑗} {{_ : isCategory {𝑖₁} 𝒞}}
           ; inv-l-◆    = inv-l-◆ (of p) , inv-l-◆ (of q)
           }
 
+_×-𝐂𝐚𝐭_ :(𝒞 : Category 𝑖) (𝒟 : Category 𝑗) -> Category _
+_×-𝐂𝐚𝐭_ 𝒞 𝒟 = 𝒞 × 𝒟
+
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
   π₀-𝐂𝐚𝐭 : Functor (𝒞 × 𝒟) 𝒞
   π₀-𝐂𝐚𝐭 = fst since P
@@ -73,8 +70,8 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
       isFunctor.functoriality-◆ P  = refl
 
 module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} where
-  ⟨_,_⟩-𝐂𝐚𝐭 : (F : Functor 𝒳 𝒞) -> (G : Functor 𝒳 𝒟) -> Functor 𝒳 (𝒞 × 𝒟)
-  ⟨_,_⟩-𝐂𝐚𝐭 F G = h since P
+  ⧼_⧽-𝐂𝐚𝐭 : (Functor 𝒳 𝒞) × (Functor 𝒳 𝒟) -> Functor 𝒳 (𝒞 × 𝒟)
+  ⧼_⧽-𝐂𝐚𝐭 (F , G) = h since P
     where
       h : ⟨ 𝒳 ⟩ -> 𝒞 × 𝒟
       h x = ⟨ F ⟩ x , ⟨ G ⟩ x
@@ -86,13 +83,13 @@ module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} wh
       isFunctor.functoriality-◆ P  = functoriality-◆ , functoriality-◆
 
   module _ {F : Functor 𝒳 𝒞} {G : Functor 𝒳 𝒟} where
-    reduce-π₀-𝐂𝐚𝐭 : (⟨ F , G ⟩-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭) ≅ F
+    reduce-π₀-𝐂𝐚𝐭 : (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭) ≅ F
     reduce-π₀-𝐂𝐚𝐭 = α since P
       where
-        α : Natural (⟨ F , G ⟩-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭) F
+        α : Natural (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭) F
         α = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = F}}})
 
-        β : Natural F (⟨ F , G ⟩-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭)
+        β : Natural F (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭)
         β = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = F}}})
 
         P : isIso (hom α)
@@ -102,13 +99,13 @@ module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} wh
             ; inv-l-◆    = unit-2-◆
             }
 
-    reduce-π₁-𝐂𝐚𝐭 : (⟨ F , G ⟩-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭) ≅ G
+    reduce-π₁-𝐂𝐚𝐭 : (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭) ≅ G
     reduce-π₁-𝐂𝐚𝐭 = α since P
       where
-        α : Natural (⟨ F , G ⟩-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭) G
+        α : Natural (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭) G
         α = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = G}}})
 
-        β : Natural G (⟨ F , G ⟩-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭)
+        β : Natural G (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭)
         β = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = G}}})
 
         P : isIso (hom α)
@@ -119,13 +116,13 @@ module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} wh
             }
 
   module _ {F : Functor 𝒳 (𝒞 × 𝒟)} where
-    expand-×-𝐂𝐚𝐭 : F ≅ ⟨ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⟩-𝐂𝐚𝐭
-    expand-×-𝐂𝐚𝐭 = α since P
+    expand-⊓-𝐂𝐚𝐭 : F ≅ ⧼ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⧽-𝐂𝐚𝐭
+    expand-⊓-𝐂𝐚𝐭 = α since P
       where
-        α : Natural F ⟨ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⟩-𝐂𝐚𝐭
+        α : Natural F ⧼ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⧽-𝐂𝐚𝐭
         α = (id , id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹ , unit-l-◆ ∙ unit-r-◆ ⁻¹)
 
-        β : Natural ⟨ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⟩-𝐂𝐚𝐭 F
+        β : Natural ⧼ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⧽-𝐂𝐚𝐭 F
         β = (id , id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹ , unit-l-◆ ∙ unit-r-◆ ⁻¹)
 
         P : isIso (hom α)
@@ -135,6 +132,19 @@ module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} wh
             ; inv-l-◆    = unit-2-◆ , unit-2-◆
             }
 
+module _ {𝒞 𝒟 : 𝐂𝐚𝐭 𝑖} where
+  instance
+    isProduct:×-𝐂𝐚𝐭 : isProduct 𝒞 𝒟 (𝒞 × 𝒟)
+    isProduct:×-𝐂𝐚𝐭 = record
+                        { π₀        = π₀-𝐂𝐚𝐭
+                        ; π₁        = π₁-𝐂𝐚𝐭
+                        ; ⧼_⧽       = ⧼_⧽-𝐂𝐚𝐭
+                        ; isSetoidHom:⧼⧽ = {!!}
+                        ; reduce-π₀ = λ {x} {f} {g} -> reduce-π₀-𝐂𝐚𝐭 {F = f} {G = g}
+                        ; reduce-π₁ = λ {x} {f} {g} -> reduce-π₁-𝐂𝐚𝐭 {F = f} {G = g}
+                        ; expand-⊓  = expand-⊓-𝐂𝐚𝐭
+                        }
+
 --------------------------------------------------------------
 -- The 0-ary product, 𝟙
 
@@ -142,5 +152,38 @@ instance
   isCategory:𝟙 : isCategory (⊤-𝒰 {𝑖})
   isCategory:𝟙 = isCategory:byId
 
+⊤-𝐂𝐚𝐭 : Category 𝑖
+⊤-𝐂𝐚𝐭 = ′(Lift-Cat (𝟙 {ℓ₀}))′
+
+intro-⊤-𝐂𝐚𝐭 : ∀{𝒞 : 𝐂𝐚𝐭 𝑖} -> Functor 𝒞 (⊤-𝐂𝐚𝐭 {𝑗})
+intro-⊤-𝐂𝐚𝐭 = const (lift tt) since isFunctor:const
+
+expand-⊤-𝐂𝐚𝐭 : ∀{𝒞 : 𝐂𝐚𝐭 𝑖} -> {F : Functor 𝒞 (⊤-𝐂𝐚𝐭 {𝑗})} -> F ≅ intro-⊤-𝐂𝐚𝐭
+expand-⊤-𝐂𝐚𝐭 {F = F} = α since P
+  where
+    α : Natural F intro-⊤-𝐂𝐚𝐭
+    α = incl isProp:⊤-𝒰 since natural (λ _ → ↥ isSet:⊤-𝒰)
+
+    β : Natural intro-⊤-𝐂𝐚𝐭 F
+    β = incl isProp:⊤-𝒰 since natural (λ _ → ↥ isSet:⊤-𝒰)
+
+    P : isIso (hom α)
+    P = record
+        { inverse-◆ = β
+        ; inv-r-◆   = ↥ isSet:⊤-𝒰
+        ; inv-l-◆   = ↥ isSet:⊤-𝒰
+        }
+
+
+instance
+  isTerminal:𝟙 : isTerminal {𝒞 = 𝐂𝐚𝐭 𝑖} ⊤-𝐂𝐚𝐭
+  isTerminal:𝟙 = record
+                 { intro-⊤   = intro-⊤-𝐂𝐚𝐭
+                 ; expand-⊤  = expand-⊤-𝐂𝐚𝐭
+                 }
+
+instance
+  hasFiniteProducts:𝐂𝐚𝐭 : hasFiniteProducts (𝐂𝐚𝐭 𝑖)
+  hasFiniteProducts:𝐂𝐚𝐭 = record { _⊓_ = _×-𝐂𝐚𝐭_ ; ⊤ = ⊤-𝐂𝐚𝐭 }
 
 

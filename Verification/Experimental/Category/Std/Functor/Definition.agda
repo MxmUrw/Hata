@@ -44,6 +44,19 @@ module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
 open isFunctor {{...}} public
 
 
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  macro
+    Const : ∀ a -> SomeStructure
+    Const a = #structureOn (const {A = A} {B = B} a)
+
+--------------------------------------------------------------
+-- constant functor
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
+  isFunctor:const : {x : ⟨ 𝒟 ⟩} -> isFunctor 𝒞 𝒟 (const x)
+  isFunctor.map (isFunctor:const {x})              = const id
+  isFunctor.isSetoidHom:map (isFunctor:const {x})  = record { cong-∼ = const refl }
+  isFunctor.functoriality-id (isFunctor:const {x}) = refl
+  isFunctor.functoriality-◆ (isFunctor:const {x})  = unit-2-◆ ⁻¹
 
 
 

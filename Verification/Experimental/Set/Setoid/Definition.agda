@@ -3,6 +3,7 @@ module Verification.Experimental.Set.Setoid.Definition where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Data.Prop.Definition
+open import Verification.Experimental.Data.Product.Definition
 
 
 record ∼-Base {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a : A) (b : A) : 𝒰 (𝑗) where
@@ -21,6 +22,16 @@ module _ {A : 𝒰 𝑖} (S : isSetoid {𝑗} A) where
     (λ p -> incl (sym ⟨ p ⟩))
     (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
 
+
+
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isSetoid {𝑖₁} A}} {{_ : isSetoid {𝑗₁} B}} where
+  instance
+    isSetoid:× : isSetoid (A × B)
+    isSetoid:× = setoid (λ (a₀ , b₀) (a₁ , b₁) -> (a₀ ∼ a₁) × (b₀ ∼ b₁))
+                 (refl , refl)
+                 (λ (p , q) -> (p ⁻¹ , q ⁻¹))
+                 (λ (p₀ , q₀) (p₁ , q₁) -> (p₀ ∙ p₁ , q₀ ∙ q₁))
 
 -- instance
 --   isEquivRel:≡∼-Base : ∀{A : 𝒰 𝑖} -> isEquivRel (∼-Base (_≡_ {A = A}))

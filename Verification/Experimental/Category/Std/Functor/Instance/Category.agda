@@ -51,3 +51,5 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
     isSetoid:Functor : isSetoid (𝐅𝐮𝐧𝐜 𝒞 𝒟)
     isSetoid:Functor = isSetoid:byCategory
 
+
+

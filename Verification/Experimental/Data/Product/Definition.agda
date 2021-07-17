@@ -30,5 +30,9 @@ macro
   𝟙 : ∀ {𝑖} -> SomeStructure
   𝟙 {𝑖} = #structureOn (⊤-𝒰 {𝑖})
 
+isProp:⊤-𝒰 : ∀{a b : ⊤-𝒰 {𝑖}} -> a ≣ b
+isProp:⊤-𝒰 {a = tt} {tt} = refl-≣
 
+isSet:⊤-𝒰 : ∀{a b : ⊤-𝒰 {𝑖}} {p q : a ≣ b} -> p ≣ q
+isSet:⊤-𝒰 {p = refl-≣} {q} = {!!}
 

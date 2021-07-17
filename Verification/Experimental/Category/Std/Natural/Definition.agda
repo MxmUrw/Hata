@@ -38,3 +38,4 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 
 -- unquoteDecl Natural natural = #struct "Nat" (quote isNatural) "α" Natural natural
 
+
