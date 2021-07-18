@@ -12,6 +12,7 @@ open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Construction.Product
 open import Verification.Experimental.Category.Std.Category.Instance.ProductMonoid
 open import Verification.Experimental.Category.Std.Limit.Specific.Product
+open import Verification.Experimental.Category.Std.Limit.Specific.Product.Instance.Functor
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Natural.Iso
@@ -25,31 +26,64 @@ open import Verification.Experimental.Category.Std.Category.Structured.FinitePro
 --   isCategory:× = {!!}
 
 
+module _ (X : 𝒰 𝑖) {{_ : isSetoid {𝑗} X}} where
+  Eq : X -> X -> 𝒰 _
+  Eq a b = a ∼ b
 
-module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} where
-  λ₋ : (A -> B -> C) -> (A ×-𝒰 B -> C)
-  λ₋ f (a , b) = f a b
+
+private instance
+  _ = isCategory:×
+
 
 record isMonoidal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   constructor monoidal
   field {{isMonoid:this}} : isMonoid (⟨ 𝒞 ⟩ since isSetoid:byCategory)
 
-  field {{isFunctor:⋆}} : isFunctor ′(⟨ 𝒞 ⟩ ×-𝒰 ⟨ 𝒞 ⟩)′ 𝒞 (λ₋ _⋆_)
+  field {{isFunctor:⋆}} : isFunctor (𝒞 ×-𝐂𝐚𝐭 𝒞) 𝒞 ⋆⃨
 
-  myI : ⊤ ⟶ 𝒞
-  myI = const ◌ since isFunctor:const
+  ⊗⃨ : Functor (𝒞 × 𝒞) 𝒞
+  ⊗⃨ = ⋆⃨
 
-  I⋆ : Functor 𝒞 𝒞
-  I⋆ = ⧼ intro-⊤ ◆ myI , id ⧽ ◆ ′(λ₋ _⋆_)′
+  _⇃⊗⇂_ : ∀{a b c d : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) (g : c ⟶ d) -> (a ⋆ c ⟶ b ⋆ d)
+  _⇃⊗⇂_ = λ₊ (map {{of ⊗⃨}})
 
-  field {{isNaturalIso:unit-l-⋆}} : isNaturalIso I⋆ id unit-l-⋆
+  𝖨𝖽 = ◌
 
-  -- field {{isFunctor:⋆}} : isFunctor {𝑖} {𝑖} (𝒞 × 𝒞) 𝒞 (λ₋ _⋆_)
+  𝖨𝖽⊗ : Functor 𝒞 𝒞
+  𝖨𝖽⊗ = ⧼ Const 𝖨𝖽 , id ⧽ ◆ ⋆⃨
 
-  -- field map-⊗ : ∀{a b c d : ⟨ 𝒞 ⟩} (f : a ⟶ b) (g : c ⟶ d) -> (a ⋆ c ⟶ b ⋆ d)
+  ⊗𝖨𝖽 : Functor 𝒞 𝒞
+  ⊗𝖨𝖽 = ⧼ id , Const 𝖨𝖽 ⧽ ◆ ⋆⃨
+
+  field {{isNaturalIso:unit-l-⋆}} : isNaturalIso 𝖨𝖽⊗ id unit-l-⋆
+  field {{isNaturalIso:unit-r-⋆}} : isNaturalIso ⊗𝖨𝖽 id unit-r-⋆
+
 
   field compat-Monoidal-⋆ : ∀{a b c d : ⟨ 𝒞 ⟩} -> (p : a ≅ b) -> (q : c ≅ d)
                             -> ⟨ p ≀⋆≀ q ⟩ ∼ map (⟨ p ⟩ , ⟨ q ⟩)
+
+  [⊗]⊗ : Functor ((𝒞 ×-𝐂𝐚𝐭 𝒞) ×-𝐂𝐚𝐭 𝒞) 𝒞
+  [⊗]⊗ = map-⊓ (⊗⃨ , id) ◆ ⊗⃨
+
+  ⊗[⊗] : Functor (𝒞 ×-𝐂𝐚𝐭 (𝒞 ×-𝐂𝐚𝐭 𝒞)) 𝒞
+  ⊗[⊗] = map-⊓ (id , ⊗⃨) ◆ ⊗⃨
+
+  ⊗[⊗]' : Functor ((𝒞 ×-𝐂𝐚𝐭 𝒞) ×-𝐂𝐚𝐭 𝒞) 𝒞
+  ⊗[⊗]' = ⟨ assoc-l-⋆ ⟩ ◆ ⊗[⊗]
+
+  field {{isNaturalIso:assoc-l-⋆}} : isNaturalIso ([⊗]⊗) (⊗[⊗]') assoc-l-⋆
+
+  field triangle-Monoidal : ∀{a b : ⟨ 𝒞 ⟩} -> Eq ((a ⋆ 𝖨𝖽) ⋆ b ⟶ a ⋆ b)
+                                              (⟨ unit-r-⋆ ⟩ ⇃⊗⇂ id)
+                                              (⟨ assoc-l-⋆ ⟩ ◆ (id ⇃⊗⇂ ⟨ unit-l-⋆ ⟩))
+
+  field pentagon-Monoidal : ∀{a b c d : ⟨ 𝒞 ⟩} -> Eq (((a ⋆ b) ⋆ c) ⋆ d ⟶ a ⋆ (b ⋆ (c ⋆ d)))
+                                             (⟨ assoc-l-⋆ ⟩ ◆ ⟨ assoc-l-⋆ ⟩)
+                                             ((⟨ assoc-l-⋆ ⟩ ⇃⊗⇂ id) ◆ ⟨ assoc-l-⋆ ⟩ ◆ (id ⇃⊗⇂ ⟨ assoc-l-⋆ ⟩))
+
+
+
+
 open isMonoidal {{...}} public
 
 MonoidalCategory : ∀ 𝑖 -> 𝒰 _
@@ -97,4 +131,6 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
     isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift p q = {!!}
     isMonoidal.isFunctor:⋆ isMonoidal:Lift = {!!}
     isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:Lift = {!!}
+    isMonoidal.isNaturalIso:unit-r-⋆ isMonoidal:Lift = {!!}
+    isMonoidal.isNaturalIso:assoc-l-⋆ isMonoidal:Lift = {!!}
     -- isMonoidal.map-⊗ isMonoidal:Lift f g = {!!}

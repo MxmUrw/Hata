@@ -18,10 +18,6 @@ record isMonoid {𝑗 : 𝔏 ^ 2} (A : Setoid 𝑗) : 𝒰 (𝑗) where
         assoc-r-⋆ : ∀{a b c} -> a ⋆ (b ⋆ c) ∼ (a ⋆ b) ⋆ c
         _`cong-⋆`_ : ∀{a₀ a₁ b₀ b₁} -> a₀ ∼ a₁ -> b₀ ∼ b₁ -> a₀ ⋆ b₀ ∼ a₁ ⋆ b₁
 
-
-
-
-
   _≀⋆≀_ = _`cong-⋆`_
 
 
@@ -33,6 +29,12 @@ open isMonoid {{...}} public
 
 Monoid : (𝑗 : 𝔏 ^ 2) -> 𝒰 _
 Monoid 𝑗 = Setoid 𝑗 :& isMonoid
+
+module _ {A : 𝒰 _} {{Ap : A is Monoid 𝑖}} where
+  macro
+   ⋆⃨ : SomeStructure
+   ⋆⃨ = #structureOn (λ₋ {A = A} {B = A} {C = A} (_⋆_))
+
 
 record isCommutative {𝑗 : 𝔏 ^ 2} (A : Monoid 𝑗) : 𝒰 𝑗 where
   field comm-⋆ : ∀{a b : ⟨ A ⟩} -> a ⋆ b ∼ b ⋆ a

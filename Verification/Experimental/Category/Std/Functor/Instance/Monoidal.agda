@@ -55,7 +55,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
       lem-1 {F} = α since lem-3
         where
           α : Natural (𝖨-𝐅𝐮𝐧𝐜 ⊗-𝐅𝐮𝐧𝐜 F) F
-          α = ⟨ unit-l-⋆ ⟩ since natural (λ f → naturality {{naturalThere (isNaturalIso:unit-l-⋆)}} _)
+          α = ⟨ unit-l-⋆ ⟩ since natural (λ _ → naturality _)
 
           lem-3 = {!!}
 

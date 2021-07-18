@@ -36,6 +36,15 @@ record hasFiniteProducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
 
 open hasFiniteProducts {{...}} public
 
+
+module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} where
+  macro
+    ⊓⃨ : SomeStructure
+    ⊓⃨ = #structureOn (λ₋ _⊓_)
+
+
+
+
 -- module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is Category 𝑖}} {a b x : 𝒞} {{pp : isProduct a b x }} where
 
 --   mytest : ∀{c} -> ((c ⟶ a) × (c ⟶ b)) -> c ⟶ x

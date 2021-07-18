@@ -74,6 +74,23 @@ module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is FiniteProductCategory 𝑖}} where
             ; inv-l-◆   = reduce-π₁
             }
 
+    lem-3 : ∀{a b c : 𝒞} -> (a ⊓ b) ⊓ c ∼ a ⊓ (b ⊓ c)
+    lem-3 {a} {b} {c} = f since P
+      where
+        f : (a ⊓ b) ⊓ c ⟶ a ⊓ (b ⊓ c)
+        f = ⧼ π₀ ◆ π₀ , ⧼ π₀ ◆ π₁ , π₁ ⧽ ⧽
+
+        g : a ⊓ (b ⊓ c) ⟶ (a ⊓ b) ⊓ c
+        g = ⧼ ⧼ π₀ , π₁ ◆ π₀ ⧽ , π₁ ◆ π₁ ⧽
+
+
+        P = record
+            { inverse-◆ = g
+            ; inv-r-◆   = {!!}
+            ; inv-l-◆   = {!!}
+            }
+
+
 
 
   isMonoid:byHasFiniteProducts : isMonoid ′ 𝒞 ′
@@ -82,8 +99,8 @@ module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is FiniteProductCategory 𝑖}} where
     ; ◌          = ⊤
     ; unit-l-⋆   = lem-2
     ; unit-r-⋆   = lem-1 ∙ lem-2
-    ; assoc-l-⋆  = {!!}
-    ; assoc-r-⋆  = {!!}
+    ; assoc-l-⋆  = lem-3
+    ; assoc-r-⋆  = lem-3 ⁻¹
     ; _`cong-⋆`_ = {!!}
     }
 
