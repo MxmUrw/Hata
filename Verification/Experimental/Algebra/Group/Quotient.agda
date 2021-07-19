@@ -60,7 +60,7 @@ module _ where
       isMonoid.unit-l-⋆ isMonoid:GroupQuot {a = [ a ]} = cong-∼ unit-l-⋆
       isMonoid.unit-r-⋆ isMonoid:GroupQuot {a = [ a ]} = cong-∼ unit-r-⋆
       isMonoid.assoc-l-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = cong-∼ assoc-l-⋆
-      isMonoid.assoc-r-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = cong-∼ assoc-r-⋆
+      -- isMonoid.assoc-r-⋆ isMonoid:GroupQuot {a = [ a ]} {b = [ b ]} {c = [ c ]} = cong-∼ assoc-r-⋆
       isMonoid._`cong-⋆`_ isMonoid:GroupQuot {a₀ = [ a₀ ]} {a₁ = [ a₁ ]} {b₀ = [ b₀ ]} {b₁ = [ b₁ ]} (incl (incl p)) (incl (incl q)) =
         let P₀ : ⟨ ⟨ H ⟩ (a₁ ⋆ (b₀ ⋆ ◡ b₁) ⋆ ◡ a₁) ⟩
             P₀ = normal a₁ q

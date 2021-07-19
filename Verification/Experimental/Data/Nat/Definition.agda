@@ -28,7 +28,7 @@ instance
                  ; unit-l-⋆ = refl
                  ; unit-r-⋆ = {!!}
                  ; assoc-l-⋆ = {!!}
-                 ; assoc-r-⋆ = {!!}
+                 -- ; assoc-r-⋆ = {!!}
                  ; _`cong-⋆`_ = {!!}
                  }
 

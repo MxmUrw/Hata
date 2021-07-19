@@ -12,6 +12,7 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Data.Universe.Instance.Category
+open import Verification.Experimental.Category.Std.Natural.Iso
 
 private
 
@@ -80,7 +81,14 @@ instance
 
 instance
   isMonoidal:𝐔𝐧𝐢𝐯 : isMonoidal (𝐓𝐲𝐩𝐞 𝑖)
-  isMonoidal:𝐔𝐧𝐢𝐯 = monoidal λ p q → refl
+  isMonoidal.isMonoid:this isMonoidal:𝐔𝐧𝐢𝐯 = it
+  isMonoidal.isFunctor:⋆ isMonoidal:𝐔𝐧𝐢𝐯 = it
+  isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = naturalIso (λ f → refl) (λ f → refl)
+  isMonoidal.isNaturalIso:unit-r-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = naturalIso (λ f -> refl) (λ f -> refl)
+  isMonoidal.compat-Monoidal-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = λ _ _ -> refl
+  isMonoidal.isNaturalIso:assoc-l-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = naturalIso (λ f -> refl) (λ f -> refl)
+  isMonoidal.triangle-Monoidal isMonoidal:𝐔𝐧𝐢𝐯 = incl refl
+  isMonoidal.pentagon-Monoidal isMonoidal:𝐔𝐧𝐢𝐯 = incl refl
 
 
 

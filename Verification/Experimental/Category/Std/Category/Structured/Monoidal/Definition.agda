@@ -39,6 +39,14 @@ record isMonoidal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   constructor monoidal
   field {{isMonoid:this}} : isMonoid (⟨ 𝒞 ⟩ since isSetoid:byCategory)
 
+  private instance
+    _ : isSetoid ⟨ 𝒞 ⟩
+    _ = isSetoid:byCategory
+
+  αₘ = assoc-l-⋆ {{isMonoid:this}}
+  λₘ = unit-l-⋆ {{isMonoid:this}}
+  ρₘ = unit-r-⋆ {{isMonoid:this}}
+
   field {{isFunctor:⋆}} : isFunctor (𝒞 ×-𝐂𝐚𝐭 𝒞) 𝒞 ⋆⃨
 
   ⊗⃨ : Functor (𝒞 × 𝒞) 𝒞
@@ -55,8 +63,8 @@ record isMonoidal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   ⊗𝖨𝖽 : Functor 𝒞 𝒞
   ⊗𝖨𝖽 = ⧼ id , Const 𝖨𝖽 ⧽ ◆ ⋆⃨
 
-  field {{isNaturalIso:unit-l-⋆}} : isNaturalIso 𝖨𝖽⊗ id unit-l-⋆
-  field {{isNaturalIso:unit-r-⋆}} : isNaturalIso ⊗𝖨𝖽 id unit-r-⋆
+  field {{isNaturalIso:unit-l-⋆}} : isNaturalIso 𝖨𝖽⊗ id λₘ
+  field {{isNaturalIso:unit-r-⋆}} : isNaturalIso ⊗𝖨𝖽 id ρₘ
 
 
   field compat-Monoidal-⋆ : ∀{a b c d : ⟨ 𝒞 ⟩} -> (p : a ≅ b) -> (q : c ≅ d)
@@ -71,15 +79,23 @@ record isMonoidal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   ⊗[⊗]' : Functor ((𝒞 ×-𝐂𝐚𝐭 𝒞) ×-𝐂𝐚𝐭 𝒞) 𝒞
   ⊗[⊗]' = ⟨ assoc-l-⋆ ⟩ ◆ ⊗[⊗]
 
-  field {{isNaturalIso:assoc-l-⋆}} : isNaturalIso ([⊗]⊗) (⊗[⊗]') assoc-l-⋆
+  field {{isNaturalIso:assoc-l-⋆}} : isNaturalIso ([⊗]⊗) (⊗[⊗]') αₘ
+
+  -- field triangle-Monoidal : ∀{a b : ⟨ 𝒞 ⟩} -> Eq ((a ⋆ 𝖨𝖽) ⋆ b ≅ a ⋆ b)
+  --                                             (ρₘ ≀⋆≀ refl)
+  --                                             (αₘ ∙ (refl ≀⋆≀ λₘ))
+
+  -- field pentagon-Monoidal : ∀{a b c d : ⟨ 𝒞 ⟩} -> Eq (((a ⋆ b) ⋆ c) ⋆ d ≅ a ⋆ (b ⋆ (c ⋆ d)))
+  --                                            (αₘ ∙ αₘ)
+  --                                            ((αₘ ≀⋆≀ refl) ∙ αₘ ∙ (refl ≀⋆≀ αₘ))
 
   field triangle-Monoidal : ∀{a b : ⟨ 𝒞 ⟩} -> Eq ((a ⋆ 𝖨𝖽) ⋆ b ⟶ a ⋆ b)
-                                              (⟨ unit-r-⋆ ⟩ ⇃⊗⇂ id)
-                                              (⟨ assoc-l-⋆ ⟩ ◆ (id ⇃⊗⇂ ⟨ unit-l-⋆ ⟩))
+                                              (⟨ ρₘ ⟩ ⇃⊗⇂ id)
+                                              (⟨ αₘ ⟩ ◆ (id ⇃⊗⇂ ⟨ λₘ ⟩))
 
   field pentagon-Monoidal : ∀{a b c d : ⟨ 𝒞 ⟩} -> Eq (((a ⋆ b) ⋆ c) ⋆ d ⟶ a ⋆ (b ⋆ (c ⋆ d)))
-                                             (⟨ assoc-l-⋆ ⟩ ◆ ⟨ assoc-l-⋆ ⟩)
-                                             ((⟨ assoc-l-⋆ ⟩ ⇃⊗⇂ id) ◆ ⟨ assoc-l-⋆ ⟩ ◆ (id ⇃⊗⇂ ⟨ assoc-l-⋆ ⟩))
+                                             (⟨ αₘ ⟩ ◆ ⟨ αₘ ⟩)
+                                             ((⟨ αₘ ⟩ ⇃⊗⇂ id) ◆ ⟨ αₘ ⟩ ◆ (id ⇃⊗⇂ ⟨ αₘ ⟩))
 
 
 
@@ -92,7 +108,7 @@ MonoidalCategory 𝑖 = Category 𝑖 :& isMonoidal
 
 module _ {𝒞 : 𝒰 _} {{_ : MonoidalCategory 𝑖 on 𝒞}} where
 
-  infixl 30 _⊗_
+  infixl 70 _⊗_
 
   _⊗_ : 𝒞 -> 𝒞 -> 𝒞
   _⊗_ = _⋆_
@@ -126,11 +142,13 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
     isMonoid.unit-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    -- isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift p q = {!!}
     isMonoidal.isFunctor:⋆ isMonoidal:Lift = {!!}
     isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:Lift = {!!}
     isMonoidal.isNaturalIso:unit-r-⋆ isMonoidal:Lift = {!!}
     isMonoidal.isNaturalIso:assoc-l-⋆ isMonoidal:Lift = {!!}
+    isMonoidal.triangle-Monoidal isMonoidal:Lift = {!!}
+    isMonoidal.pentagon-Monoidal isMonoidal:Lift = {!!}
     -- isMonoidal.map-⊗ isMonoidal:Lift f g = {!!}

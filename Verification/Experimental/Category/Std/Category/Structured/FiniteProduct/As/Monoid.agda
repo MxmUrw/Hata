@@ -100,7 +100,6 @@ module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is FiniteProductCategory 𝑖}} where
     ; unit-l-⋆   = lem-2
     ; unit-r-⋆   = lem-1 ∙ lem-2
     ; assoc-l-⋆  = lem-3
-    ; assoc-r-⋆  = lem-3 ⁻¹
     ; _`cong-⋆`_ = {!!}
     }
 
