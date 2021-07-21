@@ -12,6 +12,7 @@ open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
 open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Data.Universe.Instance.Monoidal
 open import Verification.Experimental.Data.Type.Definition
 open import Verification.Experimental.Data.Lift.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition

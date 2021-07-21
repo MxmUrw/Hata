@@ -1,38 +1,44 @@
 
-module Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Instance.MTC where
+module Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Instance.MTC2 where
 
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Decidable
+open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Data.Fin.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
 -- open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
-import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition as Λ
-open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition hiding (_⇒_)
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Instance.LogicalFramework
+import Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Definition as Λ
+open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Definition
+open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Definition
+open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Instance.LogicalFramework
 open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
 open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.Monoidal.Definition
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
 open import Verification.Experimental.Data.Lift.Definition
 open import Verification.Experimental.Data.Type.Definition
 
-module Λ-Curry where
+module Λ-Church where
 
   data Kind {𝑖} : 𝒰 𝑖 where
-    Te : Kind
-    VarSuc : Kind
-    VarZero : Kind
+    Tek : Kind
+    Tyk : Kind
 
-  relevel-Kind : Kind {𝑖} -> Kind {𝑗}
-  relevel-Kind Te = Te
-  relevel-Kind VarSuc = VarSuc
-  relevel-Kind VarZero = VarZero
+  instance
+    isKinding:Kind : isKinding (Kind {𝑖})
+    isKinding:Kind = record { ∂ₖ = const Tyk }
+
+  -- relevel-Kind : Kind {𝑖} -> Kind {𝑗}
+  -- relevel-Kind Te = Te
+  -- relevel-Kind VarSuc = VarSuc
+  -- relevel-Kind VarZero = VarZero
 
   -- data isGood' : Type-MTC Kind -> ℕ -> 𝒰₀ where
   --   zero : ∀ {k} -> isGood' (kind k) 0
@@ -48,33 +54,68 @@ module Λ-Curry where
 
   data Ty (A : 𝒰₀) : 𝒰₀ where
     `ℕ` : Ty A
-    _⇒_ : Ty A -> Ty A -> Ty A
+    _`⇒`_ : Ty A -> Ty A -> Ty A
     var : A -> Ty A
 
-  data TermCon-Λ {𝑖} : (τ : Rule-⦿ (Kind {𝑖})) -> 𝒰 𝑖 where
-    App : TermCon-Λ (⦋ (⦋⦌ ⊢ Te) ، (⦋⦌ ⊢ Te)⦌ ⊩ ⦋⦌ ⊢ Te)
 
-    Lam : TermCon-Λ (⦋ ⦋ Te ⦌ ⊢ Te ⦌ ⊩ ⦋⦌ ⊢ Te)
-
-    Suc : TermCon-Λ ((⦋ ⦋⦌ ⊢ Te ⦌) ⊩ ⦋⦌ ⊢ Te)
-    Zero : TermCon-Λ (⦋ ⦋⦌ ⊢ VarZero ⦌ ⊩ ⦋⦌ ⊢ Te)
+  data TermCon-Λ {𝑖} : List (Judgement (Kind {𝑖})) → Judgement (Kind {𝑖}) → 𝒰 𝑖 where
+    App : TermCon-Λ ⦋ (⦋⦌ ⊢ Tek) ، (⦋⦌ ⊢ Tek)⦌ (⦋⦌ ⊢ Tek)
+    Lam : TermCon-Λ ⦋ ⦋ Tek ⦌ ⊢ Tek ⦌ (⦋⦌ ⊢ Tek)
+    Suc : TermCon-Λ ⦋ ⦋⦌ ⊢ Tek ⦌ (⦋⦌ ⊢ Tek)
+    Zero : TermCon-Λ ⦋⦌ (⦋⦌ ⊢ Tek)
     Rec-ℕ : TermCon-Λ
-            (
-            ⦋ ⦋ Te ⦌ ⊢ Te ، ⦋⦌ ⊢ Te ، ⦋⦌ ⊢ Te ⦌
-            ⊩ --------------------------------
-            ⦋⦌ ⊢ Te
-            )
+            ⦋ ⦋⦌ ⊢ Tyk ، ⦋ Tek ⦌ ⊢ Tek ، ⦋⦌ ⊢ Tek ، ⦋⦌ ⊢ Tek ⦌
+            --------------------------------------
+            (⦋⦌ ⊢ Tek)
+
+    `ℕ` `𝔹` : TermCon-Λ ⦋⦌ (⦋⦌ ⊢ Tyk)
+    `⇒` : TermCon-Λ ⦋ ⦋⦌ ⊢ Tyk ، ⦋⦌ ⊢ Tyk ⦌ (⦋⦌ ⊢ Tyk)
+
+
+
+  private
+    Λ : MetaTermCalculus ′ Kind {𝑖} ′ 𝑖
+    Λ = record { TermCon = TermCon-Λ }
+
+  module Proof-of-correct-terms {𝑖} where
+
+    open MTCDefinitions (Λ {𝑖})
+
+    -- TyToTy-⨯ : ℕ -> Type-MTC {𝑖} Kind
+    -- TyToTy-⨯ = ?
+    -- TyToTy-⨯ zero = kind Te
+    -- TyToTy-⨯ (suc n) = kind Te ⇒ TyToTy-⨯ n
+
+    TyToCtx-⨯ : ℕ -> List (Kind {𝑖})
+    TyToCtx-⨯ 0 = []
+    TyToCtx-⨯ (suc n) = Tek ∷ TyToCtx-⨯ n
+    -- TyToCtx-⨯ = ?
+    -- TyToCtx-⨯ zero = []
+    -- TyToCtx-⨯ (suc n) = TyToCtx-⨯ n ,, kind Te
+
+    infixl 8 _$$_
+    pattern _$$_ a b = app a b
+
+    TermToTerm-var : ∀{n} (i : 𝔽ʳ n) -> TyToCtx-⨯ n ⊨-var Tek
+    TermToTerm-var zero = zero
+    TermToTerm-var (suc i) = suc (TermToTerm-var i)
+
+    TyToTerm : ∀{Γ} -> Ty-λ -> [] ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ Tyk))
+    TyToTerm `ℕ` = con `ℕ`
+    TyToTerm `𝔹` = con `𝔹`
+    TyToTerm (ty `⇒` ty₁) = con `⇒` $$ TyToTerm ty $$ TyToTerm ty₁
+
+
+    TermToTerm-⨯ : ∀{n} -> Λ.Term-λ n -> [] ⊩ᶠ (TyToCtx-⨯ n ∣ [] ⇒ ([] ⊢ Tek))
+    TermToTerm-⨯ (app f x)   = (con App) $$ (TermToTerm-⨯ f) $$ (TermToTerm-⨯ x)
+    TermToTerm-⨯ (lam ty te) = app (con Lam) (lam (TyToTerm ty) (TermToTerm-⨯ te))
+    TermToTerm-⨯ (var x)     = var (TermToTerm-var x)
+    TermToTerm-⨯ zero        = con Zero
+    TermToTerm-⨯ (suc te)    = app (con Suc) (TermToTerm-⨯ te)
+    TermToTerm-⨯ (rec-ℕ ty te te₁ te₂) = (con Rec-ℕ) $$ (TyToTerm ty) $$ (lam (TyToTerm ty) (TermToTerm-⨯ te)) $$ TermToTerm-⨯ te₁ $$ TermToTerm-⨯ te₂
 
 
 {-
-  data isHidden {𝑖} : (𝔧 : MetaJ (Kind {𝑖})) -> 𝒰 𝑖 where
-    varsuc-Λ : ∀{Γ} -> isHidden (Γ ⊢ kind VarSuc ◀ special)
-    varzero-Λ : ∀{Γ} -> isHidden (Γ ⊢ kind VarZero ◀ special)
-
-  private
-    Λ : MetaTermCalculus (𝑖 , 𝑖)
-    Λ = record { MetaKind = Kind ; varsuc = VarSuc ; varzero = VarZero ; isHiddenMeta = isHidden ; TermCon = TermCon-Λ }
-
   data TyCtx {𝑗} : (G : Ctx-⦿ (Kind {𝑗})) -> 𝒰 𝑗 where
     [] : TyCtx []
     _,,_ : ∀{Γ} -> TyCtx Γ -> Ty (𝔽ʳ 0) -> TyCtx (Γ ,, Te)

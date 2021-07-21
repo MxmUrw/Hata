@@ -57,7 +57,6 @@ module _ {A : 𝒰 𝑖} where
                        ; unit-l-⋆ = {!!}
                        ; unit-r-⋆ = {!!}
                        ; assoc-l-⋆ = {!!}
-                       ; assoc-r-⋆ = {!!}
                        ; _`cong-⋆`_ = {!!}
                        }
 

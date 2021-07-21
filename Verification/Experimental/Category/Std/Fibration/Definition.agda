@@ -99,7 +99,7 @@ module _ {ℰ : Category 𝑗} {ℬ : Category 𝑖} where
 
       record isFiberHom (e₀ e₁ : Fiber p b) (ϕ : Hom' {𝒞 = ℰ} ⟨ e₀ ⟩ ⟨ e₁ ⟩) : 𝒰 (𝑖 ､ 𝑗) where
         constructor isfiberhom
-        field isSectionFiberHom : ⟨ iso-inv (pid (isSectionFiber (of e₀))) ⟩ ◆ (map {{of p'}} ⟨ ϕ ⟩) ◆ ⟨ pid (isSectionFiber (of e₁)) ⟩ ∼ id
+        field isSectionFiberHom : ⟨ sym-≅ (pid (isSectionFiber (of e₀))) ⟩ ◆ (map {{of p'}} ⟨ ϕ ⟩) ◆ ⟨ pid (isSectionFiber (of e₁)) ⟩ ∼ id
 
       open isFiberHom {{...}} public
 
