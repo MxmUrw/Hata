@@ -21,23 +21,23 @@ module _ {A : 𝒰 𝑖} where
 
       where
         F : {X Y : 𝒰 _} -> (X ⟶ Y) -> (A +-𝒰 X) ⟶ (A +-𝒰 Y)
-        F f = incl (either left (right ∘ ⟨ f ⟩))
+        F f = (either left (right ∘ f))
 
         instance
           isSetoidHom:F : ∀{X Y} -> isSetoidHom _ _ (F {X} {Y})
           isSetoidHom:F = record
-            {preserves-∼ = λ {(incl p) → incl (λ i -> either left (right ∘ p i))}
+            {cong-∼ = λ {(p) → (λ i -> either left (right ∘ p i))}
             }
 
-        lem-1 : ∀{a} → F (incl (id-𝒰 {A = a})) ∼ incl (id-𝒰)
-        lem-1 = incl (λ { i (left x) -> left x
+        lem-1 : ∀{a} → F ((id-𝒰 {A = a})) ∼ (id-𝒰)
+        lem-1 = (λ { i (left x) -> left x
                         ; i (right x) -> right x})
 
         lem-2 : {a b c : 𝒰' _} {f : Hom a b} {g : Hom b c} →
-                F (incl (⟨ f ⟩ ◆-𝒰 ⟨ g ⟩)) ∼ incl (⟨ F f ⟩ ◆-𝒰 ⟨ F g ⟩)
-        ⟨ lem-2 ⟩ = funExt $ λ
-                      { (left x)  -> refl
-                      ; (right x) -> refl
+                F ((f ◆-𝒰 g)) ∼ (F f ◆-𝒰 F g)
+        lem-2 = funExt $ λ
+                      { (left x)  -> refl-≡
+                      ; (right x) -> refl-≡
                       }
 
 instance

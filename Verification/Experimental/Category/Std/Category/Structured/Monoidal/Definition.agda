@@ -132,18 +132,34 @@ macro
   𝐌𝐨𝐧𝐂𝐚𝐭 𝑖 = #structureOn (MonoidalCategory 𝑖)
 
 
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{MP : isMonoid (𝒞 since isSetoid:byCategory)}} where
+  instance
+    isMonoid:LiftCat : isMonoid (Lift-Cat {𝑘} 𝒞 since isSetoid:byCategory)
+    isMonoid._⋆_ isMonoid:LiftCat =  λ a b -> lift (lower a ⋆ lower b)
+    isMonoid.◌ isMonoid:LiftCat = lift ◌
+    isMonoid.unit-l-⋆ isMonoid:LiftCat = incl ⟨ unit-l-⋆ ⟩ since record { inverse-◆ = incl (inverse-◆ (of (unit-l-⋆ {{MP}}))) ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
+    isMonoid.unit-r-⋆ isMonoid:LiftCat = incl ⟨ unit-r-⋆ ⟩ since record { inverse-◆ = incl (inverse-◆ (of (unit-r-⋆ {{MP}}))) ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
+    isMonoid.assoc-l-⋆ isMonoid:LiftCat = incl ⟨ assoc-l-⋆ ⟩ since record { inverse-◆ = incl (inverse-◆ (of (assoc-l-⋆ {{MP}}))) ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
+    isMonoid._`cong-⋆`_ isMonoid:LiftCat = {!!}
+
 module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
   instance
     isMonoidal:Lift : {{_ : isMonoidal ′ 𝒞 ′}} -> isMonoidal ′ Lift-Cat {𝑘} 𝒞 ′
-    isMonoid._⋆_ (isMonoidal.isMonoid:this isMonoidal:Lift) = λ a b -> lift (lower a ⋆ lower b)
-    isMonoid.◌ (isMonoidal.isMonoid:this isMonoidal:Lift) = lift ◌
-    isMonoid.unit-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    -- isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift p q = {!!}
-    isMonoidal.isFunctor:⋆ isMonoidal:Lift = {!!}
+    isMonoidal.isMonoid:this isMonoidal:Lift = isMonoid:LiftCat
+    isFunctor.map (isMonoidal.isFunctor:⋆ isMonoidal:Lift) = λ (incl x , incl y) → incl (map (x , y))
+    isFunctor.isSetoidHom:map (isMonoidal.isFunctor:⋆ isMonoidal:Lift) = {!!}
+    isFunctor.functoriality-id (isMonoidal.isFunctor:⋆ isMonoidal:Lift) = {!!}
+    isFunctor.functoriality-◆ (isMonoidal.isFunctor:⋆ isMonoidal:Lift) = {!!}
+    isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift = {!!}
+    -- isMonoid._⋆_ (isMonoidal.isMonoid:this isMonoidal:Lift) = λ a b -> lift (lower a ⋆ lower b)
+    -- isMonoid.◌ (isMonoidal.isMonoid:this isMonoidal:Lift) = lift ◌
+    -- isMonoid.unit-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    -- isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    -- isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    -- -- isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    -- isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    -- isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift p q = {!!}
+    -- isMonoidal.isFunctor:⋆ isMonoidal:Lift = {!!}
     -- isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:Lift = {!!}
     -- isMonoidal.isNaturalIso:unit-r-⋆ isMonoidal:Lift = {!!}
     -- isMonoidal.isNaturalIso:assoc-l-⋆ isMonoidal:Lift = {!!}

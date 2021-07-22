@@ -18,14 +18,14 @@ open import Verification.Experimental.Data.Universe.Everything
 module _ {T : _ -> _} {{_ : Monad (𝐓𝐲𝐩𝐞 𝑖) on T}} where
   _>>=_ : ∀{A B : 𝒰 𝑖} -> (T A) -> (A -> T B) -> T B
   a >>= f =
-    let x = ⟨ map (incl f) ⟩ a
-    in ⟨ join ⟩ x
+    let x = map f a
+    in join x
 
   _>>_ : ∀{A B : 𝒰 𝑖} -> (T A) -> T B -> T B
   a >> b = a >>= const b
 
   return : {A : 𝒰 𝑖} -> A -> T A
-  return = ⟨ pure ⟩
+  return = pure
 
 
 record isTraversable (T : 𝒰 𝑖 -> 𝒰 𝑖) : 𝒰 (𝑖 ⁺) where

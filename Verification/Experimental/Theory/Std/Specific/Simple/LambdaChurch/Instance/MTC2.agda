@@ -1,16 +1,24 @@
 
 module Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Instance.MTC2 where
 
-open import Verification.Experimental.Conventions
+open import Verification.Experimental.Conventions hiding (Maybe)
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Decidable
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Data.Fin.Definition
+open import Verification.Experimental.Data.Sum.Definition
+open import Verification.Experimental.Data.Sum.Instance.Monad
+open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Data.Universe.Instance.Monoidal
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Definition
+open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 -- open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
 import Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Definition as Λ
 open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Definition
@@ -24,6 +32,9 @@ open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.Monoidal.
 open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
 open import Verification.Experimental.Data.Lift.Definition
 open import Verification.Experimental.Data.Type.Definition
+
+Maybe : 𝒰 𝑖 -> 𝒰 𝑖
+Maybe {𝑖} A = ⊤-𝒰 {𝑖} + A
 
 module Λ-Church where
 
@@ -63,6 +74,7 @@ module Λ-Church where
     Lam : TermCon-Λ ⦋ ⦋ Tek ⦌ ⊢ Tek ⦌ (⦋⦌ ⊢ Tek)
     Suc : TermCon-Λ ⦋ ⦋⦌ ⊢ Tek ⦌ (⦋⦌ ⊢ Tek)
     Zero : TermCon-Λ ⦋⦌ (⦋⦌ ⊢ Tek)
+    False True : TermCon-Λ ⦋⦌ (⦋⦌ ⊢ Tek)
     Rec-ℕ : TermCon-Λ
             ⦋ ⦋⦌ ⊢ Tyk ، ⦋ Tek ⦌ ⊢ Tek ، ⦋⦌ ⊢ Tek ، ⦋⦌ ⊢ Tek ⦌
             --------------------------------------
@@ -100,7 +112,7 @@ module Λ-Church where
     TermToTerm-var zero = zero
     TermToTerm-var (suc i) = suc (TermToTerm-var i)
 
-    TyToTerm : ∀{Γ} -> Ty-λ -> [] ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ Tyk))
+    TyToTerm : ∀{Γ} -> Ty-λ {𝑘} -> [] ⊩ᶠ (Γ ∣ [] ⇒ ([] ⊢ Tyk))
     TyToTerm `ℕ` = con `ℕ`
     TyToTerm `𝔹` = con `𝔹`
     TyToTerm (ty `⇒` ty₁) = con `⇒` $$ TyToTerm ty $$ TyToTerm ty₁
@@ -111,8 +123,70 @@ module Λ-Church where
     TermToTerm-⨯ (lam ty te) = app (con Lam) (lam (TyToTerm ty) (TermToTerm-⨯ te))
     TermToTerm-⨯ (var x)     = var (TermToTerm-var x)
     TermToTerm-⨯ zero        = con Zero
+    TermToTerm-⨯ false        = con False
+    TermToTerm-⨯ true        = con True
     TermToTerm-⨯ (suc te)    = app (con Suc) (TermToTerm-⨯ te)
     TermToTerm-⨯ (rec-ℕ ty te te₁ te₂) = (con Rec-ℕ) $$ (TyToTerm ty) $$ (lam (TyToTerm ty) (TermToTerm-⨯ te)) $$ TermToTerm-⨯ te₁ $$ TermToTerm-⨯ te₂
+
+
+  instance
+    _ = isCwJ:MTCCat
+
+  ΛTT : TypeTheory-⊗ ′(Kind {ℓ₀})′ _ _
+  TypeTheory-⊗.𝒯erm ΛTT = MTCCat Λ since isCwJ:MTCCat
+  TypeTheory-⊗.𝒯ype ΛTT = TheCwJ (const (Ty-λ {ℓ₀})) id
+  TypeTheory-⊗.typing ΛTT = MTC-λ₋2.Proof (TheCwJ (const (Ty-λ {ℓ₀})) id) f
+    where
+      f : Hom-MTC Λ _
+      f = record { ⟨_⟩ = g }
+        where
+          now : ∀{A B : 𝒰 𝑘} -> (A -> ⊤-𝒰 {𝑘} + B) -> KleisliHom {T = (⊤-𝒰 {𝑘} +⧿)} (incl A) (incl (◌ ⋆ B))
+          now f = incl (λ a  -> do res <- f a
+                                   return (tt , res))
+
+
+          checkSuc : ◌ ⋆ Ty-λ ⋆ ◌ -> Maybe Ty-λ
+          checkSuc ((_ , `ℕ`) , _) = just `ℕ`
+          checkSuc (_ , _) = nothing
+
+          checkLam : Ty-λ ⋆ ◌ ⋆ Ty-λ ⋆ ◌ -> Maybe Ty-λ
+          checkLam (((a , _) , b) , _) = just (_`⇒`_ a b)
+
+          checkApp : ((◌ ⋆ Ty-λ) ⋆ ((◌ ⋆ Ty-λ) ⋆ ◌)) -> Maybe Ty-λ
+          checkApp ((_ , (a `⇒` a₁)) , (_ , b) , _) with a ≟ b
+          ... | true  = right a₁
+          ... | false = left tt
+          checkApp ((_ , x) , (_ , b) , _) = left tt
+
+
+          g : {Δ : List (Judgement Kind)} {α : Judgement Kind} → TermCon-Λ Δ α → _
+          g App = now checkApp
+          g Lam = now checkLam
+          g Suc = now checkSuc
+          g Zero = incl (λ x → right (tt , `ℕ`))
+          g False = now (const (right `𝔹`))
+          g True = now (const (right `𝔹`))
+          g Rec-ℕ = {!!}
+          g `ℕ` = now (const (right `ℕ`))
+          g `𝔹` = now (const (right `𝔹`))
+          g `⇒` = now λ ((_ , a) , (_ , b) , _) → right (_`⇒`_ a b)
+
+  checkChurch : Term-λ 0 -> _
+  checkChurch te =
+    let te' = Proof-of-correct-terms.TermToTerm-⨯ {𝑖 = ℓ₀} te
+        te'' = map {{of typing {{ΛTT}}}} (te' ∷ [])
+    in do ((_ , res) , _) <- ⟨ te'' ⟩ tt
+          return res
+
+
+mytest1 : Term-λ 0
+mytest1 = lam `𝔹` (suc (suc (var zero)))
+
+mytest1-c = Λ-Church.checkChurch mytest1
+
+  -- TypeTheory-⊗.𝒯erm ΛTT = LFTerm Λ
+  -- TypeTheory-⊗.Types ΛTT = hasJudgements:𝐓𝐲𝐩𝐞
+  -- TypeTheory-⊗.typing ΛTT = interp myi
 
 
 {-

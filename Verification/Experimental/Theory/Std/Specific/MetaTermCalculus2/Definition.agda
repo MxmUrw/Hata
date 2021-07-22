@@ -42,7 +42,7 @@ Rule = Rule-⦿
 
 
 record MetaTermCalculus (K : Kinding 𝑗) (𝑖 : 𝔏): 𝒰 (𝑗 ⁺ ､ 𝑖 ⁺) where
-  field TermCon : (τ : List (Jdg ⟨ K ⟩)) -> Jdg ⟨ K ⟩ -> 𝒰 (𝑖 ⊔ 𝑗)
+  field TermCon : (τ : List (Jdg ⟨ K ⟩)) -> Jdg ⟨ K ⟩ -> 𝒰 (𝑖)
 
 open MetaTermCalculus public
 
@@ -51,13 +51,13 @@ macro
   MTC : (K : Kinding 𝑗) -> ∀ 𝑖 -> SomeStructure
   MTC K 𝑖 = #structureOn (MetaTermCalculus K 𝑖)
 
-module _ {K : Kinding 𝑗} (A B : MTC K 𝑖) where
+module _ {K : Kinding 𝑗} (A : MTC K 𝑖) (B : MTC K 𝑘) where
   -- record isHom-MTC (f : MetaKind A -> MetaKind B) : 𝒰 𝑖 where
   --   -- field map-varzero : f (varzero A) ≡ varzero B
   --   -- field map-varsuc : f (varsuc A) ≡ varsuc B
   --   field map-TermCon : ∀ ρ -> TermCon A ρ -> TermCon B (map f ρ)
   -- Hom-MTC = _ :& isHom-MTC
-  record Hom-MTC : 𝒰 (𝑗 ⊔ 𝑖) where
+  record Hom-MTC : 𝒰 (𝑗 ⊔ 𝑖 ⊔ 𝑘) where
     field ⟨_⟩ : ∀ {Δ α} -> TermCon A Δ α -> TermCon B Δ α
 
   open Hom-MTC public

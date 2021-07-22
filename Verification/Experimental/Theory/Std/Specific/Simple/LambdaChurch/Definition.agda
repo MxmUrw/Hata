@@ -26,9 +26,9 @@ open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 -- pattern _⇒_ σ τ = te `⇒` (σ ∷ τ ∷ [])
 
 
-data Ty-λ : 𝒰₀ where
+data Ty-λ {𝑖} : 𝒰 𝑖 where
   `ℕ` `𝔹` : Ty-λ
-  _`⇒`_ : Ty-λ -> Ty-λ -> Ty-λ
+  _`⇒`_ : Ty-λ {𝑖} -> Ty-λ {𝑖} -> Ty-λ
 
 
 
@@ -38,15 +38,22 @@ data Term-λ : ℕ -> 𝒰₀ where
   var : 𝔽ʳ n -> Term-λ n
   zero : Term-λ n
   suc : Term-λ n -> Term-λ n
+  false true : Term-λ n
   rec-ℕ : Ty-λ -> Term-λ (suc n) -> Term-λ n -> Term-λ n -> Term-λ n
 
 -- data SCtx (A : 𝒰₀) : 𝒰₀ where
 --   [] : SCtx A
 --   _,_ : SCtx A -> Ty-λ A -> SCtx A
 
--- instance
---   IBootEq:⊥ : ∀{𝑖} -> IBootEq {𝑖} (⊥)
---   IBootEq:⊥ = {!!}
+
+instance
+  IBootEq:⊥ : ∀{𝑖} -> IBootEq {𝑖} (Ty-λ)
+  IBootEq._≟_ IBootEq:⊥ = f
+    where f : Ty-λ → Ty-λ → Bool
+          f `ℕ` `ℕ` = true
+          f `𝔹` `𝔹` = true
+          f (a `⇒` a₁) (b `⇒` b₁) = f a b and f a₁ b₁
+          f _ _ = false
 
 -- instance
 --   IBootEq:SCtx : ∀{A} -> {{_ : IBootEq A}} -> IBootEq (SCtx A)

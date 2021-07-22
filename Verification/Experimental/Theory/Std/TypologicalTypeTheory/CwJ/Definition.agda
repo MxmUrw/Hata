@@ -65,7 +65,8 @@ record isCwJ {𝑗 : 𝔏} (K : Kinding 𝑗) {𝑖 : 𝔏 ^ 3} (𝒞 : Monoidal
   -- field {{hasAction-l:K}} : hasAction-l ′(List ⟨ K ⟩)′ (⟨ 𝒞 ⟩ since isSetoid:byCategory)
   -- field {{hasDistrAction-l:K}} : hasDistributiveAction-l ′(List ⟨ K ⟩)′ ′ ⟨ 𝒞 ⟩ ′
   -- field {{isFunctor:CwJAction}} : ∀ {Γ : List ⟨ K ⟩} -> isFunctor ′ ⟨ 𝒞 ⟩ ′ ′ ⟨ 𝒞 ⟩ ′  (λ x -> Γ ↷ x)
-  -- field varTake : ∀{Γ : List ⟨ K ⟩} {a : ⟨ K ⟩} -> (Γ ↷ ⊦ (∂ₖ a)) ⟶ ((Γ ⋆ ⦋ a ⦌) ↷ ⊦ a)
+  field varTake : ∀{Γ : List ⟨ K ⟩} {a : ⟨ K ⟩} -> (rec ⊦ Γ ⊗ ⊦ (∂ₖ a)) ⟶ (⊦ a) ⊗ rec ⊦ Γ
+  -- (( Γ ⋆ ⦋ a ⦌) ↷ ⊦ a)
   field varProj : ∀{Γ : List ⟨ K ⟩} {a : ⟨ K ⟩} -> Γ ⊨-var a -> rec ⊦ Γ ⟶ (rec ⊦ Γ ⊗ ⊦ a)
   -- field varSkip : ∀{Γ : List ⟨ K ⟩} {a : ⟨ K ⟩} {x} -> (((Γ ↷ ⊦ (∂ₖ a)) ⋆ (Γ ↷ x)) ⟶ ((Γ ⋆ ⦋ a ⦌) ↷ x))
   field diag : ∀{a : ⟨ 𝒞 ⟩} -> a ⟶ a ⊗ a
