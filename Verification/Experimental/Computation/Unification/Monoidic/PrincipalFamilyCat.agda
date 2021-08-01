@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamilyCat where
+module Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat where
 
 open import Verification.Conventions
 

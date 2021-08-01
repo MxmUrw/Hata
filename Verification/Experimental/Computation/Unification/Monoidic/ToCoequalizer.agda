@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Unification.Monoidic.ToCoequalizer where
+module Verification.Experimental.Computation.Unification.Monoidic.ToCoequalizer where
 
 open import Verification.Conventions
 
@@ -13,8 +13,8 @@ open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Theory.Computation.Unification.Definition
-open import Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamilyCat2
+open import Verification.Experimental.Computation.Unification.Definition
+open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Ideal

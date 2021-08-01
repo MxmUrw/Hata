@@ -12,21 +12,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 -- open import Verification.Experimental.Data.Universe.Definition
 
 
-module _ {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) where
-  data RST : A -> A -> 𝒰 (𝑖 ､ 𝑗) where
-    ι-RST : ∀{a b} -> R a b -> RST a b
-    refl-RST : ∀{a} -> RST a a
-    sym-RST : ∀{a b} -> RST a b -> RST b a
-    _∙-RST_ : ∀{a b c} -> RST a b -> RST b c -> RST a c
-
-module _ {A : 𝒰 𝑖} {R : A -> A -> 𝒰 𝑗} where
-  instance
-    isEquivRel:RST : isEquivRel (∼-Base (RST R))
-    isEquivRel.refl isEquivRel:RST = incl refl-RST
-    isEquivRel.sym isEquivRel:RST p = incl (sym-RST ⟨ p ⟩)
-    isEquivRel._∙_ isEquivRel:RST p q = incl (⟨ p ⟩ ∙-RST ⟨ q ⟩)
-
-module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     -- data isIdArrow {a b : ⟨ 𝒞 ⟩} (f : a ⟶ b)
   isNotIdArrow-impl : {a b : 𝒞} -> (f : a ⟶ b) -> (a ≡-Str b) -> 𝒰 _
   isNotIdArrow-impl f refl-StrId = ¬ (f ∼ id)
@@ -44,7 +30,8 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
   rexHom {a} f p = transport-Str (cong-Str (Hom a) p) f
 
   lexHom : {a b c : 𝒞} -> (f : b ⟶ c) -> (a ≡-Str b) -> a ⟶ c
-  lexHom {a} {b} {c} f p = transport-Str (cong-Str (λ x -> Hom x c) (p ⁻¹)) f
+  lexHom {a} {b} {c} f refl-≣ = f
+  -- transport-Str (cong-Str (λ x -> Hom x c) (p ⁻¹)) f
 
 module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} where
   data PathMon : 𝒰 𝑖 where
@@ -52,8 +39,9 @@ module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} where
     idp : PathMon
     arrow : {a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> PathMon
 
-𝖯𝖺𝗍𝗁𝖬𝗈𝗇 : ∀(𝒞 : Category 𝑖) -> {{_ : isDiscrete ⟨ 𝒞 ⟩}} -> SomeStructure
-𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞 = structureOn (PathMon 𝒞)
+macro
+  𝖯𝖺𝗍𝗁𝖬𝗈𝗇 : ∀(𝒞 : Category 𝑖) -> {{_ : isDiscrete ⟨ 𝒞 ⟩}} -> SomeStructure
+  𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞 = #structureOn (PathMon 𝒞)
 
 module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
 
@@ -63,23 +51,41 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
     [] : [] ∼-PathMon []
     arrow : {a b : ⟨ 𝒞 ⟩} -> {f g : a ⟶ b} -> (p : f ∼ g) -> arrow f ∼-PathMon arrow g
 
-  instance
-    isEquivRel:∼-PathMon : isEquivRel (∼-Base _∼-PathMon_)
-    isEquivRel.refl isEquivRel:∼-PathMon {[]} = incl []
-    isEquivRel.refl isEquivRel:∼-PathMon {idp} = incl idp
-    isEquivRel.refl isEquivRel:∼-PathMon {arrow f} = incl (arrow refl)
-    isEquivRel.sym isEquivRel:∼-PathMon {.idp} (incl idp) = incl idp
-    isEquivRel.sym isEquivRel:∼-PathMon {.[]} (incl []) = incl []
-    isEquivRel.sym isEquivRel:∼-PathMon {.(arrow _)} (incl (arrow p)) = incl (arrow (p ⁻¹))
-    (isEquivRel:∼-PathMon isEquivRel.∙ incl idp) (incl idp) = incl idp
-    (isEquivRel:∼-PathMon isEquivRel.∙ incl []) (incl []) = incl []
-    (isEquivRel:∼-PathMon isEquivRel.∙ incl (arrow p)) (incl (arrow q)) = incl (arrow (p ∙ q))
+  -- instance
+  --   isEquivRel:∼-PathMon : isEquivRel (∼-Base _∼-PathMon_)
+  --   isEquivRel.refl isEquivRel:∼-PathMon {[]} = incl []
+  --   isEquivRel.refl isEquivRel:∼-PathMon {idp} = incl idp
+  --   isEquivRel.refl isEquivRel:∼-PathMon {arrow f} = incl (arrow refl)
+  --   isEquivRel.sym isEquivRel:∼-PathMon {.idp} (incl idp) = incl idp
+  --   isEquivRel.sym isEquivRel:∼-PathMon {.[]} (incl []) = incl []
+  --   isEquivRel.sym isEquivRel:∼-PathMon {.(arrow _)} (incl (arrow p)) = incl (arrow (p ⁻¹))
+  --   (isEquivRel:∼-PathMon isEquivRel.∙ incl idp) (incl idp) = incl idp
+  --   (isEquivRel:∼-PathMon isEquivRel.∙ incl []) (incl []) = incl []
+  --   (isEquivRel:∼-PathMon isEquivRel.∙ incl (arrow p)) (incl (arrow q)) = incl (arrow (p ∙ q))
+
+  private
+    lem-1 : ∀{a} -> a ∼-PathMon a
+    lem-1 {[]} = []
+    lem-1 {idp} = idp
+    lem-1 {arrow f} = (arrow refl)
+
+    lem-2 : ∀{a b} -> a ∼-PathMon b -> b ∼-PathMon a
+    lem-2 {.idp} (idp) = idp
+    lem-2 {.[]} ([]) = []
+    lem-2 {.(arrow _)} ((arrow p)) = (arrow (p ⁻¹))
+
+    lem-3 : ∀{a b c} -> a ∼-PathMon b -> b ∼-PathMon c -> a ∼-PathMon c
+    lem-3 idp idp = idp
+    lem-3 [] [] = []
+    lem-3 (arrow p) (arrow q) = arrow (p ∙ q)
 
 
   instance
-    isSetoid:PathMon : isSetoid _ (PathMon 𝒞)
-    isSetoid._∼'_ isSetoid:PathMon = _∼-PathMon_
-    isSetoid.isEquivRel:∼ isSetoid:PathMon = it
+    isSetoid:PathMon : isSetoid (PathMon 𝒞)
+    isSetoid._∼_ isSetoid:PathMon = _∼-PathMon_
+    isSetoid.refl isSetoid:PathMon = lem-1
+    isSetoid.sym isSetoid:PathMon = lem-2
+    isSetoid._∙_ isSetoid:PathMon = lem-3
 
   _⋆-PathMon_ : (a b : PathMon 𝒞) -> PathMon 𝒞
   [] ⋆-PathMon b = []
@@ -119,7 +125,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
     ... | no ¬p | Y = 𝟘-rec (¬p p0)
     ... | yes p1 | yes q1 with isset-Str p0 p1 | isset-Str q0 q1
     ... | refl-StrId | refl-StrId with p0 | q0
-    ... | refl-StrId | refl-StrId = incl (arrow assoc-l-◆)
+    ... | refl-StrId | refl-StrId = (arrow assoc-l-◆)
     lem-30 {arrow {a} {b} f} {arrow {b'} {c} g} {arrow {c'} {d} f₁} | yes refl-StrId | no ¬p with (c ≟-Str c')
     ... | yes p = 𝟘-rec (¬p p)
     ... | no ¬p₁ = refl
@@ -131,16 +137,16 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
     lem-35 : ∀{a0 b0 a1 b1 : PathMon 𝒞} -> (a0 ∼-PathMon a1) -> (b0 ∼-PathMon b1) -> (a0 ⋆-PathMon b0) ∼ (a1 ⋆-PathMon b1)
     lem-35 idp idp = refl
     lem-35 idp [] = refl
-    lem-35 idp (arrow p) = incl (arrow p)
+    lem-35 idp (arrow p) = (arrow p)
     lem-35 [] q = refl
-    lem-35 (arrow p) idp = incl (arrow p)
+    lem-35 (arrow p) idp = (arrow p)
     lem-35 (arrow p) [] = refl
     lem-35 (arrow {a} {b} {f0} {f1} p) (arrow {c} {d} {g0} {g1} q) with (b ≟-Str c)
-    ... | yes refl-StrId = incl (arrow (p ◈ q))
+    ... | yes refl-StrId = (arrow (p ◈ q))
     ... | no ¬p = refl
 
     lem-40 : ∀{a0 b0 a1 b1 : PathMon 𝒞} -> (a0 ∼ a1) -> (b0 ∼ b1) -> (a0 ⋆-PathMon b0) ∼ (a1 ⋆-PathMon b1)
-    lem-40 p q = lem-35 ⟨ p ⟩ ⟨ q ⟩
+    lem-40 p q = lem-35 p q
 
   instance
     isMonoid:PathMon : isMonoid (𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞)
@@ -149,7 +155,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
     isMonoid.unit-l-⋆ isMonoid:PathMon = lem-10
     isMonoid.unit-r-⋆ isMonoid:PathMon = lem-20
     isMonoid.assoc-l-⋆ isMonoid:PathMon {a} {b} {c} = lem-30 {a} {b} {c}
-    isMonoid.assoc-r-⋆ isMonoid:PathMon {a} {b} {c} = lem-30 {a} {b} {c} ⁻¹
+    -- isMonoid.assoc-r-⋆ isMonoid:PathMon {a} {b} {c} = lem-30 {a} {b} {c} ⁻¹
     isMonoid._`cong-⋆`_ isMonoid:PathMon = lem-40
 
 
@@ -175,7 +181,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
   ... | yes p = let P₀ : refl-StrId ≡-Str p
                     P₀ = isset-Str _ _
                 in (transport-Str (cong-Str (λ q -> arrow (f ◆ g) ∼ arrow (rexHom f q ◆ g)) P₀) refl)
-  ... | no ¬p = 𝟘-rec (¬p refl)
+  ... | no ¬p = 𝟘-rec (¬p refl-≣)
 
   PathMon-non-matching-arrows : ∀{a b c d : ⟨ 𝒞 ⟩} -> (b ≢-Str c) -> (f : a ⟶ b) -> (g : c ⟶ d) -> arrow f ⋆ arrow g ∼ []
   PathMon-non-matching-arrows {a} {b} {c} {d} p f g with (b ≟-Str c)
@@ -184,14 +190,14 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
 
   PathMon-arrow-path-inv : ∀{a b c d : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> (g : c ⟶ d) -> (p : a ≡-Str c) -> (q : b ≡-Str d) -> (arrow {𝒞 = 𝒞} f ∼-PathMon arrow g) -> rexHom f q ∼ lexHom g p
   PathMon-arrow-path-inv f g p q (arrow P) =
-    let P₀ : rexHom f refl ∼ lexHom g refl
+    let P₀ : rexHom f refl-≣ ∼ lexHom g refl-≣
         P₀ = P
-        q₀ : refl ≡-Str q
+        q₀ : refl-≣ ≡-Str q
         q₀ = isset-Str _ _
-        q₁ : refl ≡-Str p
+        q₁ : refl-≣ ≡-Str p
         q₁ = isset-Str _ _
-        P₁ : rexHom f q ∼ lexHom g refl
-        P₁ = transport-Str (cong-Str (λ ξ -> rexHom f ξ ∼ lexHom g refl) q₀) P₀
+        P₁ : rexHom f q ∼ lexHom g refl-≣
+        P₁ = transport-Str (cong-Str (λ ξ -> rexHom f ξ ∼ lexHom g refl-≣) q₀) P₀
         P₂ : rexHom f q ∼ lexHom g p
         P₂ = transport-Str (cong-Str (λ ξ -> rexHom f q ∼ lexHom g ξ) q₁) P₁
     in P₂
@@ -206,8 +212,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
   case-PathMon arrow f of {P} f1 f2 f3 = f3 refl
 
   PathMon-arrow-path-matching-codom : ∀{a b c d : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> (g : c ⟶ d) -> (arrow {𝒞 = 𝒞} f ∼-PathMon arrow g) -> b ≡-Str d
-  PathMon-arrow-path-matching-codom f g (arrow p) = refl
-
+  PathMon-arrow-path-matching-codom f g (arrow p) = refl-≣
 
 
 

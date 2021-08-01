@@ -69,13 +69,26 @@ open isEquivRel {{...}} public
 --     Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ≣ y) (y ≣ x)
 --     Notation-Inverse:Equiv Notation-Inverse.⁻¹ = sym
 
+module _ {A : 𝒰 𝑖} where
+  sym-≣ : ∀{a b : A} -> a ≣ b -> b ≣ a
+  sym-≣ refl-≣ = refl-≣
+
+  _∙-≣_ : ∀{a b c : A} -> a ≣ b -> b ≣ c -> a ≣ c
+  _∙-≣_ refl-≣ q = q
+
+  isSetoid:byId : isSetoid A
+  isSetoid:byId = setoid _≣_ refl-≣ sym-≣ _∙-≣_
+
+
 
 module _ {X : 𝒰 𝑖} where
   isSetoid:byPath : isSetoid X
   isSetoid:byPath = setoid _≡_ refl-Path sym-Path trans-Path
 
   isSetoid:byStrId : isSetoid X
-  isSetoid:byStrId = setoid _≣_ refl-≣ (λ {refl-≣ -> refl-≣}) (λ{refl-≣ q -> q})
+  isSetoid:byStrId = isSetoid:byId
+  -- setoid _≣_ refl-≣ (λ {refl-≣ -> refl-≣}) (λ{refl-≣ q -> q})
+
 -- instance
 -- module _ where
   -- isEquivRel:Path : {X : 𝒰 𝑖} -> isEquivRel (λ (x y : X) -> x ≡ y)

@@ -129,6 +129,17 @@ module Λ-Church where
     TermToTerm-⨯ (rec-ℕ ty te te₁ te₂) = (con Rec-ℕ) $$ (TyToTerm ty) $$ (lam (TyToTerm ty) (TermToTerm-⨯ te)) $$ TermToTerm-⨯ te₁ $$ TermToTerm-⨯ te₂
 
 
+
+    rule1 : ⦋ ⦋⦌ ⊢ Tyk ، ⦋ Tek ⦌ ⊢ Tek ، ⦋⦌ ⊢ Tek ⦌ ⊩ᶠ↑ ([] ∣ [] ⇒ ([] ⊢ Tek))
+    rule1 = con App $$ (con Lam $$ (lam meta' (app meta' (var zero)))) $$ meta'
+
+    rule1-res : ⦋ ⦋ Tek ⦌ ⊢ Tek ، ⦋⦌ ⊢ Tek ⦌ ⊩ᶠ↑ ([] ∣ [] ⇒ ([] ⊢ Tek))
+    rule1-res = app meta' meta'
+
+    -- rule1-res' : {!!} ⊩ᶠ↑ ([] ∣ [] ⇒ ([] ⊢ Tek))
+    -- rule1-res' = app meta' meta
+
+
   instance
     _ = isCwJ:MTCCat
 
@@ -179,10 +190,14 @@ module Λ-Church where
           return res
 
 
+
 mytest1 : Term-λ 0
-mytest1 = lam `𝔹` (suc (suc (var zero)))
+mytest1 = lam `ℕ` (suc (suc (var zero)))
 
 mytest1-c = Λ-Church.checkChurch mytest1
+
+
+
 
   -- TypeTheory-⊗.𝒯erm ΛTT = LFTerm Λ
   -- TypeTheory-⊗.Types ΛTT = hasJudgements:𝐓𝐲𝐩𝐞

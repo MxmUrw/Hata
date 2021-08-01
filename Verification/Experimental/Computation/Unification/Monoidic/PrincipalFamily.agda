@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamily where
+module Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamily where
 
 open import Verification.Conventions
 
@@ -19,7 +19,7 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Ideal
 open import Verification.Experimental.Algebra.MonoidAction.Definition
-open import Verification.Experimental.Theory.Computation.Unification.Definition
+open import Verification.Experimental.Computation.Unification.Definition
 -- open import Verification.Experimental.Theory.Presentation.Signature.Definition
 
 
@@ -65,15 +65,16 @@ module _ (M : Monoid₀ (𝑖 , 𝑖)) where
             v : ⟨ M ⟩
             v = rep' V'
             P₈ : (V ∧ U) ∼ (u ⋆ v) ↷ ⊤
-            P₈ = V ∧ U                                          ⟨ refl ≀∧≀ principal-r ⟩-∼
+            P₈ = V ∧ U                                          ⟨ refl ≀∧≀ (principal-r) ⟩-∼
                  V ∧ (u ↷ ⊤)                                   ⟨ refl ≀∧≀ idem-∧ ⁻¹ ⟩-∼
                  V ∧ ((u ↷ ⊤) ∧ (u ↷ ⊤))                      ⟨ assoc-r-∧ ⟩-∼
                  (V ∧ (u ↷ ⊤)) ∧ (u ↷ ⊤)                      ⟨ inv-↷Ide-r ⁻¹ ≀∧≀ refl ⟩-∼
                  (u ↷ (u ⁻¹↷-Ide V)) ∧ (u ↷ ⊤)                 ⟨ distr-↷-∧-Ide (zeroOrCancel-r {{_:>_.Proof2> PU}}) ⁻¹ ⟩-∼
                  (u ↷ ((u ⁻¹↷-Ide V) ∧ ⊤))                      ⟨ refl ≀↷≀ unit-r-∧ ⟩-∼
-                 (u ↷ ((u ⁻¹↷-Ide V)))                           ⟨ refl ≀↷≀ principal-r  ⟩-∼
-                 (u ↷ (v ↷ ⊤))                                   ⟨ assoc-l-↷ ⁻¹ ⟩-∼
-                 (u ⋆ v) ↷ ⊤   ∎
+                 (u ↷ ((u ⁻¹↷-Ide V)))                           ⟨ refl ≀↷≀ (principal-r)  ⟩-∼
+                 -- (u ↷ (v ↷ ⊤))                                   ⟨ assoc-l-↷ {A = Ideal-r ′ ⟨ M ⟩ ′ since isSetoid:Ideal-r} {m = u} {n = v} {a = ⊤} ⁻¹ ⟩-∼
+                 {-(u ↷ (v ↷ ⊤)) -} _                                 ⟨ {!!} ⟩-∼
+                 (u ⋆ v) ↷ (⊤ since isIdeal-r:⊤)   ∎
             instance
               P₉ : isPrincipal-r (V ∧ U)
               P₉ = record { rep = u ⋆ v ; principal-r = P₈ }
@@ -115,15 +116,15 @@ module _ (M : Monoid₀ (𝑖 , 𝑖)) where
                           let Q₀ : size (fam Split i) ≪ size k
                               Q₀ = Split .famprops i
                               Q₁ : size (g ⁻¹* fam Split i) ≪ size k
-                              Q₁ = transport-Str (cong-Str (λ ξ -> ξ ≪ size k) (p ⁻¹)) Q₀
-                          in IH (size (g ⁻¹* Split .fam i)) Q₁ (g ⁻¹* fam Split i) refl
+                              Q₁ = transport-Str (cong-Str (λ ξ -> ξ ≪ size k) (sym-≣ p)) Q₀
+                          in IH (size (g ⁻¹* Split .fam i)) Q₁ (g ⁻¹* fam Split i) refl-≣
                        )
                        (λ p ->
                           let Q₀ : size (fam Split i) ≪ size k
                               Q₀ = Split .famprops i
                               Q₁ : size (g ⁻¹* fam Split i) ≪ size k
                               Q₁ = p ⟡-≪ Q₀
-                          in IH (size (g ⁻¹* Split .fam i)) Q₁ (g ⁻¹* fam Split i) refl
+                          in IH (size (g ⁻¹* Split .fam i)) Q₁ (g ⁻¹* fam Split i) refl-≣
                        )
             P₁ = lem-45 (Split .fam) P₀
         in transp-isPrincipal/⁺-r (Split .covers) P₁

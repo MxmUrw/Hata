@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Unification.Definition where
+module Verification.Experimental.Computation.Unification.Definition where
 
 open import Verification.Conventions
 

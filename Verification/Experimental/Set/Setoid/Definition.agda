@@ -119,22 +119,26 @@ instance
 -------------------------------------------------------------------------------
 -- inheriting setoid structures
 
-module _ {UU : 𝒰 𝑖} {{U : hasU UU 𝑗 𝑘}} {{_ : isSetoid 𝑙 (getU U)}} where
-  _∼-hasU_ : UU -> UU -> 𝒰 _
-  _∼-hasU_ a b = destructEl U a ∼' destructEl U b
-
-  isEquivRel:hasU : isEquivRel (∼-Base _∼-hasU_)
-  isEquivRel.refl isEquivRel:hasU = incl ⟨ refl ⟩
-  isEquivRel.sym isEquivRel:hasU (incl p) = incl (⟨ sym (incl p) ⟩)
-  isEquivRel._∙_ isEquivRel:hasU (incl p) (incl q) = incl ⟨ ((incl p) ∙ (incl q)) ⟩
-
-  isSetoid:hasU : isSetoid _ UU
-  isSetoid._∼'_ isSetoid:hasU = _∼-hasU_
-  isSetoid.isEquivRel:∼ isSetoid:hasU = isEquivRel:hasU
-
-
-
 -}
+module _ {UU : 𝒰 𝑖} {{U : hasU UU 𝑗 𝑘}} {{_ : isSetoid {𝑙} (getU U)}} where
+  _∼-hasU_ : UU -> UU -> 𝒰 _
+  _∼-hasU_ a b = destructEl U a ∼ destructEl U b
+
+  -- isEquivRel:hasU : isEquivRel (∼-Base _∼-hasU_)
+  -- isEquivRel.refl isEquivRel:hasU = incl ⟨ refl ⟩
+  -- isEquivRel.sym isEquivRel:hasU (incl p) = incl (⟨ sym (incl p) ⟩)
+  -- isEquivRel._∙_ isEquivRel:hasU (incl p) (incl q) = incl ⟨ ((incl p) ∙ (incl q)) ⟩
+
+  isSetoid:hasU : isSetoid UU
+  isSetoid._∼_ isSetoid:hasU = ∼-Base _∼-hasU_
+  isSetoid.refl isSetoid:hasU = incl refl
+  isSetoid.sym isSetoid:hasU = λ p -> incl (sym ⟨ p ⟩)
+  isSetoid._∙_ isSetoid:hasU = λ p q -> incl ( ⟨ p ⟩ ∙ ⟨ q ⟩ )
+  -- isSetoid._∼'_ isSetoid:hasU = _∼-hasU_
+  -- isSetoid.isEquivRel:∼ isSetoid:hasU = isEquivRel:hasU
+
+
+
 --------------------------------------------------------------------------------
 -- Subsetoids
 

@@ -12,16 +12,6 @@ open import Verification.Experimental.Category.Std.Morphism.Iso
 
 
 
-module _ {A : 𝒰 𝑖} where
-  sym-≣ : ∀{a b : A} -> a ≣ b -> b ≣ a
-  sym-≣ refl-≣ = refl-≣
-
-  _∙-≣_ : ∀{a b c : A} -> a ≣ b -> b ≣ c -> a ≣ c
-  _∙-≣_ refl-≣ q = q
-
-  isSetoid:byId : isSetoid A
-  isSetoid:byId = setoid _≣_ refl-≣ sym-≣ _∙-≣_
-
 private
   module _ {A : 𝒰 𝑖} where
     lem-1 : ∀{a b : A} {p : a ≣ b} -> p ∙-≣ refl-≣ ≣ p

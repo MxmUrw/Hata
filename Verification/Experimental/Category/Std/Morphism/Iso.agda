@@ -8,15 +8,15 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 
 
-module _ {𝒞 : 𝒰 _} {{_ : Category 𝑖 on 𝒞}} where
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
-  record isIso {a b : 𝒞} (f : Hom' {𝒞 = ′ 𝒞 ′} a b) : 𝒰 (𝑖) where
+  record isIso {a b : 𝒞} (f : Hom' {𝒞 = ′ 𝒞 ′} a b) : 𝒰 (𝑖 ､ 𝑗) where
     field inverse-◆ : b ⟶ a
           inv-r-◆ : ⟨ f ⟩ ◆ inverse-◆ ∼ id
           inv-l-◆ : inverse-◆ ◆ ⟨ f ⟩ ∼ id
   open isIso public
 
-  _≅_ : (a b : 𝒞) -> 𝒰 (𝑖)
+  _≅_ : (a b : 𝒞) -> 𝒰 (𝑖 ､ 𝑗)
   A ≅ B = Hom' A B :& isIso
 
   instance

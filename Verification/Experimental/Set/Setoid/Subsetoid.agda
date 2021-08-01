@@ -11,7 +11,7 @@ open import Verification.Experimental.Order.Lattice
 module _ {X : Setoid 𝑖} where
 
   instance
-    isSetoid:Subsetoid : isSetoid _ (Subsetoid X)
+    isSetoid:Subsetoid : isSetoid (Subsetoid X)
     isSetoid:Subsetoid = isSetoid:hasU
 
   instance
@@ -19,7 +19,8 @@ module _ {X : Setoid 𝑖} where
     isPreorder._≤'_ isPreorder:Subsetoid a b = ⟨ a ⟩ ≤' ⟨ b ⟩
     isPreorder.reflexive isPreorder:Subsetoid = incl ⟨ reflexive ⟩
     isPreorder._⟡_ isPreorder:Subsetoid p q = incl ⟨ incl ⟨ p ⟩ ⟡ incl ⟨ q ⟩ ⟩
-    isPreorder.transp-≤ isPreorder:Subsetoid p q P = incl ⟨ transp-≤ (incl ⟨ p ⟩) (incl ⟨ q ⟩) (incl ⟨ P ⟩) ⟩
+    isPreorder.transp-≤ isPreorder:Subsetoid p q P = incl (⟨ transp-≤ ⟨ p ⟩ ⟨ q ⟩ (incl ⟨ P ⟩) ⟩)
+    -- incl ⟨ transp-≤ (incl ⟨ p ⟩) (incl ⟨ q ⟩) (incl ⟨ P ⟩) ⟩
 
   instance
     isSubsetoid:⊤ : isSubsetoid {X = ⟨ X ⟩} ⊤

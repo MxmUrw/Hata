@@ -117,3 +117,19 @@ instance
                ; destructP = const tt
                }
 
+
+record Obj (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⌄ 0) where
+  constructor obj
+  field ⟨_⟩ : ⟨ 𝒞 ⟩
+
+open Obj public
+
+instance
+  hasU:Obj : ∀{𝒞 : Category 𝑖} -> hasU (Obj 𝒞) _ _
+  hasU:Obj {𝒞 = 𝒞} = record
+               { getU = ⟨ 𝒞 ⟩
+               ; getP = const 𝟙-𝒰
+               ; reconstruct = λ x -> obj (fst x)
+               ; destructEl = ⟨_⟩
+               ; destructP = const tt
+               }

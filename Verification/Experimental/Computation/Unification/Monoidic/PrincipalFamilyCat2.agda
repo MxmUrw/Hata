@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamilyCat2 where
+module Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2 where
 
 open import Verification.Conventions
 
@@ -20,8 +20,8 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Ideal
 open import Verification.Experimental.Algebra.MonoidAction.Definition
-open import Verification.Experimental.Theory.Computation.Unification.Definition
-open import Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamily
+open import Verification.Experimental.Computation.Unification.Definition
+open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamily
 -- open import Verification.Experimental.Theory.Presentation.Signature.Definition
 
 module _ {M : 𝒰 𝑖} {{_ : Monoid₀ (𝑖 , 𝑖) on M}} where
@@ -50,11 +50,25 @@ module _ {M : Monoid₀ (𝑖 , 𝑖)} {f g : ⟨ M ⟩} where
       in incl P₀
     isIdeal-r.ideal-◍ isIdeal-r:CoeqSolutions = incl (absorb-r-⋆ ∙ absorb-r-⋆ ⁻¹)
 private
-  module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory 𝑖 𝒞}} where
+  module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
     Pair : (a b : 𝒞) -> 𝒰 _
     Pair a x = Hom a x ∧ Hom a x
 
-record PrincipalFamilyCat (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⁺) where
+IxC : (𝒞 : Category 𝑖) -> 𝒰 _
+IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> Pair a b
+
+module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
+  𝓘C : (i : IxC 𝒞) -> Ideal-r ′(PathMon 𝒞)′
+  𝓘C (_ , _ , f , g) = ′ (CoeqSolutions (arrow f) (arrow g)) ′
+
+module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
+  record isSplittableC (n : ℕ) (i : IxC 𝒞) (P : IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
+    field famC : Fin-R n -> IxC 𝒞
+    field coversC : ⋀-fin (λ i -> 𝓘C 𝒞 (famC i)) ∼ 𝓘C 𝒞 i
+    field fampropsC : ∀ k -> P (famC k)
+  open isSplittableC public
+
+record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} : 𝒰 (𝑖 ⁺) where
   field SizeC : WFT (ℓ₀ , ℓ₀)
   field isBase : ∀(a x : ⟨ 𝒞 ⟩) -> (h : a ⟶ x) -> 𝒰 (𝑖 ⌄ 1)
   field sizeC : {a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> ⟨ SizeC ⟩
@@ -67,16 +81,27 @@ record PrincipalFamilyCat (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⁺) where
   -- field isWellFounded:SizeC : WellFounded _≪_
   -- _⪣_ : SizeC -> SizeC -> 𝒰₀
   -- a ⪣ b = (a ≡-Str b) ∨ (a ≪ b)
+
+  field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : Pair x y)
+           -> (isBase _ _ (fst i) ∨ isBase _ _ (snd i)
+              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n (x , y , i) (λ (_ , _ , j) -> sizeC j ≪ sizeC i)))
+
   field size0 : ⟨ SizeC ⟩
   field initial-size0 : ∀{a} -> size0 ⪣ a
+  -- field isPrincipalC : ∀()
 
-open PrincipalFamilyCat {{...}} public
+open isPrincipalFamilyCat {{...}} public
 
 data Side : 𝒰₀ where
   isLeft isRight : Side
 
-module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} {{F : PrincipalFamilyCat 𝒞}} where
+module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} {{F : isPrincipalFamilyCat 𝒞}} where
   private
+
+    -- Ix generates our ideals
+    -- Bx determines those which are base ideals, and thus trivially principal/good/+
+    -- If Ix is nothing, this means that this is the whole monoid, i.e., the
+    -- two arrows are already equal, we have no constraints
 
     Ix = Maybe (∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ (x : ⟨ 𝒞 ⟩) -> Pair a x)
     Bx = Maybe (∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ (x : ⟨ 𝒞 ⟩) -> Side ×-𝒰 ((∑ isBase a x) ∧ Hom a x))
@@ -109,23 +134,83 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} 
     Good idp = ⊤
     Good (arrow {x} {y} h) = ∣ (∀(a : ⟨ 𝒞 ⟩) -> (f g : a ⟶ x) -> sizeC (f ◆ h , g ◆ h) ≪ sizeC (f , g)) ∣
 
-{-
+
     _⁻¹'_ : ⦋ Good ⦌ -> Ix -> Ix
     _⁻¹'_ (a) nothing = nothing
     _⁻¹'_ ([] ∢ _) (just _) = nothing
-    _⁻¹'_ (idp ∢ _) (just (x , (f , g))) = just (x , (f , g))
-    _⁻¹'_ (arrow {a} {b} h ∢ _) (just (x , (f , g))) with (x ≟-Str a)
-    ... | yes refl-StrId = just (b , (f ◆ h , g ◆ h))
+    _⁻¹'_ (idp ∢ _) (just x) = just x
+    _⁻¹'_ (arrow {a} {b} h ∢ _) (just (y , x , (f , g))) with (x ≟-Str a)
+    ... | yes refl-≣ = just (y , b , (f ◆ h) , (g ◆ h))
     ... | no ¬p = nothing
 
-    lem-10 : (g : ⦋ Good ⦌) (i : Ix) → (size' (g ⁻¹' i) ⪣ size' i)
-    lem-10 (g ∢ gp) nothing = left refl
-    lem-10 ([] ∢ hp) (just (x , (f , g))) = initial-size0
-    lem-10 (idp ∢ hp) (just (x , (f , g))) = left refl
-    lem-10 (arrow {a} {b} h ∢ (↥ hp)) (just (x , (f , g))) with (x ≟-Str a)
-    ... | no ¬p = initial-size0
-    ... | yes refl-StrId = right hp
+    lem-100 : {a b : PathMon 𝒞} → a ∼-PathMon b → a ∈ Good → b ∈ Good
+    lem-100 idp = id
+    lem-100 [] = id
+    lem-100 (arrow p) = {!!}
 
+    instance
+      isSubsetoid:Good : isSubsetoid Good
+      isSubsetoid:Good = record { transp-Subsetoid = lem-100 }
+      -- isSubsetoid.transp-Subsetoid isSubsetoid:Good (incl idp) P = tt
+      -- isSubsetoid.transp-Subsetoid isSubsetoid:Good (incl []) P = P
+      -- isSubsetoid.transp-Subsetoid isSubsetoid:Good (incl (arrow f∼g)) (↥ p) = ↥ p
+
+      isSubmonoid:Good : isSubmonoid ′ Good ′
+      isSubmonoid:Good = record { closed-◌ = tt ; closed-⋆ = {!!} }
+      -- isSubmonoid.closed-◌ isSubmonoid:Good = tt
+      -- isSubmonoid.closed-⋆ isSubmonoid:Good {idp} {b} p1 p2 = p2
+      -- isSubmonoid.closed-⋆ isSubmonoid:Good {[]} {b} p1 p2 = p1
+      -- isSubmonoid.closed-⋆ isSubmonoid:Good {arrow f} {[]} p1 p2 = p2
+      -- isSubmonoid.closed-⋆ isSubmonoid:Good {arrow f} {idp} p1 p2 = p1
+      -- isSubmonoid.closed-⋆ isSubmonoid:Good {arrow {a} {b} f} {arrow {c} {d} g} (↥ p1) (↥ p2) with (b ≟-Str c)
+
+
+    lem-10 : (g : ⦋ Good ⦌) (i : Ix) → (size' (g ⁻¹' i) ⪣ size' i)
+    lem-10 g nothing = left refl-≣
+    lem-10 ([] ∢ gp) (just x) = initial-size0
+    lem-10 (idp ∢ gp) (just x) = left refl-≣
+    lem-10 (arrow {a} {b} h ∢ (hp)) (just (y , x , f , g)) with (x ≟-Str a)
+    ... | no ¬p = initial-size0
+    ... | yes refl-StrId = right (hp _ f g)
+
+    lem-20 : {g : ⦋ Good ⦌} {i : Ix} → 𝓘 (g ⁻¹' i) ∼ (⟨ g ⟩ ⁻¹↷-Ide 𝓘 i)
+    lem-20 = {!!}
+    -- lem-20 {g ∢ gp} {nothing} = unit-r-⁻¹↷-Ide ⁻¹
+    -- lem-20 {[] ∢ gp} {just (x , (f , g))} = absorb-l-⁻¹↷-Ide ⁻¹
+    -- lem-20 {idp ∢ gp} {just (x , (f , g))} = unit-l-⁻¹↷-Ide ⁻¹
+    -- lem-20 {arrow {a} {b} h ∢ gp} {just (x , (f , g))} with (x ≟-Str a)
+    -- ... | no ¬p =
+    --   let P₀ : ⊤ ≤ ((arrow h) ⁻¹↷-Ide ′(CoeqSolutions (arrow f) (arrow g))′)
+    --       P₀ = incl (λ {a} x₁ → incl (incl (
+    --                 arrow f ⋆ (arrow h ⋆ a)    ⟨ assoc-r-⋆ {a = arrow f} {b = arrow h} ⟩-∼
+    --                 (arrow f ⋆ arrow h) ⋆ a    ⟨ PathMon-non-matching-arrows ¬p f h ≀⋆≀ refl ⟩-∼
+    --                 [] ⋆ a                     ⟨ PathMon-non-matching-arrows ¬p g h ⁻¹ ≀⋆≀ refl ⟩-∼
+    --                 (arrow g ⋆ arrow h) ⋆ a    ⟨ assoc-l-⋆ {a = arrow g} {b = arrow h} ⟩-∼
+    --                 arrow g ⋆ (arrow h ⋆ a)    ∎
+    --            )))
+    --   in antisym P₀ terminal-⊤
+    -- ... | yes refl-StrId =
+    --   let P₀ : ′(CoeqSolutions (arrow (f ◆ h)) (arrow (g ◆ h)))′ ≤ ((arrow h) ⁻¹↷-Ide ′(CoeqSolutions (arrow f) (arrow g))′)
+    --       P₀ = incl (λ {a} (incl P) → incl (incl (
+    --                 arrow f ⋆ (arrow h ⋆ a)    ⟨ assoc-r-⋆ {a = arrow f} {b = arrow h} ⟩-∼
+    --                 (arrow f ⋆ arrow h) ⋆ a    ⟨ functoriality-arrow f h ⁻¹ ≀⋆≀ refl ⟩-∼
+    --                 (arrow (f ◆ h)) ⋆ a        ⟨ P ⟩-∼
+    --                 (arrow (g ◆ h)) ⋆ a        ⟨ functoriality-arrow g h ≀⋆≀ refl ⟩-∼
+    --                 (arrow g ⋆ arrow h) ⋆ a    ⟨ assoc-l-⋆ {a = arrow g} {b = arrow h} ⟩-∼
+    --                 arrow g ⋆ (arrow h ⋆ a)    ∎
+    --            )))
+    --       P₁ : ((arrow h) ⁻¹↷-Ide ′(CoeqSolutions (arrow f) (arrow g))′) ≤ ′(CoeqSolutions (arrow (f ◆ h)) (arrow (g ◆ h)))′
+    --       P₁ = incl (λ {a} (incl (incl P)) → incl (
+    --                 (arrow (f ◆ h)) ⋆ a        ⟨ functoriality-arrow f h ≀⋆≀ refl ⟩-∼
+    --                 (arrow f ⋆ arrow h) ⋆ a    ⟨ assoc-l-⋆ {a = arrow f} {b = arrow h} ⟩-∼
+    --                 arrow f ⋆ (arrow h ⋆ a)    ⟨ P ⟩-∼
+    --                 arrow g ⋆ (arrow h ⋆ a)    ⟨ assoc-r-⋆ {a = arrow g} {b = arrow h} ⟩-∼
+    --                 (arrow g ⋆ arrow h) ⋆ a    ⟨ functoriality-arrow g h ⁻¹ ≀⋆≀ refl ⟩-∼
+    --                 (arrow (g ◆ h)) ⋆ a        ∎
+    --            ))
+    --   in antisym P₀ P₁
+
+{-
     lem-20 : {g : ⦋ Good ⦌} {i : Ix} → 𝓘 (g ⁻¹' i) ∼ (⟨ g ⟩ ⁻¹↷-Ide 𝓘 i)
     lem-20 {g ∢ gp} {nothing} = unit-r-⁻¹↷-Ide ⁻¹
     lem-20 {[] ∢ gp} {just (x , (f , g))} = absorb-l-⁻¹↷-Ide ⁻¹
@@ -163,21 +248,10 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} 
       in antisym P₀ P₁
       -}
 
-    instance
-      isSubsetoid:Good : isSubsetoid Good
-      isSubsetoid:Good = {!!}
-      -- isSubsetoid.transp-Subsetoid isSubsetoid:Good (incl idp) P = tt
-      -- isSubsetoid.transp-Subsetoid isSubsetoid:Good (incl []) P = P
-      -- isSubsetoid.transp-Subsetoid isSubsetoid:Good (incl (arrow f∼g)) (↥ p) = ↥ p
+    lem-30 : ∀(i : Ix) -> (∑ λ b -> 𝓘 (bb b) ∼ 𝓘 i) +-𝒰 (∑ λ n -> isSplittable M ′ Good ′ bb 𝓘 n i (λ j -> size' j ≪ size' i))
+    lem-30 = {!!}
 
-      isSubmonoid:Good : isSubmonoid ′ Good ′
-      isSubmonoid:Good = {!!}
-      -- isSubmonoid.closed-◌ isSubmonoid:Good = tt
-      -- isSubmonoid.closed-⋆ isSubmonoid:Good {idp} {b} p1 p2 = p2
-      -- isSubmonoid.closed-⋆ isSubmonoid:Good {[]} {b} p1 p2 = p1
-      -- isSubmonoid.closed-⋆ isSubmonoid:Good {arrow f} {[]} p1 p2 = p2
-      -- isSubmonoid.closed-⋆ isSubmonoid:Good {arrow f} {idp} p1 p2 = p1
-      -- isSubmonoid.closed-⋆ isSubmonoid:Good {arrow {a} {b} f} {arrow {c} {d} g} (↥ p1) (↥ p2) with (b ≟-Str c)
+
       -- ... | yes refl-StrId = ↥ (p2 ⟡-≪ p1)
       -- ... | no ¬p = tt
       -- record
@@ -186,18 +260,24 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} 
       --   }
 
   by-PrincipalCat-Principal : isPrincipalFamily M ′ Good ′ bb 𝓘
-  by-PrincipalCat-Principal = {!!} -- record
-               -- { Size = SizeC
-               -- ; size = size'
-               -- ; _<<_ = _≪_
-               -- ; isWellFounded:Size = wellFounded
-               -- ; trans-Size = _
-               -- ; _⁻¹*_ = _⁻¹'_
-               -- ; size:⁻¹* = lem-10
-               -- ; preserves-𝓘:⁻¹* = λ {g} {i} -> lem-20 {g} {i}
-               -- ; ∂ = {!!}
-               -- ; principalBase = {!!}
-               -- }
+  by-PrincipalCat-Principal = record
+               { Size = SizeC
+               ; size = size'
+               ; _⁻¹*_ = _⁻¹'_
+               ; size:⁻¹* = lem-10
+               ; preserves-𝓘:⁻¹* = λ {g} {i} -> lem-20 {g} {i}
+               ; ∂ = lem-30
+               ; principalBase = {!!}
+               }
+
+    -- lem-10 : (g : ⦋ Good ⦌) (i : Ix) → (size' (g ⁻¹' i) ⪣ size' i)
+    -- lem-10 (g ∢ gp) nothing = left refl
+    -- lem-10 ([] ∢ hp) (just (x , (f , g))) = initial-size0
+    -- lem-10 (idp ∢ hp) (just (x , (f , g))) = left refl
+    -- lem-10 (arrow {a} {b} h ∢ (↥ hp)) (just (x , (f , g))) with (x ≟-Str a)
+    -- ... | no ¬p = initial-size0
+    -- ... | yes refl-StrId = right hp
+
 
   -- module _ {B I : 𝒰₀} (𝒷 : B -> I) (𝓘 : I -> Ideal-r M) where
 

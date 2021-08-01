@@ -17,7 +17,7 @@ open import Cubical.Core.Everything hiding (Type ; _∧_ ; _∨_ ; isEquiv)
   public
 
 open import Cubical.Foundations.Prelude
-  hiding (Type ; Lift ; lift ; lower)
+  hiding (Type ; Lift ; lift ; lower ; isGroupoid)
   renaming (refl to refl-Path ; sym to sym-Path ; _∙_ to trans-Path ; _∎ to _∎-Path ;
             cong₂ to cong₂-Path ;
             _∧_ to _⋏_ ; _∨_ to _⋎_)

@@ -33,12 +33,12 @@ module _ {A : Monoid₀ 𝑖} where
     _∼-Ideal_ : Ideal-r A -> Ideal-r A -> 𝒰 _
     _∼-Ideal_ = _∼-hasU_
 
-  instance
-    isEquivRel:∼-Ideal : isEquivRel (∼-Base _∼-Ideal_)
-    isEquivRel:∼-Ideal = isEquivRel:hasU
+  -- instance
+  --   isEquivRel:∼-Ideal : isEquivRel (∼-Base _∼-Ideal_)
+  --   isEquivRel:∼-Ideal = isEquivRel:hasU
 
   instance
-    isSetoid:Ideal-r : isSetoid _ (Ideal-r A)
+    isSetoid:Ideal-r : isSetoid (Ideal-r A)
     isSetoid:Ideal-r = isSetoid:hasU
 
   instance
@@ -52,12 +52,13 @@ module _ {A : Monoid₀ 𝑖} where
     isPreorder._≤'_ isPreorder:Ideal-r I J = ⟨ I ⟩ ≤' ⟨ J ⟩
     isPreorder.reflexive isPreorder:Ideal-r = incl (λ a -> a)
     isPreorder._⟡_ isPreorder:Ideal-r p q = incl (λ a -> ⟨ q ⟩ (⟨ p ⟩ a)) -- ⟨( incl ⟨ p ⟩ ⟡ incl ⟨ q ⟩)⟩
-    isPreorder.transp-≤ isPreorder:Ideal-r p q X = incl ⟨ transp-≤ (incl ⟨ p ⟩) (incl ⟨ q ⟩) (incl ⟨ X ⟩) ⟩
+    isPreorder.transp-≤ isPreorder:Ideal-r p q X = incl ⟨ transp-≤ (⟨ p ⟩) (⟨ q ⟩) (incl ⟨ X ⟩) ⟩
 
   instance
     isPartialorder:Ideal-r : isPartialorder ′(Ideal-r A)′
     isPartialorder:Ideal-r = record
-      { antisym = λ p q -> incl ⟨ antisym (incl ⟨ p ⟩) (incl ⟨ q ⟩) ⟩
+      { antisym = λ p q -> incl $ antisym (incl (λ {_} -> ⟨ p ⟩)) (incl (λ {_} -> ⟨ q ⟩))
+      -- antisym (incl ⟨ p ⟩) (incl ⟨ q ⟩)
       }
 
   -- instance
@@ -145,6 +146,7 @@ module _ {A : Monoid₀ (𝑖 , 𝑖)} where
   -- _↷-Ide_ a I = ′ (λ x -> ∣ ⟨ (a ↷-Ide' I) x ⟩ ∣-Prop) ′
   _↷-Ide_ a I = ′(a ↷-Ide' I)′
 
+
   instance
     hasAction-l:Ideal-r : hasAction-l ′ ⟨ A ⟩ ′ ′ Ideal-r A ′
     hasAction-l._↷_ hasAction-l:Ideal-r = _↷-Ide_
@@ -167,6 +169,7 @@ module _ {A : Monoid₀ (𝑖 , 𝑖)} where
           P₁ : (n ↷ J) ≤ (m ↷ I)
           P₁ = incl (λ (incl (x , x∈I , xP)) → incl $ x , ⟨ by-∼-≤ (q ⁻¹) ⟩ x∈I  , (xP ∙ (p ⁻¹ ≀⋆≀ refl)))
       in antisym P₀ P₁
+
 
   record _⁻¹↷-Ide''_ (a : ⟨ A ⟩) (I : Ideal-r A) (x : ⟨ A ⟩) : 𝒰 𝑖 where
     constructor incl
@@ -276,7 +279,7 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
 
   Principal-r::rep-in-ideal : ∀{I : Ideal-r A} -> {{_ : isPrincipal-r I}} -> ⟨ ⟨ I ⟩ rep ⟩
   Principal-r::rep-in-ideal {I} =
-    let P₀ = inv-∼-Setoid ⟨ principal-r ⟩ (incl (◌ , tt , unit-r-⋆ ⁻¹))
+    let P₀ = inv-∼-Setoid (⟨ principal-r ⟩) (incl (◌ , tt , unit-r-⋆ ⁻¹))
     in P₀
 
   rep' : (I : Ideal-r A) -> {{_ : isPrincipal-r I}} -> ⟨ A ⟩
@@ -295,9 +298,9 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
     isPrincipal-r:⊤ : isPrincipal-r {A = A} ⊤
     isPrincipal-r:⊤ = record
       { rep = ◌
-      ; principal-r = antisym
-        (incl (λ {a} x → incl $ a , tt , unit-l-⋆ ⁻¹))
-        (incl (λ x → tt))
+      ; principal-r = antisym (incl (λ x → incl (_ , tt , unit-l-⋆ ⁻¹))) (incl (λ x → tt))
+        -- (incl (λ {a} x → incl $ a , tt , unit-l-⋆ ⁻¹))
+        -- (incl (λ x → tt))
       }
 
   record isPrincipal⁺-r (Good : Submonoid ′ ⟨ A ⟩ ′) (I : Principal-r A) : 𝒰 𝑖 where
@@ -330,7 +333,7 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
       isPrincipal⁺-r:⊤ = record
         { zeroOrCancel-r = case decide-◍ ◌ of
                                 (λ (◌≁◍) ->
-                                  let P : ∀{b c} -> (◌ ⋆ b) ∼ ◌ ⋆ c -> b ∼ c
+                                  let P : ∀{b c : ⟨ A ⟩} -> (◌ ⋆ b) ∼ ◌ ⋆ c -> b ∼ c
                                       P p = unit-l-⋆ ⁻¹ ∙ p ∙ unit-l-⋆
                                   in right (◌≁◍ , P))
                                 (λ (◌∼◍) -> left ◌∼◍)
@@ -372,5 +375,6 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
 --   field isUniqueSolution : ∀(x : ∑ P) -> fst x ∼ fst ⟨_⟩
 
 
+{-
 
-
+-}
