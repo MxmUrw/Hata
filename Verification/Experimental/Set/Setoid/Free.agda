@@ -16,8 +16,8 @@ module _ {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) where
     _∙-RST_ : ∀{a b c} -> RST a b -> RST b c -> RST a c
 
 
-module _ {A : 𝒰 𝑖} {R : A -> A -> 𝒰 𝑗} {X : Setoid 𝑘} where
-  rec-RST : {f : A -> ⟨ X ⟩} (F : ∀{a b} -> R a b -> f a ∼ f b) -> ∀{a b} -> RST R a b -> f a ∼ f b
+module _ {A : 𝒰 𝑖} {R : A -> A -> 𝒰 𝑗} {X : 𝒰 𝑘} {{_ : isSetoid {𝑙} X}} where
+  rec-RST : {f : A -> X} (F : ∀{a b} -> R a b -> f a ∼ f b) -> ∀{a b} -> RST R a b -> f a ∼ f b
   rec-RST F (incl x) = F x
   rec-RST F refl-RST = refl
   rec-RST F (sym-RST p) = sym (rec-RST F p)

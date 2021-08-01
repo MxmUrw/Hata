@@ -4,6 +4,7 @@ module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.D
 open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
+open import Verification.Experimental.Algebra.Monoid.Free.Element
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Product.Definition
@@ -17,7 +18,11 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Set.Function.Injective
 
-open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
+open import Verification.Experimental.Data.Indexed.Definition
+open import Verification.Experimental.Data.Indexed.Instance.Monoid
+
+open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 
 
 
@@ -35,7 +40,7 @@ module _ {K : 𝒰 𝑖} {R : List K -> K -> 𝒰 𝑗} where
 record Jdg₂ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   inductive
   constructor _⇒_
-  field fst : List (Jdg₂ A)
+  field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
   field snd : A
 infix 4 _⇒_
 
@@ -43,7 +48,7 @@ open Jdg₂ public
 
 record Jdg₃ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   constructor _∥_
-  field fst : List (Jdg₂ A)
+  field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
   field snd : Jdg₂ A
 infix 4 _∥_
 
@@ -64,9 +69,13 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
 
 
 
+  InjVars : Category _
+  InjVars = 𝐒𝐮𝐛-mono (𝐈𝐱 (Jdg₂ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 𝑗))
 
   injVars : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> 𝒰 _
-  injVars Γ Δ = ∑ λ (f : ∀ {i} -> (Δ ∍ i) -> (Γ ∍ i)) -> ∀ i -> isInjective (f {i})
+  injVars a b = Hom {{of InjVars}} (incl (el a)) (incl (el b))
+
+  -- injVars Γ Δ = ∑ λ (f : ∀ {i} -> (Δ ∍ i) -> (Γ ∍ i)) -> ∀ i -> isInjective (f {i})
 
 {-
   record InjVars : 𝒰 𝑗 where
@@ -89,6 +98,7 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
 
   ∂ₖ₃ : Jdg₂ ⟨ K ⟩ -> Jdg₂ ⟨ K ⟩
   ∂ₖ₃ (αs ⇒ α) = αs ⇒ (∂ₖ α)
+  -}
 
       -- lam  : ∀{𝔍 Γ Δ α β} -> (t : 𝔍 ⊩ᶠ-pat (Γ ∥ ∂ₖ₃ α))
       --                         -> (s : 𝔍 ⊩ᶠ-pat ((α ∷ Γ) ∥ (Δ ⇒ β)))
@@ -97,41 +107,42 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
 
   mutual
 
-    data _⊩ᶠ-patlam_ : (𝔍s : List (Jdg₂ ⟨ K ⟩)) -> Jdg₃ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖) where
+    data _⊩ᶠ-patlam_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> Jdg₃ ⟨ K ⟩ -> 𝒰 (𝑗 ⁺ ､ 𝑖) where
       lam  : ∀{𝔍 Γ Δ β} -> (s : 𝔍 ⊩ᶠ-pat ((Γ ⋆ Δ) ⇒ β))
                               -> 𝔍 ⊩ᶠ-patlam (Γ ∥ (Δ ⇒ β))
 
     -- this should already be η-long
-    data _⊩ᶠ-pat_ : (𝔍s : List (Jdg₂ ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖) where
+    data _⊩ᶠ-pat_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ⁺ ､ 𝑖) where
 
       app-meta  : ∀{𝔍 Γ Δ α}
-                -> (M : 𝔍 ⊨-var ((Δ ⇒ α))) -> (s : injvars Γ ⟶ injvars Δ)
+                -> (M : 𝔍 ∍ ((Δ ⇒ α))) -> (s : injVars Δ Γ)
                 -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
       app-var : ∀{𝔍 Γ Δ α}
-              -> Γ ⊨-var (Δ ⇒ α) -> (∀ {i} -> Δ ⊨-var i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
+              -> Γ ∍ (Δ ⇒ α) -> (∀ {i} -> Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
               -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
       app-con : ∀{𝔍 Γ Δ α}
-              -> TermCon γ (Δ ⇒ α) -> (∀ {i} -> Δ ⊨-var i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
+              -> TermCon γ (Δ ⇒ α) -> (∀ {i} -> Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
               -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
 
   mutual
     apply-injVars-lam : ∀{ℑ Γ Δ α} -> (ℑ ⊩ᶠ-patlam (Δ ∥ (α)))
-                              -> injVars Γ Δ
+                              -> injVars Δ Γ
                               -> (ℑ ⊩ᶠ-patlam (Γ ∥ (α)))
     apply-injVars-lam (lam ts) ι = lam (apply-injVars ts {!!})
 
     apply-injVars : ∀{ℑ Γ Δ α} -> (ℑ ⊩ᶠ-pat (Δ ⇒ (α)))
-                              -> injVars Γ Δ
+                              -> injVars Δ Γ
                               -> (ℑ ⊩ᶠ-pat (Γ ⇒ (α)))
-    apply-injVars (app-meta M κ) ι = app-meta M (ι ◆ κ)
-    apply-injVars (app-var v ts) ι = app-var (fst ι v) λ x → apply-injVars-lam (ts x) ι
+    apply-injVars (app-meta M κ) ι = app-meta M (κ ◆ ι)
+    apply-injVars (app-var v ts) ι = app-var (⟨ ι ⟩ v) λ x → apply-injVars-lam (ts x) ι
     apply-injVars (app-con c ts) ι = app-con c λ x → apply-injVars-lam (ts x) ι
     -- apply-injVars (lam ts) ι = lam (apply-injVars ts {!!})
 
 
+{-
   -- _⊩ᶠ-pat_ : (𝔍s : List (Jdg₂ ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖)
   -- _⊩ᶠ-pat_ = _⊩ᶠ-pat_
   -- ∑ λ Γ -> ∑ λ Δ -> (Γ ⋆ Δ ∼ ℑ) × (𝔍s ⊩ᶠ-pat (Γ ∥ (Δ ⇒ α)))

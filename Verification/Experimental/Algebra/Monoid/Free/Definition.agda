@@ -111,10 +111,10 @@ module _ {A : 𝒰 𝑖} where
                           ; _`cong-⋆`_ = cong-⋆-Free-𝐌𝐨𝐧
                           }
 
-  data _∍_ : A -> Free-𝐌𝐨𝐧 A -> 𝒰 𝑖 where
-    incl : ∀{x} -> x ∍ incl x
-    left-∍ : ∀{a b x} -> x ∍ a -> x ∍ (a ⋆ b)
-    right-∍ : ∀{a b x} -> x ∍ b -> x ∍ (a ⋆ b)
+  data _∍_ : Free-𝐌𝐨𝐧 A -> A -> 𝒰 𝑖 where
+    incl : ∀{x} -> incl x ∍ x
+    left-∍ : ∀{a b x} -> a ∍ x -> (a ⋆ b) ∍ x
+    right-∍ : ∀{a b x} -> b ∍ x -> (a ⋆ b) ∍ x
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
   rec-Free-𝐌𝐨𝐧 : (f : A -> B) -> Free-𝐌𝐨𝐧 A -> B

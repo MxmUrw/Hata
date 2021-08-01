@@ -22,7 +22,8 @@ open import Verification.Experimental.Computation.Question.Definition
 open import Verification.Experimental.Computation.Question.Specific.Check
 open import Verification.Experimental.Computation.Question.Specific.Small
 
-open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
+open import Verification.Experimental.Data.Family.Definition
+open import Verification.Experimental.Data.Family.Instance.Fibration
 open import Verification.Experimental.Category.Std.Fibration.BaseChange.Definition
 open import Verification.Experimental.Category.Std.Fibration.Definition
 open import Verification.Experimental.Category.Std.Fibration.Instance.BaseChange

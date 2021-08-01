@@ -55,4 +55,15 @@ Submonoid : (M : Monoid 𝑖) -> 𝒰 _
 Submonoid M = _ :& isSubmonoid {A = ⟨ M ⟩}
 
 
+module _ (A : Monoid 𝑖) (B : Monoid 𝑗) where
+  record isMonoidHom (f : SetoidHom ′ ⟨ A ⟩ ′ ′ ⟨ B ⟩ ′) : 𝒰 (𝑖 ､ 𝑗) where
+    field pres-◌ : ⟨ f ⟩ ◌ ∼ ◌
+    field pres-⋆ : ∀{a b : ⟨ A ⟩} -> ⟨ f ⟩ (a ⋆ b) ∼ ⟨ f ⟩ a ⋆ ⟨ f ⟩ b
+
+  MonoidHom : 𝒰 _
+  MonoidHom = _ :& isMonoidHom
+
+open isMonoidHom {{...}} public
+
+
 
