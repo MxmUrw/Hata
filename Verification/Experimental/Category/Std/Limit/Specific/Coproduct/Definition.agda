@@ -7,6 +7,8 @@ open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Data.Product.Definition
 open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Experimental.Category.Std.Category.Notation.Associativity
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
@@ -29,6 +31,39 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     field expand-⊔  : ∀{c} {f : x ⟶ c} -> f ∼ ⦗ ι₀ ◆ f , ι₁ ◆ f ⦘
 
   open isCoproduct {{...}} public
+
+
+  module _ {a b x y : 𝒞} (p : x ≅ y) {{_ : isCoproduct a b x}} where
+
+    private
+      ι₀' : a ⟶ y
+      ι₀' = ι₀ ◆ ⟨ p ⟩
+
+      ι₁' : b ⟶ y
+      ι₁' = ι₁ ◆ ⟨ p ⟩
+
+      ⦗_⦘' : ∀{z} -> ∀(p : ((a ⟶ z) × (b ⟶ z))) -> y ⟶ z
+      ⦗_⦘' = λ (f , g) → ⟨ sym-≅ p ⟩ ◆ ⦗ f , g ⦘
+
+      lem-1 : ∀{z} -> isSetoidHom ′((a ⟶ z) ×-𝒰 (b ⟶ z))′ ′ (y ⟶ z) ′ ⦗_⦘'
+      lem-1 = record { cong-∼ = λ p → refl ◈ cong-∼ p}
+
+      lem-2 : ∀{z} -> {f : (a ⟶ z)} -> {g : (b ⟶ z)} -> ι₀' ◆ ⦗ f , g ⦘' ∼ f
+      lem-2 {f = f} {g} = (ι₀ ◆ ⟨ p ⟩) ◆ (⟨ sym-≅ p ⟩ ◆ ⦗ f , g ⦘)   ⟨ assoc-[ab][cd]∼a[bc]d-◆ ⟩-∼
+                          ι₀ ◆ (⟨ p ⟩ ◆ ⟨ sym-≅ p ⟩) ◆ ⦗ f , g ⦘     ⟨ refl ◈ inv-r-◆ (of p) ◈ refl ⟩-∼
+                          ι₀ ◆ id ◆ ⦗ f , g ⦘                        ⟨ unit-r-◆ ◈ refl ⟩-∼
+                          ι₀ ◆ ⦗ f , g ⦘                             ⟨ reduce-ι₀ ⟩-∼
+                          f                                         ∎
+
+    transp-≅-Coproduct : isCoproduct a b y
+    isCoproduct.ι₀ transp-≅-Coproduct             = ι₀'
+    isCoproduct.ι₁ transp-≅-Coproduct             = ι₁'
+    isCoproduct.⦗ transp-≅-Coproduct ⦘            = ⦗_⦘'
+    isCoproduct.isSetoidHom:⦗⦘ transp-≅-Coproduct = lem-1
+    isCoproduct.reduce-ι₀ transp-≅-Coproduct      = lem-2
+    isCoproduct.reduce-ι₁ transp-≅-Coproduct      = {!!}
+    isCoproduct.expand-⊔ transp-≅-Coproduct       = {!!}
+
 
 
 record hasFiniteCoproducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where

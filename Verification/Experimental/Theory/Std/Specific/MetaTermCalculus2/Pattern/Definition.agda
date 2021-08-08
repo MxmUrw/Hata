@@ -24,6 +24,7 @@ open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 
+open import Verification.Experimental.Data.FiniteIndexed.Definition
 
 
 module _ {K : 𝒰 𝑖} (R : List K -> K -> 𝒰 𝑗) where
@@ -70,10 +71,12 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
 
 
   InjVars : Category _
-  InjVars = 𝐒𝐮𝐛-mono (𝐈𝐱 (Jdg₂ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 𝑗))
+  InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ ⟨ K ⟩))
+
+  -- (𝐈𝐱 (Jdg₂ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 𝑗))
 
   injVars : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> 𝒰 _
-  injVars a b = Hom {{of InjVars}} (incl (el a)) (incl (el b))
+  injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
 
   -- injVars Γ Δ = ∑ λ (f : ∀ {i} -> (Δ ∍ i) -> (Γ ∍ i)) -> ∀ i -> isInjective (f {i})
 
@@ -137,7 +140,7 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
                               -> injVars Δ Γ
                               -> (ℑ ⊩ᶠ-pat (Γ ⇒ (α)))
     apply-injVars (app-meta M κ) ι = app-meta M (κ ◆ ι)
-    apply-injVars (app-var v ts) ι = app-var (⟨ ι ⟩ v) λ x → apply-injVars-lam (ts x) ι
+    apply-injVars (app-var v ts) ι = app-var (⟨ ⟨ ι ⟩ ⟩ v) λ x → apply-injVars-lam (ts x) ι
     apply-injVars (app-con c ts) ι = app-con c λ x → apply-injVars-lam (ts x) ι
     -- apply-injVars (lam ts) ι = lam (apply-injVars ts {!!})
 

@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Category.Std.Category.Structured.FiniteCoproduct.As.Monoid where
 
-open import Verification.Conventions
+open import Verification.Conventions hiding (_⊔_)
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -31,5 +31,26 @@ module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is FiniteCoproductCategory 𝑖}} where
 
   isMonoid:byHasFiniteCoproducts : isMonoid ′ 𝒞 ′
   isMonoid:byHasFiniteCoproducts = isMonoid:byᵒᵖ
+
+
+module _ {𝒞 : 𝒰 _} {{P : 𝒞 is FiniteCoproductCategory 𝑖}} where
+  private instance
+    _ : isSetoid 𝒞
+    _ = isSetoid:byCategory
+
+    _ : isMonoid ′ 𝒞 ′
+    _ = isMonoid:byHasFiniteCoproducts {{P}}
+
+  unit-l-⊔ : ∀{a : 𝒞} -> ⊥ ⊔ a ∼ a
+  unit-l-⊔ = unit-l-⋆
+
+  unit-r-⊔ : ∀{a : 𝒞} -> a ⊔ ⊥ ∼ a
+  unit-r-⊔ = unit-r-⋆
+
+  assoc-l-⊔ : ∀{a b c : 𝒞} -> (a ⊔ b) ⊔ c ∼ a ⊔ (b ⊔ c)
+  assoc-l-⊔ = assoc-l-⋆
+
+
+
 
 
