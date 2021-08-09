@@ -5,7 +5,9 @@ open import Verification.Experimental.Conventions hiding (_⊔_)
 
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Set.Definition
+open import Verification.Experimental.Set.Function.Injective
 open import Verification.Experimental.Set.Set.Instance.Category
+open import Verification.Experimental.Set.Contradiction
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Construction.Product
 open import Verification.Experimental.Category.Std.Functor.Definition
@@ -16,10 +18,12 @@ open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
+open import Verification.Experimental.Data.Universe.Property.EpiMono
 
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.Indexed.Instance.FiniteCoproductCategory
+open import Verification.Experimental.Data.Indexed.Property.Mono
 open import Verification.Experimental.Data.FiniteIndexed.Definition
 
 open import Verification.Experimental.Algebra.Monoid.Definition
@@ -37,7 +41,7 @@ open import Verification.Experimental.Category.Std.Category.Structured.FiniteCop
 
 open import Verification.Experimental.Data.Renaming.Definition
 
-module _ {A : 𝒰 𝑖} where
+module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
 
   _⋆-𝐑𝐞𝐧_ : 𝐑𝐞𝐧 A -> 𝐑𝐞𝐧 A -> 𝐑𝐞𝐧 A
   _⋆-𝐑𝐞𝐧_ a b = incl (⟨ a ⟩ ⊔ ⟨ b ⟩)
@@ -47,7 +51,20 @@ module _ {A : 𝒰 𝑖} where
 
   private
     lem-1 : ∀{a b c d : 𝐅𝐢𝐧𝐈𝐱 A} -> {ϕ : a ⟶ b} -> {ψ : c ⟶ d} -> isMono ϕ -> isMono ψ -> isMono (map-⊔ (ϕ , ψ))
-    isMono.cancel-mono (lem-1 p q) {z} {α} {β} x = {!!}
+    lem-1 {ϕ = ϕ} {ψ} ϕp ψp = reflect-isMono (construct-isMono-𝐈𝐱 (construct-isMono-𝐔𝐧𝐢𝐯 P))
+      where
+        instance
+          ϕp' : ∀{i} -> isInjective (⟨ ϕ ⟩ {i})
+          ϕp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ϕp))
+
+          ψp' : ∀{i} -> isInjective (⟨ ψ ⟩ {i})
+          ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ψp))
+
+        P : ∀{i : A} -> isInjective (⟨(map-⊔ (ϕ , ψ))⟩ {i})
+        isInjective.cancel-injective P {left-∍ a} {left-∍ b} x    = cong left-∍ (cancel-injective (cancel-injective x))
+        isInjective.cancel-injective P {left-∍ a} {right-∍ b} x   = impossible x
+        isInjective.cancel-injective P {right-∍ a} {left-∍ b} x   = impossible x
+        isInjective.cancel-injective P {right-∍ a} {right-∍ b} x  = cong right-∍ (cancel-injective (cancel-injective x))
 
   map-⋆-𝐑𝐞𝐧 : ∀{a b : (𝐑𝐞𝐧 A ×-𝒰 𝐑𝐞𝐧 A)} -> (ϕ : a ⟶ b) -> λ₋ _⋆-𝐑𝐞𝐧_ a ⟶ λ₋ _⋆-𝐑𝐞𝐧_ b
   map-⋆-𝐑𝐞𝐧 (subcathom f fp , subcathom g gp) = subcathom (map-⊔ (f , g)) (lem-1 fp gp)

@@ -41,6 +41,10 @@ module _ {I : 𝒰 𝑖} {A : Category 𝑗} where
       isSetoid:IndexedHom : isSetoid (IndexedHom F G)
       isSetoid:IndexedHom = setoid _∼-Indexed_ refl (λ p -> sym p) (λ p q → p ∙ q)
 
+  infixl 50 _◆-𝐈𝐱_
+  _◆-𝐈𝐱_ : ∀{a b c : Indexed I A} -> (f : IndexedHom a b) -> (g : IndexedHom b c) -> IndexedHom a c
+  _◆-𝐈𝐱_ f g = f ◆ g
+
   instance
     isCategory:Indexed : isCategory (Indexed I A)
     isCategory.Hom isCategory:Indexed          = λ F G -> ∀{i} -> ix F i ⟶ ix G i

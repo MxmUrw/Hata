@@ -40,11 +40,23 @@ instance
   isInitial.expand-⊥ isInitial:⊥-𝒰 = λ {i ()}
 
 instance
+  hasCoproducts:𝐔𝐧𝐢𝐯 : hasCoproducts (𝐔𝐧𝐢𝐯 𝑖)
+  hasCoproducts._⊔_ hasCoproducts:𝐔𝐧𝐢𝐯            = _+-𝒰_
+  hasCoproducts.isCoproduct:⊔ hasCoproducts:𝐔𝐧𝐢𝐯  = it
+
+instance
+  hasInitial:𝐔𝐧𝐢𝐯 : hasInitial (𝐔𝐧𝐢𝐯 𝑖)
+  hasInitial.⊥ hasInitial:𝐔𝐧𝐢𝐯            = ⊥-𝒰
+  hasInitial.isInitial:⊥ hasInitial:𝐔𝐧𝐢𝐯  = it
+
+instance
   hasFiniteCoproducts:𝐔𝐧𝐢𝐯 : hasFiniteCoproducts (𝐔𝐧𝐢𝐯 𝑖)
-  hasFiniteCoproducts._⊔_ hasFiniteCoproducts:𝐔𝐧𝐢𝐯            = _+-𝒰_
-  hasFiniteCoproducts.isCoproduct:⊔ hasFiniteCoproducts:𝐔𝐧𝐢𝐯  = it
-  hasFiniteCoproducts.⊥ hasFiniteCoproducts:𝐔𝐧𝐢𝐯              = ⊥-𝒰
-  hasFiniteCoproducts.isInitial:⊥ hasFiniteCoproducts:𝐔𝐧𝐢𝐯    = it
+  hasFiniteCoproducts:𝐔𝐧𝐢𝐯 = hasFiniteCoproducts:default
+
+  -- hasFiniteCoproducts._⊔_ hasFiniteCoproducts:𝐔𝐧𝐢𝐯            = _+-𝒰_
+  -- hasFiniteCoproducts.isCoproduct:⊔ hasFiniteCoproducts:𝐔𝐧𝐢𝐯  = it
+  -- hasFiniteCoproducts.⊥ hasFiniteCoproducts:𝐔𝐧𝐢𝐯              = ⊥-𝒰
+  -- hasFiniteCoproducts.isInitial:⊥ hasFiniteCoproducts:𝐔𝐧𝐢𝐯    = it
 
 
 

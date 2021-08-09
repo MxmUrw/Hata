@@ -5,8 +5,10 @@ module Verification.Experimental.Algebra.Monoid.Free.Definition where
 open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Free
+open import Verification.Experimental.Set.Function.Injective
 -- open import Verification.Experimental.Data.Prop.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Set.Contradiction
 
 pattern ⦋⦌ = []
 pattern ⦋_⦌ a = a ∷ []
@@ -14,6 +16,8 @@ pattern ⦋_،_⦌ a b = a ∷ b ∷ []
 pattern ⦋_،_،_⦌ a b c = a ∷ b ∷ c ∷ []
 pattern ⦋_،_،_،_⦌ a b c d = a ∷ b ∷ c ∷ d ∷ []
 pattern ⦋_،_،_،_،_⦌ a b c d e = a ∷ b ∷ c ∷ d ∷ e ∷ []
+
+
 
 cong₂-Str : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} -> (f : A -> B -> C) -> {a1 a2 : A} -> {b1 b2 : B} -> (p : a1 ≣ a2) -> (q : b1 ≣ b2) -> f a1 b1 ≣ f a2 b2
 cong₂-Str f refl-≣ refl-≣ = refl-≣
@@ -115,6 +119,29 @@ module _ {A : 𝒰 𝑖} where
     incl : ∀{x} -> incl x ∍ x
     left-∍ : ∀{a b x} -> a ∍ x -> (a ⋆ b) ∍ x
     right-∍ : ∀{a b x} -> b ∍ x -> (a ⋆ b) ∍ x
+
+  instance
+    isInjective:left-∍ : ∀{a b x} -> isInjective (left-∍ {a} {b} {x})
+    isInjective.cancel-injective (isInjective:left-∍ {a} {b} {x}) {m1} {m2} p = λ i -> f (p i) m1
+      where f : (p : a ⋆ b ∍ x) -> a ∍ x -> a ∍ x
+            f (left-∍ p) def = p
+            f (right-∍ p) def = def
+
+    isInjective:right-∍ : ∀{a b x} -> isInjective (right-∍ {a} {b} {x})
+    isInjective:right-∍ {a} {b} {x} = injective (λ {m1} {m2} p i → f (p i) m1)
+      where f : (p : a ⋆ b ∍ x) -> b ∍ x -> b ∍ x
+            f (left-∍ p) def = def
+            f (right-∍ p) def = p
+
+  instance
+    isContradiction:left-∍≡right-∍ : ∀{a b x} -> {p : a ∍ x} -> {q : b ∍ x} -> isContradiction (left-∍ p ≡ right-∍ q)
+    isContradiction:left-∍≡right-∍ {a} {b} {x} {p} {q} = contradiction (λ r → transport (cong P r) tt)
+      where P : (a ⋆ b ∍ x) -> 𝒰₀
+            P (left-∍ a) = ⊤-𝒰
+            P (right-∍ a) = ⊥-𝒰
+
+    isContradiction:right-∍≡left-∍ : ∀{a b x} -> {p : a ∍ x} -> {q : b ∍ x} -> isContradiction (right-∍ p ≡ left-∍ q)
+    isContradiction:right-∍≡left-∍ = contradiction (λ x → contradict (λ i -> (x (~ i))))
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
   rec-Free-𝐌𝐨𝐧 : (f : A -> B) -> Free-𝐌𝐨𝐧 A -> B

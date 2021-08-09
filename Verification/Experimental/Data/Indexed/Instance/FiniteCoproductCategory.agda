@@ -33,12 +33,19 @@ module _ {I : 𝒰 𝑖} {𝒞 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}}
       isCoproduct.reduce-ι₁ isCoproduct:⊔-𝐈𝐱      = {!!}
       isCoproduct.expand-⊔ isCoproduct:⊔-𝐈𝐱       = {!!}
 
+
+  instance
+    hasCoproducts:𝐈𝐱 : hasCoproducts (𝐈𝐱 I 𝒞)
+    hasCoproducts._⊔_ hasCoproducts:𝐈𝐱            = _⊔-𝐈𝐱_
+    hasCoproducts.isCoproduct:⊔ hasCoproducts:𝐈𝐱  = isCoproduct:⊔-𝐈𝐱
+
+  instance
+    hasInitial:𝐈𝐱 : hasInitial (𝐈𝐱 I 𝒞)
+    hasInitial:𝐈𝐱 = {!!}
+
   instance
     hasFiniteCoproducts:𝐈𝐱 : hasFiniteCoproducts (𝐈𝐱 I 𝒞)
-    hasFiniteCoproducts._⊔_ hasFiniteCoproducts:𝐈𝐱           = _⊔-𝐈𝐱_
-    hasFiniteCoproducts.isCoproduct:⊔ hasFiniteCoproducts:𝐈𝐱 = isCoproduct:⊔-𝐈𝐱
-    hasFiniteCoproducts.⊥ hasFiniteCoproducts:𝐈𝐱             = {!!}
-    hasFiniteCoproducts.isInitial:⊥ hasFiniteCoproducts:𝐈𝐱   = {!!}
+    hasFiniteCoproducts:𝐈𝐱 = hasFiniteCoproducts:default
 
 
 

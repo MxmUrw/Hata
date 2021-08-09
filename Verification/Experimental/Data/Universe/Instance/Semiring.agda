@@ -12,6 +12,7 @@ open import Verification.Experimental.Category.Std.Category.Structured.FiniteCop
 open import Verification.Experimental.Category.Std.Category.Structured.FiniteCoproduct.As.Monoid
 open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Experimental.Data.Universe.Instance.Setoid
+open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 
 
 instance

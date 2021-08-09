@@ -9,14 +9,19 @@ open import Verification.Experimental.Set.Set.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Experimental.Category.Std.Functor.Image
+open import Verification.Experimental.Category.Std.Category.Structured.SeparatingFamily
 
 open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
+open import Verification.Experimental.Data.Universe.Instance.SeparatingFamily
 
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.Indexed.Instance.FiniteCoproductCategory
+open import Verification.Experimental.Data.Indexed.Instance.SeparatingFamily
 
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
@@ -59,11 +64,51 @@ module _ {I : 𝒰 𝑖} where
   ⊥-𝐅𝐢𝐧𝐈𝐱 = incl ◌
 
   instance
+    hasCoproducts:𝐅𝐢𝐧𝐈𝐱 : hasCoproducts (𝐅𝐢𝐧𝐈𝐱 I)
+    hasCoproducts._⊔_ hasCoproducts:𝐅𝐢𝐧𝐈𝐱            = _⊔-𝐅𝐢𝐧𝐈𝐱_
+    hasCoproducts.isCoproduct:⊔ hasCoproducts:𝐅𝐢𝐧𝐈𝐱  = isCoproduct:⊔-𝐅𝐢𝐧𝐈𝐱
+
+  instance
+    hasInitial:𝐅𝐢𝐧𝐈𝐱 : hasInitial (𝐅𝐢𝐧𝐈𝐱 I)
+    hasInitial.⊥ hasInitial:𝐅𝐢𝐧𝐈𝐱            = ⊥-𝐅𝐢𝐧𝐈𝐱
+    hasInitial.isInitial:⊥ hasInitial:𝐅𝐢𝐧𝐈𝐱  = record { elim-⊥ = {!!} ; expand-⊥ = {!!} }
+
+  instance
     hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱 : hasFiniteCoproducts (𝐅𝐢𝐧𝐈𝐱 I)
-    hasFiniteCoproducts._⊔_ hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱            = _⊔-𝐅𝐢𝐧𝐈𝐱_
-    hasFiniteCoproducts.isCoproduct:⊔ hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱  = isCoproduct:⊔-𝐅𝐢𝐧𝐈𝐱
-    hasFiniteCoproducts.⊥ hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱              = ⊥-𝐅𝐢𝐧𝐈𝐱
-    hasFiniteCoproducts.isInitial:⊥ hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱    = {!!}
+    hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱 = hasFiniteCoproducts:default
+
+module _ {I : 𝒰 𝑖} {{DP : isDiscrete I}} where
+
+  lem-1 : ∀ (s : Separator {𝒞 = 𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)}) -> inEssentialImage (𝑓𝑢𝑙𝑙 (𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙) (separator s)
+  lem-1 (s , i) = incl (incl i) , {!!} -- P
+
+    -- where
+    --   f : 𝑒𝑙 (incl i) ⟶ sep (s , i)
+    --   f {j} x with i ≟-Str j
+    --   ... | no ¬p = {!!}
+    --   ... | yes p with (DP isDiscrete.≟-Str i) j
+    --   ... | Y = {!!}
+
+
+    --   P : 𝑒𝑙 (incl i) ≅ separator (s , i)
+    --   P = f since {!!}
+
+  -- instance
+  --   isMonoPreserving:𝑓𝑢𝑙𝑙-𝐅𝐢𝐧𝐈𝐱 : isMonoPreserving (𝑓𝑢𝑙𝑙 (𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙)
+  --   isMonoPreserving:𝑓𝑢𝑙𝑙-𝐅𝐢𝐧𝐈𝐱 = isMonoPreserving:byFullyFaithful lem-1
+      -- where
+      --   lem-1 : ∀ s -> inEssentialImage (𝑓𝑢𝑙𝑙 (𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙) (separator s)
+      --   lem-1 (s , i) = incl (incl i) , P
+      --     where
+      --       f : 𝑒𝑙 (incl i) ⟶ sep (s , i)
+      --       f {j} x with i ≟-Str j
+      --       ... | no ¬p = {!!}
+      --       ... | yes p with (DP isDiscrete.≟-Str i) j
+      --       ... | Y = {!!}
+
+
+      --       P : 𝑒𝑙 (incl i) ≅ separator (s , i)
+      --       P = f since {!!}
 
 
 

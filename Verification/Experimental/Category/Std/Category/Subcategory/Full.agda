@@ -5,8 +5,12 @@ open import Verification.Experimental.Conventions
 
 open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Set.Discrete
+open import Verification.Experimental.Set.Setoid.Morphism
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Functor.Faithful
+open import Verification.Experimental.Category.Std.Functor.Full
+open import Verification.Experimental.Category.Std.Morphism.Mono.Definition
 
 
 -- module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
@@ -19,6 +23,12 @@ module _ (𝒞 : Category 𝑖) where
   macro
     𝐅𝐮𝐥𝐥 : {X : 𝒰 𝑘} (f : X -> ⟨ 𝒞 ⟩) -> SomeStructure
     𝐅𝐮𝐥𝐥 f = #structureOn (FullSubcategory f)
+
+  macro
+    𝑓𝑢𝑙𝑙 : {X : 𝒰 𝑘} (f : X -> ⟨ 𝒞 ⟩) -> SomeStructure
+    𝑓𝑢𝑙𝑙 {X = X} f = #structureOn i
+      where i : FullSubcategory f -> ⟨ 𝒞 ⟩
+            i a = f ⟨ a ⟩
 
 
 module _ {𝒞 : Category 𝑖} where
@@ -71,18 +81,24 @@ module _ {𝒞 : Category 𝑖} where
       Register:ForgetFull = register[ "" ] (ForgetFull)
 
     instance
-      isFunctor:ForgetFull : isFunctor (𝐅𝐮𝐥𝐥 𝒞 ι) 𝒞 (ForgetFull)
-      isFunctor:ForgetFull = {!!}
+      isFunctor:𝑓𝑢𝑙𝑙 : isFunctor (𝐅𝐮𝐥𝐥 𝒞 ι) 𝒞 (𝑓𝑢𝑙𝑙 𝒞 ι)
+      isFunctor.map isFunctor:𝑓𝑢𝑙𝑙              = λ f → ⟨ f ⟩
+      isFunctor.isSetoidHom:map isFunctor:𝑓𝑢𝑙𝑙  = record { cong-∼ = λ x → x }
+      isFunctor.functoriality-id isFunctor:𝑓𝑢𝑙𝑙 = refl
+      isFunctor.functoriality-◆ isFunctor:𝑓𝑢𝑙𝑙  = refl
 
+    instance
+      isFaithful:𝑓𝑢𝑙𝑙 : isFaithful (𝑓𝑢𝑙𝑙 𝒞 ι)
+      isInjective.cancel-injective (isFaithful.isInjective:map isFaithful:𝑓𝑢𝑙𝑙) x = x
 
+    instance
+      isFull:𝑓𝑢𝑙𝑙 : isFull (𝑓𝑢𝑙𝑙 𝒞 ι)
+      isSurjective.surj (isFull.isSurjective:map isFull:𝑓𝑢𝑙𝑙)     = λ x → incl x
+      isSurjective.inv-surj (isFull.isSurjective:map isFull:𝑓𝑢𝑙𝑙) = refl
 
--- instance
---   Register:ForgetFull : ∀{𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} {X : 𝒰 𝑘} {ι : X -> 𝒞} -> Register (𝐅𝐮𝐥𝐥 ι -> 𝒞) ""
---   Register:ForgetFull {ι = ι} = register (ForgetFull {ι = ι})
-
-
-
-
+    instance
+      isMonoReflecting:𝑓𝑢𝑙𝑙 : isMonoReflecting (𝑓𝑢𝑙𝑙 𝒞 ι)
+      isMonoReflecting:𝑓𝑢𝑙𝑙 = isMonoReflecting:byFaithful
 
 
 

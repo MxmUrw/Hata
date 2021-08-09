@@ -65,16 +65,28 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     isCoproduct.expand-⊔ transp-≅-Coproduct       = {!!}
 
 
-
-record hasFiniteCoproducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
-  infixl 80 _⊔_
-  field _⊔_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
-  field {{isCoproduct:⊔}} : ∀{a b} -> isCoproduct a b (a ⊔ b)
+record hasInitial (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field ⊥ : ⟨ 𝒞 ⟩
   field {{isInitial:⊥}} : isInitial ⊥
 
+open hasInitial {{...}} public
+
+record hasCoproducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+  infixl 80 _⊔_
+  field _⊔_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
+  field {{isCoproduct:⊔}} : ∀{a b} -> isCoproduct a b (a ⊔ b)
+open hasCoproducts {{...}} public
+
+record hasFiniteCoproducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+  field {{hasInitial:this}} : hasInitial 𝒞
+  field {{hasCoproducts:this}}    : hasCoproducts 𝒞
+
 open hasFiniteCoproducts {{...}} public
 
+module _ {𝒞 : Category 𝑖} {{_ : hasCoproducts 𝒞}} {{_ : hasInitial 𝒞}} where
+  hasFiniteCoproducts:default : hasFiniteCoproducts 𝒞
+  hasFiniteCoproducts.hasInitial:this hasFiniteCoproducts:default  = it
+  hasFiniteCoproducts.hasCoproducts:this hasFiniteCoproducts:default     = it
 
 
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where

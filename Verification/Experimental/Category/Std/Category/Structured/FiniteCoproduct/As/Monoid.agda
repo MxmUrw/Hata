@@ -22,6 +22,7 @@ module _ {𝒞 : 𝒰 _} {{_ : 𝒞 is FiniteCoproductCategory 𝑖}} where
     _ : isSetoid 𝒞
     _ = isSetoid:byCategory
 
+
   private
     𝒞ᵒᵖ : Category _
     𝒞ᵒᵖ = ′ 𝒞 ′ ᵒᵖ
