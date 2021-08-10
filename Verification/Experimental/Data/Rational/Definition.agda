@@ -13,6 +13,7 @@ open import Verification.Experimental.Algebra.Ring.Ordered
 open import Verification.Experimental.Algebra.Ring.Localization
 open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder
 open import Verification.Experimental.Algebra.Ring.Localization.Instance.OrderedRing
+open import Verification.Experimental.Algebra.Field.Definition
 open import Verification.Experimental.Order.Linearorder
 open import Verification.Experimental.Order.Preorder
 
@@ -52,8 +53,8 @@ instance
   isSubsetoid:ℤ₊ₚ : isSubsetoid ℤ₊ₚᵘ
   isSubsetoid:ℤ₊ₚ = record { transp-Subsetoid = lem-1 }
     where
-      lem-1 : ∀{a b} -> a ∼ b -> a ∈ ℤ₊ₚᵘ -> b ∈ ℤ₊ₚᵘ
-      lem-1 (incl refl-StrId) q = q
+      lem-1 : ∀{a b : ℤ} -> a ∼ b -> a ∈ ℤ₊ₚᵘ -> b ∈ ℤ₊ₚᵘ
+      lem-1 (refl-StrId) q = q
 
 pattern refl-≣ = refl-StrId
 
@@ -72,8 +73,8 @@ instance
   hasNotZero-MCS:ℤ₊ₚ : hasNotZero-MCS ℤ₊ₚ
   hasNotZero-MCS:ℤ₊ₚ = record { isNotZero-MCS = lem-1 }
     where
-      lem-1 : ∀{a} → a ∈ ℤ₊ₚᵘ → a ≁ 0
-      lem-1 (a , refl-≣) (incl ())
+      lem-1 : ∀{a : ℤ} → a ∈ ℤ₊ₚᵘ → a ≁ 0
+      lem-1 (a , refl-≣) ()
 
 Rational = Localize ℤ ℤ₊ₚ
 
@@ -154,13 +155,30 @@ instance
     { between = λ {a} {b} (a<b) -> (a + b) ⋅ (1 / 2 ∢ (_ , refl)) ∢ {!!}
     }
 
-{-
 
--- ta tb : ℚ
--- ta = pos 1 / (pos 2 ∈ (1 , it))
+---------------------------------------------------------------
+-- ℚ is a field
 
--- tb = negsuc 23 / (pos 3 ∈ (2 , it))
 
--- tc = ta ⋆ tb
+⟌-ℚ : (a : ℚ) -> {{not-◌ a}} -> ℚ
+⟌-ℚ (a / (b ∢ bp)) {{_}} = b / (a ∢ {!!})
 
--}
+instance
+  isField:ℚ : isField ℚ
+  isField:ℚ = record
+              { ⟌                 = ⟌-ℚ
+              ; inv-l-⋅           = {!!}
+              ; inv-r-⋅           = {!!}
+              ; nontrivial-Field  = {!!}
+              }
+
+---------------------------------------------------------------
+-- ℚ has abs
+
+abs-ℚ : ℚ -> ℚ
+abs-ℚ = {!!}
+
+instance
+  Notation-Absolute:ℚ : Notation-Absolute ℚ ℚ
+  Notation-Absolute:ℚ = record { ∣_∣ = abs-ℚ }
+

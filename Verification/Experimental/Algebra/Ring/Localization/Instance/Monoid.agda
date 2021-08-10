@@ -64,11 +64,11 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
     lem-40 {a / (da ∢ _)} {b / (db ∢ _)} {c / (dc ∢ _)} = incl (⨡-MCS , P₁)
       where
           P₀ : ((a ⋅ db ⋆ b ⋅ da) ⋅ dc ⋆ c ⋅ (da ⋅ db))  ∼  (a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc ⋆ c ⋅ db) ⋅ da)
-          P₀ = (a ⋅ db ⋆ b ⋅ da) ⋅ dc ⋆ c ⋅ (da ⋅ db)         ≣⟨ distr-r-⋅ ≀⋆≀ ─ ⟩
-              a ⋅ db ⋅ dc ⋆ b ⋅ da ⋅ dc ⋆ c ⋅ (da ⋅ db)      ≣⟨ assoc-l-⋅ ≀⋆≀ (assoc-l-⋅ ∙ (─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ≀⋆≀ ((─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ⟩
-              a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc) ⋅ da ⋆ (c ⋅ db) ⋅ da  ≣⟨ assoc-l-⋆ ⟩
-              a ⋅ (db ⋅ dc) ⋆ ((b ⋅ dc) ⋅ da ⋆ (c ⋅ db) ⋅ da) ≣⟨ ─ ≀⋆≀ distr-r-⋅ ⁻¹ ⟩
-              (a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc ⋆ c ⋅ db) ⋅ da)        ∎
+          P₀ = (a ⋅ db ⋆ b ⋅ da) ⋅ dc ⋆ c ⋅ (da ⋅ db)            ≣⟨ distr-r-⋅ ≀⋆≀ ─ ⟩
+               a ⋅ db ⋅ dc ⋆ b ⋅ da ⋅ dc ⋆ c ⋅ (da ⋅ db)         ≣⟨ assoc-l-⋅ ≀⋆≀ (assoc-l-⋅ ∙ (─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ≀⋆≀ ((─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ⟩
+               a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc) ⋅ da ⋆ (c ⋅ db) ⋅ da     ≣⟨ assoc-l-⋆ ⟩
+               a ⋅ (db ⋅ dc) ⋆ ((b ⋅ dc) ⋅ da ⋆ (c ⋅ db) ⋅ da)   ≣⟨ ─ ≀⋆≀ distr-r-⋅ ⁻¹ ⟩
+               (a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc ⋆ c ⋅ db) ⋅ da)          ∎
 
           P₁ : ((a ⋅ db ⋆ b ⋅ da) ⋅ dc ⋆ c ⋅ (da ⋅ db)) ⋅ (da ⋅ (db ⋅ dc)) ⋅ ⨡  ∼  (a ⋅ (db ⋅ dc) ⋆ (b ⋅ dc ⋆ c ⋅ db) ⋅ da) ⋅ (da ⋅ db ⋅ dc) ⋅ ⨡
           P₁ = P₀ ≀⋅≀ assoc-r-⋅ ≀⋅≀ ─
@@ -84,27 +84,27 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
               -> (p : a₀ ⋅ da₁ ⋅ dt ∼ a₁ ⋅ da₀ ⋅ dt)
               -> (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ db₁) ⋅ (dt ⋅ ds))  ∼  (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ db₀) ⋅ (dt ⋅ ds))
           P₀ {a₀} {a₁} {da₀} {da₁} {db₀} {db₁} {dt} {ds} p =
-              (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ db₁) ⋅ (dt ⋅ ds))    ≣⟨ ─ ≀⋅≀ assoc-r-⋅ ⟩
-              (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ db₁) ⋅ dt ⋅ ds)      ≣⟨ ─ ≀⋅≀ (assoc-l-⋅ ≀⋅≀ ─) ⟩
-              (a₀ ⋅ db₀) ⋅ (da₁ ⋅ (db₁ ⋅ dt) ⋅ ds)      ≣⟨ ─ ≀⋅≀ (─ ≀⋅≀ comm-⋅ ≀⋅≀ ─) ⟩
-              (a₀ ⋅ db₀) ⋅ (da₁ ⋅ (dt ⋅ db₁) ⋅ ds)      ≣⟨ ─ ≀⋅≀ (assoc-r-⋅ ≀⋅≀ ─) ⟩
-              (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ dt) ⋅ db₁ ⋅ ds)      ≣⟨ assoc-l-⋅ ⟩
-              a₀ ⋅ (db₀ ⋅ ((da₁ ⋅ dt) ⋅ db₁ ⋅ ds))      ≣⟨ ─ ≀⋅≀ assoc-r-⋅ ⟩
-              a₀ ⋅ (db₀ ⋅ ((da₁ ⋅ dt) ⋅ db₁) ⋅ ds)      ≣⟨ ─ ≀⋅≀ (comm-⋅ ≀⋅≀ ─) ⟩
-              a₀ ⋅ (((da₁ ⋅ dt) ⋅ db₁) ⋅ db₀ ⋅ ds)      ≣⟨ assoc-r-⋅ ⟩
-              (a₀ ⋅ (((da₁ ⋅ dt) ⋅ db₁) ⋅ db₀)) ⋅ ds    ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ⟩
-              (a₀ ⋅ ((da₁ ⋅ dt) ⋅ db₁) ⋅ db₀) ⋅ ds      ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₀ ⋅ (da₁ ⋅ dt) ⋅ db₁ ⋅ db₀) ⋅ ds        ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₀ ⋅ da₁ ⋅ dt ⋅ db₁ ⋅ db₀) ⋅ ds          ≣⟨ p ≀⋅≀ ─ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₁ ⋅ da₀ ⋅ dt ⋅ db₁ ⋅ db₀) ⋅ ds          ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₁ ⋅ (da₀ ⋅ dt) ⋅ db₁ ⋅ db₀) ⋅ ds        ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₁ ⋅ ((da₀ ⋅ dt) ⋅ db₁) ⋅ db₀) ⋅ ds      ≣⟨ ─ ≀⋅≀ comm-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₁ ⋅ (db₁ ⋅ (da₀ ⋅ dt)) ⋅ db₀) ⋅ ds      ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
-              (a₁ ⋅ db₁) ⋅ (da₀ ⋅ dt) ⋅ db₀ ⋅ ds        ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ⟩
-              (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ dt) ⋅ db₀) ⋅ ds      ≣⟨ ─ ≀⋅≀ (assoc-l-⋅ ∙ (─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ≀⋅≀ ─ ⟩
-              (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ db₀) ⋅ dt) ⋅ ds      ≣⟨ assoc-l-⋅ ⟩
-              (a₁ ⋅ db₁) ⋅ (((da₀ ⋅ db₀) ⋅ dt) ⋅ ds)    ≣⟨ ─ ≀⋅≀ assoc-l-⋅ ⟩
-              (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ db₀) ⋅ (dt ⋅ ds))    ∎
+              {- (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ db₁) ⋅ (dt ⋅ ds))  -} _  ≣⟨ ─ ≀⋅≀ assoc-r-⋅ ⟩
+              {- (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ db₁) ⋅ dt ⋅ ds)    -} _  ≣⟨ ─ ≀⋅≀ (assoc-l-⋅ ≀⋅≀ ─) ⟩
+              {- (a₀ ⋅ db₀) ⋅ (da₁ ⋅ (db₁ ⋅ dt) ⋅ ds)    -} _  ≣⟨ ─ ≀⋅≀ (─ ≀⋅≀ comm-⋅ ≀⋅≀ ─) ⟩
+              {- (a₀ ⋅ db₀) ⋅ (da₁ ⋅ (dt ⋅ db₁) ⋅ ds)    -} _  ≣⟨ ─ ≀⋅≀ (assoc-r-⋅ ≀⋅≀ ─) ⟩
+              {- (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ dt) ⋅ db₁ ⋅ ds)    -} _  ≣⟨ assoc-l-⋅ ⟩
+              {- a₀ ⋅ (db₀ ⋅ ((da₁ ⋅ dt) ⋅ db₁ ⋅ ds))    -} _  ≣⟨ ─ ≀⋅≀ assoc-r-⋅ ⟩
+              {- a₀ ⋅ (db₀ ⋅ ((da₁ ⋅ dt) ⋅ db₁) ⋅ ds)    -} _  ≣⟨ ─ ≀⋅≀ (comm-⋅ ≀⋅≀ ─) ⟩
+              {- a₀ ⋅ (((da₁ ⋅ dt) ⋅ db₁) ⋅ db₀ ⋅ ds)    -} _  ≣⟨ assoc-r-⋅ ⟩
+              {- (a₀ ⋅ (((da₁ ⋅ dt) ⋅ db₁) ⋅ db₀)) ⋅ ds  -} _  ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ⟩
+              {- (a₀ ⋅ ((da₁ ⋅ dt) ⋅ db₁) ⋅ db₀) ⋅ ds    -} _  ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₀ ⋅ (da₁ ⋅ dt) ⋅ db₁ ⋅ db₀) ⋅ ds      -} _  ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₀ ⋅ da₁ ⋅ dt ⋅ db₁ ⋅ db₀) ⋅ ds        -} _  ≣⟨ p ≀⋅≀ ─ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ da₀ ⋅ dt ⋅ db₁ ⋅ db₀) ⋅ ds        -} _  ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ (da₀ ⋅ dt) ⋅ db₁ ⋅ db₀) ⋅ ds      -} _  ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ ((da₀ ⋅ dt) ⋅ db₁) ⋅ db₀) ⋅ ds    -} _  ≣⟨ ─ ≀⋅≀ comm-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ (db₁ ⋅ (da₀ ⋅ dt)) ⋅ db₀) ⋅ ds    -} _  ≣⟨ assoc-r-⋅ ≀⋅≀ ─ ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ db₁) ⋅ (da₀ ⋅ dt) ⋅ db₀ ⋅ ds      -} _  ≣⟨ assoc-l-⋅ ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ dt) ⋅ db₀) ⋅ ds    -} _  ≣⟨ ─ ≀⋅≀ (assoc-l-⋅ ∙ (─ ≀⋅≀ comm-⋅) ∙ assoc-r-⋅) ≀⋅≀ ─ ⟩
+              {- (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ db₀) ⋅ dt) ⋅ ds    -} _  ≣⟨ assoc-l-⋅ ⟩
+              {- (a₁ ⋅ db₁) ⋅ (((da₀ ⋅ db₀) ⋅ dt) ⋅ ds)  -} _  ≣⟨ ─ ≀⋅≀ assoc-l-⋅ ⟩
+              {- (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ db₀) ⋅ (dt ⋅ ds))  -} _  ∎
 
           -- | We switch a₀, a₁ and their ds using p
           P₁ : (a₀ ⋅ db₀) ⋅ ((da₁ ⋅ db₁) ⋅ (dt ⋅ ds))  ∼  (a₁ ⋅ db₁) ⋅ ((da₀ ⋅ db₀) ⋅ (dt ⋅ ds))
@@ -137,7 +137,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
     isMonoid.unit-l-⋆ isMonoid:Localize = lem-20
     isMonoid.unit-r-⋆ isMonoid:Localize = lem-30
     isMonoid.assoc-l-⋆ isMonoid:Localize = lem-40
-    isMonoid.assoc-r-⋆ isMonoid:Localize = lem-40 ⁻¹
+    -- isMonoid.assoc-r-⋆ isMonoid:Localize = lem-40 ⁻¹
     isMonoid._`cong-⋆`_ isMonoid:Localize = lem-50
 
 

@@ -66,7 +66,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasSeparatingFamily 𝑘 𝒞}} {{_ : hasI
     lift-fromsep ϕ {i} = free ϕ {i}
 
     lem-1 : ∀{a : Separator} {b c : 𝐈𝐱 I 𝒞} -> {i j : I} -> i ≣ j -> (ξ : separator a ⟶ ix b i) -> (f g : b ⟶ c) -> lift-fromsep {b = b} ξ {j} ◆ f ∼ lift-fromsep {b = b} ξ {j} ◆ g -> ξ ◆ f ∼ ξ ◆ g
-    lem-1 = ?
+    lem-1 = {!!}
     -- lem-1 {i = i} {j} i≣j ξ f g p with (i ≟-Str j)
     -- ... | yes refl-≣ = p
     -- ... | no ¬p = 𝟘-rec (¬p i≣j)
