@@ -9,6 +9,7 @@ open import Verification.Experimental.Set.Setoid
 open import Verification.Experimental.Algebra.Monoid
 open import Verification.Experimental.Algebra.Group
 open import Verification.Experimental.Algebra.Ring
+open import Verification.Experimental.Algebra.Abelian.Definition
 open import Verification.Experimental.Algebra.Ring.Ordered
 open import Verification.Experimental.Algebra.Ring.Localization
 open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder
@@ -70,8 +71,37 @@ instance
   isSetoid:ℝᶜ : isSetoid ℝᶜ
   isSetoid:ℝᶜ = setoid _∼-ℝᶜ_ lem-1 lem-2 lem-3
 
+instance
+  isMonoid:ℝᶜ : isMonoid ℝᶜ
+  isMonoid:ℝᶜ = {!!}
 
+instance
+  isGroup:ℝᶜ : isGroup ℝᶜ
+  isGroup:ℝᶜ = {!!}
 
+instance
+  isCommutative:ℝᶜ : isCommutative ℝᶜ
+  isCommutative:ℝᶜ = {!!}
 
+instance
+  isSemiring:ℝᶜ : isSemiring ℝᶜ
+  isSemiring:ℝᶜ = {!!}
+
+instance
+  isRing:ℝᶜ : isRing ℝᶜ
+  isRing:ℝᶜ = record {}
+
+instance
+  isField:ℝᶜ : isField ℝᶜ
+  isField:ℝᶜ = {!!}
+
+instance
+  isOrderedRing:ℝᶜ : isOrderedRing ℓ₀ ℝᶜ
+  isOrderedRing:ℝᶜ = {!!}
+
+-- NOTE: this should actually be derived from ordered ring
+instance
+  isPreorder:ℝᶜ : isPreorder ℓ₀ ℝᶜ
+  isPreorder:ℝᶜ = {!!}
 
 
