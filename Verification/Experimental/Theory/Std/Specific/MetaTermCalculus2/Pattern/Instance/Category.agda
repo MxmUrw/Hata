@@ -4,27 +4,92 @@ module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.I
 open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
+open import Verification.Experimental.Algebra.Monoid.Free.Element
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
 open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
-open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
+open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.RelativeMonad.Definition
+open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
+open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
+open import Verification.Experimental.Category.Std.Morphism.EpiMono
 
-module _ {K : Kinding 𝑗} {γ : MetaTermCalculus K 𝑖} where
-  open MTCDefinitions γ
+open import Verification.Experimental.Data.Indexed.Definition
+open import Verification.Experimental.Data.Indexed.Instance.Monoid
+open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.Renaming.Definition
+open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 
-  Hom-Subs : ∀ (ℑs 𝔍s : List (Jdg₂ ⟨ K ⟩)) -> 𝒰 _
-  Hom-Subs ℑs 𝔍s = Subs _⊩ᶠ-pat_ ℑs 𝔍s
+
+module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
+
+  𝖩 : 𝒰 _
+  𝖩 = Jdg₂ ⟨ K ⟩
+
+  Pat : 𝐅𝐢𝐧𝐈𝐱 𝖩 -> 𝐈𝐱 𝖩 (𝐔𝐧𝐢𝐯 _)
+  Pat (incl js) = indexed (λ j → js ⊩ᶠ-pat j)
+
+  Pat' : 𝐅𝐢𝐧𝐈𝐱 𝖩 -> 𝐈𝐱 (Jdg₃ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 _)
+  Pat' (incl js) = indexed (λ j → js ⊩ᶠ-patlam j)
+
+  macro 𝑃𝑎𝑡 = #structureOn Pat
+  macro 𝑃𝑎𝑡' = #structureOn Pat'
+
+  instance
+    isFunctor:Pat : isFunctor (𝐅𝐢𝐧𝐈𝐱 𝖩) (𝐈𝐱 𝖩 (𝐔𝐧𝐢𝐯 _)) Pat
+    isFunctor:Pat = {!!}
+
+  repure-𝑃𝑎𝑡 : ∀{j : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 j
+  repure-𝑃𝑎𝑡 i x = app-meta x id
+
+  mutual
+    reext-𝑃𝑎𝑡' : ∀{j k : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 k -> 𝑃𝑎𝑡' j ⟶ 𝑃𝑎𝑡' k
+    reext-𝑃𝑎𝑡' f _ (lam s) = lam (reext-𝑃𝑎𝑡 f _ s)
+
+    reext-𝑃𝑎𝑡 : ∀{j k : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 k -> 𝑃𝑎𝑡 j ⟶ 𝑃𝑎𝑡 k
+    reext-𝑃𝑎𝑡 f _ (app-meta M s) = apply-injVars (f _ M) s
+    reext-𝑃𝑎𝑡 f _ (app-var v ts) = app-var v (λ x -> reext-𝑃𝑎𝑡' f _ (ts x))
+    reext-𝑃𝑎𝑡 f _ (app-con c ts) = app-con c (λ x -> reext-𝑃𝑎𝑡' f _ (ts x))
+
+  instance
+    isRelativeMonad:Pat : isRelativeMonad (𝑓𝑢𝑙𝑙 _ _) 𝑃𝑎𝑡
+    isRelativeMonad.repure   isRelativeMonad:Pat = repure-𝑃𝑎𝑡
+    isRelativeMonad.reext    isRelativeMonad:Pat = reext-𝑃𝑎𝑡
+    isRelativeMonad.reunit-l isRelativeMonad:Pat = {!!}
+    isRelativeMonad.reunit-r isRelativeMonad:Pat = {!!}
+    isRelativeMonad.reassoc  isRelativeMonad:Pat = {!!}
+    -- isRelativeMonad.repure isRelativeMonad:Pat = repure-𝑃𝑎𝑡
+    -- isRelativeMonad.reext  isRelativeMonad:Pat = reext-𝑃𝑎𝑡 
+
+module _ (K : Kinding 𝑖) {{_ : isMetaTermCalculus 𝑖 K}} where
+  macro
+    𝐏𝐚𝐭 : SomeStructure
+    𝐏𝐚𝐭 = #structureOn (RelativeKleisli 𝑃𝑎𝑡)
 
 
+module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
+  subst-𝐏𝐚𝐭 : ∀{j k : 𝐏𝐚𝐭 K} {a : Jdg₂ ⟨ K ⟩} -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-pat a -> (j ⟶ k) -> ⟨ ⟨ k ⟩ ⟩ ⊩ᶠ-pat a
+  subst-𝐏𝐚𝐭 {a = a} t σ = ⟨ (incl (λ {i incl → t}) ◆ σ) ⟩ a incl
+
+
+  -- Hom-Subs : ∀ (J K : 𝐅𝐢𝐧𝐈𝐱 𝖩) -> 𝒰 _
+  -- Hom-Subs J K = (𝑒𝑙 ⟨ J ⟩) ⟶ (Pat K)
+
+
+  -- ∀{k} -> K ∍ k -> J ⊩ᶠ-pat k
+  -- Subs _⊩ᶠ-pat_ ℑs 𝔍s
+
+
+{-
   mutual
     subst-patlam : ∀{ℑs 𝔍s 𝔎} -> Subs _⊩ᶠ-pat_ ℑs 𝔍s -> 𝔍s ⊩ᶠ-patlam 𝔎 -> (ℑs ⊩ᶠ-patlam 𝔎)
     subst-patlam σ (lam ts) = lam (subst-pat σ ts)
@@ -87,7 +152,7 @@ module _ {K : Kinding 𝑗} {γ : MetaTermCalculus K 𝑖} where
 -}
 
   private
-    lem-10 : ∀{Γ Δ a α} (M : a ⊨-var Δ ⇒ α) (s : injvars Γ ⟶ injvars Δ)
+    lem-10 : ∀{Γ Δ a α} (M : a ⊨-var Δ ⇒ α) (s : injVars Γ Δ)
            -> apply-injVars (getvar id-Subs M) s ≡ app-meta M s
     lem-10 zero s = {!!}
     lem-10 (suc M) s = {!!}
@@ -132,6 +197,7 @@ module _ {K : Kinding 𝑗} {γ : MetaTermCalculus K 𝑖} where
     isCategory.assoc-r-◆ isCategory:Subs     = {!!}
     isCategory._◈_ isCategory:Subs           = {!!}
 
+-}
 
 
 

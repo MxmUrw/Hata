@@ -25,9 +25,9 @@ module _ {I : 𝒰 𝑖} {𝒞 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}}
   module _ {a b : 𝐈𝐱 I 𝒞} where
     instance
       isCoproduct:⊔-𝐈𝐱 : isCoproduct a b (a ⊔-𝐈𝐱 b)
-      isCoproduct.ι₀ isCoproduct:⊔-𝐈𝐱             = ι₀
-      isCoproduct.ι₁ isCoproduct:⊔-𝐈𝐱             = ι₁
-      isCoproduct.⦗ isCoproduct:⊔-𝐈𝐱 ⦘            = λ (f , g) → ⦗ f , g ⦘
+      isCoproduct.ι₀ isCoproduct:⊔-𝐈𝐱             = λ i -> ι₀
+      isCoproduct.ι₁ isCoproduct:⊔-𝐈𝐱             = λ i -> ι₁
+      isCoproduct.⦗ isCoproduct:⊔-𝐈𝐱 ⦘            = λ (f , g) i → ⦗ f i , g i ⦘
       isCoproduct.isSetoidHom:⦗⦘ isCoproduct:⊔-𝐈𝐱 = {!!}
       isCoproduct.reduce-ι₀ isCoproduct:⊔-𝐈𝐱      = {!!}
       isCoproduct.reduce-ι₁ isCoproduct:⊔-𝐈𝐱      = {!!}

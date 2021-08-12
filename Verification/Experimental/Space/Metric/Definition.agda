@@ -23,13 +23,15 @@ open import Verification.Experimental.Order.Preorder
 
 open AbelianMonoidNotation
 
+
 record isMetric (A : Setoid 𝑖) : 𝒰 𝑖 where
   constructor metric
-  field dist : ⟨ A ⟩ -> ⟨ A ⟩ -> ℝ
-  field identify-dist : ∀{a b : ⟨ A ⟩} -> dist a b ∼ ◌ -> a ∼ b
-  field id-dist : ∀{a b : ⟨ A ⟩} -> a ∼ b -> dist a b ∼ ◌
-  field sym-dist : ∀{a b : ⟨ A ⟩} -> dist a b ∼ dist b a
-  field tri-dist : ∀{a b c : ⟨ A ⟩} -> dist a c ≤ dist a b + dist b c
+  infix 70 _⎓_
+  field _⎓_ : ⟨ A ⟩ -> ⟨ A ⟩ -> ℝ
+  field identify-⎓ : ∀{a b : ⟨ A ⟩} -> a ⎓ b ∼ ◌ -> a ∼ b
+  field id-⎓ : ∀{a b : ⟨ A ⟩} -> a ∼ b -> a ⎓ b ∼ ◌
+  field sym-⎓ : ∀{a b : ⟨ A ⟩} -> a ⎓ b ∼ b ⎓ a
+  field tri-⎓ : ∀{a b c : ⟨ A ⟩} -> a ⎓ c ≤ a ⎓ b + b ⎓ c
 
 open isMetric {{...}} public
 

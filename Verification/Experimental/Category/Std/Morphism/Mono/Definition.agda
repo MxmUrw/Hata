@@ -47,17 +47,15 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
         P : isMono ϕ
         isMono.cancel-mono P {z} {α} {β} x = Q
           where
-            Q₀ : map α ◆ map ϕ ∼ map β ◆ map ϕ
-            Q₀ = map α ◆ map ϕ    ⟨ functoriality-◆ ⁻¹ ⟩-∼
-                 map (α ◆ ϕ)      ⟨ cong-∼ x ⟩-∼
-                 map (β ◆ ϕ)      ⟨ functoriality-◆ ⟩-∼
-                 map β ◆ map ϕ    ∎
-
-            Q₁ : map α ∼ map β
-            Q₁ = cancel-mono Q₀
-
-            Q : α ∼ β
-            Q = cancel-injective Q₁
+            Q = x
+                >> α ◆ ϕ ∼ β ◆ ϕ <<
+                ⟪ cong-∼ ⟫
+                ⟪ functoriality-◆ ≀∼≀ functoriality-◆ ⟫
+                >> map α ◆ map ϕ ∼ map β ◆ map ϕ <<
+                ⟪ cancel-mono ⟫
+                >> map α ∼ map β <<
+                ⟪ cancel-injective ⟫
+                >> α ∼ β <<
 
 
 

@@ -87,6 +87,32 @@ module _ {X : 𝒰 𝑖} where
 
   isSetoid:byStrId : isSetoid X
   isSetoid:byStrId = isSetoid:byId
+
+
+
+infixl 10 >><<-syntax
+>><<-syntax : ∀(A : 𝒰 𝑖) -> A -> A
+>><<-syntax A a = a
+syntax >><<-syntax A a = a >> A <<
+
+infixl 10 ⟪⟫-syntax
+⟪⟫-syntax : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} -> A -> (A -> B) -> B
+⟪⟫-syntax a f = f a
+syntax ⟪⟫-syntax a f = a ⟪ f ⟫
+
+
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
+  both : {a b c d : A} -> (a ∼ c) -> (b ∼ d) -> a ∼ b -> c ∼ d
+  both p q r = p ⁻¹ ∙ r ∙ q
+
+
+_≀∼≀_ = both
+
+
+
+
+
+
   -- setoid _≣_ refl-≣ (λ {refl-≣ -> refl-≣}) (λ{refl-≣ q -> q})
 
 -- instance

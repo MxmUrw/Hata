@@ -20,11 +20,13 @@ open import Verification.Experimental.Set.Function.Injective
 
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
+open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.Renaming.Definition
+open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 
-open import Verification.Experimental.Data.FiniteIndexed.Definition
 
 
 module _ {K : 𝒰 𝑖} (R : List K -> K -> 𝒰 𝑗) where
@@ -41,41 +43,52 @@ module _ {K : 𝒰 𝑖} {R : List K -> K -> 𝒰 𝑗} where
 record Jdg₂ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   inductive
   constructor _⇒_
-  field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
+  -- field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
+  field fst : List (Jdg₂ A)
   field snd : A
 infix 4 _⇒_
 
 open Jdg₂ public
 
+module _ {A : 𝒰 𝑖} where
+  instance
+    isDiscrete:Jdg₂ : {{isDiscrete A}} -> isDiscrete (Jdg₂ A)
+    isDiscrete:Jdg₂ = {!!}
+
 record Jdg₃ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   constructor _∥_
-  field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
+  -- field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
+  field fst : List (Jdg₂ A)
   field snd : Jdg₂ A
 infix 4 _∥_
 
 open Jdg₃ public
 
-record MetaTermCalculus (K : Kinding 𝑗) (𝑖 : 𝔏): 𝒰 (𝑗 ⁺ ､ 𝑖 ⁺) where
+record isMetaTermCalculus (𝑖 : 𝔏) {𝑗} (K : Kinding 𝑗) : 𝒰 (𝑗 ⁺ ､ 𝑖 ⁺) where
   field TermCon : Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑖)
 
-open MetaTermCalculus public
+open isMetaTermCalculus {{...}} public
 
-module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
+MetaTermCalculus : (𝑖 : 𝔏 ^ 2) -> 𝒰 _
+MetaTermCalculus 𝑖 = _ :& isMetaTermCalculus (𝑖 ⌄ 0) {𝑖 ⌄ 1}
 
-  jdg₂ : Jdg₃ ⟨ K ⟩ -> Jdg₂ ⟨ K ⟩
-  jdg₂ (Γ ∥ (Δ ⇒ α)) = Γ ⋆ Δ ⇒ α
+
+module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑗} K'}} where
+
+  -- jdg₂ : Jdg₃ K -> Jdg₂ K
+  -- jdg₂ (Γ ∥ (Δ ⇒ α)) = Γ ⋆ Δ ⇒ α
 
   -- 𝒞 : Category _
   -- 𝒞 = 𝐅𝐚𝐦 (𝐔𝐧𝐢𝐯 𝑖) 𝑖
+  private
+    K = ⟨ K' ⟩
 
 
 
   InjVars : Category _
-  InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ ⟨ K ⟩))
+  InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
 
-  -- (𝐈𝐱 (Jdg₂ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 𝑗))
-
-  injVars : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> 𝒰 _
+  injVars : Free-𝐌𝐨𝐧 (Jdg₂ K) -> Free-𝐌𝐨𝐧 (Jdg₂ K) -> 𝒰 _
   injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
 
   -- injVars Γ Δ = ∑ λ (f : ∀ {i} -> (Δ ∍ i) -> (Γ ∍ i)) -> ∀ i -> isInjective (f {i})
@@ -83,7 +96,7 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
 {-
   record InjVars : 𝒰 𝑗 where
     constructor injvars
-    field ⟨_⟩ : List (Jdg₂ ⟨ K ⟩)
+    field ⟨_⟩ : List (Jdg₂ K)
   open InjVars public
 
   instance
@@ -99,54 +112,57 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
     isCategory.assoc-r-◆ isCategory:InjVars = {!!}
     isCategory._◈_ isCategory:InjVars = {!!}
 
-  ∂ₖ₃ : Jdg₂ ⟨ K ⟩ -> Jdg₂ ⟨ K ⟩
+  ∂ₖ₃ : Jdg₂ K -> Jdg₂ K
   ∂ₖ₃ (αs ⇒ α) = αs ⇒ (∂ₖ α)
   -}
-
-      -- lam  : ∀{𝔍 Γ Δ α β} -> (t : 𝔍 ⊩ᶠ-pat (Γ ∥ ∂ₖ₃ α))
-      --                         -> (s : 𝔍 ⊩ᶠ-pat ((α ∷ Γ) ∥ (Δ ⇒ β)))
-      --                         -> 𝔍 ⊩ᶠ-pat (Γ ∥ ((α ∷ Δ) ⇒ β))
 
 
   mutual
 
-    data _⊩ᶠ-patlam_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> Jdg₃ ⟨ K ⟩ -> 𝒰 (𝑗 ⁺ ､ 𝑖) where
+    data _⊩ᶠ-patlam_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₃ K -> 𝒰 (𝑗 ､ 𝑖) where
       lam  : ∀{𝔍 Γ Δ β} -> (s : 𝔍 ⊩ᶠ-pat ((Γ ⋆ Δ) ⇒ β))
                               -> 𝔍 ⊩ᶠ-patlam (Γ ∥ (Δ ⇒ β))
 
     -- this should already be η-long
-    data _⊩ᶠ-pat_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ⁺ ､ 𝑖) where
+    data _⊩ᶠ-pat_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑗 ､ 𝑖) where
 
       app-meta  : ∀{𝔍 Γ Δ α}
-                -> (M : 𝔍 ∍ ((Δ ⇒ α))) -> (s : injVars Δ Γ)
+                -> (M : 𝔍 ∍ ((Δ ⇒ α))) -> (s : injVars (ι Δ) (ι Γ))
                 -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
       app-var : ∀{𝔍 Γ Δ α}
-              -> Γ ∍ (Δ ⇒ α) -> (∀ {i} -> Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
+              -> ι Γ ∍ (Δ ⇒ α) -> (∀ {i} -> ι Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
               -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
       app-con : ∀{𝔍 Γ Δ α}
-              -> TermCon γ (Δ ⇒ α) -> (∀ {i} -> Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
+              -> TermCon (Δ ⇒ α) -> (∀ {i} -> ι Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
               -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
 
   mutual
     apply-injVars-lam : ∀{ℑ Γ Δ α} -> (ℑ ⊩ᶠ-patlam (Δ ∥ (α)))
-                              -> injVars Δ Γ
+                              -> injVars (ι Δ) (ι Γ)
                               -> (ℑ ⊩ᶠ-patlam (Γ ∥ (α)))
-    apply-injVars-lam (lam ts) ι = lam (apply-injVars ts {!!})
+    apply-injVars-lam (lam ts) ι = lam (apply-injVars ts ?) -- (ι ⇃⊗⇂ id))
 
     apply-injVars : ∀{ℑ Γ Δ α} -> (ℑ ⊩ᶠ-pat (Δ ⇒ (α)))
-                              -> injVars Δ Γ
+                              -> injVars (ι Δ) (ι Γ)
                               -> (ℑ ⊩ᶠ-pat (Γ ⇒ (α)))
     apply-injVars (app-meta M κ) ι = app-meta M (κ ◆ ι)
-    apply-injVars (app-var v ts) ι = app-var (⟨ ⟨ ι ⟩ ⟩ v) λ x → apply-injVars-lam (ts x) ι
+    apply-injVars (app-var v ts) ι = app-var (⟨ ⟨ ι ⟩ ⟩ _ v) λ x → apply-injVars-lam (ts x) ι
     apply-injVars (app-con c ts) ι = app-con c λ x → apply-injVars-lam (ts x) ι
-    -- apply-injVars (lam ts) ι = lam (apply-injVars ts {!!})
+
+{-
+  cancel-injective-app-var : ∀{Γ Δ Δ' α j}
+              -> {x : Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> Δ ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
+              -> {x' : Γ ∍ (Δ' ⇒ α)}     -> {ts' : ∀ {i} -> Δ' ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
+              -> app-var x ts ≡ app-var x' ts' -> ∑ λ (p : Δ ≡ Δ') -> PathP (λ i -> Γ ∍ (p i ⇒ α)) x x'
+  cancel-injective-app-var p = {!!}
 
 
 {-
-  -- _⊩ᶠ-pat_ : (𝔍s : List (Jdg₂ ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖)
+{-
+  -- _⊩ᶠ-pat_ : (𝔍s : List (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑗 ､ 𝑖)
   -- _⊩ᶠ-pat_ = _⊩ᶠ-pat_
   -- ∑ λ Γ -> ∑ λ Δ -> (Γ ⋆ Δ ∼ ℑ) × (𝔍s ⊩ᶠ-pat (Γ ∥ (Δ ⇒ α)))
 
@@ -192,10 +208,12 @@ module MTCDefinitions {K : Kinding 𝑗} (γ : MetaTermCalculus K 𝑖) where
   -- open-injVars {Δ = ⦋⦌} t ι = apply-injVars t ι
   -- open-injVars {Δ = x ∷ Δ} (lam t) ι = apply-injVars t ι
 
-  _⊩ᶠ-pat_ : (𝔍s : List (Jdg₂ ⟨ K ⟩)) -> Jdg₂ ⟨ K ⟩ -> 𝒰 (𝑗 ､ 𝑖)
+  _⊩ᶠ-pat_ : (𝔍s : List (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑗 ､ 𝑖)
   _⊩ᶠ-pat_ 𝔍s (ℑ ⇒ α) = ∑ λ Γ -> ∑ λ Δ -> (Γ ⋆ Δ ∼ ℑ) × (𝔍s ⊩ᶠ-pat (Γ ∥ (Δ ⇒ α)))
 
 
 -}
 
+-}
+-}
 -}

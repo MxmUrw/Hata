@@ -3,6 +3,7 @@
 module Verification.Conventions where
 
 open import Verification.Conventions.Prelude hiding (𝑖 ; 𝑗 ; 𝑘 ; 𝑙 ; ′_′) public
+open import Verification.Conventions.Postprelude public
 open import Verification.Conventions.Meta public
 open import Verification.Conventions.Meta2.Macros public
 open import Verification.Conventions.Meta2.Structure public

@@ -73,12 +73,14 @@ data Free-𝐌𝐨𝐧 (A : 𝒰 𝑖) : 𝒰 𝑖 where
 
 
 
-
 macro
   𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 : (A : 𝒰 𝑖) -> SomeStructure
   𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A = #structureOn (Free-𝐌𝐨𝐧 A)
 
 module _ {A : 𝒰 𝑖} where
+
+
+  -- the setoid and monoid structure
 
   infix 10 _∼-Free-𝐌𝐨𝐧_
   data _∼-Free-𝐌𝐨𝐧_ : (a b : Free-𝐌𝐨𝐧 A) -> 𝒰 𝑖 where
@@ -114,6 +116,18 @@ module _ {A : 𝒰 𝑖} where
                           ; assoc-l-⋆  = incl assoc-l-⋆-Free-𝐌𝐨𝐧
                           ; _`cong-⋆`_ = cong-⋆-Free-𝐌𝐨𝐧
                           }
+
+  -- the inclusion from lists
+  ι-Free-𝐌𝐨𝐧 : List A -> Free-𝐌𝐨𝐧 A
+  ι-Free-𝐌𝐨𝐧 ⦋⦌ = ◌
+  ι-Free-𝐌𝐨𝐧 (a ∷ as) = incl a ⋆ ι-Free-𝐌𝐨𝐧 as
+
+  instance
+    hasInclusion:List,Free-𝐌𝐨𝐧 : hasInclusion (List A) (Free-𝐌𝐨𝐧 A)
+    hasInclusion:List,Free-𝐌𝐨𝐧 = inclusion ι-Free-𝐌𝐨𝐧
+
+
+  -- the element relation
 
   data _∍_ : Free-𝐌𝐨𝐧 A -> A -> 𝒰 𝑖 where
     incl : ∀{x} -> incl x ∍ x

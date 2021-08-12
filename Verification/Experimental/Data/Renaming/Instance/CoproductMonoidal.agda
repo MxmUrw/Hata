@@ -54,13 +54,13 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
     lem-1 {ϕ = ϕ} {ψ} ϕp ψp = reflect-isMono (construct-isMono-𝐈𝐱 (construct-isMono-𝐔𝐧𝐢𝐯 P))
       where
         instance
-          ϕp' : ∀{i} -> isInjective (⟨ ϕ ⟩ {i})
+          ϕp' : ∀{i} -> isInjective (⟨ ϕ ⟩ i)
           ϕp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ϕp))
 
-          ψp' : ∀{i} -> isInjective (⟨ ψ ⟩ {i})
+          ψp' : ∀{i} -> isInjective (⟨ ψ ⟩ i)
           ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ψp))
 
-        P : ∀{i : A} -> isInjective (⟨(map-⊔ (ϕ , ψ))⟩ {i})
+        P : ∀{i : A} -> isInjective (⟨(map-⊔ (ϕ , ψ))⟩ i)
         isInjective.cancel-injective P {left-∍ a} {left-∍ b} x    = cong left-∍ (cancel-injective (cancel-injective x))
         isInjective.cancel-injective P {left-∍ a} {right-∍ b} x   = impossible x
         isInjective.cancel-injective P {right-∍ a} {left-∍ b} x   = impossible x

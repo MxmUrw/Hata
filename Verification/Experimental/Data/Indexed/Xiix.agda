@@ -17,7 +17,11 @@ open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 
-module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} where
+module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {I : 𝒰 𝑗} where
+
+  private
+    𝒞 : Category _
+    𝒞 = ′ 𝒞' ′
 
   ix' : I -> 𝐈𝐱 I 𝒞 -> ⟨ 𝒞 ⟩
   ix' i a = ix a i
@@ -26,16 +30,23 @@ module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} where
     𝑖𝑥 : ∀(i : I) -> SomeStructure
     𝑖𝑥 i = #structureOn (ix' i)
 
+  map-𝑖𝑥 : ∀ i -> ∀{a b : 𝐈𝐱 I 𝒞} -> (ϕ : a ⟶ b) -> ix a i ⟶ ix b i
+  map-𝑖𝑥 i ϕ = ϕ i
+
   module _ {i : I} where
     instance
       isFunctor:𝑖𝑥 : isFunctor (𝐈𝐱 I 𝒞) 𝒞 (𝑖𝑥 i)
-      isFunctor.map isFunctor:𝑖𝑥               = λ x → x {i}
-      isFunctor.isSetoidHom:map isFunctor:𝑖𝑥   = record { cong-∼ = λ x → x }
+      isFunctor.map isFunctor:𝑖𝑥               = map-𝑖𝑥 _ -- λ x → x i
+      isFunctor.isSetoidHom:map isFunctor:𝑖𝑥   = record { cong-∼ = λ x → x i }
       isFunctor.functoriality-id isFunctor:𝑖𝑥  = refl
       isFunctor.functoriality-◆ isFunctor:𝑖𝑥   = refl
 
 
-module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {{_ : hasInitial 𝒞}} {{_ : isDiscrete I}} where
+module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {I : 𝒰 𝑗} {{_ : hasInitial ′ 𝒞' ′}} {{_ : isDiscrete I}} where
+-- module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {{_ : hasInitial 𝒞}} {{_ : isDiscrete I}} where
+  private
+    𝒞 : Category _
+    𝒞 = ′ 𝒞' ′
 
   xiₗ : (i : I) -> ⟨ 𝒞 ⟩ -> 𝐈𝐱 I 𝒞
   xiₗ i a = indexed f
@@ -51,7 +62,7 @@ module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {{_ : hasInitial 𝒞}} {{_ : is
 
   module _ {i : I} where
     map-𝑥𝑖ₗ : ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> 𝑥𝑖ₗ i a ⟶ 𝑥𝑖ₗ i b
-    map-𝑥𝑖ₗ f {j} with i ≟-Str j
+    map-𝑥𝑖ₗ f j with i ≟-Str j
     ... | yes p = f
     ... | no ¬p = id
 
@@ -72,16 +83,22 @@ module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {{_ : hasInitial 𝒞}} {{_ : is
     coadj-𝑥𝑖ₗ = coadj-𝑥𝑖ₗ' refl-≣
 
     adj-𝑥𝑖ₗ : ∀{a : 𝐈𝐱 I 𝒞} -> 𝑥𝑖ₗ i (𝑖𝑥 i a) ⟶ a
-    adj-𝑥𝑖ₗ {a} {j} with i ≟-Str j
+    adj-𝑥𝑖ₗ {a} j with i ≟-Str j
     ... | yes refl-≣ = id
     ... | no ¬p = elim-⊥
 
     instance
       isAdjoint:𝑥𝑖ₗ𝑖𝑥 : isAdjoint (𝑥𝑖ₗ i) (𝑖𝑥 i)
-      isAdjoint:𝑥𝑖ₗ𝑖𝑥 = record
-                        { adj    = adj-𝑥𝑖ₗ
-                        ; coadj  = coadj-𝑥𝑖ₗ
-                        }
+      isAdjoint.adj              isAdjoint:𝑥𝑖ₗ𝑖𝑥 = adj-𝑥𝑖ₗ
+      isAdjoint.coadj            isAdjoint:𝑥𝑖ₗ𝑖𝑥 = coadj-𝑥𝑖ₗ
+      isAdjoint.isNatural:adj    isAdjoint:𝑥𝑖ₗ𝑖𝑥 = {!!}
+      isAdjoint.isNatural:coadj  isAdjoint:𝑥𝑖ₗ𝑖𝑥 = {!!}
+      isAdjoint.reduce-coadj     isAdjoint:𝑥𝑖ₗ𝑖𝑥 = {!!}
+      isAdjoint.reduce-adj       isAdjoint:𝑥𝑖ₗ𝑖𝑥 = {!!}
+      -- record
+      --                   { adj    = adj-𝑥𝑖ₗ
+      --                   ; coadj  = coadj-𝑥𝑖ₗ
+      --                   }
 
 
 

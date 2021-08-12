@@ -65,6 +65,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     isCoproduct.expand-⊔ transp-≅-Coproduct       = {!!}
 
 
+
 record hasInitial (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field ⊥ : ⟨ 𝒞 ⟩
   field {{isInitial:⊥}} : isInitial ⊥

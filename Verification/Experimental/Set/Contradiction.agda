@@ -18,3 +18,6 @@ instance
   isContradiction:𝟘-𝒰 : isContradiction (𝟘-𝒰)
   isContradiction:𝟘-𝒰 = contradiction (𝟘-rec)
 
+instance
+  isContradiction:⊥-𝒰 : isContradiction (⊥-𝒰 {𝑖})
+  isContradiction:⊥-𝒰 = contradiction λ ()

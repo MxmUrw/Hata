@@ -49,10 +49,10 @@ module _ {M : Monoid₀ (𝑖 , 𝑖)} {f g : ⟨ M ⟩} where
                 g ⋆ (h ⋆ i)   ∎
       in incl P₀
     isIdeal-r.ideal-◍ isIdeal-r:CoeqSolutions = incl (absorb-r-⋆ ∙ absorb-r-⋆ ⁻¹)
-private
-  module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
-    Pair : (a b : 𝒞) -> 𝒰 _
-    Pair a x = Hom a x ∧ Hom a x
+-- private
+module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
+  Pair : (a b : 𝒞) -> 𝒰 _
+  Pair a x = Hom a x ∧ Hom a x
 
 IxC : (𝒞 : Category 𝑖) -> 𝒰 _
 IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> Pair a b
@@ -60,6 +60,11 @@ IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> Pair a b
 module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
   𝓘C : (i : IxC 𝒞) -> Ideal-r ′(PathMon 𝒞)′
   𝓘C (_ , _ , f , g) = ′ (CoeqSolutions (arrow f) (arrow g)) ′
+
+-- module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞}} {{_ : isDiscrete 𝒞}} {{_ : isSet-Str 𝒞}} where
+  -- data isPrincipalC {a b : 𝒞} (f g : a ⟶ b) : 𝒰 𝑖 where
+  --   solved : hasCoequalizer f g
+  --   field princobj : 
 
 module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
   record isSplittableC (n : ℕ) (i : IxC 𝒞) (P : IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
@@ -70,7 +75,7 @@ module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
 
 record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} : 𝒰 (𝑖 ⁺) where
   field SizeC : WFT (ℓ₀ , ℓ₀)
-  field isBase : ∀(a x : ⟨ 𝒞 ⟩) -> (h : a ⟶ x) -> 𝒰 (𝑖 ⌄ 1)
+  field isBase : ∀{a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> 𝒰 (𝑖 ⌄ 1)
   field sizeC : {a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> ⟨ SizeC ⟩
 
   -- field SizeCF : WFT (ℓ₀ , ℓ₀)
@@ -83,12 +88,12 @@ record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩
   -- a ⪣ b = (a ≡-Str b) ∨ (a ≪ b)
 
   field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : Pair x y)
-           -> (isBase _ _ (fst i) ∨ isBase _ _ (snd i)
+           -> (isBase (i)
               +-𝒰 (∑ λ n -> isSplittableC 𝒞 n (x , y , i) (λ (_ , _ , j) -> sizeC j ≪ sizeC i)))
 
   field size0 : ⟨ SizeC ⟩
   field initial-size0 : ∀{a} -> size0 ⪣ a
-  -- field isPrincipalC : ∀()
+  field isPrincipalC:Base : ∀{a b : ⟨ 𝒞 ⟩} -> ∀(f g : a ⟶ b) -> isBase (f , g) -> isDecidable (hasCoequalizer f g)
 
 open isPrincipalFamilyCat {{...}} public
 
@@ -104,7 +109,8 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} 
     -- two arrows are already equal, we have no constraints
 
     Ix = Maybe (∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ (x : ⟨ 𝒞 ⟩) -> Pair a x)
-    Bx = Maybe (∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ (x : ⟨ 𝒞 ⟩) -> Side ×-𝒰 ((∑ isBase a x) ∧ Hom a x))
+    Bx = Maybe (∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ (x : ⟨ 𝒞 ⟩) -> ∑ isBase {a = a} {x})
+    -- Side ×-𝒰 ((∑ isBase a x) ∧ Hom a x))
 
     -- record isSplittableCat (n : ℕ) (i : Ix) (P : I -> 𝒰₀) : 𝒰 (𝑗 ､ 𝑖 ⁺) where
     --   field fam : Fin-R n -> I
@@ -118,8 +124,9 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} 
 
     bb : Bx -> Ix
     bb nothing = nothing
-    bb (just (x , a , isLeft , ((h , _) , f)))  = just (x , a , h , f)
-    bb (just (x , a , isRight , ((h , _) , f))) = just (x , a , f , h)
+    bb (just (x , a , (f , g) , _)) = just (x , a , (f , g))
+    -- bb (just (x , a , isLeft , ((h , _) , f)))  = just (x , a , h , f)
+    -- bb (just (x , a , isRight , ((h , _) , f))) = just (x , a , f , h)
 
 
     M : Monoid₀ _

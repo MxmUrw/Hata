@@ -45,6 +45,7 @@ module _ {𝑖 : 𝔏} {𝑗 : 𝔏 ^ 3} {K : 𝒰 𝑖} {𝒞 : 𝒰 _} {{_ : �
 
 record isKinding (A : 𝒰 𝑖) : 𝒰 𝑖 where
   field ∂ₖ : A -> A
+  field {{isDiscrete:this}} : isDiscrete A
 
 open isKinding {{...}} public
 
