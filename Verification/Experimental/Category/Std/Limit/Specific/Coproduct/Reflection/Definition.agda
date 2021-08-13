@@ -1,0 +1,67 @@
+
+module Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Reflection.Definition where
+
+open import Verification.Conventions hiding (_⊔_)
+
+open import Verification.Experimental.Set.Setoid
+open import Verification.Experimental.Set.Discrete
+open import Verification.Experimental.Data.Product.Definition
+open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
+
+open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+
+open import Verification.Experimental.Category.Std.Functor.Faithful
+open import Verification.Experimental.Category.Std.Functor.Full
+open import Verification.Experimental.Category.Std.Functor.EssentiallySurjective
+open import Verification.Experimental.Set.Setoid.Morphism
+
+
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {{_ : isFull F}} {{_ : isFaithful F}} where
+
+  module _ {a b x : ⟨ 𝒞 ⟩} {{_ : isCoproduct (⟨ F ⟩ a) (⟨ F ⟩ b) (⟨ F ⟩ x)}} where
+
+    private
+      ι₀' : a ⟶ x
+      ι₀' = surj ι₀
+
+      ι₁' : b ⟶ x
+      ι₁' = surj ι₁
+
+      ⦗_⦘' : ∀{y} -> (a ⟶ y) × (b ⟶ y) -> x ⟶ y
+      ⦗_⦘' (f , g) = surj (⦗ map f , map g ⦘)
+
+    isCoproduct:byFullyFaithfull : isCoproduct a b x
+    isCoproduct.ι₀ isCoproduct:byFullyFaithfull = ι₀'
+    isCoproduct.ι₁ isCoproduct:byFullyFaithfull = ι₁'
+    isCoproduct.⦗ isCoproduct:byFullyFaithfull ⦘ = ⦗_⦘'
+    isCoproduct.isSetoidHom:⦗⦘ isCoproduct:byFullyFaithfull = {!!}
+    isCoproduct.reduce-ι₀ isCoproduct:byFullyFaithfull = {!!}
+    isCoproduct.reduce-ι₁ isCoproduct:byFullyFaithfull = {!!}
+    isCoproduct.expand-⊔ isCoproduct:byFullyFaithfull = {!!}
+
+  module _ {{_ : isEssentiallySurjective F}} {{_ : hasCoproducts 𝒟}} where
+    private
+      _⊔'_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
+      _⊔'_ a b = surj (⟨ F ⟩ a ⊔ ⟨ F ⟩ b)
+      -- _⊔'_ a b = surj {{_}} {{_}} {{_}} {{isSurjective:this}} (⟨ F ⟩ a ⊔ ⟨ F ⟩ b)
+
+
+      lem-20 : hasCoproducts 𝒞
+      hasCoproducts._⊔_ lem-20 = {!!}
+      hasCoproducts.isCoproduct:⊔ lem-20 = {!!}
+
+    hasCoproducts:byFullyFaithfullEssentiallySurjective : hasCoproducts 𝒞
+    hasCoproducts:byFullyFaithfullEssentiallySurjective = lem-20
+
+
+
+    -- isCoproduct:byFullSubcategory : {{_ : isCoproduct (f ⟨ a ⟩) (f ⟨ b ⟩) (f ⟨ x ⟩)}} -> isCoproduct a b x
+    -- isCoproduct.ι₀ isCoproduct:byFullSubcategory = incl ι₀
+    -- isCoproduct.ι₁ isCoproduct:byFullSubcategory = incl ι₁
+    -- isCoproduct.⦗ isCoproduct:byFullSubcategory ⦘ = λ (f , g) -> incl ⦗ ⟨ f ⟩ , ⟨ g ⟩ ⦘
+    -- isCoproduct.isSetoidHom:⦗⦘ isCoproduct:byFullSubcategory = {!!}
+    -- isCoproduct.reduce-ι₀ isCoproduct:byFullSubcategory = reduce-ι₀
+    -- isCoproduct.reduce-ι₁ isCoproduct:byFullSubcategory = reduce-ι₁
+    -- isCoproduct.expand-⊔ isCoproduct:byFullSubcategory = expand-⊔

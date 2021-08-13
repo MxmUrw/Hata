@@ -6,12 +6,12 @@ open import Verification.Experimental.Conventions
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Free
 open import Verification.Experimental.Set.Function.Injective
--- open import Verification.Experimental.Data.Prop.Definition
+open import Verification.Experimental.Data.Prop.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Set.Contradiction
 
 pattern ⦋⦌ = []
-pattern ⦋_⦌ a = a ∷ []
+-- pattern ⦋_⦌ a = a ∷ []
 pattern ⦋_،_⦌ a b = a ∷ b ∷ []
 pattern ⦋_،_،_⦌ a b c = a ∷ b ∷ c ∷ []
 pattern ⦋_،_،_،_⦌ a b c d = a ∷ b ∷ c ∷ d ∷ []
@@ -117,22 +117,13 @@ module _ {A : 𝒰 𝑖} where
                           ; _`cong-⋆`_ = cong-⋆-Free-𝐌𝐨𝐧
                           }
 
-  -- the inclusion from lists
-  ι-Free-𝐌𝐨𝐧 : List A -> Free-𝐌𝐨𝐧 A
-  ι-Free-𝐌𝐨𝐧 ⦋⦌ = ◌
-  ι-Free-𝐌𝐨𝐧 (a ∷ as) = incl a ⋆ ι-Free-𝐌𝐨𝐧 as
-
-  instance
-    hasInclusion:List,Free-𝐌𝐨𝐧 : hasInclusion (List A) (Free-𝐌𝐨𝐧 A)
-    hasInclusion:List,Free-𝐌𝐨𝐧 = inclusion ι-Free-𝐌𝐨𝐧
-
 
   -- the element relation
 
   data _∍_ : Free-𝐌𝐨𝐧 A -> A -> 𝒰 𝑖 where
     incl : ∀{x} -> incl x ∍ x
-    left-∍ : ∀{a b x} -> a ∍ x -> (a ⋆ b) ∍ x
     right-∍ : ∀{a b x} -> b ∍ x -> (a ⋆ b) ∍ x
+    left-∍ : ∀{a b x} -> a ∍ x -> (a ⋆ b) ∍ x
 
   instance
     isInjective:left-∍ : ∀{a b x} -> isInjective (left-∍ {a} {b} {x})
@@ -156,6 +147,51 @@ module _ {A : 𝒰 𝑖} where
 
     isContradiction:right-∍≡left-∍ : ∀{a b x} -> {p : a ∍ x} -> {q : b ∍ x} -> isContradiction (right-∍ p ≡ left-∍ q)
     isContradiction:right-∍≡left-∍ = contradiction (λ x → contradict (λ i -> (x (~ i))))
+
+
+  -- the element relation gives a subsetoid
+  private
+    lem-04 : ∀{as bs : Free-𝐌𝐨𝐧 A} {a : A} -> as ∼-Free-𝐌𝐨𝐧 bs -> as ∍ a -> bs ∍ a
+    lem-04 unit-l-⋆-Free-𝐌𝐨𝐧 (right-∍ x) = x
+    lem-04 unit-r-⋆-Free-𝐌𝐨𝐧 (left-∍ x) = x
+    lem-04 assoc-l-⋆-Free-𝐌𝐨𝐧 (left-∍ x) = {!!}
+    lem-04 assoc-l-⋆-Free-𝐌𝐨𝐧 (right-∍ x) = {!!}
+    lem-04 (cong-l-⋆-Free-𝐌𝐨𝐧 p) x = {!!}
+    lem-04 (cong-r-⋆-Free-𝐌𝐨𝐧 p) x = {!!}
+
+    lem-05 : ∀{as bs : Free-𝐌𝐨𝐧 A} {a : A} -> as ∼ bs -> as ∍ a -> bs ∍ a
+    lem-05 (incl x) = lem-04 x
+    lem-05 refl-RST = λ a -> a
+    lem-05 (sym-RST p) = {!!}
+    lem-05 (p ∙-RST p₁) = {!!}
+
+  instance
+    isSubsetoid:∍ : ∀{a : A} -> isSubsetoid (λ (as : 𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A) -> ∣ as ∍ a ∣)
+    isSubsetoid:∍ = record { transp-Subsetoid = lem-05 }
+
+
+
+  -- the inclusion from lists
+  ι-Free-𝐌𝐨𝐧 : List A -> Free-𝐌𝐨𝐧 A
+  ι-Free-𝐌𝐨𝐧 ⦋⦌ = ◌
+  ι-Free-𝐌𝐨𝐧 (a ∷ as) = incl a ⋆ ι-Free-𝐌𝐨𝐧 as
+
+  instance
+    hasInclusion:List,Free-𝐌𝐨𝐧 : hasInclusion (List A) (Free-𝐌𝐨𝐧 A)
+    hasInclusion:List,Free-𝐌𝐨𝐧 = inclusion ι-Free-𝐌𝐨𝐧
+
+  -- the normalization into lists
+  ♮-Free-𝐌𝐨𝐧 : Free-𝐌𝐨𝐧 A -> List A
+  ♮-Free-𝐌𝐨𝐧 (incl x) = x ∷ []
+  ♮-Free-𝐌𝐨𝐧 (a ⋆-Free-𝐌𝐨𝐧 b) = ♮-Free-𝐌𝐨𝐧 a ⋆ ♮-Free-𝐌𝐨𝐧 b
+  ♮-Free-𝐌𝐨𝐧 ◌-Free-𝐌𝐨𝐧 = ⦋⦌
+
+  instance
+    hasNormalization:Free-𝐌𝐨𝐧,List : hasNormalization (Free-𝐌𝐨𝐧 A) (List A)
+    hasNormalization:Free-𝐌𝐨𝐧,List = normalization ♮-Free-𝐌𝐨𝐧
+
+
+
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
   rec-Free-𝐌𝐨𝐧 : (f : A -> B) -> Free-𝐌𝐨𝐧 A -> B

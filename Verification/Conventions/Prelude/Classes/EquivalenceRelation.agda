@@ -221,3 +221,30 @@ module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
   _ ∎-∼ = refl
 
 
+module _ {A : 𝒰 𝑖} where
+  _⟨_⟩-≡_ : (x : A) {y : A} {z : A} → x ≡ y → y ≡ z → x ≡ z
+  _ ⟨ x≡y ⟩-≡ y≡z = trans-Path x≡y y≡z
+
+  ⟨⟩-≡-syntax : (x : A) {y z : A} → x ≡ y → y ≡ z → x ≡ z
+  ⟨⟩-≡-syntax = _⟨_⟩-≡_
+  infixr 2 ⟨⟩-≡-syntax
+  infixr 2 _⟨_⟩-≡_
+
+  infix  3 _∎-≡
+
+  _∎-≡ : (x : A) → x ≡ x
+  _ ∎-≡ = refl-≡
+
+module _ {A : 𝒰 𝑖} where
+  _⟨_⟩-≣_ : (x : A) {y : A} {z : A} → x ≣ y → y ≣ z → x ≣ z
+  _ ⟨ x≣y ⟩-≣ y≣z =  x≣y ∙-≣ y≣z
+
+  ⟨⟩-≣-syntax : (x : A) {y z : A} → x ≣ y → y ≣ z → x ≣ z
+  ⟨⟩-≣-syntax = _⟨_⟩-≣_
+  infixr 2 ⟨⟩-≣-syntax
+  infixr 2 _⟨_⟩-≣_
+
+  infix  3 _∎-≣
+
+  _∎-≣ : (x : A) → x ≣ x
+  _ ∎-≣ = refl-≣
