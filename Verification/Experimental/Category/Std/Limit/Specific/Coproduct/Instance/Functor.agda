@@ -11,9 +11,10 @@ open import Verification.Experimental.Category.Std.Category.Construction.Product
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Category.Structured.FiniteCoproduct.Definition
 
-module _ {𝒞 : 𝒰 _} {{_ : FiniteCoproductCategory 𝑖 on 𝒞}} where
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : hasCoproducts ′ 𝒞 ′ }} where
+-- {{_ : FiniteCoproductCategory 𝑖 on 𝒞}} where
 
-  𝒞' : Category 𝑖
+  𝒞' : Category _
   𝒞' = ′ 𝒞 ′
 
   map-⊔ : ∀{a b c d : 𝒞} -> (a ⟶ b) × (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)

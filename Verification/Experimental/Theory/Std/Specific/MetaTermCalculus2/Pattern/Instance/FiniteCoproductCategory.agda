@@ -12,7 +12,7 @@ open import Verification.Experimental.Data.Product.Definition
 -- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 -- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 -- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
 -- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -53,8 +53,8 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 
 module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
-  hasFiniteCoproducts:𝐏𝐚𝐭 : hasFiniteCoproducts (𝐏𝐚𝐭 K)
-  hasFiniteCoproducts:𝐏𝐚𝐭 = it
+  -- hasFiniteCoproducts:𝐏𝐚𝐭 : hasFiniteCoproducts (𝐏𝐚𝐭 K)
+  -- hasFiniteCoproducts:𝐏𝐚𝐭 = it
 
 
 

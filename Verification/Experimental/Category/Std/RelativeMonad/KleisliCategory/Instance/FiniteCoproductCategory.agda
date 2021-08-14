@@ -43,9 +43,17 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {𝒟 : Categor
         isCoproduct.reduce-ι₁ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬      = {!!}
         isCoproduct.expand-⊔ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬       = {!!}
 
+    ⊥-𝐑𝐞𝐊𝐥𝐬 : 𝐑𝐞𝐊𝐥𝐬 T
+    ⊥-𝐑𝐞𝐊𝐥𝐬 = incl ⊥
+
+    instance
+      isInitial:⊥-𝐑𝐞𝐊𝐥𝐬 : isInitial ⊥-𝐑𝐞𝐊𝐥𝐬
+      isInitial:⊥-𝐑𝐞𝐊𝐥𝐬 = {!!}
+
     instance
       hasInitial:𝐑𝐞𝐊𝐥𝐬 : hasInitial (𝐑𝐞𝐊𝐥𝐬 T)
-      hasInitial:𝐑𝐞𝐊𝐥𝐬 = {!!}
+      hasInitial.⊥ hasInitial:𝐑𝐞𝐊𝐥𝐬 = ⊥-𝐑𝐞𝐊𝐥𝐬
+      hasInitial.isInitial:⊥ hasInitial:𝐑𝐞𝐊𝐥𝐬 = it
 
       hasCoproducts:𝐑𝐞𝐊𝐥𝐬 : hasCoproducts (𝐑𝐞𝐊𝐥𝐬 T)
       hasCoproducts._⊔_ hasCoproducts:𝐑𝐞𝐊𝐥𝐬            = _⊔-𝐑𝐞𝐊𝐥𝐬_

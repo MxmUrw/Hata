@@ -25,6 +25,7 @@ open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.Indexed.Instance.FiniteCoproductCategory
 open import Verification.Experimental.Data.Indexed.Property.Mono
 open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.NormalFiniteIndexed.Definition
 
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
@@ -50,24 +51,48 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
   ◌-𝐑𝐞𝐧 = incl ⊥
 
   private
-    lem-1 : ∀{a b c d : 𝐅𝐢𝐧𝐈𝐱 A} -> {ϕ : a ⟶ b} -> {ψ : c ⟶ d} -> isMono ϕ -> isMono ψ -> isMono (map-⊔ (ϕ , ψ))
-    lem-1 {ϕ = ϕ} {ψ} ϕp ψp = reflect-isMono (construct-isMono-𝐈𝐱 (construct-isMono-𝐔𝐧𝐢𝐯 P))
+    -- lem-1 : ∀{a b c d : 𝐅𝐢𝐧𝐈𝐱 A} -> {ϕ : a ⟶ b} -> {ψ : c ⟶ d} -> isMono ϕ -> isMono ψ -> isMono (map-⊔ (ϕ , ψ))
+    -- lem-1 {ϕ = ϕ} {ψ} ϕp ψp = reflect-isMono (construct-isMono-𝐈𝐱 (construct-isMono-𝐔𝐧𝐢𝐯 P))
+    --   where
+    --     instance
+    --       ϕp' : ∀{i} -> isInjective (⟨ ϕ ⟩ i)
+    --       ϕp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ϕp))
+
+    --       ψp' : ∀{i} -> isInjective (⟨ ψ ⟩ i)
+    --       ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ψp))
+
+    --     P : ∀{i : A} -> isInjective (⟨(map-⊔ (ϕ , ψ))⟩ i)
+    --     isInjective.cancel-injective P {left-∍ a} {left-∍ b} x    = cong left-∍ (cancel-injective (cancel-injective x))
+    --     isInjective.cancel-injective P {left-∍ a} {right-∍ b} x   = impossible x
+    --     isInjective.cancel-injective P {right-∍ a} {left-∍ b} x   = impossible x
+    --     isInjective.cancel-injective P {right-∍ a} {right-∍ b} x  = cong right-∍ (cancel-injective (cancel-injective x))
+
+    lem-1 : ∀{a b c d : ♮𝐅𝐢𝐧𝐈𝐱 A} -> {ϕ : a ⟶ b} -> {ψ : c ⟶ d} -> isMono ϕ -> isMono ψ -> isMono (map-⊔ (ϕ , ψ))
+    lem-1 {ϕ = ϕ} {ψ} ϕp ψp = reflect-isMono (reflect-isMono (construct-isMono-𝐈𝐱 (construct-isMono-𝐔𝐧𝐢𝐯 P)))
       where
-        instance
-          ϕp' : ∀{i} -> isInjective (⟨ ϕ ⟩ i)
-          ϕp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ϕp))
+        -- XX : isMono ⟨ ϕ ⟩
+        -- XX = preserve-isMono ϕp
 
-          ψp' : ∀{i} -> isInjective (⟨ ψ ⟩ i)
-          ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ψp))
+        -- instance
+        --   ϕp' : ∀{i} -> isInjective (⟨ ⟨ ϕ ⟩ ⟩ i)
+        --   ϕp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ({!!})))
+        --   -- ϕp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono (preserve-isMono ϕp)))
 
-        P : ∀{i : A} -> isInjective (⟨(map-⊔ (ϕ , ψ))⟩ i)
-        isInjective.cancel-injective P {left-∍ a} {left-∍ b} x    = cong left-∍ (cancel-injective (cancel-injective x))
-        isInjective.cancel-injective P {left-∍ a} {right-∍ b} x   = impossible x
-        isInjective.cancel-injective P {right-∍ a} {left-∍ b} x   = impossible x
-        isInjective.cancel-injective P {right-∍ a} {right-∍ b} x  = cong right-∍ (cancel-injective (cancel-injective x))
+        --   ψp' : ∀{i} -> isInjective (⟨ ⟨ ψ ⟩ ⟩ i)
+        --   ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ({!!})))
+        --   -- ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono (preserve-isMono ψp)))
+
+        P : ∀{i : A} -> isInjective (⟨ ⟨(map-⊔ (ϕ , ψ))⟩ ⟩ i)
+        P = {!!}
+        -- isInjective.cancel-injective P {left-∍ a} {left-∍ b} x    = cong left-∍ (cancel-injective (cancel-injective x))
+        -- isInjective.cancel-injective P {left-∍ a} {right-∍ b} x   = impossible x
+        -- isInjective.cancel-injective P {right-∍ a} {left-∍ b} x   = impossible x
+        -- isInjective.cancel-injective P {right-∍ a} {right-∍ b} x  = cong right-∍ (cancel-injective (cancel-injective x))
+
 
   map-⋆-𝐑𝐞𝐧 : ∀{a b : (𝐑𝐞𝐧 A ×-𝒰 𝐑𝐞𝐧 A)} -> (ϕ : a ⟶ b) -> λ₋ _⋆-𝐑𝐞𝐧_ a ⟶ λ₋ _⋆-𝐑𝐞𝐧_ b
   map-⋆-𝐑𝐞𝐧 (subcathom f fp , subcathom g gp) = subcathom (map-⊔ (f , g)) (lem-1 fp gp)
+  -- subcathom (map-⊔ (f , g)) (lem-1 fp gp)
 
 
   instance

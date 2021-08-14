@@ -38,6 +38,7 @@ open import Verification.Experimental.Algebra.Monoid.Free.Element
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full public
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
+open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Reflection.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full.Construction.Coproduct
 
 open import Verification.Experimental.Data.FiniteIndexed.Definition
@@ -63,6 +64,10 @@ module _ (I : 𝒰 𝑖) where
 
 
 module _ {I : 𝒰 𝑖} where
+
+  instance
+    hasNormalization:♮𝐅𝐢𝐧𝐈𝐱 : hasNormalization (𝐅𝐢𝐧𝐈𝐱 I) (♮𝐅𝐢𝐧𝐈𝐱 I)
+    hasNormalization:♮𝐅𝐢𝐧𝐈𝐱 = normalization (λ x → incl (♮ ⟨ x ⟩))
 
   private
     module _ where
@@ -182,15 +187,37 @@ module _ {I : 𝒰 𝑖} where
     F = 𝑓𝑢𝑙𝑙 _ ι-♮𝐅𝐢𝐧𝐈𝐱
 
   private
-    lem-30 : ∀{a : 𝐅𝐢𝐧𝐈𝐱 I} -> ι-♮𝐅𝐢𝐧𝐈𝐱 (♮ ⟨ a ⟩) ≅ a
+    lem-30 : ∀{a : 𝐅𝐢𝐧𝐈𝐱 I} -> ⟨ F ⟩ (♮ a) ≅ a
     lem-30 {a} = uncong-≅ (construct-≅-𝐈𝐱 lem-25)
-
-    lem-31 : ∀(a : 𝐅𝐢𝐧𝐈𝐱 I) -> inEssentialImage F a
-    lem-31 a = (incl (♮ ⟨ a ⟩)) , lem-30
 
   instance
     isEssentiallySurjective:𝑓𝑢𝑙𝑙-♮𝐅𝐢𝐧𝐈𝐱 : isEssentiallySurjective F
-    isEssentiallySurjective:𝑓𝑢𝑙𝑙-♮𝐅𝐢𝐧𝐈𝐱 = essentiallysurjective lem-31
+    isEssentiallySurjective:𝑓𝑢𝑙𝑙-♮𝐅𝐢𝐧𝐈𝐱 = essentiallysurjective ♮ lem-30
+
+
+
+  -- explicit coproducts for ♮𝐅𝐢𝐧𝐈𝐱
+  _⊔-♮𝐅𝐢𝐧𝐈𝐱_ : ♮𝐅𝐢𝐧𝐈𝐱 I -> ♮𝐅𝐢𝐧𝐈𝐱 I -> ♮𝐅𝐢𝐧𝐈𝐱 I
+  _⊔-♮𝐅𝐢𝐧𝐈𝐱_ a b = incl (⟨ a ⟩ ⋆ ⟨ b ⟩)
+
+  private
+    module _ {a b : ♮𝐅𝐢𝐧𝐈𝐱 I} where
+      instance
+        isCoproduct:⊔-♮𝐅𝐢𝐧𝐈𝐱 : isCoproduct a b (a ⊔-♮𝐅𝐢𝐧𝐈𝐱 b)
+        isCoproduct:⊔-♮𝐅𝐢𝐧𝐈𝐱 = {!!}
+
+  instance
+    hasCoproducts:♮𝐅𝐢𝐧𝐈𝐱 : hasCoproducts (♮𝐅𝐢𝐧𝐈𝐱 I)
+    hasCoproducts._⊔_ hasCoproducts:♮𝐅𝐢𝐧𝐈𝐱 = _⊔-♮𝐅𝐢𝐧𝐈𝐱_
+    hasCoproducts.isCoproduct:⊔ hasCoproducts:♮𝐅𝐢𝐧𝐈𝐱 = isCoproduct:⊔-♮𝐅𝐢𝐧𝐈𝐱
+
+  instance
+    hasInitial:♮𝐅𝐢𝐧𝐈𝐱 : hasInitial (♮𝐅𝐢𝐧𝐈𝐱 I)
+    hasInitial:♮𝐅𝐢𝐧𝐈𝐱 = hasInitial:byFFEso
+
+  -- instance
+  --   hasFiniteCoproducts:♮𝐅𝐢𝐧𝐈𝐱 : hasFiniteCoproducts (♮𝐅𝐢𝐧𝐈𝐱 I)
+  --   hasFiniteCoproducts:♮𝐅𝐢𝐧𝐈𝐱 = hasFiniteCoproducts:byFFEso
 
 
 

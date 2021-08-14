@@ -68,9 +68,11 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
 
 data Free-𝐌𝐨𝐧 (A : 𝒰 𝑖) : 𝒰 𝑖 where
   incl : A -> Free-𝐌𝐨𝐧 A
-  _⋆-Free-𝐌𝐨𝐧_ : (a b : Free-𝐌𝐨𝐧 A) -> Free-𝐌𝐨𝐧 A
-  ◌-Free-𝐌𝐨𝐧 : Free-𝐌𝐨𝐧 A
+  _⋆-⧜_ : (a b : Free-𝐌𝐨𝐧 A) -> Free-𝐌𝐨𝐧 A
+  ◌-⧜ : Free-𝐌𝐨𝐧 A
 
+pattern _⋆-Free-𝐌𝐨𝐧_ a b = a ⋆-⧜ b
+pattern ◌-Free-𝐌𝐨𝐧 = ◌-⧜
 
 
 macro
@@ -148,27 +150,46 @@ module _ {A : 𝒰 𝑖} where
     isContradiction:right-∍≡left-∍ : ∀{a b x} -> {p : a ∍ x} -> {q : b ∍ x} -> isContradiction (right-∍ p ≡ left-∍ q)
     isContradiction:right-∍≡left-∍ = contradiction (λ x → contradict (λ i -> (x (~ i))))
 
-
-  -- the element relation gives a subsetoid
-  private
-    lem-04 : ∀{as bs : Free-𝐌𝐨𝐧 A} {a : A} -> as ∼-Free-𝐌𝐨𝐧 bs -> as ∍ a -> bs ∍ a
-    lem-04 unit-l-⋆-Free-𝐌𝐨𝐧 (right-∍ x) = x
-    lem-04 unit-r-⋆-Free-𝐌𝐨𝐧 (left-∍ x) = x
-    lem-04 assoc-l-⋆-Free-𝐌𝐨𝐧 (left-∍ x) = {!!}
-    lem-04 assoc-l-⋆-Free-𝐌𝐨𝐧 (right-∍ x) = {!!}
-    lem-04 (cong-l-⋆-Free-𝐌𝐨𝐧 p) x = {!!}
-    lem-04 (cong-r-⋆-Free-𝐌𝐨𝐧 p) x = {!!}
-
-    lem-05 : ∀{as bs : Free-𝐌𝐨𝐧 A} {a : A} -> as ∼ bs -> as ∍ a -> bs ∍ a
-    lem-05 (incl x) = lem-04 x
-    lem-05 refl-RST = λ a -> a
-    lem-05 (sym-RST p) = {!!}
-    lem-05 (p ∙-RST p₁) = {!!}
-
+  -- the element relation is discrete
   instance
-    isSubsetoid:∍ : ∀{a : A} -> isSubsetoid (λ (as : 𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A) -> ∣ as ∍ a ∣)
-    isSubsetoid:∍ = record { transp-Subsetoid = lem-05 }
+    isDiscrete:∍ : ∀{as a} -> isDiscrete (as ∍ a)
+    isDiscrete._≟-Str_ (isDiscrete:∍ {as} {a}) = h
+      where
+        -- TODO prove this part with the additional fact that A is a set (needs to be added).
+        g : ∀{a b} -> (p : a ≡ b) -> (x : incl b ∍ a) -> PathP (λ i -> incl (p i) ∍ a) incl x
+        g p incl = {!!}
 
+        f : ∀{as a} -> (x y : as ∍ a) -> Decision (x ≡ y)
+        f incl y = yes (g refl-≡ y)
+        f (right-∍ x) (right-∍ y) with f x y
+        ... | yes p = yes (cong right-∍ p)
+        ... | no ¬p = no (λ q -> ¬p (cancel-injective q))
+        f (right-∍ x) (left-∍ y) = no impossible
+        f (left-∍ x) (right-∍ y) = no impossible
+        f (left-∍ x) (left-∍ y) with f x y
+        ... | yes p = yes (cong left-∍ p)
+        ... | no ¬p = no (λ q -> ¬p (cancel-injective q))
+
+        h : ∀{as a} -> (x y : as ∍ a) -> Decision (x ≣ y)
+        h x y with f x y
+        ... | yes p = yes (≡→≡-Str p)
+        ... | no ¬p = no (λ q -> ¬p (≡-Str→≡ q))
+
+
+        -- f : ∀{as bs a b} -> (ps : as ≣ bs) -> (p : a ≣ b) -> (x : as ∍ a) -> (y : bs ∍ b) -> Decision (PathP (λ i -> ≡-Str→≡ ps i ∍ ≡-Str→≡ p i) x y)
+        -- f ps p incl incl = yes {!!}
+        -- f ps p incl (right-∍ y) = {!!}
+        -- f ps p incl (left-∍ y) = {!!}
+        -- f ps p (right-∍ x) y = {!!}
+        -- f ps p (left-∍ x) y = {!!}
+
+
+        -- f : ∀{as bs a b} -> (ps : as ≡ bs) -> (p : a ≡ b) -> (x : as ∍ a) -> (y : bs ∍ b) -> Decision (PathP (λ i -> ps i ∍ p i) x y)
+        -- f ps p incl incl = yes {!!}
+        -- f ps p incl (right-∍ y) = {!!}
+        -- f ps p incl (left-∍ y) = {!!}
+        -- f ps p (right-∍ x) y = {!!}
+        -- f ps p (left-∍ x) y = {!!}
 
 
   -- the inclusion from lists

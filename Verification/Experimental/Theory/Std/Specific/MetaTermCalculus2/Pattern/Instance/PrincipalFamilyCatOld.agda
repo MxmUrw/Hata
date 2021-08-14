@@ -34,7 +34,6 @@ open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
-open import Verification.Experimental.Data.Substitution.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 
 open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
@@ -52,8 +51,6 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 -- open import Verification.Experimental.Algebra.MonoidWithZero.Definition
 -- open import Verification.Experimental.Algebra.MonoidWithZero.Ideal
 -- open import Verification.Experimental.Algebra.MonoidAction.Definition
-
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.PrincipalFamilyCatBase
 
 -- ap : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} -> {f g : A -> B} -> (f ≡ g) -> (a : A) -> f a ≡ g a
 -- ap p a i = p i a
@@ -87,9 +84,8 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   -- coeq-𝐏𝐚𝐭 = {!!}
 
   -- private
-  --   single : ∀{a : Jdg₂ ⟨ K ⟩} {b : 𝐏𝐚𝐭 K} -> (t : ⟨ b ⟩ ⊩ᶠ-pat a) -> incl (incl a) ⟶ b
-  --   single t = incl t
-  --   -- incl (λ {i incl → t})
+  --   single : ∀{a : Jdg₂ ⟨ K ⟩} {b : 𝐏𝐚𝐭 K} -> (t : ⟨ ⟨ b ⟩ ⟩ ⊩ᶠ-pat a) -> incl (incl (incl a)) ⟶ b
+  --   single t = incl (λ {i incl → t})
 
   -- instance
   --   isDiscrete:𝐏𝐚𝐭 : isDiscrete (𝐏𝐚𝐭 K)
@@ -102,17 +98,14 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   -- private
   --   data isBase-𝐏𝐚𝐭 : {a b : 𝐏𝐚𝐭 K} -> Pair a b -> 𝒰 𝑖 where
   --     empty-domain : ∀{b : 𝐏𝐚𝐭 K} -> {σ ρ : ⊥ ⟶ b} -> isBase-𝐏𝐚𝐭 (σ , ρ)
-  --     -- no-unification : ∀{a : Jdg₂ ⟨ K ⟩} {b : 𝐏𝐚𝐭 K} -> {t s : ⟨ ⟨ b ⟩ ⟩ ⊩ᶠ-pat a} -> (∀{c} -> (σ : b ⟶ c) -> subst-𝐏𝐚𝐭 t σ ≣ subst-𝐏𝐚𝐭 s σ -> ⊥-𝒰 {ℓ₀})
-  --     --                 -> {f g : incl (incl (incl a)) ⟶ b}
-  --     --                 -> f ∼ single t -> g ∼ single s
-  --     --                 -> isBase-𝐏𝐚𝐭 (f , g)
+  --     no-unification : ∀{a : Jdg₂ ⟨ K ⟩} {b : 𝐏𝐚𝐭 K} -> {t s : ⟨ ⟨ b ⟩ ⟩ ⊩ᶠ-pat a} -> (∀{c} -> (σ : b ⟶ c) -> subst-𝐏𝐚𝐭 t σ ≣ subst-𝐏𝐚𝐭 s σ -> ⊥-𝒰 {ℓ₀})
+  --                     -> {f g : incl (incl (incl a)) ⟶ b}
+  --                     -> f ∼ single t -> g ∼ single s
+  --                     -> isBase-𝐏𝐚𝐭 (f , g)
 
-  --   lem-10 : ∀{a b : 𝐏𝐚𝐭 K} -> (f g : a ⟶ b) -> isBase-𝐏𝐚𝐭 (f , g) -> isDecidable (hasCoequalizer f g)
-  --   lem-10 = {!!}
-
-{-
-    lem-10 f g empty-domain = right (hasCoequalizer:byInitial f g)
-    lem-10 f g (no-unification {a} {b} {t} {s} p {f} {g} fp gp) = left {!!} -- P
+    -- lem-10 : ∀{a b : 𝐏𝐚𝐭 K} -> (f g : a ⟶ b) -> isBase-𝐏𝐚𝐭 (f , g) -> isDecidable (hasCoequalizer f g)
+    -- lem-10 f g empty-domain = right (hasCoequalizer:byInitial f g)
+    -- lem-10 f g (no-unification {a} {b} {t} {s} p {f} {g} fp gp) = left {!!} -- P
       -- where
       --   P : hasCoequalizer f g -> 𝟘-𝒰
       --   P (e since eP) =
@@ -134,77 +127,9 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
       --     in impossible P₀
 
-    lem-20-var-con : ∀{Γ Δ Δ' α} {j : 𝐏𝐚𝐭 K}
-              -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-              -> {c : TermCon (Δ' ⇒ α)} -> {ts' : ∀ {i} -> ι Δ' ∍ i -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-              -> ∀{k} -> (σ : j ⟶ k)
-              -> subst-𝐏𝐚𝐭 (app-var x ts) σ ≣ subst-𝐏𝐚𝐭 (app-con c ts') σ
-              -> ⊥-𝒰 {ℓ₀}
-    lem-20-var-con σ ()
-
-    lem-20-var-var : ∀{Γ Δ Δ' α} {j : 𝐏𝐚𝐭 K}
-              -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-              -> {x' : ι Γ ∍ (Δ' ⇒ α)}     -> {ts' : ∀ {i} -> ι Δ' ∍ i -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-              -> Δ ≢-Str Δ'
-              -> ∀{k} -> (σ : j ⟶ k)
-              -> subst-𝐏𝐚𝐭 (app-var x ts) σ ≣ subst-𝐏𝐚𝐭 (app-var x' ts') σ
-              -> ⊥-𝒰 {ℓ₀}
-    lem-20-var-var {Δ = Δ} {Δ'} q σ p =
-      let p' : Δ ≡ Δ'
-          p' = cancel-injective-app-var (≡-Str→≡ p) .fst
-      in impossible (q (≡→≡-Str p'))
-
-      -- app-con : ∀{𝔍 Γ Δ α}
-      --         -> TermCon (Δ ⇒ α) -> (∀ {i} -> Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
-      --         -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
-      -}
-
-    -- postulate
-    --   msize : ∀{a b : 𝐏𝐚𝐭 K} -> Pair a b -> 𝒲
-
     ∂-𝐏𝐚𝐭 : ∀{x y : 𝐏𝐚𝐭 K} -> (i : Pair x y)
            -> (isBase-𝐏𝐚𝐭 i
               +-𝒰 (∑ λ n -> isSplittableC (𝐏𝐚𝐭 K) n (x , y , i) (λ (_ , _ , j) -> msize j ≪-𝒲 msize i)))
-
-    -- if the domain is empty, we reached a base case
-    ∂-𝐏𝐚𝐭 {incl ◌-Free-𝐌𝐨𝐧} {y} (f , g) = left empty-domain
-
-    -- if the domain is not a singleton, we can split it
-    ∂-𝐏𝐚𝐭 {incl (x ⋆-Free-𝐌𝐨𝐧 y)} {z} ((fx ⋆-⧜ fy) , (gx ⋆-⧜ gy)) =
-      right (2 , record
-                 { famC      = mfam
-                 ; coversC   = {!!}
-                 ; fampropsC = {!!}
-                 })
-        where
-          mfam : Fin-R 2 -> _
-          mfam zero       = incl x , z , (fx , gx)
-          mfam (suc zero) = incl y , z , (fy , gy)
-
-    -- if the domain is a singleton, we look at the values of f and g at this singleton
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-meta {Δ = Δx} Mx tsx) , incl (app-meta {Δ = Δy} My tsy)) = {!!}
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-meta M s) , incl (app-var x x₁)) = {!!}
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-meta M s) , incl (app-con x x₁)) = {!!}
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-var x x₁) , incl (app-meta M s)) = {!!}
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-var {Δ = Δx} vx tsx) , incl (app-var {Δ = Δy} vy tsy)) with Δx ≟-Str Δy
-    ... | no ¬p = left (no-unification (lem-20-var-var ¬p))
-    ... | yes refl-≣ with vx ≟-Str vy
-    ... | no ¬p = left (no-unification (lem-20-var-var' ¬p))
-    ... | yes refl-≣ = right (1 , record
-                                  { famC      = mfam
-                                  ; coversC   = {!!}
-                                  ; fampropsC = {!!}
-                                  })
-          where
-            mfam : Fin-R 1 -> _
-            mfam _ = {!!}
-
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-var x x₁) , incl (app-con x₂ x₃)) = left (no-unification (lem-20-var-con))
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-con x x₁) , incl (app-meta M s)) = {!!}
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-con x x₁) , incl (app-var x₂ x₃)) = {!!}
-    ∂-𝐏𝐚𝐭 {incl _} (incl (app-con x x₁) , incl (app-con x₂ x₃)) = {!!}
-
-{-
 
     -- if the domain is not a singleton, we can split it
     ∂-𝐏𝐚𝐭 {incl (incl (a ⋆-Free-𝐌𝐨𝐧 b))} {y} (f , g) =
@@ -255,4 +180,5 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
     isPrincipalFamilyCat.initial-size0 isPrincipalFamilyCat:𝐏𝐚𝐭 = {!!}
     isPrincipalFamilyCat.isPrincipalC:Base isPrincipalFamilyCat:𝐏𝐚𝐭 f g x = {!!}
 
+{-
 -}

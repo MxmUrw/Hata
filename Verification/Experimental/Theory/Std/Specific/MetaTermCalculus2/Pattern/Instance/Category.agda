@@ -11,7 +11,7 @@ open import Verification.Experimental.Data.Product.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
@@ -22,12 +22,14 @@ open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
+open import Verification.Experimental.Data.Substitution.Definition
 
 
 module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
@@ -44,10 +46,6 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   macro 𝑃𝑎𝑡 = #structureOn Pat
   macro 𝑃𝑎𝑡' = #structureOn Pat'
 
-  instance
-    isFunctor:Pat : isFunctor (𝐅𝐢𝐧𝐈𝐱 𝖩) (𝐈𝐱 𝖩 (𝐔𝐧𝐢𝐯 _)) Pat
-    isFunctor:Pat = {!!}
-
   repure-𝑃𝑎𝑡 : ∀{j : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 j
   repure-𝑃𝑎𝑡 i x = app-meta x id
 
@@ -60,6 +58,16 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
     reext-𝑃𝑎𝑡 f _ (app-var v ts) = app-var v (λ x -> reext-𝑃𝑎𝑡' f _ (ts x))
     reext-𝑃𝑎𝑡 f _ (app-con c ts) = app-con c (λ x -> reext-𝑃𝑎𝑡' f _ (ts x))
 
+  map-𝑃𝑎𝑡 : ∀{a b : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> (a ⟶ b) -> 𝑃𝑎𝑡 a ⟶ 𝑃𝑎𝑡 b
+  map-𝑃𝑎𝑡 = {!!}
+
+  instance
+    isFunctor:Pat : isFunctor (𝐅𝐢𝐧𝐈𝐱 𝖩) (𝐈𝐱 𝖩 (𝐔𝐧𝐢𝐯 _)) Pat
+    isFunctor.map isFunctor:Pat = map-𝑃𝑎𝑡
+    isFunctor.isSetoidHom:map isFunctor:Pat = {!!}
+    isFunctor.functoriality-id isFunctor:Pat = {!!}
+    isFunctor.functoriality-◆ isFunctor:Pat = {!!}
+
   instance
     isRelativeMonad:Pat : isRelativeMonad (𝑓𝑢𝑙𝑙 _ _) 𝑃𝑎𝑡
     isRelativeMonad.repure   isRelativeMonad:Pat = repure-𝑃𝑎𝑡
@@ -67,18 +75,28 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
     isRelativeMonad.reunit-l isRelativeMonad:Pat = {!!}
     isRelativeMonad.reunit-r isRelativeMonad:Pat = {!!}
     isRelativeMonad.reassoc  isRelativeMonad:Pat = {!!}
+
+  -- instance
+  --   isFiniteCoproductPreserving:𝑃𝑎𝑡 : isFiniteCoproductPreserving 𝑃𝑎𝑡
+  --   isFiniteCoproductPreserving.preservesCoproducts:this isFiniteCoproductPreserving:𝑃𝑎𝑡 = {!!}
+  --   isFiniteCoproductPreserving.preservesInitial:this isFiniteCoproductPreserving:𝑃𝑎𝑡 = {!!}
+
     -- isRelativeMonad.repure isRelativeMonad:Pat = repure-𝑃𝑎𝑡
     -- isRelativeMonad.reext  isRelativeMonad:Pat = reext-𝑃𝑎𝑡 
 
 module _ (K : Kinding 𝑖) {{_ : isMetaTermCalculus 𝑖 K}} where
   macro
+    -- 𝐏𝐚𝐭 : SomeStructure
+    -- 𝐏𝐚𝐭 = #structureOn (RelativeKleisli 𝑃𝑎𝑡)
+
     𝐏𝐚𝐭 : SomeStructure
-    𝐏𝐚𝐭 = #structureOn (RelativeKleisli 𝑃𝑎𝑡)
+    𝐏𝐚𝐭 = #structureOn (InductiveSubstitution 𝑃𝑎𝑡)
 
 
-module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
-  subst-𝐏𝐚𝐭 : ∀{j k : 𝐏𝐚𝐭 K} {a : Jdg₂ ⟨ K ⟩} -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-pat a -> (j ⟶ k) -> ⟨ ⟨ k ⟩ ⟩ ⊩ᶠ-pat a
-  subst-𝐏𝐚𝐭 {a = a} t σ = ⟨ (incl (λ {i incl → t}) ◆ σ) ⟩ a incl
+-- module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
+--   subst-𝐏𝐚𝐭 : ∀{j k : 𝐏𝐚𝐭 K} {a : Jdg₂ ⟨ K ⟩} -> ⟨ ⟨ j ⟩ ⟩ ⊩ᶠ-pat a -> (j ⟶ k) -> ⟨ ⟨ k ⟩ ⟩ ⊩ᶠ-pat a
+--   subst-𝐏𝐚𝐭 {a = a} t σ = ⟨ (incl (λ {i incl → t}) ◆ σ) ⟩ a incl
+
 
 
   -- Hom-Subs : ∀ (J K : 𝐅𝐢𝐧𝐈𝐱 𝖩) -> 𝒰 _

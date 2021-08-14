@@ -84,9 +84,13 @@ module _ {I : 𝒰 𝑖} where
     hasCoproducts.isCoproduct:⊔ hasCoproducts:𝐅𝐢𝐧𝐈𝐱  = isCoproduct:⊔-𝐅𝐢𝐧𝐈𝐱
 
   instance
+    isInitial:⊥-𝐅𝐢𝐧𝐈𝐱 : isInitial ⊥-𝐅𝐢𝐧𝐈𝐱
+    isInitial:⊥-𝐅𝐢𝐧𝐈𝐱 = record { elim-⊥ = incl (λ {i ()}) ; expand-⊥ = {!!} }
+
+  instance
     hasInitial:𝐅𝐢𝐧𝐈𝐱 : hasInitial (𝐅𝐢𝐧𝐈𝐱 I)
     hasInitial.⊥ hasInitial:𝐅𝐢𝐧𝐈𝐱            = ⊥-𝐅𝐢𝐧𝐈𝐱
-    hasInitial.isInitial:⊥ hasInitial:𝐅𝐢𝐧𝐈𝐱  = record { elim-⊥ = {!!} ; expand-⊥ = {!!} }
+    hasInitial.isInitial:⊥ hasInitial:𝐅𝐢𝐧𝐈𝐱  = {!!}
 
   instance
     hasFiniteCoproducts:𝐅𝐢𝐧𝐈𝐱 : hasFiniteCoproducts (𝐅𝐢𝐧𝐈𝐱 I)

@@ -17,6 +17,8 @@ open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judge
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
 
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
+
 
 module _ {𝑖 𝑗 : 𝔏} where
   record Notation:hasInterpret (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
@@ -42,15 +44,6 @@ module _ {𝑖 : 𝔏} {𝑗 : 𝔏 ^ 3} {K : 𝒰 𝑖} {𝒞 : 𝒰 _} {{_ : �
 
 -----------------------------------
 -- ==* judgement categories
-
-record isKinding (A : 𝒰 𝑖) : 𝒰 𝑖 where
-  field ∂ₖ : A -> A
-  field {{isDiscrete:this}} : isDiscrete A
-
-open isKinding {{...}} public
-
-Kinding : ∀ (𝑖 : 𝔏) -> _
-Kinding 𝑖 = _ :& isKinding {𝑖}
 
 -- ⊦
 -- ⫞ 	⫟

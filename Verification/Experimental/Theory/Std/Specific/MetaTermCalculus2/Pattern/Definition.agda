@@ -9,10 +9,10 @@ open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Product.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
+-- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
@@ -21,6 +21,7 @@ open import Verification.Experimental.Set.Function.Injective
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.NormalFiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 
@@ -86,10 +87,15 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑗} K'}} where
 
 
   InjVars : Category _
-  InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
+  -- InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
+  InjVars = 𝐒𝐮𝐛ₘₒₙₒ (♮𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
+ -- 𝐑𝐞𝐧 (Jdg₂ K)
 
-  injVars : Free-𝐌𝐨𝐧 (Jdg₂ K) -> Free-𝐌𝐨𝐧 (Jdg₂ K) -> 𝒰 _
+  injVars : List (Jdg₂ K) -> List (Jdg₂ K) -> 𝒰 _
   injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
+
+  -- injVars : Free-𝐌𝐨𝐧 (Jdg₂ K) -> Free-𝐌𝐨𝐧 (Jdg₂ K) -> 𝒰 _
+  -- injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
 
   -- injVars Γ Δ = ∑ λ (f : ∀ {i} -> (Δ ∍ i) -> (Γ ∍ i)) -> ∀ i -> isInjective (f {i})
 
@@ -127,7 +133,7 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑗} K'}} where
     data _⊩ᶠ-pat_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑗 ､ 𝑖) where
 
       app-meta  : ∀{𝔍 Γ Δ α}
-                -> (M : 𝔍 ∍ ((Δ ⇒ α))) -> (s : injVars (ι Δ) (ι Γ))
+                -> (M : 𝔍 ∍ ((Δ ⇒ α))) -> (s : injVars (Δ) (Γ))
                 -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
       app-var : ∀{𝔍 Γ Δ α}
@@ -141,24 +147,24 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑗} K'}} where
 
   mutual
     apply-injVars-lam : ∀{ℑ Γ Δ α} -> (ℑ ⊩ᶠ-patlam (Δ ∥ (α)))
-                              -> injVars (ι Δ) (ι Γ)
+                              -> injVars (Δ) (Γ)
                               -> (ℑ ⊩ᶠ-patlam (Γ ∥ (α)))
-    apply-injVars-lam (lam ts) ι = lam (apply-injVars ts ?) -- (ι ⇃⊗⇂ id))
+    apply-injVars-lam (lam ts) ι = lam (apply-injVars ts (ι ⇃⊗⇂ id)) -- ({!!} ⇃⊗⇂ {!!})) -- (ι ⇃⊗⇂ id))
 
     apply-injVars : ∀{ℑ Γ Δ α} -> (ℑ ⊩ᶠ-pat (Δ ⇒ (α)))
-                              -> injVars (ι Δ) (ι Γ)
+                              -> injVars (Δ) (Γ)
                               -> (ℑ ⊩ᶠ-pat (Γ ⇒ (α)))
     apply-injVars (app-meta M κ) ι = app-meta M (κ ◆ ι)
-    apply-injVars (app-var v ts) ι = app-var (⟨ ⟨ ι ⟩ ⟩ _ v) λ x → apply-injVars-lam (ts x) ι
+    apply-injVars (app-var v ts) ι = app-var (⟨ ⟨ ⟨ ι ⟩ ⟩ ⟩ _ v) λ x → apply-injVars-lam (ts x) ι
     apply-injVars (app-con c ts) ι = app-con c λ x → apply-injVars-lam (ts x) ι
 
-{-
   cancel-injective-app-var : ∀{Γ Δ Δ' α j}
-              -> {x : Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> Δ ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
-              -> {x' : Γ ∍ (Δ' ⇒ α)}     -> {ts' : ∀ {i} -> Δ' ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
-              -> app-var x ts ≡ app-var x' ts' -> ∑ λ (p : Δ ≡ Δ') -> PathP (λ i -> Γ ∍ (p i ⇒ α)) x x'
+              -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> ι Δ ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
+              -> {x' : ι Γ ∍ (Δ' ⇒ α)}     -> {ts' : ∀ {i} -> ι Δ' ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
+              -> app-var x ts ≡ app-var x' ts' -> ∑ λ (p : Δ ≡ Δ') -> PathP (λ i -> ι Γ ∍ (p i ⇒ α)) x x'
   cancel-injective-app-var p = {!!}
 
+{-
 
 {-
 {-

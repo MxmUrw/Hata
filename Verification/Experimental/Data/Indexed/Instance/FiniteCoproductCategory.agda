@@ -39,9 +39,17 @@ module _ {I : 𝒰 𝑖} {𝒞 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}}
     hasCoproducts._⊔_ hasCoproducts:𝐈𝐱            = _⊔-𝐈𝐱_
     hasCoproducts.isCoproduct:⊔ hasCoproducts:𝐈𝐱  = isCoproduct:⊔-𝐈𝐱
 
+  ⊥-𝐈𝐱 : 𝐈𝐱 I 𝒞
+  ⊥-𝐈𝐱 = indexed λ _ -> ⊥
+
+  instance
+    isInitial:⊥-𝐈𝐱 : isInitial ⊥-𝐈𝐱
+    isInitial:⊥-𝐈𝐱 = {!!}
+
   instance
     hasInitial:𝐈𝐱 : hasInitial (𝐈𝐱 I 𝒞)
-    hasInitial:𝐈𝐱 = {!!}
+    hasInitial.⊥ hasInitial:𝐈𝐱 = ⊥-𝐈𝐱
+    hasInitial.isInitial:⊥ hasInitial:𝐈𝐱 = {!!}
 
   instance
     hasFiniteCoproducts:𝐈𝐱 : hasFiniteCoproducts (𝐈𝐱 I 𝒞)

@@ -8,6 +8,7 @@ open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Data.Product.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Morphism.Iso
 
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
@@ -20,9 +21,9 @@ open import Verification.Experimental.Set.Setoid.Morphism
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {{_ : isFull F}} {{_ : isFaithful F}} where
 
-  module _ {a b x : ⟨ 𝒞 ⟩} {{_ : isCoproduct (⟨ F ⟩ a) (⟨ F ⟩ b) (⟨ F ⟩ x)}} where
-
+  module _ {a b x : ⟨ 𝒞 ⟩} (P : isCoproduct (⟨ F ⟩ a) (⟨ F ⟩ b) (⟨ F ⟩ x)) where
     private
+      instance _ = P
       ι₀' : a ⟶ x
       ι₀' = surj ι₀
 
@@ -44,16 +45,40 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {
   module _ {{_ : isEssentiallySurjective F}} {{_ : hasCoproducts 𝒟}} where
     private
       _⊔'_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
-      _⊔'_ a b = surj (⟨ F ⟩ a ⊔ ⟨ F ⟩ b)
-      -- _⊔'_ a b = surj {{_}} {{_}} {{_}} {{isSurjective:this}} (⟨ F ⟩ a ⊔ ⟨ F ⟩ b)
+      _⊔'_ a b = eso (⟨ F ⟩ a ⊔ ⟨ F ⟩ b)
 
+      module _ {a b : ⟨ 𝒞 ⟩} where
+        lem-10 : isCoproduct a b (a ⊔' b)
+        lem-10 = isCoproduct:byFullyFaithfull (transp-≅-Coproduct p)
+          where
+            p : (⟨ F ⟩ a ⊔ ⟨ F ⟩ b) ≅ ⟨ F ⟩ (eso (⟨ F ⟩ a ⊔ ⟨ F ⟩ b))
+            p = sym-≅ inv-eso
 
       lem-20 : hasCoproducts 𝒞
-      hasCoproducts._⊔_ lem-20 = {!!}
-      hasCoproducts.isCoproduct:⊔ lem-20 = {!!}
+      hasCoproducts._⊔_ lem-20 = _⊔'_
+      hasCoproducts.isCoproduct:⊔ lem-20 = lem-10
 
-    hasCoproducts:byFullyFaithfullEssentiallySurjective : hasCoproducts 𝒞
-    hasCoproducts:byFullyFaithfullEssentiallySurjective = lem-20
+    hasCoproducts:byFFEso : hasCoproducts 𝒞
+    hasCoproducts:byFFEso = lem-20
+
+
+  module _ {{_ : isEssentiallySurjective F}} {{_ : hasInitial 𝒟}} where
+    private
+      ⊥' : ⟨ 𝒞 ⟩
+      ⊥' = eso ⊥
+
+      instance
+        isInitial:byFFEso : isInitial ⊥'
+        isInitial:byFFEso = {!!}
+
+    hasInitial:byFFEso : hasInitial 𝒞
+    hasInitial.⊥ hasInitial:byFFEso = ⊥'
+    hasInitial.isInitial:⊥ hasInitial:byFFEso = it
+
+  module _ {{_ : isEssentiallySurjective F}} {{_ : hasFiniteCoproducts 𝒟}} where
+    hasFiniteCoproducts:byFFEso : hasFiniteCoproducts 𝒞
+    hasFiniteCoproducts.hasInitial:this hasFiniteCoproducts:byFFEso = hasInitial:byFFEso
+    hasFiniteCoproducts.hasCoproducts:this hasFiniteCoproducts:byFFEso = hasCoproducts:byFFEso
 
 
 

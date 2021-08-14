@@ -28,11 +28,12 @@ open import Verification.Experimental.Category.Std.Category.Subcategory.Full.Con
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
 
 open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.NormalFiniteIndexed.Definition
 
 
 module _ (A : 𝒰 𝑖) where
   Renaming : 𝒰 _
-  Renaming = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 A)
+  Renaming = 𝐒𝐮𝐛ₘₒₙₒ (♮𝐅𝐢𝐧𝐈𝐱 A)
 
   macro
     𝐑𝐞𝐧 = #structureOn Renaming
