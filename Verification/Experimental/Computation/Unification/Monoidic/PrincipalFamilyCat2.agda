@@ -13,16 +13,21 @@ open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Data.Prop.Everything
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Sum.Definition
+open import Verification.Experimental.Data.Nat.Free
+open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Order.WellFounded.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Algebra.Monoid.Free.Definition
+open import Verification.Experimental.Algebra.Monoid.Free.Element
 open import Verification.Experimental.Algebra.MonoidWithZero.Definition
 open import Verification.Experimental.Algebra.MonoidWithZero.Ideal
 open import Verification.Experimental.Algebra.MonoidAction.Definition
 open import Verification.Experimental.Computation.Unification.Definition
 open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamily
 -- open import Verification.Experimental.Theory.Presentation.Signature.Definition
+
 
 module _ {M : 𝒰 𝑖} {{_ : Monoid₀ (𝑖 , 𝑖) on M}} where
 
@@ -33,6 +38,11 @@ module _ {M : 𝒰 𝑖} {{_ : Monoid₀ (𝑖 , 𝑖) on M}} where
 
   CoeqSolutions : (f g : M) -> 𝒫 M
   CoeqSolutions f g = λ h -> ∣ CoeqSolutions' f g h ∣
+
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
+  record hasProperty-isCoeq {a b x : 𝒞} (f : (a ⟶ b) ^ 2) (h : b ⟶ x) : 𝒰 (𝑖 ､ 𝑗) where
+    constructor incl
+    field ⟨_⟩ : fst f ◆ h ∼ snd f ◆ h
 
 module _ {M : Monoid₀ (𝑖 , 𝑖)} {f g : ⟨ M ⟩} where
   instance
@@ -67,10 +77,11 @@ module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
   --   field princobj : 
 
 module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
-  record isSplittableC (n : ℕ) (i : IxC 𝒞) (P : IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
-    field famC : Fin-R n -> IxC 𝒞
-    field coversC : ⋀-fin (λ i -> 𝓘C 𝒞 (famC i)) ∼ 𝓘C 𝒞 i
-    field fampropsC : ∀ k -> P (famC k)
+  record isSplittableC (n : 人ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) (P : IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
+    field famC : n ∍ tt -> ∑ λ a' -> (Pair a' b)
+    field coversC : ∀{x} -> (h : b ⟶ x) -> (f ⌄ 0 ◆ h ∼ f ⌄ 1 ◆ h) ↔ (∀ p -> (famC p .snd) ⌄ 0 ◆ h ∼ (famC p .snd) ⌄ 1 ◆ h)
+    -- field coversC : ⋀-fin (λ i -> 𝓘C 𝒞 (famC i)) ∼ 𝓘C 𝒞 i
+    field fampropsC : ∀ k -> P (_ , _ , famC k .snd)
   open isSplittableC public
 
 record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} : 𝒰 (𝑖 ⁺) where
@@ -89,7 +100,7 @@ record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩
 
   field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : Pair x y)
            -> (isBase (i)
-              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n (x , y , i) (λ (_ , _ , j) -> sizeC j ≪ sizeC i)))
+              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i (λ (_ , _ , j) -> sizeC j ≪ sizeC i)))
 
   field size0 : ⟨ SizeC ⟩
   field initial-size0 : ∀{a} -> size0 ⪣ a
@@ -151,8 +162,8 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} 
     ... | no ¬p = nothing
 
     lem-100 : {a b : PathMon 𝒞} → a ∼-PathMon b → a ∈ Good → b ∈ Good
-    lem-100 idp = id
-    lem-100 [] = id
+    lem-100 idp = id-𝒰
+    lem-100 [] = id-𝒰
     lem-100 (arrow p) = {!!}
 
     instance

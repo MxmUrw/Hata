@@ -3,6 +3,9 @@ module Verification.Experimental.Algebra.Monoid.Free.Definition where
 
 
 open import Verification.Experimental.Conventions
+open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Free
 open import Verification.Experimental.Set.Function.Injective
@@ -65,6 +68,18 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
     Notation:hasRec:List : Notation:hasRec (A -> B) (List A -> B)
     Notation:hasRec:List = record { rec = rec-List }
 
+
+instance
+  isFunctorList : isFunctor (𝐓𝐲𝐩𝐞 𝑖) (𝐓𝐲𝐩𝐞 𝑖) (List)
+  isFunctor.map isFunctorList = map-List
+  isFunctor.isSetoidHom:map isFunctorList = {!!}
+  isFunctor.functoriality-id isFunctorList = {!!}
+  isFunctor.functoriality-◆ isFunctorList = {!!}
+
+
+
+----------------------------------------------------------
+-- The free encoding
 
 data Free-𝐌𝐨𝐧 (A : 𝒰 𝑖) : 𝒰 𝑖 where
   incl : A -> Free-𝐌𝐨𝐧 A
@@ -224,4 +239,16 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
     Notation:hasRec:Free-𝐌𝐨𝐧 : Notation:hasRec (A -> B) (Free-𝐌𝐨𝐧 A -> B)
     Notation:hasRec:Free-𝐌𝐨𝐧 = record { rec = rec-Free-𝐌𝐨𝐧 }
 
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  map-Free-𝐌𝐨𝐧 : (A -> B) -> Free-𝐌𝐨𝐧 A -> Free-𝐌𝐨𝐧 B
+  map-Free-𝐌𝐨𝐧 f (incl x) = incl (f x)
+  map-Free-𝐌𝐨𝐧 f (as ⋆-Free-𝐌𝐨𝐧 bs) = map-Free-𝐌𝐨𝐧 f as ⋆-⧜ map-Free-𝐌𝐨𝐧 f bs
+  map-Free-𝐌𝐨𝐧 f ◌-Free-𝐌𝐨𝐧 = ◌-⧜
+
+instance
+  isFunctor:Free-𝐌𝐨𝐧 : isFunctor (𝐔𝐧𝐢𝐯 𝑖) (𝐔𝐧𝐢𝐯 𝑖) Free-𝐌𝐨𝐧
+  isFunctor.map isFunctor:Free-𝐌𝐨𝐧 = map-Free-𝐌𝐨𝐧
+  isFunctor.isSetoidHom:map isFunctor:Free-𝐌𝐨𝐧 = {!!}
+  isFunctor.functoriality-id isFunctor:Free-𝐌𝐨𝐧 = {!!}
+  isFunctor.functoriality-◆ isFunctor:Free-𝐌𝐨𝐧 = {!!}
 

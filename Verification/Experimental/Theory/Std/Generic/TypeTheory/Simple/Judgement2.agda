@@ -67,11 +67,4 @@ instance
   isFunctor.functoriality-◆ isFunctor:Jdg = {!!}
 
 
-instance
-  isFunctorList : isFunctor (𝐓𝐲𝐩𝐞 𝑖) (𝐓𝐲𝐩𝐞 𝑖) (List)
-  isFunctor.map isFunctorList = map-List
-  isFunctor.isSetoidHom:map isFunctorList = {!!}
-  isFunctor.functoriality-id isFunctorList = {!!}
-  isFunctor.functoriality-◆ isFunctorList = {!!}
-
 

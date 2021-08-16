@@ -21,9 +21,9 @@ module _ {𝒞 : Category 𝑖} {A : 𝒰 𝑗} {f : A -> ⟨ 𝒞 ⟩} where
     isCoproduct.ι₁ isCoproduct:byFullSubcategory = incl ι₁
     isCoproduct.⦗ isCoproduct:byFullSubcategory ⦘ = λ (f , g) -> incl ⦗ ⟨ f ⟩ , ⟨ g ⟩ ⦘
     isCoproduct.isSetoidHom:⦗⦘ isCoproduct:byFullSubcategory = {!!}
-    isCoproduct.reduce-ι₀ isCoproduct:byFullSubcategory = reduce-ι₀
-    isCoproduct.reduce-ι₁ isCoproduct:byFullSubcategory = reduce-ι₁
-    isCoproduct.expand-⊔ isCoproduct:byFullSubcategory = expand-⊔
+    isCoproduct.reduce-ι₀ isCoproduct:byFullSubcategory = incl reduce-ι₀
+    isCoproduct.reduce-ι₁ isCoproduct:byFullSubcategory = incl reduce-ι₁
+    isCoproduct.expand-⊔ isCoproduct:byFullSubcategory = incl expand-⊔
 
 
 

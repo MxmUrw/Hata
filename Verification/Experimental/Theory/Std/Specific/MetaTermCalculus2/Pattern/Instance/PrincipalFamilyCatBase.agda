@@ -104,36 +104,59 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   lem-10 : ∀{a b : 𝐏𝐚𝐭 K} -> (f g : a ⟶ b) -> isBase-𝐏𝐚𝐭 (f , g) -> isDecidable (hasCoequalizer f g)
   lem-10 = {!!}
 
+    -- lem-10 f g empty-domain = right (hasCoequalizer:byInitial f g)
+    -- lem-10 f g (no-unification {a} {b} {t} {s} p {f} {g} fp gp) = left {!!} -- P
+      -- where
+      --   P : hasCoequalizer f g -> 𝟘-𝒰
+      --   P (e since eP) =
+      --     let P₀ = ∼-Coeq
+
+      --              >> f ◆ π-Coeq ∼ g ◆ π-Coeq <<
+
+      --              ⟪ ( λ q -> ap (⟨ q ⟩ a) incl ) ⟫
+
+      --              >> subst-𝐏𝐚𝐭 t π-Coeq ≡ subst-𝐏𝐚𝐭 s π-Coeq <<
+
+      --              ⟪ ≡→≡-Str ⟫
+
+      --              >> subst-𝐏𝐚𝐭 t π-Coeq ≣ subst-𝐏𝐚𝐭 s π-Coeq <<
+
+      --              ⟪ p π-Coeq ⟫
+
+      --              >> ⊥-𝒰 <<
+
+      --     in impossible P₀
+
 
   lem-20-var-con : ∀{Γ Δ Δ' α} {j : 𝐏𝐚𝐭 K}
-            -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-            -> {c : TermCon (Δ' ⇒ α)} -> {ts' : ∀ {i} -> ι Δ' ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
+            -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : Pat-pats ⟨ j ⟩ Γ (ι Δ)} -- {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
+            -> {c : TermCon (Δ' ⇒ α)}  -> {ts' : Pat-pats ⟨ j ⟩ Γ (ι Δ')} -- {ts' : ∀ {i} -> ι Δ' ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
             -> ∀{k} -> (σ : j ⟶ k)
             -> subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var x ts) ≣ subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-con c ts')
             -- -> subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var x ts) σ ≣ subst-𝐏𝐚𝐭 (app-con c ts') σ
             -> ⊥-𝒰 {ℓ₀}
-  lem-20-var-con σ ()
+  lem-20-var-con {ts = lam x} {ts' = lam x₁} σ ()
 
   lem-20-var-var : ∀{Γ Δ Δ' α} {j : 𝐏𝐚𝐭 K}
-            -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-            -> {x' : ι Γ ∍ (Δ' ⇒ α)}     -> {ts' : ∀ {i} -> ι Δ' ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
+            -> {x : ι Γ ∍ (Δ ⇒ α)}    -> {ts : Pat-pats ⟨ j ⟩ Γ (ι Δ)}   --  -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
+            -> {x' : ι Γ ∍ (Δ' ⇒ α)}  -> {ts' : Pat-pats ⟨ j ⟩ Γ (ι Δ')} --  -> {ts' : ∀ {i} -> ι Δ' ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
             -> Δ ≢-Str Δ'
             -> ∀{k} -> (σ : j ⟶ k)
             -> subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var x ts) ≣ subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var x' ts')
             -> ⊥-𝒰 {ℓ₀}
-  lem-20-var-var {Δ = Δ} {Δ'} q σ p =
-    let p' : Δ ≡ Δ'
-        p' = cancel-injective-app-var (≡-Str→≡ p) .fst
-    in impossible (q (≡→≡-Str p'))
+  lem-20-var-var {Δ = Δ} {Δ'} q σ p = {!!}
+    -- let p' : Δ ≡ Δ'
+    --     p' = cancel-injective-app-var (≡-Str→≡ p) .fst
+    -- in impossible (q (≡→≡-Str p'))
 
   lem-20-var-var' : ∀{Γ Δ α} {j : 𝐏𝐚𝐭 K}
-            -> {x : ι Γ ∍ (Δ ⇒ α)}     -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
-            -> {x' : ι Γ ∍ (Δ ⇒ α)}     -> {ts' : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
+            -> {x : ι Γ ∍ (Δ ⇒ α)}    -> {ts : Pat-pats ⟨ j ⟩ Γ (ι Δ)}   --    -> {ts : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
+            -> {x' : ι Γ ∍ (Δ ⇒ α)}   -> {ts' : Pat-pats ⟨ j ⟩ Γ (ι Δ)} --     -> {ts' : ∀ {i} -> ι Δ ∍ i -> ⟨ j ⟩ ⊩ᶠ-patlam (Γ ∥ i)}
             -> x ≢-Str x'
             -> ∀{k} -> (σ : j ⟶ k)
             -> subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var x ts) ≣ subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var x' ts')
             -> ⊥-𝒰 {ℓ₀}
-  lem-20-var-var' {Δ = Δ} q σ p = ?
+  lem-20-var-var' {Δ = Δ} q σ p = {!!}
     -- let p' : Δ ≡ Δ'
     --     p' = cancel-injective-app-var (≡-Str→≡ p) .fst
     -- in impossible (q (≡→≡-Str p'))

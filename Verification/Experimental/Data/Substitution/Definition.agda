@@ -77,6 +77,13 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     T' : Functor _ _
     T' = ′ ⟨ T ⟩ ′
 
+  ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ : ⧜𝐒𝐮𝐛𝐬𝐭 T -> 𝐒𝐮𝐛𝐬𝐭 T
+  ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ (incl x) = incl (incl x)
+
+  macro
+    ι-⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ
+
+
   data Hom-⧜𝐒𝐮𝐛𝐬𝐭 : (a b : ⧜𝐒𝐮𝐛𝐬𝐭 T) -> 𝒰 𝑖 where
     ◌-⧜ : ∀{b} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl ◌) b
     incl : ∀{a b} -> ix (⟨ T ⟩ (incl b)) a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (incl a)) (incl b)
@@ -95,6 +102,12 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     ι-r-⧜ (incl x)      = incl (map {{of T'}} ι₁ _ x)
     ι-r-⧜ (f ⋆-⧜ g)     = ι-r-⧜ f ⋆-⧜ ι-r-⧜ g
 
+  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> ix (⟨ T ⟩ (incl b)) a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (incl a)) (incl b)
+  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 = incl
+
+  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> {f g : ix (⟨ T ⟩ (incl b)) a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
+  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
+
   module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
     instance
       isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 : isSetoid (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b)
@@ -110,9 +123,6 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     sub ◌-⧜        = λ {i ()}
     sub (incl x)   = λ {i incl → x}
     sub (f ⋆-⧜ g)  = ⟨ preserves-⊔ ⟩ ◆ ⦗ sub f , sub g ⦘
-
-  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩)) -> b ⟶ c
-  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = incl (sub f)
 
   subst-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl b) c) -> (x : ix (⟨ T ⟩ (incl b)) a) -> ix (⟨ T ⟩ (incl ⟨ c ⟩)) a
   subst-⧜𝐒𝐮𝐛𝐬𝐭 f x = (reext (sub f) _ x)
@@ -137,26 +147,54 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     isCategory._◈_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = {!!}
 
 
-  ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ : ⧜𝐒𝐮𝐛𝐬𝐭 T -> 𝐒𝐮𝐛𝐬𝐭 T
-  ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ (incl x) = incl (incl x)
-
-  macro
-    ι-⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ
+  ----------------------------------------------------------
+  -- the inclusion ι : ⧜𝐒𝐮𝐛𝐬𝐭 T -> 𝐒𝐮𝐛𝐬𝐭 T
 
   instance
     hasInclusion:⧜𝐒𝐮𝐛𝐬𝐭,𝐒𝐮𝐛𝐬𝐭 : hasInclusion (⧜𝐒𝐮𝐛𝐬𝐭 T) (𝐒𝐮𝐛𝐬𝐭 T)
     hasInclusion:⧜𝐒𝐮𝐛𝐬𝐭,𝐒𝐮𝐛𝐬𝐭 = inclusion ι-⧜𝐒𝐮𝐛𝐬𝐭
 
+  -- it is a functor
+
+  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> b ⟶ c -> ι-⧜𝐒𝐮𝐛𝐬𝐭 b ⟶ ι-⧜𝐒𝐮𝐛𝐬𝐭 c
+  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = incl (sub f)
+
+  instance
+    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ ′(b ⟶ c)′ map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+
   instance
     isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 : isFunctor (⧜𝐒𝐮𝐛𝐬𝐭 T) (𝐒𝐮𝐛𝐬𝐭 T) ι
     isFunctor.map isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-    isFunctor.isSetoidHom:map isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+    isFunctor.isSetoidHom:map isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = it
     isFunctor.functoriality-id isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
     isFunctor.functoriality-◆ isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
 
+
+  -- which is full, faithful, eso
+  cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f g : a ⟶ b} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f ∼ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ∼ g
+  cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+
+  instance
+    isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isInjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})
+    isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = record { cancel-injective = cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 }
+
   instance
     isFaithful:ι-⧜𝐒𝐮𝐛𝐬𝐭 : isFaithful (ι-⧜𝐒𝐮𝐛𝐬𝐭)
-    isFaithful.isInjective:map isFaithful:ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+    isFaithful.isInjective:map isFaithful:ι-⧜𝐒𝐮𝐛𝐬𝐭 = isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+    -- λ {a} {b} -> isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b}
+
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ι a ⟶ ι b -> a ⟶ b
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl (incl x)}     (f) = incl (⟨ f ⟩ _ incl)
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl (a ⋆-⧜ a₁)}  (f) = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (ι₀ ◆ f) ⋆-⧜ surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (ι₁ ◆ f)
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl ◌-⧜}         (f) = ◌-⧜
+
+  inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f : ι a ⟶ ι b} -> map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f) ∼ f
+  inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+
+  instance
+    isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})
+    isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
 
   instance
     isFull:ι-⧜𝐒𝐮𝐛𝐬𝐭 : isFull (ι-⧜𝐒𝐮𝐛𝐬𝐭)

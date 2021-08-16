@@ -31,8 +31,12 @@ module _ (𝒞 : Category 𝑖) where
             i a = f ⟨ a ⟩
 
 
-module _ {𝒞 : Category 𝑖} where
-  module _ {X : 𝒰 𝑘} {ι : X -> ⟨ 𝒞 ⟩} where
+module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞'}} where
+  private
+    𝒞 : Category _
+    𝒞 = ′ 𝒞' ′
+
+  module _ {X : 𝒰 𝑘} {ι : X -> 𝒞'} where
 
 
     instance
@@ -44,13 +48,38 @@ module _ {𝒞 : Category 𝑖} where
 
 
     𝒟 = FullSubcategory 𝒞 ι
+
+
+    record Hom-𝐅𝐮𝐥𝐥 (a b : 𝐅𝐮𝐥𝐥 𝒞 ι) : 𝒰 (𝑗) where
+      constructor incl
+      field ⟨_⟩ : ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩
+    open Hom-𝐅𝐮𝐥𝐥 public
+
     FullSubcategoryHom : 𝒟 -> 𝒟 -> 𝒰 _
     -- FullSubcategoryHom = (λ a b -> ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩)
-    FullSubcategoryHom = Hom-Base (λ a b -> ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩)
+    -- FullSubcategoryHom = Hom-Base (λ a b -> ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩)
+    FullSubcategoryHom = Hom-𝐅𝐮𝐥𝐥
+    -- (λ a b -> ι ⟨ a ⟩ ⟶ ι ⟨ b ⟩)
+
+    -- RelativeKleisliHom : (A B : 𝐅𝐮𝐥𝐥 𝒞 ι) -> 𝒰 _
+    -- RelativeKleisliHom = Hom-𝐅𝐮𝐥𝐥
+
+    module _ {A B : 𝐅𝐮𝐥𝐥 𝒞 ι} where
+      record ∼-Hom-𝐅𝐮𝐥𝐥 (f g : Hom-𝐅𝐮𝐥𝐥 A B) : 𝒰 (𝑗) where
+        constructor incl
+        field ⟨_⟩ : ⟨ f ⟩ ∼ ⟨ g ⟩
+        -- incl : R a b -> ∼-Hom-𝐅𝐮𝐥𝐥 R a b -- a ∼[ R ] b
+      open ∼-Hom-𝐅𝐮𝐥𝐥 public
+
+      -- _∼-RelativeKleisliHom_ : (f g : RelativeKleisliHom A B) -> 𝒰 _
+      -- _∼-RelativeKleisliHom_ = ∼-Hom-𝐅𝐮𝐥𝐥
 
     module _ {a b : 𝒟} where
       _∼-FullSubcategoryHom_ : (f g : FullSubcategoryHom a b) -> 𝒰 _
-      _∼-FullSubcategoryHom_ = λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩
+      _∼-FullSubcategoryHom_ = ∼-Hom-𝐅𝐮𝐥𝐥
+      -- λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩
+
+
       -- instance
       --   isEquivRel:
 
@@ -83,13 +112,13 @@ module _ {𝒞 : Category 𝑖} where
     instance
       isFunctor:𝑓𝑢𝑙𝑙 : isFunctor (𝐅𝐮𝐥𝐥 𝒞 ι) 𝒞 (𝑓𝑢𝑙𝑙 𝒞 ι)
       isFunctor.map isFunctor:𝑓𝑢𝑙𝑙              = λ f → ⟨ f ⟩
-      isFunctor.isSetoidHom:map isFunctor:𝑓𝑢𝑙𝑙  = record { cong-∼ = λ x → x }
+      isFunctor.isSetoidHom:map isFunctor:𝑓𝑢𝑙𝑙  = record { cong-∼ = λ x → ⟨ x ⟩ }
       isFunctor.functoriality-id isFunctor:𝑓𝑢𝑙𝑙 = refl
       isFunctor.functoriality-◆ isFunctor:𝑓𝑢𝑙𝑙  = refl
 
     instance
       isFaithful:𝑓𝑢𝑙𝑙 : isFaithful (𝑓𝑢𝑙𝑙 𝒞 ι)
-      isInjective.cancel-injective (isFaithful.isInjective:map isFaithful:𝑓𝑢𝑙𝑙) x = x
+      isInjective.cancel-injective (isFaithful.isInjective:map isFaithful:𝑓𝑢𝑙𝑙) x = incl x
 
     instance
       isFull:𝑓𝑢𝑙𝑙 : isFull (𝑓𝑢𝑙𝑙 𝒞 ι)
@@ -100,5 +129,6 @@ module _ {𝒞 : Category 𝑖} where
       isMonoReflecting:𝑓𝑢𝑙𝑙 : isMonoReflecting (𝑓𝑢𝑙𝑙 𝒞 ι)
       isMonoReflecting:𝑓𝑢𝑙𝑙 = isMonoReflecting:byFaithful
 
-
+{-
+-}
 

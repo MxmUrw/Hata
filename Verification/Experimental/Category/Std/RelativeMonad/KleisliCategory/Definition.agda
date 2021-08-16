@@ -11,7 +11,14 @@ open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 
-module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
+-- module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
+module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗} {{_ : isCategory {𝑙} 𝒟'}} where
+
+  private
+    𝒞 : Category _
+    𝒞 = ′ 𝒞' ′
+    𝒟 : Category _
+    𝒟 = ′ 𝒟' ′
 
   module _ {J : Functor 𝒞 𝒟}  where
     record RelativeKleisli (T : RelativeMonad J) : 𝒰 𝑖 where
@@ -25,12 +32,25 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 
   module _ {J : Functor 𝒞 𝒟} {T : RelativeMonad J} where
 
+    record Hom-𝐑𝐞𝐊𝐥𝐬 (a b : 𝐑𝐞𝐊𝐥𝐬 T) : 𝒰 (𝑗 ､ 𝑙) where
+      constructor incl
+      field ⟨_⟩ : ⟨ J ⟩ ⟨ a ⟩ ⟶ ⟨ T ⟩ ⟨ b ⟩
+    open Hom-𝐑𝐞𝐊𝐥𝐬 public
+
     RelativeKleisliHom : (A B : 𝐑𝐞𝐊𝐥𝐬 T) -> 𝒰 _
-    RelativeKleisliHom = Hom-Base (λ x y -> ⟨ J ⟩ ⟨ x ⟩ ⟶ ⟨ T ⟩ ⟨ y ⟩)
+    RelativeKleisliHom = Hom-𝐑𝐞𝐊𝐥𝐬
 
     module _ {A B : 𝐑𝐞𝐊𝐥𝐬 T} where
+      record ∼-Hom-𝐑𝐞𝐊𝐥𝐬 (f g : Hom-𝐑𝐞𝐊𝐥𝐬 A B) : 𝒰 (𝑗 ､ 𝑙) where
+        constructor incl
+        field ⟨_⟩ : ⟨ f ⟩ ∼  ⟨ g ⟩
+        -- incl : R a b -> ∼-Hom-𝐑𝐞𝐊𝐥𝐬 R a b -- a ∼[ R ] b
+      open ∼-Hom-𝐑𝐞𝐊𝐥𝐬 public
+
       _∼-RelativeKleisliHom_ : (f g : RelativeKleisliHom A B) -> 𝒰 _
-      _∼-RelativeKleisliHom_ = ∼-Base (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩)
+      _∼-RelativeKleisliHom_ = ∼-Hom-𝐑𝐞𝐊𝐥𝐬
+      -- (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩)
+
 
       instance
         isSetoid:RelativeKleisliHom : isSetoid (RelativeKleisliHom A B)
@@ -63,17 +83,17 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
               f ◆ (reext (g ◆ reext h)) ∎
 
     instance
-      Category:RelativeKleisli : isCategory (RelativeKleisli T)
-      isCategory.Hom Category:RelativeKleisli A B = RelativeKleisliHom A B
-      isCategory.isSetoid:Hom Category:RelativeKleisli = it
-      isCategory.id Category:RelativeKleisli         = incl repure
-      isCategory._◆_ Category:RelativeKleisli        = _◆-𝐑𝐞𝐊𝐥𝐬_
-      isCategory.unit-l-◆ Category:RelativeKleisli   = lem-1
-      isCategory.unit-r-◆ Category:RelativeKleisli   = lem-2
-      isCategory.unit-2-◆ Category:RelativeKleisli   = lem-1
-      isCategory.assoc-l-◆ Category:RelativeKleisli  = lem-3
-      isCategory.assoc-r-◆ Category:RelativeKleisli  = (lem-3 ⁻¹)
-      isCategory._◈_ Category:RelativeKleisli        = {!!} -- λ p q -> incl $ lem-4 ⟨ p ⟩ ⟨ q ⟩
+      isCategory:RelativeKleisli : isCategory (RelativeKleisli T)
+      isCategory.Hom isCategory:RelativeKleisli A B = RelativeKleisliHom A B
+      isCategory.isSetoid:Hom isCategory:RelativeKleisli = it
+      isCategory.id isCategory:RelativeKleisli         = incl repure
+      isCategory._◆_ isCategory:RelativeKleisli        = _◆-𝐑𝐞𝐊𝐥𝐬_
+      isCategory.unit-l-◆ isCategory:RelativeKleisli   = lem-1
+      isCategory.unit-r-◆ isCategory:RelativeKleisli   = lem-2
+      isCategory.unit-2-◆ isCategory:RelativeKleisli   = lem-1
+      isCategory.assoc-l-◆ isCategory:RelativeKleisli  = lem-3
+      isCategory.assoc-r-◆ isCategory:RelativeKleisli  = (lem-3 ⁻¹)
+      isCategory._◈_ isCategory:RelativeKleisli        = {!!} -- λ p q -> incl $ lem-4 ⟨ p ⟩ ⟨ q ⟩
 
 
 

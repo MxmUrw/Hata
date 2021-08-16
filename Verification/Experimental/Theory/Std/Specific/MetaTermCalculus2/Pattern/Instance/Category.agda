@@ -37,26 +37,23 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   𝖩 : 𝒰 _
   𝖩 = Jdg₂ ⟨ K ⟩
 
-  Pat : 𝐅𝐢𝐧𝐈𝐱 𝖩 -> 𝐈𝐱 𝖩 (𝐔𝐧𝐢𝐯 _)
-  Pat (incl js) = indexed (λ j → js ⊩ᶠ-pat j)
-
-  Pat' : 𝐅𝐢𝐧𝐈𝐱 𝖩 -> 𝐈𝐱 (Jdg₃ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 _)
-  Pat' (incl js) = indexed (λ j → js ⊩ᶠ-patlam j)
+  -- Pat' : 𝐅𝐢𝐧𝐈𝐱 𝖩 -> 𝐈𝐱 (Jdg₃ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 _)
+  -- Pat' (incl js) = indexed (λ j → js ⊩ᶠ-patlam j)
 
   macro 𝑃𝑎𝑡 = #structureOn Pat
-  macro 𝑃𝑎𝑡' = #structureOn Pat'
+  -- macro 𝑃𝑎𝑡' = #structureOn Pat'
 
   repure-𝑃𝑎𝑡 : ∀{j : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 j
   repure-𝑃𝑎𝑡 i x = app-meta x id
 
-  mutual
-    reext-𝑃𝑎𝑡' : ∀{j k : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 k -> 𝑃𝑎𝑡' j ⟶ 𝑃𝑎𝑡' k
-    reext-𝑃𝑎𝑡' f _ (lam s) = lam (reext-𝑃𝑎𝑡 f _ s)
+  -- mutual
+    -- reext-𝑃𝑎𝑡' : ∀{j k : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 k -> 𝑃𝑎𝑡' j ⟶ 𝑃𝑎𝑡' k
+    -- reext-𝑃𝑎𝑡' f _ (lam s) = lam (reext-𝑃𝑎𝑡 f _ s)
 
-    reext-𝑃𝑎𝑡 : ∀{j k : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 k -> 𝑃𝑎𝑡 j ⟶ 𝑃𝑎𝑡 k
-    reext-𝑃𝑎𝑡 f _ (app-meta M s) = apply-injVars (f _ M) s
-    reext-𝑃𝑎𝑡 f _ (app-var v ts) = app-var v (λ x -> reext-𝑃𝑎𝑡' f _ (ts x))
-    reext-𝑃𝑎𝑡 f _ (app-con c ts) = app-con c (λ x -> reext-𝑃𝑎𝑡' f _ (ts x))
+  reext-𝑃𝑎𝑡 : ∀{j k : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> 𝑒𝑙 ⟨ j ⟩ ⟶ 𝑃𝑎𝑡 k -> 𝑃𝑎𝑡 j ⟶ 𝑃𝑎𝑡 k
+  reext-𝑃𝑎𝑡 f _ (app-meta M s) = apply-injVars s (f _ M)
+  reext-𝑃𝑎𝑡 f _ (app-var v (lam ts)) = app-var v (lam (λ i x -> reext-𝑃𝑎𝑡 f _ (ts i x)))
+  reext-𝑃𝑎𝑡 f _ (app-con c (lam ts)) = app-con c (lam (λ i x -> reext-𝑃𝑎𝑡 f _ (ts i x)))
 
   map-𝑃𝑎𝑡 : ∀{a b : 𝐅𝐢𝐧𝐈𝐱 𝖩} -> (a ⟶ b) -> 𝑃𝑎𝑡 a ⟶ 𝑃𝑎𝑡 b
   map-𝑃𝑎𝑡 = {!!}
