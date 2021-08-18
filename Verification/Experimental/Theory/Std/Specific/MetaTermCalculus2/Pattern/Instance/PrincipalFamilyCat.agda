@@ -27,14 +27,16 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
--- open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Experimental.Category.Std.Functor.RelativeAdjoint
 
 open import Verification.Experimental.Data.Indexed.Definition
 -- open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.FiniteIndexed.Property.Adjunction
 -- open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Substitution.Definition
 -- open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
@@ -56,7 +58,8 @@ open import Verification.Experimental.Computation.Unification.Definition
 -- open import Verification.Experimental.Algebra.MonoidWithZero.Ideal
 -- open import Verification.Experimental.Algebra.MonoidAction.Definition
 
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.PrincipalFamilyCatBase
+open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.PCF.Base
+open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.PCF.SuccessRigidRigid
 
 
 
@@ -67,7 +70,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
     ∂-𝐏𝐚𝐭 : ∀{x y : 𝐏𝐚𝐭 K} -> (i : Pair x y)
            -> (isBase-𝐏𝐚𝐭 i
-              +-𝒰 (∑ λ n -> isSplittableC (𝐏𝐚𝐭 K) n i (λ (_ , _ , j) -> msize j ≪-𝒲 msize i)))
+              +-𝒰 (∑ λ n -> isSplittableC (𝐏𝐚𝐭 K) n i SplitP))
 
     -- if the domain is empty, we reached a base case
     -- ∂-𝐏𝐚𝐭 {incl ◌-Free-𝐌𝐨𝐧} {y} (f , g) = left empty-domain
@@ -98,46 +101,11 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
 
     -- var = var
-    ∂-𝐏𝐚𝐭 {incl _} {𝔍} (incl (app-var {Γ = Γ} {Δ = Δx} vx (lam tsx)) , incl (app-var {Δ = Δy} vy (lam tsy))) with Δx ≟-Str Δy
-    ... | no ¬p = left (no-unification (lem-20-var-var {ts = lam tsx} {ts' = lam tsy} ¬p))
-    ... | yes refl-≣ with vx ≟-Str vy
-    ... | no ¬p = left (no-unification (lem-20-var-var' {ts = lam tsx} {ts' = lam tsy} ¬p))
-    ... | yes refl-≣ = right (1 , record
-                                  { famC      = mfam
-                                  ; coversC   = lem-100
-                                  ; fampropsC = {!!}
-                                  })
-          where
-            mfam : 1 ∍ tt -> _
-            mfam _ = incl (γₗ! Γ (ι Δx)) , (surj (incl (free-pats tsx)) , surj (incl (free-pats tsy)))
-
-            lem-008 : ∀{x} (σ : 𝔍 ⟶ x) -> (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var vx (lam tsx))) ≣ incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var vx (lam tsy))))
-                                         -> (∀ (p : 1 ∍ tt) -> surj (incl (free-pats tsx)) ◆ σ ≣ surj (incl (free-pats tsy)) ◆ σ)
-            lem-008 σ p _ = p
-                            ⟪ cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
-                            ⟪ cancel-injective-app-var' ⟫
-                            ⟪ cancel-injective-lam ⟫
-                            >> (∀ i -> tsx i ◆ reext ⟨ map σ ⟩ (γₗ Γ i) ≡ tsy i ◆ reext ⟨ map σ ⟩ (γₗ Γ i)) <<
-                            -- >> tsx ◆ reext ⟨ map σ ⟩ ∼ tsy ◆ reext ⟨ map σ ⟩ <<
-                            ⟪ {!!} ⟫
-
-                            >> (incl (free-pats tsx)) ◆-𝐑𝐞𝐊𝐥𝐬 map σ ∼ (incl (free-pats tsy)) ◆-𝐑𝐞𝐊𝐥𝐬 map σ <<
-
-                            ⟪ (sym inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭) ◈ refl ≀∼≀ (sym inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭) ◈ refl ⟫
-
-                            -- ⟪ _◈_ (sym (inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭)) refl ≀∼≀ sym (inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {f = incl (free-pats tsy)}) ◈ refl ⟫
-
-                            >> map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (free-pats tsx))) ◆-𝐑𝐞𝐊𝐥𝐬 map σ ∼ map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (free-pats tsy))) ◆-𝐑𝐞𝐊𝐥𝐬 map σ <<
-
-                            ⟪ functoriality-◆ {f = surj (incl (free-pats tsx))} {g = σ} ⁻¹ ≀∼≀ functoriality-◆ {f = surj (incl (free-pats tsy))} {g = σ} ⁻¹ ⟫
-
-                            >> map (surj (incl (free-pats tsx)) ◆ σ) ∼ map (surj (incl (free-pats tsy)) ◆ σ) <<
-                            ⟪ cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
-                            >> surj (incl (free-pats tsx)) ◆ σ ∼ surj (incl (free-pats tsy)) ◆ σ <<
-
-            lem-100 : ∀{x} (σ : 𝔍 ⟶ x) -> (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var vx (lam tsx))) ≣ incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 σ (app-var vx (lam tsy))))
-                                         ↔ (∀ (p : 1 ∍ tt) -> surj (incl (free-pats tsx)) ◆ σ ≣ surj (incl (free-pats tsy)) ◆ σ)
-            lem-100 σ = lem-008 σ , {!!}
+    -- ∂-𝐏𝐚𝐭 {incl _} {𝔍} (incl (app-var {Γ = Γ} {Δ = Δx} vx (tsx)) , incl (app-var {Δ = Δy} vy (tsy))) with Δx ≟-Str Δy
+    -- ... | no ¬p = left (no-unification (lem-20-var-var {ts = tsx} {ts' = tsy} ¬p))
+    -- ... | yes refl-≣ with vx ≟-Str vy
+    -- ... | no ¬p = left (no-unification (lem-20-var-var' {ts = tsx} {ts' = tsy} ¬p))
+    -- ... | yes refl-≣ = right (1 , success-var-var vx (tsx) (tsy))
 
     -- con = con
     -- ∂-𝐏𝐚𝐭 {incl _} (incl (app-con x x₁) , incl (app-con x₂ x₃)) = {!!}
@@ -145,7 +113,11 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
     -----------------------
     -- case flex - flex
 
-    -- ∂-𝐏𝐚𝐭 {incl _} (incl (app-meta {Δ = Δx} Mx tsx) , incl (app-meta {Δ = Δy} My tsy)) = {!!}
+    ∂-𝐏𝐚𝐭 {incl _} (incl (app-meta {Δ = Δx} Mx tsx) , incl (app-meta {Δ = Δy} My tsy)) with (Δx ≟-Str Δy)
+    ... | yes p = {!!}
+    ... | no ¬p = {!!}
+    -- with Mx ≟-Str My
+    -- ... | X = ?
 
     -----------------------
     -- case flex - rigid

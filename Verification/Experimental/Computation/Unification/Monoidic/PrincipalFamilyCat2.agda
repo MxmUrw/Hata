@@ -77,11 +77,11 @@ module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
   --   field princobj : 
 
 module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
-  record isSplittableC (n : 人ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) (P : IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
+  record isSplittableC (n : 人ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) (P : IxC 𝒞 -> IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
     field famC : n ∍ tt -> ∑ λ a' -> (Pair a' b)
     field coversC : ∀{x} -> (h : b ⟶ x) -> (f ⌄ 0 ◆ h ∼ f ⌄ 1 ◆ h) ↔ (∀ p -> (famC p .snd) ⌄ 0 ◆ h ∼ (famC p .snd) ⌄ 1 ◆ h)
     -- field coversC : ⋀-fin (λ i -> 𝓘C 𝒞 (famC i)) ∼ 𝓘C 𝒞 i
-    field fampropsC : ∀ k -> P (_ , _ , famC k .snd)
+    field fampropsC : ∀ k -> P (_ , _ , f) (_ , _ , famC k .snd)
   open isSplittableC public
 
 record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} : 𝒰 (𝑖 ⁺) where
@@ -100,7 +100,7 @@ record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩
 
   field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : Pair x y)
            -> (isBase (i)
-              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i (λ (_ , _ , j) -> sizeC j ≪ sizeC i)))
+              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i (λ (_ , _ , i) -> λ (_ , _ , j) -> sizeC j ≪ sizeC i)))
 
   field size0 : ⟨ SizeC ⟩
   field initial-size0 : ∀{a} -> size0 ⪣ a

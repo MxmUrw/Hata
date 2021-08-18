@@ -212,6 +212,8 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 : hasInitial (⧜𝐒𝐮𝐛𝐬𝐭 T)
     hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
 
+
+
 -- module _ {I : 𝒰 𝑖} where
 --   Hom-⧜𝐅𝐢𝐧𝐈𝐱 : ⧜𝐅𝐢𝐧𝐈𝐱 -> ⧜𝐅𝐢𝐧𝐈𝐱 -> 𝒰 𝑖
 

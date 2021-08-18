@@ -33,6 +33,10 @@ module _ {I : 𝒰 𝑖} {A' : 𝒰 𝑗} {{_ : isCategory {𝑘} A'}} where
     A : Category _
     A = ′ A' ′
 
+  -- the hom type of 𝐈𝐱.
+  -- one might think about wrapping this one in `incl`, as it is useful for type inference in many other cases.
+  -- but it turns out that it is more useful to be able to faster construct and destruct these homs.
+  -- (in at least one case this is even needed for termination checking to pass)
   module _ (F G : Indexed I A) where
     IndexedHom = ∀ i -> ix F i ⟶ ix G i
 

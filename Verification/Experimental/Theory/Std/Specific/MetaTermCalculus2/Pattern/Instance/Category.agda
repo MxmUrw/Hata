@@ -34,8 +34,9 @@ open import Verification.Experimental.Data.Substitution.Definition
 
 module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
-  𝖩 : 𝒰 _
-  𝖩 = Jdg₂ ⟨ K ⟩
+  private
+    𝖩 : 𝒰 _
+    𝖩 = Jdg₂ ⟨ K ⟩
 
   -- Pat' : 𝐅𝐢𝐧𝐈𝐱 𝖩 -> 𝐈𝐱 (Jdg₃ ⟨ K ⟩) (𝐔𝐧𝐢𝐯 _)
   -- Pat' (incl js) = indexed (λ j → js ⊩ᶠ-patlam j)
@@ -86,8 +87,22 @@ module _ (K : Kinding 𝑖) {{_ : isMetaTermCalculus 𝑖 K}} where
     -- 𝐏𝐚𝐭 : SomeStructure
     -- 𝐏𝐚𝐭 = #structureOn (RelativeKleisli 𝑃𝑎𝑡)
 
+    ⧜𝐏𝐚𝐭 : SomeStructure
+    ⧜𝐏𝐚𝐭 = #structureOn (InductiveSubstitution 𝑃𝑎𝑡)
+
     𝐏𝐚𝐭 : SomeStructure
-    𝐏𝐚𝐭 = #structureOn (InductiveSubstitution 𝑃𝑎𝑡)
+    𝐏𝐚𝐭 = #structureOn (Substitution 𝑃𝑎𝑡)
+
+
+  -- private
+  --   𝖩 : 𝒰 _
+  --   𝖩 = Jdg₂ ⟨ K ⟩
+
+  -- ι-𝐑𝐞𝐧ᵘ : 𝐑𝐞𝐧 𝖩 -> 𝐏𝐚𝐭 K
+  -- ι-𝐑𝐞𝐧ᵘ x = incl (incl (⟨ ⟨ x ⟩ ⟩))
+
+  -- map-ι-𝐑𝐞𝐧 : ∀{a b : 𝐑𝐞𝐧 𝖩} -> (a ⟶ b) -> ι-𝐑𝐞𝐧ᵘ a ⟶ ι-𝐑𝐞𝐧ᵘ b
+  -- map-ι-𝐑𝐞𝐧 {a} {b} f = incl (λ {i x → app-meta (⟨ ⟨ f ⟩ ⟩ i x) id})
 
 
 -- module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where

@@ -21,12 +21,14 @@ open import Verification.Experimental.Set.Function.Injective
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Experimental.Data.FiniteIndexed.Property.Adjunction
 open import Verification.Experimental.Data.NormalFiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
+open import Verification.Experimental.Category.Std.Functor.RelativeAdjoint
 
 
 
@@ -84,12 +86,14 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
   private
     K = ⟨ K' ⟩
 
+    𝖩 = Jdg₂ K
 
 
   InjVars : Category _
   -- InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
-  InjVars = 𝐒𝐮𝐛ₘₒₙₒ (♮𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
- -- 𝐑𝐞𝐧 (Jdg₂ K)
+  InjVars = ♮𝐑𝐞𝐧 𝖩
+  -- 𝐒𝐮𝐛ₘₒₙₒ (♮𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
+
 
   injVars : List (Jdg₂ K) -> List (Jdg₂ K) -> 𝒰 _
   injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
@@ -167,9 +171,9 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
     -- this should already be η-long
     data _⊩ᶠ-pat_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑖) where
 
-      app-meta  : ∀{𝔍 Γ Δ α}
-                -> (M : 𝔍 ∍ ((Δ ⇒ α))) -> (s : injVars (Δ) (Γ))
-                -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
+      app-meta  : ∀{𝔍} {Γ Δ : ⟨ InjVars ⟩} {α : K}
+                -> (M : 𝔍 ∍ ((⟨ ⟨ Δ ⟩ ⟩ ⇒ α))) -> (s : (Δ) ⟶ (Γ))
+                -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Γ ⟩ ⟩  ⇒ α)
 
       app-var : ∀{𝔍 Γ Δ α}
               -> ι Γ ∍ (Δ ⇒ α) -> Pat-pats (𝔍) Γ (ι Δ)
@@ -185,9 +189,13 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
   Pat : 𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K) -> 𝐈𝐱 (Jdg₂ K) (𝐔𝐧𝐢𝐯 𝑖)
   Pat (incl js) = indexed (λ j → js ⊩ᶠ-pat j)
 
-  postulate
-    free-pats : ∀{Γ Δ X} -> 𝑒𝑙 Δ ⟶ γₗ* Γ X -> 𝑒𝑙 (γₗ! Γ Δ) ⟶ X
-  -- free-pats = {!!}
+  refree-pats : ∀{Γ Δ X} -> 𝑒𝑙 Δ ⟶ γₗ* Γ X -> 𝑒𝑙 (γₗ! Γ Δ) ⟶ X
+  refree-pats {Γ} = refree
+  -- refree-𝐅𝐢𝐧𝐈𝐱 (γₗ Γ)
+
+  cofree-pats : ∀{Γ Δ X} -> 𝑒𝑙 (γₗ! Γ Δ) ⟶ X -> 𝑒𝑙 Δ ⟶ γₗ* Γ X
+  cofree-pats {Γ} = recofree
+  -- recofree-𝐅𝐢𝐧𝐈𝐱 (γₗ Γ)
 
 
 
@@ -219,6 +227,12 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
               -> {x' : ι Γ ∍ (Δ ⇒ α)}  -> {ts' : Pat-pats j Γ (ι Δ)}
               -> app-var x ts ≣ app-var x' ts' -> ts ≣ ts'
   cancel-injective-app-var' p = {!!}
+
+  cancel-injective-app-con' : ∀{Γ Δ j} {α : K}
+              -> {x  : TermCon (Δ ⇒ α)}  -> {ts  : Pat-pats j Γ (ι Δ)}
+              -> {x' : TermCon (Δ ⇒ α)}  -> {ts' : Pat-pats j Γ (ι Δ)}
+              -> app-con x ts ≣ app-con x' ts' -> ts ≣ ts'
+  cancel-injective-app-con' p = {!!}
 
   cancel-injective-lam : {𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)} {Γ : List (Jdg₂ K)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)} 
                          -> {f g : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)})}
