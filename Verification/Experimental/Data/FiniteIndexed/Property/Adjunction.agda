@@ -66,11 +66,11 @@ module _ {I J : 𝒰 𝑖} {f : I -> J} where
     isFunctor:ix! : isFunctor (𝐅𝐢𝐧𝐈𝐱 I) (𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)) (ix! f)
     isFunctor:ix! = {!!}
 
-module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
-  map-∍ : (f : A -> B) -> {as : Free-𝐌𝐨𝐧 A} {a : A} -> as ∍ a -> map-Free-𝐌𝐨𝐧 f as ∍ f a
-  map-∍ f incl = incl
-  map-∍ f (right-∍ p) = right-∍ (map-∍ f p)
-  map-∍ f (left-∍ p) = left-∍ (map-∍ f p)
+-- module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+--   map-∍ : (f : A -> B) -> {as : Free-𝐌𝐨𝐧 A} {a : A} -> as ∍ a -> map-Free-𝐌𝐨𝐧 f as ∍ f a
+--   map-∍ f incl = incl
+--   map-∍ f (right-∍ p) = right-∍ (map-∍ f p)
+--   map-∍ f (left-∍ p) = left-∍ (map-∍ f p)
 
 module _ {I J : 𝒰 𝑖} (f : I -> J) where
   -- adj-𝐅𝐢𝐧𝐈𝐱 : 

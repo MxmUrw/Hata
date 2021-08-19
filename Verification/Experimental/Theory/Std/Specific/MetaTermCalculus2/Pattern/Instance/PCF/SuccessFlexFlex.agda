@@ -43,7 +43,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
                   -- -> (M : 𝔍 ∍ ((⟨ ⟨ Δ ⟩ ⟩ ⇒ α))) ->
                   -> (s : Δ ⟶ Γ)
                   -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Γ ⟩ ⟩ ⇒ α) -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Δ ⟩ ⟩ ⇒ α)
-  reset-with-meta {𝔍} {Γ} {Δ} σ (app-meta M s) = app-meta M ?
+  reset-with-meta {𝔍} {Γ} {Δ} σ (app-meta M s) = app-meta M {!!}
   reset-with-meta {𝔍} {Γ} {Δ} σ (app-var x x₁) = {!!}
   reset-with-meta {𝔍} {Γ} {Δ} σ (app-con x x₁) = {!!}
 

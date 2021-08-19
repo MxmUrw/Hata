@@ -22,7 +22,7 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
 
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full public
+open import Verification.Experimental.Category.Std.Category.Subcategory.Full
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full.Construction.Coproduct
 open import Verification.Experimental.Category.Std.Morphism.EpiMono

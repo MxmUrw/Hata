@@ -17,11 +17,21 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Product
 
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
   instance
+    hasProducts:ᵒᵖ : hasProducts (𝒞 ᵒᵖ)
+    hasProducts._⊓_ hasProducts:ᵒᵖ = _⊔_
+    hasProducts.isProduct:⊓ hasProducts:ᵒᵖ = it
+
+    hasTerminal:ᵒᵖ : hasTerminal (𝒞 ᵒᵖ)
+    hasTerminal.⊤ hasTerminal:ᵒᵖ = ⊥
+    hasTerminal.isTerminal:⊤ hasTerminal:ᵒᵖ = it
+  instance
     hasFiniteProducts:ᵒᵖ : hasFiniteProducts (𝒞 ᵒᵖ)
-    hasFiniteProducts._⊓_ hasFiniteProducts:ᵒᵖ = _⊔_
-    hasFiniteProducts.isProduct:⊓ hasFiniteProducts:ᵒᵖ = it
-    hasFiniteProducts.⊤ hasFiniteProducts:ᵒᵖ = ⊥
-    hasFiniteProducts.isTerminal:⊤ hasFiniteProducts:ᵒᵖ = it
+    hasFiniteProducts.hasTerminal:this hasFiniteProducts:ᵒᵖ = hasTerminal:ᵒᵖ
+    hasFiniteProducts.hasProducts:this hasFiniteProducts:ᵒᵖ = hasProducts:ᵒᵖ
+    -- hasFiniteProducts._⊓_ hasFiniteProducts:ᵒᵖ = _⊔_
+    -- hasFiniteProducts.isProduct:⊓ hasFiniteProducts:ᵒᵖ = it
+    -- hasFiniteProducts.⊤ hasFiniteProducts:ᵒᵖ = ⊥
+    -- hasFiniteProducts.isTerminal:⊤ hasFiniteProducts:ᵒᵖ = it
 
 
 

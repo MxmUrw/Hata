@@ -46,10 +46,11 @@ macro
   𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
   𝐂𝐚𝐭 𝑖 = #structureOn (Category 𝑖)
 
+
 instance
   isCategory:Category : ∀{𝑗 : 𝔏 ^ 3} -> isCategory (Category 𝑗)
   isCategory.Hom isCategory:Category = Functor
-  isCategory.isSetoid:Hom (isCategory:Category {𝑗}) = isSetoid:byCategory
+  isCategory.isSetoid:Hom (isCategory:Category {𝑗}) = it
   isCategory.id isCategory:Category = id-Cat
   isCategory._◆_ isCategory:Category F G = (F ◆-𝐂𝐚𝐭 G)
   isCategory.unit-l-◆ isCategory:Category = {!!}

@@ -245,10 +245,17 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   map-Free-𝐌𝐨𝐧 f (as ⋆-Free-𝐌𝐨𝐧 bs) = map-Free-𝐌𝐨𝐧 f as ⋆-⧜ map-Free-𝐌𝐨𝐧 f bs
   map-Free-𝐌𝐨𝐧 f ◌-Free-𝐌𝐨𝐧 = ◌-⧜
 
+
 instance
   isFunctor:Free-𝐌𝐨𝐧 : isFunctor (𝐔𝐧𝐢𝐯 𝑖) (𝐔𝐧𝐢𝐯 𝑖) Free-𝐌𝐨𝐧
   isFunctor.map isFunctor:Free-𝐌𝐨𝐧 = map-Free-𝐌𝐨𝐧
   isFunctor.isSetoidHom:map isFunctor:Free-𝐌𝐨𝐧 = {!!}
   isFunctor.functoriality-id isFunctor:Free-𝐌𝐨𝐧 = {!!}
   isFunctor.functoriality-◆ isFunctor:Free-𝐌𝐨𝐧 = {!!}
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  map-∍ : (f : A -> B) -> {as : Free-𝐌𝐨𝐧 A} {a : A} -> as ∍ a -> map-Free-𝐌𝐨𝐧 f as ∍ f a
+  map-∍ f incl = incl
+  map-∍ f (right-∍ x) = right-∍ (map-∍ f x)
+  map-∍ f (left-∍ x) = left-∍ (map-∍ f x)
 

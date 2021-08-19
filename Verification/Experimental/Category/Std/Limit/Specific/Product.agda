@@ -27,14 +27,39 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   open isProduct {{...}} public
 
 
-record hasFiniteProducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
-  infixl 80 _⊓_
-  field _⊓_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
-  field {{isProduct:⊓}} : ∀{a b} -> isProduct a b (a ⊓ b)
+record hasTerminal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field ⊤ : ⟨ 𝒞 ⟩
   field {{isTerminal:⊤}} : isTerminal ⊤
 
+open hasTerminal {{...}} public
+
+record hasProducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+  infixl 80 _⊓_
+  field _⊓_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
+  field {{isProduct:⊓}} : ∀{a b} -> isProduct a b (a ⊓ b)
+open hasProducts {{...}} public
+
+record hasFiniteProducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+  field {{hasTerminal:this}} : hasTerminal 𝒞
+  field {{hasProducts:this}}    : hasProducts 𝒞
+
 open hasFiniteProducts {{...}} public
+
+module _ {𝒞 : Category 𝑖} {{_ : hasProducts 𝒞}} {{_ : hasTerminal 𝒞}} where
+  hasFiniteProducts:default : hasFiniteProducts 𝒞
+  hasFiniteProducts.hasTerminal:this hasFiniteProducts:default  = it
+  hasFiniteProducts.hasProducts:this hasFiniteProducts:default     = it
+
+
+
+-- record hasFiniteProducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+--   infixl 80 _⊓_
+--   field _⊓_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
+--   field {{isProduct:⊓}} : ∀{a b} -> isProduct a b (a ⊓ b)
+--   field ⊤ : ⟨ 𝒞 ⟩
+--   field {{isTerminal:⊤}} : isTerminal ⊤
+
+-- open hasFiniteProducts {{...}} public
 
 
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} where

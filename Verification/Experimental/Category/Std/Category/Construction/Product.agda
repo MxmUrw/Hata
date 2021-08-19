@@ -183,7 +183,19 @@ instance
                  }
 
 instance
+  hasProducts:𝐂𝐚𝐭 : hasProducts (𝐂𝐚𝐭 𝑖)
+  hasProducts:𝐂𝐚𝐭 = record {_⊓_ = _×-𝐂𝐚𝐭_}
+
+instance
+  hasTerminal:𝐂𝐚𝐭 : hasTerminal (𝐂𝐚𝐭 𝑖)
+  hasTerminal:𝐂𝐚𝐭 = record {⊤ = ⊤-𝐂𝐚𝐭}
+
+instance
   hasFiniteProducts:𝐂𝐚𝐭 : hasFiniteProducts (𝐂𝐚𝐭 𝑖)
-  hasFiniteProducts:𝐂𝐚𝐭 = record { _⊓_ = _×-𝐂𝐚𝐭_ ; ⊤ = ⊤-𝐂𝐚𝐭 }
+  hasFiniteProducts:𝐂𝐚𝐭 = hasFiniteProducts:default
+  -- record { _⊓_ = _×-𝐂𝐚𝐭_ ; ⊤ = ⊤-𝐂𝐚𝐭 }
+
+
+
 
 
