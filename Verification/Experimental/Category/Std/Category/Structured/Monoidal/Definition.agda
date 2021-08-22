@@ -25,10 +25,10 @@ open import Verification.Experimental.Category.Std.Category.Structured.FinitePro
 --   isCategory:× : ∀{𝒞 𝒟 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : isCategory {𝑗} 𝒟}} -> isCategory {𝑗} (𝒞 ×-𝒰 𝒟)
 --   isCategory:× = {!!}
 
-
-module _ (X : 𝒰 𝑖) {{_ : isSetoid {𝑗} X}} where
-  Eq : X -> X -> 𝒰 _
-  Eq a b = a ∼ b
+private
+  module _ (X : 𝒰 𝑖) {{_ : isSetoid {𝑗} X}} where
+    Eq : X -> X -> 𝒰 _
+    Eq a b = a ∼ b
 
 
 private instance

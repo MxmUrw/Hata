@@ -17,54 +17,29 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Product
 open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
 
 
+-- record hasCoproductGluing (F : Functor 𝒞 ᵒᵖ)
 
-module _ {𝒞 : Category 𝑖} {F : Functor (𝒞 ᵒᵖ) (𝐂𝐚𝐭 𝑗)}
-         {{_ : hasProducts 𝒞}} {{_ : ∀{c : ⟨ 𝒞 ⟩} -> hasProducts (⟨ F ⟩ c)}}
-  where
+-- module _ {𝒞 : Category 𝑖} {F : Functor (𝒞 ᵒᵖ) (𝐂𝐚𝐭 𝑗)}
+--          {{_ : hasCoproducts 𝒞}}
+--          -- {{_ : ∀{c : ⟨ 𝒞 ⟩} -> hasCoproducts (⟨ F ⟩ c)}}
+--   where
 
-  private
-    instance
-      isCategory:F : ∀{b : ⟨ 𝒞 ⟩} -> isCategory (⟨ ⟨ F ⟩ b ⟩)
-      isCategory:F {b} = of ⟨ F ⟩ b
+--   infixl 80 _⊔-⨊ᵒᵖ_
 
-    instance
-      isSetoid:F : ∀{b : ⟨ 𝒞 ⟩} {x y : ⟨ ⟨ F ⟩ b ⟩} -> isSetoid (x ⟶ y)
-      isSetoid:F {b} = isSetoid:Hom {{of ⟨ F ⟩ b}}
+--   _⊔-⨊ᵒᵖ_ : ⨊ᵒᵖ F -> ⨊ᵒᵖ F -> ⨊ᵒᵖ F
+--   _⊔-⨊ᵒᵖ_ a b = (base a ⊔ base b) , {!!}
+--   -- ⟨ map π₀ ⟩ (fib a) ⊔ ⟨ map π₁ ⟩ (fib b)
 
-    instance
-      isProduct:F : ∀{c : ⟨ 𝒞 ⟩} -> {a b : ⟨ ⟨ F ⟩ c ⟩} -> isProduct a b (a ⊓ b)
-      isProduct:F = isProduct:⊓
+--   -- module _ {a b : ⨊ᵒᵖ F} where
+--   --   ι₀-⨊ᵒᵖ : a ⟶ a ⊔-⨊ᵒᵖ b
+--   --   ι₀-⨊ᵒᵖ = {!!} , {!!}
+--   instance
+--     hasCoproducts:⨊ᵒᵖ : hasCoproducts ′(⨊ᵒᵖ F)′
+--     hasCoproducts:⨊ᵒᵖ = {!!}
 
-  infixl 80 _⊓-⨊ᵒᵖ_
-
-  _⊓-⨊ᵒᵖ_ : ⨊ᵒᵖ F -> ⨊ᵒᵖ F -> ⨊ᵒᵖ F
-  _⊓-⨊ᵒᵖ_ a b = (base a ⊓ base b) , ⟨ map π₀ ⟩ (fib a) ⊓ ⟨ map π₁ ⟩ (fib b)
-
-  module _ {a b : ⨊ᵒᵖ F} where
-    π₀-⨊ᵒᵖ : a ⊓-⨊ᵒᵖ b ⟶ a
-    π₀-⨊ᵒᵖ = π₀ , π₀
-
-
-module _ {𝒞 : Category 𝑖} {F : Functor (𝒞 ᵒᵖ) (𝐂𝐚𝐭 𝑗)}
-         {{_ : hasCoproducts 𝒞}} {{_ : ∀{c : ⟨ 𝒞 ⟩} -> hasCoproducts (⟨ F ⟩ c)}}
-  where
-
-  infixl 80 _⊔-⨊ᵒᵖ_
-
-  _⊔-⨊ᵒᵖ_ : ⨊ᵒᵖ F -> ⨊ᵒᵖ F -> ⨊ᵒᵖ F
-  _⊔-⨊ᵒᵖ_ a b = (base a ⊔ base b) , {!!}
-  -- ⟨ map π₀ ⟩ (fib a) ⊔ ⟨ map π₁ ⟩ (fib b)
-
-  -- module _ {a b : ⨊ᵒᵖ F} where
-  --   ι₀-⨊ᵒᵖ : a ⟶ a ⊔-⨊ᵒᵖ b
-  --   ι₀-⨊ᵒᵖ = {!!} , {!!}
-  instance
-    hasCoproducts:⨊ᵒᵖ : hasCoproducts ′(⨊ᵒᵖ F)′
-    hasCoproducts:⨊ᵒᵖ = {!!}
-
-  instance
-    hasFiniteCoproducts:⨊ᵒᵖ : hasFiniteCoproducts ′(⨊ᵒᵖ F)′
-    hasFiniteCoproducts:⨊ᵒᵖ = {!!}
+--   instance
+--     hasFiniteCoproducts:⨊ᵒᵖ : hasFiniteCoproducts ′(⨊ᵒᵖ F)′
+--     hasFiniteCoproducts:⨊ᵒᵖ = {!!}
 
 
 

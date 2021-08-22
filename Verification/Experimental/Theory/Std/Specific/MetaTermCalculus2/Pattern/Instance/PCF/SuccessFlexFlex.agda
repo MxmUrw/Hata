@@ -25,10 +25,12 @@ open import Verification.Experimental.Data.FiniteIndexed.Property.Adjunction
 open import Verification.Experimental.Data.NormalFiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
+open import Verification.Experimental.Data.Renaming.Instance.hasEqualizers
 
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 open import Verification.Experimental.Category.Std.Functor.RelativeAdjoint
+open import Verification.Experimental.Category.Std.Limit.Specific.Equalizer.Definition
 
 open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
@@ -48,8 +50,8 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   reset-with-meta {𝔍} {Γ} {Δ} σ (app-con x x₁) = {!!}
 
   unify-meta-meta-same : ∀{𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {Γ Δ : ⟨ InjVars ⟩} {α : ⟨ K ⟩}
-                  -> (M : 𝔍 ∍ ((⟨ ⟨ Δ ⟩ ⟩ ⇒ α))) -> (s t : Δ ⟶ Γ) -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Γ ⟩ ⟩ ⇒ α)
-  unify-meta-meta-same M s t = app-meta M {!!}
+                  -> (M : 𝔍 ∍ ((⟨ ⟨ Γ ⟩ ⟩ ⇒ α))) -> (s t : Γ ⟶ Δ) -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Δ ⟩ ⟩ ⇒ α)
+  unify-meta-meta-same M s t = app-meta {Δ = Eq {{hasEqualizers:♮𝐑𝐞𝐧}} s t} {!!} {!!}
 
 
 
