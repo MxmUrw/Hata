@@ -42,12 +42,12 @@ module _ {𝒞 : 𝒰 _} {{_ : FiniteProductCategory 𝑖 on 𝒞}} where
             ⧼ idab ◆ π₀ , idab ◆ π₁ ⧽  ⟨ expand-⊓ ⁻¹ ⟩-∼
             idab                       ∎
 
-
-  isFunctor:⊓ : isFunctor (𝒞' ×-𝐂𝐚𝐭 𝒞') 𝒞' ⊓⃨
-  isFunctor.map isFunctor:⊓               = map-⊓
-  isFunctor.isSetoidHom:map isFunctor:⊓   = record { cong-∼ = λ (p , q) → cong-∼ (refl ◈ p , refl ◈ q) }
-  isFunctor.functoriality-id isFunctor:⊓  = lem-1
-  isFunctor.functoriality-◆ isFunctor:⊓   = {!!}
+  instance
+    isFunctor:⊓ : isFunctor (𝒞' ×-𝐂𝐚𝐭 𝒞') 𝒞' ⊓⃨
+    isFunctor.map isFunctor:⊓               = map-⊓
+    isFunctor.isSetoidHom:map isFunctor:⊓   = record { cong-∼ = λ (p , q) → cong-∼ (refl ◈ p , refl ◈ q) }
+    isFunctor.functoriality-id isFunctor:⊓  = lem-1
+    isFunctor.functoriality-◆ isFunctor:⊓   = {!!}
 
 
 
