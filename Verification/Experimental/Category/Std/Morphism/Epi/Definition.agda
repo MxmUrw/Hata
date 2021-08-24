@@ -7,7 +7,7 @@ open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Morphism
 open import Verification.Experimental.Category.Std.Category.Definition
 -- open import Verification.Experimental.Category.Std.Morphism.Iso
--- open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
 -- open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 -- open import Verification.Experimental.Category.Std.Functor.Faithful
 -- open import Verification.Experimental.Category.Std.Functor.Full
@@ -24,3 +24,20 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
   open isEpi {{...}} public
 
+
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
+
+  --------------------------------------------------------------
+  -- reflection
+
+  record isEpiReflecting (F : Functor 𝒞 𝒟) : 𝒰 (𝑖 ､ 𝑗) where
+    field reflect-isEpi : ∀{a b : ⟨ 𝒞 ⟩} -> ∀{ϕ : a ⟶ b} -> isEpi (map {{of F}} ϕ) -> isEpi ϕ
+
+  open isEpiReflecting {{...}} public
+
+  --------------------------------------------------------------
+  -- preservation
+  record isEpiPreserving (F : Functor 𝒞 𝒟) : 𝒰 (𝑖 ､ 𝑗) where
+    field preserve-isEpi : ∀{a b : ⟨ 𝒞 ⟩} -> ∀{ϕ : a ⟶ b} -> isEpi ϕ -> isEpi (map {{of F}} ϕ)
+
+  open isEpiPreserving {{...}} public
