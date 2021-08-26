@@ -28,6 +28,7 @@ open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 
+open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Experimental.Data.Indexed.Definition
@@ -98,6 +99,9 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   ν₊-∍ {J₁ ⋆-Free-𝐌𝐨𝐧 J₂} (right-∍ p) = right-∍ (ν₊-∍ p)
   ν₊-∍ {J₁ ⋆-Free-𝐌𝐨𝐧 J₂} (left-∍ p)  = left-∍ (ν₊-∍ p)
 
+  lift-ν₊ : ∀{J : 人List 𝖩} -> ∀{a} {Δ Γ : ♮𝐑𝐞𝐧 𝖩} -> J ∍ (⟨ ⟨ Δ ⟩ ⟩ ⇒ a) -> (Δ ⟶ Γ) -> ν₊ (incl (⟨ ⟨ Γ ⟩ ⟩ ⇒ a)) ⟶ ν₊ J
+  lift-ν₊ = {!!}
+
 
 
 
@@ -140,14 +144,27 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   --   compose f (app-con x (tsx)) = app-con x (lam (compose-lam f tsx))
 
   mutual
+    decompose-lam : {Γ : List 𝖩} {Δ : Free-𝐌𝐨𝐧 𝖩} -> {J : Free-𝐌𝐨𝐧 𝖩}
+                    -> Pat-pats J Γ Δ -> ∑ λ I -> ∑ λ (f : ν₊ I ⟶ ν₊ J) -> Pat-inter Γ Δ I
+    decompose-lam {Δ = incl x₁} (lam x) =
+      let I , f , t = decompose (x _ incl)
+      in I , f , incl t
+    decompose-lam {Δ = D ⋆-Free-𝐌𝐨𝐧 D₁} (lam x) =
+      let I0 , f0 , p0 = decompose-lam (lam (λ _ a -> (x _ (left-∍ a))))
+          I1 , f1 , p1 = decompose-lam (lam (λ _ a -> (x _ (right-∍ a))))
+      in (I0 ⋆ I1) , ⦗ f0 , f1 ⦘ , p0 ⋆-⧜ p1
+    decompose-lam {Δ = ◌-Free-𝐌𝐨𝐧} (lam x) = ◌ , elim-⊥ , ◌-⧜
+
     decompose : ∀{J : Free-𝐌𝐨𝐧 𝖩} {i : 𝖩} -> J ⊩ᶠ-pat i -> ∑ λ I -> ∑ λ (f : (ν₊ I ⟶ ν₊ J)) -> I ⊩-inter i
-    decompose (app-meta {Γ = Γ} {Δ = Δ} {α = α} M s) = incl (⟨ ⟨ Γ ⟩ ⟩ ⇒ α) , ({!!} , app-meta Γ α)
-    decompose (app-var x x₁) = {!!}
-    decompose (app-con x x₁) = {!!}
+    decompose (app-meta {Γ = Γ} {Δ = Δ} {α = α} M s) = incl (⟨ ⟨ Γ ⟩ ⟩ ⇒ α) , (lift-ν₊ M s , app-meta Γ α)
+    decompose (app-var x tsx) =
+      let I , f , res = decompose-lam tsx
+      in I , f , app-var x res
+    decompose (app-con x tsy) = {!!}
 
-    extend : ∀{J : Free-𝐌𝐨𝐧 𝖩} {Γ Δ : ♮𝐑𝐞𝐧 𝖩} {α : ⟨ K ⟩} -> J ⊩-inter (⟨ ⟨ Δ ⟩ ⟩ ⇒ α) -> Γ ⟶ Δ
-             -> ∑ λ (L : Free-𝐌𝐨𝐧 𝖩) -> ∑ λ (f' : ν₊ J ⟶ ν₊ L) -> L ⊩-inter (⟨ ⟨ Γ ⟩ ⟩ ⇒ α)
+    -- extend : ∀{J : Free-𝐌𝐨𝐧 𝖩} {Γ Δ : ♮𝐑𝐞𝐧 𝖩} {α : ⟨ K ⟩} -> J ⊩-inter (⟨ ⟨ Δ ⟩ ⟩ ⇒ α) -> Γ ⟶ Δ
+    --          -> ∑ λ (L : Free-𝐌𝐨𝐧 𝖩) -> ∑ λ (f' : ν₊ J ⟶ ν₊ L) -> L ⊩-inter (⟨ ⟨ Γ ⟩ ⟩ ⇒ α)
 
-    extend {J} {Γ} {Δ} {α} (app-meta (incl (incl a)) α) f = _ , ((id , λ i → incl f) , app-meta _ α)
-    extend (app-var x x₁) f = {!!} , ({!!} , app-var {!!} {!!})
-    extend (app-con x ts) f = {!!} , ({!!} , app-con x {!!})
+    -- extend {J} {Γ} {Δ} {α} (app-meta (incl (incl a)) α) f = _ , ((id , λ i → incl f) , app-meta _ α)
+    -- extend (app-var x x₁) f = {!!} , ({!!} , app-var {!!} {!!})
+    -- extend (app-con x ts) f = {!!} , ({!!} , app-con x {!!})

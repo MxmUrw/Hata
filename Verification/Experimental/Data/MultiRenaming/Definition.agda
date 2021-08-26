@@ -61,7 +61,7 @@ module _ {K : 𝒰 𝑖} {L : 𝒰 𝑗} where
     isFunctor.functoriality-◆ isFunctor:𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 = {!!}
 
 module _ (K : 𝒰 𝑖) (L : 𝒰 𝑗) where
-  MultiRen = ⨊ᵒᵖ (𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 K L)
+  MultiRen = ⨊ᵒᵖᵘ (𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 K L)
   macro 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = #structureOn MultiRen
 
 

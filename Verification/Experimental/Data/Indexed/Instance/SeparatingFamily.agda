@@ -9,6 +9,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Functor.Adjoint
+open import Verification.Experimental.Category.Std.Functor.Adjoint.Property.Base
 open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Data.Product.Definition
 open import Verification.Experimental.Data.Sum.Definition

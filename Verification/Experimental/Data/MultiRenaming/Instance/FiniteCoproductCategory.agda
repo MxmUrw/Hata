@@ -110,4 +110,8 @@ module _ {K : 𝒰 𝑖} {L : 𝒰 𝑗} where
     hasInitial.⊥ hasInitial:𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = ⊥-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧
     hasInitial.isInitial:⊥ hasInitial:𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = isInitial:⊥-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧
 
+  instance
+    hasFiniteCoproducts:𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 : hasFiniteCoproducts (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)
+    hasFiniteCoproducts:𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = hasFiniteCoproducts:default
+
 

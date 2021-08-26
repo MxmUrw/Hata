@@ -32,54 +32,54 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
                  >> (f ◆ coadj) ◆ map h ∼ (g ◆ coadj) ◆ map i <<
                  ⟪ assoc-l-◆ ≀∼≀ assoc-l-◆ ⟫
 
-    -- module _ {a : ⟨ 𝒞 ⟩} {b c : ⟨ 𝒟 ⟩} where
-    --   module _ {f : a ⟶ ⟨ G ⟩ b} {g h : b ⟶ c} where
-    --     destruct-precomp-free : (free f ◆ g ∼ free f ◆ h) -> f ◆ map g ∼ f ◆ map h
-    --     destruct-precomp-free p = p₀
-    --       where
-    --         p₀ = p
-    --              >> free f ◆ g ∼ free f ◆ h <<
+    module _ {a : ⟨ 𝒞 ⟩} {b c : ⟨ 𝒟 ⟩} where
+      module _ {f : a ⟶ ⟨ G ⟩ b} {g h : b ⟶ c} where
+        destruct-precomp-free : (free f ◆ g ∼ free f ◆ h) -> f ◆ map g ∼ f ◆ map h
+        destruct-precomp-free p = p₀
+          where
+            p₀ = p
+                 >> free f ◆ g ∼ free f ◆ h <<
 
-    --              ⟪ cong-∼ ⟫
+                 ⟪ cong-∼ ⟫
 
-    --              -- >> map (free f ◆ g) ∼ map (free f ◆ h) <<
+                 -- >> map (free f ◆ g) ∼ map (free f ◆ h) <<
 
-    --              ⟪ functoriality-◆ ≀∼≀ functoriality-◆ ⟫
+                 ⟪ functoriality-◆ ≀∼≀ functoriality-◆ ⟫
 
-    --              -- >> map (free f) ◆ map g ∼ map (free f) ◆ map h <<
+                 -- >> map (free f) ◆ map g ∼ map (free f) ◆ map h <<
 
-    --              -- >> map (map f ◆ adj) ◆ map g ∼ map (map f ◆ adj) ◆ map h <<
+                 -- >> map (map f ◆ adj) ◆ map g ∼ map (map f ◆ adj) ◆ map h <<
 
-    --              ⟪ functoriality-◆ ◈ refl ≀∼≀
-    --                functoriality-◆ ◈ refl ⟫
+                 ⟪ functoriality-◆ ◈ refl ≀∼≀
+                   functoriality-◆ ◈ refl ⟫
 
-    --              -- >> map (map f) ◆ map adj ◆ map g ∼ map (map f) ◆ map adj ◆ map h <<
+                 -- >> map (map f) ◆ map adj ◆ map g ∼ map (map f) ◆ map adj ◆ map h <<
 
-    --              ⟪ refl ◈_ ⟫
+                 ⟪ refl ◈_ ⟫
 
-    --              -- >> coadj ◆ (map (map f) ◆ map adj ◆ map g) ∼ coadj ◆ (map (map f) ◆ map adj ◆ map h) <<
+                 -- >> coadj ◆ (map (map f) ◆ map adj ◆ map g) ∼ coadj ◆ (map (map f) ◆ map adj ◆ map h) <<
 
-    --              ⟪ assoc-[abcd]∼a[bcd]-◆ ⁻¹ ≀∼≀
-    --                assoc-[abcd]∼a[bcd]-◆ ⁻¹ ⟫
+                 ⟪ assoc-[abcd]∼a[bcd]-◆ ⁻¹ ≀∼≀
+                   assoc-[abcd]∼a[bcd]-◆ ⁻¹ ⟫
 
-    --              -- >> coadj ◆ map (map f) ◆ map adj ◆ map g ∼ coadj ◆ map (map f) ◆ map adj ◆ map h <<
+                 -- >> coadj ◆ map (map f) ◆ map adj ◆ map g ∼ coadj ◆ map (map f) ◆ map adj ◆ map h <<
 
-    --              ⟪ naturality f ◈ refl ◈ refl ≀∼≀
-    --                naturality f ◈ refl ◈ refl ⟫
+                 ⟪ naturality f ◈ refl ◈ refl ≀∼≀
+                   naturality f ◈ refl ◈ refl ⟫
 
-    --              -- >> f ◆ coadj ◆ map adj ◆ map g ∼ f ◆ coadj ◆ map adj ◆ map h <<
+                 -- >> f ◆ coadj ◆ map adj ◆ map g ∼ f ◆ coadj ◆ map adj ◆ map h <<
 
-    --              ⟪ assoc-[abcd]∼a[bc]d-◆ ≀∼≀
-    --                assoc-[abcd]∼a[bc]d-◆ ⟫
+                 ⟪ assoc-[abcd]∼a[bc]d-◆ ≀∼≀
+                   assoc-[abcd]∼a[bc]d-◆ ⟫
 
-    --              -- >> f ◆ (coadj ◆ map adj) ◆ map g ∼ f ◆ (coadj ◆ map adj) ◆ map h <<
+                 -- >> f ◆ (coadj ◆ map adj) ◆ map g ∼ f ◆ (coadj ◆ map adj) ◆ map h <<
 
-    --              ⟪ refl ◈ reduce-coadj ◈ refl ≀∼≀
-    --                refl ◈ reduce-coadj ◈ refl ⟫
+                 ⟪ refl ◈ reduce-coadj ◈ refl ≀∼≀
+                   refl ◈ reduce-coadj ◈ refl ⟫
 
-    --              -- >> f ◆ id ◆ map g ∼ f ◆ id ◆ map h <<
+                 -- >> f ◆ id ◆ map g ∼ f ◆ id ◆ map h <<
 
-    --              ⟪ unit-r-◆ ◈ refl ≀∼≀
-    --                unit-r-◆ ◈ refl ⟫
+                 ⟪ unit-r-◆ ◈ refl ≀∼≀
+                   unit-r-◆ ◈ refl ⟫
 
-    --              >> f ◆ map g ∼ f ◆ map h <<
+                 >> f ◆ map g ∼ f ◆ map h <<

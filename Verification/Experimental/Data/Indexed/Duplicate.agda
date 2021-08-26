@@ -66,19 +66,23 @@ module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {J : 𝒰 𝑘} (f : I -> J) whe
 --------------------------------------------------------------
 -- the finite product
 
-module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} where
+-- we have 人List A ≅ List A
+-- just as 人ℕ ≅ ℕ
+-- (but both in 𝐒𝐭𝐝)
 
-  ⨅ᶠᵘ : ∀{n : 人ℕ} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
-  ⨅ᶠᵘ {incl tt} a = ix a incl
-  ⨅ᶠᵘ {n ⋆-⧜ m} a = ⨅ᶠᵘ {n} (写* left-∍ a) ⊓ ⨅ᶠᵘ {m} (写* right-∍ a)
+module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} where
+
+  ⨅ᶠᵘ : ∀{n : Free-𝐌𝐨𝐧 A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
+  ⨅ᶠᵘ {incl a} x = ix x (a , incl)
+  ⨅ᶠᵘ {n ⋆-⧜ m} a = ⨅ᶠᵘ {n} (写* leftᶠ a) ⊓ ⨅ᶠᵘ {m} (写* rightᶠ a)
   ⨅ᶠᵘ {◌-⧜} a = ⊤
 
-  module _ {n : 人ℕ} where
+  module _ {n : 人List A} where
     macro ⨅ᶠ = #structureOn (⨅ᶠᵘ {n})
 
   map-⨅ᶠ : ∀{n} -> {a b : 𝐈𝐱 [ n ]ᶠ 𝒞} -> (f : a ⟶ b) -> ⨅ᶠ a ⟶ ⨅ᶠ b
-  map-⨅ᶠ {incl tt} {a} {b} f = f incl
-  map-⨅ᶠ {n ⋆-⧜ m} {a} {b} f = map-⊓ (map-⨅ᶠ (map-写* left-∍ {a = a} f) , map-⨅ᶠ (map-写* right-∍ {a = a} f))
+  map-⨅ᶠ {incl x} {a} {b} f = f (x , incl)
+  map-⨅ᶠ {n ⋆-⧜ m} {a} {b} f = map-⊓ (map-⨅ᶠ (map-写* leftᶠ {a = a} f) , map-⨅ᶠ (map-写* rightᶠ {a = a} f))
   map-⨅ᶠ {◌-⧜} {a} {b} f = intro-⊤
 
 
@@ -90,13 +94,13 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} where
     isFunctor.functoriality-◆ isFunctor:⨅ᶠ = {!!}
 
   adj-写 : ∀{n a} -> 写 (⨅ᶠ {n} a) ⟶ a
-  adj-写 {incl tt} {a} = λ {incl → id}
-  adj-写 {n ⋆-⧜ m} {a} (left-∍ i) = π₀ ◆ adj-写 i
-  adj-写 {n ⋆-⧜ m} {a} (right-∍ i) = π₁ ◆ adj-写 i
+  adj-写 {incl x} {a} = λ {(x , incl) → id}
+  adj-写 {n ⋆-⧜ m} {a} (_ , left-∍ i) = π₀ ◆ adj-写 (_ , i)
+  adj-写 {n ⋆-⧜ m} {a} (_ , right-∍ i) = π₁ ◆ adj-写 (_ , i)
   adj-写 {◌-⧜} {a} ()
 
   coadj-写 : ∀{n a} -> a ⟶ ⨅ᶠ {n} (写 a)
-  coadj-写 {incl tt} {a} = id
+  coadj-写 {incl x} {a} = id
   coadj-写 {n ⋆-Free-𝐌𝐨𝐧 m} {a} = ⧼ coadj-写 {n} , coadj-写 {m} ⧽
   coadj-写 {◌-Free-𝐌𝐨𝐧} {a} = intro-⊤
 
@@ -114,17 +118,22 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} where
       preservesCoequalizers:写 : preservesCoequalizers 写
       preservesCoequalizers:写 = preservesCoequalizers:byLeftAdjoint
 
-
-
 --------------------------------------------------------------
 -- the finite coproduct
 
-module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
+module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
 
-  ⨆ᶠ-𝐈𝐱 : ∀{n : 人ℕ} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
-  ⨆ᶠ-𝐈𝐱 {incl tt} a = ix a incl
-  ⨆ᶠ-𝐈𝐱 {n ⋆-⧜ n₁} a = {!!}
-  ⨆ᶠ-𝐈𝐱 {◌-⧜} a = {!!}
+  ⨆ᶠᵘ : ∀{n : 人List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
+  ⨆ᶠᵘ {incl x} a = ix a {!!} -- incl
+  ⨆ᶠᵘ {n ⋆-⧜ n₁} a = {!!}
+  ⨆ᶠᵘ {◌-⧜} a = {!!}
+
+  module _ {n : 人List A} where
+    macro ⨆ᶠ = #structureOn (⨆ᶠᵘ {n})
+
+  instance
+    isFunctor:⨆ᶠ : ∀{n} -> isFunctor (𝐈𝐱 [ n ]ᶠ 𝒞) 𝒞 ⨆ᶠ
+    isFunctor:⨆ᶠ = {!!}
 
 
 
