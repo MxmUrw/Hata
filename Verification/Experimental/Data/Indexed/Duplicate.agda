@@ -124,7 +124,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
 
   ⨆ᶠᵘ : ∀{n : 人List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
-  ⨆ᶠᵘ {incl x} a = ix a {!!} -- incl
+  ⨆ᶠᵘ {incl x} a = ix a (x , incl)
   ⨆ᶠᵘ {n ⋆-⧜ n₁} a = {!!}
   ⨆ᶠᵘ {◌-⧜} a = {!!}
 

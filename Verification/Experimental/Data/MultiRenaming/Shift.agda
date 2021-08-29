@@ -57,6 +57,7 @@ module _ {K : 𝒰 𝑖} {L : 𝒰 𝑗} {{_ : isDiscrete L}} where
   分 : ∀(as : 人List (List L)) -> Functor (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L) (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)
   分 as = (写 ◆-𝐂𝐚𝐭 shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧' as) ◆-𝐂𝐚𝐭 ⨆ᶠ
 
+
   -- (shiftₗ-𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 x since isNatural:shiftₗ-𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 {x})
   -- map {{of ⨊ᵒᵖ (𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 K L)}} (shiftₗ-𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 x)
 

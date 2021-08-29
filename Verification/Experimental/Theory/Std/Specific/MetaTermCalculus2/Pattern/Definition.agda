@@ -86,12 +86,12 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
   private
     K = ⟨ K' ⟩
 
-    𝖩 = Jdg₂ K
+    -- (Jdg₂ ⟨ K' ⟩) = Jdg₂ K
 
 
   InjVars : Category _
   -- InjVars = 𝐒𝐮𝐛ₘₒₙₒ (𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
-  InjVars = ♮𝐑𝐞𝐧 𝖩
+  InjVars = ♮𝐑𝐞𝐧 (Jdg₂ ⟨ K' ⟩)
   -- 𝐒𝐮𝐛ₘₒₙₒ (♮𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K))
 
 
@@ -155,17 +155,15 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
 
   mutual
 
-    -- data _⊩ᶠ-patlam_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₃ K -> 𝒰 (𝑗 ､ 𝑖) where
-    --   lam  : ∀{𝔍 Γ Δ β} -> (s : 𝔍 ⊩ᶠ-pat ((Γ ⋆ Δ) ⇒ β))
-    --                           -> 𝔍 ⊩ᶠ-patlam (Γ ∥ (Δ ⇒ β))
 
 
-    data Pat-pats (𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)) (Γ : List (Jdg₂ K)) (Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)) : 𝒰 (𝑖) where
-      lam : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)}) -> Pat-pats 𝔍 Γ Δ
+    -- data Pat-pats (𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)) (Γ : List (Jdg₂ K)) (Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)) : 𝒰 (𝑖) where
+    --   lam : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)}) -> Pat-pats 𝔍 Γ Δ
 
-    -- (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₃ K -> 𝒰 (𝑗 ､ 𝑖) where
-    --   lam  : ∀{𝔍 Γ Δ β} -> (s : 𝔍 ⊩ᶠ-pat ((Γ ⋆ Δ) ⇒ β))
-    --                           -> 𝔍 ⊩ᶠ-patlam (Γ ∥ (Δ ⇒ β))
+    data Pat-pats (Γ : List (Jdg₂ ⟨ K' ⟩)) : (Δ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K' ⟩)) (𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K' ⟩)) -> 𝒰 𝑖 where
+      incl : ∀{𝔍 : (Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K' ⟩))} -> ∀{j} -> 𝔍 ⊩ᶠ-pat (γₗ Γ j) -> Pat-pats Γ (incl j) 𝔍
+      _⋆-⧜_ : ∀{j1 j2 k1 k2} -> Pat-pats Γ j1 k1 -> Pat-pats Γ j2 k2 -> Pat-pats Γ (j1 ⋆ j2) (k1 ⋆ k2)
+      ◌-⧜ : Pat-pats Γ ◌ ◌
 
 
     -- this should already be η-long
@@ -176,12 +174,12 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
                 -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Γ ⟩ ⟩  ⇒ α)
 
       app-var : ∀{𝔍 Γ Δ α}
-              -> ι Γ ∍ (Δ ⇒ α) -> Pat-pats (𝔍) Γ (ι Δ)
+              -> ι Γ ∍ (Δ ⇒ α) -> Pat-pats Γ (ι Δ) (𝔍)
               -- -> (∀ {i} -> ι Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
               -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
       app-con : ∀{𝔍 Γ Δ α}
-              -> TermCon (Δ ⇒ α) -> Pat-pats (𝔍) Γ (ι Δ)
+              -> TermCon (Δ ⇒ α) -> Pat-pats Γ (ι Δ) (𝔍)
               -- -> (∀ {i} -> ι Δ ∍ i -> 𝔍 ⊩ᶠ-patlam (Γ ∥ i))
               -> 𝔍 ⊩ᶠ-pat (Γ ⇒ α)
 
@@ -201,9 +199,9 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
 
   mutual
     apply-injVars-lam : ∀{𝔍 Γ₀ Γ₁ Δ} -> injVars (Γ₀) (Γ₁)
-                               -> Pat-pats 𝔍 Γ₀ Δ
-                              -> Pat-pats 𝔍 Γ₁ Δ
-    apply-injVars-lam ι (lam ts) = lam λ i x → apply-injVars (ι ⇃⊗⇂ id) (ts i x)
+                               -> Pat-pats Γ₀ Δ 𝔍 
+                              -> Pat-pats Γ₁ Δ 𝔍 
+    apply-injVars-lam ι = {!!} -- (lam ts) = lam λ i x → apply-injVars (ι ⇃⊗⇂ id) (ts i x)
 
     apply-injVars : ∀{ℑ Γ Δ α}
                               -> injVars (Δ) (Γ)
@@ -217,28 +215,28 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
     -- apply-injVars (app-con c ts) ι = {!!} -- app-con c λ x → apply-injVars-lam (ts x) ι
 
   cancel-injective-app-var : ∀{Γ Δ Δ' α j}
-              -> {x : ι Γ ∍ (Δ ⇒ α)}    -> {ts : Pat-pats j Γ (ι Δ)}   --  -> {ts : ∀ {i} -> ι Δ ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
-              -> {x' : ι Γ ∍ (Δ' ⇒ α)}  -> {ts' : Pat-pats j Γ (ι Δ')} --  -> {ts' : ∀ {i} -> ι Δ' ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
+              -> {x : ι Γ ∍ (Δ ⇒ α)}    -> {ts : Pat-pats Γ (ι Δ) j}   --  -> {ts : ∀ {i} -> ι Δ ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
+              -> {x' : ι Γ ∍ (Δ' ⇒ α)}  -> {ts' : Pat-pats Γ (ι Δ') j} --  -> {ts' : ∀ {i} -> ι Δ' ∍ i -> j ⊩ᶠ-patlam (Γ ∥ i)}
               -> app-var x ts ≡ app-var x' ts' -> ∑ λ (p : Δ ≡ Δ') -> PathP (λ i -> ι Γ ∍ (p i ⇒ α)) x x'
   cancel-injective-app-var p = {!!}
 
   cancel-injective-app-var' : ∀{Γ Δ α j}
-              -> {x : ι Γ ∍ (Δ ⇒ α)}    -> {ts : Pat-pats j Γ (ι Δ)}
-              -> {x' : ι Γ ∍ (Δ ⇒ α)}  -> {ts' : Pat-pats j Γ (ι Δ)}
+              -> {x : ι Γ ∍ (Δ ⇒ α)}    -> {ts : Pat-pats Γ (ι Δ) j}
+              -> {x' : ι Γ ∍ (Δ ⇒ α)}  -> {ts' : Pat-pats Γ (ι Δ) j}
               -> app-var x ts ≣ app-var x' ts' -> ts ≣ ts'
   cancel-injective-app-var' p = {!!}
 
   cancel-injective-app-con' : ∀{Γ Δ j} {α : K}
-              -> {x  : TermCon (Δ ⇒ α)}  -> {ts  : Pat-pats j Γ (ι Δ)}
-              -> {x' : TermCon (Δ ⇒ α)}  -> {ts' : Pat-pats j Γ (ι Δ)}
+              -> {x  : TermCon (Δ ⇒ α)}  -> {ts  : Pat-pats Γ (ι Δ) j}
+              -> {x' : TermCon (Δ ⇒ α)}  -> {ts' : Pat-pats Γ (ι Δ) j}
               -> app-con x ts ≣ app-con x' ts' -> ts ≣ ts'
   cancel-injective-app-con' p = {!!}
 
-  cancel-injective-lam : {𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)} {Γ : List (Jdg₂ K)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)} 
-                         -> {f g : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)})}
-                         -> lam f ≣ lam g
-                         -> f ∼ g
-  cancel-injective-lam = {!!}
+  -- cancel-injective-lam : {𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)} {Γ : List (Jdg₂ K)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)} 
+  --                        -> {f g : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)})}
+  --                        -> lam f ≣ lam g
+  --                        -> f ∼ g
+  -- cancel-injective-lam = {!!}
 
 {-
 {-

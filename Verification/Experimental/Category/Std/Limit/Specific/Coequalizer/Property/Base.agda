@@ -14,7 +14,7 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Inst
 
 
 module _ {𝒞 : Category 𝑖} {{_ : hasInitial 𝒞}} where
-  module _ {b : ⟨ 𝒞 ⟩} (f g : ⊥ ⟶ b) where
+  module _ {b : ⟨ 𝒞 ⟩} {f g : ⊥ ⟶ b} where
 
     hasCoequalizer:byInitial : hasCoequalizer f g
     hasCoequalizer:byInitial = b since P
@@ -115,12 +115,11 @@ module _ {𝒞 : Category 𝑖} where
     isEpi:π₌-⊔ : isEpi π₌-⊔
     isEpi:π₌-⊔ = isEpi:map-⊔
 
-    instance
-      isCoequalizer:⊔ : isCoequalizer (map-⊔ (f₀ , f₁)) (map-⊔ (g₀ , g₁)) (x₀ ⊔ x₁)
-      isCoequalizer.π₌ isCoequalizer:⊔ = π₌-⊔
-      isCoequalizer.equate-π₌ isCoequalizer:⊔ = equate-π₌-⊔
-      isCoequalizer.compute-Coeq isCoequalizer:⊔ = compute-Coeq-⊔
-      isCoequalizer.isEpi:π₌ isCoequalizer:⊔ = isEpi:π₌-⊔
+    isCoequalizer:⊔ : isCoequalizer (map-⊔ (f₀ , f₁)) (map-⊔ (g₀ , g₁)) (x₀ ⊔ x₁)
+    isCoequalizer.π₌ isCoequalizer:⊔ = π₌-⊔
+    isCoequalizer.equate-π₌ isCoequalizer:⊔ = equate-π₌-⊔
+    isCoequalizer.compute-Coeq isCoequalizer:⊔ = compute-Coeq-⊔
+    isCoequalizer.isEpi:π₌ isCoequalizer:⊔ = isEpi:π₌-⊔
 
 
 

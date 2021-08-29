@@ -27,6 +27,7 @@ open import Verification.Experimental.Category.Std.Category.Subcategory.Definiti
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Instance.Functor
 
 open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Universe.Everything
@@ -74,12 +75,12 @@ module _ {A : 𝒰 𝑖} where
 module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
 
-  private
-    𝖩 : 𝒰 _
-    𝖩 = Jdg₂ ⟨ K ⟩
+  -- private
+  --   (Jdg₂ ⟨ K ⟩) : 𝒰 _
+  --   (Jdg₂ ⟨ K ⟩) = Jdg₂ ⟨ K ⟩
 
 
-  ν₋ : 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ 𝖩 -> Free-𝐌𝐨𝐧 𝖩
+  ν₋ : 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ (Jdg₂ ⟨ K ⟩) -> Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)
   ν₋ (incl (incl a) , as)            = incl $ ⟨ ⟨ ⟨ ix as (a , incl) ⟩ ⟩ ⟩ ⇒ a
   ν₋ (incl (a ⋆-Free-𝐌𝐨𝐧 b) , as)   = ν₋ ((incl a) , {!!}) ⋆ ν₋ ((incl b) , {!!})
   ν₋ (incl ◌-Free-𝐌𝐨𝐧 , as)          = {!!}
@@ -88,32 +89,32 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   -- ν₋ (interren (incl (a ⋆-Free-𝐌𝐨𝐧 b)) αs) = 
   -- ν₋ (interren (incl ◌-Free-𝐌𝐨𝐧) αs) = {!!}
 
-  ν₊ : Free-𝐌𝐨𝐧 𝖩 -> 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ 𝖩
+  ν₊ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩) -> 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ (Jdg₂ ⟨ K ⟩)
   ν₊ (incl (αs ⇒ α)) = incl (incl α) , indexed (λ x → incl (incl (incl αs)))
   -- interren (incl (incl α)) λ x → incl (incl αs)
   ν₊ (a ⋆-⧜ b) = ν₊ a ⊔ ν₊ b
   ν₊ ◌-⧜ = ⊥
 
-  ν₊-∍ : ∀{J : Free-𝐌𝐨𝐧 𝖩} -> ∀{a} -> (p : ⟨ base (ν₊ J) ⟩ ∍ a) -> J ∍ (⟨ ⟨ ⟨ ix (fib (ν₊ J)) (a , p) ⟩ ⟩ ⟩ ⇒ a)
+  ν₊-∍ : ∀{J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} -> ∀{a} -> (p : ⟨ base (ν₊ J) ⟩ ∍ a) -> J ∍ (⟨ ⟨ ⟨ ix (fib (ν₊ J)) (a , p) ⟩ ⟩ ⟩ ⇒ a)
   ν₊-∍ {incl x} incl = incl
   ν₊-∍ {J₁ ⋆-Free-𝐌𝐨𝐧 J₂} (right-∍ p) = right-∍ (ν₊-∍ p)
   ν₊-∍ {J₁ ⋆-Free-𝐌𝐨𝐧 J₂} (left-∍ p)  = left-∍ (ν₊-∍ p)
 
-  lift-ν₊ : ∀{J : 人List 𝖩} -> ∀{a} {Δ Γ : ♮𝐑𝐞𝐧 𝖩} -> J ∍ (⟨ ⟨ Δ ⟩ ⟩ ⇒ a) -> (Δ ⟶ Γ) -> ν₊ (incl (⟨ ⟨ Γ ⟩ ⟩ ⇒ a)) ⟶ ν₊ J
+  lift-ν₊ : ∀{J : 人List (Jdg₂ ⟨ K ⟩)} -> ∀{a} {Δ Γ : ♮𝐑𝐞𝐧 (Jdg₂ ⟨ K ⟩)} -> J ∍ (⟨ ⟨ Δ ⟩ ⟩ ⇒ a) -> (Δ ⟶ Γ) -> ν₊ (incl (⟨ ⟨ Γ ⟩ ⟩ ⇒ a)) ⟶ ν₊ J
   lift-ν₊ = {!!}
 
 
 
 
   mutual
-    data Pat-inter (Γ : List 𝖩) : (Δ : Free-𝐌𝐨𝐧 𝖩) (𝔍 : Free-𝐌𝐨𝐧 𝖩) -> 𝒰 𝑖 where
-      incl : ∀{𝔍 : (Free-𝐌𝐨𝐧 𝖩)} -> ∀{j} -> 𝔍 ⊩-inter (γₗ Γ j) -> Pat-inter Γ (incl j) 𝔍
+    data Pat-inter (Γ : List (Jdg₂ ⟨ K ⟩)) : (Δ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) (𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> 𝒰 𝑖 where
+      incl : ∀{𝔍 : (Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩))} -> ∀{j} -> 𝔍 ⊩-inter (γₗ Γ j) -> Pat-inter Γ (incl j) 𝔍
       _⋆-⧜_ : ∀{j1 j2 k1 k2} -> Pat-inter Γ j1 k1 -> Pat-inter Γ j2 k2 -> Pat-inter Γ (j1 ⋆ j2) (k1 ⋆ k2)
       ◌-⧜ : Pat-inter Γ ◌ ◌
 
 
 
-    data _⊩-inter_ : (𝔍s : Free-𝐌𝐨𝐧 𝖩) -> 𝖩 -> 𝒰 𝑖 where
+    data _⊩-inter_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> (Jdg₂ ⟨ K ⟩) -> 𝒰 𝑖 where
 
       app-meta  : (Γ : ⟨ InjVars ⟩) (α : ⟨ K ⟩)
                 -- -> (M : 𝔍 ∍ ((⟨ ⟨ Δ ⟩ ⟩ ⇒ α))) -- -> (s : (Δ) ⟶ (Γ))
@@ -128,7 +129,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
               -> 𝔍 ⊩-inter (Γ ⇒ α)
 
   -- mutual
-  --   compose-lam : {Γ : List 𝖩} {Δ : Free-𝐌𝐨𝐧 𝖩} -> {I J : Free-𝐌𝐨𝐧 𝖩}
+  --   compose-lam : {Γ : List (Jdg₂ ⟨ K ⟩)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} -> {I J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)}
   --               -> ν₊ (I) ⟶ ν₊ J
   --               -> Pat-inter Γ Δ I
   --               -> 𝑒𝑙 Δ ⟶ indexed (λ {j -> J ⊩ᶠ-pat (γₗ Γ j)})
@@ -138,32 +139,45 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   --   compose-lam f ◌-⧜       i ()
 
 
-  --   compose : ∀{I J : Free-𝐌𝐨𝐧 𝖩} {i : 𝖩} -> (ν₊ I ⟶ ν₊ J) -> I ⊩-inter i -> J ⊩ᶠ-pat i
+  --   compose : ∀{I J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (ν₊ I ⟶ ν₊ J) -> I ⊩-inter i -> J ⊩ᶠ-pat i
   --   compose {I} {J} f (app-meta Γ α) = app-meta (ν₊-∍ (⟨ base f ⟩ α incl)) ⟨(fib f (α , incl))⟩
   --   compose f (app-var x (tsx)) = app-var x (lam (compose-lam f tsx))
   --   compose f (app-con x (tsx)) = app-con x (lam (compose-lam f tsx))
 
   mutual
-    decompose-lam : {Γ : List 𝖩} {Δ : Free-𝐌𝐨𝐧 𝖩} -> {J : Free-𝐌𝐨𝐧 𝖩}
-                    -> Pat-pats J Γ Δ -> ∑ λ I -> ∑ λ (f : ν₊ I ⟶ ν₊ J) -> Pat-inter Γ Δ I
-    decompose-lam {Δ = incl x₁} (lam x) =
-      let I , f , t = decompose (x _ incl)
+    decompose-lam : {Γ : List (Jdg₂ ⟨ K ⟩)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} -> {J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)}
+                    -> Pat-pats Γ Δ J -> ∑ λ I -> ∑ λ (f : ν₊ I ⟶ ν₊ J) -> Pat-inter Γ Δ I
+    decompose-lam (incl x) =
+      let I , f , t = decompose x
       in I , f , incl t
-    decompose-lam {Δ = D ⋆-Free-𝐌𝐨𝐧 D₁} (lam x) =
-      let I0 , f0 , p0 = decompose-lam (lam (λ _ a -> (x _ (left-∍ a))))
-          I1 , f1 , p1 = decompose-lam (lam (λ _ a -> (x _ (right-∍ a))))
-      in (I0 ⋆ I1) , ⦗ f0 , f1 ⦘ , p0 ⋆-⧜ p1
-    decompose-lam {Δ = ◌-Free-𝐌𝐨𝐧} (lam x) = ◌ , elim-⊥ , ◌-⧜
+    decompose-lam (x ⋆-⧜ y) =
+      let I0 , f0 , p0 = decompose-lam x
+          I1 , f1 , p1 = decompose-lam y
+      in (I0 ⋆ I1) , map-⊔ (f0 , f1) , p0 ⋆-⧜ p1
+    decompose-lam ◌-⧜ = ◌ , elim-⊥ , ◌-⧜
 
-    decompose : ∀{J : Free-𝐌𝐨𝐧 𝖩} {i : 𝖩} -> J ⊩ᶠ-pat i -> ∑ λ I -> ∑ λ (f : (ν₊ I ⟶ ν₊ J)) -> I ⊩-inter i
+    -- decompose-lam {Δ = incl x₁} (lam x) =
+    --   let I , f , t = decompose (x _ incl)
+    --   in I , f , incl t
+    -- decompose-lam {Δ = D ⋆-Free-𝐌𝐨𝐧 D₁} (lam x) =
+    --   let I0 , f0 , p0 = decompose-lam (lam (λ _ a -> (x _ (left-∍ a))))
+    --       I1 , f1 , p1 = decompose-lam (lam (λ _ a -> (x _ (right-∍ a))))
+    --   in (I0 ⋆ I1) , ⦗ f0 , f1 ⦘ , p0 ⋆-⧜ p1
+    -- decompose-lam {Δ = ◌-Free-𝐌𝐨𝐧} (lam x) = ◌ , elim-⊥ , ◌-⧜
+
+    decompose : ∀{J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> J ⊩ᶠ-pat i -> ∑ λ I -> ∑ λ (f : (ν₊ I ⟶ ν₊ J)) -> I ⊩-inter i
+    -- decompose = {!!}
     decompose (app-meta {Γ = Γ} {Δ = Δ} {α = α} M s) = incl (⟨ ⟨ Γ ⟩ ⟩ ⇒ α) , (lift-ν₊ M s , app-meta Γ α)
     decompose (app-var x tsx) =
       let I , f , res = decompose-lam tsx
       in I , f , app-var x res
-    decompose (app-con x tsy) = {!!}
+    decompose (app-con x tsx) =
+      let I , f , res = decompose-lam tsx
+      in I , f , app-con x res
 
-    -- extend : ∀{J : Free-𝐌𝐨𝐧 𝖩} {Γ Δ : ♮𝐑𝐞𝐧 𝖩} {α : ⟨ K ⟩} -> J ⊩-inter (⟨ ⟨ Δ ⟩ ⟩ ⇒ α) -> Γ ⟶ Δ
-    --          -> ∑ λ (L : Free-𝐌𝐨𝐧 𝖩) -> ∑ λ (f' : ν₊ J ⟶ ν₊ L) -> L ⊩-inter (⟨ ⟨ Γ ⟩ ⟩ ⇒ α)
+
+    -- extend : ∀{J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {Γ Δ : ♮𝐑𝐞𝐧 (Jdg₂ ⟨ K ⟩)} {α : ⟨ K ⟩} -> J ⊩-inter (⟨ ⟨ Δ ⟩ ⟩ ⇒ α) -> Γ ⟶ Δ
+    --          -> ∑ λ (L : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)) -> ∑ λ (f' : ν₊ J ⟶ ν₊ L) -> L ⊩-inter (⟨ ⟨ Γ ⟩ ⟩ ⇒ α)
 
     -- extend {J} {Γ} {Δ} {α} (app-meta (incl (incl a)) α) f = _ , ((id , λ i → incl f) , app-meta _ α)
     -- extend (app-var x x₁) f = {!!} , ({!!} , app-var {!!} {!!})
