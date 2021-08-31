@@ -84,22 +84,36 @@ module _ {𝒮 : 𝒰 𝑖} {{_ : isFormalSystem {𝑗} 𝒮}} {𝑨 : 𝒮} whe
   _at_ : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> {α : Type 𝑨} -> (Γ ⟶ Δ) -> ⟨ Γ ⟩ ∍ α -> Δ ⊢ α
   _at_ x t = {!!}
 
+  simpleVar : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (⟨ Γ ⟩ ∍ τ) -> Γ ⊢ τ
+  simpleVar v = incl (repure _ v)
+
+  isSimpleVariable : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (t : Γ ⊢ τ) -> 𝒰 _
+  isSimpleVariable {Γ} {τ} t = ∑ λ (v : ⟨ Γ ⟩ ∍ τ) -> t ∼ simpleVar v
+
 
 record hasFullUnification (𝒮 : FormalSystem 𝑖) : 𝒰 𝑖 where
   field {{hasUnification:this}} : ∀{𝑨 : ⟨ 𝒮 ⟩} -> hasUnification (𝐂𝐭𝐱 𝑨)
 
 
 
-record hasVariablesᴬ {𝑖} (𝒮 : FormalSystem 𝑖) (𝑨 : ⟨ 𝒮 ⟩) : 𝒰 (𝑖 ⁺) where
-  -- field variableᵘ : ∀{𝑨 : ⟨ 𝒮 ⟩} -> ⟨ 𝒱 ⟩ -> 𝐂𝐭𝐱 𝑨
-  -- field {{isFunctor:variable}} : ∀{𝑨 : ⟨ 𝒮 ⟩} -> isFunctor 𝒱 (𝐂𝐭𝐱 𝑨) variableᵘ
 
-  field isVariable : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> Γ ⊢ τ -> 𝒰 (𝑖 ⌄ 1)
+record hasSimpleVariables {𝑖} (𝒮 : FormalSystem 𝑖) (𝑨 : ⟨ 𝒮 ⟩) : 𝒰 (𝑖 ⁺) where
+  -- field isVariable : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> Γ ⊢ τ -> 𝒰 (𝑖 ⌄ 1)
   field VariablePath : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ α : Type 𝑨} -> Γ ⊢ τ -> ⟨ Γ ⟩ ∍ α -> 𝒰 (𝑖 ⌄ 1)
   field Width : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> Γ ⊢ τ -> 𝒰 (𝑖 ⌄ 1)
-  field VariableByWidth : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (t : Γ ⊢ τ) -> isVariable {Γ} {τ} t ↔ (Width {Γ} {τ} t ≅ ⊥)
+  field VariableByWidth : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (t : Γ ⊢ τ) -> isSimpleVariable t ↔ (Width {Γ} {τ} t ≅ ⊥)
   field WidthBySubst : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} {τ α : Type 𝑨} -> (t : Γ ⊢ τ) -> (σ : Γ ⟶ Δ)
                        -> Width (t ◆ σ) ≅ Width t ⊔ (∑ λ (x : ⟨ Γ ⟩ ∍ α) -> ∑ λ (p : VariablePath t x) -> Width (σ at x))
+
+
+-- record hasVariablesᴬ {𝑖} (𝒮 : FormalSystem 𝑖) (𝑨 : ⟨ 𝒮 ⟩) : 𝒰 (𝑖 ⁺) where
+
+--   field isVariable : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> Γ ⊢ τ -> 𝒰 (𝑖 ⌄ 1)
+--   field VariablePath : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ α : Type 𝑨} -> Γ ⊢ τ -> ⟨ Γ ⟩ ∍ α -> 𝒰 (𝑖 ⌄ 1)
+--   field Width : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> Γ ⊢ τ -> 𝒰 (𝑖 ⌄ 1)
+--   field VariableByWidth : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (t : Γ ⊢ τ) -> isVariable {Γ} {τ} t ↔ (Width {Γ} {τ} t ≅ ⊥)
+--   field WidthBySubst : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} {τ α : Type 𝑨} -> (t : Γ ⊢ τ) -> (σ : Γ ⟶ Δ)
+--                        -> Width (t ◆ σ) ≅ Width t ⊔ (∑ λ (x : ⟨ Γ ⟩ ∍ α) -> ∑ λ (p : VariablePath t x) -> Width (σ at x))
 
 
 

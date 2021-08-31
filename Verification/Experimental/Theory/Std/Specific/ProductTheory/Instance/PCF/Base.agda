@@ -1,6 +1,4 @@
 
-{-# OPTIONS --no-qualified-instances #-}
-
 module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Base where
 
 open import Verification.Conventions hiding (Structure)
@@ -27,11 +25,12 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
--- open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Experimental.Category.Std.Morphism.EpiMono
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Base
+open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Reflection
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
 open import Verification.Experimental.Order.WellFounded.Definition
@@ -76,15 +75,6 @@ instance
 
 
 module _ {𝑨 : 𝕋× 𝑖} where
-  instance
-    isDiscrete:𝐂𝐭𝐱-𝕋× : isDiscrete (𝐂𝐭𝐱 𝑨)
-    isDiscrete:𝐂𝐭𝐱-𝕋× = {!!}
-
-    isSet-Str:𝐂𝐭𝐱-𝕋× : isSet-Str (𝐂𝐭𝐱 𝑨)
-    isSet-Str:𝐂𝐭𝐱-𝕋× = {!!}
-
-    isSet-Str:Type-𝕋× : isSet-Str (Type 𝑨)
-    isSet-Str:Type-𝕋× = {!!}
 
 
   data isBase-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> Pair x y -> 𝒰 𝑖 where
@@ -105,7 +95,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
   decide-Base-𝕋× f g isBase:⊥ = right hasCoequalizer:byInitial
   decide-Base-𝕋× f g (isBase:sym p) = {!!}
   decide-Base-𝕋× f .f isBase:id = {!!}
-  decide-Base-𝕋× .(incl (var x)) .(incl (var y)) (isBase:var {s} {Γ} x y y≠x) = right lem-12
+  decide-Base-𝕋× .(incl (var x)) .(incl (var y)) (isBase:var {s} {Γ} x y y≠x) = right lem-11
     where
       T : RelativeMonad (𝑓𝑖𝑛 (Type 𝑨))
       T = ′ Term-𝕋× 𝑨 ′
@@ -115,6 +105,10 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
       π' : ι Γ ⟶ ι Γ'
       π' = incl (⟨ (π-\\ x y y≠x) ⟩ ◆ repure)
+
+      ι' : ι Γ' ⟶ ι Γ
+      ι' = incl (ι-\\ x ◆ repure)
+
 
       lem-01 : ∀ i z -> ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var x))) ◆ π' ⟩ i z ≡ ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var y))) ◆ π' ⟩ i z
       lem-01 i incl = ≡-Str→≡ (cong-Str var (π-\\-∼ y≠x))
@@ -126,9 +120,6 @@ module _ {𝑨 : 𝕋× 𝑖} where
                -> ∑ λ (ξ : ι (Γ') ⟶ c) -> π' ◆ ξ ∼ h
       lem-08 {c} h p = ξ , P
         where
-          ι' : ι Γ' ⟶ ι Γ
-          ι' = incl (ι-\\ x ◆ repure)
-
           ξ : ι (Γ') ⟶ c
           ξ = ι' ◆ h
 
@@ -147,18 +138,30 @@ module _ {𝑨 : 𝕋× 𝑖} where
           P : π' ◆ (ι' ◆ h) ∼ h
           P = incl (λ i -> funExt (P-9 i))
 
+      cancel-epi-π' : ∀{z : 𝐒𝐮𝐛𝐬𝐭 T} -> {f g : ι Γ' ⟶ z} -> (π' ◆ f ∼ π' ◆ g) -> f ∼ g
+      cancel-epi-π' {z} {f} {g} p = incl λ i -> funExt (P-9 i)
+        where
+          P-8 : ∀ (i : Sort 𝑨) (z : ⟨ Γ' ⟩ ∍ i) ->  ⟨ f ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z)) ≡ ⟨ g ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z))
+          P-8 i z = funExt⁻¹ (⟨ p ⟩ i) (ι-\\ x i z)
+
+          P-9 : ∀ (i : Sort 𝑨) (z : ⟨ Γ' ⟩ ∍ i) -> ⟨ f ⟩ i z ≡ ⟨ g ⟩ i z
+          P-9 i z = _ ⟨ sym-Path (cong (⟨ f ⟩ i) (≡-Str→≡ (embed-merge y≠x z))) ⟩-≡
+                    _ ⟨ P-8 i z ⟩-≡
+                    _ ⟨ (cong (⟨ g ⟩ i) (≡-Str→≡ (embed-merge y≠x z))) ⟩-≡
+                    _ ∎-≡
+
+      lem-09 : isEpi (π')
+      lem-09 = epi cancel-epi-π'
+
 
       lem-10 : isCoequalizer (map (incl (var x))) (map (incl (var y))) (ι Γ')
       isCoequalizer.π₌ lem-10 = π'
       isCoequalizer.equate-π₌ lem-10 = equate-π₌'
       isCoequalizer.compute-Coeq lem-10 = lem-08
-      isCoequalizer.isEpi:π₌ lem-10 = {!!}
+      isCoequalizer.isEpi:π₌ lem-10 = lem-09
 
-      lem-11 : hasCoequalizer (map (incl (var x))) (map (incl (var y)))
-      lem-11 = (ι Γ') since lem-10
-
-      lem-12 : hasCoequalizer _ _
-      lem-12 = Γ' since {!!}
+      lem-11 : hasCoequalizer _ _
+      lem-11 = Γ' since (isCoequalizer:byFullyFaithfull lem-10)
 
 
 

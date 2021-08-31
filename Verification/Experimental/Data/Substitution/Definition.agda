@@ -4,6 +4,7 @@ module Verification.Experimental.Data.Substitution.Definition where
 open import Verification.Experimental.Conventions hiding (_⊔_)
 
 open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Setoid.Morphism
 open import Verification.Experimental.Set.Contradiction
@@ -73,6 +74,13 @@ module _ {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖𝑛 I)) where
   macro ⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn (InductiveSubstitution T)
 
 module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
+  instance
+    isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isDiscrete I}} -> isDiscrete (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+
+    isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isSet-Str I}} -> isSet-Str (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+
   private
     T' : Functor _ _
     T' = ′ ⟨ T ⟩ ′

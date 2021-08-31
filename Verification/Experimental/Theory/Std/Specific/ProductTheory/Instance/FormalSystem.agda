@@ -4,6 +4,8 @@ module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.Form
 open import Verification.Conventions
 
 open import Verification.Experimental.Conventions hiding (Structure)
+open import Verification.Experimental.Set.Decidable
+open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
@@ -98,4 +100,14 @@ module _ {𝑨 : 𝕋× 𝑖} where
       f (t ⋆-⧜ s) = f t ⋆-⧜ f s
 
       P = {!!}
+
+  -- instance
+    -- isDiscrete:𝐂𝐭𝐱-𝕋× : isDiscrete (𝐂𝐭𝐱 𝑨)
+    -- isDiscrete:𝐂𝐭𝐱-𝕋× = {!!}
+
+    -- isSet-Str:𝐂𝐭𝐱-𝕋× : isSet-Str (𝐂𝐭𝐱 𝑨)
+    -- isSet-Str:𝐂𝐭𝐱-𝕋× = {!!}
+
+    -- isSet-Str:Type-𝕋× : isSet-Str (Type 𝑨)
+    -- isSet-Str:Type-𝕋× = {!!}
 

@@ -3,6 +3,7 @@ module Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition wh
 
 open import Verification.Conventions hiding (_⊔_)
 
+open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
@@ -45,8 +46,10 @@ open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 record ProductTheory (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   field Sort : 𝒰 𝑖
   field {{isDiscrete:Sort}} : isDiscrete Sort
+  field {{isSet-Str:Sort}} : isSet-Str Sort
   field Con : List Sort -> Sort -> 𝒰 𝑖
   field {{isDiscrete:Con}} : ∀{αs α} -> isDiscrete (Con αs α)
+
 
 open ProductTheory public
 
@@ -74,14 +77,6 @@ mutual
 
 
 
--- module _ {𝑨 : 𝕋× 𝑖} where
-  -- data hasFreeVar-Terms-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Γ Δ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
-
-  -- data hasFreeVar-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Sort 𝑨} -> (Γ ∍ s) -> 𝒰 𝑖 where
-  --   var : ∀{Γ s} -> (x : Γ ∍ s) -> hasFreeVar-Term-𝕋× (var x) x
-  --   con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : Terms-𝕋× 𝑨 (incl Γ) (incl (ι αs))}
-  --         -> hasFreeVar-Terms-𝕋× ts x
-  --         -> hasFreeVar-Term-𝕋× (con c ts) x
 
   -- freeVars-𝕋× : ∀{Γ τ} -> Term₁-𝕋× 𝑨 Γ τ -> 人List (Sort 𝑨)
   -- freeVars-𝕋× (var x) = incl x
