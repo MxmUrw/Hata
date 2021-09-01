@@ -45,6 +45,7 @@ private
   lem-0 : ∀{A : 𝒰 𝑖} -> (f g : ¬ A) -> f ≣ g
   lem-0 f g = ≡→≡-Str (funExt λ x → impossible (f x))
 
+
 module _ {A : 𝒰 𝑖} where
   data _≠-∍_ : ∀{as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
     ≠-∍:bySort : ∀{x a b la lb} -> ¬ a ≣ b -> _≠-∍_ {incl x} {a} {b} (la) (lb)
@@ -53,15 +54,25 @@ module _ {A : 𝒰 𝑖} where
     ≠-∍:left-right : ∀{as bs : 人List A} -> {a b : A} -> {la : as ∍ a} {lb : bs ∍ b} -> left-∍ la ≠-∍ right-∍ lb
     ≠-∍:right-left : ∀{as bs : 人List A} -> {a b : A} -> {la : bs ∍ a} {lb : as ∍ b} -> right-∍ la ≠-∍ left-∍ lb
 
-  -- TODO: change this to consist of two paths, the second dependent on the first
-  data _=-∍_ : ∀{as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
-    refl-=-∍ : ∀{as} {a : A} {la : as ∍ a} -> la =-∍ la
+  -- data _=-∍_ : ∀{as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
+  --   refl-≣-2 : ∀{as} {a : A} {la : as ∍ a} -> la =-∍ la
 
+  record _=-∍_ {as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) : 𝒰 𝑖 where
+    constructor _,_
+    field fst : a ≣ b
+    field snd : transport-Str (cong-Str (λ ξ -> as ∍ ξ) fst) la ≣ lb
+
+  open _=-∍_ public
+
+
+pattern refl-≣-2 = refl-≣ , refl-≣
+
+module _ {A : 𝒰 𝑖} where
   cancel-injective-=-∍-right-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb) -> la =-∍ lb
-  cancel-injective-=-∍-right-∍ refl-=-∍ = refl-=-∍
+  cancel-injective-=-∍-right-∍ refl-≣-2 = refl-≣-2
 
   cancel-injective-=-∍-left-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (left-∍ {b = bs} la =-∍ left-∍ {b = bs} lb) -> la =-∍ lb
-  cancel-injective-=-∍-left-∍ refl-=-∍ = refl-=-∍
+  cancel-injective-=-∍-left-∍ refl-≣-2 = refl-≣-2
 
 
   isProp:≠-∍ : ∀{as : 人List A} {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> (p q : la ≠-∍ lb) -> p ≣ q
@@ -72,10 +83,10 @@ module _ {A : 𝒰 𝑖} where
   isProp:≠-∍ ≠-∍:right-left ≠-∍:right-left = refl-≣
 
   -- cong-=-∍-right : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> la =-∍ lb -> right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb
-  -- cong-=-∍-right (refl-=-∍) = refl-=-∍
+  -- cong-=-∍-right (refl-≣-2) = refl-≣-2
 
   =-∍→≣ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (la =-∍ lb) -> a ≣ b
-  =-∍→≣ refl-=-∍ = refl-≣
+  =-∍→≣ refl-≣-2 = refl-≣
 
   transport⁻¹-=-∍ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (P : A -> 𝒰 𝑗) -> (la =-∍ lb) -> P b -> P a
   transport⁻¹-=-∍ P p x = transport-Str (cong-Str P (sym-≣ (=-∍→≣ p))) x
@@ -87,7 +98,7 @@ module _ {A : 𝒰 𝑖} where
     skip-∍ (≠-∍:right p) = skip-∍ p
 
     compare-∍ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (la =-∍ lb) ×-𝒰 (la ≠-∍ lb) -> ⊥-𝒰 {ℓ₀}
-    compare-∍ (refl-=-∍ , q) = skip-∍ q
+    compare-∍ (refl-≣-2 , q) = skip-∍ q
 
   instance
     isContradiction:≠-∍ : ∀{as : 人List A} {a : A} {la : as ∍ a} -> isContradiction (la ≠-∍ la)
@@ -98,7 +109,7 @@ module _ {A : 𝒰 𝑖} where
     isContradiction:=-∍,≠-∍ = contradiction compare-∍
 
   -- private
-  --   lem-001 : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (p0 : a ≣ b) -> (p : la =-∍ lb) -> p ≣ transport-Str (cong-Str (λ ξ -> as ∍ ξ) p0) refl-=-∍
+  --   lem-001 : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (p0 : a ≣ b) -> (p : la =-∍ lb) -> p ≣ transport-Str (cong-Str (λ ξ -> as ∍ ξ) p0) refl-≣-2
   --   lem-001 = ?
 
 
@@ -114,10 +125,10 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
     in P1
 
   -- we want to show this by deconstructing an =-∍ statement into two path statements
-  isProp-=-∍ : ∀{as : 人List A} {a : A} {b : A} {la : as ∍ a} {lb : as ∍ b} -> (p q : la =-∍ lb) -> p ≣ q
-  isProp-=-∍ = {!!}
+  -- isProp-=-∍ : ∀{as : 人List A} {a : A} {b : A} {la : as ∍ a} {lb : as ∍ b} -> (p q : la =-∍ lb) -> p ≣ q
+  -- isProp-=-∍ = {!!}
 
-  -- isProp-=-∍ refl-=-∍ q = {!!}
+  -- isProp-=-∍ refl-≣-2 q = {!!}
   --   where
   --     lem-1 : {a : A} {b : A} {la : as ∍ a} {lb : as ∍ b} -> (p : a ≣ b) -> (q : la =-∍ lb) -> q ≣ transport-Str (cong (λ ξ -> ))
 
@@ -166,15 +177,15 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
   skip-∍ (left-∍ la) (left-∍ lb) (≠-∍:left p) = left-∍ (skip-∍ la lb p)
 
   compare-∍ : ∀{as : 人List A} {a b : A} -> (la : as ∍ a) -> (lb : as ∍ b) -> (la ≠-∍ lb) +-𝒰 (la =-∍ lb)
-  compare-∍ incl incl = right (refl-=-∍)
+  compare-∍ incl incl = right (refl-≣-2)
   compare-∍ (right-∍ la) (right-∍ lb) with compare-∍ la lb
   ... | left x = left (≠-∍:right x)
-  ... | just (refl-=-∍) = right (refl-=-∍)
+  ... | just (refl-≣-2) = right (refl-≣-2)
   compare-∍ (right-∍ la) (left-∍ lb) = left ≠-∍:right-left
   compare-∍ (left-∍ la) (right-∍ lb) = left ≠-∍:left-right
   compare-∍ (left-∍ la) (left-∍ lb) with compare-∍ la lb
   ... | left x = left (≠-∍:left x)
-  ... | just refl-=-∍ = just refl-=-∍
+  ... | just refl-≣-2 = just refl-≣-2
 
   π-\\ : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} -> {a : A} -> (x : ⟨ as ⟩ ∍ a) -> (y : ⟨ as ⟩ ∍ a) -> (y ≠-∍ x) -> as ⟶ (as \\' x)
   ⟨ π-\\ x y y≠x ⟩ i q with compare-∍ q x
@@ -182,7 +193,7 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
   ... | just r =
     let rr = skip-∍ y x y≠x
     in transport⁻¹-=-∍ _ r rr
-  -- ... | just refl-=-∍ = skip-∍ y x y≠x
+  -- ... | just refl-≣-2 = skip-∍ y x y≠x
 
   private
     -- lem-3 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a b : A} -> {x : ⟨ as ⟩ ∍ a} -> {x' : ⟨ as ⟩ ∍ b} -> (x =-∍ x') -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ⟨ π-\\ x y p ⟩ b x' ≣ skip-∍ y x p
@@ -199,20 +210,30 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
   π-\\-∼ : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ⟨ π-\\ x y p ⟩ a x ≣ ⟨ π-\\ x y p ⟩ a y
   π-\\-∼ {a = a} {x} {y} p = lem-3 p ∙-≣ sym-≣ (lem-4 p)
 
-  private
-    lem-5 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : ⟨ as ⟩ ∍ b} -> (p : z ≠-∍ x) -> ι-\\ x b (skip-∍ z x p) ≣ z
-    lem-5 {x = incl} {z = incl} (≠-∍:bySort x) = impossible (x refl-≣)
-    lem-5 {x = right-∍ x} {z = right-∍ y} (≠-∍:right p) = cong-Str right-∍ (lem-5 p)
-    lem-5 {x = right-∍ x} {z = left-∍ y} ≠-∍:left-right = refl-≣
-    lem-5 {x = left-∍ x} {z = right-∍ y} ≠-∍:right-left = refl-≣
-    lem-5 {x = left-∍ x} {z = left-∍ y} (≠-∍:left p) = cong-Str left-∍ (lem-5 p)
+  module §-ι-\\ where
+    prop-1 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : ⟨ as ⟩ ∍ b} -> (p : z ≠-∍ x) -> ι-\\ x b (skip-∍ z x p) ≣ z
+    prop-1 {x = incl} {z = incl} (≠-∍:bySort x) = impossible (x refl-≣)
+    prop-1 {x = right-∍ x} {z = right-∍ y} (≠-∍:right p) = cong-Str right-∍ (prop-1 p)
+    prop-1 {x = right-∍ x} {z = left-∍ y} ≠-∍:left-right = refl-≣
+    prop-1 {x = left-∍ x} {z = right-∍ y} ≠-∍:right-left = refl-≣
+    prop-1 {x = left-∍ x} {z = left-∍ y} (≠-∍:left p) = cong-Str left-∍ (prop-1 p)
 
-    -- lem-6 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : ⟨ as ⟩ ∍ b} -> (p : z ≠-∍ x) -> ι-\\ x b (skip-∍ z x p) ≣ z
-    -- lem-6 = ?
+    prop-2 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : (⟨ as ⟩ \\ x) ∍ b} -> (p : (ι-\\ x b z) ≠-∍ x) -> (skip-∍ (ι-\\ x b z) x p) ≣ z
+    prop-2 {x = right-∍ x} {z = right-∍ z} (≠-∍:right p) = cong-Str right-∍ (prop-2 p)
+    prop-2 {x = right-∍ x} {z = left-∍ z} ≠-∍:left-right = refl-≣
+    prop-2 {x = left-∍ x} {z = right-∍ z} ≠-∍:right-left = refl-≣
+    prop-2 {x = left-∍ x} {z = left-∍ z} (≠-∍:left p)    = cong-Str left-∍ (prop-2 p)
+
+    prop-3 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {z : (⟨ as ⟩ \\ x) ∍ a} -> (ι-\\ x a z ≣ x) -> 𝟘-𝒰
+    prop-3 {x = right-∍ x} {z = right-∍ z} p = prop-3 (≡→≡-Str (cancel-injective (≡-Str→≡ p)))
+    prop-3 {x = left-∍ x} {z = left-∍ z} p   = prop-3 (≡→≡-Str (cancel-injective (≡-Str→≡ p)))
+
+    -- §-ι-\\.prop-2 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : ⟨ as ⟩ ∍ b} -> (p : z ≠-∍ x) -> ι-\\ x b (skip-∍ z x p) ≣ z
+    -- §-ι-\\.prop-2 = ?
 
   merge-embed : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ∀{b : A} -> (z : ⟨ as ⟩ ∍ b) -> (ι-\\ x b (⟨ π-\\ x y p ⟩ b z) ≣ z) +-𝒰 (z =-∍ x)
   merge-embed {x = x} p z with compare-∍ z x
-  ... | left p2 = left (lem-5 p2)
+  ... | left p2 = left (§-ι-\\.prop-1 p2)
   ... | just p2 = right p2
 
   merge-single : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> (ι-\\ x a (⟨ π-\\ x y p ⟩ a x) ≣ y)
@@ -227,7 +248,7 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
               (cong-Str (_∍_ (⟨ as ⟩ \\ x)) (refl-≣))
               (skip-∍ y x p)))
             y
-      P9 = lem-5 p
+      P9 = §-ι-\\.prop-1 p
 
       P : StrId
             (ι-\\ x a
@@ -248,35 +269,36 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
 
     -- let X : (ι-\\ x a (transport⁻¹-=-∍ (_∍_ (FullSubcategory.⟨ as ⟩ \\ x)) p2 (skip-∍ y x p)))
     --   y
-    --     X = (lem-5 p)
+    --     X = (§-ι-\\.prop-1 p)
     -- in ?
 
   private
-    lem-6 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : (⟨ as ⟩ \\ x) ∍ b} -> (p : (ι-\\ x b z) ≠-∍ x) -> (skip-∍ (ι-\\ x b z) x p) ≣ z
-    lem-6 {x = right-∍ x} {z = right-∍ z} (≠-∍:right p) = cong-Str right-∍ (lem-6 p)
-    lem-6 {x = right-∍ x} {z = left-∍ z} ≠-∍:left-right = refl-≣
-    lem-6 {x = left-∍ x} {z = right-∍ z} ≠-∍:right-left = refl-≣
-    lem-6 {x = left-∍ x} {z = left-∍ z} (≠-∍:left p)    = cong-Str left-∍ (lem-6 p)
 
     lem-7 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : (⟨ as ⟩ \\ x) ∍ b} -> (p : (ι-\\ x b z) =-∍ x) -> 𝟘-𝒰
-    lem-7 {x = right-∍ x} {z = right-∍ z} p = lem-7 (cancel-injective-=-∍-right-∍ p)
-    lem-7 {x = left-∍ x} {z = left-∍ z} p   = lem-7 (cancel-injective-=-∍-left-∍ p)
+    lem-7 {x = right-∍ x} {z = right-∍ z} (refl-≣ , q) = lem-7 (cancel-injective-=-∍-right-∍ (refl-≣ , q))
+    lem-7 {x = left-∍ x} {z = left-∍ z} (refl-≣ , q)   = lem-7 (cancel-injective-=-∍-left-∍ (refl-≣ , q))
 
 
   embed-merge : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ∀{b : A} -> ∀ z -> ((⟨ π-\\ x y p ⟩ b (ι-\\ x b z)) ≣ z)
   embed-merge {as} {a} {x} {y} p {b} z with compare-∍ (ι-\\ x b z) x in q
-  ... | left q = lem-6 q
+  ... | left q = §-ι-\\.prop-2 q
   ... | just r = impossible (lem-7 r)
 
 
   iso-\\ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 as ⟶ 𝑒𝑙 ((as \\ x)) ⊔ 𝑒𝑙 (incl a)
   iso-\\ x i y with compare-∍ y x
   ... | left x≠y = left (skip-∍ y x x≠y)
-  ... | just refl-=-∍ = right incl
+  ... | just (refl-≣ , q) = right incl
 
   iso⁻¹-\\ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 ((as \\ x)) ⊔ 𝑒𝑙 (incl a) ⟶ 𝑒𝑙 as
   iso⁻¹-\\ x = ⦗ ι-\\ x , single-∍ x ⦘
 
+  module §-iso-\\ where
+    prop-1 : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> iso-\\ x a x ≡ right incl
+    prop-1 x with compare-∍ x x
+    ... | left x≠x = impossible x≠x
+    ... | just (p , q) with isset-Str p refl-≣
+    ... | refl-≣ = refl-≡
 
 
 

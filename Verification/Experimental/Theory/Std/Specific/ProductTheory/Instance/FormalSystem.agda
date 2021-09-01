@@ -81,6 +81,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isRelativeMonad.reunit-r isRelativeMonad:Term-𝕋× = {!!}
     isRelativeMonad.reassoc isRelativeMonad:Term-𝕋× = {!!}
 
+  module §-reext-Terms-𝕋× where
+    prop-1 : ∀{a b x} -> (α β : 𝑓𝑖𝑛 (Type-𝕋× 𝑨) (incl a) ⟶ Term-𝕋× 𝑨 b) -> (t : Term₁-𝕋× 𝑨 a x) -> reext-Term-𝕋× α _ t ≡ reext-Term-𝕋× β _ t -> ∀ i s -> α i s ≡ β i s
+    prop-1 α β (var x) p i s = {!!}
+    prop-1 α β (con c x) p i s = {!!}
+
 
 instance
   isFormalSystem:ProductTheory : isFormalSystem (𝕋× 𝑖)
