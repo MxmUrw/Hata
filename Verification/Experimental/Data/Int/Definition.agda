@@ -135,7 +135,7 @@ data _≤-ℤ_ : Int -> Int -> 𝒰₀ where
 instance
   isPreorder:ℤ : isPreorder _ ℤ
   isPreorder:ℤ = record
-    { _≤'_ = _≤-ℤ_
+    { _≤_ = ≤-Base _≤-ℤ_
     ; reflexive = lem-10
     ; _⟡_ = lem-20
     ; transp-≤ = lem-30

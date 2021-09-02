@@ -32,10 +32,14 @@ instance
                  ; _`cong-⋆`_ = {!!}
                  }
 
+instance
+  isCommutative:ℕ : isCommutative ℕ
+  isCommutative:ℕ = {!!}
+
 
 instance
   isPreorder:ℕ : isPreorder _ ′ ℕ ′
-  isPreorder._≤'_ isPreorder:ℕ = _≤-ℕ_
+  isPreorder._≤_ isPreorder:ℕ = ≤-Base _≤-ℕ_
   isPreorder.reflexive isPreorder:ℕ = incl refl-≤-ℕ
   isPreorder._⟡_ isPreorder:ℕ (incl p) (incl q) = incl (trans-≤-ℕ p q)
   isPreorder.transp-≤ isPreorder:ℕ (refl-StrId) (refl-StrId) r = r
@@ -70,5 +74,18 @@ instance
 instance
   isSet-Str:ℕ : isSet-Str ℕ
   isSet-Str:ℕ = {!!}
+
+
+
+monotone-l-⋆-ℕ : ∀{a b c : ℕ} -> a ≤ b -> c ⋆ a ≤ c ⋆ b
+monotone-l-⋆-ℕ {a} {b} {c} (incl (b-a , bap)) = incl (b-a , p)
+  where
+    p : b-a +-ℕ (c +-ℕ a) ≣ c +-ℕ b
+    p = b-a +-ℕ (c +-ℕ a)   ⟨ refl {x = b-a} ≀⋆≀ comm-⋆ {a = c} {a} ⟩-∼
+        b-a +-ℕ (a +-ℕ c)   ⟨ assoc-r-⋆ {a = b-a} {b = a} {c = c} ⟩-∼
+        (b-a +-ℕ a) +-ℕ c   ⟨ bap ≀⋆≀ refl {x = c} ⟩-∼
+        b ⋆ c                ⟨ comm-⋆ {a = b} ⟩-∼
+        c ⋆ b                ∎
+
 
 

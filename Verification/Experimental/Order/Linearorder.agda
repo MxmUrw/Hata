@@ -62,9 +62,9 @@ module LinearAsTotal {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {A : Setoid 𝑖} {{_ : isL
   private
     instance
       isTotal:Linear : isPreorder 𝑗 A
-      isPreorder._≤'_ isTotal:Linear a b = b ≮ a
-      isPreorder.reflexive isTotal:Linear = incl irrefl-<
-      isPreorder._⟡_ isTotal:Linear {a} {b} {c} (incl p) (incl q) = incl P
+      isPreorder._≤_ isTotal:Linear a b = b ≮ a
+      isPreorder.reflexive isTotal:Linear = irrefl-<
+      isPreorder._⟡_ isTotal:Linear {a} {b} {c} (p) (q) = P
         where
             P : c < a -> ⊥
             P r with compare-< r b
@@ -74,11 +74,11 @@ module LinearAsTotal {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} {A : Setoid 𝑖} {{_ : isL
 
     instance
       isPartialorder:Linear : isPartialorder ′ ⟨ A ⟩ ′
-      isPartialorder.antisym isPartialorder:Linear (incl p) (incl q) = connected-< q p
+      isPartialorder.antisym isPartialorder:Linear (p) (q) = connected-< q p
 
     instance
       isTotalorder⁻:Linear : isTotalorder⁻ ′ ⟨ A ⟩ ′
-      isTotalorder⁻.total⁻ isTotalorder⁻:Linear _ _ p = incl (λ a<b -> p (incl (λ {b<a -> asym-< a<b b<a})))
+      isTotalorder⁻.total⁻ isTotalorder⁻:Linear _ _ p = (λ a<b -> p ((λ {b<a -> asym-< a<b b<a})))
 
 
 --------------------------------------------------------------------

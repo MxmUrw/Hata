@@ -77,11 +77,17 @@ module _ {A : 𝒰 𝑖}
   instance
     hasFiniteJoins:Family : ∀{I : 𝒰 𝑗} -> hasFiniteJoins (′ (I -> A) ′)
     hasFiniteJoins.⊥         hasFiniteJoins:Family = λ _ -> ⊥
-    hasFiniteJoins.initial-⊥ hasFiniteJoins:Family = incl ⟨ initial-⊥ ⟩
+    hasFiniteJoins.initial-⊥ hasFiniteJoins:Family = λ _ -> initial-⊥
     hasFiniteJoins._∨_       hasFiniteJoins:Family = λ a b i -> a i ∨ b i
-    hasFiniteJoins.ι₀-∨      hasFiniteJoins:Family = incl ⟨ ι₀-∨ ⟩
-    hasFiniteJoins.ι₁-∨      hasFiniteJoins:Family = incl ⟨ ι₁-∨ ⟩
-    hasFiniteJoins.[_,_]-∨   hasFiniteJoins:Family = λ f g -> incl ⟨ [ incl ⟨ f ⟩ , incl ⟨ g ⟩ ]-∨ ⟩
+    hasFiniteJoins.ι₀-∨      hasFiniteJoins:Family = λ a -> ι₀-∨
+    hasFiniteJoins.ι₁-∨      hasFiniteJoins:Family = λ a -> ι₁-∨
+    hasFiniteJoins.[_,_]-∨   hasFiniteJoins:Family = λ f g a -> [ f a , g a ]-∨
+    -- hasFiniteJoins.⊥         hasFiniteJoins:Family = λ _ -> ⊥
+    -- hasFiniteJoins.initial-⊥ hasFiniteJoins:Family = incl ⟨ initial-⊥ ⟩
+    -- hasFiniteJoins._∨_       hasFiniteJoins:Family = λ a b i -> a i ∨ b i
+    -- hasFiniteJoins.ι₀-∨      hasFiniteJoins:Family = incl ⟨ ι₀-∨ ⟩
+    -- hasFiniteJoins.ι₁-∨      hasFiniteJoins:Family = incl ⟨ ι₁-∨ ⟩
+    -- hasFiniteJoins.[_,_]-∨   hasFiniteJoins:Family = λ f g -> incl ⟨ [ incl ⟨ f ⟩ , incl ⟨ g ⟩ ]-∨ ⟩
 
 
 
@@ -92,11 +98,18 @@ module _ {A : 𝒰 𝑖}
   instance
     hasFiniteMeets:Family : ∀{I : 𝒰 𝑗} -> hasFiniteMeets (′ (I -> A) ′)
     hasFiniteMeets.⊤          hasFiniteMeets:Family = λ _ -> ⊤
-    hasFiniteMeets.terminal-⊤ hasFiniteMeets:Family = incl ⟨ terminal-⊤ ⟩
+    hasFiniteMeets.terminal-⊤ hasFiniteMeets:Family = λ a -> terminal-⊤
     hasFiniteMeets._∧_        hasFiniteMeets:Family = λ a b i -> a i ∧ b i
-    hasFiniteMeets.π₀-∧       hasFiniteMeets:Family = incl ⟨ π₀-∧ ⟩
-    hasFiniteMeets.π₁-∧       hasFiniteMeets:Family = incl ⟨ π₁-∧ ⟩
-    hasFiniteMeets.⟨_,_⟩-∧    hasFiniteMeets:Family = λ f g -> incl ⟨ ⟨ incl ⟨ f ⟩ , incl ⟨ g ⟩ ⟩-∧ ⟩
+    hasFiniteMeets.π₀-∧       hasFiniteMeets:Family = λ a -> π₀-∧
+    hasFiniteMeets.π₁-∧       hasFiniteMeets:Family = λ a -> π₁-∧
+    hasFiniteMeets.⟨_,_⟩-∧    hasFiniteMeets:Family = λ f g a -> ⟨ f a , g a ⟩-∧
+
+    -- hasFiniteMeets.terminal-⊤ hasFiniteMeets:Family = incl ⟨ terminal-⊤ ⟩
+    -- hasFiniteMeets._∧_        hasFiniteMeets:Family = λ a b i -> a i ∧ b i
+    -- hasFiniteMeets.π₀-∧       hasFiniteMeets:Family = incl ⟨ π₀-∧ ⟩
+    -- hasFiniteMeets.π₁-∧       hasFiniteMeets:Family = incl ⟨ π₁-∧ ⟩
+    -- hasFiniteMeets.⟨_,_⟩-∧    hasFiniteMeets:Family = λ f g -> incl ⟨ ⟨ incl ⟨ f ⟩ , incl ⟨ g ⟩ ⟩-∧ ⟩
+
 
   map-∧ : ∀{a b c d : A} -> (a ≤ b) -> (c ≤ d) -> a ∧ c ≤ b ∧ d
   map-∧ f g = ⟨ π₀-∧ ⟡ f , π₁-∧ ⟡ g ⟩-∧

@@ -29,7 +29,7 @@ module _ {A B : 𝒰 𝑖} where
 
   instance
     isMonotone:pb-𝒫 : ∀{f : A -> B} -> isMonotone ′(B -> Prop 𝑖)′ ′(A -> Prop 𝑖)′ (′(pb-𝒫 f)′)
-    isMonotone.monotone isMonotone:pb-𝒫 {a = P} {b = Q} (incl x) = incl x
+    isMonotone.monotone isMonotone:pb-𝒫 {a = P} {b = Q} (x) = {!!}
 
 -- module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} where
 --   instance
@@ -56,7 +56,7 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : B -> 𝒰 𝑘} where
 -- open 𝒫-Dec public
 
 record is𝒫-Dec {A : 𝒰 𝑖} (P : A -> Prop 𝑖) : 𝒰 (𝑖) where
-  field decide-𝒫 : ∀ a -> (¬ ⟨ P a ⟩) ∨ ⟨ P a ⟩
+  field decide-𝒫 : ∀ a -> (¬ ⟨ P a ⟩) +-𝒰 ⟨ P a ⟩
 open is𝒫-Dec {{...}} public
 
 𝒫-Dec : (A : 𝒰 𝑖) -> 𝒰 _
@@ -70,7 +70,7 @@ module _ {A : 𝒰 𝑖} where
   instance
     is𝒫-Dec:∨ : {p q : A -> Prop 𝑖} {{_ : is𝒫-Dec p}} {{_ : is𝒫-Dec q}} -> is𝒫-Dec (p ∨ q)
     is𝒫-Dec.decide-𝒫 (is𝒫-Dec:∨ {p = p} {q}) a =
-      let P₀ : (¬ ⟨ p a ⟩) ∨ ⟨ p a ⟩
+      let P₀ : (¬ ⟨ p a ⟩) +-𝒰 ⟨ p a ⟩
           P₀ = decide-𝒫 {P = p} a
           P₁ = decide-𝒫 {P = q} a
       in case P₀ of
@@ -84,7 +84,7 @@ module _ {A B : 𝒰 𝑖} where
     instance
       is𝒫-Dec:pb-𝒫 : ∀{f : A -> B} -> {P : B -> Prop 𝑖} -> {{_ : is𝒫-Dec P}} -> is𝒫-Dec (pb-𝒫 f P)
       is𝒫-Dec.decide-𝒫 (is𝒫-Dec:pb-𝒫 {f = f} {p} {{D}}) a =
-        let P₀ : (¬ ⟨ p (f a) ⟩) ∨ ⟨ p (f a) ⟩
+        let P₀ : (¬ ⟨ p (f a) ⟩) +-𝒰 ⟨ p (f a) ⟩
             P₀ = decide-𝒫 {{D}} (f a)
         in P₀
 

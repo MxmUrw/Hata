@@ -45,8 +45,8 @@ module _ {A : 𝒰 𝑖}
   instance
     isHeytingAlgebra:Family : ∀{I : 𝒰 𝑗} -> isHeytingAlgebra (′ (I -> A) ′)
     isHeytingAlgebra._⇒_     isHeytingAlgebra:Family = λ a b i -> a i ⇒ b i
-    isHeytingAlgebra.embed-⇒ isHeytingAlgebra:Family = incl ⟨ embed-⇒ ⟩
-    isHeytingAlgebra.eval-⇒  isHeytingAlgebra:Family = incl ⟨ eval-⇒ ⟩
+    isHeytingAlgebra.embed-⇒ isHeytingAlgebra:Family = λ a -> embed-⇒
+    isHeytingAlgebra.eval-⇒  isHeytingAlgebra:Family = λ a -> eval-⇒
 
 
 

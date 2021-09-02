@@ -32,8 +32,8 @@ module _ {n : ℕ} where
 
   instance
     isPreorder:Fin : isPreorder _ (𝔽 n)
-    isPreorder._≤'_ isPreorder:Fin (i , _) (j , _) = i ≤-ℕ j
-    isPreorder.reflexive isPreorder:Fin = incl (0 , refl)
+    isPreorder._≤_ isPreorder:Fin (i , _) (j , _) = i ≤-ℕ j
+    isPreorder.reflexive isPreorder:Fin = (0 , refl)
     isPreorder._⟡_ isPreorder:Fin = {!!}
     isPreorder.transp-≤ isPreorder:Fin = {!!}
 

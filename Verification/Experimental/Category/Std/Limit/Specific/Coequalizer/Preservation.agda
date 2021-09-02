@@ -9,6 +9,9 @@ open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Experimental.Category.Std.Functor.Faithful
+open import Verification.Experimental.Category.Std.Functor.Full
+open import Verification.Experimental.Category.Std.Functor.EssentiallySurjective
 
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 
@@ -34,5 +37,18 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
   --     preserves-⊔ = {!!}
 
 
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {{_ : isFull F}} {{_ : isFaithful F}} {{_ : isEssentiallySurjective F}} where
+
+  module _ {a b x : ⟨ 𝒞 ⟩} {f g : a ⟶ b} (P : isCoequalizer (f) (g) (x)) where
+    private
+      instance _ = P
+      π₌' : ⟨ F ⟩ b ⟶ ⟨ F ⟩ x
+      π₌' = map π₌
+
+    isCoequalizer:byEquivalence : isCoequalizer (map f) (map g) (⟨ F ⟩ x)
+    isCoequalizer.π₌ isCoequalizer:byEquivalence = π₌'
+    isCoequalizer.equate-π₌ isCoequalizer:byEquivalence = {!!}
+    isCoequalizer.compute-Coeq isCoequalizer:byEquivalence = {!!}
+    isCoequalizer.isEpi:π₌ isCoequalizer:byEquivalence = {!!}
 
 

@@ -17,9 +17,9 @@ record ≤-Base {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a b : A) : 𝒰 𝑗 
 open ≤-Base public
 
 record isPreorder 𝑘 (A : 𝒰 𝑖 :& isSetoid {𝑗}) : 𝒰 (𝑘 ⁺ ､ 𝑗 ､ 𝑖) where
-  field _≤'_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
-  _≤_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
-  _≤_ = ≤-Base _≤'_
+  field _≤_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
+  -- _≤_ : ⟨ A ⟩ -> ⟨ A ⟩ -> 𝒰 𝑘
+  -- _≤_ = ≤-Base _≤_
 
   field reflexive : {a : ⟨ A ⟩} -> a ≤ a
         _⟡_ : {a b c : ⟨ A ⟩} -> a ≤ b -> b ≤ c -> a ≤ c
@@ -58,15 +58,20 @@ Partialorder 𝑖 = Preorder 𝑖 :& isPartialorder
 module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} {{_ : isPreorder 𝑘 ′ A ′}} where
   instance
     isPreorder:Family : ∀{I : 𝒰 𝑙} -> isPreorder _ (′ (I -> A) ′)
-    isPreorder._≤'_      isPreorder:Family f g = ∀{a} -> f a ≤' g a
-    isPreorder.reflexive isPreorder:Family = incl ⟨ reflexive ⟩
-    isPreorder._⟡_       isPreorder:Family (incl f) (incl g) = incl (⟨ incl f ⟡ incl g ⟩)
-    isPreorder.transp-≤  isPreorder:Family (p) (q) f = incl (⟨ transp-≤ (p) (q) (incl ⟨ f ⟩) ⟩)
+    isPreorder._≤_ isPreorder:Family f g = ∀ a -> f a ≤ g a
+    isPreorder.reflexive isPreorder:Family = λ a₁ → reflexive
+    isPreorder._⟡_ isPreorder:Family = λ f g a → f a ⟡ g a
+    isPreorder.transp-≤ isPreorder:Family = {!!}
+    -- isPreorder._≤_      isPreorder:Family f g = ∀{a} -> f a ≤ g a
+    -- isPreorder.reflexive isPreorder:Family = incl ⟨ reflexive ⟩
+    -- isPreorder._⟡_       isPreorder:Family (incl f) (incl g) = incl (⟨ incl f ⟡ incl g ⟩)
+    -- isPreorder.transp-≤  isPreorder:Family (p) (q) f = incl (⟨ transp-≤ (p) (q) (incl ⟨ f ⟩) ⟩)
 
 module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} {{_ : isPreorder 𝑘 ′ A ′}} {{_ : isPartialorder ′ A ′}} where
   instance
     isPartialorder:Family : ∀{I : 𝒰 𝑙} -> isPartialorder (′ (I -> A) ′)
-    isPartialorder.antisym isPartialorder:Family (incl p) (incl q) = antisym (incl p) (incl q)
+    isPartialorder:Family = {!!}
+    -- isPartialorder.antisym isPartialorder:Family (incl p) (incl q) = antisym (incl p) (incl q)
 {-
 -}
 ----------------------------------------------------------
@@ -131,6 +136,8 @@ ICategory._◈_ (of Category:Preorder 𝑖) = {!!}
 module _ {𝑗 : 𝔏 ^ 3} {A : 𝒰 _} {{_ : Preorder 𝑗 on A}} where
   by-∼-≤_ : {a b : A} -> (a ∼ b) -> a ≤ b
   by-∼-≤_ p = transp-≤ refl p reflexive
+
+  命reflexive = by-∼-≤_
 
   infixl 10 by-∼-≤_
 
