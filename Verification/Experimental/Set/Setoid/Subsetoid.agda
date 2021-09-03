@@ -16,10 +16,10 @@ module _ {X : Setoid 𝑖} where
 
   instance
     isPreorder:Subsetoid : isPreorder _ ′(Subsetoid X)′
-    isPreorder._≤'_ isPreorder:Subsetoid a b = ⟨ a ⟩ ≤' ⟨ b ⟩
-    isPreorder.reflexive isPreorder:Subsetoid = incl ⟨ reflexive ⟩
-    isPreorder._⟡_ isPreorder:Subsetoid p q = incl ⟨ incl ⟨ p ⟩ ⟡ incl ⟨ q ⟩ ⟩
-    isPreorder.transp-≤ isPreorder:Subsetoid p q P = incl (⟨ transp-≤ ⟨ p ⟩ ⟨ q ⟩ (incl ⟨ P ⟩) ⟩)
+    isPreorder._≤_ isPreorder:Subsetoid = ≤-Base (λ a b -> ⟨ a ⟩ ≤ ⟨ b ⟩)
+    isPreorder.reflexive isPreorder:Subsetoid = incl reflexive
+    isPreorder._⟡_ isPreorder:Subsetoid p q = incl (⟨ p ⟩ ⟡ ⟨ q ⟩)
+    isPreorder.transp-≤ isPreorder:Subsetoid p q P = {!!} -- incl (⟨ transp-≤ ⟨ p ⟩ ⟨ q ⟩ (incl ⟨ P ⟩) ⟩)
     -- incl ⟨ transp-≤ (incl ⟨ p ⟩) (incl ⟨ q ⟩) (incl ⟨ P ⟩) ⟩
 
   instance
@@ -36,10 +36,11 @@ module _ {X : Setoid 𝑖} where
   instance
     hasFiniteMeets:Subsetoid : hasFiniteMeets ′(Subsetoid X)′
     hasFiniteMeets.⊤ hasFiniteMeets:Subsetoid = ′ ⊤ ′
-    hasFiniteMeets.terminal-⊤ hasFiniteMeets:Subsetoid = incl ⟨ terminal-⊤ ⟩
+    hasFiniteMeets.terminal-⊤ hasFiniteMeets:Subsetoid = incl terminal-⊤
     hasFiniteMeets._∧_ hasFiniteMeets:Subsetoid I J = ′ ⟨ I ⟩ ∧ ⟨ J ⟩ ′
-    hasFiniteMeets.π₀-∧ hasFiniteMeets:Subsetoid = incl ⟨ π₀-∧ ⟩
-    hasFiniteMeets.π₁-∧ hasFiniteMeets:Subsetoid = incl ⟨ π₁-∧ ⟩
-    hasFiniteMeets.⟨_,_⟩-∧ hasFiniteMeets:Subsetoid f g = incl ⟨ ⟨ (incl ⟨ f ⟩) , (incl ⟨ g ⟩) ⟩-∧ ⟩
+    hasFiniteMeets.π₀-∧ hasFiniteMeets:Subsetoid = incl π₀-∧
+    hasFiniteMeets.π₁-∧ hasFiniteMeets:Subsetoid = incl π₁-∧
+    hasFiniteMeets.⟨_,_⟩-∧ hasFiniteMeets:Subsetoid f g = {!!}
+      -- incl ⟨ ⟨ (incl ⟨ f ⟩) , (incl ⟨ g ⟩) ⟩-∧ ⟩
 
 

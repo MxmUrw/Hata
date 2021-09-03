@@ -45,6 +45,7 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definiti
 module _ {𝑨 : 𝕋× 𝑖} where
   mutual
     map-Terms-𝕋× : ∀{αs} -> {a b : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} -> (a ⟶ b) -> Terms-𝕋× 𝑨 αs a ⟶ Terms-𝕋× 𝑨 αs b
+    -- map-Terms-𝕋× = {!!}
     map-Terms-𝕋× f ◌-⧜ = ◌-⧜
     map-Terms-𝕋× f (x ⋆-⧜ y) = map-Terms-𝕋× f x ⋆-⧜ map-Terms-𝕋× f y
     map-Terms-𝕋× f (incl x) = incl (map-Term-𝕋× f _ x)
@@ -65,6 +66,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
   mutual
     reext-Terms-𝕋× : ∀{a b αs} -> 𝑓𝑖𝑛 (Type-𝕋× 𝑨) a ⟶ Term-𝕋× 𝑨 b -> Terms-𝕋× 𝑨 αs a ⟶ Terms-𝕋× 𝑨 αs b
+    -- reext-Terms-𝕋× f (incl-Terms x) = incl-Terms (λ i a → reext-Term-𝕋× f i (x i a))
     reext-Terms-𝕋× f ◌-⧜ = ◌-⧜
     reext-Terms-𝕋× f (x ⋆-⧜ y) = reext-Terms-𝕋× f x ⋆-⧜ reext-Terms-𝕋× f y
     reext-Terms-𝕋× f (incl x) = incl (reext-Term-𝕋× f _ x)
@@ -95,16 +97,22 @@ instance
   isFormalSystem.isRelativeMonad:Terms isFormalSystem:ProductTheory = isRelativeMonad:Term-𝕋×
 
 
-module _ {𝑨 : 𝕋× 𝑖} where
-  retro-Terms-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) ≅ (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
-  retro-Terms-𝕋× {a} {b} = f since P
-    where
-      f : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
-      f ◌-⧜ = ◌-⧜
-      f (incl x) = incl x
-      f (t ⋆-⧜ s) = f t ⋆-⧜ f s
 
-      P = {!!}
+-- module _ {𝑨 : 𝕋× 𝑖} where
+--   retro-Terms-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) ≅ (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
+--   retro-Terms-𝕋× {a} {b} = {!!} --  f since P
+    -- where
+    --   f : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
+    --   f ◌-⧜ = ◌-⧜
+    --   f (incl x) = incl x
+    --   f (t ⋆-⧜ s) = f t ⋆-⧜ f s
+
+    --   g : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩))) -> (a ⟶ b)
+    --   g ◌-⧜ = ◌-⧜
+    --   g (t ⋆-⧜ s) = g t ⋆-⧜ g s
+    --   g (incl x) = incl x
+
+    --   P = record { inverse-◆ = g ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
 
   -- instance
     -- isDiscrete:𝐂𝐭𝐱-𝕋× : isDiscrete (𝐂𝐭𝐱 𝑨)

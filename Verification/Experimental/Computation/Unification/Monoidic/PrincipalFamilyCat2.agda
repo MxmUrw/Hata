@@ -62,7 +62,7 @@ module _ {M : Monoid₀ (𝑖 , 𝑖)} {f g : ⟨ M ⟩} where
 -- private
 module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   Pair : (a b : 𝒞) -> 𝒰 _
-  Pair a x = Hom a x ∧ Hom a x
+  Pair a x = Hom a x ×-𝒰 Hom a x
 
 IxC : (𝒞 : Category 𝑖) -> 𝒰 _
 IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> Pair a b

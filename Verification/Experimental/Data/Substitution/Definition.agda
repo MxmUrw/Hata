@@ -116,6 +116,12 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
   cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> {f g : ix (⟨ T ⟩ (incl b)) a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
   cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
 
+  π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭 a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭 b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (f ⋆-⧜ h) (g ⋆-⧜ i) -> f ≣ g
+  π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
+
+  π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭 a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭 b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (f ⋆-⧜ h) (g ⋆-⧜ i) -> h ≣ i
+  π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
+
   module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
     instance
       isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 : isSetoid (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b)

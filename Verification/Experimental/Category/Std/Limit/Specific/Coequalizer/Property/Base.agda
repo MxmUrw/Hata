@@ -32,6 +32,14 @@ module _ {𝒞 : Category 𝑖} {{_ : hasInitial 𝒞}} where
         -- isCoequalizer.reduce-Coeq P = λ h p → unit-l-◆
         -- isCoequalizer.expand-Coeq P = λ h p → unit-l-◆ ⁻¹
 
+module _ {𝒞 : Category 𝑖} where
+  module _ {a b : ⟨ 𝒞 ⟩} {f : a ⟶ b} where
+    hasCoequalizer:byId : hasCoequalizer f f
+    hasCoequalizer:byId = {!!}
+
+  module _ {a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} where
+    hasCoequalizer:bySym : hasCoequalizer f g -> hasCoequalizer g f
+    hasCoequalizer:bySym = {!!}
 
 module _ {𝒞 : Category 𝑖} where
   module _ {a₀ a₁ b₀ b₁ x₀ x₁ : ⟨ 𝒞 ⟩}
@@ -120,6 +128,8 @@ module _ {𝒞 : Category 𝑖} where
     isCoequalizer.equate-π₌ isCoequalizer:⊔ = equate-π₌-⊔
     isCoequalizer.compute-Coeq isCoequalizer:⊔ = compute-Coeq-⊔
     isCoequalizer.isEpi:π₌ isCoequalizer:⊔ = isEpi:π₌-⊔
+
+  
 
 
 

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.NoOccur where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.OccurFail where
 
 open import Verification.Conventions hiding (Structure ; ℕ)
 

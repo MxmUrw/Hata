@@ -53,6 +53,11 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 
 open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
 
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Var
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Occur
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.OccurFail
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
+
 
 WF-𝕋× : 𝒰₀
 WF-𝕋× = ℕ ^ 3
@@ -82,7 +87,20 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isBase:sym : ∀{x y : 𝐂𝐭𝐱 𝑨} -> {f g : x ⟶ y} -> isBase-𝕋× (f , g) -> isBase-𝕋× (g , f)
     isBase:id : ∀{x y : 𝐂𝐭𝐱 𝑨} -> {f : x ⟶ y} -> isBase-𝕋× (f , f)
     isBase:var : ∀{s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨} (x y : ⟨ Γ ⟩ ∍ s) -> (y ≠-∍ x) -> isBase-𝕋× (incl (var x) , incl (var y))
-    -- isBase:var-con : ∀{s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨} -> (x : ⟨ Γ ⟩ ∍ s) -> (t : Γ ⊢ s) -> isBase-𝕋× (incl (var x) , t)
+    isBase:con-var : ∀{s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨}
+                     -> ∀{αs} -> (c : Con 𝑨 αs s) -> (ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl ⟨ Γ ⟩)) -> (x : ⟨ Γ ⟩ ∍ s) -> isBase-𝕋× (incl (con c ts) , incl (var x))
+    isBase:con≠con : ∀{αsx αsy α} {Γ : 𝐂𝐭𝐱 𝑨}-> (c : Con 𝑨 αsx α) (d : Con 𝑨 αsy α)
+                     -> (tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
+                     -> (tsy : Terms-𝕋× 𝑨 (incl (ι αsy)) (incl ⟨ Γ ⟩))
+                     -> ¬ (αsx ≣ αsy)
+                     -> isBase-𝕋× (incl (con c tsx) , incl (con d tsy))
+
+    isBase:con≠con₂ : ∀{αsx α} {Γ : 𝐂𝐭𝐱 𝑨}-> (c : Con 𝑨 αsx α) (d : Con 𝑨 αsx α)
+                     -> (tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
+                     -> (tsy : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
+                     -> ¬ (c ≣ d)
+                     -> isBase-𝕋× (incl (con c tsx) , incl (con d tsy))
+
 
   postulate
     size-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> Pair a b -> 𝒲-𝕋×
@@ -91,80 +109,19 @@ module _ {𝑨 : 𝕋× 𝑖} where
   SplitP (_ , _ , i) = (λ (_ , _ , j) -> size-𝕋× j ≪-𝒲-𝕋× size-𝕋× i)
 
 
+{-
   decide-Base-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> ∀(f g : a ⟶ b) -> isBase-𝕋× (f , g) -> isDecidable (hasCoequalizer f g)
   decide-Base-𝕋× f g isBase:⊥ = right hasCoequalizer:byInitial
-  decide-Base-𝕋× f g (isBase:sym p) = {!!}
-  decide-Base-𝕋× f .f isBase:id = {!!}
-  decide-Base-𝕋× .(incl (var x)) .(incl (var y)) (isBase:var {s} {Γ} x y y≠x) = right lem-11
-    where
-      T : RelativeMonad (𝑓𝑖𝑛 (Type 𝑨))
-      T = ′ Term-𝕋× 𝑨 ′
+  decide-Base-𝕋× f g (isBase:sym p) with decide-Base-𝕋× g f p
+  ... | left ¬p = left $ λ q -> ¬p (hasCoequalizer:bySym q)
+  ... | right p = right (hasCoequalizer:bySym p)
+  decide-Base-𝕋× f .f isBase:id = right hasCoequalizer:byId
+  decide-Base-𝕋× .(incl (var x)) .(incl (var y)) (isBase:var {s} {Γ} x y y≠x) = right (hasCoequalizer:varvar x y y≠x)
+  decide-Base-𝕋× f g (isBase:con-var c ts v) with isFreeVar (con c ts) v
+  ... | left ¬occ = right (hasCoequalizer:byNoOccur (con c ts) v ¬occ)
+  ... | just occ  = left (hasNoCoequalizer:byOccur (con c ts) v occ refl)
+  decide-Base-𝕋× (incl (con c tsx)) (incl (con d tsy)) (isBase:con≠con .c .d .tsx .tsy p)  = left (hasNoCoequalizer:byCon  c d tsx tsy p)
+  decide-Base-𝕋× (incl (con c tsx)) (incl (con d tsy)) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizer:byCon₂ c d tsx tsy p)
 
-      Γ' : 𝐂𝐭𝐱 𝑨
-      Γ' = incl (⟨ Γ ⟩ \\ x)
-
-      π' : ι Γ ⟶ ι Γ'
-      π' = incl (⟨ (π-\\ x y y≠x) ⟩ ◆ repure)
-
-      ι' : ι Γ' ⟶ ι Γ
-      ι' = incl (ι-\\ x ◆ repure)
-
-
-      lem-01 : ∀ i z -> ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var x))) ◆ π' ⟩ i z ≡ ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var y))) ◆ π' ⟩ i z
-      lem-01 i incl = ≡-Str→≡ (cong-Str var (π-\\-∼ y≠x))
-
-      equate-π₌' : map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var x)) ◆ π' ∼ map (incl (var y)) ◆ π'
-      equate-π₌' = incl (λ i -> funExt (lem-01 i))
-
-      lem-08 : ∀{c : 𝐒𝐮𝐛𝐬𝐭 T} -> (h : ι (Γ) ⟶ c) -> (p : map (incl (var x)) ◆ h ∼ map (incl (var y)) ◆ h)
-               -> ∑ λ (ξ : ι (Γ') ⟶ c) -> π' ◆ ξ ∼ h
-      lem-08 {c} h p = ξ , P
-        where
-          ξ : ι (Γ') ⟶ c
-          ξ = ι' ◆ h
-
-          P-8 : ⟨ h ⟩ s x ≡ ⟨ h ⟩ s y
-          P-8 = funExt⁻¹ (⟨ p ⟩ s) incl
-
-          P-9 : (i : Sort 𝑨) (z : ⟨ Γ ⟩ ∍ i) →
-                ⟨ h ⟩ i (ι-\\ x i (⟨ π-\\ x y y≠x ⟩ i z))  ≡  ⟨ h ⟩ i z
-          P-9 i z with merge-embed y≠x z
-          ... | left x = cong (⟨ h ⟩ i) (≡-Str→≡ x)
-          ... | just refl-=-∍ =
-            ⟨ h ⟩ i (ι-\\ z i (⟨ π-\\ z y y≠x ⟩ i z))  ⟨ cong (⟨ h ⟩ i) (≡-Str→≡ (merge-single y≠x)) ⟩-≡
-            ⟨ h ⟩ i y                                  ⟨ sym-Path P-8 ⟩-≡
-            ⟨ h ⟩ i z                                  ∎-≡
-
-          P : π' ◆ (ι' ◆ h) ∼ h
-          P = incl (λ i -> funExt (P-9 i))
-
-      cancel-epi-π' : ∀{z : 𝐒𝐮𝐛𝐬𝐭 T} -> {f g : ι Γ' ⟶ z} -> (π' ◆ f ∼ π' ◆ g) -> f ∼ g
-      cancel-epi-π' {z} {f} {g} p = incl λ i -> funExt (P-9 i)
-        where
-          P-8 : ∀ (i : Sort 𝑨) (z : ⟨ Γ' ⟩ ∍ i) ->  ⟨ f ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z)) ≡ ⟨ g ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z))
-          P-8 i z = funExt⁻¹ (⟨ p ⟩ i) (ι-\\ x i z)
-
-          P-9 : ∀ (i : Sort 𝑨) (z : ⟨ Γ' ⟩ ∍ i) -> ⟨ f ⟩ i z ≡ ⟨ g ⟩ i z
-          P-9 i z = _ ⟨ sym-Path (cong (⟨ f ⟩ i) (≡-Str→≡ (embed-merge y≠x z))) ⟩-≡
-                    _ ⟨ P-8 i z ⟩-≡
-                    _ ⟨ (cong (⟨ g ⟩ i) (≡-Str→≡ (embed-merge y≠x z))) ⟩-≡
-                    _ ∎-≡
-
-      lem-09 : isEpi (π')
-      lem-09 = epi cancel-epi-π'
-
-
-      lem-10 : isCoequalizer (map (incl (var x))) (map (incl (var y))) (ι Γ')
-      isCoequalizer.π₌ lem-10 = π'
-      isCoequalizer.equate-π₌ lem-10 = equate-π₌'
-      isCoequalizer.compute-Coeq lem-10 = lem-08
-      isCoequalizer.isEpi:π₌ lem-10 = lem-09
-
-      lem-11 : hasCoequalizer _ _
-      lem-11 = Γ' since (isCoequalizer:byFullyFaithfull lem-10)
-
-
-
-
-
+-}
 
