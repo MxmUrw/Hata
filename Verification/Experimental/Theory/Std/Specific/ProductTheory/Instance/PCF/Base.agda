@@ -59,24 +59,6 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
 
 
-WF-𝕋× : 𝒰₀
-WF-𝕋× = ℕ ^ 3
-
-macro 𝒲-𝕋× = #structureOn WF-𝕋×
-
-postulate
-  _≪-𝒲-𝕋×_ : 𝒲-𝕋× -> 𝒲-𝕋× -> 𝒰 ℓ₀
-  WellFounded-≪-𝒲-𝕋× : WellFounded _≪-𝒲-𝕋×_
-
-
-instance
-  isWellfounded:𝒲-𝕋× : isWF {ℓ₀} ℓ₀ 𝒲-𝕋×
-  isWellfounded:𝒲-𝕋× = record { _≪_ = _≪-𝒲-𝕋×_ ; wellFounded = WellFounded-≪-𝒲-𝕋× }
-
-instance
-  isWFT:𝒲-𝕋× : isWFT 𝒲-𝕋×
-  isWFT:𝒲-𝕋× = {!!}
-
 
 
 module _ {𝑨 : 𝕋× 𝑖} where
@@ -102,11 +84,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
                      -> isBase-𝕋× (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy)))
 
 
-  postulate
-    size-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> Pair a b -> 𝒲-𝕋×
+  -- postulate
+  --   size-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> Pair a b -> 𝒲-𝕋×
 
-  SplitP : IxC (𝐂𝐭𝐱 𝑨) -> IxC (𝐂𝐭𝐱 𝑨) -> 𝒰₀
-  SplitP (_ , _ , i) = (λ (_ , _ , j) -> size-𝕋× j ≪-𝒲-𝕋× size-𝕋× i)
+  -- SplitP : IxC (𝐂𝐭𝐱 𝑨) -> IxC (𝐂𝐭𝐱 𝑨) -> 𝒰₀
+  -- SplitP (_ , _ , i) = (λ (_ , _ , j) -> size-𝕋× j ≪-𝒲-𝕋× size-𝕋× i)
 
 
   decide-Base-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> ∀(f g : a ⟶ b) -> isBase-𝕋× (f , g) -> isDecidable (hasCoequalizer f g)
@@ -121,5 +103,6 @@ module _ {𝑨 : 𝕋× 𝑖} where
   ... | just occ  = left (hasNoCoequalizer:byOccur (con c ts) v occ refl)
   decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con .c .d .tsx .tsy p)  = left (hasNoCoequalizer:byCon  c d tsx tsy p)
   decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizer:byCon₂ c d tsx tsy p)
+
 
 

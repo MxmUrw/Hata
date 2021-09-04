@@ -11,6 +11,8 @@ open import Verification.Experimental.Algebra.Ring
 open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Totalorder
 
+ℕᵘ = Nat
+
 macro
   ℕ : SomeStructure
   ℕ = #structureOn Nat

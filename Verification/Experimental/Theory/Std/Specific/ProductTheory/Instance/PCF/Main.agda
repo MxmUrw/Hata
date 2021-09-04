@@ -1,9 +1,8 @@
 
 module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Main where
 
-open import Verification.Conventions
+open import Verification.Conventions hiding (ℕ)
 
-open import Verification.Experimental.Conventions hiding (Structure)
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
@@ -34,6 +33,7 @@ open import Verification.Experimental.Order.Preorder
 open import Verification.Experimental.Order.Lattice hiding (⊥)
 
 open import Verification.Experimental.Data.List.Definition
+open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
@@ -50,13 +50,14 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
 
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Base
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
 
 module _ {𝑨 : 𝕋× 𝑖} where
 
-  ∂-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> (t : Pair x y) -> (isBase-𝕋× t +-𝒰 (∑ λ n -> isSplittableC (𝐂𝐭𝐱 𝑨) n t SplitP))
+  ∂-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> (t : Pair x y) -> (isBase-𝕋× t +-𝒰 (∑ λ n -> isSplittableC (𝐂𝐭𝐱 𝑨) n t))
   ∂-𝕋× (⧜subst ◌-⧜ , ⧜subst ◌-⧜) = left isBase:⊥
-  ∂-𝕋× {x} {y} (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁)) = right (2 , record { famC = fam' ; coversC = (λ h -> covers-0 h , covers-1 h) ; fampropsC = {!!} })
+  ∂-𝕋× {x} {y} (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁)) = right (2 , record { famC = fam' ; coversC = (λ h -> covers-0 h , covers-1 h) ; fampropsC = sizes })
     where
       fam' : 2 ∍ tt -> ∑ λ x' -> Pair x' y
       fam' (right-∍ i) = _ , ⧜subst f₀ , ⧜subst g₀
@@ -81,6 +82,10 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
       covers-1 h p = cong-Str ⧜subst (cong₂-Str _⋆-⧜_ (cong-Str ⟨_⟩ (p (right-∍ (left-∍ incl)))) (cong-Str ⟨_⟩ (p (left-∍ incl))))
 
+      sizes : ∀(k : 2 ∍ tt) -> sizeC (fam' k .snd) ≪ sizeC (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁))
+      sizes (right-∍ k) = (incl (sizeC-half (⧜subst f₁) , comm-⋆ {a = sizeC-half (⧜subst f₁)} {b = _})) , (incl (sizeC-half (⧜subst g₁) , comm-⋆ {a = sizeC-half (⧜subst g₁)} {b = _}))
+      sizes (left-∍ k) = incl (sizeC-half (⧜subst f₀) , (+-suc (sizeC-half (⧜subst f₀)) _)) , incl (sizeC-half (⧜subst g₀) , (+-suc (sizeC-half (⧜subst g₀)) _))
+
 
   ∂-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (var y))) with compare-∍ y x
   ... | left ¬p = left (isBase:var _ _ ¬p)
@@ -92,7 +97,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
   ... | no ¬p = left (isBase:con≠con cx cy tsx tsy ¬p)
   ... | yes refl-≣ with cx ≟-Str cy
   ... | no ¬p = left (isBase:con≠con₂ cx cy tsx tsy ¬p)
-  ... | yes refl-≣ = right (1 , record { famC = fam' ; coversC = λ h → covers-0 h , covers-1 h ; fampropsC = {!!} })
+  ... | yes refl-≣ = right (1 , record { famC = fam' ; coversC = λ h → covers-0 h , covers-1 h ; fampropsC = λ k → reflexive , reflexive })
     where
       f₀ = ⧜subst (tsx)
       g₀ = ⧜subst (tsy)

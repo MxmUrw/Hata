@@ -76,6 +76,38 @@ module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
   --   solved : hasCoequalizer f g
   --   field princobj : 
 
+record isSizedCategory (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⁺) where
+  field {{isDiscrete:this}} : isDiscrete ⟨ 𝒞 ⟩
+  field {{isSet-Str:this}} : isSet-Str ⟨ 𝒞 ⟩
+  field SizeC : WFT (ℓ₀ , ℓ₀)
+  field sizeC : {a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> ⟨ SizeC ⟩
+  field size0 : ⟨ SizeC ⟩
+  field initial-size0 : ∀{a} -> size0 ⪣ a
+
+open isSizedCategory {{...}} public
+
+SizedCategory : ∀ 𝑖 -> _
+SizedCategory 𝑖 = _ :& isSizedCategory {𝑖}
+
+module _ (𝒞 : SizedCategory 𝑖) where
+  record isSplittableC (n : 人ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) : 𝒰 𝑖 where
+    field famC : n ∍ tt -> ∑ λ a' -> (Pair a' b)
+    field coversC : ∀{x} -> (h : b ⟶ x) -> (f ⌄ 0 ◆ h ∼ f ⌄ 1 ◆ h) ↔ (∀ p -> (famC p .snd) ⌄ 0 ◆ h ∼ (famC p .snd) ⌄ 1 ◆ h)
+    -- field coversC : ⋀-fin (λ i -> 𝓘C 𝒞 (famC i)) ∼ 𝓘C 𝒞 i
+    field fampropsC : ∀ k -> sizeC (famC k .snd) ≪ sizeC f
+    -- P (_ , _ , f) (_ , _ , famC k .snd)
+  open isSplittableC public
+
+record isPrincipalFamilyCat (𝒞 : SizedCategory 𝑖) : 𝒰 (𝑖 ⁺) where
+  field isBase : ∀{a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> 𝒰 (𝑖 ⌄ 1)
+  field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : Pair x y)
+           -> (isBase (i)
+              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i))
+  field isPrincipalC:Base : ∀{a b : ⟨ 𝒞 ⟩} -> ∀(f g : a ⟶ b) -> isBase (f , g) -> isDecidable (hasCoequalizer f g)
+
+open isPrincipalFamilyCat {{...}} public
+
+{-
 module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} where
   record isSplittableC (n : 人ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) (P : IxC 𝒞 -> IxC 𝒞 -> 𝒰₀) : 𝒰 𝑖 where
     field famC : n ∍ tt -> ∑ λ a' -> (Pair a' b)
@@ -105,13 +137,13 @@ record isPrincipalFamilyCat (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩
   field size0 : ⟨ SizeC ⟩
   field initial-size0 : ∀{a} -> size0 ⪣ a
   field isPrincipalC:Base : ∀{a b : ⟨ 𝒞 ⟩} -> ∀(f g : a ⟶ b) -> isBase (f , g) -> isDecidable (hasCoequalizer f g)
+  -}
 
-open isPrincipalFamilyCat {{...}} public
 
 data Side : 𝒰₀ where
   isLeft isRight : Side
 
-module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str ⟨ 𝒞 ⟩}} {{F : isPrincipalFamilyCat 𝒞}} where
+module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{X : isSizedCategory 𝒞}} {{F : isPrincipalFamilyCat ′ ⟨ 𝒞 ⟩ ′}} where
   private
 
     -- Ix generates our ideals
