@@ -139,7 +139,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
       Γ' = incl (Γ \\ v)
 
       t' : Γ' ⊢ τ
-      t' = incl $ factor-Occur t v ¬occ
+      t' = ⧜subst $ incl $ factor-Occur t v ¬occ
 
       π' : ι (incl Γ) ⟶ ι (Γ')
       π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map t' ⟩ ⦘)
@@ -160,7 +160,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         ... | just refl-≣-2 = impossible (¬occ (var x))
         lem-4 (con c ts) v ¬occ s = λ i -> con c (lem-4s ts v (λ occ -> (¬occ (con c occ))) s i)
 
-      lem-5 : ∀ (i : Type 𝑨) (x : incl τ ∍ i) -> ⟨ (map (incl t)) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
+      lem-5 : ∀ (i : Type 𝑨) (x : incl τ ∍ i) -> ⟨ (map (⧜subst (incl t))) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
       lem-5 i incl = P
         where
           Q : either (λ x → var x) (⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ i) (iso-\\ v i v) ≡ factor-Occur t v ¬occ
@@ -175,11 +175,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
                        (iso-\\ v i v)
           P = trans-Path (lem-4 t v ¬occ _) (sym-Path Q)
 
-      equate-π' : (map (incl t)) ◆ π' ∼ (map (simpleVar v)) ◆ π'
+      equate-π' : (map (⧜subst (incl t))) ◆ π' ∼ (map (simpleVar v)) ◆ π'
       equate-π' = incl (λ i → funExt (lem-5 i))
 
 
-      compute-Coeq' : ∀{c : 𝐒𝐮𝐛𝐬𝐭 _} -> (h : ι (incl Γ) ⟶ c) -> (map (incl t) ◆ h) ∼ (map (simpleVar v) ◆ h) -> ∑ λ (ξ : ι Γ' ⟶ c) -> (π' ◆ ξ ∼ h)
+      compute-Coeq' : ∀{c : 𝐒𝐮𝐛𝐬𝐭 _} -> (h : ι (incl Γ) ⟶ c) -> (map (⧜subst (incl t)) ◆ h) ∼ (map (simpleVar v) ◆ h) -> ∑ λ (ξ : ι Γ' ⟶ c) -> (π' ◆ ξ ∼ h)
       compute-Coeq' {c} h p = ξ , P
         where
           ξ : ι Γ' ⟶ c
@@ -225,13 +225,13 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isEpi:π' : isEpi π'
     isEpi:π' = epi P-11
 
-    isCoequalizer:byNoOccur : isCoequalizer (map (incl t)) (map (simpleVar v)) (ι (Γ'))
+    isCoequalizer:byNoOccur : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι (Γ'))
     isCoequalizer.π₌ isCoequalizer:byNoOccur = π'
     isCoequalizer.equate-π₌ isCoequalizer:byNoOccur = equate-π'
     isCoequalizer.compute-Coeq isCoequalizer:byNoOccur = compute-Coeq'
     isCoequalizer.isEpi:π₌ isCoequalizer:byNoOccur = isEpi:π'
 
-    hasCoequalizer:byNoOccur : hasCoequalizer (incl t) (simpleVar v)
+    hasCoequalizer:byNoOccur : hasCoequalizer (⧜subst (incl t)) (simpleVar v)
     hasCoequalizer:byNoOccur = Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
 
 

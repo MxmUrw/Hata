@@ -83,12 +83,6 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isRelativeMonad.reunit-r isRelativeMonad:Term-𝕋× = {!!}
     isRelativeMonad.reassoc isRelativeMonad:Term-𝕋× = {!!}
 
-  module §-reext-Terms-𝕋× where
-    prop-1 : ∀{a b x} -> (α β : 𝑓𝑖𝑛 (Type-𝕋× 𝑨) (incl a) ⟶ Term-𝕋× 𝑨 b) -> (t : Term₁-𝕋× 𝑨 a x) -> reext-Term-𝕋× α _ t ≡ reext-Term-𝕋× β _ t -> ∀ i s -> α i s ≡ β i s
-    prop-1 α β (var x) p i s = {!!}
-    prop-1 α β (con c x) p i s = {!!}
-
-
 instance
   isFormalSystem:ProductTheory : isFormalSystem (𝕋× 𝑖)
   isFormalSystem.Type isFormalSystem:ProductTheory = Type-𝕋×
@@ -97,22 +91,43 @@ instance
   isFormalSystem.isRelativeMonad:Terms isFormalSystem:ProductTheory = isRelativeMonad:Term-𝕋×
 
 
+module _ {𝑨 : 𝕋× 𝑖} where
+  module §-reext-Terms-𝕋× where
+    prop-1 : ∀{a b x} -> (α β : 𝑓𝑖𝑛 (Type-𝕋× 𝑨) (incl a) ⟶ Term-𝕋× 𝑨 b) -> (t : Term₁-𝕋× 𝑨 a x) -> reext-Term-𝕋× α _ t ≡ reext-Term-𝕋× β _ t -> ∀ i s -> α i s ≡ β i s
+    prop-1 α β (var x) p i s = {!!}
+    prop-1 α β (con c x) p i s = {!!}
 
--- module _ {𝑨 : 𝕋× 𝑖} where
---   retro-Terms-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) ≅ (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
---   retro-Terms-𝕋× {a} {b} = {!!} --  f since P
-    -- where
-    --   f : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
-    --   f ◌-⧜ = ◌-⧜
-    --   f (incl x) = incl x
-    --   f (t ⋆-⧜ s) = f t ⋆-⧜ f s
+    prop-2 : ∀{x y : 𝐂𝐭𝐱 𝑨} {αsx : 人List (Type-𝕋× 𝑨)} -> (h : y ⟶ x)
+             -> (tsx : CtxHom (Term₁-𝕋× 𝑨) (αsx) ⟨ y ⟩)
+             -> (reext-Terms-𝕋× (sub-⧜𝐒𝐮𝐛𝐬𝐭 h) tsx)
+               ≣
+               (tsx ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
+    prop-2 {x} {y} h ◌-⧜ = refl-≣
+    prop-2 {x} {y} h (incl x₁) = refl-≣
+    prop-2 {x} {y} h (tsx ⋆-⧜ tsy) = cong₂-Str _⋆-⧜_ (prop-2 h tsx) (prop-2 h tsy)
 
-    --   g : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩))) -> (a ⟶ b)
-    --   g ◌-⧜ = ◌-⧜
-    --   g (t ⋆-⧜ s) = g t ⋆-⧜ g s
-    --   g (incl x) = incl x
 
-    --   P = record { inverse-◆ = g ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
+
+
+module _ {𝑨 : 𝕋× 𝑖} where
+
+
+  -- retro-Terms-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
+  -- retro-Terms-𝕋× x = x
+  -- retro-Terms-𝕋× ◌-⧜ = ◌-⧜
+  -- retro-Terms-𝕋× (incl x) = incl x
+  -- retro-Terms-𝕋× (t ⋆-⧜ s) = retro-Terms-𝕋× t ⋆-⧜ retro-Terms-𝕋× s
+
+  -- retro-Terms-𝕋×⁻¹ : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩))) -> (a ⟶ b)
+  -- retro-Terms-𝕋×⁻¹ x = x
+  -- retro-Terms-𝕋×⁻¹ ◌-⧜ = ◌-⧜
+  -- retro-Terms-𝕋×⁻¹ (t ⋆-⧜ s) = retro-Terms-𝕋×⁻¹ t ⋆-⧜ retro-Terms-𝕋×⁻¹ s
+  -- retro-Terms-𝕋×⁻¹ (incl x) = incl x
+
+  -- retro-Terms-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (a ⟶ b) ≅ (Terms-𝕋× 𝑨 (incl (⟨ a ⟩)) (incl (⟨ b ⟩)))
+  -- retro-Terms-𝕋× {a} {b} = {!!} --  f since P
+  --   where
+      -- P = record { inverse-◆ = g ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
 
   -- instance
     -- isDiscrete:𝐂𝐭𝐱-𝕋× : isDiscrete (𝐂𝐭𝐱 𝑨)
@@ -123,4 +138,5 @@ instance
 
     -- isSet-Str:Type-𝕋× : isSet-Str (Type 𝑨)
     -- isSet-Str:Type-𝕋× = {!!}
-
+{-
+-}

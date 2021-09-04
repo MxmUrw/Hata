@@ -25,6 +25,7 @@ open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Experimental.Data.Universe.Instance.SeparatingFamily
 
+open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Xiix
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
@@ -46,6 +47,34 @@ open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductCategory
 
+
+module _ {A : 𝒰 𝑖} (R : 人List A -> A -> 𝒰 𝑖) where
+  infixl 29 _⋆-⧜_
+  data CtxHom : (a b : 人List A) -> 𝒰 𝑖 where
+    ◌-⧜ : ∀{b} -> CtxHom (◌) b
+    incl : ∀{a b} -> R b a -> CtxHom (incl a) b
+    _⋆-⧜_ : ∀{a b x} -> CtxHom a x -> CtxHom b x -> CtxHom (a ⋆ b) x
+
+-- Term-𝕋× : (a : 𝕋× 𝑖) -> (𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× a)) -> (𝐈𝐱 (Type-𝕋× a) (𝐔𝐧𝐢𝐯 𝑖))
+-- Term-𝕋× a Γ = indexed (λ τ → Term₁-𝕋× a ⟨ Γ ⟩ τ)
+
+module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
+
+  instance
+    isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> isSetoid (CtxHom R a b)
+    isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 = isSetoid:byStrId
+
+  -- distr-CtxHom-𝐈𝐱 : ∀{a b : 𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)} -> (indexed (R ⟨ a ⟩) ⟶ indexed (R ⟨ b ⟩)) -> indexed 
+  distr-CtxHom : ∀{a b x : 人List A} -> (indexed (R a) ⟶ indexed (R b)) -> (CtxHom R x a) -> (CtxHom R x b)
+  distr-CtxHom f (incl x) = incl (f _ x)
+  distr-CtxHom f (t ⋆-⧜ t₁) = (distr-CtxHom f t) ⋆-⧜ (distr-CtxHom f t₁)
+  distr-CtxHom f ◌-⧜ = ◌-⧜
+
+  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> R b a -> CtxHom R (incl a) b
+  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 = incl
+
+  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> {f g : R b a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
+  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
 
 
 module _ (I : 𝒰 𝑖) where
@@ -92,56 +121,60 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     ι-⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ
 
 
-  data Hom-⧜𝐒𝐮𝐛𝐬𝐭 : (a b : ⧜𝐒𝐮𝐛𝐬𝐭 T) -> 𝒰 𝑖 where
-    ◌-⧜ : ∀{b} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl ◌) b
-    incl : ∀{a b} -> ix (⟨ T ⟩ (incl b)) a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (incl a)) (incl b)
-    _⋆-⧜_ : ∀{a b x} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a x -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 b x -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x
+  Hom-⧜𝐒𝐮𝐛𝐬𝐭 : (a b : ⧜𝐒𝐮𝐛𝐬𝐭 T) -> 𝒰 𝑖
+  Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b = CtxHom (λ b a → ix (⟨ T ⟩ (incl b)) a) ⟨ a ⟩ ⟨ b ⟩
+
+  record Hom-⧜𝐒𝐮𝐛𝐬𝐭' (a b : ⧜𝐒𝐮𝐛𝐬𝐭 T) : 𝒰 𝑖 where
+    constructor ⧜subst
+    field ⟨_⟩ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b
+
+  open Hom-⧜𝐒𝐮𝐛𝐬𝐭' public
+
+  -- data Hom-⧜𝐒𝐮𝐛𝐬𝐭 : (a b : ⧜𝐒𝐮𝐛𝐬𝐭 T) -> 𝒰 𝑖 where
+  --   ◌-⧜ : ∀{b} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl ◌) b
+  --   incl : ∀{a b} -> ix (⟨ T ⟩ (incl b)) a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (incl a)) (incl b)
+  --   _⋆-⧜_ : ∀{a b x} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a x -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 b x -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x
+
     -- ι-l-⧜ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x (incl (⟨ a ⟩ ⋆ ⟨ b ⟩))
     -- ι-r-⧜ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x b -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x (incl (⟨ a ⟩ ⋆ ⟨ b ⟩))
 
   private
     ι-l-⧜ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x (incl (⟨ a ⟩ ⋆ ⟨ b ⟩))
-    ι-l-⧜ ◌-⧜           = ◌-⧜
-    ι-l-⧜ (incl x)      = incl (map {{of T'}} ι₀ _ x)
-    ι-l-⧜ (f ⋆-⧜ g)     = ι-l-⧜ f ⋆-⧜ ι-l-⧜ g
+    ι-l-⧜ = distr-CtxHom (map {{of T'}} ι₀)
 
     ι-r-⧜ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x b -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x (incl (⟨ a ⟩ ⋆ ⟨ b ⟩))
-    ι-r-⧜ ◌-⧜           = ◌-⧜
-    ι-r-⧜ (incl x)      = incl (map {{of T'}} ι₁ _ x)
-    ι-r-⧜ (f ⋆-⧜ g)     = ι-r-⧜ f ⋆-⧜ ι-r-⧜ g
+    ι-r-⧜ = distr-CtxHom (map {{of T'}} ι₁)
 
-  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> ix (⟨ T ⟩ (incl b)) a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (incl a)) (incl b)
-  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 = incl
 
-  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> {f g : ix (⟨ T ⟩ (incl b)) a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
-  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
-
-  π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭 a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭 b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (f ⋆-⧜ h) (g ⋆-⧜ i) -> f ≣ g
+  π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (⧜subst (⟨ f ⟩ ⋆-⧜ ⟨ h ⟩)) (⧜subst (⟨ g ⟩ ⋆-⧜ ⟨ i ⟩)) -> f ≣ g
   π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
 
-  π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭 a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭 b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (f ⋆-⧜ h) (g ⋆-⧜ i) -> h ≣ i
+  π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (⧜subst (⟨ f ⟩ ⋆-⧜ ⟨ h ⟩)) (⧜subst (⟨ g ⟩ ⋆-⧜ ⟨ i ⟩)) -> h ≣ i
   π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
+  -- π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (f ⋆-⧜ h) (g ⋆-⧜ i) -> h ≣ i
+  -- π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
 
   module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
+
     instance
-      isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 : isSetoid (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b)
-      isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 = isSetoid:byStrId
+      isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' : isSetoid (Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b)
+      isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' = isSetoid:byStrId
 
   id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a a
   id-⧜𝐒𝐮𝐛𝐬𝐭 {incl (incl x)}    = incl (repure x incl)
   id-⧜𝐒𝐮𝐛𝐬𝐭 {incl (a ⋆-⧜ b)}  = (ι-l-⧜ id-⧜𝐒𝐮𝐛𝐬𝐭) ⋆-⧜ (ι-r-⧜ id-⧜𝐒𝐮𝐛𝐬𝐭)
   id-⧜𝐒𝐮𝐛𝐬𝐭 {incl ◌-⧜}        = ◌-⧜
 
-  private
-    sub : ∀{b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 b c) -> 𝑓𝑖𝑛 I (incl ⟨ b ⟩) ⟶ ⟨ T ⟩ (incl ⟨ c ⟩)
-    sub ◌-⧜        = λ {i ()}
-    sub (incl x)   = λ {i incl → x}
-    sub (f ⋆-⧜ g)  = ⟨ preserves-⊔ ⟩ ◆ ⦗ sub f , sub g ⦘
+  -- private
+  sub-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> 𝑓𝑖𝑛 I (incl ⟨ b ⟩) ⟶ ⟨ T ⟩ (incl ⟨ c ⟩)
+  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst ◌-⧜)        = λ {i ()}
+  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (incl x))   = λ {i incl → x}
+  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (f ⋆-⧜ g))  = ⟨ preserves-⊔ ⟩ ◆ ⦗ sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst f) , sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst g) ⦘
 
-  subst-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl b) c) -> (x : ix (⟨ T ⟩ (incl b)) a) -> ix (⟨ T ⟩ (incl ⟨ c ⟩)) a
-  subst-⧜𝐒𝐮𝐛𝐬𝐭 f x = (reext (sub f) _ x)
+  subst-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl b) c) -> (x : ix (⟨ T ⟩ (incl b)) a) -> ix (⟨ T ⟩ (incl ⟨ c ⟩)) a
+  subst-⧜𝐒𝐮𝐛𝐬𝐭 f x = (reext (sub-⧜𝐒𝐮𝐛𝐬𝐭 f) _ x)
 
-  _◆-⧜𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a c
+  _◆-⧜𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a c
   ◌-⧜ ◆-⧜𝐒𝐮𝐛𝐬𝐭 g = ◌-⧜
   incl x ◆-⧜𝐒𝐮𝐛𝐬𝐭 g = incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 g x)
   (f ⋆-⧜ g) ◆-⧜𝐒𝐮𝐛𝐬𝐭 h = (f ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (g ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
@@ -149,10 +182,10 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
 
   instance
     isCategory:⧜𝐒𝐮𝐛𝐬𝐭 : isCategory (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    isCategory.Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = Hom-⧜𝐒𝐮𝐛𝐬𝐭
+    isCategory.Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = Hom-⧜𝐒𝐮𝐛𝐬𝐭'
     isCategory.isSetoid:Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭 = it
-    isCategory.id isCategory:⧜𝐒𝐮𝐛𝐬𝐭           = id-⧜𝐒𝐮𝐛𝐬𝐭
-    isCategory._◆_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = _◆-⧜𝐒𝐮𝐛𝐬𝐭_
+    isCategory.id isCategory:⧜𝐒𝐮𝐛𝐬𝐭           = ⧜subst id-⧜𝐒𝐮𝐛𝐬𝐭
+    isCategory._◆_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = λ f g -> ⧜subst ( ⟨ f ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 g )
     isCategory.unit-l-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
     isCategory.unit-r-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
     isCategory.unit-2-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
@@ -171,10 +204,10 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
   -- it is a functor
 
   map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> b ⟶ c -> ι-⧜𝐒𝐮𝐛𝐬𝐭 b ⟶ ι-⧜𝐒𝐮𝐛𝐬𝐭 c
-  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = incl (sub f)
+  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = incl (sub-⧜𝐒𝐮𝐛𝐬𝐭 f)
 
   instance
-    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭 (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ ′(b ⟶ c)′ map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ ′(b ⟶ c)′ map-ι-⧜𝐒𝐮𝐛𝐬𝐭
     isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
 
   instance
@@ -199,9 +232,9 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     -- λ {a} {b} -> isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b}
 
   surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ι a ⟶ ι b -> a ⟶ b
-  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl (incl x)}     (f) = incl (⟨ f ⟩ _ incl)
-  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl (a ⋆-⧜ a₁)}  (f) = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (ι₀ ◆ f) ⋆-⧜ surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (ι₁ ◆ f)
-  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl ◌-⧜}         (f) = ◌-⧜
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl (incl x)}     (f) = ⧜subst (incl (⟨ f ⟩ _ incl))
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl (a ⋆-⧜ a₁)}  (f) = ⧜subst $ ⟨ surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (ι₀ ◆ f) ⟩ ⋆-⧜ ⟨ surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (ι₁ ◆ f) ⟩
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {incl ◌-⧜}         (f) = ⧜subst ◌-⧜
 
   inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f : ι a ⟶ ι b} -> map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f) ∼ f
   inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
@@ -230,4 +263,5 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
 
 -- module _ {I : 𝒰 𝑖} where
 --   Hom-⧜𝐅𝐢𝐧𝐈𝐱 : ⧜𝐅𝐢𝐧𝐈𝐱 -> ⧜𝐅𝐢𝐧𝐈𝐱 -> 𝒰 𝑖
-
+{-
+-}

@@ -68,7 +68,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
            where
 
     private
-      module _ {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (incl (con c tsx))) (map (incl (con d tsy))) (ι Γ')}} where
+      module _ {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (⧜subst (incl (con c tsx)))) (map (⧜subst (incl (con d tsy)))) (ι Γ')}} where
 
         π' : ι (incl ⟨ Γ ⟩) ⟶ ι Γ'
         π' = π₌
@@ -80,7 +80,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         lem-2 : 𝟘-𝒰
         lem-2 = ¬p (cancel-injective-con lem-1)
 
-    hasNoCoequalizer:byCon : ¬ (hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (incl (con c tsx)) (incl (con d tsy)))
+    hasNoCoequalizer:byCon : ¬ (hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))))
     hasNoCoequalizer:byCon P = lem-2 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩
@@ -109,11 +109,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
   cancel-injective-con₃ p refl-≣ with isset-Str p refl-≣
   ... | refl-≣ = refl-≣
 
-  cancel-injective-incl-Terms : {Γ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} {Δ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)}
-                           -> {f g : 𝑒𝑙 ⟨ Γ ⟩ ⟶ (Term-𝕋× 𝑨 Δ)}
-                           -> incl-Terms f ≣ incl-Terms g
-                           -> f ∼ g
-  cancel-injective-incl-Terms = {!!}
+  -- cancel-injective-incl-Terms : {Γ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} {Δ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)}
+  --                          -> {f g : 𝑒𝑙 ⟨ Γ ⟩ ⟶ (Term-𝕋× 𝑨 Δ)}
+  --                          -> incl-Terms f ≣ incl-Terms g
+  --                          -> f ∼ g
+  -- cancel-injective-incl-Terms = {!!}
 
   module _ {αsx α} {Γ : 𝐂𝐭𝐱 𝑨} (c : Con 𝑨 αsx α) (d : Con 𝑨 αsx α)
             (tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
@@ -121,7 +121,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
             (¬p : ¬ (c ≣ d)) where
 
     private
-      module _ {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (incl (con c tsx))) (map (incl (con d tsy))) (ι Γ')}} where
+      module _ {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (⧜subst (incl (con c tsx)))) (map (⧜subst (incl (con d tsy)))) (ι Γ')}} where
 
         π' : ι (incl ⟨ Γ ⟩) ⟶ ι Γ'
         π' = π₌
@@ -133,13 +133,12 @@ module _ {𝑨 : 𝕋× 𝑖} where
         lem-2 : 𝟘-𝒰
         lem-2 = ¬p (cancel-injective-con₂ refl-≣ lem-1)
 
-    hasNoCoequalizer:byCon₂ : ¬ (hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (incl (con c tsx)) (incl (con d tsy)))
+    hasNoCoequalizer:byCon₂ : ¬ (hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))))
     hasNoCoequalizer:byCon₂ P = lem-2 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩
 
         instance
           P' = isCoequalizer:byEquivalence (of P)
-
 
 

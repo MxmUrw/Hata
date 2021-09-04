@@ -141,7 +141,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
   module _ {Γ τ} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ τ) (occ : (VarPath-Term-𝕋× t v)) {d} (pd : depth-𝕋× t ∼ 1 ⋆ d) where
     -- module _ {σ : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (incl t) (simpleVar v) σ}} where
 
-    module §-Occur-𝕋× {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (incl t)) (map (simpleVar v)) (ι Γ')}} where
+    module §-Occur-𝕋× {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')}} where
 
       private
         σ : ι (incl Γ) ⟶ ι Γ'
@@ -172,13 +172,13 @@ module _ {𝑨 : 𝕋× 𝑖} where
       prop-1 : 𝟘-𝒰
       prop-1 = impossible lem-5
 
-    hasNoCoequalizer:byOccur : ¬ hasCoequalizer (incl t) (simpleVar v)
+    hasNoCoequalizer:byOccur : ¬ hasCoequalizer (⧜subst (incl t)) (simpleVar v)
     hasNoCoequalizer:byOccur P = §-Occur-𝕋×.prop-1 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩
 
         instance
-          P' : isCoequalizer (map (incl t)) (map (simpleVar v)) (ι Γ')
+          P' : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')
           P' = isCoequalizer:byEquivalence (of P)
 
 

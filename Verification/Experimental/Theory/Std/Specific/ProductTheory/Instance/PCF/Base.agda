@@ -53,10 +53,10 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 
 open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
 
--- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Var
--- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Occur
--- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.OccurFail
--- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Var
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Occur
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.OccurFail
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
 
 
 WF-𝕋× : 𝒰₀
@@ -86,20 +86,20 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isBase:⊥ : ∀{x : 𝐂𝐭𝐱 𝑨} -> {f g : ⊥ ⟶ x} -> isBase-𝕋× (f , g)
     isBase:sym : ∀{x y : 𝐂𝐭𝐱 𝑨} -> {f g : x ⟶ y} -> isBase-𝕋× (f , g) -> isBase-𝕋× (g , f)
     isBase:id : ∀{x y : 𝐂𝐭𝐱 𝑨} -> {f : x ⟶ y} -> isBase-𝕋× (f , f)
-    isBase:var : ∀{s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨} (x y : ⟨ Γ ⟩ ∍ s) -> (y ≠-∍ x) -> isBase-𝕋× (incl (var x) , incl (var y))
+    isBase:var : ∀{s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨} (x y : ⟨ Γ ⟩ ∍ s) -> (y ≠-∍ x) -> isBase-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (var y)))
     isBase:con-var : ∀{s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨}
-                     -> ∀{αs} -> (c : Con 𝑨 αs s) -> (ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl ⟨ Γ ⟩)) -> (x : ⟨ Γ ⟩ ∍ s) -> isBase-𝕋× (incl (con c ts) , incl (var x))
+                     -> ∀{αs} -> (c : Con 𝑨 αs s) -> (ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl ⟨ Γ ⟩)) -> (x : ⟨ Γ ⟩ ∍ s) -> isBase-𝕋× (⧜subst (incl (con c ts)) , ⧜subst (incl (var x)))
     isBase:con≠con : ∀{αsx αsy α} {Γ : 𝐂𝐭𝐱 𝑨}-> (c : Con 𝑨 αsx α) (d : Con 𝑨 αsy α)
                      -> (tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
                      -> (tsy : Terms-𝕋× 𝑨 (incl (ι αsy)) (incl ⟨ Γ ⟩))
                      -> ¬ (αsx ≣ αsy)
-                     -> isBase-𝕋× (incl (con c tsx) , incl (con d tsy))
+                     -> isBase-𝕋× (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy)))
 
     isBase:con≠con₂ : ∀{αsx α} {Γ : 𝐂𝐭𝐱 𝑨}-> (c : Con 𝑨 αsx α) (d : Con 𝑨 αsx α)
                      -> (tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
                      -> (tsy : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩))
                      -> ¬ (c ≣ d)
-                     -> isBase-𝕋× (incl (con c tsx) , incl (con d tsy))
+                     -> isBase-𝕋× (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy)))
 
 
   postulate
@@ -109,19 +109,17 @@ module _ {𝑨 : 𝕋× 𝑖} where
   SplitP (_ , _ , i) = (λ (_ , _ , j) -> size-𝕋× j ≪-𝒲-𝕋× size-𝕋× i)
 
 
-{-
   decide-Base-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> ∀(f g : a ⟶ b) -> isBase-𝕋× (f , g) -> isDecidable (hasCoequalizer f g)
   decide-Base-𝕋× f g isBase:⊥ = right hasCoequalizer:byInitial
   decide-Base-𝕋× f g (isBase:sym p) with decide-Base-𝕋× g f p
   ... | left ¬p = left $ λ q -> ¬p (hasCoequalizer:bySym q)
   ... | right p = right (hasCoequalizer:bySym p)
   decide-Base-𝕋× f .f isBase:id = right hasCoequalizer:byId
-  decide-Base-𝕋× .(incl (var x)) .(incl (var y)) (isBase:var {s} {Γ} x y y≠x) = right (hasCoequalizer:varvar x y y≠x)
+  decide-Base-𝕋× .(⧜subst (incl (var x))) .(⧜subst (incl (var y))) (isBase:var {s} {Γ} x y y≠x) = right (hasCoequalizer:varvar x y y≠x)
   decide-Base-𝕋× f g (isBase:con-var c ts v) with isFreeVar (con c ts) v
   ... | left ¬occ = right (hasCoequalizer:byNoOccur (con c ts) v ¬occ)
   ... | just occ  = left (hasNoCoequalizer:byOccur (con c ts) v occ refl)
-  decide-Base-𝕋× (incl (con c tsx)) (incl (con d tsy)) (isBase:con≠con .c .d .tsx .tsy p)  = left (hasNoCoequalizer:byCon  c d tsx tsy p)
-  decide-Base-𝕋× (incl (con c tsx)) (incl (con d tsy)) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizer:byCon₂ c d tsx tsy p)
+  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con .c .d .tsx .tsy p)  = left (hasNoCoequalizer:byCon  c d tsx tsy p)
+  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizer:byCon₂ c d tsx tsy p)
 
--}
 

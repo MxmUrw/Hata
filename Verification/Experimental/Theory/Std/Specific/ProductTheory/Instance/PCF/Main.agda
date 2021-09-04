@@ -55,79 +55,79 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 module _ {𝑨 : 𝕋× 𝑖} where
 
   ∂-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> (t : Pair x y) -> (isBase-𝕋× t +-𝒰 (∑ λ n -> isSplittableC (𝐂𝐭𝐱 𝑨) n t SplitP))
-  ∂-𝕋× (◌-⧜ , ◌-⧜) = left isBase:⊥
-  -- ∂-𝕋× {x} {y} ((f₀ ⋆-⧜ f₁) , (g₀ ⋆-⧜ g₁)) = right (2 , record { famC = fam' ; coversC = (λ h -> covers-0 h , covers-1 h) ; fampropsC = {!!} })
-  --   where
-  --     fam' : 2 ∍ tt -> ∑ λ x' -> Pair x' y
-  --     fam' (right-∍ i) = _ , f₀ , g₀
-  --     fam' (left-∍ i) = _ , f₁ , g₁
+  ∂-𝕋× (⧜subst ◌-⧜ , ⧜subst ◌-⧜) = left isBase:⊥
+  ∂-𝕋× {x} {y} (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁)) = right (2 , record { famC = fam' ; coversC = (λ h -> covers-0 h , covers-1 h) ; fampropsC = {!!} })
+    where
+      fam' : 2 ∍ tt -> ∑ λ x' -> Pair x' y
+      fam' (right-∍ i) = _ , ⧜subst f₀ , ⧜subst g₀
+      fam' (left-∍ i) = _ , ⧜subst f₁ , ⧜subst g₁
 
-  --     covers-0 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : y ⟶ x₁) →
-  --               ((f₀ ◆ h) ⋆-⧜ (f₁ ◆ h) ∼ (g₀ ◆ h) ⋆-⧜ (g₁ ◆ h))
-  --               ->
-  --               ((p : 2 ∍ tt) →
-  --               (fst (fam' p .snd) ◆ h)
-  --               ∼ (snd (fam' p .snd) ◆ h))
-  --     covers-0 {x = x₁} h q (right-∍ p) = π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ q
-  --     covers-0 {x = x₁} h q (left-∍ p) = π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ q
+      covers-0 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : y ⟶ x₁) →
+                (⧜subst ((f₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (f₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)))
+                      ∼ (⧜subst ((g₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (g₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))) →
+                      (p : (incl tt ⋆-Free-𝐌𝐨𝐧 (incl tt ⋆-Free-𝐌𝐨𝐧 ◌-Free-𝐌𝐨𝐧)) ∍ tt) →
+                      (⧜subst (⟨ fst (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
+                      ∼ (⧜subst (⟨ snd (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
 
-  --     covers-1 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : y ⟶ x₁) →
-  --               ((p : 2 ∍ tt) →
-  --               (fst (fam' p .snd) ◆ h)
-  --               ∼ (snd (fam' p .snd) ◆ h))
-  --               -> ((f₀ ◆ h) ⋆-⧜ (f₁ ◆ h) ∼ (g₀ ◆ h) ⋆-⧜ (g₁ ◆ h))
-  --     covers-1 h p = cong₂-Str _⋆-⧜_ (p (right-∍ (left-∍ incl))) (p (left-∍ incl))
+      covers-0 {x = x₁} h q (right-∍ p) = π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ q
+      covers-0 {x = x₁} h q (left-∍ p) = π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ q
+
+      covers-1 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : y ⟶ x₁) →
+                      ((p : (incl tt ⋆-Free-𝐌𝐨𝐧 (incl tt ⋆-Free-𝐌𝐨𝐧 ◌-Free-𝐌𝐨𝐧)) ∍ tt) →
+                      (⧜subst (⟨ fst (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
+                      ∼ (⧜subst (⟨ snd (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))) ->
+                      (⧜subst ((f₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (f₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)))
+                            ∼ (⧜subst ((g₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (g₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)))
+
+      covers-1 h p = cong-Str ⧜subst (cong₂-Str _⋆-⧜_ (cong-Str ⟨_⟩ (p (right-∍ (left-∍ incl)))) (cong-Str ⟨_⟩ (p (left-∍ incl))))
 
 
-  -- ∂-𝕋× (incl (var x) , incl (var y)) with compare-∍ y x
-  -- ... | left ¬p = left (isBase:var _ _ ¬p)
-  -- ... | right (p , q) with isset-Str p refl-≣
-  -- ∂-𝕋× (incl (var x) , incl (var .x)) | just (.refl-≣ , refl-≣) | refl-≣ = left isBase:id
-  -- ∂-𝕋× (incl (var x) , incl (con c x₁)) = left (isBase:sym (isBase:con-var _ _ _))
-  -- ∂-𝕋× (incl (con c x) , incl (var x₁)) = left (isBase:con-var _ _ _)
-  ∂-𝕋× (incl (con {αs = αsx} cx tsx) , incl (con {αs = αsy} cy tsy)) with αsx ≟-Str αsy
+  ∂-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (var y))) with compare-∍ y x
+  ... | left ¬p = left (isBase:var _ _ ¬p)
+  ... | right (p , q) with isset-Str p refl-≣
+  ∂-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (var .x))) | just (.refl-≣ , refl-≣) | refl-≣ = left isBase:id
+  ∂-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (con c x₁))) = left (isBase:sym (isBase:con-var _ _ _))
+  ∂-𝕋× (⧜subst (incl (con c x)) , ⧜subst (incl (var x₁))) = left (isBase:con-var _ _ _)
+  ∂-𝕋× (⧜subst (incl (con {αs = αsx} cx tsx)) , ⧜subst (incl (con {αs = αsy} cy tsy))) with αsx ≟-Str αsy
   ... | no ¬p = left (isBase:con≠con cx cy tsx tsy ¬p)
   ... | yes refl-≣ with cx ≟-Str cy
   ... | no ¬p = left (isBase:con≠con₂ cx cy tsx tsy ¬p)
-  ... | yes refl-≣ with tsx | tsy
-  ... | incl-Terms f | incl-Terms g = right (1 , record { famC = fam' ; coversC = λ h → covers-0 h , {!!} ; fampropsC = {!!} })
+  ... | yes refl-≣ = right (1 , record { famC = fam' ; coversC = λ h → covers-0 h , covers-1 h ; fampropsC = {!!} })
     where
-      f₀ = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl f)
-      g₀ = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl g)
+      f₀ = ⧜subst (tsx)
+      g₀ = ⧜subst (tsy)
 
       fam' : 1 ∍ tt -> _
       fam' x = _ , f₀ , g₀
 
       covers-0 : {x : 𝐂𝐭𝐱ᵘ 𝑨}
                     (h : incl _ ⟶ x) →
-                    incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx (incl-Terms f))) ∼ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx (incl-Terms g))))
+                    ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsy)))
                     ->
                     ((p : 1 ∍ tt) →
-                    ((fst (fam' p .snd) ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
-                    ∼ (snd (fam' p .snd) ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
-      covers-0 h p q = p
-        >> incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx (incl-Terms f))) ∼ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx (incl-Terms g)))) <<
+                    ((fst (fam' p .snd) ◆ h))
+                    ∼ (snd (fam' p .snd) ◆ h))
+      covers-0 h p q = cong-Str ⟨_⟩ p
+        >> incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsx)) ≣ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsy))) <<
         ⟪ cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
         ⟪ cancel-injective-con₃ refl-≣ ⟫
-        ⟪ cancel-injective-incl-Terms ⟫
-        ⟪ incl ⟫
+        ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⟫
+        ⟪ cong-Str ⧜subst ⟫
+        >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
 
-        >> ((incl f) ◆ map h) ∼ ((incl g) ◆ map h) <<
-
-        ⟪ inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 ⁻¹ ◈ refl ≀∼≀ inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 ⁻¹ ◈ refl ⟫
-
-        >> (map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl f)) ◆ map h) ∼ (map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl g)) ◆ map h) <<
-
-        ⟪  functoriality-◆ {f = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl f)} {g = h} ⁻¹ ≀∼≀
-           functoriality-◆ {f = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl g)} {g = h} ⁻¹ ⟫
-
-        >> (map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl f) ◆ h)) ∼ (map (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl g) ◆ h)) <<
-
-        ⟪ cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
-
-        >> (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl f) ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ∼ (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl g) ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) <<
-
-
-  ∂-𝕋× = {!!}
+      covers-1 : {x : 𝐂𝐭𝐱ᵘ 𝑨}
+                    (h : incl _ ⟶ x) →
+                    ((p : 1 ∍ tt) →
+                    ((fst (fam' p .snd) ◆ h))
+                    ∼ (snd (fam' p .snd) ◆ h))
+                    ->
+                    ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsy)))
+      covers-1 h p = p (left-∍ incl)
+        >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
+        ⟪ cong-Str ⟨_⟩ ⟫
+        ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ⁻¹ ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⁻¹ ⟫
+        ⟪ cong-Str (con cx) ⟫
+        ⟪ cong-Str incl ⟫
+        ⟪ cong-Str ⧜subst ⟫
 
 

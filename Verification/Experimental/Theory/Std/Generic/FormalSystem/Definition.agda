@@ -85,7 +85,7 @@ module _ {𝒮 : 𝒰 𝑖} {{_ : isFormalSystem {𝑗} 𝒮}} {𝑨 : 𝒮} whe
   _at_ x t = {!!}
 
   simpleVar : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (⟨ Γ ⟩ ∍ τ) -> Γ ⊢ τ
-  simpleVar v = incl (repure _ v)
+  simpleVar v = ⧜subst (incl(repure _ v))
 
   isSimpleVariable : ∀{Γ : 𝐂𝐭𝐱 𝑨} {τ : Type 𝑨} -> (t : Γ ⊢ τ) -> 𝒰 _
   isSimpleVariable {Γ} {τ} t = ∑ λ (v : ⟨ Γ ⟩ ∍ τ) -> t ∼ simpleVar v

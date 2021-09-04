@@ -72,13 +72,13 @@ module _ {𝑨 : 𝕋× 𝑖} where
         ι' = incl (ι-\\ x ◆ repure)
 
 
-        lem-01 : ∀ i z -> ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var x))) ◆ π' ⟩ i z ≡ ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var y))) ◆ π' ⟩ i z
+        lem-01 : ∀ i z -> ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (incl (var x)))) ◆ π' ⟩ i z ≡ ⟨ (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (incl (var y)))) ◆ π' ⟩ i z
         lem-01 i incl = ≡-Str→≡ (cong-Str var (π-\\-∼ y≠x))
 
-        equate-π₌' : map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (var x)) ◆ π' ∼ map (incl (var y)) ◆ π'
+        equate-π₌' : map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (incl (var x))) ◆ π' ∼ map ((⧜subst (incl (var y)))) ◆ π'
         equate-π₌' = incl (λ i -> funExt (lem-01 i))
 
-        lem-08 : ∀{c : 𝐒𝐮𝐛𝐬𝐭 T} -> (h : ι (Γ) ⟶ c) -> (p : map (incl (var x)) ◆ h ∼ map (incl (var y)) ◆ h)
+        lem-08 : ∀{c : 𝐒𝐮𝐛𝐬𝐭 T} -> (h : ι (Γ) ⟶ c) -> (p : map (⧜subst (incl (var x))) ◆ h ∼ map (⧜subst (incl (var y))) ◆ h)
                 -> ∑ λ (ξ : ι (Γ') ⟶ c) -> π' ◆ ξ ∼ h
         lem-08 {c} h p = ξ , P
           where
@@ -116,7 +116,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         lem-09 = epi cancel-epi-π'
 
 
-        lem-10 : isCoequalizer (map (incl (var x))) (map (incl (var y))) (ι Γ')
+        lem-10 : isCoequalizer (map (⧜subst (incl (var x)))) (map (⧜subst (incl (var y)))) (ι Γ')
         isCoequalizer.π₌ lem-10 = π'
         isCoequalizer.equate-π₌ lem-10 = equate-π₌'
         isCoequalizer.compute-Coeq lem-10 = lem-08
