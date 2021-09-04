@@ -21,8 +21,8 @@ open import Verification.Experimental.Data.Universe.Everything
 -- (following the definition at https://ncatlab.org/nlab/show/Grothendieck+fibration)
 --
 
-cong₂-Str : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} -> (f : A -> B -> C) -> {a1 a2 : A} -> {b1 b2 : B} -> (p : a1 ≣ a2) -> (q : b1 ≣ b2) -> f a1 b1 ≣ f a2 b2
-cong₂-Str f refl-StrId refl-StrId = refl-StrId
+-- cong₂-Str : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} -> (f : A -> B -> C) -> {a1 a2 : A} -> {b1 b2 : B} -> (p : a1 ≣ a2) -> (q : b1 ≣ b2) -> f a1 b1 ≣ f a2 b2
+-- cong₂-Str f refl-StrId refl-StrId = refl-StrId
 
 -- private variable
   -- ℬ : Category 𝑖

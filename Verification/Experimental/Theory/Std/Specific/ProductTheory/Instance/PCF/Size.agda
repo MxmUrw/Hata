@@ -6,6 +6,7 @@ open import Verification.Conventions hiding (Structure ; ℕ)
 -- open import Verification.Experimental.Conventions hiding (Structure ; isSetoid:byPath)
 open import Verification.Experimental.Set.Decidable
 open import Verification.Experimental.Set.Discrete
+open import Verification.Experimental.Set.Contradiction
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
@@ -91,8 +92,38 @@ macro 𝒲-𝕋× = #structureOn WF-𝕋×
 _≪-𝒲-𝕋×_ : 𝒲-𝕋× -> 𝒲-𝕋× -> 𝒰 ℓ₀
 _≪-𝒲-𝕋×_ m n = (1 ⋆ m) ≤ n
 
-postulate
-  WellFounded-≪-𝒲-𝕋× : WellFounded _≪-𝒲-𝕋×_
+
+
+
+
+----------------------------------------------------------
+-- NOTE: Wellfoundedness proof copied from cubical std library
+
+private
+  _<_ = _≪-𝒲-𝕋×_
+
+  <-split : m < suc n → (m < n) +-𝒰 (m ≣ n)
+  <-split {n = zero} (incl (zero , refl-≣)) = right refl-≣
+  <-split {n = zero} (incl (suc zero , ()))
+  <-split {n = zero} (incl (suc (suc a) , ()))
+  <-split {zero} {suc n} p = left (incl (n , comm-⋆ {a = n}))
+  <-split {suc m} {suc n} p with <-split (incl (pred-≤-pred ⟨ p ⟩))
+  ... | left x = left (incl (suc-≤-suc ⟨ x ⟩))
+  ... | just x = right (cong-Str suc x)
+
+  acc-suc : Acc _<_ n → Acc _<_ (suc n)
+  acc-suc a = acc λ y y<sn
+              → case (<-split y<sn) of
+                     (λ y<n → access a y y<n)
+                     (λ y≣n → subst-Str _ (sym y≣n) a)
+
+
+WellFounded-≪-𝒲-𝕋× : WellFounded _≪-𝒲-𝕋×_
+WellFounded-≪-𝒲-𝕋× zero = acc (λ y (incl p) → impossible (¬-<-zero p))
+WellFounded-≪-𝒲-𝕋× (suc x) = acc-suc (WellFounded-≪-𝒲-𝕋× x)
+
+-- WF proof end
+----------------------------------------------------------
 
 instance
   isWellfounded:𝒲-𝕋× : isWF {ℓ₀} ℓ₀ 𝒲-𝕋×
