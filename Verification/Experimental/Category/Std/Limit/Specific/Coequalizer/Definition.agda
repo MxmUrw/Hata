@@ -31,6 +31,19 @@ module _ {X : 𝒰 𝑖} {{_ : isCategory {𝑗} X}} where
   hasCoequalizer : {a b : X} (f g : a ⟶ b) -> 𝒰 _
   hasCoequalizer f g = _ :& LiftU (isCoequalizer f g)
 
+
+  ----------------------------------------------------------
+  -- Coequalizer without uniqueness
+  record isCoequalizerCandidate {a b : X} (f g : a ⟶ b) (x : X) : 𝒰 (𝑖 ､ 𝑗) where
+    field π₌? : b ⟶ x
+          equate-π₌? : f ◆ π₌? ∼ g ◆ π₌?
+
+  open isCoequalizerCandidate {{...}} public
+
+  hasCoequalizerCandidate : {a b : X} (f : HomPair a b) -> 𝒰 _
+  hasCoequalizerCandidate (f , g) = _ :& LiftU (isCoequalizerCandidate f g)
+
+
   -- unquoteDecl hasCoequalizer hascoequalizer = #struct "isCoeq" (quote isCoequalizer) "x" hasCoequalizer hascoequalizer
 
   -- record Coeq-ExUniq {a b : X} (f g : a ⟶ b) (x : Obj ′ X ′) :  𝒰 (𝑖 ､ 𝑗) where

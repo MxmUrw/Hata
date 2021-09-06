@@ -76,18 +76,8 @@ module _ (𝒞 : Category 𝑖) {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
   --   solved : hasCoequalizer f g
   --   field princobj : 
 
-record isSizedCategory (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⁺) where
-  field {{isDiscrete:this}} : isDiscrete ⟨ 𝒞 ⟩
-  field {{isSet-Str:this}} : isSet-Str ⟨ 𝒞 ⟩
-  field SizeC : WFT (ℓ₀ , ℓ₀)
-  field sizeC : {a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> ⟨ SizeC ⟩
-  field size0 : ⟨ SizeC ⟩
-  field initial-size0 : ∀{a} -> size0 ⪣ a
 
-open isSizedCategory {{...}} public
 
-SizedCategory : ∀ 𝑖 -> _
-SizedCategory 𝑖 = _ :& isSizedCategory {𝑖}
 
 module _ (𝒞 : SizedCategory 𝑖) where
   record isSplittableC (n : 人ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) : 𝒰 𝑖 where
@@ -101,9 +91,8 @@ module _ (𝒞 : SizedCategory 𝑖) where
 record isPrincipalFamilyCat (𝒞 : SizedCategory 𝑖) : 𝒰 (𝑖 ⁺) where
   field isBase : ∀{a x : ⟨ 𝒞 ⟩} -> (Pair a x) -> 𝒰 (𝑖 ⌄ 1)
   field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : Pair x y)
-           -> (isBase (i)
-              +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i))
-  field isPrincipalC:Base : ∀{a b : ⟨ 𝒞 ⟩} -> ∀(f g : a ⟶ b) -> isBase (f , g) -> isDecidable (hasCoequalizer f g)
+           -> (isBase i +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i))
+  field isPrincipalC:Base : ∀{a b : ⟨ 𝒞 ⟩} -> ∀(f g : a ⟶ b) -> isBase (f , g) -> ¬ (hasCoequalizer f g) +-𝒰 (hasReducingCoequalizer f g)
 
 open isPrincipalFamilyCat {{...}} public
 
@@ -162,7 +151,7 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{X : isSizedCategory 𝒞}} {{F
     -- open isSplittable public
 
     size' : Ix -> ⟨ SizeC ⟩
-    size' nothing = size0
+    size' nothing = ⊥-WFT
     size' (just (a , x , f)) = sizeC f
 
     bb : Bx -> Ix
@@ -217,10 +206,10 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{X : isSizedCategory 𝒞}} {{F
 
     lem-10 : (g : ⦋ Good ⦌) (i : Ix) → (size' (g ⁻¹' i) ⪣ size' i)
     lem-10 g nothing = left refl-≣
-    lem-10 ([] ∢ gp) (just x) = initial-size0
+    lem-10 ([] ∢ gp) (just x) = elim-⊥-WFT
     lem-10 (idp ∢ gp) (just x) = left refl-≣
     lem-10 (arrow {a} {b} h ∢ (hp)) (just (y , x , f , g)) with (x ≟-Str a)
-    ... | no ¬p = initial-size0
+    ... | no ¬p = elim-⊥-WFT
     ... | yes refl-StrId = right (hp _ f g)
 
     lem-20 : {g : ⦋ Good ⦌} {i : Ix} → 𝓘 (g ⁻¹' i) ∼ (⟨ g ⟩ ⁻¹↷-Ide 𝓘 i)
@@ -310,15 +299,16 @@ module _ (𝒞 : Category (𝑖 , 𝑖 , 𝑖)) {{X : isSizedCategory 𝒞}} {{F
       --   }
 
   by-PrincipalCat-Principal : isPrincipalFamily M ′ Good ′ bb 𝓘
-  by-PrincipalCat-Principal = record
-               { Size = SizeC
-               ; size = size'
-               ; _⁻¹*_ = _⁻¹'_
-               ; size:⁻¹* = lem-10
-               ; preserves-𝓘:⁻¹* = λ {g} {i} -> lem-20 {g} {i}
-               ; ∂ = lem-30
-               ; principalBase = {!!}
-               }
+  by-PrincipalCat-Principal = {!!}
+  -- record
+  --              { Size = SizeC
+  --              ; size = size'
+  --              ; _⁻¹*_ = _⁻¹'_
+  --              ; size:⁻¹* = lem-10
+  --              ; preserves-𝓘:⁻¹* = λ {g} {i} -> lem-20 {g} {i}
+  --              ; ∂ = lem-30
+  --              ; principalBase = {!!}
+  --              }
 
     -- lem-10 : (g : ⦋ Good ⦌) (i : Ix) → (size' (g ⁻¹' i) ⪣ size' i)
     -- lem-10 (g ∢ gp) nothing = left refl

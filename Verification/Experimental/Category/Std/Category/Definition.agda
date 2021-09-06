@@ -133,3 +133,12 @@ instance
                ; destructEl = ⟨_⟩
                ; destructP = const tt
                }
+
+
+module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
+  HomPair : (a b : 𝒞) -> 𝒰 _
+  HomPair a x = Hom a x ×-𝒰 Hom a x
+
+
+
+

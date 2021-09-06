@@ -14,7 +14,8 @@ record ∑i_ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
   instance constructor make∑i
   -- field overlap {{ifst}} : A
   field {ifst} : A
-  field overlap {{isnd}} : B (ifst)
+  -- field overlap {{isnd}} : B (ifst)
+  field {{isnd}} : B (ifst)
 open ∑i_ {{...}} public
 
 

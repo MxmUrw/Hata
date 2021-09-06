@@ -41,6 +41,25 @@ module _ {X : Setoid 𝑖} where
     hasFiniteMeets.π₀-∧ hasFiniteMeets:Subsetoid = incl π₀-∧
     hasFiniteMeets.π₁-∧ hasFiniteMeets:Subsetoid = incl π₁-∧
     hasFiniteMeets.⟨_,_⟩-∧ hasFiniteMeets:Subsetoid f g = {!!}
+
+  instance
+    isSubsetoid:⊥ : isSubsetoid {X = ⟨ X ⟩} ⊥
+    isSubsetoid.transp-Subsetoid isSubsetoid:⊥ p _ = {!!}
+
+
+    isSubsetoid:∨ : ∀{U V : 𝒫 ⟨ X ⟩} {{_ : isSubsetoid U}} {{_ : isSubsetoid V}} -> isSubsetoid (U ∨ V)
+    isSubsetoid:∨ = {!!} -- record
+      -- { transp-Subsetoid = λ p (P , Q) -> transp-Subsetoid p P , transp-Subsetoid p Q
+      -- }
+
+  instance
+    hasFiniteJoins:Subsetoid : hasFiniteJoins ′(Subsetoid X)′
+    hasFiniteJoins.⊥ hasFiniteJoins:Subsetoid = ′ ⊥ ′
+    hasFiniteJoins.initial-⊥ hasFiniteJoins:Subsetoid = incl initial-⊥
+    hasFiniteJoins._∨_ hasFiniteJoins:Subsetoid I J = ′ ⟨ I ⟩ ∨ ⟨ J ⟩ ′
+    hasFiniteJoins.ι₀-∨ hasFiniteJoins:Subsetoid = incl ι₀-∨
+    hasFiniteJoins.ι₁-∨ hasFiniteJoins:Subsetoid = incl ι₁-∨
+    hasFiniteJoins.[_,_]-∨ hasFiniteJoins:Subsetoid f g = {!!}
       -- incl ⟨ ⟨ (incl ⟨ f ⟩) , (incl ⟨ g ⟩) ⟩-∧ ⟩
 
 

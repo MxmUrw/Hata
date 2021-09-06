@@ -24,6 +24,13 @@ open isWFT {{...}} public
 WFT : (𝑖 : 𝔏 ^ 2) -> 𝒰 _
 WFT 𝑖 = (WF 𝑖) :& isWFT
 
+record isWFT0 (A : WFT 𝑖) : 𝒰 𝑖 where
+  field ⊥-WFT : ⟨ A ⟩
+  field elim-⊥-WFT : ∀{a} -> ⊥-WFT ⪣ a
 
+open isWFT0 {{...}} public
+
+WFT0 : (𝑖 : 𝔏 ^ 2) -> 𝒰 _
+WFT0 𝑖 = (WFT 𝑖) :& isWFT0
 
 
