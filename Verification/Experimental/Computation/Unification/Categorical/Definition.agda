@@ -27,7 +27,7 @@ module _ (𝒞 : Category 𝑖) where
 
 module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
   isGood : HomFamily 𝒞 _
-  isGood {a} {b} _ = sizeO a ⪣ sizeO b
+  isGood {a} {b} _ = sizeO b ⪣ sizeO a
 
 
 module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
@@ -98,18 +98,55 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} wh
       isPartialorder:Idealᵣ : isPartialorder (Idealᵣ a)
       isPartialorder:Idealᵣ = record { antisym = λ p q → incl λ f → ⟨ p ⟩ f , ⟨ q ⟩ f }
 
+-----------------------------------------------------------------------------------------
+-- The zero ideal
+
+module _ {𝒞 : 𝒰 𝑖}
+         {{_ : isCategory {𝑗} 𝒞}}
+         {{_ : isPtdCategory ′ 𝒞 ′}}
+         where
+  -- private
+  --   𝒞 = ⟨ 𝒞' ⟩
+
+-- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
+  module _ {a : 𝒞} where
+    record ⊥-Idealᵣᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
+      constructor incl
+      field ⟨_⟩ : f ∼ pt
+
+    open ⊥-Idealᵣᵘ public
+
+    macro
+      ⊥-Idealᵣ = #structureOn (λ {b} -> ⊥-Idealᵣᵘ {b})
+
+
+    instance
+      isIdealᵣ:⊥-Idealᵣ : isIdealᵣ a ⊥-Idealᵣᵘ
+      isIdealᵣ:⊥-Idealᵣ = record
+        { transp-Idealᵣ = λ f∼g (incl f∼pt) → incl (f∼g ⁻¹ ∙ f∼pt)
+        ; ideal-r-◆     = λ (incl f∼pt) g → incl ((f∼pt ◈ refl) ∙ absorb-l-◆)
+        ; ideal-pt      = incl refl
+        }
+
+    initial-⊥-Idealᵣ : ∀{I : Idealᵣ a} -> ′ (λ {b} -> ⊥-Idealᵣᵘ {b}) ′ ≤ I
+    initial-⊥-Idealᵣ = incl λ f (incl f∼pt) → transp-Idealᵣ (f∼pt ⁻¹) ideal-pt
+
 
 
 -----------------------------------------------------------------------------------------
 -- The semilattice structure
 
 
-module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
-  private
-    𝒞 = ⟨ 𝒞' ⟩
+-- module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
+module _ {𝒞 : 𝒰 𝑖}
+         {{_ : isCategory {𝑗} 𝒞}}
+         {{_ : isPtdCategory ′ 𝒞 ′}}
+         where
+  -- private
+  --   𝒞 = ⟨ 𝒞' ⟩
   -- the meets
   module _ {a : 𝒞} (I J : Idealᵣ a) where
-    record _∧-Idealᵣᵘ_ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖) where
+    record _∧-Idealᵣᵘ_ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor _,_
       field fst : ⟨ I ⟩ f
       field snd : ⟨ J ⟩ f
@@ -137,7 +174,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
 
   -- the top element
   module _ {a : 𝒞} where
-    record ⊤-Idealᵣᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖) where
+    record ⊤-Idealᵣᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor tt
 
     open ⊤-Idealᵣᵘ public
@@ -293,6 +330,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
       field rep : a ⟶ repObj
       field principal-r : I ∼ rep ↷ ⊤
       field isGoodRep : isGood rep
+      field zeroOrEpi : (rep ∼ pt) +-𝒰 (isEpi rep)
       -- field factorPrinc : ∀{x} -> (f : a ⟶ x) -> ⟨ I ⟩ f -> ∑ λ (g : repObj ⟶ x) -> f ∼ rep ◆ g
 
     open isEpiPrincipalᵣ {{...}} public
@@ -308,14 +346,38 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
       isEpiPrincipalᵣ:⊤ = record
         { repObj = a
         ; rep = id
-        ; principal-r = {!!}
+        ; principal-r = antisym lem-1 terminal-⊤
         ; isGoodRep = left refl-≣
+        ; zeroOrEpi = right (isEpi:id)
         }
-
+        where
+          lem-1 : ⊤ ≤ (id ↷ ⊤)
+          lem-1 = incl λ f x → incl (f , (x , unit-l-◆))
 
     transp-isEpiPrincipalᵣ : ∀{I J : Idealᵣ a} -> (I ∼ J) -> isEpiPrincipalᵣ I -> isEpiPrincipalᵣ J
     transp-isEpiPrincipalᵣ = {!!}
 
+    instance
+      isEpiPrincipalᵣ:⊥ : isEpiPrincipalᵣ ⊥-Idealᵣ
+      isEpiPrincipalᵣ:⊥ = record
+        { repObj = a
+        ; rep = pt
+        ; principal-r = antisym initial-⊥-Idealᵣ lem-1
+        ; isGoodRep = left refl-≣
+        ; zeroOrEpi = left refl
+        }
+        where
+          lem-1 : (pt {a = a} {a} ↷ ⊤-Idealᵣ) ≤ ⊥-Idealᵣ
+          lem-1 = incl λ f (incl (e , tt , pt◆e∼f)) → incl (pt◆e∼f ⁻¹ ∙ absorb-l-◆)
+
+    module §-EpiPrincipalᵣ where
+
+      prop-1 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> repOf I ∼ pt -> I ∼ ⊥-Idealᵣ
+      prop-1 p = {!!}
+
+      prop-2 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> ⟨ I ⟩ (repOf I)
+      prop-2 = {!!}
+  
     -- module _ {I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} where
     --   principal-r : I ∼ repOf I ↷ ⊤
     --   principal-r = {!!}

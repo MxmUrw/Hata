@@ -24,6 +24,9 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
   open isEpi {{...}} public
 
+  isEpi:id : ∀{a : 𝒞} -> isEpi (id {a = a})
+  isEpi:id = epi (λ p → unit-l-◆ ⁻¹ ∙ p ∙ unit-l-◆)
+
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 

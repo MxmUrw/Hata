@@ -27,13 +27,16 @@ SizedCategory 𝑖 = _ :& isSizedCategory {𝑖}
 
 module _ {𝒞 : 𝒰 _} {{_ : SizedCategory 𝑖 on 𝒞}} where
   record hasSizedCoequalizer {a b : 𝒞} (f g : a ⟶ b) : 𝒰 𝑖 where
-    field {{hasCoequalizer:this}} : hasCoequalizer f g
-    field sized-Coeq : sizeO ⟨ hasCoequalizer:this ⟩ ≪ sizeO b
+    constructor _,_
+    field hasCoequalizer:this : hasCoequalizer f g
+    field sized-Coeq : sizeO ⟨ hasCoequalizer:this ⟩ ⪣ sizeO b
+
+  open hasSizedCoequalizer public
 
 
   module _ {a b : 𝒞} (f : HomPair a b) where
     hasSizedCoequalizerDecision : 𝒰 𝑖
-    hasSizedCoequalizerDecision = (¬ hasCoequalizer (fst f) (snd f)) +-𝒰 hasSizedCoequalizer (fst f) (snd f)
+    hasSizedCoequalizerDecision = (¬ hasCoequalizerCandidate f) +-𝒰 hasSizedCoequalizer (fst f) (snd f)
 
 
 

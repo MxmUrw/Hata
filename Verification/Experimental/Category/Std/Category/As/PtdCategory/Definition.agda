@@ -4,10 +4,16 @@ module Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition
 open import Verification.Conventions
 
 open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Experimental.Order.Lattice
+open import Verification.Experimental.Order.WellFounded.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Sized.Definition
+open import Verification.Experimental.Category.Std.Morphism.Epi.Definition
 
 record isPtdCategory (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field pt : ∀{a b : ⟨ 𝒞 ⟩} -> a ⟶ b
+  field absorb-r-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> f ◆ pt {b} {c} ∼ pt {a} {c}
+  field absorb-l-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> {f : b ⟶ c} -> pt {a} {b} ◆ f ∼ pt {a} {c}
 
 open isPtdCategory {{...}} public
 
@@ -25,13 +31,17 @@ record Free-𝐏𝐭𝐝𝐂𝐚𝐭 (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⌄ 0) 
 open Free-𝐏𝐭𝐝𝐂𝐚𝐭 public
 
 
-module _ {𝒞 : Category 𝑖} where
-  data Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞) : 𝒰 (𝑖 ⌄ 1) where
+module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} where
+  private
+    𝒞 : Category _
+    𝒞 = ′ 𝒞ᵘ ′
+
+  data Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞) : 𝒰 (𝑗 ⌄ 0) where
     some : ⟨ a ⟩ ⟶ ⟨ b ⟩ -> Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b
     zero : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b
 
   module _ {a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} where
-    data _∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭_ : (f g : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b) -> 𝒰 (𝑖 ⌄ 1 ､ 𝑖 ⌄ 2) where
+    data _∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭_ : (f g : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b) -> 𝒰 𝑗 where
       some : ∀{f g} -> f ∼ g -> some f ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 some g
       zero : zero ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 zero
 
@@ -75,12 +85,69 @@ module _ {𝒞 : Category 𝑖} where
 
   instance
     isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isPtdCategory ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
-    isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = record { pt = zero }
+    isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = record
+      { pt = zero
+      ; absorb-r-◆ = {!!}
+      ; absorb-l-◆ = refl
+      }
 
+  ¬isEpi:zero : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ¬ isEpi (zero {a = a} {b})
+  ¬isEpi:zero {a} {b} P = lem-3
+    where
+      instance _ = P
+
+      f g : b ⟶ b
+      f = zero
+      g = id
+
+      lem-1 : zero {a = a} ◆ f ∼ zero {a = a} ◆ g
+      lem-1 = refl
+
+      lem-2 : f ∼ g
+      lem-2 = cancel-epi lem-1
+
+      lem-3 : 𝟘-𝒰
+      lem-3 with lem-2
+      ... | ()
+
+  reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isEpi (some f) -> isEpi f
+  isEpi.cancel-epi (reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 {f = f} P) {z} {g} {h} fg∼fh = lem-3
+    where
+      instance _ = P
+
+      lem-1 : some f ◆ some g ∼ some f ◆ some h
+      lem-1 = some fg∼fh
+
+      lem-2 : some g ∼ some h
+      lem-2 = cancel-epi lem-1
+
+      lem-3 : g ∼ h
+      lem-3 with lem-2
+      ... | some p = p
+
+  preserve-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isEpi (f) -> isEpi (some f)
+  isEpi.cancel-epi (preserve-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 P) {z} {some x} {some x₁} (some fg∼fh) = some (cancel-epi fg∼fh)
+    where instance _ = P
+  isEpi.cancel-epi (preserve-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 P) {z} {zero} {zero} fg∼fh = refl
 
 
 instance
   hasFree:𝐂𝐚𝐭,𝐏𝐭𝐝𝐂𝐚𝐭 : hasFree (Category 𝑖) (𝐏𝐭𝐝𝐂𝐚𝐭 _)
   hasFree:𝐂𝐚𝐭,𝐏𝐭𝐝𝐂𝐚𝐭 = record { 𝑓𝑟𝑒𝑒ᵘ = λ 𝒞 -> ′ Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞 ′ }
 
+module _ {𝒞 : Category 𝑖} {{SP : isSizedCategory 𝒞}} where
+  private
+    sizeC' : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> (p : HomPair a b) -> ⟨ SizeC ⟩
+    sizeC' (some x , g) = {!!}
+    sizeC' (zero , some x) = {!!}
+    sizeC' (zero , zero) = ⊥-WFT
+
+  instance
+    isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isSizedCategory ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
+    isSizedCategory.isDiscrete:this isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
+    isSizedCategory.isSet-Str:this isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
+    isSizedCategory.SizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = SizeC {{SP}}
+    isSizedCategory.sizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = sizeC'
+    isSizedCategory.SizeO isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = SizeO {{SP}}
+    isSizedCategory.sizeO isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = λ (incl x) → sizeO x
 
