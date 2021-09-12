@@ -35,16 +35,22 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} (R : A -> A -> 𝒰 𝑘) (S : B -> B -
     WellFounded:Lexi : WellFounded T
     WellFounded:Lexi = lem-1
 
+
 module _ {A : 𝒰 𝑖} {{_ : isWF 𝑗 A}}
          {B : 𝒰 𝑘} {{_ : isWF 𝑙 B}} where
   instance
-    isWF:× : isWF _ (Lexi A B)
-    isWF:× = record { _≪_ = ≪-Lexi _≪_ _≪_ ; wellFounded = WellFounded:Lexi _≪_ _≪_ wellFounded wellFounded }
+    isWF:Lexi : isWF _ (Lexi A B)
+    isWF:Lexi = record { _≪_ = ≪-Lexi _≪_ _≪_ ; wellFounded = WellFounded:Lexi _≪_ _≪_ wellFounded wellFounded }
 
   module _ {{_ : isWFT ′ A ′}} {{_ : isWFT ′ B ′}} where
     instance
-      isWFT:× : isWFT (Lexi A B)
-      isWFT:× = {!!}
+      isWFT:Lexi : isWFT (Lexi A B)
+      isWFT:Lexi = {!!}
+
+    module _ {{_ : isWFT0 ′ A ′}} where
+      instance
+        isWFT0:Lexi : isWFT0 (Lexi A B)
+        isWFT0:Lexi = {!!}
 
 
 

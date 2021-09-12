@@ -26,7 +26,7 @@ WFT 𝑖 = (WF 𝑖) :& isWFT
 
 record isWFT0 (A : WFT 𝑖) : 𝒰 𝑖 where
   field ⊥-WFT : ⟨ A ⟩
-  field elim-⊥-WFT : ∀{a} -> ⊥-WFT ⪣ a
+  field initial-⊥-WFT : ∀{a} -> ⊥-WFT ⪣ a
 
 open isWFT0 {{...}} public
 

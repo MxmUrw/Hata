@@ -40,7 +40,7 @@ module _ {𝑖 : 𝔏 ^ 3} {𝒞 : Category 𝑖} {{_ : isPtdCategory 𝒞}} {{_
 
 record hasPrincipalFamily {𝑖 : 𝔏 ^ 3} {𝑗 : 𝔏} (𝒞 : Category 𝑖 :& (isSizedCategory :, (isPtdCategory :> hasSizedFamily 𝑗))) : 𝒰 (𝑖 ⁺ ､ 𝑗) where
   field _⁻¹*_ : ∀{a b : ⟨ 𝒞 ⟩} (f : a ⟶ b) -> Ind a -> Ind b
-  field size:⁻¹* : ∀{a b : ⟨ 𝒞 ⟩} (g : a ⟶ b) -> (i : Ind a) -> size (g ⁻¹* i) ⪣ size i
+  field size:⁻¹* : ∀{a b : ⟨ 𝒞 ⟩} (g : a ⟶ b) -> isGood g -> (i : Ind a) -> size (g ⁻¹* i) ⪣ size i
   field preserves-𝓘:⁻¹* : ∀{a b : ⟨ 𝒞 ⟩} {g : a ⟶ b} -> {i : Ind a} -> 𝓘 (g ⁻¹* i) ∼ (g ⁻¹↷ (𝓘 i))
   field principalBase : ∀ {a : ⟨ 𝒞 ⟩} -> ∀ (b : Base a) -> isEpiPrincipalᵣ (𝓘 (𝒷 b))
   field ∂ : ∀{a : ⟨ 𝒞 ⟩}(i : Ind a) -> (∑ λ (b : Base a) -> 𝓘 (𝒷 b) ∼ 𝓘 i) +-𝒰 (∑ λ n -> isSplittable n i)
@@ -93,6 +93,7 @@ module _ (𝒞 : 𝒰 𝑖)
          ; rep = u ◆ v
          ; principal-r = P₈
          ; isGoodRep = {!!}
+         ; zeroOrEpi = {!!}
          }
 
 
@@ -110,7 +111,7 @@ module _ (𝒞 : 𝒰 𝑖)
             r = repOf (⋀-fin (λ j -> 𝓘 (F (suc j)))) {{P₀}}
 
             P₁ : isEpiPrincipalᵣ (𝓘 (r ⁻¹* F zero))
-            P₁ = FP zero r (isGoodRep)
+            P₁ = FP zero r (isGoodRep {{_}} {{P₀}})
 
             P₂ : isEpiPrincipalᵣ (r ⁻¹↷ 𝓘 (F zero))
             P₂ = transp-isEpiPrincipalᵣ preserves-𝓘:⁻¹* P₁
@@ -122,7 +123,7 @@ module _ (𝒞 : 𝒰 𝑖)
                          in transp-isEpiPrincipalᵣ P P₀
     ... | just (n , Split) =
       let P₀ : ∀(i) -> ∀{b : 𝒞} -> ∀(g : a ⟶ b) -> isGood g -> isEpiPrincipalᵣ (𝓘 (g ⁻¹* Split .fam i))
-          P₀ i g good = case size:⁻¹* g (fam Split i) of
+          P₀ i g good = case size:⁻¹* g good (fam Split i) of
                       (λ p ->
                         let Q₀ : size (fam Split i) ≪ size k
                             Q₀ = Split .famprops i

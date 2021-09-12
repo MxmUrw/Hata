@@ -16,6 +16,7 @@ record isSizedCategory (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⁺) where
   field {{isSet-Str:this}} : isSet-Str ⟨ 𝒞 ⟩
   field SizeC : WFT0 (ℓ₀ , ℓ₀)
   field sizeC : {a x : ⟨ 𝒞 ⟩} -> (HomPair a x) -> ⟨ SizeC ⟩
+  field cong-sizeC : ∀{a x : ⟨ 𝒞 ⟩} (f g : HomPair a x) -> f ∼ g -> sizeC f ≣ sizeC g
   field SizeO : WFT0 (ℓ₀ , ℓ₀)
   field sizeO : ⟨ 𝒞 ⟩ -> ⟨ SizeO ⟩
 
@@ -29,7 +30,7 @@ module _ {𝒞 : 𝒰 _} {{_ : SizedCategory 𝑖 on 𝒞}} where
   record hasSizedCoequalizer {a b : 𝒞} (f g : a ⟶ b) : 𝒰 𝑖 where
     constructor _,_
     field hasCoequalizer:this : hasCoequalizer f g
-    field sized-Coeq : sizeO ⟨ hasCoequalizer:this ⟩ ⪣ sizeO b
+    field sized-Coeq : isId (π₌) +-𝒰 (sizeO ⟨ hasCoequalizer:this ⟩ ≪ sizeO b)
 
   open hasSizedCoequalizer public
 

@@ -4,6 +4,7 @@ module Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition
 open import Verification.Conventions
 
 open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Experimental.Set.Contradiction
 open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Order.WellFounded.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -150,4 +151,13 @@ module _ {𝒞 : Category 𝑖} {{SP : isSizedCategory 𝒞}} where
     isSizedCategory.sizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = sizeC'
     isSizedCategory.SizeO isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = SizeO {{SP}}
     isSizedCategory.sizeO isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = λ (incl x) → sizeO x
+    isSizedCategory.cong-sizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 f g x = {!!}
+
+module _ {𝒞 : Category 𝑖} where
+  instance
+    isContradiction:zero≣some : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isContradiction (StrId {A = Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (incl a) (incl b)} (zero) (some f))
+    isContradiction:zero≣some = contradiction (λ ())
+
+  cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f g : a ⟶ b} -> StrId {A = Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (incl a) (incl b)} (some f) (some g) -> f ≣ g
+  cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 refl-≣ = refl-≣
 

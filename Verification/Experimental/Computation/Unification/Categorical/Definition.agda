@@ -25,9 +25,17 @@ module _ (𝒞 : Category 𝑖) where
   HomFamily : ∀ 𝑗 -> 𝒰 _
   HomFamily 𝑗 = ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> 𝒰 𝑗
 
-module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
+  module _ {{_ : isPtdCategory ′ 𝒞 ′}} where
+
+    data isPt : ∀{a b : 𝒞} (f : a ⟶ b) -> 𝒰 (𝑖 ､ 𝑗) where
+      incl : ∀{a b : 𝒞} -> isPt {a} {b} pt
+
+
+module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} {{_ : isPtdCategory 𝒞}} where
+
   isGood : HomFamily 𝒞 _
-  isGood {a} {b} _ = sizeO b ⪣ sizeO a
+  isGood {a} {b} g = isPt g +-𝒰 (isId g +-𝒰 (sizeO b ≪ sizeO a))
 
 
 module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
@@ -201,6 +209,17 @@ module _ {𝒞 : 𝒰 𝑖}
                                 ; ⟨_,_⟩-∧ = λ f g → incl λ h x → ⟨ f ⟩ h x , ⟨ g ⟩ h x
                                 }
 
+    module §-∧-Idealᵣ where
+      prop-1 : ∀{n : ℕ} {P : Fin-R n -> Idealᵣ a} -> {x : 𝒞} {f : a ⟶ x} -> ⟨ ⋀-fin P ⟩ f -> ∀ i -> ⟨ P i ⟩ f
+      prop-1 {zero} {P} {x} {f} f∈P ()
+      prop-1 {suc n} {P} {x} {f} (f∈P0 , _   ) zero = f∈P0
+      prop-1 {suc n} {P} {x} {f} (_    , f∈PS) (suc i) = prop-1 f∈PS i
+
+      prop-2 : ∀{n : ℕ} {P : Fin-R n -> Idealᵣ a} -> {x : 𝒞} {f : a ⟶ x} -> (∀ i -> ⟨ P i ⟩ f) -> ⟨ ⋀-fin P ⟩ f
+      prop-2 = {!!}
+
+      prop-3 : ∀{n : ℕ} -> ∀{b : 𝒞} -> {P : Fin-R n -> Idealᵣ a} -> ⟨ ⋀-fin P ⟩ (pt {a = a} {b})
+      prop-3 = {!!}
 
 -----------------------------------------------------------------------------------------
 -- The forward action
@@ -347,7 +366,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
         { repObj = a
         ; rep = id
         ; principal-r = antisym lem-1 terminal-⊤
-        ; isGoodRep = left refl-≣
+        ; isGoodRep = right (left incl)
         ; zeroOrEpi = right (isEpi:id)
         }
         where
@@ -363,7 +382,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
         { repObj = a
         ; rep = pt
         ; principal-r = antisym initial-⊥-Idealᵣ lem-1
-        ; isGoodRep = left refl-≣
+        ; isGoodRep = left incl
         ; zeroOrEpi = left refl
         }
         where
@@ -377,13 +396,11 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
 
       prop-2 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> ⟨ I ⟩ (repOf I)
       prop-2 = {!!}
-  
+
     -- module _ {I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} where
     --   principal-r : I ∼ repOf I ↷ ⊤
     --   principal-r = {!!}
 
 
-{-
 
 
--}

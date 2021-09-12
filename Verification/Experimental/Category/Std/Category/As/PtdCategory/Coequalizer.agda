@@ -57,12 +57,13 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
 
   module _ {a b : ⟨ 𝒞 ⟩} where
-    lem-1 : {p : HomPair a b} -> {x : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} {h : incl b ⟶ x} -> ⟨ asIdealᵣ p ⟩ h -> (h ∼ pt) +-𝒰 hasCoequalizerCandidate p
-    lem-1 {p} {incl x} {some f} (incl (some Q)) = right (x since record { π₌? = f ; equate-π₌? = Q })
-    lem-1 {p} {x} {zero} Q = left zero
+    private
+      lem-1 : {p : HomPair a b} -> {x : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} {h : incl b ⟶ x} -> ⟨ asIdealᵣ p ⟩ h -> (h ∼ pt) +-𝒰 hasCoequalizerCandidate p
+      lem-1 {p} {incl x} {some f} (incl (some Q)) = right (x since record { π₌? = f ; equate-π₌? = Q })
+      lem-1 {p} {x} {zero} Q = left zero
 
-    lem-4 : {p : HomPair a b} -> hasCoequalizerCandidate p -> ∑ λ (x : ⟨ 𝒞 ⟩) -> ∑ λ (h : b ⟶ x) -> ⟨ asIdealᵣ p ⟩ (some h)
-    lem-4 {p} (j since jP) = j , π₌? , incl (some equate-π₌?)
+      lem-4 : {p : HomPair a b} -> hasCoequalizerCandidate p -> ∑ λ (x : ⟨ 𝒞 ⟩) -> ∑ λ (h : b ⟶ x) -> ⟨ asIdealᵣ p ⟩ (some h)
+      lem-4 {p} (j since jP) = j , π₌? , incl (some equate-π₌?)
 
 
     Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isEpiPrincipalᵣ (asIdealᵣ f)
@@ -78,7 +79,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
       { repObj = incl ⟨ x ⟩
       ; rep = some π₌
       ; principal-r = antisym lem-2 lem-3
-      ; isGoodRep = sizedx
+      ; isGoodRep = lem-5
       ; zeroOrEpi = right (preserve-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 isEpi:π₌)
       }
       where
@@ -105,6 +106,11 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
         ⟨ lem-3 ⟩ zero x = incl refl
 
+        lem-5 : isGood (some π₌)
+        lem-5 = case sizedx of
+                  (λ {incl → right (left incl)})
+                  λ sized → right (right sized)
+
 
 
     Backward : {f : HomPair a b} -> isEpiPrincipalᵣ (asIdealᵣ f) -> hasSizedCoequalizerDecision f
@@ -125,14 +131,11 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
     ... | just isEpi:rep with rep {{_}} {{P}} in rep≣π'
     ... | zero = impossible (¬isEpi:zero isEpi:rep)
-    ... | some π' = right (x since lem-10 , isGoodRep {{_}} {{P}})
+    ... | some π' = right (x since lem-10 , lem-9)
       where
         instance _ = P
         x : ⟨ 𝒞 ⟩
         x = ⟨ repObjOf (asIdealᵣ (f , g)) ⟩
-
-        -- π' : b ⟶ x
-        -- π' = r
 
         lem-5 : ⟨ asIdealᵣ (f , g) ⟩ rep
         lem-5 = §-EpiPrincipalᵣ.prop-2
@@ -160,6 +163,11 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
             lem-8-4 with lem-8-3
             ... | incl (some e , tt , some π'e∼h) = e , π'e∼h
 
+        lem-9 : isId π' +-𝒰 _
+        lem-9 with isGoodRep {{_}} {{P}}
+        ... | left incl = impossible rep≣π'
+        ... | just (left incl) = left $ transport-Str (cong-Str (λ ξ -> isId ξ) (cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 rep≣π')) incl
+        ... | just (just sized) = right sized
 
         lem-10 : isCoequalizer f g x
         isCoequalizer.π₌ lem-10 = π'
