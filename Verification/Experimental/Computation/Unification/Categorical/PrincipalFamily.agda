@@ -92,8 +92,8 @@ module _ (𝒞 : 𝒰 𝑖)
          { repObj = _
          ; rep = u ◆ v
          ; principal-r = P₈
-         ; isGoodRep = {!!}
-         ; zeroOrEpi = {!!}
+         ; isGoodRep = isGood:◆ isGoodRep isGoodRep
+         ; zeroOrEpi = isZeroOrEpi:◆ {𝒞' = ′ 𝒞 ′} zeroOrEpi zeroOrEpi
          }
 
 
@@ -141,6 +141,6 @@ module _ (𝒞 : 𝒰 𝑖)
           P₁ = lem-45 (Split .fam) P₀
       in transp-isEpiPrincipalᵣ (Split .covers) P₁
 
-    isPrincipal:Family : ∀ s -> P s
-    isPrincipal:Family = WFI.induction wellFounded lem-50
+  isPrincipal:Family : ∀ s -> P s
+  isPrincipal:Family = WFI.induction wellFounded lem-50
 

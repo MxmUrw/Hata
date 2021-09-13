@@ -64,6 +64,38 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     isCoproduct.reduce-ι₁ transp-≅-Coproduct      = {!!}
     isCoproduct.expand-⊔ transp-≅-Coproduct       = {!!}
 
+  module _ {a b x y : 𝒞} {{_ : isCoproduct a b x}} {{_ : isCoproduct a b y}} where
+    ≅:byIsCoproduct : x ≅ y
+    ≅:byIsCoproduct = f since P
+      where
+        f : x ⟶ y
+        f = ⦗ ι₀ , ι₁ ⦘
+
+        g : y ⟶ x
+        g = ⦗ ι₀ , ι₁ ⦘
+
+        lem-1 : f ◆ g ∼ id
+        lem-1 = f ◆ g                           ⟨ expand-⊔ ⟩-∼
+                ⦗ ι₀ ◆ (f ◆ g) , ι₁ ◆ (f ◆ g) ⦘ ⟨ cong-∼ (assoc-r-◆ , assoc-r-◆) ⟩-∼
+                ⦗ (ι₀ ◆ f) ◆ g , (ι₁ ◆ f) ◆ g ⦘ ⟨ cong-∼ (reduce-ι₀ ◈ refl , reduce-ι₁ ◈ refl) ⟩-∼
+                ⦗ ι₀ ◆ g , ι₁ ◆ g ⦘             ⟨ cong-∼ (reduce-ι₀ , reduce-ι₁) ⟩-∼
+                ⦗ ι₀ , ι₁ ⦘                     ⟨ cong-∼ (unit-r-◆ ⁻¹ , unit-r-◆ ⁻¹) ⟩-∼
+                ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘           ⟨ expand-⊔ ⁻¹ ⟩-∼
+                id                              ∎
+
+
+        lem-2 : g ◆ f ∼ id
+        lem-2 = g ◆ f                           ⟨ expand-⊔ ⟩-∼
+                ⦗ ι₀ ◆ (g ◆ f) , ι₁ ◆ (g ◆ f) ⦘ ⟨ cong-∼ (assoc-r-◆ , assoc-r-◆) ⟩-∼
+                ⦗ (ι₀ ◆ g) ◆ f , (ι₁ ◆ g) ◆ f ⦘ ⟨ cong-∼ (reduce-ι₀ ◈ refl , reduce-ι₁ ◈ refl) ⟩-∼
+                ⦗ ι₀ ◆ f , ι₁ ◆ f ⦘             ⟨ cong-∼ (reduce-ι₀ , reduce-ι₁) ⟩-∼
+                ⦗ ι₀ , ι₁ ⦘                     ⟨ cong-∼ (unit-r-◆ ⁻¹ , unit-r-◆ ⁻¹) ⟩-∼
+                ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘           ⟨ expand-⊔ ⁻¹ ⟩-∼
+                id                              ∎
+
+        P : isIso (hom f)
+        P = record { inverse-◆ = g ; inv-r-◆ = lem-1 ; inv-l-◆ = lem-2 }
+
 
 
 record hasInitial (𝒞 : Category 𝑖) : 𝒰 𝑖 where

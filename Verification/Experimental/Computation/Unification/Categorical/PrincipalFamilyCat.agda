@@ -78,7 +78,7 @@ IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> HomPair a b
 
 
 
-module _ (𝒞 : SizedCategory 𝑖) where
+module _ (𝒞 : SizedHomPairCategory 𝑖) where
   record isSplittableC (n : ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) : 𝒰 𝑖 where
     field famC : Fin-R n -> ∑ λ a' -> (HomPair a' b)
     field coversC : ∀{x} -> (h : b ⟶ x) -> (f ⌄ 0 ◆ h ∼ f ⌄ 1 ◆ h) ↔ (∀ p -> (famC p .snd) ⌄ 0 ◆ h ∼ (famC p .snd) ⌄ 1 ◆ h)
@@ -87,7 +87,7 @@ module _ (𝒞 : SizedCategory 𝑖) where
     -- P (_ , _ , f) (_ , _ , famC k .snd)
   open isSplittableC public
 
-record isPrincipalFamilyCat (𝒞 : SizedCategory 𝑖) : 𝒰 (𝑖 ⁺) where
+record isPrincipalFamilyCat (𝒞 : SizedHomPairCategory 𝑖) : 𝒰 (𝑖 ⁺) where
   field isBase : ∀{a x : ⟨ 𝒞 ⟩} -> (HomPair a x) -> 𝒰 (𝑖 ⌄ 1)
   field ∂C : ∀{x y : ⟨ 𝒞 ⟩} -> (i : HomPair x y)
            -> (isBase i +-𝒰 (∑ λ n -> isSplittableC 𝒞 n i))
@@ -97,6 +97,7 @@ open isPrincipalFamilyCat {{...}} public
 
 module _ {𝒞 : Category 𝑖}
          {{SP : isSizedCategory 𝒞}}
+         {{SP2 : isSizedHomPairCategory ′ ⟨ 𝒞 ⟩ ′}}
          {{_ : isPrincipalFamilyCat ′ ⟨ 𝒞 ⟩ ′}} where
 
   private
@@ -116,7 +117,7 @@ module _ {𝒞 : Category 𝑖}
     𝓘' (just (_ , (f , g))) = asIdealᵣ (f , g)
 
     Size' : WFT (ℓ₀ , ℓ₀)
-    Size' = Lexi ⟨ SizeO {{SP}} ⟩ ⟨ SizeC {{SP}} ⟩
+    Size' = Lexi ⟨ SizeO {{SP}} ⟩ ⟨ SizeC {{SP2}} ⟩
 
     size' : ∀{a} -> Ix a -> ⟨ Size' ⟩
     size' {a} (left x) = ⊥-WFT
@@ -141,8 +142,8 @@ module _ {𝒞 : Category 𝑖}
 
     size-inv : {a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} (g : a ⟶ b) -> isGood g -> (i : Ix a) → size' (inv g i) ⪣ size' i
     size-inv (some x) good (left y) = left refl-≣
-    size-inv (some x) (left ()) (just x₁)
-    size-inv (some .(isCategory.id (_:&_.of 𝒞))) (just (left incl)) (just (_ , (f , g))) = left (cong₂-Str _,_ refl-≣ (cong-sizeC (f ◆ id , g ◆ id) (f , g) (unit-r-◆ , unit-r-◆)))
+    size-inv (some x) (left (incl ())) (just x₁)
+    size-inv (some x) (just (left (incl (some x∼id)))) (just (_ , (f , g))) = left (cong₂-Str _,_ refl-≣ (cong-sizeC (f ◆ x , g ◆ x) (f , g) ((refl ◈ x∼id) ∙ unit-r-◆ , (refl ◈ x∼id) ∙ unit-r-◆)))
     size-inv (some x) (just (just good)) (just x₁) = right (first good)
     size-inv zero good i = initial-⊥-WFT
 
@@ -222,6 +223,16 @@ module _ {𝒞 : Category 𝑖}
                                                   ; principalBase = lem-2
                                                   ; ∂ = lem-4
                                                   }
+
+  isEpiPrincipal:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isEpiPrincipalᵣ (asIdealᵣ (f , g))
+  isEpiPrincipal:byPrincipalFamilyCat {a} {b} {f} {g} = isPrincipal:Family (Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞) _ (just (a , (f , g))) refl-≣
+
+  instance
+    hasSizedCoequalizerDecision:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> hasSizedCoequalizerDecision (f , g)
+    hasSizedCoequalizerDecision:byPrincipalFamilyCat = Backward isEpiPrincipal:byPrincipalFamilyCat
+
+  hasUnification:byPrincipalFamilyCat : hasUnification 𝒞
+  hasUnification:byPrincipalFamilyCat = hasUnification:byHasSizedCoequalizerDecision
 
 
 

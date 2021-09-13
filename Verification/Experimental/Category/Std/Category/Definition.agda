@@ -140,7 +140,7 @@ module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   HomPair a x = Hom a x ×-𝒰 Hom a x
 
   data isId : ∀{a b : 𝒞} (f : a ⟶ b) -> 𝒰 (𝑖 ､ 𝑗) where
-    incl : ∀{a : 𝒞} -> isId {a} {a} id
+    incl : ∀{a : 𝒞} {f : a ⟶ a} -> f ∼ id -> isId {a} {a} f
 
 
 

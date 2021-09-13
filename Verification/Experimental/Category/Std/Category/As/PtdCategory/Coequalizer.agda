@@ -14,6 +14,10 @@ open import Verification.Experimental.Category.Std.Category.As.PtdCategory.Defin
 open import Verification.Experimental.Computation.Unification.Categorical.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
 
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
+  by-≣-∼ : ∀{a b : A} -> a ≣ b -> a ∼ b
+  by-≣-∼ refl-≣ = refl
+
 module _ {𝒞 : 𝒰 _}
        {{_ : isCategory {𝑖} {𝑗} 𝒞}}
        {{_ : isPtdCategory ′ 𝒞 ′}}
@@ -108,7 +112,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
         lem-5 : isGood (some π₌)
         lem-5 = case sizedx of
-                  (λ {incl → right (left incl)})
+                  (λ {(incl p) → right (left (incl (some p)))})
                   λ sized → right (right sized)
 
 
@@ -165,8 +169,8 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
         lem-9 : isId π' +-𝒰 _
         lem-9 with isGoodRep {{_}} {{P}}
-        ... | left incl = impossible rep≣π'
-        ... | just (left incl) = left $ transport-Str (cong-Str (λ ξ -> isId ξ) (cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 rep≣π')) incl
+        ... | left (incl rep∼zero) = impossible (rep∼zero ⁻¹ ∙ (by-≣-∼ rep≣π'))
+        ... | just (left (incl rep∼id)) = left $ incl (cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (by-≣-∼ rep≣π' ⁻¹ ∙ rep∼id))
         ... | just (just sized) = right sized
 
         lem-10 : isCoequalizer f g x

@@ -13,6 +13,7 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Inst
 
 
 
+
 module _ {𝒞 : Category 𝑖} {{_ : hasInitial 𝒞}} where
   module _ {b : ⟨ 𝒞 ⟩} {f g : ⊥ ⟶ b} where
 
@@ -21,25 +22,39 @@ module _ {𝒞 : Category 𝑖} {{_ : hasInitial 𝒞}} where
       where
         P : isCoequalizer f g b
         isCoequalizer.π₌ P    = id
-        isCoequalizer.equate-π₌ P = {!!}
-        isCoequalizer.compute-Coeq P = {!!}
-        -- isCoequalizer.⦗ P ⦘₌  = {!!}
-        -- isCoequalizer.reduce-Coeq P = {!!}
-        isCoequalizer.isEpi:π₌ P = {!!}
-        -- isCoequalizer.π-Coeq P      = id
-        -- isCoequalizer.∼-Coeq P      = expand-⊥ ∙ expand-⊥ ⁻¹
-        -- isCoequalizer.elim-Coeq P   = λ h x → h
-        -- isCoequalizer.reduce-Coeq P = λ h p → unit-l-◆
-        -- isCoequalizer.expand-Coeq P = λ h p → unit-l-◆ ⁻¹
+        isCoequalizer.equate-π₌ P = expand-⊥ ∙ expand-⊥ ⁻¹
+        isCoequalizer.compute-Coeq P = λ h p → h , unit-l-◆
+        isCoequalizer.isEpi:π₌ P = isEpi:id
 
 module _ {𝒞 : Category 𝑖} where
   module _ {a b : ⟨ 𝒞 ⟩} {f : a ⟶ b} where
     hasCoequalizer:byId : hasCoequalizer f f
-    hasCoequalizer:byId = {!!}
+    hasCoequalizer:byId = b since P
+      where
+        P : isCoequalizer f f b
+        isCoequalizer.π₌ P    = id
+        isCoequalizer.equate-π₌ P = refl
+        isCoequalizer.compute-Coeq P = λ h p → h , unit-l-◆
+        isCoequalizer.isEpi:π₌ P = isEpi:id
+
 
   module _ {a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} where
     hasCoequalizer:bySym : hasCoequalizer f g -> hasCoequalizer g f
-    hasCoequalizer:bySym = {!!}
+    hasCoequalizer:bySym (x since P) = x since Q
+      where
+        Q : isCoequalizer g f x
+        isCoequalizer.π₌ Q = π₌
+        isCoequalizer.equate-π₌ Q = equate-π₌ ⁻¹
+        isCoequalizer.compute-Coeq Q = λ h p → compute-Coeq h (p ⁻¹)
+        isCoequalizer.isEpi:π₌ Q = isEpi:π₌
+
+  module _ {a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} where
+    hasCoequalizerCandidate:bySym : hasCoequalizerCandidate (f , g) -> hasCoequalizerCandidate (g , f)
+    hasCoequalizerCandidate:bySym (x since P) = x since Q
+      where
+        Q : isCoequalizerCandidate g f x
+        isCoequalizerCandidate.π₌? Q = π₌?
+        isCoequalizerCandidate.equate-π₌? Q = equate-π₌? ⁻¹
 
 module _ {𝒞 : Category 𝑖} where
   module _ {a₀ a₁ b₀ b₁ x₀ x₁ : ⟨ 𝒞 ⟩}
@@ -128,8 +143,4 @@ module _ {𝒞 : Category 𝑖} where
     isCoequalizer.equate-π₌ isCoequalizer:⊔ = equate-π₌-⊔
     isCoequalizer.compute-Coeq isCoequalizer:⊔ = compute-Coeq-⊔
     isCoequalizer.isEpi:π₌ isCoequalizer:⊔ = isEpi:π₌-⊔
-
-  
-
-
 

@@ -7,6 +7,7 @@ open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Set.Set.Definition
 open import Verification.Experimental.Set.Setoid.Morphism
+open import Verification.Experimental.Set.Setoid.Morphism.Property
 open import Verification.Experimental.Set.Contradiction
 -- open import Verification.Experimental.Set.Set.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -70,6 +71,44 @@ module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
   distr-CtxHom f (t ⋆-⧜ t₁) = (distr-CtxHom f t) ⋆-⧜ (distr-CtxHom f t₁)
   distr-CtxHom f ◌-⧜ = ◌-⧜
 
+  construct-CtxHom : ∀{as bs : 人List A} -> (∀ a -> as ∍ a -> R bs a) -> CtxHom R as bs
+  construct-CtxHom {incl x} {bs} r = incl (r x incl)
+  construct-CtxHom {as ⋆-⧜ as₁} {bs} r = construct-CtxHom (λ a x -> r a (left-∍ x)) ⋆-⧜ construct-CtxHom (λ a x -> r a (right-∍ x))
+  construct-CtxHom {◌-⧜} {bs} r = ◌-⧜
+
+  destruct-CtxHom : ∀{as bs : 人List A} -> CtxHom R as bs -> (∀ a -> as ∍ a -> R bs a)
+  destruct-CtxHom (incl x) a incl = x
+  destruct-CtxHom (f ⋆-⧜ g) a (left-∍ p) = destruct-CtxHom f a p
+  destruct-CtxHom (f ⋆-⧜ g) a (right-∍ p) = destruct-CtxHom g a p
+
+  inv-l-◆-construct-CtxHom : ∀{as bs : 人List A} -> (r : ∀ a -> as ∍ a -> R bs a) -> destruct-CtxHom (construct-CtxHom r) ≡ r
+  inv-l-◆-construct-CtxHom {incl x} {bs} r = λ {i a incl → r x incl}
+  inv-l-◆-construct-CtxHom {as ⋆-Free-𝐌𝐨𝐧 as₁} {bs} r i a (right-∍ x) = inv-l-◆-construct-CtxHom (λ a -> r a ∘ right-∍) i a x
+  inv-l-◆-construct-CtxHom {as ⋆-Free-𝐌𝐨𝐧 as₁} {bs} r i a (left-∍ x)  = inv-l-◆-construct-CtxHom (λ a -> r a ∘ left-∍)  i a x
+  inv-l-◆-construct-CtxHom {◌-Free-𝐌𝐨𝐧} {bs} r i a ()
+
+  inv-r-◆-construct-CtxHom : ∀{as bs : 人List A} -> (f : CtxHom R as bs) -> construct-CtxHom (destruct-CtxHom f) ≡ f
+  inv-r-◆-construct-CtxHom ◌-⧜ = refl-≡
+  inv-r-◆-construct-CtxHom (incl x) = refl-≡
+  inv-r-◆-construct-CtxHom (f ⋆-⧜ g) = λ i → inv-r-◆-construct-CtxHom f i ⋆-⧜ inv-r-◆-construct-CtxHom g i
+
+  module _ {as bs : 人List A} where
+    instance
+      isIso:destruct-CtxHom : isIso {𝒞 = 𝐔𝐧𝐢𝐯 _} (hom (destruct-CtxHom {as = as} {bs}))
+      isIso:destruct-CtxHom = record
+        { inverse-◆ = construct-CtxHom
+        ; inv-r-◆ = funExt inv-r-◆-construct-CtxHom
+        ; inv-l-◆ = funExt inv-l-◆-construct-CtxHom
+        }
+
+    instance
+      isSetoidHom:destruct-CtxHom : isSetoidHom (_ since isSetoid:byPath) (_ since isSetoid:byPath) (destruct-CtxHom {as = as} {bs})
+      isSetoidHom:destruct-CtxHom = record { cong-∼ = cong destruct-CtxHom }
+
+    instance
+      isInjective:destruct-CtxHom : isInjective {{isSetoid:byPath}} {{isSetoid:byPath}} (destruct-CtxHom {as = as} {bs})
+      isInjective:destruct-CtxHom = isInjective:byIso {{isSetoid:byPath}} {{isSetoid:byPath}}
+
   incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> R b a -> CtxHom R (incl a) b
   incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 = incl
 
@@ -103,12 +142,12 @@ module _ {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖𝑛 I)) where
   macro ⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn (InductiveSubstitution T)
 
 module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
-  instance
-    isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isDiscrete I}} -> isDiscrete (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+  -- instance
+  --   isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isDiscrete I}} -> isDiscrete (⧜𝐒𝐮𝐛𝐬𝐭 T)
+  --   isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
 
-    isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isSet-Str I}} -> isSet-Str (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+  --   isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isSet-Str I}} -> isSet-Str (⧜𝐒𝐮𝐛𝐬𝐭 T)
+  --   isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
 
   private
     T' : Functor _ _
@@ -160,38 +199,40 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
       isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' : isSetoid (Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b)
       isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' = isSetoid:byStrId
 
-  id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a a
-  id-⧜𝐒𝐮𝐛𝐬𝐭 {incl (incl x)}    = incl (repure x incl)
-  id-⧜𝐒𝐮𝐛𝐬𝐭 {incl (a ⋆-⧜ b)}  = (ι-l-⧜ id-⧜𝐒𝐮𝐛𝐬𝐭) ⋆-⧜ (ι-r-⧜ id-⧜𝐒𝐮𝐛𝐬𝐭)
-  id-⧜𝐒𝐮𝐛𝐬𝐭 {incl ◌-⧜}        = ◌-⧜
+  id-⧜𝐒𝐮𝐛𝐬𝐭' : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a a
+  id-⧜𝐒𝐮𝐛𝐬𝐭' = construct-CtxHom λ a x → repure a x
+  -- id-⧜𝐒𝐮𝐛𝐬𝐭' {a} = distr-CtxHom {!!} {!!}
+  -- id-⧜𝐒𝐮𝐛𝐬𝐭' {incl (incl x)}    = incl (repure x incl)
+  -- id-⧜𝐒𝐮𝐛𝐬𝐭' {incl (a ⋆-⧜ b)}  = (ι-l-⧜ id-⧜𝐒𝐮𝐛𝐬𝐭') ⋆-⧜ (ι-r-⧜ id-⧜𝐒𝐮𝐛𝐬𝐭')
+  -- id-⧜𝐒𝐮𝐛𝐬𝐭' {incl ◌-⧜}        = ◌-⧜
 
   -- private
   sub-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> 𝑓𝑖𝑛 I (incl ⟨ b ⟩) ⟶ ⟨ T ⟩ (incl ⟨ c ⟩)
-  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst ◌-⧜)        = λ {i ()}
-  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (incl x))   = λ {i incl → x}
-  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (f ⋆-⧜ g))  = ⟨ preserves-⊔ ⟩ ◆ ⦗ sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst f) , sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst g) ⦘
+  sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst f) i x = destruct-CtxHom f i x
+  -- sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst ◌-⧜)        = λ {i ()}
+  -- sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (incl x))   = λ {i incl → x}
+  -- sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst (f ⋆-⧜ g))  = ⟨ preserves-⊔ ⟩ ◆ ⦗ sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst f) , sub-⧜𝐒𝐮𝐛𝐬𝐭 (⧜subst g) ⦘
 
-  subst-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl b) c) -> (x : ix (⟨ T ⟩ (incl b)) a) -> ix (⟨ T ⟩ (incl ⟨ c ⟩)) a
-  subst-⧜𝐒𝐮𝐛𝐬𝐭 f x = (reext (sub-⧜𝐒𝐮𝐛𝐬𝐭 f) _ x)
+  -- subst-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl b) c) -> (x : ix (⟨ T ⟩ (incl b)) a) -> ix (⟨ T ⟩ (incl ⟨ c ⟩)) a
+  -- subst-⧜𝐒𝐮𝐛𝐬𝐭 f x = (reext (sub-⧜𝐒𝐮𝐛𝐬𝐭 f) _ x)
 
-  _◆-⧜𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a c
-  ◌-⧜ ◆-⧜𝐒𝐮𝐛𝐬𝐭 g = ◌-⧜
-  incl x ◆-⧜𝐒𝐮𝐛𝐬𝐭 g = incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 g x)
-  (f ⋆-⧜ g) ◆-⧜𝐒𝐮𝐛𝐬𝐭 h = (f ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (g ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
+  subst-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl b) c) -> (⟨ T ⟩ (incl b)) ⟶ (⟨ T ⟩ (incl ⟨ c ⟩))
+  subst-⧜𝐒𝐮𝐛𝐬𝐭 f = (reext (sub-⧜𝐒𝐮𝐛𝐬𝐭 f))
+
+  -- _◆-⧜𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a c
+  -- _◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = ⧜subst (construct-CtxHom λ x → (sub-⧜𝐒𝐮𝐛𝐬𝐭 g ()))
+  -- ⧜subst $ ⟨ f ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭' g
+
+  _◆-⧜𝐒𝐮𝐛𝐬𝐭'_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a c
+  _◆-⧜𝐒𝐮𝐛𝐬𝐭'_ f g = construct-CtxHom (destruct-CtxHom f ◆ subst-⧜𝐒𝐮𝐛𝐬𝐭 g)
 
 
-  instance
-    isCategory:⧜𝐒𝐮𝐛𝐬𝐭 : isCategory (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    isCategory.Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = Hom-⧜𝐒𝐮𝐛𝐬𝐭'
-    isCategory.isSetoid:Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭 = it
-    isCategory.id isCategory:⧜𝐒𝐮𝐛𝐬𝐭           = ⧜subst id-⧜𝐒𝐮𝐛𝐬𝐭
-    isCategory._◆_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = λ f g -> ⧜subst ( ⟨ f ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 g )
-    isCategory.unit-l-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
-    isCategory.unit-r-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
-    isCategory.unit-2-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
-    isCategory.assoc-l-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭    = {!!}
-    isCategory.assoc-r-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭    = {!!}
-    isCategory._◈_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = {!!}
+  _◆-⧜𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a c
+  _◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = ⧜subst $ ⟨ f ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭' g
+
+  id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a a
+  id-⧜𝐒𝐮𝐛𝐬𝐭 = ⧜subst id-⧜𝐒𝐮𝐛𝐬𝐭'
+
 
 
   ----------------------------------------------------------
@@ -203,12 +244,76 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
 
   -- it is a functor
 
-  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> b ⟶ c -> ι-⧜𝐒𝐮𝐛𝐬𝐭 b ⟶ ι-⧜𝐒𝐮𝐛𝐬𝐭 c
+  map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c -> ι-⧜𝐒𝐮𝐛𝐬𝐭 b ⟶ ι-⧜𝐒𝐮𝐛𝐬𝐭 c
   map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = incl (sub-⧜𝐒𝐮𝐛𝐬𝐭 f)
+
+  private
+    lem-01 : ∀{b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c} -> f ∼ g -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f ∼ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 g
+    lem-01 refl-≣ = refl
+
+    -- functoriality id
+    lem-02 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (id-⧜𝐒𝐮𝐛𝐬𝐭 {a = a}) ∼ id
+    lem-02 = incl (funExt⁻¹ (inv-l-◆-construct-CtxHom _))
+
+    -- functoriality ◆
+    lem-03 : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} {f : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b} {g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (f ◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ∼ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f ◆ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 g
+    lem-03 = incl (funExt⁻¹ (inv-l-◆-construct-CtxHom _))
 
   instance
     isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ ′(b ⟶ c)′ map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = record { cong-∼ = lem-01 }
+
+  private
+    -- injectivity of map
+    cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f ∼ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ∼ g
+    cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl p) =
+      let p' = funExt p
+          p'' = cancel-injective {{isSetoid:byPath}} {{isSetoid:byPath}} {{isSetoidHom:destruct-CtxHom}} {{isInjective:destruct-CtxHom}} p'
+      in {!!}
+
+  instance
+    isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isInjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})
+    isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = record { cancel-injective = cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 }
+
+{-
+  -- private
+    -- lem-1 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f : Hom-⧜𝐒𝐮𝐛𝐬𝐭 a b} -> (id-⧜𝐒𝐮𝐛𝐬𝐭 ◆-⧜𝐒𝐮𝐛𝐬𝐭 ⧜subst f) ∼ ⧜subst f
+    -- lem-1 {f = ◌-⧜} = refl-≣
+    -- lem-1 {f = (incl x)} = cong-Str (⧜subst ∘ incl) (≡→≡-Str (funExt⁻¹ (reunit-l _) _))
+    -- lem-1 {f = (f ⋆-⧜ g)} = cong-Str ⧜subst (cong₂-Str _⋆-⧜_ {!!} {!!})
+    -- (cong-Str ⟨_⟩ lem-1) (cong-Str ⟨_⟩ lem-1))
+
+
+  instance
+    isCategory:⧜𝐒𝐮𝐛𝐬𝐭 : isCategory (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    isCategory.Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = Hom-⧜𝐒𝐮𝐛𝐬𝐭'
+    isCategory.isSetoid:Hom isCategory:⧜𝐒𝐮𝐛𝐬𝐭 = it
+    isCategory.id isCategory:⧜𝐒𝐮𝐛𝐬𝐭           = id-⧜𝐒𝐮𝐛𝐬𝐭
+    isCategory._◆_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = _◆-⧜𝐒𝐮𝐛𝐬𝐭_
+    isCategory.unit-l-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
+    isCategory.unit-r-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
+    isCategory.unit-2-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭     = {!!}
+    isCategory.assoc-l-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭    = {!!}
+    isCategory.assoc-r-◆ isCategory:⧜𝐒𝐮𝐛𝐬𝐭    = {!!}
+    isCategory._◈_ isCategory:⧜𝐒𝐮𝐛𝐬𝐭          = {!!}
+
+{-
+
+  ----------------------------------------------------------
+  -- the inclusion ι : ⧜𝐒𝐮𝐛𝐬𝐭 T -> 𝐒𝐮𝐛𝐬𝐭 T
+
+  -- instance
+  --   hasInclusion:⧜𝐒𝐮𝐛𝐬𝐭,𝐒𝐮𝐛𝐬𝐭 : hasInclusion (⧜𝐒𝐮𝐛𝐬𝐭 T) (𝐒𝐮𝐛𝐬𝐭 T)
+  --   hasInclusion:⧜𝐒𝐮𝐛𝐬𝐭,𝐒𝐮𝐛𝐬𝐭 = inclusion ι-⧜𝐒𝐮𝐛𝐬𝐭
+
+  -- -- it is a functor
+
+  -- map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> b ⟶ c -> ι-⧜𝐒𝐮𝐛𝐬𝐭 b ⟶ ι-⧜𝐒𝐮𝐛𝐬𝐭 c
+  -- map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = incl (sub-⧜𝐒𝐮𝐛𝐬𝐭 f)
+
+  -- instance
+  --   isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ ′(b ⟶ c)′ map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+  --   isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
 
   instance
     isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 : isFunctor (⧜𝐒𝐮𝐛𝐬𝐭 T) (𝐒𝐮𝐛𝐬𝐭 T) ι
@@ -261,7 +366,5 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
 
 
 
--- module _ {I : 𝒰 𝑖} where
---   Hom-⧜𝐅𝐢𝐧𝐈𝐱 : ⧜𝐅𝐢𝐧𝐈𝐱 -> ⧜𝐅𝐢𝐧𝐈𝐱 -> 𝒰 𝑖
-{-
+-}
 -}

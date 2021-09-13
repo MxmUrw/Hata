@@ -71,29 +71,59 @@ module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} where
   some f ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 zero = zero
   zero ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 g = zero
 
+  private
+    lem-1 : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ∀{f : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b}
+          -> (id-Free-𝐏𝐭𝐝𝐂𝐚𝐭 ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 f) ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 f
+    lem-1 {f = some x} = some unit-l-◆
+    lem-1 {f = zero} = refl
+
+    lem-2 : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ∀{f : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b}
+          -> (f ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 id-Free-𝐏𝐭𝐝𝐂𝐚𝐭) ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 f
+    lem-2 {f = some x} = some unit-r-◆
+    lem-2 {f = zero} = refl
+
+    lem-3 : ∀{a b c d : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ∀{f : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b} {g : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 b c} {h : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 c d}
+          -> ((f ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 g) ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 h) ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (f ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (g ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 h))
+    lem-3 {f = some x} {some x₁} {some x₂} = some assoc-l-◆
+    lem-3 {f = some x} {some x₁} {zero} = refl
+    lem-3 {f = some x} {zero} {h} = refl
+    lem-3 {f = zero} {g} {h} = refl
+
+    lem-4 : ∀{a b c : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ∀{f g : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b} {h i : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 b c}
+          -> f ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 g -> h ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 i
+          -> (f ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 h) ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (g ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 i)
+    lem-4 (some x) (some y) = some (x ◈ y)
+    lem-4 (some x) zero = refl
+    lem-4 zero q = refl
+
+    lem-5 : ∀{a b c : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ∀{f : Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b}
+          -> (f ◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭 zero {a = b} {b = c}) ∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 zero
+    lem-5 {f = some x} = refl
+    lem-5 {f = zero} = refl
+
   instance
     isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isCategory (Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)
     isCategory.Hom isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭
     isCategory.isSetoid:Hom isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = isSetoid:Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭
     isCategory.id isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = id-Free-𝐏𝐭𝐝𝐂𝐚𝐭
     isCategory._◆_ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = _◆-Free-𝐏𝐭𝐝𝐂𝐚𝐭_
-    isCategory.unit-l-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isCategory.unit-r-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isCategory.unit-2-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isCategory.assoc-l-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isCategory.assoc-r-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isCategory._◈_ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
+    isCategory.unit-l-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-1
+    isCategory.unit-r-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-2
+    isCategory.unit-2-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-1
+    isCategory.assoc-l-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-3
+    isCategory.assoc-r-◆ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-3 ⁻¹
+    isCategory._◈_ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-4
 
   instance
     isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isPtdCategory ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
     isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = record
       { pt = zero
-      ; absorb-r-◆ = {!!}
+      ; absorb-r-◆ = lem-5
       ; absorb-l-◆ = refl
       }
 
   ¬isEpi:zero : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> ¬ isEpi (zero {a = a} {b})
-  ¬isEpi:zero {a} {b} P = lem-3
+  ¬isEpi:zero {a} {b} P = lem-p3
     where
       instance _ = P
 
@@ -101,29 +131,29 @@ module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} where
       f = zero
       g = id
 
-      lem-1 : zero {a = a} ◆ f ∼ zero {a = a} ◆ g
-      lem-1 = refl
+      lem-p1 : zero {a = a} ◆ f ∼ zero {a = a} ◆ g
+      lem-p1 = refl
 
-      lem-2 : f ∼ g
-      lem-2 = cancel-epi lem-1
+      lem-p2 : f ∼ g
+      lem-p2 = cancel-epi lem-p1
 
-      lem-3 : 𝟘-𝒰
-      lem-3 with lem-2
+      lem-p3 : 𝟘-𝒰
+      lem-p3 with lem-p2
       ... | ()
 
   reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isEpi (some f) -> isEpi f
-  isEpi.cancel-epi (reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 {f = f} P) {z} {g} {h} fg∼fh = lem-3
+  isEpi.cancel-epi (reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 {f = f} P) {z} {g} {h} fg∼fh = lem-p3
     where
       instance _ = P
 
-      lem-1 : some f ◆ some g ∼ some f ◆ some h
-      lem-1 = some fg∼fh
+      lem-p1 : some f ◆ some g ∼ some f ◆ some h
+      lem-p1 = some fg∼fh
 
-      lem-2 : some g ∼ some h
-      lem-2 = cancel-epi lem-1
+      lem-p2 : some g ∼ some h
+      lem-p2 = cancel-epi lem-p1
 
-      lem-3 : g ∼ h
-      lem-3 with lem-2
+      lem-p3 : g ∼ h
+      lem-p3 with lem-p2
       ... | some p = p
 
   preserve-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isEpi (f) -> isEpi (some f)
@@ -137,27 +167,27 @@ instance
   hasFree:𝐂𝐚𝐭,𝐏𝐭𝐝𝐂𝐚𝐭 = record { 𝑓𝑟𝑒𝑒ᵘ = λ 𝒞 -> ′ Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞 ′ }
 
 module _ {𝒞 : Category 𝑖} {{SP : isSizedCategory 𝒞}} where
-  private
-    sizeC' : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> (p : HomPair a b) -> ⟨ SizeC ⟩
-    sizeC' (some x , g) = {!!}
-    sizeC' (zero , some x) = {!!}
-    sizeC' (zero , zero) = ⊥-WFT
+  -- private
+  --   sizeC' : ∀{a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> (p : HomPair a b) -> ⟨ SizeC ⟩
+  --   sizeC' (some x , g) = {!!}
+  --   sizeC' (zero , some x) = {!!}
+  --   sizeC' (zero , zero) = ⊥-WFT
 
   instance
     isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isSizedCategory ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
-    isSizedCategory.isDiscrete:this isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isSizedCategory.isSet-Str:this isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = {!!}
-    isSizedCategory.SizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = SizeC {{SP}}
-    isSizedCategory.sizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = sizeC'
     isSizedCategory.SizeO isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = SizeO {{SP}}
     isSizedCategory.sizeO isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = λ (incl x) → sizeO x
-    isSizedCategory.cong-sizeC isSizedCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 f g x = {!!}
 
 module _ {𝒞 : Category 𝑖} where
   instance
     isContradiction:zero≣some : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isContradiction (StrId {A = Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (incl a) (incl b)} (zero) (some f))
     isContradiction:zero≣some = contradiction (λ ())
 
-  cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f g : a ⟶ b} -> StrId {A = Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (incl a) (incl b)} (some f) (some g) -> f ≣ g
-  cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 refl-≣ = refl-≣
+    isContradiction:zero∼some : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> isContradiction (_∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭_ {a = incl a} {b = incl b}  (zero) (some f))
+    isContradiction:zero∼some = contradiction (λ ())
+
+  cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a b : ⟨ 𝒞 ⟩} -> {f g : a ⟶ b} -> _∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭_ {a = incl a} {b = incl b} (some f) (some g) -> f ∼ g
+  cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (some x) = x
+
+
 

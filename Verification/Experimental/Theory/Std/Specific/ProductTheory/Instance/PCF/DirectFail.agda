@@ -121,24 +121,24 @@ module _ {𝑨 : 𝕋× 𝑖} where
             (¬p : ¬ (c ≣ d)) where
 
     private
-      module _ {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (⧜subst (incl (con c tsx)))) (map (⧜subst (incl (con d tsy)))) (ι Γ')}} where
+      module _ {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizerCandidate (map (⧜subst (incl (con c tsx)))) (map (⧜subst (incl (con d tsy)))) (ι Γ')}} where
 
         π' : ι (incl ⟨ Γ ⟩) ⟶ ι Γ'
-        π' = π₌
+        π' = π₌?
 
         lem-1   : con c (reext-Terms-𝕋× ⟨ π' ⟩ tsx) ≣
                   con d (reext-Terms-𝕋× ⟨ π' ⟩ tsy)
-        lem-1 = ≡→≡-Str ((funExt⁻¹ (⟨ equate-π₌ ⟩ _)) incl)
+        lem-1 = ≡→≡-Str ((funExt⁻¹ (⟨ equate-π₌? ⟩ _)) incl)
 
         lem-2 : 𝟘-𝒰
         lem-2 = ¬p (cancel-injective-con₂ refl-≣ lem-1)
 
-    hasNoCoequalizer:byCon₂ : ¬ (hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))))
+    hasNoCoequalizer:byCon₂ : ¬ (hasCoequalizerCandidate {X = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy))))
     hasNoCoequalizer:byCon₂ P = lem-2 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩
 
         instance
-          P' = isCoequalizer:byEquivalence (of P)
+          P' = isCoequalizerCandidate:byEquivalence (of P)
 
 

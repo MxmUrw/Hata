@@ -27,6 +27,13 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   isEpi:id : ∀{a : 𝒞} -> isEpi (id {a = a})
   isEpi:id = epi (λ p → unit-l-◆ ⁻¹ ∙ p ∙ unit-l-◆)
 
+  isEpi:◆ : ∀{a b c : 𝒞} -> {f : a ⟶ b} -> {g : b ⟶ c} -> isEpi f -> isEpi g -> isEpi (f ◆ g)
+  isEpi:◆ p q = epi (λ gfα∼gfβ → cancel-epi (cancel-epi (assoc-r-◆ ∙ gfα∼gfβ ∙ assoc-l-◆)) )
+    where
+      instance
+        _ = p
+        _ = q
+
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 

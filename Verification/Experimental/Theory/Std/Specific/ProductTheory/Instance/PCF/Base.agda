@@ -20,6 +20,7 @@ open import Verification.Experimental.Data.Product.Definition
 -- open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Sized.Definition
 -- open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
@@ -30,6 +31,7 @@ open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Base
+open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Sized
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Reflection
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
@@ -51,12 +53,13 @@ open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 
-open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
+open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Var
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Occur
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.OccurFail
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
 
 
 
@@ -64,7 +67,7 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 module _ {𝑨 : 𝕋× 𝑖} where
 
 
-  data isBase-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> Pair x y -> 𝒰 𝑖 where
+  data isBase-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> HomPair x y -> 𝒰 𝑖 where
     isBase:⊥ : ∀{x : 𝐂𝐭𝐱 𝑨} -> {f g : ⊥ ⟶ x} -> isBase-𝕋× (f , g)
     isBase:sym : ∀{x y : 𝐂𝐭𝐱 𝑨} -> {f g : x ⟶ y} -> isBase-𝕋× (f , g) -> isBase-𝕋× (g , f)
     isBase:id : ∀{x y : 𝐂𝐭𝐱 𝑨} -> {f : x ⟶ y} -> isBase-𝕋× (f , f)
@@ -91,17 +94,18 @@ module _ {𝑨 : 𝕋× 𝑖} where
   -- SplitP (_ , _ , i) = (λ (_ , _ , j) -> size-𝕋× j ≪-𝒲-𝕋× size-𝕋× i)
 
 
-  decide-Base-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> ∀(f g : a ⟶ b) -> isBase-𝕋× (f , g) -> isDecidable (hasCoequalizer f g)
-  decide-Base-𝕋× f g isBase:⊥ = right hasCoequalizer:byInitial
+
+  decide-Base-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> ∀(f g : a ⟶ b) -> isBase-𝕋× (f , g) -> hasSizedCoequalizerDecision (f , g)
+  decide-Base-𝕋× f g isBase:⊥ = right (hasSizedCoequalizer:byInitial)
   decide-Base-𝕋× f g (isBase:sym p) with decide-Base-𝕋× g f p
-  ... | left ¬p = left $ λ q -> ¬p (hasCoequalizer:bySym q)
-  ... | right p = right (hasCoequalizer:bySym p)
-  decide-Base-𝕋× f .f isBase:id = right hasCoequalizer:byId
-  decide-Base-𝕋× .(⧜subst (incl (var x))) .(⧜subst (incl (var y))) (isBase:var {s} {Γ} x y y≠x) = right (hasCoequalizer:varvar x y y≠x)
+  ... | left ¬p = left $ λ q -> ¬p (hasCoequalizerCandidate:bySym q)
+  ... | right p = right (hasSizedCoequalizer:bySym p)
+  decide-Base-𝕋× f .f isBase:id = right (hasSizedCoequalizer:byId)
+  decide-Base-𝕋× .(⧜subst (incl (var x))) .(⧜subst (incl (var y))) (isBase:var {s} {Γ} x y y≠x) = right (hasCoequalizer:varvar x y y≠x , {!!})
   decide-Base-𝕋× f g (isBase:con-var c ts v) with isFreeVar (con c ts) v
-  ... | left ¬occ = right (hasCoequalizer:byNoOccur (con c ts) v ¬occ)
-  ... | just occ  = left (hasNoCoequalizer:byOccur (con c ts) v occ refl)
-  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con .c .d .tsx .tsy p)  = left (hasNoCoequalizer:byCon  c d tsx tsy p)
+  ... | left ¬occ = right (hasCoequalizer:byNoOccur (con c ts) v ¬occ , {!!})
+  ... | just occ  = left {!!} -- (hasNoCoequalizer:byOccur (con c ts) v occ refl)
+  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con .c .d .tsx .tsy p)  = left {!!} --  (hasNoCoequalizer:byCon  c d tsx tsy p)
   decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizer:byCon₂ c d tsx tsy p)
 
 

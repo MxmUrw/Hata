@@ -21,6 +21,7 @@ open import Verification.Experimental.Data.Product.Definition
 -- open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
 open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Category.Sized.Definition
 -- open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
@@ -35,6 +36,8 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Re
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
 open import Verification.Experimental.Order.WellFounded.Definition
+open import Verification.Experimental.Order.WellFounded.Construction.Product
+open import Verification.Experimental.Order.WellFounded.Construction.Sum
 open import Verification.Experimental.Order.Preorder 
 open import Verification.Experimental.Order.Lattice hiding (⊥)
 
@@ -53,35 +56,8 @@ open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 
-open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
+open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 
-module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} (R : A -> A -> 𝒰 𝑘) (S : B -> B -> 𝒰 𝑙) where
-  ×-≪ : (A × B) -> (A × B) -> 𝒰 (𝑘 ､ 𝑙)
-  ×-≪ (a , b) (a2 , b2) = R a a2 × S b b2
-
-  private T = ×-≪
-
-  module _ (p : WellFounded R) (q : WellFounded S) where
-    private
-      lem-3 : ∀ a b -> Acc R a -> Acc S b -> Acc T (a , b)
-      lem-3 a b (acc racc) (acc sacc) = acc λ (a1 , b1) (r1 , s1) → lem-3 a1 b1 (racc a1 r1) (sacc b1 s1)
-
-      lem-1 : ∀ x -> Acc T x
-      lem-1 (a0 , b0) = lem-3 a0 b0 (p a0) (q b0)
-
-    WellFounded:× : WellFounded T
-    WellFounded:× = lem-1
-
-module _ {A : 𝒰 𝑖} {{_ : isWF 𝑗 A}}
-         {B : 𝒰 𝑘} {{_ : isWF 𝑙 B}} where
-  instance
-    isWF:× : isWF _ (A × B)
-    isWF:× = record { _≪_ = ×-≪ _≪_ _≪_ ; wellFounded = WellFounded:× _≪_ _≪_ wellFounded wellFounded }
-
-  module _ {{_ : isWFT ′ A ′}} {{_ : isWFT ′ B ′}} where
-    instance
-      isWFT:× : isWFT (A × B)
-      isWFT:× = {!!}
 
 
 WF-𝕋× : 𝒰₀
@@ -125,13 +101,31 @@ WellFounded-≪-𝒲-𝕋× (suc x) = acc-suc (WellFounded-≪-𝒲-𝕋× x)
 -- WF proof end
 ----------------------------------------------------------
 
+-- length of lists
+
+module _ {A : 𝒰 𝑖} where
+  length : ∀(a : 人List A) -> ℕ
+  length = rec-Free-𝐌𝐨𝐧 (const 1)
+
+
+----------------------------------------------------------
+
 instance
   isWellfounded:𝒲-𝕋× : isWF {ℓ₀} ℓ₀ 𝒲-𝕋×
   isWellfounded:𝒲-𝕋× = record { _≪_ = _≪-𝒲-𝕋×_ ; wellFounded = WellFounded-≪-𝒲-𝕋× }
 
+private
+  lem-1 : ∀{a : ℕ} -> 0 ⪣ a
+  lem-1 {a = zero} = left refl-≣
+  lem-1 {a = suc a} = right (incl (a , comm-⋆ {a = a} {b = 1}))
+
 instance
   isWFT:𝒲-𝕋× : isWFT 𝒲-𝕋×
   isWFT:𝒲-𝕋× = record { _⟡-≪_ = λ x y → incl (<-trans ⟨ x ⟩ ⟨ y ⟩) }
+
+instance
+  isWFT0:ℕ : isWFT0 ℕ
+  isWFT0:ℕ = record { ⊥-WFT = 0 ; initial-⊥-WFT = lem-1 }
 
 module _ {𝑨 : 𝕋× 𝑖} where
   mutual
@@ -144,14 +138,27 @@ module _ {𝑨 : 𝕋× 𝑖} where
     sizeC-half (⧜subst (incl x)) = sizeC-Term x
     sizeC-half (⧜subst (a ⋆-⧜ b)) = suc (sizeC-half (⧜subst a) ⋆ sizeC-half (⧜subst b))
 
-  sizeC-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (f : Pair a b) -> ℕᵘ × ℕᵘ
-  sizeC-𝕋× (f , g) = sizeC-half f , sizeC-half g
+  sizeC-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> (f : HomPair a b) -> Maybe (ℕᵘ × ℕᵘ)
+  sizeC-𝕋× (f , g) = just (sizeC-half f , sizeC-half g)
 
   instance
     isSizedCategory:𝐂𝐭𝐱-𝕋× : isSizedCategory (𝐂𝐭𝐱 𝑨)
-    isSizedCategory:𝐂𝐭𝐱-𝕋× = record { SizeC = ′ ℕᵘ ×-𝒰 ℕᵘ ′ ; sizeC = sizeC-𝕋× ; size0 = (0 , 0) ; initial-size0 = {!!} }
+    isSizedCategory:𝐂𝐭𝐱-𝕋× = record
+      { SizeO = ℕ
+      ; sizeO = λ x → length ⟨ x ⟩
+      }
+
+  instance
+    isSizedHomPairCategory:𝐂𝐭𝐱-𝕋× : isSizedHomPairCategory (𝐂𝐭𝐱 𝑨)
+    isSizedHomPairCategory:𝐂𝐭𝐱-𝕋× = record
+      { SizeC = ′ Maybe (ℕᵘ ×-𝒰 ℕᵘ) ′
+      ; sizeC = sizeC-𝕋×
+      ; cong-sizeC = λ {f g (refl-≣ , refl-≣) → refl-≣}
+      }
+
+    -- record { SizeC = ′ ℕᵘ ×-𝒰 ℕᵘ ′ ; sizeC = sizeC-𝕋×  }
 
 ι₀-≪-⋆-ℕ : ∀{a b : ℕ} -> a ≤ (a ⋆ b)
-ι₀-≪-⋆-ℕ {a} {b} = incl ({!!} , {!!})
+ι₀-≪-⋆-ℕ {a} {b} = incl (b , comm-⋆ {a = b} {b = a})
 
 

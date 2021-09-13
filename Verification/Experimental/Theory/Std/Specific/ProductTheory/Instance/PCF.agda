@@ -48,8 +48,8 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definiti
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 
 open import Verification.Experimental.Computation.Unification.Definition
-open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
-open import Verification.Experimental.Computation.Unification.Monoidic.Instance.hasUnification
+open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
+-- open import Verification.Experimental.Computation.Unification.Monoidic.Instance.hasUnification
 
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Base
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Main
@@ -63,6 +63,6 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
   instance
     hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
-    hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat (𝐂𝐭𝐱 𝑨)
+    hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat
 
 

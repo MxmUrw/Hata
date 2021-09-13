@@ -12,6 +12,7 @@ open import Verification.Experimental.Category.Std.Category.Sized.Definition
 open import Verification.Experimental.Category.Std.Morphism.Epi.Definition
 open import Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition
 
+
 instance
   hasU:∏ : ∀{A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} -> hasU (∀{a} -> B a) _ _
   getU (hasU:∏ {A = A} {B}) = ∀{a} -> B a
@@ -29,13 +30,25 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   module _ {{_ : isPtdCategory ′ 𝒞 ′}} where
 
     data isPt : ∀{a b : 𝒞} (f : a ⟶ b) -> 𝒰 (𝑖 ､ 𝑗) where
-      incl : ∀{a b : 𝒞} -> isPt {a} {b} pt
+      incl : ∀{a b : 𝒞} -> {f : a ⟶ b} -> f ∼ pt -> isPt {a} {b} f
 
 
 module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} {{_ : isPtdCategory 𝒞}} where
 
   isGood : HomFamily 𝒞 _
   isGood {a} {b} g = isPt g +-𝒰 (isId g +-𝒰 (sizeO b ≪ sizeO a))
+
+  transp-isGood : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> f ∼ g -> isGood f -> isGood g
+  transp-isGood f∼g (left (incl f∼pt)) = left (incl (f∼g ⁻¹ ∙ f∼pt))
+  transp-isGood f∼g (just (left (incl f∼id))) = just (left (incl (f∼g ⁻¹ ∙ f∼id)))
+  transp-isGood f∼g (just (just x)) = just (just x)
+
+  isGood:◆ : ∀{a b c : ⟨ 𝒞 ⟩} {f : a ⟶ b} {g : b ⟶ c} -> isGood f -> isGood g -> isGood (f ◆ g)
+  isGood:◆ (left (incl f∼pt)) (q) = left (incl ((f∼pt ◈ refl) ∙ absorb-l-◆))
+  isGood:◆ (just (left (incl f∼id))) q = transp-isGood (unit-l-◆ ⁻¹ ∙ (f∼id ⁻¹ ◈ refl)) q
+  isGood:◆ (just (just x)) (left (incl g∼pt)) = left (incl ((refl ◈ g∼pt) ∙ absorb-r-◆))
+  isGood:◆ (just (just x)) (just (left (incl _))) = just (just x)
+  isGood:◆ (just (just x)) (just (just y)) = just (just (y ⟡-≪ x))
 
 
 module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
@@ -170,7 +183,7 @@ module _ {𝒞 : 𝒰 𝑖}
       isIdealᵣ:∧-Idealᵣ = record
         { transp-Idealᵣ = lem-1
         ; ideal-r-◆     = lem-2
-        ; ideal-pt = {!!}
+        ; ideal-pt = ideal-pt , ideal-pt
         }
         where
           lem-1 : {b : 𝒞} {f g : a ⟶ b} → f ∼ g → (I ∧-Idealᵣᵘ J) f → (I ∧-Idealᵣᵘ J) g
@@ -216,10 +229,11 @@ module _ {𝒞 : 𝒰 𝑖}
       prop-1 {suc n} {P} {x} {f} (_    , f∈PS) (suc i) = prop-1 f∈PS i
 
       prop-2 : ∀{n : ℕ} {P : Fin-R n -> Idealᵣ a} -> {x : 𝒞} {f : a ⟶ x} -> (∀ i -> ⟨ P i ⟩ f) -> ⟨ ⋀-fin P ⟩ f
-      prop-2 = {!!}
+      prop-2 {zero} {P} {x} {f} f∈Pi = tt
+      prop-2 {suc n} {P} {x} {f} f∈Pi = f∈Pi zero , prop-2 (λ i -> f∈Pi (suc i))
 
       prop-3 : ∀{n : ℕ} -> ∀{b : 𝒞} -> {P : Fin-R n -> Idealᵣ a} -> ⟨ ⋀-fin P ⟩ (pt {a = a} {b})
-      prop-3 = {!!}
+      prop-3 {P = P} = ideal-pt {{_}} {{of ⋀-fin P}}
 
 -----------------------------------------------------------------------------------------
 -- The forward action
@@ -245,7 +259,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
       isIdealᵣ:↷ = record
         { transp-Idealᵣ = lem-1
         ; ideal-r-◆     = lem-2
-        ; ideal-pt = {!!}
+        ; ideal-pt = incl (pt , (ideal-pt , absorb-r-◆))
         }
         where
           lem-1 : {b : 𝒞} {f : a ⟶ b} {g : a ⟶ b} →
@@ -327,7 +341,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
       P = record
           { transp-Idealᵣ = lem-1
           ; ideal-r-◆ = lem-2
-          ; ideal-pt = {!!}
+          ; ideal-pt = incl (transp-Idealᵣ (absorb-r-◆ ⁻¹) ideal-pt)
           }
 
   inv-↷-r : {a b : 𝒞} {f : a ⟶ b} -> {I : Idealᵣ a} -> f ↷ (f ⁻¹↷ I) ∼ I ∧ (f ↷ ⊤)
@@ -340,8 +354,19 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
 -- Epi principal
 
 module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞' ⟩ ′}} where
+
   private
     𝒞 = ⟨ 𝒞' ⟩
+
+  isZeroOrEpi : ∀{a b : 𝒞} -> (f : a ⟶ b) -> 𝒰 _
+  isZeroOrEpi f = (f ∼ pt) +-𝒰 (isEpi f)
+
+  isZeroOrEpi:◆ : ∀{a b c : 𝒞} -> {f : a ⟶ b} {g : b ⟶ c} -> isZeroOrEpi f -> isZeroOrEpi g
+                  -> isZeroOrEpi (f ◆ g)
+  isZeroOrEpi:◆ (left f∼pt) q = left ((f∼pt ◈ refl) ∙ absorb-l-◆)
+  isZeroOrEpi:◆ (just x) (left g∼pt) = left ((refl ◈ g∼pt) ∙ absorb-r-◆)
+  isZeroOrEpi:◆ (just x) (just y) = just (isEpi:◆ x y)
+
 -- module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   module _ {a : 𝒞} where
     record isEpiPrincipalᵣ (I : Idealᵣ a) : 𝒰 (𝑖) where
@@ -349,7 +374,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
       field rep : a ⟶ repObj
       field principal-r : I ∼ rep ↷ ⊤
       field isGoodRep : isGood rep
-      field zeroOrEpi : (rep ∼ pt) +-𝒰 (isEpi rep)
+      field zeroOrEpi : isZeroOrEpi rep
       -- field factorPrinc : ∀{x} -> (f : a ⟶ x) -> ⟨ I ⟩ f -> ∑ λ (g : repObj ⟶ x) -> f ∼ rep ◆ g
 
     open isEpiPrincipalᵣ {{...}} public
@@ -366,7 +391,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
         { repObj = a
         ; rep = id
         ; principal-r = antisym lem-1 terminal-⊤
-        ; isGoodRep = right (left incl)
+        ; isGoodRep = right (left (incl refl))
         ; zeroOrEpi = right (isEpi:id)
         }
         where
@@ -374,7 +399,16 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
           lem-1 = incl λ f x → incl (f , (x , unit-l-◆))
 
     transp-isEpiPrincipalᵣ : ∀{I J : Idealᵣ a} -> (I ∼ J) -> isEpiPrincipalᵣ I -> isEpiPrincipalᵣ J
-    transp-isEpiPrincipalᵣ = {!!}
+    transp-isEpiPrincipalᵣ {I} {J} I∼J P =
+      let
+        instance _ = P
+      in record
+        { repObj = repObjOf I
+        ; rep = repOf I
+        ; principal-r = I∼J ⁻¹ ∙ principal-r
+        ; isGoodRep = isGoodRep
+        ; zeroOrEpi = zeroOrEpi
+        }
 
     instance
       isEpiPrincipalᵣ:⊥ : isEpiPrincipalᵣ ⊥-Idealᵣ
@@ -382,7 +416,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
         { repObj = a
         ; rep = pt
         ; principal-r = antisym initial-⊥-Idealᵣ lem-1
-        ; isGoodRep = left incl
+        ; isGoodRep = left (incl refl)
         ; zeroOrEpi = left refl
         }
         where
@@ -392,15 +426,17 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ �
     module §-EpiPrincipalᵣ where
 
       prop-1 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> repOf I ∼ pt -> I ∼ ⊥-Idealᵣ
-      prop-1 p = {!!}
+      prop-1 {I} p = principal-r ∙ (p ≀↷≀ refl) ∙ P
+        where
+          P : (pt {a = a} {repObjOf I} ↷ ⊤-Idealᵣ) ∼ ⊥-Idealᵣ
+          P = antisym
+              (incl (λ f (incl (e , _ , pt◆e∼f)) →
+                let pt∼f : pt ∼ f
+                    pt∼f = absorb-l-◆ ⁻¹ ∙ pt◆e∼f
+                in incl (pt∼f ⁻¹)
+              ))
+              initial-⊥-Idealᵣ
 
       prop-2 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> ⟨ I ⟩ (repOf I)
-      prop-2 = {!!}
-
-    -- module _ {I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} where
-    --   principal-r : I ∼ repOf I ↷ ⊤
-    --   principal-r = {!!}
-
-
-
+      prop-2 {I} {{IP}} = ⟨ by-∼-≤ (principal-r {{IP}} ⁻¹) ⟩ _ (incl (id , (tt , unit-r-◆)))
 

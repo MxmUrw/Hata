@@ -56,7 +56,7 @@ open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 
--- open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
+-- open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 
 
 module _ {𝑨 : 𝕋× 𝑖} where
