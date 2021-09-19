@@ -68,11 +68,11 @@ module _ {A : 𝒰 𝑖} where
 pattern refl-≣-2 = refl-≣ , refl-≣
 
 module _ {A : 𝒰 𝑖} where
-  cancel-injective-=-∍-right-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb) -> la =-∍ lb
-  cancel-injective-=-∍-right-∍ refl-≣-2 = refl-≣-2
+  cancel-injective-𝒰-=-∍-right-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb) -> la =-∍ lb
+  cancel-injective-𝒰-=-∍-right-∍ refl-≣-2 = refl-≣-2
 
-  cancel-injective-=-∍-left-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (left-∍ {b = bs} la =-∍ left-∍ {b = bs} lb) -> la =-∍ lb
-  cancel-injective-=-∍-left-∍ refl-≣-2 = refl-≣-2
+  cancel-injective-𝒰-=-∍-left-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (left-∍ {b = bs} la =-∍ left-∍ {b = bs} lb) -> la =-∍ lb
+  cancel-injective-𝒰-=-∍-left-∍ refl-≣-2 = refl-≣-2
 
 
   isProp:≠-∍ : ∀{as : 人List A} {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> (p q : la ≠-∍ lb) -> p ≣ q
@@ -225,8 +225,8 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
     prop-2 {x = left-∍ x} {z = left-∍ z} (≠-∍:left p)    = cong-Str left-∍ (prop-2 p)
 
     prop-3 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {z : (⟨ as ⟩ \\ x) ∍ a} -> (ι-\\ x a z ≣ x) -> 𝟘-𝒰
-    prop-3 {x = right-∍ x} {z = right-∍ z} p = prop-3 (≡→≡-Str (cancel-injective (≡-Str→≡ p)))
-    prop-3 {x = left-∍ x} {z = left-∍ z} p   = prop-3 (≡→≡-Str (cancel-injective (≡-Str→≡ p)))
+    prop-3 {x = right-∍ x} {z = right-∍ z} p = prop-3 (≡→≡-Str (cancel-injective-𝒰 (≡-Str→≡ p)))
+    prop-3 {x = left-∍ x} {z = left-∍ z} p   = prop-3 (≡→≡-Str (cancel-injective-𝒰 (≡-Str→≡ p)))
 
     -- §-ι-\\.prop-2 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : ⟨ as ⟩ ∍ b} -> (p : z ≠-∍ x) -> ι-\\ x b (skip-∍ z x p) ≣ z
     -- §-ι-\\.prop-2 = ?
@@ -275,8 +275,8 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
   private
 
     lem-7 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> ∀{b : A} -> {z : (⟨ as ⟩ \\ x) ∍ b} -> (p : (ι-\\ x b z) =-∍ x) -> 𝟘-𝒰
-    lem-7 {x = right-∍ x} {z = right-∍ z} (refl-≣ , q) = lem-7 (cancel-injective-=-∍-right-∍ (refl-≣ , q))
-    lem-7 {x = left-∍ x} {z = left-∍ z} (refl-≣ , q)   = lem-7 (cancel-injective-=-∍-left-∍ (refl-≣ , q))
+    lem-7 {x = right-∍ x} {z = right-∍ z} (refl-≣ , q) = lem-7 (cancel-injective-𝒰-=-∍-right-∍ (refl-≣ , q))
+    lem-7 {x = left-∍ x} {z = left-∍ z} (refl-≣ , q)   = lem-7 (cancel-injective-𝒰-=-∍-left-∍ (refl-≣ , q))
 
 
   embed-merge : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a} -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ∀{b : A} -> ∀ z -> ((⟨ π-\\ x y p ⟩ b (ι-\\ x b z)) ≣ z)

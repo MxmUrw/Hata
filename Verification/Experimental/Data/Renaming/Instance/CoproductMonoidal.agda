@@ -82,7 +82,7 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
         --   ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono ({!!})))
         --   -- ψp' = destruct-isMono-𝐔𝐧𝐢𝐯 (destruct-isMono-𝐈𝐱 (preserve-isMono (preserve-isMono ψp)))
 
-        P : ∀{i : A} -> isInjective (⟨ ⟨(map-⊔ (ϕ , ψ))⟩ ⟩ i)
+        P : ∀{i : A} -> isInjective-𝒰 (⟨ ⟨(map-⊔ (ϕ , ψ))⟩ ⟩ i)
         P = {!!}
         -- isInjective.cancel-injective P {left-∍ a} {left-∍ b} x    = cong left-∍ (cancel-injective (cancel-injective x))
         -- isInjective.cancel-injective P {left-∍ a} {right-∍ b} x   = impossible x

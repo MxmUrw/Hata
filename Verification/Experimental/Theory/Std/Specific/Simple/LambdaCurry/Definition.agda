@@ -40,7 +40,7 @@ data Term-λ : ℕ -> 𝒰₀ where
 --   _,_ : SCtx A -> Ty-λ A -> SCtx A
 
 instance
-  IBootEq:⊥ : ∀{𝑖} -> IBootEq {𝑖} (⊥)
+  IBootEq:⊥ : ∀{𝑖} -> IBootEq {𝑖} (⊥-𝒰)
   IBootEq:⊥ = {!!}
 
 -- instance
@@ -56,7 +56,7 @@ instance
   IBootEq:Term = {!!}
 
 Info : 𝒰₀
-Info = Jdg-⦿ (Ty-λ ⊥)
+Info = Jdg-⦿ (Ty-λ ⊥-𝒰)
 -- (SCtx ⊥) 
 
 Statement : 𝒰₀

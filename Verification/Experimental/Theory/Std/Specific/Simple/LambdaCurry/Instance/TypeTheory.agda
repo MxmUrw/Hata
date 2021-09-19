@@ -19,7 +19,7 @@ open import Verification.Experimental.Category.Std.Fibration.Definition
 open import Verification.Experimental.Category.Std.Fibration.Instance.BaseChange
 
 open import Verification.Experimental.Category.Std.Limit.Specific.Pullback
-open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
+-- open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
 open import Verification.Experimental.Data.Universe.Everything
 
 open import Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition
@@ -66,7 +66,7 @@ zeta = ⟨ f *! ⟩ (𝐓𝐓Fib _)
 
 instance
   isImplemented:λC : isImplemented λC
-  isImplemented:λC = isimplemented {!!}
+  isImplemented:λC = {!!} -- isimplemented {!!}
 
 
 

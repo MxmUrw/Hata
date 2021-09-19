@@ -34,8 +34,8 @@ module _ {A : 𝒰 𝑖} where
     isSetoid:Jdg-⦿ : isSetoid (Jdg-⦿ A)
     isSetoid:Jdg-⦿ = isSetoid:byPath
 
-    hasAction-l:Jdg-⦿ : hasAction-l (𝖢-⦿ A) (𝖩-⦿ A)
-    hasAction-l:Jdg-⦿ = record
+    hasActionₗ:Jdg-⦿ : hasActionₗ (𝖢-⦿ A) (𝖩-⦿ A)
+    hasActionₗ:Jdg-⦿ = record
       { _↷_ = _↷-Jdg-⦿_
       ; assoc-l-↷ = {!!}
       ; _≀↷≀_ = {!!}

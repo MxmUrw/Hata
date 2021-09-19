@@ -101,7 +101,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
              -> (tsx : CtxHom (Term₁-𝕋× 𝑨) (αsx) ⟨ y ⟩)
              -> (reext-Terms-𝕋× (sub-⧜𝐒𝐮𝐛𝐬𝐭 h) tsx)
                ≣
-               (tsx ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
+               (tsx ◆-⧜𝐒𝐮𝐛𝐬𝐭' h)
     prop-2 {x} {y} h ◌-⧜ = refl-≣
     prop-2 {x} {y} h (incl x₁) = refl-≣
     prop-2 {x} {y} h (tsx ⋆-⧜ tsy) = cong₂-Str _⋆-⧜_ (prop-2 h tsx) (prop-2 h tsy)

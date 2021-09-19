@@ -84,8 +84,8 @@ private
 private macro
   p = instance[ "" , 𝑖 / 3 ] (𝐅𝐚𝐦 (𝐐𝐮𝐞𝐬𝐭 (𝑖 ⌄ 0 ⋯ 1)) (𝑖 ⌄ 2) -> 𝐓𝐲𝐩𝐞 _) ◀
 
-LangFib : Fiber p (𝐋𝐚𝐧𝐠 𝑖)
-LangFib {𝑖} = ⟨ (Forget {𝑖}) *! ⟩ (𝐓𝐓Fib _)
+-- LangFib : Fiber p (𝐋𝐚𝐧𝐠 𝑖)
+-- LangFib {𝑖} = ⟨ (Forget {𝑖}) *! ⟩ (𝐓𝐓Fib _)
 
 record LanguageClass (𝑖 : 𝔏 ^ 4) : 𝒰 (𝑖 ⁺ ⁺) where
   constructor languageClass
@@ -103,7 +103,7 @@ instance
 module _ {𝑖} where
   record isImplemented (𝓛 : LanguageClass 𝑖) : 𝒰 (𝑖 ⁺ ⁺) where
     constructor isimplemented
-    field implementation : Solution LangFib (𝓛 .Lang)
+    -- field implementation : Solution LangFib (𝓛 .Lang)
 
   ImplementedLanguageClass = _ :& isImplemented
 

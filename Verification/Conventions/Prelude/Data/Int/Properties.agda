@@ -1,4 +1,6 @@
 
+{-# OPTIONS --allow-unsolved-metas #-}
+
 --
 -- NOTE: This file is originally from the cubical std library.
 --       (https://github.com/agda/cubical)

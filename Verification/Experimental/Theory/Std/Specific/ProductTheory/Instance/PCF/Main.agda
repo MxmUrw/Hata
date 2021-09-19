@@ -67,21 +67,21 @@ module _ {𝑨 : 𝕋× 𝑖} where
       fam' (suc zero) = _ , ⧜subst f₁ , ⧜subst g₁
 
       covers-0 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : y ⟶ x₁) →
-                (⧜subst ((f₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (f₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)))
-                      ∼ (⧜subst ((g₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (g₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))) →
+                (⧜subst ((f₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h) ⋆-⧜ (f₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h)))
+                      ∼ (⧜subst ((g₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h) ⋆-⧜ (g₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h))) →
                       (p : Fin-R 2) →
-                      (⧜subst (⟨ fst (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
-                      ∼ (⧜subst (⟨ snd (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
+                      (⧜subst (⟨ fst (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h))
+                      ∼ (⧜subst (⟨ snd (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h))
 
       covers-0 {x = x₁} h q (zero) = π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ q
       covers-0 {x = x₁} h q (suc zero) = π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ q
 
       covers-1 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : y ⟶ x₁) →
                       ((p : Fin-R 2) →
-                      (⧜subst (⟨ fst (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
-                      ∼ (⧜subst (⟨ snd (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h))) ->
-                      (⧜subst ((f₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (f₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)))
-                            ∼ (⧜subst ((g₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h) ⋆-⧜ (g₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭 h)))
+                      (⧜subst (⟨ fst (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h))
+                      ∼ (⧜subst (⟨ snd (fam' p .snd) ⟩ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h))) ->
+                      (⧜subst ((f₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h) ⋆-⧜ (f₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h)))
+                            ∼ (⧜subst ((g₀ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h) ⋆-⧜ (g₁ ◆-⧜𝐒𝐮𝐛𝐬𝐭' h)))
 
       covers-1 h p = cong-Str ⧜subst (cong₂-Str _⋆-⧜_ (cong-Str ⟨_⟩ (p (zero))) (cong-Str ⟨_⟩ (p (suc zero))))
 
@@ -110,13 +110,13 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
       covers-0 : {x : 𝐂𝐭𝐱ᵘ 𝑨}
                     (h : incl _ ⟶ x) →
-                    ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsy)))
+                    ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsy)))
                     ->
                     ((p : Fin-R 1) →
                     ((fst (fam' p .snd) ◆ h))
                     ∼ (snd (fam' p .snd) ◆ h))
       covers-0 h p q = cong-Str ⟨_⟩ p
-        >> incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsx)) ≣ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsy))) <<
+        >> incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsx)) ≣ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsy))) <<
         ⟪ cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
         ⟪ cancel-injective-con₃ refl-≣ ⟫
         ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⟫
@@ -129,7 +129,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
                     ((fst (fam' p .snd) ◆ h))
                     ∼ (snd (fam' p .snd) ◆ h))
                     ->
-                    ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h (con cx tsy)))
+                    ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsy)))
       covers-1 h p = p (zero)
         >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
         ⟪ cong-Str ⟨_⟩ ⟫

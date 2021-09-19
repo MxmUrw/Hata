@@ -140,7 +140,7 @@ module _ {I : 𝒰 𝑖} where
           q = right-∍ (f p)   ⟨ (λ i -> inv-l-◆ (of (cong-∼ (lem-10 {as = ♮ as} {♮ bs}))) a (~ i) (right-∍ (f p))) ⟩-≡
               _              ⟨ ≡-Str→≡ ip ⟩-≡
               right-∍ X       ∎-≡
-          q' = cancel-injective q
+          q' = cancel-injective-𝒰 q
           q₂ : g {a} {bs} (f p) ≡ g X
           q₂ = cong g q'
           q₃ : p ≡ g X
@@ -160,7 +160,7 @@ module _ {I : 𝒰 𝑖} where
           q = left-∍ (f p)   ⟨ (λ i -> inv-l-◆ (of (cong-∼ (lem-10 {as = ♮ as} {♮ bs}))) a (~ i) (left-∍ (f p))) ⟩-≡
               _              ⟨ ≡-Str→≡ ip ⟩-≡
               left-∍ X       ∎-≡
-          q' = cancel-injective q
+          q' = cancel-injective-𝒰 q
           q₂ : g {a} {as} (f p) ≡ g X
           q₂ = cong g q'
           q₃ : p ≡ g X

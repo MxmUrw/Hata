@@ -64,20 +64,20 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} {D : 𝒰 𝑙} where
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   instance
-    isInjective:left : isInjective (left {A = A} {B = B})
-    isInjective.cancel-injective isInjective:left {a} {b} = {!!} -- refl-StrId = refl
+    isInjective:left : isInjective-𝒰 (left {A = A} {B = B})
+    isInjective-𝒰.cancel-injective-𝒰 isInjective:left {a} {b} = {!!} -- refl-StrId = refl
 
   instance
-    isInjective:right : isInjective (right {A = A} {B = B})
-    isInjective.cancel-injective isInjective:right {a} {b} = {!!} -- refl-StrId = refl
+    isInjective:right : isInjective-𝒰 (right {A = A} {B = B})
+    isInjective-𝒰.cancel-injective-𝒰 isInjective:right {a} {b} = {!!} -- refl-StrId = refl
 
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} {D : 𝒰 𝑙} where
   instance
-    isInjective:either : {f : A -> C} {g : B -> C} -> {{_ : isInjective f}} {{_ : isInjective g}} -> isInjective (map-+ f g)
-    isInjective:either = {!!}
-    -- isInjective.injective (isInjective:either {f} {g}) {left x} {left x₁} p = cong-Str left (injective (injective {{isInjective:left}} p))
-    -- isInjective.injective (isInjective:either {f} {g}) {just x} {just x₁} p = cong-Str right (injective (injective {{isInjective:right}} p))
+    isInjective-𝒰:either : {f : A -> C} {g : B -> C} -> {{_ : isInjective-𝒰 f}} {{_ : isInjective-𝒰 g}} -> isInjective-𝒰 (map-+ f g)
+    isInjective-𝒰:either = {!!}
+    -- isInjective-𝒰.injective (isInjective-𝒰:either {f} {g}) {left x} {left x₁} p = cong-Str left (injective (injective {{isInjective-𝒰:left}} p))
+    -- isInjective-𝒰.injective (isInjective-𝒰:either {f} {g}) {just x} {just x₁} p = cong-Str right (injective (injective {{isInjective-𝒰:right}} p))
 
 {-
   isInjective:left : ∀{a b : A} -> left {B = B} a ≡ left b -> a ≡ b

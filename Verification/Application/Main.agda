@@ -14,6 +14,7 @@ open import Verification.Experimental.Data.Int.Definition
 open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Instance.TypeTheory
 
 open import Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition
+open import Verification.Experimental.Theory.Std.Specific.LambdaCalculus.Definition
 
 -- testApp : Application
 -- testApp = execute "test" (λ x -> PString (x <> x <> x))
@@ -55,8 +56,25 @@ testApp = executable (testExe ((0 , 1),(0 , 1))) loop
     ... | false | false = Reaction-PrintDebug ("Key " <> key) ∷ [] , s
 
 
+record PrintExe : 𝒰₀ where
+  constructor printExe
+
+instance
+  IShow:Bool : IShow Bool
+  IShow.show IShow:Bool false = "false"
+  IShow.show IShow:Bool true = "true"
+
+printApp : Executable PrintExe
+printApp = executable (printExe) loop
+  where
+    loop : Event → PrintExe → List (Reaction PrintExe) ×~ PrintExe
+    loop (Event-ReadFile f) s = (Reaction-PrintDebug (show (compareLambdaType f f)) ∷ []) , s
+    loop _ s = Reaction-PrintDebug "not implemented" ∷ [] , s
+
+
+
 getApplicationList : List RegisterExecutable
-getApplicationList = registerExecutable "test" testApp ∷ []
+getApplicationList = registerExecutable "test" testApp ∷ registerExecutable "print" printApp ∷ []
 
 {-# COMPILE GHC getApplicationList as getApplicationList #-}
 

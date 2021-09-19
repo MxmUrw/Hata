@@ -37,11 +37,7 @@ open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 
--- record ProductTheoryType (s : 𝒰 𝑖) : 𝒰 𝑖 where
---   constructor _⇒_
---   field fst : List s
---   field snd : s
--- open ProductTheoryType public
+
 
 record ProductTheory (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   field Sort : 𝒰 𝑖
@@ -49,8 +45,6 @@ record ProductTheory (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   field {{isSet-Str:Sort}} : isSet-Str Sort
   field Con : List Sort -> Sort -> 𝒰 𝑖
   field {{isDiscrete:Con}} : ∀{αs α} -> isDiscrete (Con αs α)
-
-
 open ProductTheory public
 
 module _ (𝑖 : 𝔏) where
@@ -59,6 +53,34 @@ module _ (𝑖 : 𝔏) where
 Type-𝕋× : ProductTheory 𝑖 -> 𝒰 𝑖
 Type-𝕋× a = Sort a
 
+
+
+
+
+
+-- record FinAxProductTheory (A : 𝒰₀) : 𝒰₀ where
+--   field sizeFinAx : ℕ
+--   field names : Fin-R sizeFinAx -> String
+--   field types : Fin-R sizeFinAx -> (List A ×-𝒰 A)
+
+-- open FinAxProductTheory public
+
+
+
+--   -- lookup : (xs : List A) -> (i : 𝔽ʳ (size xs)) -> A
+--   -- lookup xs i = ?
+
+-- inList : {A : 𝒰₀} (p : FinAxProductTheory A) -> (List A ×-𝒰 A) -> 𝒰₀
+-- inList p xs = ∑ λ (i : Fin-R (sizeFinAx p)) -> types p i ≣ xs
+
+
+
+-- makeProductTheory : ∀{A : 𝒰₀} -> FinAxProductTheory A -> ProductTheory ℓ₀
+-- Sort (makeProductTheory {A} t) = A
+-- isDiscrete:Sort (makeProductTheory t) = {!!}
+-- isSet-Str:Sort (makeProductTheory t) = {!!}
+-- Con (makeProductTheory t) = λ xs x → inList t (xs , x)
+-- isDiscrete:Con (makeProductTheory t) = {!!}
 
 
 
@@ -93,13 +115,10 @@ Terms-𝕋× 𝑨 Γ Δ = CtxHom (Term₁-𝕋× 𝑨) ⟨ Γ ⟩ ⟨ Δ ⟩
 
 
 
-  -- freeVars-𝕋× : ∀{Γ τ} -> Term₁-𝕋× 𝑨 Γ τ -> 人List (Sort 𝑨)
-  -- freeVars-𝕋× (var x) = incl x
-  -- freeVars-𝕋× (con c x) = {!!}
 
 
 
 
-  -- isFormalSystem.Type isFormalSystem:ProductTheory = ProductTheoryType
-  -- isFormalSystem.Term isFormalSystem:ProductTheory = {!!}
+
+
 

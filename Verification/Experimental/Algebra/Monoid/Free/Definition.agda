@@ -143,14 +143,14 @@ module _ {A : 𝒰 𝑖} where
     left-∍ : ∀{a b x} -> a ∍ x -> (a ⋆ b) ∍ x
 
   instance
-    isInjective:left-∍ : ∀{a b x} -> isInjective (left-∍ {a} {b} {x})
-    isInjective.cancel-injective (isInjective:left-∍ {a} {b} {x}) {m1} {m2} p = λ i -> f (p i) m1
+    isInjective-𝒰:left-∍ : ∀{a b x} -> isInjective-𝒰 (left-∍ {a} {b} {x})
+    isInjective-𝒰.cancel-injective-𝒰 (isInjective-𝒰:left-∍ {a} {b} {x}) {m1} {m2} p = λ i -> f (p i) m1
       where f : (p : a ⋆ b ∍ x) -> a ∍ x -> a ∍ x
             f (left-∍ p) def = p
             f (right-∍ p) def = def
 
-    isInjective:right-∍ : ∀{a b x} -> isInjective (right-∍ {a} {b} {x})
-    isInjective:right-∍ {a} {b} {x} = injective (λ {m1} {m2} p i → f (p i) m1)
+    isInjective-𝒰:right-∍ : ∀{a b x} -> isInjective-𝒰 (right-∍ {a} {b} {x})
+    isInjective-𝒰:right-∍ {a} {b} {x} = injective (λ {m1} {m2} p i → f (p i) m1)
       where f : (p : a ⋆ b ∍ x) -> b ∍ x -> b ∍ x
             f (left-∍ p) def = def
             f (right-∍ p) def = p
@@ -178,12 +178,12 @@ module _ {A : 𝒰 𝑖} where
         f incl y = yes (g refl-≡ y)
         f (right-∍ x) (right-∍ y) with f x y
         ... | yes p = yes (cong right-∍ p)
-        ... | no ¬p = no (λ q -> ¬p (cancel-injective q))
+        ... | no ¬p = no (λ q -> ¬p (cancel-injective-𝒰 q))
         f (right-∍ x) (left-∍ y) = no impossible
         f (left-∍ x) (right-∍ y) = no impossible
         f (left-∍ x) (left-∍ y) with f x y
         ... | yes p = yes (cong left-∍ p)
-        ... | no ¬p = no (λ q -> ¬p (cancel-injective q))
+        ... | no ¬p = no (λ q -> ¬p (cancel-injective-𝒰 q))
 
         h : ∀{as a} -> (x y : as ∍ a) -> Decision (x ≣ y)
         h x y with f x y

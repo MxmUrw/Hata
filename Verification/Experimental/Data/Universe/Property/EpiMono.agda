@@ -12,12 +12,12 @@ open import Verification.Experimental.Data.Universe.Instance.Category
 open import Verification.Experimental.Set.Function.Injective
 
 module _ {A B : 𝒰 𝑖} where
-  construct-isMono-𝐔𝐧𝐢𝐯 : ∀{f : A -> B} -> isInjective f -> isMono f
-  isMono.cancel-mono (construct-isMono-𝐔𝐧𝐢𝐯 p) αf∼βf = λ i a → cancel-injective (λ j -> αf∼βf j a) i
+  construct-isMono-𝐔𝐧𝐢𝐯 : ∀{f : A -> B} -> isInjective-𝒰 f -> isMono f
+  isMono.cancel-mono (construct-isMono-𝐔𝐧𝐢𝐯 p) αf∼βf = λ i a → cancel-injective-𝒰 (λ j -> αf∼βf j a) i
     where instance _ = p
 
-  destruct-isMono-𝐔𝐧𝐢𝐯 : ∀{f : A -> B} -> isMono f -> isInjective f
-  isInjective.cancel-injective (destruct-isMono-𝐔𝐧𝐢𝐯 {f} p) {a} {b} fa∼fb = λ i -> P₁ i tt
+  destruct-isMono-𝐔𝐧𝐢𝐯 : ∀{f : A -> B} -> isMono f -> isInjective-𝒰 f
+  isInjective-𝒰.cancel-injective-𝒰 (destruct-isMono-𝐔𝐧𝐢𝐯 {f} p) {a} {b} fa∼fb = λ i -> P₁ i tt
     where
       instance _ = p
 
