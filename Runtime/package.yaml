@@ -30,6 +30,7 @@ library:
     - transformers
     - unordered-containers
     - optparse-applicative
+    - parsec
     - haskell-gi-base
     - gi-gtk
     - gi-gmodule
@@ -44,6 +45,8 @@ library:
     - ExistentialQuantification
     - RankNTypes
     - TypeApplications
+    - ExplicitForAll
+    - ScopedTypeVariables
 
 executables:
   hata:

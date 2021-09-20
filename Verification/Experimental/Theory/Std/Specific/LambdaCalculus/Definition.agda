@@ -20,9 +20,16 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 data Sort-𝕋Λ : 𝒰₀ where
   tyᵗ ctxᵗ : Sort-𝕋Λ
 
+private
+  lem-2 : (a b : Sort-𝕋Λ) → Decision (a ≡-Str b)
+  lem-2 tyᵗ tyᵗ = yes refl-≣
+  lem-2 tyᵗ ctxᵗ = no (λ ())
+  lem-2 ctxᵗ tyᵗ = no (λ ())
+  lem-2 ctxᵗ ctxᵗ = yes refl-≣
+
 instance
   isDiscrete:Sort-𝕋Λ : isDiscrete Sort-𝕋Λ
-  isDiscrete:Sort-𝕋Λ = {!!}
+  isDiscrete:Sort-𝕋Λ = record { _≟-Str_ = lem-2 }
 
 data Con-Type-𝕋× : List Sort-𝕋Λ → Sort-𝕋Λ → 𝒰 ℓ₀ where
   ⇒ᵗ : Con-Type-𝕋× (tyᵗ ∷ tyᵗ ∷ []) tyᵗ
@@ -44,7 +51,7 @@ private
 
 TypeAxiom-𝕋Λ : ProductTheory ℓ₀
 Sort TypeAxiom-𝕋Λ = Sort-𝕋Λ
-isDiscrete:Sort TypeAxiom-𝕋Λ = {!!}
+isDiscrete:Sort TypeAxiom-𝕋Λ = it
 isSet-Str:Sort TypeAxiom-𝕋Λ = {!!}
 Con TypeAxiom-𝕋Λ = Con-Type-𝕋×
 isDiscrete:Con TypeAxiom-𝕋Λ = record { _≟-Str_ = lem-1 }
@@ -82,16 +89,15 @@ instance
   TokenDefinition.name tokdef (_ , _ , []ᵗ) = "Nil"
   TokenDefinition.name tokdef (_ , _ , ▻ᵗ) = "Cons"
 
+instance
+  IShow:Sort-𝕋Λ : IShow (Sort-𝕋Λ)
+  IShow.show IShow:Sort-𝕋Λ tyᵗ = "Ty"
+  IShow.show IShow:Sort-𝕋Λ ctxᵗ = "Ctx"
 
-
-compareLambdaType : String -> String -> String
-compareLambdaType s t with fromString {{fromString:ProductTheory {𝒯 = TypeAxiom-𝕋Λ} {{tokdef}}}} s | fromString {{fromString:ProductTheory {𝒯 = TypeAxiom-𝕋Λ} {{tokdef}}}} t
-... | right a | left b = b
-... | left a | left b = a <> " & " <> b
-... | left a | right _ = a
-... | right (_ , xb , x) | right (_ , yb , y) with xb ≟-Str yb
-... | yes p = "same sort at least!"
-... | no ¬p = "different sorts!"
+compareLambdaType : String -> String
+compareLambdaType s with fromString {{fromString:ProductTheory2 {𝒯 = TypeAxiom-𝕋Λ} {{it}} {{tokdef}}}} s
+... | left err = "Error " <> err
+... | just ((_ , _ , x) , (_ , _ , y)) = "Got types: " <> show x <> " and " <> show y
 
 
 

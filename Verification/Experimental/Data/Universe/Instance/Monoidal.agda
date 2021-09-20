@@ -84,7 +84,7 @@ instance
   isMonoidal.isFunctor:⋆ isMonoidal:𝐔𝐧𝐢𝐯 = it
   -- isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = naturalIso (λ f → refl) (λ f → refl)
   -- isMonoidal.isNaturalIso:unit-r-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = naturalIso (λ f -> refl) (λ f -> refl)
-  isMonoidal.compat-Monoidal-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = λ _ _ -> refl
+  isMonoidal.compat-Monoidal-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = {!!} -- λ _ _ -> refl
   -- isMonoidal.isNaturalIso:assoc-l-⋆ isMonoidal:𝐔𝐧𝐢𝐯 = naturalIso (λ f -> refl) (λ f -> refl)
   -- isMonoidal.triangle-Monoidal isMonoidal:𝐔𝐧𝐢𝐯 = incl refl
   -- isMonoidal.pentagon-Monoidal isMonoidal:𝐔𝐧𝐢𝐯 = incl refl

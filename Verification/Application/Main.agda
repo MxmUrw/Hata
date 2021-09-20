@@ -68,7 +68,7 @@ printApp : Executable PrintExe
 printApp = executable (printExe) loop
   where
     loop : Event → PrintExe → List (Reaction PrintExe) ×~ PrintExe
-    loop (Event-ReadFile f) s = (Reaction-PrintDebug (show (compareLambdaType f f)) ∷ []) , s
+    loop (Event-ReadFile f) s = (Reaction-PrintDebug (show (compareLambdaType f)) ∷ []) , s
     loop _ s = Reaction-PrintDebug "not implemented" ∷ [] , s
 
 

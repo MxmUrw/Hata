@@ -25,8 +25,8 @@ join ⦋⦌ = ⦋⦌
 join (xs ∷ xss) = xs ⋆ join xss
 
 module _ {K : 𝒰 𝑖} where
-  sym-≣ : ∀{a b : K} -> (a ≣ b) -> b ≣ a
-  sym-≣ refl-≣ = refl-≣
+  -- sym-≣ : ∀{a b : K} -> (a ≣ b) -> b ≣ a
+  -- sym-≣ refl-≣ = refl-≣
 
   trans-≣ : ∀{a b c : K} -> (a ≣ b) -> b ≣ c -> a ≣ c
   trans-≣ refl-≣ p = p

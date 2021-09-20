@@ -29,9 +29,9 @@ module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}}
   record isLaxMonoidalFunctor (F : Functor 𝒞 𝒟) : 𝒰 (𝑖 ､ 𝑗) where
     field lax-unit : ◌ ⟶ ⟨ F ⟩ ◌
     field lax-mult : ∀{a b} -> ⟨ F ⟩ a ⋆ ⟨ F ⟩ b ⟶ ⟨ F ⟩ (a ⋆ b)
-    field lax-unit-l : ∀{a} -> Eq (◌ ⋆ ⟨ F ⟩ a ⟶ ⟨ F ⟩ a)
-                                  ((lax-unit ⇃⊗⇂ id) ◆ lax-mult ◆ map ⟨ unit-l-⋆ ⟩)
-                                  ⟨ unit-l-⋆ ⟩
+    -- field lax-unit-l : ∀{a} -> Eq (◌ ⋆ ⟨ F ⟩ a ⟶ ⟨ F ⟩ a)
+    --                               ((lax-unit ⇃⊗⇂ id) ◆ lax-mult ◆ map ⟨ unit-l-⋆ ⟩)
+    --                               ⟨ unit-l-⋆ ⟩
 
     -- field lax-unit-l : ∀{a} -> Eq (◌ ⋆ ⟨ F ⟩ a ⟶ ⟨ F ⟩ a)
     --                               ((lax-unit ⇃⊗⇂ id) ◆ lax-mult ◆ map ⟨ unit-l-⋆ ⟩)
@@ -45,9 +45,9 @@ module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}} where
   record isMonoidalMonad (T : Monad 𝒞) : 𝒰 𝑖 where
     field {{isLaxMonoidalFunctor:this}} : isLaxMonoidalFunctor ′ ⟨ T ⟩ ′
     field compat-lax-unit : lax-unit ∼ pure
-    field compat-lax-mult : ∀{a b} -> Eq (a ⋆ b ⟶ ⟨ T ⟩ (a ⋆ b))
-                                         (pure ⇃⊗⇂ pure ◆ lax-mult)
-                                         pure
+    -- field compat-lax-mult : ∀{a b} -> Eq (a ⋆ b ⟶ ⟨ T ⟩ (a ⋆ b))
+    --                                      (pure ⇃⊗⇂ pure ◆ lax-mult)
+    --                                      pure
 
   open isMonoidalMonad {{...}} public
 
@@ -72,12 +72,12 @@ module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}}
 
   private
     lem-10 : ∀{a b : 𝐊𝐥𝐬 T} -> (id {a = a} ⇃⊗⇂-𝐊𝐥𝐬 id {a = b}) ∼ id
-    lem-10 = incl compat-lax-mult
+    lem-10 = incl {!!} -- compat-lax-mult
 
 
   isFunctor:⊗-𝐊𝐥𝐬 : isFunctor (𝐊𝐥𝐬 T ×-𝐂𝐚𝐭 𝐊𝐥𝐬 T) (𝐊𝐥𝐬 T) (λ₋ _⊗-𝐊𝐥𝐬_)
   isFunctor.map isFunctor:⊗-𝐊𝐥𝐬              = λ₋ _⇃⊗⇂-𝐊𝐥𝐬_
-  isFunctor.isSetoidHom:map isFunctor:⊗-𝐊𝐥𝐬  = record { cong-∼ = λ (p , q) → incl (cong-∼ (⟨ p ⟩ , ⟨ q ⟩) ◈ refl) }
+  isFunctor.isSetoidHom:map isFunctor:⊗-𝐊𝐥𝐬  = {!!} -- record { cong-∼ = λ (p , q) → incl (cong-∼ (⟨ p ⟩ , ⟨ q ⟩) ◈ refl) }
   isFunctor.functoriality-id isFunctor:⊗-𝐊𝐥𝐬 = lem-10
   isFunctor.functoriality-◆ isFunctor:⊗-𝐊𝐥𝐬  = {!!}
 
@@ -102,6 +102,6 @@ module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}}
     isMonoidal:Kleisli : isMonoidal (𝐊𝐥𝐬 T)
     isMonoidal.isMonoid:this isMonoidal:Kleisli    = isMonoid:Kleisli
     isMonoidal.isFunctor:⋆ isMonoidal:Kleisli       = isFunctor:⊗-𝐊𝐥𝐬
-    isMonoidal.compat-Monoidal-⋆ isMonoidal:Kleisli = λ p q → refl
+    isMonoidal.compat-Monoidal-⋆ isMonoidal:Kleisli = {!!} -- λ p q → refl
 
 

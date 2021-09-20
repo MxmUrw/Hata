@@ -41,15 +41,15 @@ module _ {A : 𝒰 𝑖} where
     isSetoid:Jdg : isSetoid (Jdg A)
     isSetoid:Jdg = isSetoid:byPath
 
-    hasAction-l:Jdg : hasAction-l ′(List A)′ (Jdg A)
-    hasAction-l:Jdg = record
+    hasActionₗ:Jdg : hasActionₗ ′(List A)′ (Jdg A)
+    hasActionₗ:Jdg = record
       { _↷_ = _↷-Jdg_
       ; assoc-l-↷ = {!!}
       ; _≀↷≀_ = {!!}
       }
 
-    hasAction-l:JdgList : hasAction-l ′(List A)′ ′ List(Jdg A)′
-    hasAction-l:JdgList = record
+    hasActionₗ:JdgList : hasActionₗ ′(List A)′ ′ List(Jdg A)′
+    hasActionₗ:JdgList = record
       { _↷_ = λ Γ xs -> map-List (Γ ↷_) xs
       ; assoc-l-↷ = {!!}
       ; _≀↷≀_ = {!!}

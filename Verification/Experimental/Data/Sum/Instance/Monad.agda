@@ -36,14 +36,14 @@ instance
   isLaxMonoidalFunctor.lax-mult isLaxMonoidalFunctor:Maybe = λ (a , b) -> do a' <- a
                                                                              b' <- b
                                                                              return (a' , b')
-  isLaxMonoidalFunctor.lax-unit-l isLaxMonoidalFunctor:Maybe i (fst₁ , left x) = left x
-  isLaxMonoidalFunctor.lax-unit-l isLaxMonoidalFunctor:Maybe i (fst₁ , just x) = just x
+  -- isLaxMonoidalFunctor.lax-unit-l isLaxMonoidalFunctor:Maybe i (fst₁ , left x) = left x
+  -- isLaxMonoidalFunctor.lax-unit-l isLaxMonoidalFunctor:Maybe i (fst₁ , just x) = just x
 
 instance
   isMonoidalMonad:Maybe : isMonoidalMonad {𝒞 = 𝐔𝐧𝐢𝐯 𝑖} (⊤-𝒰 {𝑖} +⧿)
   isMonoidalMonad.isLaxMonoidalFunctor:this isMonoidalMonad:Maybe = isLaxMonoidalFunctor:Maybe
   isMonoidalMonad.compat-lax-unit isMonoidalMonad:Maybe = refl-≡
-  isMonoidalMonad.compat-lax-mult isMonoidalMonad:Maybe = refl-≡
+  -- isMonoidalMonad.compat-lax-mult isMonoidalMonad:Maybe = refl-≡
 
 
 

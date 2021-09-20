@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 70c7b2e4f5a86b10cb7bd4209f94d9e4f96901045d0c22a617d38d1be3b8c7cd
+-- hash: f9a36c6cb99d14f56a6700f9bfa75f3a45652fd44ce1f0697cbe30409064cbf4
 
 name:           Hata
 version:        0.1.0.0
@@ -47,6 +47,8 @@ library
       ExistentialQuantification
       RankNTypes
       TypeApplications
+      ExplicitForAll
+      ScopedTypeVariables
   build-depends:
       base >=4.7 && <5
     , gi-cairo
@@ -58,6 +60,7 @@ library
     , gi-gtk
     , haskell-gi-base
     , optparse-applicative
+    , parsec
     , text
     , time
     , transformers
