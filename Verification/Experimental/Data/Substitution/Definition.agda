@@ -337,7 +337,21 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     isEssentiallySurjective.eso isEssentiallySurjective:ι-⧜𝐒𝐮𝐛𝐬𝐭 = eso-⧜𝐒𝐮𝐛𝐬𝐭
     isEssentiallySurjective.inv-eso isEssentiallySurjective:ι-⧜𝐒𝐮𝐛𝐬𝐭 = refl-≅
 
+
   instance
     hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 : hasInitial (⧜𝐒𝐮𝐛𝐬𝐭 T)
     hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
+
+  instance
+    hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
+
+  instance
+    hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasFiniteCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasFiniteCoproducts:byFFEso
+
+  module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
+    instance
+      isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 : isCoproduct a b (a ⊔ b)
+      isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 = isCoproduct:⊔
 

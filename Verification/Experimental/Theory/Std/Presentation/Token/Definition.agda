@@ -5,14 +5,25 @@ module Verification.Experimental.Theory.Std.Presentation.Token.Definition where
 {-# FOREIGN GHC import Data.HashMap.Strict (HashMap) #-}
 
 
-open import Verification.Conventions
+open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Experimental.Algebra.Monoid.Free.Definition
 open import Verification.Experimental.Data.Product.Definition
+open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Data.Sum.Instance.Functor
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
+
+open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Experimental.Data.Nat.Definition
+open import Verification.Experimental.Data.Sum.Instance.Monad
+open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Data.List.Instance.Traversable
+open import Verification.Experimental.Data.Substitution.Definition
 
 
 record TokenDefinition (Tok : 𝒰₀) : 𝒰₀ where
@@ -39,6 +50,26 @@ record FromString (A : 𝒰₀) : 𝒰₀ where
   field fromString : String -> String +-𝒰 A
 
 open FromString {{...}} public
+
+--------------------------------------------------------------
+-- paths
+
+module _ {A : 𝒰 𝑖} where
+  length : List A -> ℕ
+  length [] = 0
+  length (x ∷ as) = suc (length as)
+
+  lookup' : ∀(as : List A) -> Fin-R (length as) -> A
+  lookup' (x ∷ as) zero = x
+  lookup' (x ∷ as) (suc i) = lookup' as i
+
+lookup : ∀ {n} {A : 𝒰 ℓ} → Fin-R n → Vec A n → A
+lookup zero    (x ∷ xs) = x
+lookup (suc i) (x ∷ xs) = lookup i xs
+
+toVec : {A : 𝒰 ℓ} → (as : List A) -> Vec A (length as)
+toVec [] = []
+toVec (x ∷ as) = x ∷ toVec as
 
 --------------------------------------------------------------
 -- Helpers
@@ -124,6 +155,85 @@ module _ {K : 𝒰 𝑖} {D : 𝒰 𝑘} {{_ : isContainer K ℕ D}} where
       ... | left x₁ = left tt
       ... | just y = right (var y)
 
+--------------------------------------------------------------
+-- helper
+
+
+case-Dec_of : ∀{A : 𝒰 𝑖} {C : 𝒰 𝑘} (a : Decision A) -> ((¬ A) -> C) -> (A -> C) -> C
+case-Dec no x of f g = f x
+case-Dec yes x of f g = g x
+
+--------------------------------------------------------------
+-- non computing lists and vectors
+
+人Vec : (A : 𝒰 𝑖) -> (n : 人List (⊤-𝒰 {𝑖})) -> 𝒰 _
+人Vec A n = CtxHom (λ x x₁ → A) n ◌
+
+人ℕ' : ∀ 𝑖 -> 𝒰 _
+人ℕ' 𝑖 = 人List (⊤-𝒰 {𝑖})
+
+module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
+  asList : ∀{a b} -> CtxHom R a b -> 人List (R b tt)
+  asList ◌-⧜ = ◌-⧜
+  asList (incl {tt} x) = incl x
+  asList (f ⋆-⧜ g) = asList f ⋆ asList g
+
+  atList : ∀{a b} -> CtxHom R a b -> (i : [ a ]ᶠ) -> (R b tt)
+  atList (incl x) (tt , incl) = x
+  atList (f ⋆-⧜ g) (a , right-∍ i) = atList g (_ , i)
+  atList (f ⋆-⧜ g) (a , left-∍ i) = atList f (_ , i)
+
+  atasList : ∀{a b} -> (σ : CtxHom R a b) -> (i : [ a ]ᶠ) -> asList σ ∍ atList σ i
+  atasList (incl x) (tt , incl) = incl
+  atasList (f ⋆-⧜ g) (_ , left-∍ i) = left-∍ (atasList f (_ , i))
+  atasList (f ⋆-⧜ g) (_ , right-∍ i) = right-∍ (atasList g (_ , i))
+
+  atasList' : ∀{a b} -> (σ : CtxHom R a b) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
+  atasList' σ i refl-≣ = atasList σ i
+
+module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
+  fromIndexed : {as bs : 人List A} -> (∀{a} -> (as ∍ a) -> R bs a) -> CtxHom R as bs
+  fromIndexed {incl x} {bs} F = incl (F (incl))
+  fromIndexed {as1 ⋆-Free-𝐌𝐨𝐧 as2} {bs} F = (fromIndexed (λ x -> F (left-∍ x))) ⋆-⧜ ((fromIndexed (λ x -> F (right-∍ x))))
+  fromIndexed {◌-Free-𝐌𝐨𝐧} {bs} F = ◌-⧜
+
+
+--------------------------------------------------------------
+-- Well branching trees
+
+module _ (A : 𝒰 𝑖) (B : 𝒰 𝑗) (l : A -> 人ℕ' (𝑖 ､ 𝑗)) where
+  data VecTree : 𝒰 (𝑖 ､ 𝑗) where
+    node : (a : A) -> ([ l a ]ᶠ -> VecTree) -> VecTree
+    -- node : (a : A) -> (人Vec VecTree (l a)) -> VecTree
+    var  : B -> VecTree
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {l : A -> 人ℕ' (𝑖 ､ 𝑗)} where
+  data TreeStep : (t s : VecTree A B l) -> 𝒰 (𝑖 ､ 𝑗) where
+    -- incl : ∀{a : A} -> (ts : ([ l a ]ᶠ -> (VecTree A B l))) (s : VecTree A B l) -> (i : [ l a ]ᶠ)
+    --        -> (ts i) ≣ s
+    --        -> TreeStep (node a ts) s
+
+    incl : ∀{a : A} -> (ts : ([ l a ]ᶠ -> (VecTree A B l))) -> (i : [ l a ]ᶠ)
+           -> TreeStep (node a ts) (ts i)
+
+    -- incl : ∀{a : A} -> (ts : (人Vec (VecTree A B l) (l a))) -> (i : [ l a ]ᶠ)
+    --        -> TreeStep (node a ts) (atList ts i)
+
+  data TreePath : (t s : VecTree A B l) -> 𝒰 (𝑖 ､ 𝑗) where
+    [] : ∀{t : VecTree A B l} -> TreePath t t
+    step : ∀{r s t : (VecTree A B l)} -> TreePath r s -> TreeStep s t -> TreePath r t
+
+  {-# TERMINATING #-}
+  makeVecTree : Tree A B -> Maybe (VecTree A B l)
+  makeVecTree (node x xs) = {!!} -- do
+  --   xs' <- mapM makeVecTree xs
+  --   case-Dec length xs' ≟-Str l x of
+  --                (λ _ -> left tt)
+  --                (λ p → right (node x (transport-Str (cong-Str (λ ξ -> Vec _ ξ) p) (toVec xs'))))
+  makeVecTree (var x) = right (var x)
+
+{-
+-}
 
 
 

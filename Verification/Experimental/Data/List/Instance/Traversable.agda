@@ -15,9 +15,15 @@ open import Verification.Experimental.Category.Std.Monad.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 
+instance
+  isFunctor:List : isFunctor (𝐔𝐧𝐢𝐯 𝑖) (𝐔𝐧𝐢𝐯 𝑖) List
+  isFunctor.map isFunctor:List = map-List
+  isFunctor.isSetoidHom:map isFunctor:List = {!!}
+  isFunctor.functoriality-id isFunctor:List = {!!}
+  isFunctor.functoriality-◆ isFunctor:List = {!!}
 
 instance
-  isTraversable:List : isTraversable (List {𝑖})
+  isTraversable:List : isTraversable ′(List {𝑖})′
   isTraversable:List {𝑖} = traversable (λ {M} {{MM}} {A} xs -> f {M} {MM} {A} xs)
     where
       module _ {M : 𝒰' 𝑖 → 𝒰' 𝑖} { MM : Monad ′ 𝒰' 𝑖 ′ on M } where
