@@ -25,6 +25,12 @@ module _ (N : 𝒰 𝑖) (size : N -> 人ℕ) where
     NGraph = (𝒰 𝑗) :& isNGraph
 
   module _ {ℬ : Category 𝑘} (F : Functor ℬ (𝐔𝐧𝐢𝐯 𝑙)) where
+    record isANG (G : NGraph {𝑗}) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘 ､ 𝑙) where
+      field bo : ⟨ G ⟩ -> ⟨ ℬ ⟩
+      field ann : (v : ⟨ G ⟩) -> [ size (node v) ]ᶠ -> ⟨ F ⟩ (bo v)
+
+
+
     record isConstantANG (b₀ : ⟨ ℬ ⟩) (G : NGraph {𝑗}) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘 ､ 𝑙) where
       -- field b₀ : ⟨ ℬ ⟩
       field ann : (v : ⟨ G ⟩) -> [ size (node v) ]ᶠ -> ⟨ F ⟩ (b₀)

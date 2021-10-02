@@ -112,8 +112,8 @@ module _ {A : 𝒰 𝑖} where
   --   lem-001 : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (p0 : a ≣ b) -> (p : la =-∍ lb) -> p ≣ transport-Str (cong-Str (λ ξ -> as ∍ ξ) p0) refl-≣-2
   --   lem-001 = ?
 
-
-module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} {{_ : isSet-Str A}} where
+ -- {{_ : isDiscrete A}}
+module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
 
   transport⁻¹-=-∍-refl : ∀{as : 人List A} {a : A} {la : as ∍ a} -> (P : A -> 𝒰 𝑗) -> (p : la =-∍ la) -> (x : P a) -> transport⁻¹-=-∍ P p x ≣ x
   transport⁻¹-=-∍-refl P p x =
