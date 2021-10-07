@@ -44,6 +44,16 @@ module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {
     field snd : as ∍ fst
     field thd : ⟨ F ⟩ fst
 
+  record ResolutionTarget₂ : 𝒰 (𝑖 ､ 𝑙) where
+    constructor rtarget
+    field fst : ℬ
+    field snd : ⟨ F ⟩ fst
+
+  open ResolutionTarget₂ public
+
+  ResolutionPair₂ : 𝒰 _
+  ResolutionPair₂ = ResolutionTarget₂ ^ 2
+
   ResolutionPair : (as bs : 人List ℬ) -> 𝒰 _
   ResolutionPair as bs = ResolutionTarget as × ResolutionTarget bs
 
@@ -68,6 +78,21 @@ module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {
             -> ∀{as' bs'} -> {q : ResolutionPair as' bs'} -> sb ∍-St q
             -> resolve sa sb p ∍-St q
 
+  data _∍-St₂_ : ∀{xs} -> (s : Strategy xs) -> (p : ResolutionPair₂) -> 𝒰 (𝑖 ､ 𝑙) where
+    incl : ∀{as bs} -> {sa : Strategy as} -> {sb : Strategy bs}
+            -> ∀(a b : ℬ) -> (pa : as ∍ a) -> (pb : bs ∍ b) -> (va : ⟨ F ⟩ a) -> (vb : ⟨ F ⟩ b)
+            -> resolve sa sb (rtarget a pa va , rtarget b pb vb) ∍-St₂ (rtarget a va , rtarget b vb)
+
+    left-∍ : ∀{as bs} -> {sa : Strategy as} -> {sb : Strategy bs}
+            -> {p : ResolutionPair as bs}
+            -> {q : ResolutionPair₂} -> sa ∍-St₂ q
+            -> resolve sa sb p ∍-St₂ q
+
+    right-∍ : ∀{as bs} -> {sa : Strategy as} -> {sb : Strategy bs}
+            -> {p : ResolutionPair as bs}
+            -> {q : ResolutionPair₂} -> sb ∍-St₂ q
+            -> resolve sa sb p ∍-St₂ q
+
   data Execution : ∀{as} -> Strategy as -> (x : ℬ) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
     begin : ∀{a} -> Execution (begin a) a
     resolve : ∀{as bs xa xb x} -> {sa : Strategy as} -> {sb : Strategy bs}
@@ -87,22 +112,33 @@ module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {
   extendPath (left-∍ q) r = left-∍ (extendPath q r)
   extendPath (right-∍ q) r = right-∍ (extendPath q r)
 
-  -- subexec : ∀{as bs xs} -> {s : Strategy xs} -> {x : ℬ} -> (Execution s x) -> {p : ResolutionPair as bs} -> (q : s ∍-St p) -> Execution (baseSt q) 
 
   execHom : ∀{as a} -> {sa : Strategy as} -> {x : ℬ} -> (Execution sa x) -> (pa : as ∍ a) -> a ⟶ x
   execHom begin incl = id
   execHom (resolve exa exb fa fb) (right-∍ pa) = execHom exb pa ◆ fb
   execHom (resolve exa exb fa fb) (left-∍ pa) = execHom exa pa ◆ fa
 
-  -- execHom : ∀{xs as a} -> {s : Strategy xs} -> {x : ℬ} -> (Execution s x) -> (pa : as ∍ a) -> a ⟶ x
-  -- execHom begin incl = {!!}
-  -- execHom (resolve exa exb fa fb) (right-∍ pa) = execHom exb pa ◆ fb
-  -- execHom (resolve exa exb fa fb) (left-∍ pa) = execHom exa pa ◆ fa
+  getElemSt₀ : ∀{as} -> {sa : Strategy as} -> {p : ResolutionPair₂} -> sa ∍-St₂ p -> as ∍ p .fst .fst
+  getElemSt₀ (incl a b pa pb va vb) = left-∍ pa
+  getElemSt₀ (left-∍ p) = left-∍ (getElemSt₀ p)
+  getElemSt₀ (right-∍ p) = right-∍ (getElemSt₀ p)
+
+  getElemSt₁ : ∀{as} -> {sa : Strategy as} -> {p : ResolutionPair₂} -> sa ∍-St₂ p -> as ∍ p .snd .fst
+  getElemSt₁ (incl a b pa pb va vb) = right-∍ pb
+  getElemSt₁ (left-∍ p) = left-∍ (getElemSt₁ p)
+  getElemSt₁ (right-∍ p) = right-∍ (getElemSt₁ p)
+
 
   isCorrect : ∀{xs x} -> {s : Strategy xs} -> (ex : Execution s x) -> 𝒰 _
-  isCorrect {xs} {x} {s} ex = ∀{as bs} -> ∀((rtarget a pa va , rtarget b pb vb) : ResolutionPair as bs)
-                              -> (q : s ∍-St (rtarget a pa va , rtarget b pb vb))
-                              -> map (execHom ex (extendPath q (left-∍ pa))) va ≡ map (execHom ex (extendPath q (right-∍ pb))) vb
+  isCorrect {xs} {x} {s} ex = ∀((rtarget a va , rtarget b vb) : ResolutionPair₂)
+                              -> (q : s ∍-St₂ (rtarget a va , rtarget b vb))
+                              -> map (execHom ex (getElemSt₀ q)) va ≡ map (execHom ex (getElemSt₁ q)) vb
+                              -- -> map (execHom ex (extendPath q (left-∍ pa))) va ≡ map (execHom ex (extendPath q (right-∍ pb))) vb
+
+  -- isCorrect : ∀{xs x} -> {s : Strategy xs} -> (ex : Execution s x) -> 𝒰 _
+  -- isCorrect {xs} {x} {s} ex = ∀{as bs} -> ∀((rtarget a pa va , rtarget b pb vb) : ResolutionPair as bs)
+  --                             -> (q : s ∍-St (rtarget a pa va , rtarget b pb vb))
+  --                             -> map (execHom ex (extendPath q (left-∍ pa))) va ≡ map (execHom ex (extendPath q (right-∍ pb))) vb
 
   execute : ∀{as} -> (sa : Strategy as) -> Maybe (∑ λ x -> ∑ λ (ex : Execution sa x) -> isCorrect ex)
   execute (begin a) = just (_ , (begin , {!!}))
@@ -117,10 +153,11 @@ module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {
       (λ _ → nothing)
       (λ (x , fa , fb , fa≡fb) →
         right (x , (resolve exa exb fa fb)
-              , λ {(p1 , p2) (incl _) → {!!}
-                  ;(p1 , p2) (left-∍ q) -> {!!}
-                  ;(p1 , p2) (right-∍ q) -> {!!}
-                  })
+              , {!!} -- λ {(p1 , p2) (incl _) → {!!}
+                  -- ;(p1 , p2) (left-∍ q) -> {!!}
+                  -- ;(p1 , p2) (right-∍ q) -> {!!}
+                  -- }
+                  )
         )
 
 
