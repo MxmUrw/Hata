@@ -84,4 +84,3 @@ getApplicationList = registerExecutable "test" testApp ∷ registerExecutable "p
 
 
 
-

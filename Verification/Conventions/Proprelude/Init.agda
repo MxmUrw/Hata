@@ -178,6 +178,9 @@ data ⊥-𝒰 {𝑖} : 𝒰 𝑖 where
 data ⊤-𝒰 {𝑖} : 𝒰 𝑖 where
   instance tt : ⊤-𝒰
 
+{-# FOREIGN GHC type AgdaTop i = () #-}
+{-# COMPILE GHC ⊤-𝒰 = data AgdaTop (()) #-}
+
 data _+-𝒰_ (A : 𝒰 ℓ)(B : 𝒰 ℓ') : 𝒰 (ℓ-max ℓ ℓ') where
   left : A → A +-𝒰 B
   right : B → A +-𝒰 B

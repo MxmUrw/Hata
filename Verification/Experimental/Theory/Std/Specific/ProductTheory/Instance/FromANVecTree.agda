@@ -59,6 +59,8 @@ data DVec {A : 𝒰 𝑖} (F : A -> 𝒰 𝑗) : {n : ℕ} -> (Vec A n) -> 𝒰 
 --   data VecTree1 : 𝒰 (𝑖) where
 --     node1 : (a : A) -> (Vec VecTree1 (l a)) -> VecTree1
 
+open hasIsoGetting {{...}} public
+
 module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} (F : Functor ′ ℬ ′ (𝐔𝐧𝐢𝐯 𝑙))
   where
 
@@ -136,6 +138,14 @@ module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗
     ADANEdge : ∀{b1 b2} -> (v1 : ⟨ F ⟩ b1) (v2 : ⟨ F ⟩ b2) (vout : ⟨ F ⟩ b1) -> (r : ∑ ADANVecTree) -> 𝒰 _
     ADANEdge v1 v2 vout r = ∑ λ t1 -> ∑ λ t2 -> ADANTreePath r ((_ , v1) , t1) × ADANTreeStep ((_ , v1) , t1) ((_ , v2) , t2) vout
 
+    module _ {{_ : hasIsoGetting ′ ℬ ′}} where
+      moveTo◌ : ∀(b x : ℬ) -> {vb : ⟨ F ⟩ b}
+                -> (ANVecTree b vb)
+                -> String + (∑ λ (ϕ : b ⟶ x) -> ANVecTree x (map ϕ vb))
+      moveTo◌ b x (t) with getIso b x
+      ... | left x₁ = left "Result had open meta variables!"
+      ... | just ϕ = right (⟨ ϕ ⟩ , map-ANVecTree ⟨ ϕ ⟩ t)
+
 -----------------------------------------
 -- product theory specific
 
@@ -144,7 +154,7 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
 
   mutual
-    constructTerms : ∀{n} {Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ◌}
+    constructTerms : ∀{n} {Γ : CtxHom (Term₁-𝕋× (Sort×Theory 𝒯)) n ◌}
                     -> {fst₁ : List (Sort 𝒯)}
                     -> {vs : Vec (⟨ F× 𝒯 n ⟩ (incl ◌-Free-𝐌𝐨𝐧)) (length fst₁)}
                     -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌-Free-𝐌𝐨𝐧)) vs
@@ -153,7 +163,7 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
     constructTerms {fst₁ = ⦋⦌} [] P = ◌-⧜
     constructTerms {fst₁ = x ∷ fst₁} (x₁ ∷ ts) (.x ∷ P) = (incl (constructTerm x₁)) ⋆-⧜ constructTerms ts P
 
-    constructTerm : ∀{n} {Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ◌} -> ∀{τ}
+    constructTerm : ∀{n} {Γ : CtxHom (Term₁-𝕋× (Sort×Theory 𝒯)) n ◌} -> ∀{τ}
                     -> ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌) (_⊫_ Γ τ)
                     -> Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 (makeSort 𝒯) (asList Γ)) (makeSort 𝒯 τ)
     constructTerm (node1 (isNode (_ , _ , c)) _ vs (conType .c x) ts) = con c (constructTerms ts x)

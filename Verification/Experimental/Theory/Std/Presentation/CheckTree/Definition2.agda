@@ -40,7 +40,7 @@ record hasBoundary (ℬ : Category 𝑖) (F : Functor ℬ (𝐔𝐧𝐢𝐯 𝑗
   field initv : ∀(a : A) -> ⟨ F ⟩ (initb a)
   field initvs : ∀(a : A) -> Vec (⟨ F ⟩ (initb a)) (l a)
   field WT : ∀{b} -> (a : A) -> ⟨ F ⟩ b -> Vec (⟨ F ⟩ b) (l a) -> 𝒰 𝑘
-  field initwt : ∀{b a} -> {vb : ⟨ F ⟩ b} -> {vs : Vec (⟨ F ⟩ b) (l a)} -> WT a vb vs
+  field initwt : ∀{a} -> WT a (initv a) (initvs a)
   field map-WT : ∀{b x} -> {a : A} -> {v0 : ⟨ F ⟩ b} -> {vs : Vec (⟨ F ⟩ b) (l a)}
                  -> (ϕ : b ⟶ x)
                  -> WT a v0 vs

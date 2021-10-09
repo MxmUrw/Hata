@@ -43,6 +43,21 @@ instance
   isWFT0:𝟙 : isWFT0 ′ 𝟙-𝒰 ′
   isWFT0:𝟙 = record { ⊥-WFT = tt ; initial-⊥-WFT = left refl-≣ }
 
+
+instance
+  isWF:⊤ : isWF _ (⊤-𝒰 {𝑖})
+  isWF:⊤ = record { _≪_ = (λ a b -> ⊥-𝒰 {ℓ₀}) ; wellFounded = λ x → acc λ _ () }
+
+  isWFT:⊤ : isWFT ′ ⊤-𝒰 {𝑖} ′
+  isWFT:⊤ = record { _⟡-≪_ = λ () }
+
+  isWFT0:⊤ : isWFT0 ′ ⊤-𝒰 {𝑖} ′
+  isWFT0:⊤ = record { ⊥-WFT = tt ; initial-⊥-WFT = left (Pa _) }
+    where
+      Pa : ∀(a : ⊤-𝒰 {𝑖}) -> tt ≣ a
+      Pa tt = refl-≣
+
+
     -- module _ {{_ : isWFT0 ′ A ′}} {{_ : isWFT0 ′ B ′}} where
     --   private
     --     ⊥' : A × B

@@ -14,7 +14,8 @@ open import Verification.Experimental.Computation.Unification.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
 open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString3
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
 
 data Sort-𝕋Λ : 𝒰₀ where
@@ -95,7 +96,7 @@ instance
   IShow.show IShow:Sort-𝕋Λ ctxᵗ = "Ctx"
 
 compareLambdaType : String -> String
-compareLambdaType s with fromString {{fromString:ProductTheory2 {𝒯 = TypeAxiom-𝕋Λ} {{it}} {{tokdef}}}} s
+compareLambdaType s with ProductTheory:fromString {𝒯 = TypeAxiom-𝕋Λ} s
 ... | left err = "Error " <> err
 ... | just ((_ , _ , x) , (_ , _ , y)) = "Got types: " <> show x <> " and " <> show y
 

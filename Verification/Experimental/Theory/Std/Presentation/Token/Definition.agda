@@ -179,14 +179,16 @@ module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
   asList (f ⋆-⧜ g) = asList f ⋆ asList g
 
   atList : ∀{a b} -> CtxHom R a b -> (i : [ a ]ᶠ) -> (R b tt)
-  atList (incl x) (tt , incl) = x
-  atList (f ⋆-⧜ g) (a , right-∍ i) = atList g (_ , i)
-  atList (f ⋆-⧜ g) (a , left-∍ i) = atList f (_ , i)
+  atList f (tt , p) = destruct-CtxHom f tt p
+
+  -- atList (incl x) (tt , incl) = x
+  -- atList (f ⋆-⧜ g) (a , right-∍ i) = atList g (_ , i)
+  -- atList (f ⋆-⧜ g) (a , left-∍ i) = atList f (_ , i)
 
   atasList : ∀{a b} -> (σ : CtxHom R a b) -> (i : [ a ]ᶠ) -> asList σ ∍ atList σ i
   atasList (incl x) (tt , incl) = incl
-  atasList (f ⋆-⧜ g) (_ , left-∍ i) = left-∍ (atasList f (_ , i))
-  atasList (f ⋆-⧜ g) (_ , right-∍ i) = right-∍ (atasList g (_ , i))
+  atasList (f ⋆-⧜ g) (tt , left-∍ i) = left-∍ (atasList f (_ , i))
+  atasList (f ⋆-⧜ g) (tt , right-∍ i) = right-∍ (atasList g (_ , i))
 
   atasList' : ∀{a b} -> (σ : CtxHom R a b) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
   atasList' σ i refl-≣ = atasList σ i
@@ -233,7 +235,8 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {l : A -> 人ℕ' (𝑖 ､ 𝑗)} wher
   makeVecTree (var x) = right (var x)
 
 {-
+{-
 -}
-
+-}
 
 

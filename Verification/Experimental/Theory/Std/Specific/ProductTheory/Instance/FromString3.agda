@@ -57,6 +57,21 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 
 module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} {{Def : TokenDefinition (UntypedCon 𝒯)}} where
 
+  private
+    mutual
+      lem-10s : ∀{xs} {x} -> (Terms-𝕋× 𝒯 xs x) -> String
+      lem-10s ◌-⧜ = ""
+      lem-10s (incl x) = " " <> lem-10 x
+      lem-10s (t ⋆-⧜ s) = lem-10s t <> lem-10s s
+
+      lem-10 : ∀{xs} {x} -> (Term₁-𝕋× 𝒯 xs x) -> String
+      lem-10 (var x) = "var"
+      lem-10 (con c x) = "(" <> TokenDefinition.name Def (_ , _ , c) <> lem-10s x <> ")"
+
+  instance
+    IShow:Term-𝕋× : ∀{xs} {x} -> IShow (Term₁-𝕋× 𝒯 xs x)
+    IShow:Term-𝕋× = record { show = lem-10 }
+
 
 
   -----------------------------------------
@@ -87,6 +102,8 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} {{Def : TokenDe
 
   𝑹 = (∑ λ xs -> ∑ λ x -> Term₁-𝕋× (𝒯) xs x)
 
+  instance _ = hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭
+
   ProductTheory:fromString : String -> String + (𝑹 ^ 2)
   ProductTheory:fromString s = do
     t1 , t2 <- parseTwolines Def s
@@ -94,7 +111,16 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} {{Def : TokenDe
     _ , t2' <- TreeToADAN t2
     let _ , t1ini = makeInitialTree t1'
     _ , _ , t1fin <- makeFinalTree t1ini
-    -- let t1term = constructTerm 𝒯 t1fin
-    {!!}
+    ϕ , better1 <- moveTo◌ (Node 𝒯 _) (size× 𝒯) (ℬ× 𝒯) _ _ (incl ◌) (t1fin)
+    let t1term = constructTerm 𝒯 better1
+
+    let _ , t2ini = makeInitialTree t2'
+    _ , _ , t2fin <- makeFinalTree t2ini
+    ϕ , better2 <- moveTo◌ (Node 𝒯 _) (size× 𝒯) (ℬ× 𝒯) _ _ (incl ◌) (t2fin)
+    let t2term = constructTerm 𝒯 better2
+
+    right ((_ , _ , t1term) , _ , (_ , t2term))
+
+
 
 

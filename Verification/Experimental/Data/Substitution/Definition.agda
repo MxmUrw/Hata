@@ -50,6 +50,9 @@ open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductCategory
 
+record hasIsoGetting (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+  field getIso : ∀(a b : ⟨ 𝒞 ⟩) -> Maybe (a ≅ b)
+
 
 module _ {A : 𝒰 𝑖} (R : 人List A -> A -> 𝒰 𝑖) where
   infixl 29 _⋆-⧜_
@@ -354,4 +357,14 @@ module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
     instance
       isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 : isCoproduct a b (a ⊔ b)
       isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 = isCoproduct:⊔
+
+
+  -----------------------------------------
+  -- "Iso getting"
+  --
+  hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭 : hasIsoGetting (⧜𝐒𝐮𝐛𝐬𝐭 T)
+  hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
+
+
+
 
