@@ -47,33 +47,6 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 -- product theory specific
 
 
-module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
-
-  module _ {n : 人ℕ} where
-    _⊫_ : ∀{b : ℬ× 𝒯} -> (Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ⟨ b ⟩) -> SortTermᵈ 𝒯 ⟨ b ⟩ -> ⟨ F× 𝒯 n ⟩ b
-    _⊫_ {b} Γ τ = ⧜subst (Γ ⋆-⧜ (incl τ))
-
-    module _ {b : ℬ× 𝒯} where
-      data isSameCtx : (Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ⟨ b ⟩)
-                       -> (τs : List (Sort 𝒯))
-                       -> (vs : Vec (⟨ F× 𝒯 n ⟩ b) (length τs))
-                       -> 𝒰 ℓ₀ where
-        [] : ∀{Γ} -> isSameCtx Γ [] []
-        _∷_ : ∀{Γ τs vs} -> (τ : Sort 𝒯) -> isSameCtx Γ τs vs -> isSameCtx Γ (τ ∷ τs) (Γ ⊫ con τ ∷ vs)
-
-    data isWellTyped× {b : ℬ× 𝒯} : (a : Node 𝒯 n)
-                                 -> (v : ⟨ F× 𝒯 n ⟩ b)
-                                 -> (vs : Vec (⟨ F× 𝒯 n ⟩ b) (size× 𝒯 a))
-                                 -> 𝒰 ℓ₀ where
-      varType : (i : [ n ]ᶠ)
-                -> ∀{Γ τ}
-                -> atList Γ i ≣ τ
-                -> isWellTyped× (isVar i) (Γ ⊫ τ) []
-
-      conType : ∀{τs τ} -> (c : Con 𝒯 τs τ)
-                -> ∀{Γ vs}
-                -> isSameCtx Γ τs vs
-                -> isWellTyped× (isNode (_ , _ , c)) (Γ ⊫ (con τ)) vs
 
 -----------------------------------------
 -- generic
@@ -86,31 +59,42 @@ data DVec {A : 𝒰 𝑖} (F : A -> 𝒰 𝑗) : {n : ℕ} -> (Vec A n) -> 𝒰 
 --   data VecTree1 : 𝒰 (𝑖) where
 --     node1 : (a : A) -> (Vec VecTree1 (l a)) -> VecTree1
 
-module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} (F : Functor ′ ℬ ′ (𝐔𝐧𝐢𝐯 𝑙)) where
+module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} (F : Functor ′ ℬ ′ (𝐔𝐧𝐢𝐯 𝑙))
+  where
 
-  module _ (WT : ∀{b} -> (a : A) -> ⟨ F ⟩ b -> Vec (⟨ F ⟩ b) (l a) -> 𝒰 𝑘) where
+  -- module _ (WT : ∀{b} -> (a : A) -> ⟨ F ⟩ b -> Vec (⟨ F ⟩ b) (l a) -> 𝒰 𝑘) where
+  module _ {{_ : isCheckingBoundary ′ ℬ ′ F}} {{_ : hasBoundary ′ ℬ ′ F A l}} where
 
-    data ANVecTree (b : ℬ) : (⟨ F ⟩ b) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data ANVecTree (b : ℬ) : (⟨ F ⟩ b) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       node1 : (a : A) -> (v : ⟨ F ⟩ b) -> (vs : Vec (⟨ F ⟩ b) (l a))
               -> WT a v vs
               -> (DVec (ANVecTree b) vs) -> ANVecTree b v
 
-    data DANVecTree : 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    mutual
+      map-ANVecTrees : ∀{b1 b2} -> (ϕ : b1 ⟶ b2) -> ∀{v : Vec (⟨ F ⟩ b1) n} -> DVec (ANVecTree b1) v -> DVec (ANVecTree b2) (map-Vec (map ϕ) v)
+      map-ANVecTrees ϕ [] = []
+      map-ANVecTrees ϕ (x ∷ ts) = (map-ANVecTree ϕ x) ∷ (map-ANVecTrees ϕ ts)
+
+      map-ANVecTree : ∀{b1 b2} -> (ϕ : b1 ⟶ b2) -> ∀{v : ⟨ F ⟩ b1} -> ANVecTree b1 v -> ANVecTree b2 (map ϕ v)
+      map-ANVecTree ϕ (node1 a _ vs x ts) = node1 a _ (map-Vec (map ϕ) vs) (map-WT ϕ x) (map-ANVecTrees ϕ ts)
+
+
+    data DANVecTree : 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       node1 : ∀(b : ℬ) -> (a : A) -> (v : ⟨ F ⟩ b) -> (vs : Vec (⟨ F ⟩ b) (l a))
               -> WT a v vs
               -> (Vec DANVecTree (l a)) -> DANVecTree
 
-    data DANVecTree2 (b : ℬ) : (⟨ F ⟩ b) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data DANVecTree2 (b : ℬ) : (⟨ F ⟩ b) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       node1 : ∀(a : A) -> (v : ⟨ F ⟩ b) -> (vs ws : Vec (⟨ F ⟩ b) (l a))
               -> (vs ≡ ws)
               -> WT a v vs
               -> (DVec (DANVecTree2 b) ws) -> DANVecTree2 b v
 
-    elimD2Tree : ∀{b : ℬ} -> (v : ⟨ F ⟩ b) -> DANVecTree2 b v -> ANVecTree b v
-    elimD2Tree v (node1 a .v vs ws x x₁ x₂) = {!!}
+    -- elimD2Tree : ∀{b : ℬ} -> (v : ⟨ F ⟩ b) -> DANVecTree2 b v -> ANVecTree b v
+    -- elimD2Tree v (node1 a .v vs ws x x₁ x₂) = {!!}
 
     -- paths
-    data DANTreeStep : (t s : DANVecTree) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data DANTreeStep : (t s : DANVecTree) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       incl : ∀(b : ℬ) -> (a : A) -> (v : ⟨ F ⟩ b) -> (vs : Vec (⟨ F ⟩ b) (l a))
               -> (wt : WT a v vs)
               -> (ts : Vec DANVecTree (l a))
@@ -120,7 +104,7 @@ module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗
       -- incl : ∀{a : A} -> (ts : ([ l a ]ᶠ -> (VecTree1 A l))) -> (i : [ l a ]ᶠ)
       --       -> TreeStep1 (node1 a ts) (ts i)
 
-    data DANTreePath : (t s : DANVecTree) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data DANTreePath : (t s : DANVecTree) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       [] : ∀{t : DANVecTree} -> DANTreePath t t
       step : ∀{r s t : (DANVecTree)} -> DANTreePath r s -> DANTreeStep s t -> DANTreePath r t
 
@@ -130,19 +114,19 @@ module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗
     -----------------------------------------
     -- ADAN version
 
-    data ADANVecTree : (v : ∑ λ b -> ⟨ F ⟩ b) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data ADANVecTree : (v : ∑ λ b -> ⟨ F ⟩ b) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       node1 : (a : A) -> ∀(b : ℬ) -> (v : ⟨ F ⟩ b) -> (vs : Vec (⟨ F ⟩ b) (l a))
               -> WT a v vs
               -> (Vec (∑ ADANVecTree) (l a)) -> ADANVecTree (b , v)
 
-    data ADANTreeStep : (t s : ∑ ADANVecTree) -> (vout : ⟨ F ⟩ (t .fst .fst))  -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data ADANTreeStep : (t s : ∑ ADANVecTree) -> (vout : ⟨ F ⟩ (t .fst .fst))  -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       incl : (a : A) -> ∀(b : ℬ) -> (v : ⟨ F ⟩ b) -> (vs : Vec (⟨ F ⟩ b) (l a))
               -> (wt : WT a v vs)
               -> (ts : Vec (∑ ADANVecTree) (l a))
               -> (i : Fin-R (l a))
               -> ADANTreeStep (_ , node1 a b v vs wt ts) (lookup i ts) (lookup i vs)
 
-    data ADANTreePath : (t s : ∑ ADANVecTree) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙 ､ 𝑘) where
+    data ADANTreePath : (t s : ∑ ADANVecTree) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑙) where
       [] : ∀{t : ∑ ADANVecTree} -> ADANTreePath t t
       step : ∀{r s t : (∑ ADANVecTree)} -> ∀{vout} -> ADANTreePath r s -> ADANTreeStep s t vout -> ADANTreePath r t
 
@@ -158,29 +142,27 @@ module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗
 
 module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
-  instance
-    isSet-Str:ℬ× : isSet-Str (ℬ× 𝒯)
-    isSet-Str:ℬ× = {!!}
 
   mutual
     constructTerms : ∀{n} {Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ◌}
                     -> {fst₁ : List (Sort 𝒯)}
                     -> {vs : Vec (⟨ F× 𝒯 n ⟩ (incl ◌-Free-𝐌𝐨𝐧)) (length fst₁)}
-                    -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (isWellTyped× 𝒯) (incl ◌-Free-𝐌𝐨𝐧)) vs
-                    -> isSameCtx 𝒯 Γ fst₁ vs
+                    -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌-Free-𝐌𝐨𝐧)) vs
+                    -> isSameCtx Γ fst₁ vs
                     -> CtxHom (Term₁-𝕋× 𝒯) (ι-Free-𝐌𝐨𝐧 fst₁) (map-Free-𝐌𝐨𝐧 (makeSort 𝒯) (asList Γ))
     constructTerms {fst₁ = ⦋⦌} [] P = ◌-⧜
     constructTerms {fst₁ = x ∷ fst₁} (x₁ ∷ ts) (.x ∷ P) = (incl (constructTerm x₁)) ⋆-⧜ constructTerms ts P
 
     constructTerm : ∀{n} {Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ◌} -> ∀{τ}
-                    -> ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (isWellTyped× 𝒯) (incl ◌) (_⊫_ 𝒯 Γ τ)
+                    -> ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌) (_⊫_ Γ τ)
                     -> Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 (makeSort 𝒯) (asList Γ)) (makeSort 𝒯 τ)
-    constructTerm (node1 (isNode (_ , _ , c)) .((𝒯 ⊫ _) (con _)) vs (conType .c x) ts) = con c (constructTerms ts x)
-    constructTerm {Γ = Γ} {τ} (node1 (isVar x₂) .((𝒯 ⊫ _) _) ⦋⦌ (varType .x₂ atl) []) = var (map-∍ (makeSort 𝒯) P)
+    constructTerm (node1 (isNode (_ , _ , c)) _ vs (conType .c x) ts) = con c (constructTerms ts x)
+    constructTerm {Γ = Γ} {τ} (node1 (isVar x₂) _ ⦋⦌ (varType .x₂ atl) []) = var (map-∍ (makeSort 𝒯) P)
       where
         P : asList Γ ∍ τ
         P = atasList' Γ x₂ atl
 
 
-
+{-
+-}
 

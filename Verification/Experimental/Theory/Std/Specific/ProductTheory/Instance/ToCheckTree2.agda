@@ -40,7 +40,7 @@ open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory
 -- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString2
 open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromANVecTree
-
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
@@ -48,9 +48,6 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   comm-lookup-map = {!!}
 
 
-module _ (A : 𝒰 𝑖) (l : A -> ℕ) where
-  data VecTree1 : 𝒰 (𝑖) where
-    node1 : (a : A) -> (Vec VecTree1 (l a)) -> VecTree1
     -- node : (a : A) -> (人Vec VecTree (l a)) -> VecTree
     -- var  : B -> VecTree
 
@@ -90,6 +87,9 @@ module _ {A : 𝒰 𝑖} {l : A -> ℕ} {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗
            (WT : ∀{b} -> (a : A) -> ⟨ F ⟩ b -> Vec (⟨ F ⟩ b) (l a) -> 𝒰 𝑘)
            where
 
+    -- ADANVecTree1 : 
+    ADANVecTree1 = ADANVecTree A l ℬ F WT
+
     mutual
       makeInitialTrees : ∀{n} -> Vec (VecTree1 A l) n -> Vec (∑ ADANVecTree A l ℬ F WT) n
       makeInitialTrees ⦋⦌ = ⦋⦌
@@ -99,35 +99,38 @@ module _ {A : 𝒰 𝑖} {l : A -> ℕ} {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗
       makeInitialTree (node1 a x) = _ , (node1 a (initb a) (initv a) (initvs a) {!!} (makeInitialTrees x))
 
     mutual
-      ibounds : 人List ℬ -> Vec (VecTree1 A l) n -> 人List ℬ
+      ibounds : 人List ℬ -> Vec (∑ ADANVecTree1) n -> 人List ℬ
       ibounds ac ⦋⦌ = ac
       ibounds ac (x ∷ v) = ibounds (ac ⋆ ibound x) v
 
-      ibound : VecTree1 A l -> 人List ℬ
-      ibound (node1 a x) = ibounds (incl (initb a)) x
+      ibound : ∑ ADANVecTree1 -> 人List ℬ
+      ibound (_ , node1 a b _ _ _ x) = ibounds (incl b) x
 
     private
-      lem-1 : ∀{a} -> {ac : 人List ℬ} -> (ts : Vec (VecTree1 A l) n) -> ac ∍ a -> ibounds ac ts ∍ a
+      lem-1 : ∀{a} -> {ac : 人List ℬ} -> (ts : Vec (∑ ADANVecTree1) n) -> ac ∍ a -> ibounds ac ts ∍ a
       lem-1 ⦋⦌ p = p
       lem-1 (x ∷ ts) p = lem-1 ts (left-∍ p)
 
+      lem-1' : (t : ∑ ADANVecTree1) -> ibound t ∍ (t .fst .fst)
+      lem-1' (_ , node1 a _ _ _ _ x) = lem-1 x incl
+
+      lem-2 : ∀{a} -> {ac : 人List ℬ} -> (ts : Vec (∑ ADANVecTree1) n) -> (i : Fin-R n) -> ibound (lookup i ts) ∍ a -> ibounds ac ts ∍ a
+      lem-2 (x ∷ ts) zero p = lem-1 ts (right-∍ p)
+      lem-2 (x ∷ ts) (suc i) p = lem-2 ts i p
+
+
     mutual
-      appendStrategy : ∀{as a} -> (s : Strategy as) -> (as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (v : Vec (VecTree1 A l) n) -> Strategy (ibounds as v)
+      appendStrategy : ∀{as a} -> (s : Strategy as) -> (as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (v : Vec (∑ ADANVecTree1) n) -> Strategy (ibounds as v)
       appendStrategy s as∍a ⦋⦌ ⦋⦌ = s
-      appendStrategy s as∍a (v ∷ vs) (t ∷ ts) =
-        let tstrat , trt = makeStrategy t
-        in appendStrategy (resolve s tstrat (rtarget _ as∍a v , trt)) (left-∍ as∍a) vs ts
+      appendStrategy s as∍a (v ∷ vs) (t@((tb , tv) , ttree) ∷ ts) =
+        let tstrat = makeStrategy t
+        in appendStrategy (resolve s tstrat (rtarget _ as∍a v , rtarget tb (lem-1' t) tv)) (left-∍ as∍a) vs ts
 
-      makeStrategy : (v : VecTree1 A l) -> (Strategy (ibound v) × ResolutionTarget (ibound v))
-      makeStrategy (node1 a x) = appendStrategy (begin (initb a)) incl (initvs a) x , rt1
-        where
-          init∍b : ibounds (incl (initb a)) x ∍ (initb a)
-          init∍b = lem-1 x incl
-
-          rt1 : ResolutionTarget (ibounds (incl (initb a)) x)
-          rt1 = rtarget _ (init∍b) (initv a)
+      makeStrategy : (v : ∑ ADANVecTree1) -> Strategy (ibound v)
+      makeStrategy (_ , node1 a b v vs _ x) = appendStrategy (begin b) incl vs x -- , rt1
 
 
+{-
     isValidStrategy1 : ∀{as b} -> (t : ADANVecTree A l ℬ F WT b) -> (s : Strategy as) -> 𝒰 _
     isValidStrategy1 {as} {b} t _ = ∀{b1} -> (v1 : ⟨ F ⟩ b1) -> (ADANVertex A l ℬ F WT) v1 (_ , t) -> as ∍ b1
 
@@ -143,43 +146,189 @@ module _ {A : 𝒰 𝑖} {l : A -> ℕ} {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗
                        -> (valid1 : isValidStrategy1 t s) -> (valid2 : isValidStrategy2 t s) -> 𝒰 _
     isValidStrategy3₁ t s valid1 valid2 = ∀{b1 b2} -> (v1 : ⟨ F ⟩ b1) (v2 : ⟨ F ⟩ b2) (vout : ⟨ F ⟩ b1)-> (e : (ADANEdge A l ℬ F WT) v1 v2 vout (_ , t))
                                  -> getElemSt₁ (valid2 v1 v2 vout e) ≡ valid1 v2 ((e .snd .fst) , (step (e .snd .snd .fst) (e .snd .snd .snd))) -- (e .fst , e .snd .snd .fst)
+                                 -}
 
     -- we show that `makeStrategy` creates a valid strategy
 
-    module _ (t : VecTree1 A l) where
-      valid1:makeStrategy : isValidStrategy1 (makeInitialTree t .snd) (makeStrategy t .fst)
-      valid1:makeStrategy = P t
-        where
-          -- ibounds : 人List ℬ -> Vec (VecTree1 A l) n -> 人List ℬ
-          -- (t : VecTree1 A l) -> ∀{b1} -> (v1 : ⟨ F ⟩ b1) -> (ADANVertex A l ℬ F WT) v1 (makeInitialTree t) -> ibound t ∍ b1
+    module myproofs1 where
 
-          Ps0 : {ac : 人List ℬ} -> ∀{a} -> (ac ∍ a) -> (ts : Vec (VecTree1 A l) n) -> ibounds (ac) ts ∍ a
-          Ps0 p ⦋⦌ = p
-          Ps0 p (x ∷ ts) = Ps0 (left-∍ p) ts
 
-          Ps : {ac : 人List ℬ} -> ∀{b1} -> (ts : Vec (VecTree1 A l) n) -> (i : Fin-R n) -> ibounds ac ts ∍ b1
-          Ps t = {!!}
+      Pstep : ∀{b} -> {t s : ∑ ADANVecTree1}
+                    -> ∀{vout}
+                    -> ADANTreeStep A l ℬ F WT (t) (s) vout
+                    -> ibound s ∍ b -> ibound t ∍ b
+      Pstep (incl a b v vs wt ts i) bp = lem-2 ts i bp
 
-          P0 : (t : VecTree1 A l) -> ibound t ∍ (makeInitialTree t .fst .fst)
-          P0 (node1 a x) = Ps0 incl x
+      Ppath : ∀{b} -> {t s : ∑ ADANVecTree1}
+                    -> ADANTreePath A l ℬ F WT (t) (s)
+                    -> ibound s ∍ b -> ibound t ∍ b
+      Ppath [] bp = bp
+      Ppath (step p x) bp = Ppath p (Pstep x bp)
 
-          -- Pstep : ∀{b} -> (t s : VecTree1 A l) -> ∀{vout}
-          --              -> ADANTreeStep A l ℬ F WT (makeInitialTree t) (makeInitialTree s) vout
-          --              -> ibound s ∍ b -> ibound t ∍ b
+      P : ∀{t s : ∑ ADANVecTree1} -> ADANTreePath A l ℬ F WT t s -> ibound t ∍ s .fst .fst
+      P {t = t} {s} p = Ppath p (lem-1' s)
 
-          Pstep : ∀{b} -> (t' s' : ∑ ADANVecTree A l ℬ F WT)
-                       -> (t s : VecTree1 A l)
-                       -> (makeInitialTree t ≡ t') -> (makeInitialTree s ≡ s')
-                       -> ∀{vout}
-                       -> ADANTreeStep A l ℬ F WT (t') (s') vout
-                       -> ibound s ∍ b -> ibound t ∍ b
-          Pstep .((b , v) , node1 a b v vs wt ts) .(lookup i ts) t s ptt pss (incl a b v vs wt ts i) bm = {!!}
+      -- about edges
+      map-append : ∀{as a} -> {s : Strategy as} -> {p : as ∍ a} -> {vs : Vec (⟨ F ⟩ a) n} -> {ts : Vec (∑ ADANVecTree1) n}
+                   -> (rp : ResolutionPair₂)
+                   -> s ∍-St₂ rp
+                   -> appendStrategy s p vs ts ∍-St₂ rp
+      map-append {vs = ⦋⦌} {⦋⦌} rp p = p
+      map-append {vs = x ∷ vs} {x₁ ∷ ts} rp p = map-append {vs = vs} {ts} rp (left-∍ p)
 
-          P : (t : VecTree1 A l) -> ∀{b1} -> (v1 : ⟨ F ⟩ b1) -> (ADANVertex A l ℬ F WT) v1 (makeInitialTree t) -> ibound t ∍ b1
-          P (node1 a x) .(snd (fst (makeInitialTree (node1 a x)))) (.(snd (makeInitialTree (node1 a x))) , []) = Ps0 incl x
-          P (node1 a ts) v1 (t-next , step p s) = {!!}
-          -- Ps ts {!!}
 
+
+      P1s : ∀{as a} -> {s : Strategy as} -> {p : as ∍ a} -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+            -> (i : Fin-R n)
+            -> appendStrategy s p vs ts ∍-St₂
+                (rtarget a (lookup i vs) ,
+                rtarget (lookup i ts .fst .fst) (lookup i ts .fst .snd))
+      P1s {as = as} {a} {s = s} {p} (x ∷ vs) (t@((tb , tv) , ttree) ∷ ts) zero = map-append {vs = vs} {ts = ts} _ (incl _ _ p (lem-1' t) x tv)
+      P1s {s = s} (x ∷ vs) (t@((tb , tv) , node1 a .tb .tv vs₁ x₁ x₂) ∷ ts) (suc i) = P1s vs ts i
+
+
+
+
+      lem-4 : ∀{as a} -> (s : Strategy as) -> (p : as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+                   -> (rp : ResolutionPair₂)
+                   -> (i : Fin-R n)
+                   -> makeStrategy (lookup i ts) ∍-St₂ rp
+                   -> appendStrategy s p vs ts ∍-St₂ rp
+      lem-4 s p (x ∷ vs) (t ∷ ts) rp zero sp = map-append {vs = vs} {ts = ts} _ (right-∍ sp)
+      lem-4 s p (x ∷ vs) (x₁ ∷ ts) rp (suc i) sp = lem-4 _ _ vs ts rp i sp
+
+
+      P1 : {t s : ∑ ADANVecTree1} -> ∀{vout} -> ADANTreeStep A l ℬ F WT t s vout -> makeStrategy t ∍-St₂ ((rtarget _ vout) , (rtarget (s .fst .fst) (s .fst .snd)))
+      P1 (incl a b v vs wt ts i) = P1s vs ts i
+
+      P1step : {t s : ∑ ADANVecTree1} -> ∀{vout} -> ADANTreeStep A l ℬ F WT t s vout
+               -> ∀{rp : ResolutionPair₂} -> makeStrategy s ∍-St₂ rp -> makeStrategy t ∍-St₂ rp
+      P1step (incl a b v vs wt ts i) {rp} sp = lem-4 (begin b) incl vs ts rp i sp
+
+{-
+      P1path : {t s : ∑ ADANVecTree1} -> ADANTreePath A l ℬ F WT t s
+               -> ∀{rp : ResolutionPair₂} -> makeStrategy s ∍-St₂ rp -> makeStrategy t ∍-St₂ rp
+      P1path [] P = P
+      P1path (step pat x) P = P1path pat (P1step x P)
+
+      -- lem-1₀ : ∀{a} -> {ac : 人List ℬ} -> {ts : Vec (∑ ADANVecTree1) n} -> {ac ∍ a} -> ibounds ac ts ∍ a
+
+
+      lem-1₀ : ∀{as a} -> (s : Strategy as)
+                    -> (p : as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+                   -> (rp : ResolutionPair₂)
+                   -> {sep : s ∍-St₂ rp}
+                   -> {bop : as ∍ rp .fst .fst}
+                   -> getElemSt₀ sep ≡ bop
+                   -> getElemSt₀ (map-append {s = s} {p = p} {vs = vs} {ts = ts} rp (sep)) ≡ lem-1 ts (bop)
+      lem-1₀ s p ⦋⦌ ⦋⦌ rp sepbop = sepbop
+      lem-1₀ s p (x ∷ vs) (x₁ ∷ ts) rp sepbop = lem-1₀ _ _ vs ts rp (cong left-∍ sepbop) -- sepbop
+
+-}
+
+      lem-1₁ : ∀{as a} -> (s : Strategy as)
+                    -> (p : as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+                   -> (rp : ResolutionPair₂)
+                   -> {sep : s ∍-St₂ rp}
+                   -> {bop : as ∍ rp .snd .fst}
+                   -> getElemSt₁ sep ≡ bop
+                   -> getElemSt₁ (map-append {s = s} {p = p} {vs = vs} {ts = ts} rp (sep)) ≡ lem-1 ts (bop)
+      lem-1₁ s p ⦋⦌ ⦋⦌ rp sepbop = sepbop
+      lem-1₁ s p (x ∷ vs) (x₁ ∷ ts) rp sepbop = lem-1₁ _ _ vs ts rp (cong left-∍ sepbop) -- sepbop
+
+      -- lem-1u : ∀{as a} -> (s : Strategy as)
+      --               -> (p : as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+      --              -> (rp : ResolutionPair₂)
+      --              -> {sep : s ∍-St₂ rp}
+      --              -> getElemSt₀ (map-append {s = s} {p = p} {vs = vs} {ts = ts} rp (sep)) ≡ lem-1 ts (getElemSt₀ sep)
+      -- lem-1u s p ⦋⦌ ⦋⦌ rp sepbop = sepbop
+      -- lem-1u s p (x ∷ vs) (x₁ ∷ ts) rp sepbop = lem-1₀ _ _ vs ts rp (cong left-∍ sepbop) -- sepbop
+
+{-
+      lem-42₀ : ∀{as a} -> (s : Strategy as) -> (p : as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+                   -> (rp : ResolutionPair₂)
+                   -> (i : Fin-R n)
+                   -> {sep : makeStrategy (lookup i ts) ∍-St₂ rp}
+                   -> {bop : ibound (lookup i ts) ∍ rp .fst .fst}
+                   -> getElemSt₀ sep ≡ bop
+                   -> getElemSt₀ (lem-4 s p vs ts rp i sep) ≡ lem-2 ts i bop
+      lem-42₀ s p (x ∷ vs) (x₁ ∷ ts) rp zero sepbop = lem-1₀ _ _ vs ts rp (cong right-∍ sepbop) -- sepbop
+      lem-42₀ s p (x ∷ vs) (x₁ ∷ ts) rp (suc i) sepbop = lem-42₀ _ _ vs ts rp i sepbop
+
+-}
+      lem-42₁ : ∀{as a} -> (s : Strategy as) -> (p : as ∍ a) -> (vs : Vec (⟨ F ⟩ a) n) -> (ts : Vec (∑ ADANVecTree1) n)
+                   -> (rp : ResolutionPair₂)
+                   -> (i : Fin-R n)
+                   -> {sep : makeStrategy (lookup i ts) ∍-St₂ rp}
+                   -> {bop : ibound (lookup i ts) ∍ rp .snd .fst}
+                   -> getElemSt₁ sep ≡ bop
+                   -> getElemSt₁ (lem-4 s p vs ts rp i sep) ≡ lem-2 ts i bop
+      lem-42₁ s p (x ∷ vs) (x₁ ∷ ts) rp zero sepbop = lem-1₁ _ _ vs ts rp (cong right-∍ sepbop) -- sepbop
+      lem-42₁ s p (x ∷ vs) (x₁ ∷ ts) rp (suc i) sepbop = lem-42₁ _ _ vs ts rp i sepbop
+
+{-
+      lem-step : {t s : ∑ ADANVecTree1} -> ∀{vout} -> (pat : ADANTreeStep A l ℬ F WT t s vout)
+               -> ∀{rp : ResolutionPair₂} -> {sep : makeStrategy s ∍-St₂ rp}
+               -> {bop : ibound s ∍ rp .fst .fst}
+               -> getElemSt₀ sep ≡ bop
+               -> getElemSt₀ (P1step pat sep) ≡  (Pstep pat bop)
+      lem-step (incl a b v vs wt ts i) {rp} p = lem-42₀ (begin b) incl vs ts rp i p
+
+
+      lem-path : {t s : ∑ ADANVecTree1} -> (pat : ADANTreePath A l ℬ F WT t s)
+               -> ∀{rp : ResolutionPair₂} -> {sep : makeStrategy s ∍-St₂ rp}
+               -> {bop : ibound s ∍ rp .fst .fst}
+               -> getElemSt₀ sep ≡ bop
+               -> getElemSt₀ (P1path pat sep) ≡  (Ppath pat bop)
+      lem-path [] p = p
+      lem-path (step pat x) p = lem-path pat (lem-step x p)
+
+
+      lem-step₁ : {t s : ∑ ADANVecTree1} -> ∀{vout} -> (pat : ADANTreeStep A l ℬ F WT t s vout)
+               -> ∀{rp : ResolutionPair₂} -> {sep : makeStrategy s ∍-St₂ rp}
+               -> {bop : ibound s ∍ rp .snd .fst}
+               -> getElemSt₁ sep ≡ bop
+               -> getElemSt₁ (P1step pat sep) ≡  (Pstep pat bop)
+      lem-step₁ (incl a b v vs wt ts i) sepbop = lem-42₁ (begin b) incl vs ts _ i sepbop
+-}
+{-
+      lem-path₁ : {t s : ∑ ADANVecTree1} -> (pat : ADANTreePath A l ℬ F WT t s)
+               -> ∀{rp : ResolutionPair₂} -> {sep : makeStrategy s ∍-St₂ rp}
+               -> {bop : ibound s ∍ rp .snd .fst}
+               -> getElemSt₁ sep ≡ bop
+               -> getElemSt₁ (P1path pat sep) ≡  (Ppath pat bop)
+      lem-path₁ [] p = p
+      lem-path₁ (step pat x) p = lem-path₁ pat (lem-step₁ x p)
+
+
+      -- same-path : {t s : ∑ ADANVecTree1} -> (p : ADANTreePath A l ℬ F WT t s) -> ∀{rp : ResolutionPair₂}
+      --             -> (sp : makeStrategy s ∍-St₂ rp) -> getElemSt₀ (P1path p sp) ≡ P 
+      -- same-path p 
+
+      -- same-1 : {t2 t3 : ∑ ADANVecTree1} -> ∀{vout} -> (p : ADANTreeStep A l ℬ F WT t2 t3 vout) -> ∀{rp : ResolutionPair₂}
+      --             -> (getElemSt₀ (P1 p) ≡ lem-1' t2) × (getElemSt₁ (P1 p) ≡ lem-1' ({!!} , {!t3 .snd!}))
+      -- same-1 (incl a b v vs wt ts i) = {!!}
+
+    module _ (t : ∑ ADANVecTree1) where
+      valid1:makeStrategy : isValidStrategy1 (t .snd) (makeStrategy t)
+      valid1:makeStrategy v1 (s , vert) = myproofs1.P vert
+
+      valid2:makeStrategy : isValidStrategy2 (t .snd) (makeStrategy t)
+      valid2:makeStrategy v1 v2 vout (t2 , t3 , pat , ed) = myproofs1.P1path pat (myproofs1.P1 ed)
+
+      isValidStrategy3₀:makeStrategy : ∀{b1 b2} -> (v1 : ⟨ F ⟩ b1) (v2 : ⟨ F ⟩ b2) (vout : ⟨ F ⟩ b1)-> (e : (ADANEdge A l ℬ F WT) v1 v2 vout t)
+                                  -> getElemSt₀ (valid2:makeStrategy v1 v2 vout e) ≡ valid1:makeStrategy v1 (e .fst , e .snd .snd .fst)
+      isValidStrategy3₀:makeStrategy v1 v2 vout (t1 , t2 , p , ed) = myproofs1.lem-path p {!!}
+
+
+      isValidStrategy3₁:makeStrategy : ∀{b1 b2} -> (v1 : ⟨ F ⟩ b1) (v2 : ⟨ F ⟩ b2) (vout : ⟨ F ⟩ b1)-> (e : (ADANEdge A l ℬ F WT) v1 v2 vout t)
+                                     -> getElemSt₁ (valid2:makeStrategy v1 v2 vout e) ≡ valid1:makeStrategy v2 ((e .snd .fst) , (step (e .snd .snd .fst) (e .snd .snd .snd)))
+      isValidStrategy3₁:makeStrategy v1 v2 vout (t1 , t2 , p , ed)= myproofs1.lem-path₁ p {!!}
+
+-}
+
+{-
+{-
 
 {-
     module _ {as tb} (t : ADANVecTree A l ℬ F WT tb) (s : Strategy as)
@@ -247,4 +396,5 @@ module _ {A : 𝒰 𝑖} {l : A -> ℕ} {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗
             ts' = makeFinalTrees ts (map-Vec (map f0) vs) (λ i → step p (incl a b0 vb0 vs wt ts i)) (λ i → lem-04 i ∙-≡ sym-Path (lem-02 i) ∙-≡ sym-Path (lem-03 i) ∙-≡ sym-Path (comm-lookup-map  {i = i}))
 
 -}
-
+-}
+-}

@@ -35,11 +35,22 @@ open import Verification.Experimental.Category.Std.Morphism.Iso
 
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
-
+open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
 
 -- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString2
 -- open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
 
+instance
+  isSet-Str:⊤ : isSet-Str (⊤-𝒰 {𝑖})
+  isSet-Str:⊤ = {!!}
+
+  isDiscrete:⊤ : isDiscrete (⊤-𝒰 {𝑖})
+  isDiscrete:⊤ = {!!}
+
+
+module _ (A : 𝒰 𝑖) (l : A -> ℕ) where
+  data VecTree1 : 𝒰 (𝑖) where
+    node1 : (a : A) -> (Vec VecTree1 (l a)) -> VecTree1
 
 
 module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
@@ -60,7 +71,6 @@ instance
 
 UntypedCon : ProductTheory 𝑖 -> 𝒰 _
 UntypedCon 𝒯 = ∑ λ xs -> ∑ λ x -> Con 𝒯 xs x
-
 
 module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
@@ -94,6 +104,9 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
     var : [ n ]ᶠ -> SortTermᵈ n
     con : Sort 𝒯 -> SortTermᵈ n
 
+  Sort×Theory : ProductTheory ℓ₀
+  Sort×Theory = record { Sort = ⊤-𝒰 ; Con = λ x x₁ → Sort 𝒯 }
+
   SortTermᵘ : 𝐅𝐢𝐧𝐈𝐱 (⊤-𝒰 {ℓ₀}) -> 𝐈𝐱 (⊤-𝒰 {ℓ₀}) (𝐔𝐧𝐢𝐯 ℓ₀)
   SortTermᵘ a = indexed (λ _ → SortTermᵈ ⟨ a ⟩)
 
@@ -126,6 +139,60 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
   makeSort : SortTermᵈ ◌ -> Sort 𝒯
   makeSort (con x) = x
+
+module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
+
+  module _ {n : 人ℕ} where
+    _⊫_ : ∀{b : ℬ× 𝒯} -> (Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ⟨ b ⟩) -> SortTermᵈ 𝒯 ⟨ b ⟩ -> ⟨ F× 𝒯 n ⟩ b
+    _⊫_ {b} Γ τ = ⧜subst (Γ ⋆-⧜ (incl τ))
+
+    module _ {b : ℬ× 𝒯} where
+      data isSameCtx : (Γ : CtxHom (λ b _ -> SortTermᵈ 𝒯 b) n ⟨ b ⟩)
+                       -> (τs : List (Sort 𝒯))
+                       -> (vs : Vec (⟨ F× 𝒯 n ⟩ b) (length τs))
+                       -> 𝒰 ℓ₀ where
+        [] : ∀{Γ} -> isSameCtx Γ [] []
+        _∷_ : ∀{Γ τs vs} -> (τ : Sort 𝒯) -> isSameCtx Γ τs vs -> isSameCtx Γ (τ ∷ τs) (Γ ⊫ con τ ∷ vs)
+
+    data isWellTyped× {b : ℬ× 𝒯} : (a : Node 𝒯 n)
+                                 -> (v : ⟨ F× 𝒯 n ⟩ b)
+                                 -> (vs : Vec (⟨ F× 𝒯 n ⟩ b) (size× 𝒯 a))
+                                 -> 𝒰 ℓ₀ where
+      varType : (i : [ n ]ᶠ)
+                -> ∀{Γ τ}
+                -> atList Γ i ≣ τ
+                -> isWellTyped× (isVar i) (Γ ⊫ τ) []
+
+      conType : ∀{τs τ} -> (c : Con 𝒯 τs τ)
+                -> ∀{Γ vs}
+                -> isSameCtx Γ τs vs
+                -> isWellTyped× (isNode (_ , _ , c)) (Γ ⊫ (con τ)) vs
+
+
+  -----------------------------------------
+  -- boundary definitions
+
+
+  instance
+    isCheckingBoundary:× : ∀{n} -> isCheckingBoundary (ℬ× 𝒯) (F× 𝒯 n)
+    isCheckingBoundary:× = record { tryMerge = {!!} }
+
+  instance
+    hasBoundary:× : ∀{n} -> hasBoundary (ℬ× 𝒯) (F× 𝒯 n) (Node 𝒯 n) (size× 𝒯)
+    hasBoundary:× = record
+                      { initb = {!!}
+                      ; initv = {!!}
+                      ; initvs = {!!}
+                      ; WT = isWellTyped×
+                      ; initwt = {!!}
+                      ; map-WT = {!!}
+                      }
+
+  instance
+    isSet-Str:ℬ× : isSet-Str (ℬ× 𝒯)
+    isSet-Str:ℬ× = {!!}
+
+
 
 {-
   module §-SortTerm where

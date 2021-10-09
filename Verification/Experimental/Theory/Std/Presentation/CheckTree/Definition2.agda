@@ -35,6 +35,20 @@ record isCheckingBoundary (ℬ : Category 𝑖) (F : Functor ℬ (𝐔𝐧𝐢�
 
 open isCheckingBoundary {{...}} public
 
+record hasBoundary (ℬ : Category 𝑖) (F : Functor ℬ (𝐔𝐧𝐢𝐯 𝑗)) {{_ : isCheckingBoundary ℬ F}} (A : 𝒰 𝑘) (l : A -> ℕ) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘 ⁺) where
+  field initb : A -> ⟨ ℬ ⟩
+  field initv : ∀(a : A) -> ⟨ F ⟩ (initb a)
+  field initvs : ∀(a : A) -> Vec (⟨ F ⟩ (initb a)) (l a)
+  field WT : ∀{b} -> (a : A) -> ⟨ F ⟩ b -> Vec (⟨ F ⟩ b) (l a) -> 𝒰 𝑘
+  field initwt : ∀{b a} -> {vb : ⟨ F ⟩ b} -> {vs : Vec (⟨ F ⟩ b) (l a)} -> WT a vb vs
+  field map-WT : ∀{b x} -> {a : A} -> {v0 : ⟨ F ⟩ b} -> {vs : Vec (⟨ F ⟩ b) (l a)}
+                 -> (ϕ : b ⟶ x)
+                 -> WT a v0 vs
+                 -> WT a (map ϕ v0) (map-Vec (map ϕ) vs)
+
+open hasBoundary {{...}} public
+
+
 module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {F : Functor ′ ℬ ′ (𝐔𝐧𝐢𝐯 𝑙)} {{_ : isCheckingBoundary ′ ℬ ′ F}}
        where
 
