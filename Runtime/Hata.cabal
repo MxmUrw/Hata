@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f9a36c6cb99d14f56a6700f9bfa75f3a45652fd44ce1f0697cbe30409064cbf4
+-- hash: 6b76b415814b76664b23f2643a340523f4f0a1ee249c71c82902454c264b145c
 
 name:           Hata
 version:        0.1.0.0
@@ -59,12 +59,13 @@ library
     , gi-gmodule
     , gi-gtk
     , haskell-gi-base
+    , megaparsec
     , optparse-applicative
-    , parsec
     , text
     , time
     , transformers
     , unordered-containers
+    , void
   default-language: Haskell2010
 
 executable hata

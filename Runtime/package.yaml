@@ -30,7 +30,8 @@ library:
     - transformers
     - unordered-containers
     - optparse-applicative
-    - parsec
+    - megaparsec
+    - void
     - haskell-gi-base
     - gi-gtk
     - gi-gmodule
