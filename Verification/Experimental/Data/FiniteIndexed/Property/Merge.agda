@@ -1,7 +1,7 @@
 
 module Verification.Experimental.Data.FiniteIndexed.Property.Merge where
 
-open import Verification.Experimental.Conventions hiding (_⊔_)
+open import Verification.Experimental.Conventions hiding (_⊔_ ; ℕ)
 
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Set.Definition
@@ -22,6 +22,7 @@ open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Experimental.Data.Universe.Instance.SeparatingFamily
 
+open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Xiix
@@ -149,6 +150,13 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
 
   single-∍ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 (incl a) ⟶ 𝑒𝑙 as
   single-∍ x i incl = x
+
+  module §-\\ where
+    prop-1 : ∀{as : 人List A} -> {a : A} -> {ap : as ∍ a} -> 人length as ≣ suc (人length (as \\ ap))
+    prop-1 {.(incl a)} {a} {incl} = refl-≣
+    prop-1 {as ⋆-⧜ bs} {a} {right-∍ ap} = refl ≀⋆≀ prop-1 {ap = ap} ∙ (+-suc (人length as) (人length (bs \\ ap)))
+    prop-1 {as ⋆-⧜ bs} {a} {left-∍ ap} = prop-1 {ap = ap} ≀⋆≀ refl
+    -- λ i -> prop-1 {ap = ap} i +-ℕ 人length bs
 
 
   -- private

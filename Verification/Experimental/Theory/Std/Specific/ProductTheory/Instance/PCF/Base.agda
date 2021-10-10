@@ -95,18 +95,19 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
 
 
+
   decide-Base-𝕋× : ∀{a b : 𝐂𝐭𝐱 𝑨} -> ∀(f g : a ⟶ b) -> isBase-𝕋× (f , g) -> hasSizedCoequalizerDecision (f , g)
   decide-Base-𝕋× f g isBase:⊥ = right (hasSizedCoequalizer:byInitial)
   decide-Base-𝕋× f g (isBase:sym p) with decide-Base-𝕋× g f p
   ... | left ¬p = left $ λ q -> ¬p (hasCoequalizerCandidate:bySym q)
   ... | right p = right (hasSizedCoequalizer:bySym p)
   decide-Base-𝕋× f .f isBase:id = right (hasSizedCoequalizer:byId)
-  decide-Base-𝕋× .(⧜subst (incl (var x))) .(⧜subst (incl (var y))) (isBase:var {s} {Γ} x y y≠x) = right (hasCoequalizer:varvar x y y≠x , {!!})
+  decide-Base-𝕋× .(⧜subst (incl (var x))) .(⧜subst (incl (var y))) (isBase:var {s} {Γ} x y y≠x) = right (hasSizedCoequalizer:varvar x y y≠x)
   decide-Base-𝕋× f g (isBase:con-var c ts v) with isFreeVar (con c ts) v
-  ... | left ¬occ = right (hasCoequalizer:byNoOccur (con c ts) v ¬occ , {!!})
-  ... | just occ  = left {!!} -- (hasNoCoequalizer:byOccur (con c ts) v occ refl)
-  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con .c .d .tsx .tsy p)  = left {!!} --  (hasNoCoequalizer:byCon  c d tsx tsy p)
-  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizer:byCon₂ c d tsx tsy p)
+  ... | left ¬occ = right (hasSizedCoequalizer:byNoOccur (con c ts) v ¬occ)
+  ... | just occ  = left (hasNoCoequalizerCandidate:byOccur (con c ts) v occ refl)
+  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con .c .d .tsx .tsy p)  = left (hasNoCoequalizerCandidate:byCon  c d tsx tsy p)
+  decide-Base-𝕋× (⧜subst (incl (con c tsx))) (⧜subst (incl (con d tsy))) (isBase:con≠con₂ .c .d .tsx .tsy p) = left (hasNoCoequalizerCandidate:byCon₂ c d tsx tsy p)
 
 
 

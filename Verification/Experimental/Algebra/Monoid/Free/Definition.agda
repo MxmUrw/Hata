@@ -2,7 +2,7 @@
 module Verification.Experimental.Algebra.Monoid.Free.Definition where
 
 
-open import Verification.Experimental.Conventions
+open import Verification.Experimental.Conventions hiding (ℕ)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
@@ -10,8 +10,15 @@ open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Free
 open import Verification.Experimental.Set.Function.Injective
 open import Verification.Experimental.Data.Prop.Definition
+open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Set.Contradiction
+
+
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
+  ≡→∼ : ∀{a b : A} -> a ≡ b -> a ∼ b
+  ≡→∼ {a} p = transport (λ i -> a ∼ p i) refl
+
 
 pattern ⦋⦌ = []
 -- pattern ⦋_⦌ a = a ∷ []
@@ -216,6 +223,10 @@ module _ {A : 𝒰 𝑖} where
     hasInclusion:List,Free-𝐌𝐨𝐧 : hasInclusion (List A) (Free-𝐌𝐨𝐧 A)
     hasInclusion:List,Free-𝐌𝐨𝐧 = inclusion ι-Free-𝐌𝐨𝐧
 
+  pres-⋆-ι-Free-𝐌𝐨𝐧 : ∀{as bs : List A} -> ι (as ⋆ bs) ∼ ι as ⋆ ι bs
+  pres-⋆-ι-Free-𝐌𝐨𝐧 {⦋⦌} {bs} = unit-l-⋆ ⁻¹
+  pres-⋆-ι-Free-𝐌𝐨𝐧 {x ∷ as} {bs} = refl ≀⋆≀ pres-⋆-ι-Free-𝐌𝐨𝐧 ∙ assoc-r-⋆
+
   -- the normalization into lists
   ♮-Free-𝐌𝐨𝐧 : Free-𝐌𝐨𝐧 A -> List A
   ♮-Free-𝐌𝐨𝐧 (incl x) = x ∷ []
@@ -225,6 +236,14 @@ module _ {A : 𝒰 𝑖} where
   instance
     hasNormalization:Free-𝐌𝐨𝐧,List : hasNormalization (Free-𝐌𝐨𝐧 A) (List A)
     hasNormalization:Free-𝐌𝐨𝐧,List = normalization ♮-Free-𝐌𝐨𝐧
+
+  surj-♮-Free-𝐌𝐨𝐧 : ∀{a : Free-𝐌𝐨𝐧 A} -> ι (♮ a) ∼ a
+  surj-♮-Free-𝐌𝐨𝐧 {incl x} = unit-r-⋆
+  surj-♮-Free-𝐌𝐨𝐧 {a ⋆-Free-𝐌𝐨𝐧 a₁} = pres-⋆-ι-Free-𝐌𝐨𝐧 ∙ surj-♮-Free-𝐌𝐨𝐧 ≀⋆≀ surj-♮-Free-𝐌𝐨𝐧
+  surj-♮-Free-𝐌𝐨𝐧 {◌-Free-𝐌𝐨𝐧} = refl
+
+  injective-♮-Free-𝐌𝐨𝐧 : ∀{a b : Free-𝐌𝐨𝐧 A} -> ♮ a ≡ ♮ b -> a ∼ b
+  injective-♮-Free-𝐌𝐨𝐧 p = surj-♮-Free-𝐌𝐨𝐧 ⁻¹ ∙ ≡→∼ (cong ι p) ∙ surj-♮-Free-𝐌𝐨𝐧
 
 
 
@@ -259,3 +278,9 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   map-∍ f (right-∍ x) = right-∍ (map-∍ f x)
   map-∍ f (left-∍ x) = left-∍ (map-∍ f x)
 
+
+-- length of lists
+
+module _ {A : 𝒰 𝑖} where
+  人length : ∀(a : Free-𝐌𝐨𝐧 A) -> ℕ
+  人length = rec-Free-𝐌𝐨𝐧 (const 1)

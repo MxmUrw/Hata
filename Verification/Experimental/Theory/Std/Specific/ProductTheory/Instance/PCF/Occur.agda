@@ -34,6 +34,7 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Base
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Reflection
+open import Verification.Experimental.Category.Std.Category.Sized.Definition
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
 open import Verification.Experimental.Order.WellFounded.Definition
@@ -55,6 +56,7 @@ open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
 
 -- open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 
@@ -143,6 +145,9 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
       π' : ι (incl Γ) ⟶ ι (Γ')
       π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map t' ⟩ ⦘)
+
+      lem-12 : 人length ⟨ ⟨ ι Γ' ⟩ ⟩ ≪-𝒲-𝕋× 人length Γ
+      lem-12 =  incl (zero , (§-\\.prop-1 {as = Γ} ⁻¹ ))
 
       mutual
         lem-4s : ∀{Γ τ Δ} (t : Terms-𝕋× 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-Terms-𝕋× t v))
@@ -234,6 +239,8 @@ module _ {𝑨 : 𝕋× 𝑖} where
     hasCoequalizer:byNoOccur : hasCoequalizer (⧜subst (incl t)) (simpleVar v)
     hasCoequalizer:byNoOccur = Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
 
+    hasSizedCoequalizer:byNoOccur : hasSizedCoequalizer (⧜subst (incl t)) (simpleVar v)
+    hasSizedCoequalizer:byNoOccur = hasCoequalizer:byNoOccur , right lem-12
 
 
 

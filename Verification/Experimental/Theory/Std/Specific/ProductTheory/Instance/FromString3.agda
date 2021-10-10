@@ -55,6 +55,11 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 ι-Fin-R-[]ᶠ zero = tt , left-∍ incl
 ι-Fin-R-[]ᶠ (suc i) = ι-Fin-R-[]ᶠ i .fst , right-∍ (ι-Fin-R-[]ᶠ i .snd)
 
+getNum : ∀{A : 𝒰 𝑖} {as : 人List A} {a : A} -> (p : as ∍ a) -> ℕ
+getNum incl = zero
+getNum {as = as ⋆-⧜ bs} (right-∍ p) = 人length bs +-ℕ getNum p
+getNum (left-∍ p) = getNum p
+
 module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} {{Def : TokenDefinition (UntypedCon 𝒯)}} where
 
   private
@@ -65,7 +70,7 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} {{Def : TokenDe
       lem-10s (t ⋆-⧜ s) = lem-10s t <> lem-10s s
 
       lem-10 : ∀{xs} {x} -> (Term₁-𝕋× 𝒯 xs x) -> String
-      lem-10 (var x) = "var"
+      lem-10 (var (x)) = "(var " <> (show (getNum x) <> ")")
       lem-10 (con c x) = "(" <> TokenDefinition.name Def (_ , _ , c) <> lem-10s x <> ")"
 
   instance
@@ -120,7 +125,6 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} {{Def : TokenDe
     let t2term = constructTerm 𝒯 better2
 
     right ((_ , _ , t1term) , _ , (_ , t2term))
-
 
 
 

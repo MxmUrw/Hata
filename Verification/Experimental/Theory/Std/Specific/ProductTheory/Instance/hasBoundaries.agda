@@ -38,6 +38,7 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 open import Verification.Experimental.Computation.Unification.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
 
+open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.IsoGetting
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
@@ -53,7 +54,7 @@ instance
   isSet-Str:⊤ = {!!}
 
   isDiscrete:⊤ : isDiscrete (⊤-𝒰 {𝑖})
-  isDiscrete:⊤ = {!!}
+  isDiscrete:⊤ = record { _≟-Str_ = λ {tt tt → yes refl-≣} }
 
 
 module _ (A : 𝒰 𝑖) (l : A -> ℕ) where
@@ -115,9 +116,15 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
   data SortCon : (List (⊤-𝒰 {ℓ₀})) -> ⊤-𝒰 {ℓ₀} -> 𝒰₀ where
     incl : ∀{α} -> Sort 𝒯 -> SortCon [] α
 
+  private
+    lem-1 : ∀{αs α} -> (a b : SortCon αs α) → Decision (a ≡-Str b)
+    lem-1 (incl x) (incl y) with x ≟-Str y
+    ... | yes p = yes (cong-Str incl p)
+    ... | no ¬p = no λ {refl-≣ → ¬p refl-≣}
+
   instance
     isDiscrete:SortCon : ∀{αs α} -> isDiscrete (SortCon αs α)
-    isDiscrete:SortCon = {!!}
+    isDiscrete:SortCon = record { _≟-Str_ = lem-1 }
 
   Sort×Theory : ProductTheory ℓ₀
   Sort×Theory = record { Sort = ⊤-𝒰 ; Con = SortCon }
@@ -161,7 +168,7 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
 
   instance
     is1Category:ℬ× : is1Category (ℬ× 𝒯)
-    is1Category:ℬ× = {!!}
+    is1Category:ℬ× = record { ∼→≡ = ≡-Str→≡ }
 
 module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
   F× : 人ℕ -> Functor (ℬ× 𝒯) (𝐔𝐧𝐢𝐯 ℓ₀)
@@ -310,6 +317,8 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
     isSet-Str:ℬ× : isSet-Str (ℬ× 𝒯)
     isSet-Str:ℬ× = {!!}
 
+{-
+-}
 {-
 -}
 {-

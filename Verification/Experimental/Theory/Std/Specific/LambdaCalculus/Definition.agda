@@ -16,6 +16,11 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance
 open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString3
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
+open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
+open import Verification.Experimental.Data.Substitution.Definition
 
 
 data Sort-𝕋Λ : 𝒰₀ where
@@ -95,10 +100,46 @@ instance
   IShow.show IShow:Sort-𝕋Λ tyᵗ = "Ty"
   IShow.show IShow:Sort-𝕋Λ ctxᵗ = "Ctx"
 
+
+𝑹' = 𝑹 {𝒯 =  TypeAxiom-𝕋Λ}
+
+dounify : 𝑹' -> 𝑹' -> String +-𝒰 𝑹'
+dounify (τsx , τx , x) (τsy , τy , y) with τx ≟-Str τy
+... | no _ = left "Wrong result kinds!"
+... | yes refl-≣ = case unify fx' fy' of (λ x₁ → left "Could not unify!") λ _ → right (getArr (fx' ◆ π₌))
+  where
+      -- xa : ⧜𝐒𝐮𝐛𝐬𝐭 ′(Term-𝕋× TypeAxiom-𝕋Λ)′
+      asx : 𝐂𝐭𝐱 (TypeAxiom-𝕋Λ)
+      asx = incl τsx
+      ax : 𝐂𝐭𝐱 (TypeAxiom-𝕋Λ)
+      ax = incl (incl τx)
+      fx : ax ⟶ asx
+      fx = ⧜subst (incl x)
+
+      asy : 𝐂𝐭𝐱 (TypeAxiom-𝕋Λ)
+      asy = incl τsy
+      ay : 𝐂𝐭𝐱 (TypeAxiom-𝕋Λ)
+      ay = incl (incl τy)
+      fy : ay ⟶ asy
+      fy = ⧜subst (incl y)
+
+      fx' : ax ⟶ asx ⊔ asy
+      fx' = fx ◆ ι₀
+
+      fy' : ay ⟶ asx ⊔ asy
+      fy' = fy ◆ ι₁
+
+      getArr : ∀{b} -> ax ⟶ b -> 𝑹'
+      getArr (⧜subst (incl f)) = _ , (_ , f)
+
+
 compareLambdaType : String -> String
 compareLambdaType s with ProductTheory:fromString {𝒯 = TypeAxiom-𝕋Λ} s
 ... | left err = "Error " <> err
 ... | just ((_ , _ , x) , (_ , _ , y)) = "Got types: " <> show x <> " and " <> show y
+                                         <> "\nthe unification is: " <> case res of (λ x -> x) (λ (_ , _ , a) -> show a)
+      where
+        res = dounify (_ , _ , x) (_ , _ , y)
 
 
 

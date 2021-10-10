@@ -41,6 +41,7 @@ open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory
 open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
+open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.IsoGetting
 
 
 -----------------------------------------
@@ -59,7 +60,6 @@ data DVec {A : 𝒰 𝑖} (F : A -> 𝒰 𝑗) : {n : ℕ} -> (Vec A n) -> 𝒰 
 --   data VecTree1 : 𝒰 (𝑖) where
 --     node1 : (a : A) -> (Vec VecTree1 (l a)) -> VecTree1
 
-open hasIsoGetting {{...}} public
 
 module _ (A : 𝒰 𝑖) (l : A -> ℕ) (ℬ : 𝒰 𝑖) {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} (F : Functor ′ ℬ ′ (𝐔𝐧𝐢𝐯 𝑙))
   where

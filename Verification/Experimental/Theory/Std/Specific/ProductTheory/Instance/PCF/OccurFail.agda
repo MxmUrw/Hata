@@ -141,17 +141,17 @@ module _ {𝑨 : 𝕋× 𝑖} where
   module _ {Γ τ} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ τ) (occ : (VarPath-Term-𝕋× t v)) {d} (pd : depth-𝕋× t ∼ 1 ⋆ d) where
     -- module _ {σ : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (incl t) (simpleVar v) σ}} where
 
-    module §-Occur-𝕋× {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')}} where
+    module §-Occur-𝕋× {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizerCandidate (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')}} where
 
       private
         σ : ι (incl Γ) ⟶ ι Γ'
-        σ = π₌
+        σ = π₌?
 
         val : Term₁-𝕋× 𝑨 ⟨ Γ' ⟩ τ
         val = ⟨ σ ⟩ _ v
 
         lem-1 : reext-Term-𝕋× ⟨ σ ⟩ _ t ≡ val
-        lem-1 = (funExt⁻¹ (⟨ equate-π₌ ⟩ _)) incl
+        lem-1 = (funExt⁻¹ (⟨ equate-π₌? ⟩ _)) incl
 
         lem-2 : depth-𝕋× (reext-Term-𝕋× ⟨ σ ⟩ _ t) ≡ depth-𝕋× val
         lem-2 = cong depth-𝕋× lem-1
@@ -172,14 +172,14 @@ module _ {𝑨 : 𝕋× 𝑖} where
       prop-1 : 𝟘-𝒰
       prop-1 = impossible lem-5
 
-    hasNoCoequalizer:byOccur : ¬ hasCoequalizer (⧜subst (incl t)) (simpleVar v)
-    hasNoCoequalizer:byOccur P = §-Occur-𝕋×.prop-1 {Γ' = Γ'}
+    hasNoCoequalizerCandidate:byOccur : ¬ hasCoequalizerCandidate (⧜subst (incl t) , simpleVar v)
+    hasNoCoequalizerCandidate:byOccur P = §-Occur-𝕋×.prop-1 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩
 
         instance
-          P' : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')
-          P' = isCoequalizer:byEquivalence (of P)
+          P' : isCoequalizerCandidate (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')
+          P' = isCoequalizerCandidate:byEquivalence (of P)
 
 
 

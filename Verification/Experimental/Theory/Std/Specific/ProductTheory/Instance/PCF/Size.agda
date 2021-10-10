@@ -101,12 +101,6 @@ WellFounded-≪-𝒲-𝕋× (suc x) = acc-suc (WellFounded-≪-𝒲-𝕋× x)
 -- WF proof end
 ----------------------------------------------------------
 
--- length of lists
-
-module _ {A : 𝒰 𝑖} where
-  length : ∀(a : 人List A) -> ℕ
-  length = rec-Free-𝐌𝐨𝐧 (const 1)
-
 
 ----------------------------------------------------------
 
@@ -145,7 +139,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isSizedCategory:𝐂𝐭𝐱-𝕋× : isSizedCategory (𝐂𝐭𝐱 𝑨)
     isSizedCategory:𝐂𝐭𝐱-𝕋× = record
       { SizeO = ℕ
-      ; sizeO = λ x → length ⟨ x ⟩
+      ; sizeO = λ x → 人length ⟨ x ⟩
       }
 
   instance

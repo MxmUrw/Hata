@@ -1,2 +1,2 @@
-Arr (Nat) (Nat)
-Nat
+Arr (Arr (Arr (b) (b)) (b)) (Arr (x) (y))
+Arr (Arr (b) (a)) (a)

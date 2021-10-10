@@ -31,6 +31,7 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Base
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Reflection
+open import Verification.Experimental.Category.Std.Category.Sized.Definition
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
 open import Verification.Experimental.Order.WellFounded.Definition
@@ -50,14 +51,15 @@ open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
 
 
 
 module _ {𝑨 : 𝕋× 𝑖} where
   module _ {s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨} (x y : ⟨ Γ ⟩ ∍ s) (y≠x : y ≠-∍ x) where
 
-    lem-11 : hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
-    lem-11 = Γ' since (isCoequalizer:byFullyFaithfull lem-10)
+    lem-11 : hasSizedCoequalizer {𝒞 = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
+    lem-11 = Γ' since (isCoequalizer:byFullyFaithfull lem-10) , right lem-12
       where
         T : RelativeMonad (𝑓𝑖𝑛 (Type 𝑨))
         T = ′ Term-𝕋× 𝑨 ′
@@ -122,10 +124,19 @@ module _ {𝑨 : 𝕋× 𝑖} where
         isCoequalizer.compute-Coeq lem-10 = lem-08
         isCoequalizer.isEpi:π₌ lem-10 = lem-09
 
+        lem-12 : 人length ⟨ ⟨ ι Γ' ⟩ ⟩ ≪-𝒲-𝕋× 人length ⟨ Γ ⟩
+        lem-12 =  incl (zero , (§-\\.prop-1 {as = ⟨ Γ ⟩} ⁻¹ ))
+
+
 
 
     hasCoequalizer:varvar : hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
-    hasCoequalizer:varvar = lem-11
+    hasCoequalizer:varvar = hasCoequalizer:this lem-11
+
+
+    hasSizedCoequalizer:varvar : hasSizedCoequalizer {𝒞 = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
+    hasSizedCoequalizer:varvar = lem-11
+  -- record hasSizedCoequalizer {a b : 𝒞} (f g : a ⟶ b) : 𝒰 𝑖 where
 
 
 
