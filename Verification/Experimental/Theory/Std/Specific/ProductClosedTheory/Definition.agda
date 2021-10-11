@@ -1,6 +1,6 @@
 
 
-module Verification.Experimental.Theory.Std.Specific.LambdaCalculus.Definition where
+module Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Definition where
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -23,7 +23,7 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Data.Substitution.Definition
 
-open import Verification.Experimental.Theory.Std.Specific.LambdaCalculus.Type
+open import Verification.Experimental.Theory.Std.Specific.Product.Type
 
 pattern _⇒_ α β = (con ⇒ᵗ ((incl α) ⋆-⧜ ((incl β) ⋆-⧜ ◌-⧜)))
 pattern _▻_ Γ τ = (con ▻ᵗ ((incl Γ) ⋆-⧜ ((incl τ) ⋆-⧜ ◌-⧜)))

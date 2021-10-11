@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.LambdaCalculus.Type where
+module Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Type where
 
 open import Verification.Conventions hiding (_⊔_)
 

@@ -14,7 +14,7 @@ open import Verification.Experimental.Data.Int.Definition
 open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Instance.TypeTheory
 
 open import Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition
-open import Verification.Experimental.Theory.Std.Specific.LambdaCalculus.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Definition
 
 -- testApp : Application
 -- testApp = execute "test" (λ x -> PString (x <> x <> x))
