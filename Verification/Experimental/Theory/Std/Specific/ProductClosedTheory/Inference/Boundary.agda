@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.LambdaCalculus.Inference.Boundary where
+module Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary where
 
 open import Verification.Conventions hiding (_⊔_)
 
