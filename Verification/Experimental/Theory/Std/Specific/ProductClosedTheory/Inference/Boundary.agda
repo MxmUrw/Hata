@@ -11,49 +11,35 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Computation.Unification.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
 open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString3
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString3
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Data.Substitution.Definition
 
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
+
 
 data 𝒷₀ : 𝒰₀ where
-  分tyᵗ 全tyᵗ 影jdgᵗ 分jdgᵗ 全jdgᵗ : 𝒷₀
+  分tyᵗ 全tyᵗ jdgᵗ : 𝒷₀
 
 
 private
   lem-2 : (a b : 𝒷₀) → Decision (a ≡-Str b)
   lem-2 分tyᵗ 分tyᵗ = yes refl-≣
   lem-2 分tyᵗ 全tyᵗ = no (λ ())
-  lem-2 分tyᵗ 影jdgᵗ = no (λ ())
-  lem-2 分tyᵗ 分jdgᵗ = no (λ ())
-  lem-2 分tyᵗ 全jdgᵗ = no (λ ())
+  lem-2 分tyᵗ jdgᵗ = no (λ ())
   lem-2 全tyᵗ 分tyᵗ = no (λ ())
   lem-2 全tyᵗ 全tyᵗ = yes refl-≣
-  lem-2 全tyᵗ 影jdgᵗ = no (λ ())
-  lem-2 全tyᵗ 分jdgᵗ = no (λ ())
-  lem-2 全tyᵗ 全jdgᵗ = no (λ ())
-  lem-2 影jdgᵗ 分tyᵗ = no (λ ())
-  lem-2 影jdgᵗ 全tyᵗ = no (λ ())
-  lem-2 影jdgᵗ 影jdgᵗ = yes refl-≣
-  lem-2 影jdgᵗ 分jdgᵗ = no (λ ())
-  lem-2 影jdgᵗ 全jdgᵗ = no (λ ())
-  lem-2 分jdgᵗ 分tyᵗ = no (λ ())
-  lem-2 分jdgᵗ 全tyᵗ = no (λ ())
-  lem-2 分jdgᵗ 影jdgᵗ = no (λ ())
-  lem-2 分jdgᵗ 分jdgᵗ = yes refl-≣
-  lem-2 分jdgᵗ 全jdgᵗ = no (λ ())
-  lem-2 全jdgᵗ 分tyᵗ = no (λ ())
-  lem-2 全jdgᵗ 全tyᵗ = no (λ ())
-  lem-2 全jdgᵗ 影jdgᵗ = no (λ ())
-  lem-2 全jdgᵗ 分jdgᵗ = no (λ ())
-  lem-2 全jdgᵗ 全jdgᵗ = yes refl-≣
+  lem-2 全tyᵗ jdgᵗ = no (λ ())
+  lem-2 jdgᵗ 分tyᵗ = no (λ ())
+  lem-2 jdgᵗ 全tyᵗ = no (λ ())
+  lem-2 jdgᵗ jdgᵗ = yes refl-≣
 
 instance
   isDiscrete:𝒷₀ : isDiscrete 𝒷₀
@@ -65,9 +51,9 @@ data 𝒷₁ : List 𝒷₀ → 𝒷₀ → 𝒰 ℓ₀ where
   𝔹ᵗ : 𝒷₁ [] 分tyᵗ
   []ᵗ : 𝒷₁ [] 全tyᵗ
   ▻ᵗ   : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) 全tyᵗ
-  影⊢ᵗ : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) 影jdgᵗ
-  分⊢ᵗ : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) 分jdgᵗ
-  全⊢ᵗ : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) 全jdgᵗ
+  影⊢ᵗ : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) jdgᵗ
+  分⊢ᵗ : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) jdgᵗ
+  全⊢ᵗ : 𝒷₁ (全tyᵗ ∷ 分tyᵗ ∷ []) jdgᵗ
 
 private
   lem-1 : ∀{xs : List 𝒷₀} {x : 𝒷₀} -> (a b : 𝒷₁ xs x) -> Decision (a ≣ b)
@@ -79,16 +65,30 @@ private
   lem-1 []ᵗ []ᵗ = yes refl-≣
   lem-1 ▻ᵗ ▻ᵗ = yes refl-≣
   lem-1 影⊢ᵗ 影⊢ᵗ = yes refl-≣
+  lem-1 影⊢ᵗ 分⊢ᵗ = no (λ ())
+  lem-1 影⊢ᵗ 全⊢ᵗ = no (λ ())
+  lem-1 分⊢ᵗ 影⊢ᵗ = no (λ ())
   lem-1 分⊢ᵗ 分⊢ᵗ = yes refl-≣
+  lem-1 分⊢ᵗ 全⊢ᵗ = no (λ ())
+  lem-1 全⊢ᵗ 影⊢ᵗ = no (λ ())
+  lem-1 全⊢ᵗ 分⊢ᵗ = no (λ ())
   lem-1 全⊢ᵗ 全⊢ᵗ = yes refl-≣
 
 
-𝒷 : ProductTheory ℓ₀
+
+𝒷 : 𝕋×.統.𝒜 ℓ₀
+-- 𝒷 : 𝒜 ℓ₀
 Sort 𝒷 = 𝒷₀
 isDiscrete:Sort 𝒷 = it
-isSet-Str:Sort 𝒷 = {!!}
+isSet-Str:Sort 𝒷 = {!𝒷!}
 Con 𝒷 = 𝒷₁
 isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
+
+-- Sort 𝒷 = 𝒷₀
+-- isDiscrete:Sort 𝒷 = it
+-- isSet-Str:Sort 𝒷 = {!!}
+-- Con 𝒷 = 𝒷₁
+-- isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
 
 
 

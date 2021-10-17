@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Size where
 
 open import Verification.Conventions hiding (Structure ; ℕ)
 
@@ -53,8 +53,8 @@ open import Verification.Experimental.Data.Substitution.Definition
 open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
 
 open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 

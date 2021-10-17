@@ -189,6 +189,16 @@ module _ {A : 𝒰 𝑖} where
                      }
 
 
+  -- -- setoid hom to 𝐅𝐢𝐧𝐈𝐱
+  -- open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+  -- private
+  --   instance
+  --     _ : isSetoid (𝐅𝐮𝐥𝐥 (𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙)
+  --     _ = isSetoid:byCategory
+
+  -- isSetoidHom:incl-𝖥𝗋𝖾𝖾 : isSetoidHom (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A) (𝐅𝐮𝐥𝐥 (𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙) incl
+  -- isSetoidHom:incl-𝖥𝗋𝖾𝖾 = record { cong-∼ = λ p → {!!} }
+
   identify-∍ : ∀{a b : A} -> incl a ∍ b -> a ≣ b
   identify-∍ incl = refl-≣
 

@@ -21,7 +21,6 @@ open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instanc
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Data.Sum.Instance.Monad
-open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.List.Instance.Traversable
 open import Verification.Experimental.Data.Substitution.Definition
 
@@ -172,6 +171,7 @@ case-Dec yes x of f g = g x
 人ℕ' : ∀ 𝑖 -> 𝒰 _
 人ℕ' 𝑖 = 人List (⊤-𝒰 {𝑖})
 
+{-
 module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
   asList : ∀{a b} -> CtxHom R a b -> 人List (R b tt)
   asList ◌-⧜ = ◌-⧜
@@ -193,11 +193,29 @@ module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
   atasList' : ∀{a b} -> (σ : CtxHom R a b) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
   atasList' σ i refl-≣ = atasList σ i
 
-module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
-  fromIndexed : {as bs : 人List A} -> (∀{a} -> (as ∍ a) -> R bs a) -> CtxHom R as bs
-  fromIndexed {incl x} {bs} F = incl (F (incl))
-  fromIndexed {as1 ⋆-Free-𝐌𝐨𝐧 as2} {bs} F = (fromIndexed (λ x -> F (left-∍ x))) ⋆-⧜ ((fromIndexed (λ x -> F (right-∍ x))))
-  fromIndexed {◌-Free-𝐌𝐨𝐧} {bs} F = ◌-⧜
+-- module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
+--   fromIndexed : {as bs : 人List A} -> (∀{a} -> (as ∍ a) -> R bs a) -> CtxHom R as bs
+--   fromIndexed {incl x} {bs} F = incl (F (incl))
+--   fromIndexed {as1 ⋆-Free-𝐌𝐨𝐧 as2} {bs} F = (fromIndexed (λ x -> F (left-∍ x))) ⋆-⧜ ((fromIndexed (λ x -> F (right-∍ x))))
+--   fromIndexed {◌-Free-𝐌𝐨𝐧} {bs} F = ◌-⧜
+-}
+
+module _ {R : ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
+  asList : ∀{a} -> D人List R a -> 人List (R tt)
+  asList ◌-⧜ = ◌-⧜
+  asList (incl {tt} x) = incl x
+  asList (f ⋆-⧜ g) = asList f ⋆ asList g
+
+  atList : ∀{a} -> D人List R a -> (i : [ a ]ᶠ) -> (R tt)
+  atList f (tt , p) = destruct-CtxHom f tt p
+
+  atasList : ∀{a} -> (σ : D人List R a) -> (i : [ a ]ᶠ) -> asList σ ∍ atList σ i
+  atasList (incl x) (tt , incl) = incl
+  atasList (f ⋆-⧜ g) (tt , left-∍ i) = left-∍ (atasList f (_ , i))
+  atasList (f ⋆-⧜ g) (tt , right-∍ i) = right-∍ (atasList g (_ , i))
+
+  atasList' : ∀{a} -> (σ : D人List R a) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
+  atasList' σ i refl-≣ = atasList σ i
 
 
 --------------------------------------------------------------

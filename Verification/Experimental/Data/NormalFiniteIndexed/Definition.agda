@@ -188,7 +188,7 @@ module _ {I : 𝒰 𝑖} where
 
   private
     lem-30 : ∀{a : 𝐅𝐢𝐧𝐈𝐱 I} -> ⟨ F ⟩ (♮ a) ≅ a
-    lem-30 {a} = uncong-≅ (construct-≅-𝐈𝐱 lem-25)
+    lem-30 {a} = cong⁻¹-≅ (construct-≅-𝐈𝐱 lem-25)
 
   instance
     isEssentiallySurjective:𝑓𝑢𝑙𝑙-♮𝐅𝐢𝐧𝐈𝐱 : isEssentiallySurjective F

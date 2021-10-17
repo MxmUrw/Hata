@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem where
 
 open import Verification.Conventions
 
@@ -38,7 +38,7 @@ open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
 
 
 

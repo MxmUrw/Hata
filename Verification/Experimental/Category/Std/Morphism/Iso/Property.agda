@@ -55,8 +55,8 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
       isSetoidHom:byFunctor = record { cong-∼ = cong-≅ }
 
     module _ {{_ : isFull ′ F ′}} {{_ : isFaithful ′ F ′}} where
-      uncong-≅ : ∀{a b : ⟨ 𝒞 ⟩} -> F a ≅ F b -> (a ≅ b)
-      uncong-≅ {a} {b} f = f' since Q
+      cong⁻¹-≅ : ∀{a b : ⟨ 𝒞 ⟩} -> F a ≅ F b -> (a ≅ b)
+      cong⁻¹-≅ {a} {b} f = f' since Q
         where
           f' : a ⟶ b
           f' = surj ⟨ f ⟩

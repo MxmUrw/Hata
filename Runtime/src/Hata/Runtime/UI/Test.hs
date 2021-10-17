@@ -444,13 +444,13 @@ main renderer keyhandler = do
   GDK.setGeometryMaxWidth  geometry 512
   GDK.setGeometryMaxHeight geometry 512
   GDK.setGeometryMinWidth  geometry 32
-  GDK.setGeometryMinHeight geometry 32 
+  GDK.setGeometryMinHeight geometry 32
   GDK.setGeometryMinAspect geometry 1
   GDK.setGeometryMaxAspect geometry 1
 
   GTK.windowSetGeometryHints window (Just window) (Just geometry) []
 
-  GTK.onWidgetKeyPressEvent window $ \keyPressInfo -> do 
+  GTK.onWidgetKeyPressEvent window $ \keyPressInfo -> do
     keyVal <- GDK.getEventKeyKeyval keyPressInfo
     keyName <- fromMaybe Text.empty <$> GDK.keyvalName keyVal
     case Text.unpack keyName of
@@ -461,25 +461,25 @@ main renderer keyhandler = do
 
   GTK.onWidgetButtonPressEvent window $ \button -> do
     btnNo <- GDK.getEventButtonButton button
-    x     <- GDK.getEventButtonX button  
+    x     <- GDK.getEventButtonX button
     y     <- GDK.getEventButtonY button
     time  <- GDK.getEventButtonTime button
     case btnNo of
       1  -> do GTK.windowBeginMoveDrag window 1 (round x) (round y) time  -- left button
                return True
       2  -> do GTK.windowBeginResizeDrag window GDK.WindowEdgeSouthEast 2 -- middle button
-                                         (round x) (round y) time 
+                                         (round x) (round y) time
                return True
-      _  -> return False 
+      _  -> return False
 
   canvas <- GTK.drawingAreaNew
-  GTK.containerAdd window canvas 
+  GTK.containerAdd window canvas
 
   GTK.setWindowDecorated window True
   GTK.setWindowResizable window True
   GTK.setWindowTitle window (pack "Hata Editor")
 
-  GTK.onWidgetDraw canvas $ renderWithContext (renderer canvas) -- (drawCanvasHandler canvas) 
+  GTK.onWidgetDraw canvas $ renderWithContext (renderer canvas) -- (drawCanvasHandler canvas)
 
   GTK.widgetShowAll window
   timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (GTK.widgetQueueDraw window >> return True)

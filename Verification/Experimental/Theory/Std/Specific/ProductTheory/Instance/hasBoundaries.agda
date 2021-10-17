@@ -15,7 +15,7 @@ open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instanc
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 open import Verification.Experimental.Data.Sum.Instance.Monad
 open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
 open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
@@ -33,8 +33,8 @@ open import Verification.Experimental.Theory.Std.Presentation.NGraph.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 open import Verification.Experimental.Computation.Unification.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
 
@@ -44,7 +44,7 @@ open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory
 open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
 open import Verification.Experimental.Theory.Std.Presentation.CheckTree.FromUnification
 
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
 
 -- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString2
 -- open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
@@ -56,10 +56,6 @@ instance
   isDiscrete:⊤ : isDiscrete (⊤-𝒰 {𝑖})
   isDiscrete:⊤ = record { _≟-Str_ = λ {tt tt → yes refl-≣} }
 
-
-module _ (A : 𝒰 𝑖) (l : A -> ℕ) where
-  data VecTree1 : 𝒰 (𝑖) where
-    node1 : (a : A) -> (Vec VecTree1 (l a)) -> VecTree1
 
 
 module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
@@ -264,7 +260,7 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
     initwt× {n} {isVar (tt , x)} = varType (tt , x) (varlistP x)
       where
         varlistP : ∀{n : 人ℕ} -> (x : n ∍ tt) -> atList (id-⧜𝐒𝐮𝐛𝐬𝐭' {T = ′ Term-𝕋× (Sort×Theory 𝒯) ′}) (tt , x) ≣ var x
-        varlistP x = ≡→≡-Str λ i -> inv-l-◆-construct-CtxHom {R = Term₁-𝕋× (Sort×Theory 𝒯)} (λ _ v -> var v) i tt x
+        varlistP x = ≡→≡-Str λ i -> inv-l-◆-construct-D人List {R = Term₁-𝕋× (Sort×Theory 𝒯) _} (λ _ v -> var v) i tt x
 
     map-WT× : ∀{n} -> {b x : 𝐂𝐭𝐱ᵘ (Sort×Theory 𝒯)} {a : Node 𝒯 n}
               {v0 : ⟨ F× 𝒯 n ⟩ b} {vs : Vec (⟨ F× 𝒯 n ⟩ b) (size× 𝒯 a)}
@@ -275,8 +271,9 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
     map-WT× {b} {x} {a} {.(isVar i)} {.(Γ ⊫ τ)} ϕ (varType i {Γ = Γ} {τ = τ} x₁) = varType i (mapatlist i {Γ = Γ} {τ = τ} x₁)
       where
         mapatlist : ∀{b} -> ∀(i : [ b ]ᶠ)-> ∀{Γ : CtxHom (Term₁-𝕋× (Sort×Theory 𝒯)) b ⟨ x ⟩} -> {τ : Term₁-𝕋× (Sort×Theory 𝒯) ⟨ x ⟩ tt}
-                    -> atList {R = Term₁-𝕋× (Sort×Theory 𝒯)} Γ i ≣ τ
-                    -> atList {R = Term₁-𝕋× (Sort×Theory 𝒯)}
+                    -> atList -- {R = Term₁-𝕋× (Sort×Theory 𝒯)}
+                       Γ i ≣ τ
+                    -> atList -- {R = Term₁-𝕋× (Sort×Theory 𝒯)}
                         (construct-CtxHom
                         (λ a₁ x₂ →
                             (destruct-CtxHom ⟨ Γ ⊫ τ ⟩ ◆-𝐈𝐱 subst-⧜𝐒𝐮𝐛𝐬𝐭 ϕ) a₁ (left-∍ x₂)))

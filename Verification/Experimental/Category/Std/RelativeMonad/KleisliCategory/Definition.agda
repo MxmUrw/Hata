@@ -96,4 +96,20 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗}
       isCategory._◈_ isCategory:RelativeKleisli        = {!!} -- λ p q -> incl $ lem-4 ⟨ p ⟩ ⟨ q ⟩
 
 
+    ι-𝐑𝐞𝐊𝐥𝐬ᵘ : ⟨ 𝒞 ⟩ -> 𝐑𝐞𝐊𝐥𝐬 T
+    ι-𝐑𝐞𝐊𝐥𝐬ᵘ x = incl x
+
+    macro ι-𝐑𝐞𝐊𝐥𝐬 = #structureOn ι-𝐑𝐞𝐊𝐥𝐬ᵘ
+
+    map-ι-𝐑𝐞𝐊𝐥𝐬 : ∀{a b : ⟨ 𝒞 ⟩} -> (a ⟶ b) -> ι-𝐑𝐞𝐊𝐥𝐬 a ⟶ ι-𝐑𝐞𝐊𝐥𝐬 b
+    map-ι-𝐑𝐞𝐊𝐥𝐬 f = incl (map f ◆ repure)
+
+    instance
+      isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 : isFunctor 𝒞 (𝐑𝐞𝐊𝐥𝐬 T) ι-𝐑𝐞𝐊𝐥𝐬
+      isFunctor.map isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 = map-ι-𝐑𝐞𝐊𝐥𝐬
+      isFunctor.isSetoidHom:map isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 = {!!}
+      isFunctor.functoriality-id isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 = {!!}
+      isFunctor.functoriality-◆ isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 = {!!}
+
+
 

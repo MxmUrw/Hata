@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Occur where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Occur2 where
 
 open import Verification.Conventions hiding (Structure)
 
@@ -34,7 +34,6 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Base
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Reflection
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
 -- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
 open import Verification.Experimental.Order.WellFounded.Definition
@@ -54,35 +53,51 @@ open import Verification.Experimental.Data.Substitution.Definition
 open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
 
--- open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
+-- open import Verification.Experimental.Computation.Unification.Monoidic.PrincipalFamilyCat2
 
 
 module _ {𝑨 : 𝕋× 𝑖} where
   mutual
-    data VarPath-Terms-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
-      left-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+    -- data VarPath-Terms-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
+      -- left-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+      --             -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
+
+      -- right-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+      --             -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
+
+      -- incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
+      --             -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
+      -- incl-Path-Terms : {Γ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} {Δ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} (f : 𝑒𝑙 ⟨ Γ ⟩ ⟶ (Term-𝕋× 𝑨 Δ))
+      --                   -> ∀{τ} -> (x : ⟨ Γ ⟩ ∍ τ)
+      --                   -> ∀{γ} -> (j : ⟨ Δ ⟩ ∍ γ) -> VarPath-Term-𝕋× (f τ x) j
+      --                   -> VarPath-Terms-𝕋× (incl-Terms f) j
+
+    data VarPath-Terms-𝕋× : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> (t : Δ ⟶ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
+      left-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
                   -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
 
-      right-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+      right-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
                   -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
 
       incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
                   -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
 
+
     data VarPath-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Sort 𝑨} -> (Γ ∍ s) -> 𝒰 𝑖 where
       var : ∀{Γ s} -> (x : Γ ∍ s) -> VarPath-Term-𝕋× (var x) x
-      con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl Γ) }
-            -> VarPath-Terms-𝕋× ts x
-            -> VarPath-Term-𝕋× (con c ts) x
+      con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : 𝑒𝑙 (ι αs) ⟶ (Term-𝕋× 𝑨 (incl (Γ)))}
+      -- {ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl Γ) }
+            -> VarPath-Terms-𝕋× (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl ts)) x
+            -> VarPath-Term-𝕋× (con c (incl-Terms ts)) x
+
 
   private VarPath = VarPath-Term-𝕋×
 
   mutual
-    isFreeVars : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
+    isFreeVars : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> (t : (Δ) ⟶ Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
     isFreeVars ◌-⧜ v = left λ {()}
     isFreeVars (t ⋆-⧜ s) v with isFreeVars t v | isFreeVars s v
     ... | left ¬l | left ¬r = left λ {(left-Path l) → ¬l l
@@ -94,14 +109,19 @@ module _ {𝑨 : 𝕋× 𝑖} where
     ... | left q = left λ {(incl p) → q p}
     ... | just q = right (incl q)
 
+    -- isFreeVars (t ⋆-⧜ t₁) v = {!!}
+    -- isFreeVars : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 (incl Δ) Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
+    -- isFreeVars ◌-⧜ v = left λ {()}
+
     isFreeVar : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Type 𝑨} -> (v : Γ ∍ s) -> isDecidable (VarPath t v)
     isFreeVar (var x) v with compare-∍ x v
     ... | left x≠v = left λ {(var q) → impossible x≠v}
     ... | just refl-≣-2 = right (var v)
-    isFreeVar (con c x) v with isFreeVars x v
+    isFreeVar (con c (incl-Terms x)) v with isFreeVars (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl x)) v
     ... | left ¬p = left λ {(con c p) → ¬p p}
     ... | just  p = right (con c p)
 
+{-
   mutual
     factor-Occurs : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> ¬ (VarPath-Terms-𝕋× t v) -> (Terms-𝕋× 𝑨 Δ (incl (⟨ Γ ⟩ \\ v)))
     factor-Occurs ◌-⧜ v ¬occ = ◌-⧜
@@ -141,13 +161,10 @@ module _ {𝑨 : 𝕋× 𝑖} where
       Γ' = incl (Γ \\ v)
 
       t' : Γ' ⊢ τ
-      t' = ⧜subst $ incl $ factor-Occur t v ¬occ
+      t' = incl $ factor-Occur t v ¬occ
 
       π' : ι (incl Γ) ⟶ ι (Γ')
       π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map t' ⟩ ⦘)
-
-      lem-12 : 人length ⟨ ⟨ ι Γ' ⟩ ⟩ ≪-𝒲-𝕋× 人length Γ
-      lem-12 =  incl (zero , (§-\\.prop-1 {as = Γ} ⁻¹ ))
 
       mutual
         lem-4s : ∀{Γ τ Δ} (t : Terms-𝕋× 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-Terms-𝕋× t v))
@@ -165,7 +182,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         ... | just refl-≣-2 = impossible (¬occ (var x))
         lem-4 (con c ts) v ¬occ s = λ i -> con c (lem-4s ts v (λ occ -> (¬occ (con c occ))) s i)
 
-      lem-5 : ∀ (i : Type 𝑨) (x : incl τ ∍ i) -> ⟨ (map (⧜subst (incl t))) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
+      lem-5 : ∀ (i : Type 𝑨) (x : incl τ ∍ i) -> ⟨ (map (incl t)) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
       lem-5 i incl = P
         where
           Q : either (λ x → var x) (⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ i) (iso-\\ v i v) ≡ factor-Occur t v ¬occ
@@ -180,11 +197,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
                        (iso-\\ v i v)
           P = trans-Path (lem-4 t v ¬occ _) (sym-Path Q)
 
-      equate-π' : (map (⧜subst (incl t))) ◆ π' ∼ (map (simpleVar v)) ◆ π'
+      equate-π' : (map (incl t)) ◆ π' ∼ (map (simpleVar v)) ◆ π'
       equate-π' = incl (λ i → funExt (lem-5 i))
 
 
-      compute-Coeq' : ∀{c : 𝐒𝐮𝐛𝐬𝐭 _} -> (h : ι (incl Γ) ⟶ c) -> (map (⧜subst (incl t)) ◆ h) ∼ (map (simpleVar v) ◆ h) -> ∑ λ (ξ : ι Γ' ⟶ c) -> (π' ◆ ξ ∼ h)
+      compute-Coeq' : ∀{c : 𝐒𝐮𝐛𝐬𝐭 _} -> (h : ι (incl Γ) ⟶ c) -> (map (incl t) ◆ h) ∼ (map (simpleVar v) ◆ h) -> ∑ λ (ξ : ι Γ' ⟶ c) -> (π' ◆ ξ ∼ h)
       compute-Coeq' {c} h p = ξ , P
         where
           ξ : ι Γ' ⟶ c
@@ -230,18 +247,14 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isEpi:π' : isEpi π'
     isEpi:π' = epi P-11
 
-    isCoequalizer:byNoOccur : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι (Γ'))
+    isCoequalizer:byNoOccur : isCoequalizer (map (incl t)) (map (simpleVar v)) (ι (Γ'))
     isCoequalizer.π₌ isCoequalizer:byNoOccur = π'
     isCoequalizer.equate-π₌ isCoequalizer:byNoOccur = equate-π'
     isCoequalizer.compute-Coeq isCoequalizer:byNoOccur = compute-Coeq'
     isCoequalizer.isEpi:π₌ isCoequalizer:byNoOccur = isEpi:π'
 
-    hasCoequalizer:byNoOccur : hasCoequalizer (⧜subst (incl t)) (simpleVar v)
+    hasCoequalizer:byNoOccur : hasCoequalizer (incl t) (simpleVar v)
     hasCoequalizer:byNoOccur = Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
 
-    hasSizedCoequalizer:byNoOccur : hasSizedCoequalizer (⧜subst (incl t)) (simpleVar v)
-    hasSizedCoequalizer:byNoOccur = hasCoequalizer:byNoOccur , right lem-12
-
-
-
+-}
 

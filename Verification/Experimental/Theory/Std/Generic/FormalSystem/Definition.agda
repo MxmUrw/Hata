@@ -35,6 +35,7 @@ open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Normal.Definition
 open import Verification.Experimental.Computation.Unification.Definition
 
 
@@ -63,6 +64,10 @@ module _ {𝒮 : 𝒰 𝑖} {{_ : isFormalSystem {𝑗} 𝒮}} (𝑨 : 𝒮) whe
   𝐂𝐭𝐱ᵘ : 𝒰 _
   𝐂𝐭𝐱ᵘ = ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)
   macro 𝐂𝐭𝐱 = #structureOn 𝐂𝐭𝐱ᵘ
+
+  ♮𝐂𝐭𝐱ᵘ : 𝒰 _
+  ♮𝐂𝐭𝐱ᵘ = ♮𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)
+  macro ♮𝐂𝐭𝐱 = #structureOn ♮𝐂𝐭𝐱ᵘ
 
 -- module _ {𝒮 : FormalSystem 𝑖} {a : ⟨ 𝒮 ⟩} where
 module _ {𝒮 : 𝒰 𝑖} {{_ : isFormalSystem {𝑗} 𝒮}} {𝑨 : 𝒮} where

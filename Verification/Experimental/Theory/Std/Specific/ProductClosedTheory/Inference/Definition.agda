@@ -11,16 +11,17 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Computation.Unification.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF
 open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString3
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromString3
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
+-- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
 open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
 
 open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
 
@@ -32,7 +33,7 @@ pattern _影⊢_ Γ τ = (con 影⊢ᵗ ((incl Γ) ⋆-⧜ ((incl τ) ⋆-⧜ �
 
 
 private
-  _⊩_ = Term₁-𝕋× 𝒷
+  _⊩_ = 𝕋×.統.分Term 𝒷
 
 
 data Term {μ} : ∀{ξ} -> (β : μ ⊩ ξ) -> 𝒰 ℓ₀ where

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Base where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Base where
 
 open import Verification.Conventions hiding (Structure)
 
@@ -50,16 +50,16 @@ open import Verification.Experimental.Data.Substitution.Definition
 open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
 
 open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Var
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Occur
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.OccurFail
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.DirectFail
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Var
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Occur
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.OccurFail
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.DirectFail
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Size
 
 
 

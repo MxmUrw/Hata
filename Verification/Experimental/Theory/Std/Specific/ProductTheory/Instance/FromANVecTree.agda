@@ -15,7 +15,7 @@ open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instanc
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 open import Verification.Experimental.Data.Sum.Instance.Monad
 open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
 open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition

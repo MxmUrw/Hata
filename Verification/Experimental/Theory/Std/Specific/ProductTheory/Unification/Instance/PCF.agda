@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF where
 
 open import Verification.Conventions
 
@@ -44,16 +44,16 @@ open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FormalSystem
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
 
 open import Verification.Experimental.Computation.Unification.Definition
 open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat
 -- open import Verification.Experimental.Computation.Unification.Monoidic.Instance.hasUnification
 
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Base
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Main
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.PCF.Size
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Base
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Main
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Size
 
 
 module _ {𝑨 : 𝕋× 𝑖} where

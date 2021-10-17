@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition where
+module Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition where
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -7,15 +7,8 @@ open import Verification.Experimental.Set.Discrete
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
--- open import Verification.Experimental.Order.Lattice
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.Product.Definition
--- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
--- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
--- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
--- open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
--- open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
--- open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
@@ -24,7 +17,6 @@ open import Verification.Experimental.Category.Std.RelativeMonad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 open import Verification.Experimental.Category.Std.Morphism.EpiMono
--- open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 
 open import Verification.Experimental.Data.Nat.Free
@@ -49,6 +41,8 @@ open ProductTheory public
 
 module _ (𝑖 : 𝔏) where
   macro 𝕋× = #structureOn (ProductTheory 𝑖)
+
+  𝒜 = ProductTheory 𝑖
 
 Type-𝕋× : ProductTheory 𝑖 -> 𝒰 𝑖
 Type-𝕋× a = Sort a
@@ -113,11 +107,9 @@ Term-𝕋× a Γ = indexed (λ τ → Term₁-𝕋× a ⟨ Γ ⟩ τ)
 Terms-𝕋× : (𝑨 : 𝕋× 𝑖) -> (Γ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)) -> (Δ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)) -> 𝒰 𝑖
 Terms-𝕋× 𝑨 Γ Δ = CtxHom (Term₁-𝕋× 𝑨) ⟨ Γ ⟩ ⟨ Δ ⟩
 
+分Term = Term₁-𝕋×
 
-
-
-
-
+全Term = Terms-𝕋×
 
 
 
