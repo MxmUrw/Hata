@@ -62,6 +62,13 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} {D : 𝒰 𝑙} where
   map-+ : ∀(f : A -> B) (g : C -> D) -> (A + C) -> (B + D)
   map-+ f g = either (λ x -> left (f x)) (λ y -> right (g y))
 
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} where
+  mapLeft : ∀(f : A -> B) -> (A + C) -> (B + C)
+  mapLeft f = either (λ x -> left (f x)) right
+
+  mapRight : ∀(f : A -> B) -> (C + A) -> (C + B)
+  mapRight f = either left (λ x -> right (f x))
+
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   instance
     isInjective:left : isInjective-𝒰 (left {A = A} {B = B})

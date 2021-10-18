@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Data.Product.Everything where
+module Verification.Experimental.Data.AllOf.Product where
 
 open import Verification.Experimental.Data.Product.Definition public
 open import Verification.Experimental.Data.Product.Instance.Product public

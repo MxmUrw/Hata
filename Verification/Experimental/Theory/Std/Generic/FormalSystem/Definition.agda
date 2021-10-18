@@ -21,6 +21,7 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
+open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 open import Verification.Experimental.Category.Std.Morphism.EpiMono

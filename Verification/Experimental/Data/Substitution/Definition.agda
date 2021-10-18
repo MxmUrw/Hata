@@ -51,6 +51,7 @@ open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductCategory
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.IsoGetting
 open import Verification.Experimental.Data.FiniteIndexed.Property.IsoGetting
+open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
 
 
 
@@ -200,31 +201,25 @@ module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
 
 
 
-module _ (I : 𝒰 𝑖) where
-  private
-    fin : 𝐅𝐢𝐧𝐈𝐱 I -> (𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖))
-    fin = 𝑓𝑢𝑙𝑙 _ 𝑒𝑙
-  macro
-    𝑓𝑖𝑛 = #structureOn fin
 
 
-module _ {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖𝑛 I)) where
+module _ {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) where
   Substitution = RelativeKleisli T
 
   macro
     𝐒𝐮𝐛𝐬𝐭 : SomeStructure
     𝐒𝐮𝐛𝐬𝐭 = #structureOn (Substitution)
 
-record InductiveSubstitution {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖𝑛 I)) : 𝒰 𝑖 where
+record InductiveSubstitution {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) : 𝒰 𝑖 where
   constructor incl
   field ⟨_⟩ : Free-𝐌𝐨𝐧 I
 
 open InductiveSubstitution {{...}} public
 
-module _ {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖𝑛 I)) where
+module _ {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) where
   macro ⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn (InductiveSubstitution T)
 
-module _ {I : 𝒰 𝑖} {T : RelativeMonad (𝑓𝑖𝑛 I)} where
+module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
   -- instance
   --   isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isDiscrete I}} -> isDiscrete (⧜𝐒𝐮𝐛𝐬𝐭 T)
   --   isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
