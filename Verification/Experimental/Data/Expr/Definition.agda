@@ -26,13 +26,27 @@ data Exprᵘ (B : 𝒰 𝑖) (A : 𝐅𝐢𝐧𝐈𝐱 (⊤-𝒰 {𝑖})) : 𝒰
   var : ∀{a} -> ⟨ A ⟩ ∍ a -> Exprᵘ B A
   statements : List (Exprᵘ B A) -> Exprᵘ B A
 
+
+{-
+
+-- rel monad
+
+data Exprᵘ (B : 𝒰 𝑖) (A : 𝐅𝐢𝐧𝐈𝐱 (⊤-𝒰 {𝑖})) : 𝒰 𝑖 where
+  val : B -> Exprᵘ B A
+  var : ∀{a} -> ⟨ A ⟩ ∍ a -> Exprᵘ B A
+  statements : List (Exprᵘ B A) -> Exprᵘ B A
+
 module _ (B : 𝒰 𝑖) where
   Expr : 𝐅𝐢𝐧𝐈𝐱 ⊤-𝒰 -> 𝐈𝐱 (⊤-𝒰 {𝑖}) (𝐔𝐧𝐢𝐯 𝑖)
   Expr A = indexed (λ i -> Exprᵘ B A)
 
 
+-}
 
--- as product theory
+
+{-
+-- product theory
+
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
 
 module _ {A : 𝒰 𝑖} (a b : A) where
@@ -61,7 +75,7 @@ module _ (B : 𝒰 𝑖) where
   isDiscrete:Con 𝕋Expr = {!!}
 
 
-
+-}
 
 
 

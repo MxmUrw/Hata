@@ -16,6 +16,9 @@ open import Verification.Application.Persistent
 open import Verification.Experimental.Category.Std.Monad.Definition
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 
+open import Verification.Experimental.Theory.Std.Inference.Definition
+open import Verification.Experimental.Theory.Std.Inference.Task
+
 
 record InferStandaloneState : 𝒰₀ where
   constructor printExe
@@ -36,15 +39,17 @@ inferStandaloneExecutable = executable (printExe) loop
 data InferStandaloneError : 𝒰₀ where
   persistencyError : PersistencyError -> InferStandaloneError
 
-doInferStandalone : String -> InferStandaloneError + String
+doInferStandalone : Text -> InferStandaloneError + Text
 doInferStandalone input = do
   contentfile <- mapLeft persistencyError (parseContentFile input)
   contentfile' <- mapLeft persistencyError (unbaseContentFile contentfile)
-  infer contentfile'
+  return (infer contentfile')
 
   where
-    infer : ContentFile -> InferStandaloneError + String
-    infer (contentFile language content) = {!!}
+    infer : ContentFile -> String
+    infer (contentFile language content) =
+      let _ , task = getInferenceTask language
+      in executeInferenceFlat task content
 
 
 

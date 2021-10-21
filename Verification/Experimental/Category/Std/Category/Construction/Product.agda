@@ -12,6 +12,7 @@ open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Construction.Id
 open import Verification.Experimental.Category.Std.Limit.Specific.Product
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Functor.Constant
 open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
 open import Verification.Experimental.Category.Std.Functor.Instance.Category

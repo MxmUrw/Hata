@@ -14,6 +14,7 @@ open import Verification.Experimental.Category.Std.Category.Instance.ProductMono
 open import Verification.Experimental.Category.Std.Limit.Specific.Product
 open import Verification.Experimental.Category.Std.Limit.Specific.Product.Instance.Functor
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Functor.Constant
 open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Natural.Iso
 open import Verification.Experimental.Category.Std.Morphism.Iso

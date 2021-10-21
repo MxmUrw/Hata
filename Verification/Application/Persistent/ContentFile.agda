@@ -18,13 +18,13 @@ open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 record BaseContentFile : 𝒰₀ where
   constructor baseContentFile
   field language : String
-  field content : BaseExpr
+  field content : Text
 
 
 record ContentFile : 𝒰₀ where
   constructor contentFile
   field language : SupportedLanguage
-  field content : BaseExpr
+  field content : Text
 
 postulate
   parseContentFile : String -> PersistencyError + BaseContentFile

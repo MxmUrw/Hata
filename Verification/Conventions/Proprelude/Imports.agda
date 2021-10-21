@@ -11,6 +11,9 @@ open import Agda.Primitive public using (lzero)
 
 
 open import Agda.Builtin.String public
+  renaming (String to Text)
+
+String = Text
 
 -- open import Verification.VHM2.Conventions.Base hiding (_==_ ; tail ; _∎ ; _∙_ ; cong) public
 open import Cubical.Core.Everything hiding (Type ; _∧_ ; _∨_ ; isEquiv)
