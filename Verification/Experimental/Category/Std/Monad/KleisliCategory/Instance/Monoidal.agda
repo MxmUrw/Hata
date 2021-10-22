@@ -44,7 +44,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}} where
 
   record isMonoidalMonad (T : Monad 𝒞) : 𝒰 𝑖 where
     field {{isLaxMonoidalFunctor:this}} : isLaxMonoidalFunctor ′ ⟨ T ⟩ ′
-    field compat-lax-unit : lax-unit ∼ pure
+    field compat-lax-unit : lax-unit ∼ pure _
     -- field compat-lax-mult : ∀{a b} -> Eq (a ⋆ b ⟶ ⟨ T ⟩ (a ⋆ b))
     --                                      (pure ⇃⊗⇂ pure ◆ lax-mult)
     --                                      pure

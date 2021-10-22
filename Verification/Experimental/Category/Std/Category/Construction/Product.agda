@@ -88,32 +88,32 @@ module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} wh
     reduce-π₀-𝐂𝐚𝐭 = α since P
       where
         α : Natural (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭) F
-        α = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = F}}})
+        α = (λ _ -> id) since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = F}}})
 
         β : Natural F (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭)
-        β = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = F}}})
+        β = (λ _ -> id) since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = F}}})
 
         P : isIso (hom α)
         P = record
             { inverse-◆  = β
-            ; inv-r-◆    = unit-2-◆
-            ; inv-l-◆    = unit-2-◆
+            ; inv-r-◆    = λ _ -> unit-2-◆
+            ; inv-l-◆    = λ _ -> unit-2-◆
             }
 
     reduce-π₁-𝐂𝐚𝐭 : (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭) ≅ G
     reduce-π₁-𝐂𝐚𝐭 = α since P
       where
         α : Natural (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭) G
-        α = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = G}}})
+        α = (λ _ -> id) since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = G}}})
 
         β : Natural G (⧼ F , G ⧽-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭)
-        β = id since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = G}}})
+        β = (λ _ -> id) since natural (naturality {{of id-𝐅𝐮𝐧𝐜 {F = G}}})
 
         P : isIso (hom α)
         P = record
             { inverse-◆  = β
-            ; inv-r-◆    = unit-2-◆
-            ; inv-l-◆    = unit-2-◆
+            ; inv-r-◆    = λ _ -> unit-2-◆
+            ; inv-l-◆    = λ _ -> unit-2-◆
             }
 
   module _ {F : Functor 𝒳 (𝒞 × 𝒟)} where
@@ -121,16 +121,16 @@ module _ {𝒳 : Category 𝑖} {𝒞 : Category 𝑗} {𝒟 : Category 𝑘} wh
     expand-⊓-𝐂𝐚𝐭 = α since P
       where
         α : Natural F ⧼ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⧽-𝐂𝐚𝐭
-        α = (id , id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹ , unit-l-◆ ∙ unit-r-◆ ⁻¹)
+        α = (λ _ -> id , id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹ , unit-l-◆ ∙ unit-r-◆ ⁻¹)
 
         β : Natural ⧼ F ◆-𝐂𝐚𝐭 π₀-𝐂𝐚𝐭 , F ◆-𝐂𝐚𝐭 π₁-𝐂𝐚𝐭 ⧽-𝐂𝐚𝐭 F
-        β = (id , id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹ , unit-l-◆ ∙ unit-r-◆ ⁻¹)
+        β = (λ _ -> id , id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹ , unit-l-◆ ∙ unit-r-◆ ⁻¹)
 
         P : isIso (hom α)
         P = record
             { inverse-◆  = β
-            ; inv-r-◆    = unit-2-◆ , unit-2-◆
-            ; inv-l-◆    = unit-2-◆ , unit-2-◆
+            ; inv-r-◆    = λ _ -> unit-2-◆ , unit-2-◆
+            ; inv-l-◆    = λ _ -> unit-2-◆ , unit-2-◆
             }
 
 module _ {𝒞 𝒟 : 𝐂𝐚𝐭 𝑖} where
@@ -163,16 +163,16 @@ expand-⊤-𝐂𝐚𝐭 : ∀{𝒞 : 𝐂𝐚𝐭 𝑖} -> {F : Functor 𝒞 (�
 expand-⊤-𝐂𝐚𝐭 {F = F} = α since P
   where
     α : Natural F intro-⊤-𝐂𝐚𝐭
-    α = incl isProp:⊤-𝒰 since natural (λ _ → ↥ isSet:⊤-𝒰)
+    α = (λ _ -> incl isProp:⊤-𝒰) since natural (λ _ → ↥ isSet:⊤-𝒰)
 
     β : Natural intro-⊤-𝐂𝐚𝐭 F
-    β = incl isProp:⊤-𝒰 since natural (λ _ → ↥ isSet:⊤-𝒰)
+    β = (λ _ -> incl isProp:⊤-𝒰) since natural (λ _ → ↥ isSet:⊤-𝒰)
 
     P : isIso (hom α)
     P = record
         { inverse-◆ = β
-        ; inv-r-◆   = ↥ isSet:⊤-𝒰
-        ; inv-l-◆   = ↥ isSet:⊤-𝒰
+        ; inv-r-◆   = λ _ -> ↥ isSet:⊤-𝒰
+        ; inv-l-◆   = λ _ -> ↥ isSet:⊤-𝒰
         }
 
 

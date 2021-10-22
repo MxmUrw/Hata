@@ -25,11 +25,11 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
                  ⟪ functoriality-◆ ≀∼≀ functoriality-◆ ⟫
                  >> map (map f) ◆ map h ∼ map (map g) ◆ map i <<
                  ⟪ (refl ◈_) ⟫
-                 >> coadj ◆ (map (map f) ◆ map h) ∼ coadj ◆ (map (map g) ◆ map i) <<
+                 >> coadj _ ◆ (map (map f) ◆ map h) ∼ coadj _ ◆ (map (map g) ◆ map i) <<
                  ⟪ assoc-r-◆ ≀∼≀ assoc-r-◆ ⟫
-                 >> (coadj ◆ map (map f)) ◆ map h ∼ (coadj ◆ map (map g)) ◆ map i <<
+                 >> (coadj _ ◆ map (map f)) ◆ map h ∼ (coadj _ ◆ map (map g)) ◆ map i <<
                  ⟪ naturality f ◈ refl ≀∼≀ naturality g ◈ refl ⟫
-                 >> (f ◆ coadj) ◆ map h ∼ (g ◆ coadj) ◆ map i <<
+                 >> (f ◆ coadj _) ◆ map h ∼ (g ◆ coadj _) ◆ map i <<
                  ⟪ assoc-l-◆ ≀∼≀ assoc-l-◆ ⟫
 
     module _ {a : ⟨ 𝒞 ⟩} {b c : ⟨ 𝒟 ⟩} where

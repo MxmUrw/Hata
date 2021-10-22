@@ -75,10 +75,10 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
               ξ' = free ξ
 
               lem-2 : π₌' ◆ ξ' ∼ h
-              lem-2 = map π₌ ◆ (map ξ ◆ adj)           ⟨ assoc-r-◆ ⟩-∼
-                      (map π₌ ◆ map ξ) ◆ adj           ⟨ functoriality-◆ ⁻¹ ◈ refl ⟩-∼
-                      map (π₌ ◆ ξ) ◆ adj               ⟨ cong-∼ reduce-π₌ ◈ refl ⟩-∼
-                      map h' ◆ adj                     ⟨ refl ⟩-∼
+              lem-2 = map π₌ ◆ (map ξ ◆ adj _)           ⟨ assoc-r-◆ ⟩-∼
+                      (map π₌ ◆ map ξ) ◆ adj _           ⟨ functoriality-◆ ⁻¹ ◈ refl ⟩-∼
+                      map (π₌ ◆ ξ) ◆ adj _               ⟨ cong-∼ reduce-π₌ ◈ refl ⟩-∼
+                      map h' ◆ adj _                     ⟨ refl ⟩-∼
                       free (cofree h)                  ⟨ inv-free ⟩-∼
                       h                                ∎
 

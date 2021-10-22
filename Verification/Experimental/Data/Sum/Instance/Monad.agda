@@ -24,11 +24,11 @@ module _ {A : 𝒰 𝑖} where
     isMonad:+⧿ = monad pure-+ join-+ {{{!!}}} {{{!!}}} {!!} {!!} {!!}
 
       where
-        pure-+ : ∀{B : 𝒰 𝑖} -> (B ⟶ A + B)
-        pure-+ = right
+        pure-+ : ∀(B : 𝒰 𝑖) -> (B ⟶ A + B)
+        pure-+ _ = right
 
-        join-+ : ∀{B : 𝒰 𝑖} -> (A +-𝒰 (A + B)) ⟶ (A + B)
-        join-+ = (either left idf)
+        join-+ : ∀(B : 𝒰 𝑖) -> (A +-𝒰 (A + B)) ⟶ (A + B)
+        join-+ _ = (either left idf)
 
 instance
   isLaxMonoidalFunctor:Maybe : isLaxMonoidalFunctor {𝒞 = 𝐔𝐧𝐢𝐯 𝑖} {𝒟 = 𝐔𝐧𝐢𝐯 𝑖} (⊤-𝒰 {𝑖} +⧿)

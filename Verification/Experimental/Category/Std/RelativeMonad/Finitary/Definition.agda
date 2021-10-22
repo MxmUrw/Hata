@@ -35,9 +35,6 @@ module _ (I : 𝒰 𝑖) where
   FinitaryRelativeMonad = RelativeMonad 𝑓𝑖𝑛
 
 
-module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
-  mapOf : (F : Functor 𝒞 𝒟) -> ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> ⟨ F ⟩ a ⟶ ⟨ F ⟩ b
-  mapOf F f = map f
 
 module mytestwhat {𝑖 : 𝔏} (J : 𝒰 𝑗) where
   bla : (Functor (𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)) (𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖))) -> ℕ
@@ -91,11 +88,11 @@ module _ {I : 𝒰 𝑖} where
     -- isFunctor:M : isFunctor _ _ ⟨ M ⟩
     -- isFunctor:M = it
 
-    pure-Re⁻¹ : ∀{a : 𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)} -> a ⟶ Re⁻¹ M a
-    pure-Re⁻¹ i x = rel⁻¹ (incl (incl i)) (repure i incl) (λ {i₁ incl → x})
+    pure-Re⁻¹ : ∀(a : 𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)) -> a ⟶ Re⁻¹ M a
+    pure-Re⁻¹ a i x = rel⁻¹ (incl (incl i)) (repure i incl) (λ {i₁ incl → x})
 
-    join-Re⁻¹ : ∀{a : 𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)} -> Re⁻¹ M (Re⁻¹ M a) ⟶ Re⁻¹ M a
-    join-Re⁻¹ i (rel⁻¹ as term values) =
+    join-Re⁻¹ : ∀(a : 𝐈𝐱 I (𝐔𝐧𝐢𝐯 𝑖)) -> Re⁻¹ M (Re⁻¹ M a) ⟶ Re⁻¹ M a
+    join-Re⁻¹ _ i (rel⁻¹ as term values) =
       let
 
         -- the map `values` which gives us a `Re⁻¹ M a` value for every `a` in `as`,

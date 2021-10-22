@@ -29,15 +29,15 @@ module _ {𝒞 : Category 𝑖} where
 --  | if the following additional data is given:
 
 -- | - Two maps |pure| and |join|:
-    field pure  : ∀{A} -> A ⟶ (⟨ F ⟩ A)
-          join    : ∀{A} -> (⟨ F ◆-𝐂𝐚𝐭 F ⟩ A) ⟶ (⟨ F ⟩ A)
+    field pure  : ∀ A -> A ⟶ (⟨ F ⟩ A)
+          join    : ∀ A -> (⟨ F ◆-𝐂𝐚𝐭 F ⟩ A) ⟶ (⟨ F ⟩ A)
 -- | - Proofs that they are natural:
           {{isNatural:pure}}  : isNatural id (F) pure
           {{isNatural:join}}    : isNatural (F ◆-𝐂𝐚𝐭 F) (F) join
 -- | - And behave monoidal.
-          unit-l-join  : ∀{A : ⟨ 𝒞 ⟩} -> pure ◆ join ∼ id {a = ⟨ F ⟩ A}
-          unit-r-join  : ∀{A : ⟨ 𝒞 ⟩} -> map pure ◆ join ∼ id {a = ⟨ F ⟩ A}
-          assoc-join   : ∀{A : ⟨ 𝒞 ⟩} -> join ◆ join ∼ (map join) ◆ join {A = A}
+          unit-l-join  : ∀{A : ⟨ 𝒞 ⟩} -> pure _ ◆ join _ ∼ id {a = ⟨ F ⟩ A}
+          unit-r-join  : ∀{A : ⟨ 𝒞 ⟩} -> map (pure _) ◆ join _ ∼ id {a = ⟨ F ⟩ A}
+          assoc-join   : ∀{A : ⟨ 𝒞 ⟩} -> join _ ◆ join _ ∼ (map (join _)) ◆ join A
   open isMonad {{...}} public
 -- //
 
@@ -48,7 +48,7 @@ Monad 𝒞 = Functor 𝒞 𝒞 :& isMonad
 module _ {𝒞 : Category 𝑖} {T : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩} {{_ : Monad 𝒞 on T}} where
   infixl 40 _>=>_
   _>=>_ : ∀{a b c : ⟨ 𝒞 ⟩} -> (a ⟶ T b) -> (b ⟶ T c) -> a ⟶ T c
-  _>=>_ f g = f ◆ map g ◆ join
+  _>=>_ f g = f ◆ map g ◆ join _
 
 
 

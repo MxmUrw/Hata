@@ -58,7 +58,7 @@ module _ {𝒞 : Category 𝑖} where
       record _∼-Hom-⨊ᵒᵖ_ (f g : Hom-⨊ᵒᵖ a b) : 𝒰 (𝑖 ⌄ 2 ､ 𝑗 ⌄ 2) where
         constructor _,_
         field ∼-base : base f ∼ base g
-        field ∼-fib : (fib f) ◆ (⟨ ⟨ cong-∼ ∼-base ⟩ ⟩ {_}) ∼ fib g
+        field ∼-fib : (fib f) ◆ (⟨ ⟨ cong-∼ ∼-base ⟩ ⟩ _) ∼ fib g
 
 
       instance

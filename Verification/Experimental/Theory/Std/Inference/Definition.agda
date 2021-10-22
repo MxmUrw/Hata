@@ -37,8 +37,6 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 --     isCategory:Monad : isCategory {⨆ 𝑖 , ⨆ 𝑖} (Monad 𝒞)
 --     isCategory:Monad = {!!}
 
-module _ (𝒞 : Category 𝑖) where
-  macro 𝐌𝐧𝐝 = #structureOn (Monad 𝒞)
 
 module _ {I : 𝒰 𝑖} where
   instance

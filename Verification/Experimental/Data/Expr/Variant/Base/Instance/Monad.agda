@@ -50,8 +50,9 @@ module _ {P : BaseExprParam} where
 
 open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
+open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 
-module _ {𝒞 : Category 𝑖} {𝒫 : Category 𝑗} {T : ⟨ 𝒫 ⟩ -> Monad 𝒞} where
+module _ {𝒞 : Category 𝑖} {𝒫 : Category 𝑗} {T : Functor 𝒫 (𝐌𝐧𝐝 𝒞)} where
   private
     F : Functor (𝒫 ᵒᵖ) (𝐂𝐚𝐭 _)
     F = Const 𝒞
@@ -60,7 +61,7 @@ module _ {𝒞 : Category 𝑖} {𝒫 : Category 𝑗} {T : ⟨ 𝒫 ⟩ -> Mona
     ℰ = ⨊ᵒᵖ F
 
     Sᵘ : ⟨ ℰ ⟩ -> ⟨ ℰ ⟩
-    Sᵘ (a , a⃨) = a , (⟨ T a ⟩ a⃨)
+    Sᵘ (a , a⃨) = a , (⟨ ⟨ T ⟩ a ⟩ a⃨)
 
     macro S = #structureOn Sᵘ
 
@@ -69,6 +70,9 @@ module _ {𝒞 : Category 𝑖} {𝒫 : Category 𝑗} {T : ⟨ 𝒫 ⟩ -> Mona
       where
         g : base (S a) ⟶ base (S b)
         g = f
+
+        g⃨ : ⟨ ⟨ T ⟩ (base a) ⟩ (fib a) ⟶ ⟨ ⟨ T ⟩ (base b) ⟩ (fib b)
+        g⃨ = {!mapOf ′ ⟨ ⟨ T ⟩ (base b) ⟩ ′ ?!} ◆ ⟨ ⟨ mapOf T f ⟩ ⟩ (fib b)
 
     instance
       isFunctor:S : isFunctor ℰ ℰ S

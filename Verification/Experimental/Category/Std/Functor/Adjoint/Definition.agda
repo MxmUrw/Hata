@@ -14,12 +14,12 @@ open import Verification.Experimental.Category.Std.Category.Notation.Associativi
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
   record isAdjoint (F : Functor 𝒞 𝒟) (G : Functor 𝒟 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
-    field adj    : ∀{a : ⟨ 𝒟 ⟩} -> ⟨ F ⟩ (⟨ G ⟩ a) ⟶ a
-    field coadj  : ∀{a : ⟨ 𝒞 ⟩} -> a ⟶ ⟨ G ⟩ (⟨ F ⟩ a)
+    field adj    : ∀(a : ⟨ 𝒟 ⟩) -> ⟨ F ⟩ (⟨ G ⟩ a) ⟶ a
+    field coadj  : ∀(a : ⟨ 𝒞 ⟩) -> a ⟶ ⟨ G ⟩ (⟨ F ⟩ a)
     field {{isNatural:adj}} : isNatural (G ◆-𝐂𝐚𝐭 F) id adj
     field {{isNatural:coadj}} : isNatural id (F ◆-𝐂𝐚𝐭 G) coadj
-    field reduce-coadj : ∀{b : ⟨ 𝒟 ⟩}  -> coadj ◆ map adj ∼ id {a = ⟨ G ⟩ b}
-    field reduce-adj : ∀{a : ⟨ 𝒞 ⟩}    -> map coadj ◆ adj ∼ id {a = ⟨ F ⟩ a}
+    field reduce-coadj : ∀{b : ⟨ 𝒟 ⟩}  -> coadj _ ◆ map (adj _) ∼ id {a = ⟨ G ⟩ b}
+    field reduce-adj : ∀{a : ⟨ 𝒞 ⟩}    -> map (coadj _) ◆ (adj _) ∼ id {a = ⟨ F ⟩ a}
 
   open isAdjoint {{...}} public
 
@@ -33,19 +33,19 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 
       -- |> we have an isomorphism between hom-types as follows:
       free : (a ⟶ ⟨ G ⟩ b) -> (⟨ F ⟩ a ⟶ b)
-      free f = map f ◆ adj
+      free f = map f ◆ adj _
 
       -- | The inverse direction is given by:
       cofree : (⟨ F ⟩ a ⟶ b) -> (a ⟶ ⟨ G ⟩ b)
-      cofree f = coadj ◆ map f
+      cofree f = coadj _ ◆ map f
 
       inv-free : ∀{f} -> free (cofree f) ∼ f
       inv-free {f} =
-        map (coadj ◆ (map f)) ◆ adj      ⟨ functoriality-◆ ◈ refl ⟩-∼
-        map coadj ◆ map (map f) ◆ adj    ⟨ assoc-l-◆ ⟩-∼
-        map coadj ◆ (map (map f) ◆ adj)  ⟨ refl ◈ naturality f ⁻¹ ⟩-∼
-        map coadj ◆ (adj ◆ f)            ⟨ assoc-r-◆ ⟩-∼
-        (map coadj ◆ adj) ◆ f            ⟨ reduce-adj ◈ refl ⟩-∼
+        map ((coadj _) ◆ (map f)) ◆ adj _      ⟨ functoriality-◆ ◈ refl ⟩-∼
+        map (coadj _) ◆ map (map f) ◆ adj _    ⟨ assoc-l-◆ ⟩-∼
+        map (coadj _) ◆ (map (map f) ◆ adj _)  ⟨ refl ◈ naturality f ⁻¹ ⟩-∼
+        map (coadj _) ◆ (adj _ ◆ f)            ⟨ assoc-r-◆ ⟩-∼
+        (map (coadj _) ◆ adj _) ◆ f            ⟨ reduce-adj ◈ refl ⟩-∼
         id ◆ f                           ⟨ unit-l-◆ ⟩-∼
         f                                ∎
 

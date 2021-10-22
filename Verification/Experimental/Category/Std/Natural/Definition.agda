@@ -20,11 +20,11 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 
 -- |> A family of morphisms |α|, where for every |x : 𝒞|, |α ⌄ x : F x ⟶ G x| is an arrow in |𝒟|,
 --   is called a *natural transformation* from |F| to |G|,
-    record isNatural (α : ∀{x : ⟨ 𝒞 ⟩} -> Hom (⟨ F ⟩ x) (⟨ G ⟩ x)) : 𝒰 (𝑖 ､ 𝑗) where
+    record isNatural (α : ∀(x : ⟨ 𝒞 ⟩) -> Hom (⟨ F ⟩ x) (⟨ G ⟩ x)) : 𝒰 (𝑖 ､ 𝑗) where
       constructor natural
 
 -- |> if it is natural, i.e., the following equation holds:
-      field naturality : ∀{x y : ⟨ 𝒞 ⟩} -> ∀(f : x ⟶ y) -> α ◆ map {{of G}} f ∼ map {{of F}} f ◆ α
+      field naturality : ∀{x y : ⟨ 𝒞 ⟩} -> ∀(f : x ⟶ y) -> α x ◆ map {{of G}} f ∼ map {{of F}} f ◆ α y
 
     open isNatural {{...}} public
 --  //
@@ -32,6 +32,10 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
     instance
       hasU:Natural : hasU (∀{x : ⟨ 𝒞 ⟩} -> ⟨ F ⟩ x ⟶ ⟨ G ⟩ x) _ _
       hasU:Natural = hasU:Base (∀{x : ⟨ 𝒞 ⟩} -> ⟨ F ⟩ x ⟶ ⟨ G ⟩ x)
+
+    instance
+      hasU:Natural' : hasU (∀(x : ⟨ 𝒞 ⟩) -> ⟨ F ⟩ x ⟶ ⟨ G ⟩ x) _ _
+      hasU:Natural' = hasU:Base (∀(x : ⟨ 𝒞 ⟩) -> ⟨ F ⟩ x ⟶ ⟨ G ⟩ x)
 
     Natural : 𝒰 _
     Natural = _ :& isNatural

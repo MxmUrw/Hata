@@ -19,13 +19,13 @@ module _ {T : _ -> _} {{_ : Monad (𝐓𝐲𝐩𝐞 𝑖) on T}} where
   _>>=_ : ∀{A B : 𝒰 𝑖} -> (T A) -> (A -> T B) -> T B
   a >>= f =
     let x = map f a
-    in join x
+    in join _ x
 
   _>>_ : ∀{A B : 𝒰 𝑖} -> (T A) -> T B -> T B
   a >> b = a >>= const b
 
   return : {A : 𝒰 𝑖} -> A -> T A
-  return = pure
+  return = pure _
 
 
 record isTraversable (T : Functor (𝐔𝐧𝐢𝐯 𝑖) (𝐔𝐧𝐢𝐯 𝑖)) : 𝒰 (𝑖 ⁺) where

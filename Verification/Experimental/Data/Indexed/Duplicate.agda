@@ -93,16 +93,16 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
     isFunctor.functoriality-id isFunctor:⨅ᶠ = {!!}
     isFunctor.functoriality-◆ isFunctor:⨅ᶠ = {!!}
 
-  adj-写 : ∀{n a} -> 写 (⨅ᶠ {n} a) ⟶ a
-  adj-写 {incl x} {a} = λ {(x , incl) → id}
-  adj-写 {n ⋆-⧜ m} {a} (_ , left-∍ i) = π₀ ◆ adj-写 (_ , i)
-  adj-写 {n ⋆-⧜ m} {a} (_ , right-∍ i) = π₁ ◆ adj-写 (_ , i)
-  adj-写 {◌-⧜} {a} ()
+  adj-写 : ∀{n} -> ∀ a -> 写 (⨅ᶠ {n} a) ⟶ a
+  adj-写 {incl x} a = λ {(x , incl) → id}
+  adj-写 {n ⋆-⧜ m} a (_ , left-∍ i) = π₀ ◆ adj-写 _ (_ , i)
+  adj-写 {n ⋆-⧜ m} a (_ , right-∍ i) = π₁ ◆ adj-写 _ (_ , i)
+  adj-写 {◌-⧜} a ()
 
-  coadj-写 : ∀{n a} -> a ⟶ ⨅ᶠ {n} (写 a)
-  coadj-写 {incl x} {a} = id
-  coadj-写 {n ⋆-Free-𝐌𝐨𝐧 m} {a} = ⧼ coadj-写 {n} , coadj-写 {m} ⧽
-  coadj-写 {◌-Free-𝐌𝐨𝐧} {a} = intro-⊤
+  coadj-写 : ∀{n} -> ∀ a -> a ⟶ ⨅ᶠ {n} (写 a)
+  coadj-写 {incl x} a = id
+  coadj-写 {n ⋆-Free-𝐌𝐨𝐧 m} a = ⧼ coadj-写 {n} _ , coadj-写 {m} _ ⧽
+  coadj-写 {◌-Free-𝐌𝐨𝐧} a = intro-⊤
 
   module _ {n} where
     instance

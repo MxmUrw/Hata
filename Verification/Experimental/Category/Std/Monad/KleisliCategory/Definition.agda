@@ -42,33 +42,39 @@ module _ {𝒞 : Category 𝑖} {T : Monad 𝒞} where
       isSetoid._∙_ isSetoid:KleisliHom {a} p q = incl $ ⟨ p ⟩ ∙ ⟨ q ⟩
 
   private
-    lem-1 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ ⟨ T ⟩ b} -> (pure >=> f) ∼ f
-    lem-1 {f = f} = pure ◆ map f ◆ join     ⟨ naturality f ◈ refl ⟩-∼
-                    f ◆ pure ◆ join         ⟨ assoc-l-◆ ⟩-∼
-                    f ◆ (pure ◆ join)       ⟨ refl ◈ unit-l-join ⟩-∼
+    lem-1 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ ⟨ T ⟩ b} -> (pure _ >=> f) ∼ f
+    lem-1 {f = f} = pure _ ◆ map f ◆ join _     ⟨ naturality f ◈ refl ⟩-∼
+                    f ◆ pure _ ◆ join _         ⟨ assoc-l-◆ ⟩-∼
+                    f ◆ (pure _ ◆ join _)       ⟨ refl ◈ unit-l-join ⟩-∼
                     f ◆ id                  ⟨ unit-r-◆ ⟩-∼
                     f                       ∎
 
-    lem-2 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ ⟨ T ⟩ b} -> (f >=> pure) ∼ f
-    lem-2 {f = f} = f ◆ map pure ◆ join   ⟨ assoc-l-◆ ⟩-∼
-                    f ◆ (map pure ◆ join) ⟨ refl ◈ unit-r-join ⟩-∼
+    lem-2 : ∀{a b : ⟨ 𝒞 ⟩} -> {f : a ⟶ ⟨ T ⟩ b} -> (f >=> pure _) ∼ f
+    lem-2 {f = f} = f ◆ map (pure _) ◆ join _   ⟨ assoc-l-◆ ⟩-∼
+                    f ◆ (map (pure _) ◆ join _) ⟨ refl ◈ unit-r-join ⟩-∼
                     f ◆ id                ⟨ unit-r-◆ ⟩-∼
                     f                     ∎
 
+    -- NOTE:
+    -- When switching the definition of natural transformation
+    -- to use explicit instead of implicit object parameters
+    -- we needed to add those underscope applications. This
+    -- could be fixed again if we had a new name for implicit join/pure
+
     lem-3 : ∀{a b c d : ⟨ 𝒞 ⟩} -> {f : a ⟶ ⟨ T ⟩ b} {g : b ⟶ ⟨ T ⟩ c} {h : c ⟶ ⟨ T ⟩ d} -> (f >=> g) >=> h ∼ f >=> (g >=> h)
     lem-3 {f = f} {g} {h} =
-      f ◆ map g ◆ join ◆ map h ◆ join            ⟨ assoc-l-◆ ⟩-∼
-      f ◆ map g ◆ join ◆ (map h ◆ join)          ⟨ assoc-l-◆ ⟩-∼
-      f ◆ map g ◆ (join ◆ (map h ◆ join))        ⟨ refl ◈ assoc-r-◆ ⟩-∼
-      f ◆ map g ◆ ((join ◆ map h) ◆ join)        ⟨ refl ◈ ((naturality h) ◈ refl) ⟩-∼
-      f ◆ map g ◆ ((map (map h) ◆ join) ◆ join)  ⟨ refl ◈ assoc-l-◆ ⟩-∼
-      f ◆ map g ◆ (map (map h) ◆ (join ◆ join))  ⟨ refl ◈ ((refl ◈ assoc-join) ∙ assoc-r-◆) ⟩-∼
-      f ◆ map g ◆ ((map (map h) ◆ map join) ◆ join)  ⟨ refl ◈ (functoriality-◆ ⁻¹ ◈ refl) ⟩-∼
-      f ◆ map g ◆ (map (map h ◆ join) ◆ join)    ⟨ assoc-r-◆ ⟩-∼
-      f ◆ map g ◆ map (map h ◆ join) ◆ join      ⟨ assoc-l-◆ ◈ refl ⟩-∼
-      f ◆ (map g ◆ map (map h ◆ join)) ◆ join    ⟨ refl ◈ functoriality-◆ ⁻¹ ◈ refl ⟩-∼
-      f ◆ map (g ◆ (map h ◆ join)) ◆ join        ⟨ refl ◈ cong-∼ assoc-r-◆ ◈ refl ⟩-∼
-      f ◆ map (g ◆ map h ◆ join) ◆ join          ∎
+      f ◆ map g ◆ join _ ◆ map h ◆ join _            ⟨ assoc-l-◆ ⟩-∼
+      f ◆ map g ◆ join _ ◆ (map h ◆ join _)          ⟨ assoc-l-◆ ⟩-∼
+      f ◆ map g ◆ (join _ ◆ (map h ◆ join _))        ⟨ refl ◈ assoc-r-◆ ⟩-∼
+      f ◆ map g ◆ ((join _ ◆ map h) ◆ join _)        ⟨ refl ◈ ((naturality h) ◈ refl) ⟩-∼
+      f ◆ map g ◆ ((map (map h) ◆ join _) ◆ join _)  ⟨ refl ◈ assoc-l-◆ ⟩-∼
+      f ◆ map g ◆ (map (map h) ◆ (join _ ◆ join _))  ⟨ refl ◈ ((refl ◈ assoc-join) ∙ assoc-r-◆) ⟩-∼
+      f ◆ map g ◆ ((map (map h) ◆ map (join _)) ◆ join _)  ⟨ refl ◈ (functoriality-◆ ⁻¹ ◈ refl) ⟩-∼
+      f ◆ map g ◆ (map (map h ◆ join _) ◆ join _)    ⟨ assoc-r-◆ ⟩-∼
+      f ◆ map g ◆ map (map h ◆ join _) ◆ join _      ⟨ assoc-l-◆ ◈ refl ⟩-∼
+      f ◆ (map g ◆ map (map h ◆ join _)) ◆ join _    ⟨ refl ◈ functoriality-◆ ⁻¹ ◈ refl ⟩-∼
+      f ◆ map (g ◆ (map h ◆ join _)) ◆ join _        ⟨ refl ◈ cong-∼ assoc-r-◆ ◈ refl ⟩-∼
+      f ◆ map (g ◆ map h ◆ join _) ◆ join _          ∎
 
     lem-4 : ∀{a b c : ⟨ 𝒞 ⟩} -> {f₀ f₁ : a ⟶ ⟨ T ⟩ b} {g₀ g₁ : b ⟶ ⟨ T ⟩ c} -> (f₀ ∼ f₁) -> (g₀ ∼ g₁) -> (f₀ >=> g₀ ∼ f₁ >=> g₁)
     lem-4 {f₀ = f₀} {f₁} {g₀} {g₁} p q = p ◈ cong-∼ q ◈ refl
@@ -77,7 +83,7 @@ module _ {𝒞 : Category 𝑖} {T : Monad 𝒞} where
     Category:Kleisli : isCategory (Kleisli T)
     isCategory.Hom Category:Kleisli A B = KleisliHom A B
     isCategory.isSetoid:Hom Category:Kleisli = it
-    isCategory.id Category:Kleisli         = incl pure
+    isCategory.id Category:Kleisli         = incl (pure _)
     isCategory._◆_ Category:Kleisli        = λ f g -> incl (⟨ f ⟩ >=> ⟨ g ⟩)
     isCategory.unit-l-◆ Category:Kleisli   = incl lem-1
     isCategory.unit-r-◆ Category:Kleisli   = incl lem-2
@@ -89,7 +95,7 @@ module _ {𝒞 : Category 𝑖} {T : Monad 𝒞} where
 
   instance
     isFunctor:Kleisli : isFunctor 𝒞 (𝐊𝐥𝐬 T) incl
-    isFunctor.map isFunctor:Kleisli              = λ x → incl (x ◆ pure)
+    isFunctor.map isFunctor:Kleisli              = λ x → incl (x ◆ pure _)
     isFunctor.isSetoidHom:map isFunctor:Kleisli  = record { cong-∼ = λ x → incl (x ◈ refl) }
     isFunctor.functoriality-id isFunctor:Kleisli = incl unit-l-◆
     isFunctor.functoriality-◆ isFunctor:Kleisli  = {!!}
