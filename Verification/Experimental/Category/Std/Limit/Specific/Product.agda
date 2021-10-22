@@ -18,8 +18,8 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   record isProduct (a b x : 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
     field π₀ : x ⟶ a
     field π₁ : x ⟶ b
-    field ⧼_⧽ : ∀{c} -> ((c ⟶ a) × (c ⟶ b)) -> c ⟶ x
-    field {{isSetoidHom:⧼⧽}} : ∀{c} -> isSetoidHom ′((c ⟶ a) ×-𝒰 (c ⟶ b))′ ′(c ⟶ x)′ (⧼_⧽ {c})
+    field ⧼_⧽ : ∀{c} -> ((c ⟶ a) ×-𝒰 (c ⟶ b)) -> c ⟶ x
+    field {{isSetoidHom:⧼⧽}} : ∀{c} -> isSetoidHom ′((c ⟶ᵘ a) ×-𝒰 (c ⟶ᵘ b))′ (c ⟶ x) (⧼_⧽ {c})
     field reduce-π₀ : ∀{c} {f : c ⟶ a} {g : c ⟶ b} -> ⧼ f , g ⧽ ◆ π₀ ∼ f
     field reduce-π₁ : ∀{c} {f : c ⟶ a} {g : c ⟶ b} -> ⧼ f , g ⧽ ◆ π₁ ∼ g
     field expand-⊓  : ∀{c} {f : c ⟶ x} -> f ∼ ⧼ f ◆ π₀ , f ◆ π₁ ⧽

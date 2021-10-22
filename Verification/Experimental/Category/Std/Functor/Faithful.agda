@@ -24,7 +24,7 @@ module _ {D : 𝒰 𝑙} {{_ : isCategory {𝑙₁} D}}
   (_◆'_ : ∀{a b c : A} -> Hom' a b -> Hom' b c -> Hom' a c)
   (ϕ : A -> D)
   (map-ϕ : ∀{a b : A} -> Hom' a b -> ϕ a ⟶ ϕ b)
-  {{_ : ∀{a b : A} -> isSetoidHom ′ Hom' a b ′ ′ ϕ a ⟶ ϕ b ′ (map-ϕ {a} {b})}}
+  {{_ : ∀{a b : A} -> isSetoidHom ′ Hom' a b ′ (ϕ a ⟶ ϕ b) (map-ϕ {a} {b})}}
   {{_ : ∀{a b : A} -> isInjective (map-ϕ {a} {b})}}
   (functoriality-◆' : ∀{a b c : A} -> {f : Hom' a b} {g : Hom' b c} -> map-ϕ (f ◆' g) ∼ map-ϕ f ◆ map-ϕ g)
   (functoriality-id' : ∀{a : A} -> map-ϕ (id' {a}) ∼ id)

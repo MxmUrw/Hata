@@ -10,6 +10,16 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Category.Notation.Associativity
 
+infixr 20 _[_]→2_
+_[_]→2_ : ∀{𝑗} (X : 𝒰 𝑗) -> ∀ (𝑖 : 𝔏 ^ 2) -> (R : 𝒰 𝑙) -> (𝒰 _)
+_[_]→2_ {𝑗 = 𝑗} X 𝑖 R = {U : 𝒰 (𝑖 ⌄ 0)} -> (u : U) -> {{UU : hasU U (𝑗) (𝑖 ⌄ 1)}} -> {{p : getU UU ≡-Str (X)}} -> R
+-- _[_]→2_ {𝑗 = 𝑗} X 𝑖 R = {U : 𝒰 (𝑖 ⌄ 0)} -> (u : UniverseHintWrapper U) -> {{UU : hasU U (𝑗) (𝑖 ⌄ 1)}} -> {{p : getU UU ≡-Str (X)}} -> R
+
+macro
+  _×2_ : ∀{𝑖 𝑗 : 𝔏} {𝑘 𝑙 : 𝔏 ^ 2} -> (𝒰' 𝑖) [ 𝑙 ]→2 (𝒰' 𝑗) [ 𝑘 ]→2 SomeStructure
+  _×2_ = λstr A ↦ λstr B ↦ #structureOn (A ×-𝒰 B)
+  infixr 40 _×2_
+
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
@@ -25,7 +35,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     field ι₀ : a ⟶ x
     field ι₁ : b ⟶ x
     field ⦗_⦘ : ∀{c} -> ((a ⟶ c) × (b ⟶ c)) -> x ⟶ c
-    field {{isSetoidHom:⦗⦘}} : ∀{c} -> isSetoidHom ′((a ⟶ c) ×-𝒰 (b ⟶ c))′ ′(x ⟶ c)′ (⦗_⦘ {c})
+    field {{isSetoidHom:⦗⦘}} : ∀{c} -> isSetoidHom ′((a ⟶ c) ×-𝒰 (b ⟶ c))′ (x ⟶ c) (⦗_⦘ {c})
     field reduce-ι₀ : ∀{c} {f : a ⟶ c} {g : b ⟶ c} -> ι₀ ◆ ⦗ f , g ⦘ ∼ f
     field reduce-ι₁ : ∀{c} {f : a ⟶ c} {g : b ⟶ c} -> ι₁ ◆ ⦗ f , g ⦘ ∼ g
     field expand-⊔  : ∀{c} {f : x ⟶ c} -> f ∼ ⦗ ι₀ ◆ f , ι₁ ◆ f ⦘
@@ -45,7 +55,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
       ⦗_⦘' : ∀{z} -> ∀(p : ((a ⟶ z) × (b ⟶ z))) -> y ⟶ z
       ⦗_⦘' = λ (f , g) → ⟨ sym-≅ p ⟩ ◆ ⦗ f , g ⦘
 
-      lem-1 : ∀{z} -> isSetoidHom ′((a ⟶ z) ×-𝒰 (b ⟶ z))′ ′ (y ⟶ z) ′ ⦗_⦘'
+      lem-1 : ∀{z} -> isSetoidHom ′((a ⟶ z) ×-𝒰 (b ⟶ z))′ (y ⟶ z) ⦗_⦘'
       lem-1 = record { cong-∼ = λ p → refl ◈ cong-∼ p}
 
       lem-2 : ∀{z} -> {f : (a ⟶ z)} -> {g : (b ⟶ z)} -> ι₀' ◆ ⦗ f , g ⦘' ∼ f

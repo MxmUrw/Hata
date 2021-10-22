@@ -323,7 +323,7 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     lem-03 = incl (funExt⁻¹ (inv-l-◆-construct-D人List _))
 
   instance
-    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ ′(b ⟶ c)′ map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+    isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ (b ⟶ c) map-ι-⧜𝐒𝐮𝐛𝐬𝐭
     isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = record { cong-∼ = lem-01 }
 
   private

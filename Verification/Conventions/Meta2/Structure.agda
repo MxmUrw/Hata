@@ -42,8 +42,8 @@ open _:&_ public using (⟨_⟩)
 infixl 30 _:&_
 
 module _ {UU : 𝒰 𝑖} {{U : hasU UU 𝑘 𝑙}} {P : UU -> 𝒰 𝑗} where
-  ↳ : (UU :& P) -> UU
-  ↳ val = (reconstruct U (⟨ val ⟩ , oldProof {{_}} {{val}}))
+  ↳_ : (UU :& P) -> UU
+  ↳_ val = (reconstruct U (⟨ val ⟩ , oldProof {{_}} {{val}}))
 
 
 -- El-:& : {UU : 𝒰 𝑖} {{U : hasU UU 𝑘 𝑙}} {P : UU -> 𝒰 𝑗}

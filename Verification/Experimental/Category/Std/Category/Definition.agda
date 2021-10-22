@@ -77,8 +77,12 @@ Category 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isCategory {𝑗 ⌄ 1 ⋯ 2}
 
 -- [Notation]
 -- | We set [..], i.e., we may also write |a ⟶ b| for |Hom a b|.
-_⟶_ = Hom
-infixr 40 _⟶_
+
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} (a b : 𝒞) where
+  infixr 40 _⟶ᵘ_ _⟶_
+  _⟶ᵘ_ = Hom a b
+  macro _⟶_ = #structureOn (Hom a b)
+
 -- //
 
 {-

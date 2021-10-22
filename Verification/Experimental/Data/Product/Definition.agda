@@ -9,6 +9,7 @@ macro
   _×_ = λstr A ↦ λstr B ↦ #structureOn (A ×-𝒰 B)
   infixr 40 _×_
 
+
 -- The product for haskell
 
 record _×~_ (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where

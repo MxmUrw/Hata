@@ -10,6 +10,7 @@ open import Verification.Experimental.Category.Std.Category.Opposite
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Functor.Constant
 open import Verification.Experimental.Set.Setoid.As.Category
+open import Verification.Experimental.Set.Setoid.Definition
 
 open import Verification.Experimental.Category.Std.Monad.Definition
 open import Verification.Experimental.Category.Std.Monad.Instance.Category
@@ -52,6 +53,7 @@ open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
 open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 
+
 module _ {𝒞 : Category 𝑖} {𝒫 : Category 𝑗} {T : Functor 𝒫 (𝐌𝐧𝐝 𝒞)} where
   private
     F : Functor (𝒫 ᵒᵖ) (𝐂𝐚𝐭 _)
@@ -66,17 +68,21 @@ module _ {𝒞 : Category 𝑖} {𝒫 : Category 𝑗} {T : Functor 𝒫 (𝐌�
     macro S = #structureOn Sᵘ
 
     map-S : ∀{a b} -> a ⟶ b -> S a ⟶ S b
-    map-S {a} {b} (f , f⃨) = g , {!!}
+    map-S {a} {b} (f , f⃨) = g , g⃨
       where
         g : base (S a) ⟶ base (S b)
         g = f
 
         g⃨ : ⟨ ⟨ T ⟩ (base a) ⟩ (fib a) ⟶ ⟨ ⟨ T ⟩ (base b) ⟩ (fib b)
-        g⃨ = {!mapOf ′ ⟨ ⟨ T ⟩ (base b) ⟩ ′ ?!} ◆ ⟨ ⟨ mapOf T f ⟩ ⟩ (fib b)
+        g⃨ = mapOf (↳ (⟨ T ⟩ (base a))) f⃨ ◆ ⟨ ⟨ mapOf T f ⟩ ⟩ (fib b)
+
+    instance
+      isSetoidHom:map-S : ∀{a} {b} -> isSetoidHom (a ⟶ b) (S a ⟶ S b) (map-S)
+      isSetoidHom:map-S = {!!}
 
     instance
       isFunctor:S : isFunctor ℰ ℰ S
-      isFunctor.map isFunctor:S = {!!}
+      isFunctor.map isFunctor:S = map-S
       isFunctor.isSetoidHom:map isFunctor:S = {!!}
       isFunctor.functoriality-id isFunctor:S = {!!}
       isFunctor.functoriality-◆ isFunctor:S = {!!}
