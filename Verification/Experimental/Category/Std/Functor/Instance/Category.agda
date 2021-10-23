@@ -40,12 +40,12 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
     isCategory.isSetoid:Hom isCategory:Functor = isSetoid:Natural
     isCategory.id isCategory:Functor           = id-𝐅𝐮𝐧𝐜
     isCategory._◆_ isCategory:Functor          = _◆-𝐅𝐮𝐧𝐜_
-    isCategory.unit-l-◆ isCategory:Functor     = λ _ -> unit-l-◆
-    isCategory.unit-r-◆ isCategory:Functor     = λ _ -> unit-r-◆
-    isCategory.unit-2-◆ isCategory:Functor     = λ _ -> unit-2-◆
-    isCategory.assoc-l-◆ isCategory:Functor    = λ _ -> assoc-l-◆
-    isCategory.assoc-r-◆ isCategory:Functor    = λ _ -> assoc-r-◆
-    isCategory._◈_ isCategory:Functor          = λ p q x -> p x ◈ q x
+    isCategory.unit-l-◆ isCategory:Functor     = componentwise $ λ _ -> unit-l-◆
+    isCategory.unit-r-◆ isCategory:Functor     = componentwise $ λ _ -> unit-r-◆
+    isCategory.unit-2-◆ isCategory:Functor     = componentwise $ λ _ -> unit-2-◆
+    isCategory.assoc-l-◆ isCategory:Functor    = componentwise $ λ _ -> assoc-l-◆
+    isCategory.assoc-r-◆ isCategory:Functor    = componentwise $ λ _ -> assoc-r-◆
+    isCategory._◈_ isCategory:Functor          = λ p q -> componentwise (λ x -> ⟨ p ⟩ x ◈ ⟨ q ⟩ x)
 
   instance
     isSetoid:Functor : isSetoid (𝐅𝐮𝐧𝐜 𝒞 𝒟)

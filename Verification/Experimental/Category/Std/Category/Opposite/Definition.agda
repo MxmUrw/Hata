@@ -27,12 +27,15 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞P : isCategory {𝑗} 𝒞}} where
   open Hom-ᵒᵖ⌯ public
 
   module _ {a b : 𝒞 ᵒᵖ⌯ᵘ} where
-    _∼-Hom-ᵒᵖ⌯_ : (f g : Hom-ᵒᵖ⌯ a b) -> 𝒰 _
-    _∼-Hom-ᵒᵖ⌯_ f g = ⟨ f ⟩ ∼ ⟨ g ⟩
+    -- _∼-Hom-ᵒᵖ⌯_ : (f g : Hom-ᵒᵖ⌯ a b) -> 𝒰 _
+    -- _∼-Hom-ᵒᵖ⌯_ f g = ⟨ f ⟩ ∼ ⟨ g ⟩
 
-    instance
-      isSetoid:Hom-ᵒᵖ⌯ : isSetoid (Hom-ᵒᵖ⌯ a b)
-      isSetoid:Hom-ᵒᵖ⌯ = setoid _∼-Hom-ᵒᵖ⌯_ {!!} {!!} {!!}
+    record _∼-Hom-ᵒᵖ⌯_ (f g : Hom-ᵒᵖ⌯ a b) : 𝒰 (𝑗 ⌄ 1) where
+      field ⟨_⟩ : ⟨ f ⟩ ∼ ⟨ g ⟩
+
+    -- instance
+    isSetoid:Hom-ᵒᵖ⌯ : isSetoid (Hom-ᵒᵖ⌯ a b)
+    isSetoid:Hom-ᵒᵖ⌯ = setoid _∼-Hom-ᵒᵖ⌯_ {!!} {!!} {!!}
 
   id-ᵒᵖ⌯ : ∀{a : 𝒞 ᵒᵖ⌯ᵘ} -> Hom-ᵒᵖ⌯ a a
   id-ᵒᵖ⌯ = {!!}

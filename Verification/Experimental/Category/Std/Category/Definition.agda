@@ -85,6 +85,11 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} (a b : 𝒞) where
 
 -- //
 
+module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
+  idOn : (a : 𝒞) -> a ⟶ a
+  idOn a = id
+
+
 {-
 -- module _ {C : 𝒰 _} {{_ : Category 𝑖 on C}} where
 --   instance

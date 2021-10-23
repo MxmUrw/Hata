@@ -60,19 +60,23 @@ module _ {𝒞 : Category 𝑖} where
         field ∼-base : base f ∼ base g
         field ∼-fib : (fib f) ◆ (⟨ ⟨ cong-∼ ∼-base ⟩ ⟩ _) ∼ fib g
 
-
       instance
         isSetoid:Hom-⨊ᵒᵖ : isSetoid (Hom-⨊ᵒᵖ a b)
         isSetoid:Hom-⨊ᵒᵖ = setoid _∼-Hom-⨊ᵒᵖ_ {!!} {!!} {!!}
 
+    id-⨊ᵒᵖ : ∀{a : ⨊ᵒᵖ F} -> Hom-⨊ᵒᵖ a a
+    id-⨊ᵒᵖ = id , ⟨ inverse-◆ (of functoriality-id) ⟩ _
+
+    _◆-⨊ᵒᵖ_ : ∀{a b c : ⨊ᵒᵖ F} -> Hom-⨊ᵒᵖ a b -> Hom-⨊ᵒᵖ b c -> Hom-⨊ᵒᵖ a c
+    _◆-⨊ᵒᵖ_ (f , f⃨) (g , g⃨) = f ◆ g , f⃨ ◆ (mapOf (mapOf F f) g⃨ ◆ ⟨ inverse-◆ (of functoriality-◆) ⟩ _)
 
 
     instance
       isCategory:⨊ᵒᵖ : isCategory (⨊ᵒᵖ F)
       isCategory.Hom isCategory:⨊ᵒᵖ          = Hom-⨊ᵒᵖ
       isCategory.isSetoid:Hom isCategory:⨊ᵒᵖ = isSetoid:Hom-⨊ᵒᵖ
-      isCategory.id isCategory:⨊ᵒᵖ           = {!!}
-      isCategory._◆_ isCategory:⨊ᵒᵖ          = {!!}
+      isCategory.id isCategory:⨊ᵒᵖ           = id-⨊ᵒᵖ
+      isCategory._◆_ isCategory:⨊ᵒᵖ          = _◆-⨊ᵒᵖ_
       isCategory.unit-l-◆ isCategory:⨊ᵒᵖ     = {!!}
       isCategory.unit-r-◆ isCategory:⨊ᵒᵖ     = {!!}
       isCategory.unit-2-◆ isCategory:⨊ᵒᵖ     = {!!}
