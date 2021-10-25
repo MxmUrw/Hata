@@ -51,7 +51,7 @@ data BaseExprᵘ (P : BaseExprData) (X : 𝒰₀) : 𝒰₀ where
   hole : X -> BaseExprᵘ P X
   var : Text -> BaseExprᵘ P X
   token : TokenType P -> BaseExprᵘ P X
-  list : List (BaseExprᵘ P X) -> BaseExprᵘ P X
+  list : Vec (BaseExprᵘ P X) n -> BaseExprᵘ P X
   annotation : Text -> BaseExprᵘ P X -> BaseExprᵘ P X
 
 
@@ -65,13 +65,13 @@ module _ {P : BaseExprData} where
     IShow:BaseExpr {X} = record { show = f }
       where
         mutual
-          fs : List (BaseExpr P X) -> Text
+          fs : Vec (BaseExpr P X) n -> Text
           fs [] = ""
-          fs (x ∷ xs) = f x <> " " <> fs xs
+          fs (x ∷ xs) = f x <> ", " <> fs xs
 
           f : BaseExpr P X -> Text
-          f (var x) = show x
-          f (token x) = name x
+          f (var x) = "var " <> show x
+          f (token x) = "'" <> name x <> "'"
           f (list x) = "(" <> fs x <> ")"
           f (hole x) = "?{" <> show x <> "}"
           f (annotation t rest) = "[" <> t <> "](" <> f rest <> ")"
@@ -82,6 +82,11 @@ instance
 
 --------------
 -- Haskell to native version
+
+module _ {A : 𝒰 𝑖} where
+  List→Vec : List A -> ∑ Vec A
+  List→Vec [] = zero , []
+  List→Vec (x ∷ xs) = _ , x ∷ List→Vec xs .snd
 
 instance
   hasInclusion:BaseExpr~,BaseExpr : ∀{P X} -> hasInclusion (BaseExpr~ (TokenType P) X) (BaseExpr P X)
@@ -96,7 +101,7 @@ instance
         ι' (hole x) = hole x
         ι' (var x) = var x
         ι' (token x) = token x
-        ι' (list x) = list (ι's x)
+        ι' (list x) = list (List→Vec (ι's x) .snd)
 
 parseBaseExpr : ∀{P : BaseExprData} -> Text -> Text + BaseExpr P Text
 parseBaseExpr = mapRight ι ∘ parseBaseExpr~ it

@@ -7,12 +7,12 @@ open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Expr.Variant.Base.Definition
 
 
-module _ {A : 𝒰₀} (D : TokenDefinition A) {V : 𝒰₀} (vs : 人List V) where
-  data OpenExpr (X : 𝒰₀) : 𝒰₀ where
-    var : ∀{v} -> vs ∍ v -> OpenExpr X
-    hole : X -> OpenExpr X
-    token : A -> OpenExpr X
-    list : List (OpenExpr X) -> OpenExpr X
+-- module _ (D : BaseExprData) {V : 𝒰₀} (vs : 人List V) where
+--   data OpenExpr (X : 𝒰₀) : 𝒰₀ where
+--     var : ∀{v} -> vs ∍ v -> OpenExpr X
+--     hole : X -> OpenExpr X
+--     token : A -> OpenExpr X
+--     list : List (OpenExpr X) -> OpenExpr X
 
 
 

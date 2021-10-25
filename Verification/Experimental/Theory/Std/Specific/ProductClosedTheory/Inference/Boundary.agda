@@ -26,6 +26,7 @@ open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
 
 open import Verification.Experimental.Data.Expr.Variant.Base.InferenceTask
 open import Verification.Experimental.Data.Expr.Variant.Base.Definition
+open import Verification.Experimental.Data.SyntaxTree.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
 
@@ -120,6 +121,10 @@ hasElementNames:TokenType 𝕋ΛTypeData = record
     ∷ []
   ; name = showTokType
   }
+
+𝕋ΛTypeData2 : SyntaxTreeData
+TokenType 𝕋ΛTypeData2 = UntypedCon 𝒷
+TokenSize 𝕋ΛTypeData2 = λ (τs , _ , x) → length τs
 
 
 {-

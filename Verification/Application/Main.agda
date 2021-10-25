@@ -12,6 +12,7 @@ open import Verification.Experimental.Data.Int.Definition
 
 
 open import Verification.Application.Applications.InferStandalone.Definition
+open import Verification.Application.Applications.Editor.Definition
 
 -- open import Verification.Experimental.Data.Real.Application.Definition
 
@@ -48,7 +49,9 @@ printApp = executable (printExe) loop
 
 
 getApplicationList : List RegisterExecutable
-getApplicationList = registerExecutable "infer" inferStandaloneExecutable ∷ []
+getApplicationList = registerExecutable "infer" inferStandaloneExecutable
+                     ∷ registerExecutable "editor" editorExecutable
+                     ∷ []
 
 {-# COMPILE GHC getApplicationList as getApplicationList #-}
 

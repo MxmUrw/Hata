@@ -30,10 +30,13 @@ open ∑𝔏ω public
 
 open import Verification.Experimental.Data.Expr.Variant.Base.InferenceTask
 open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
+open import Verification.Experimental.Data.SyntaxTree.Variant.Base.Instance.Infer
+open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Experimental.Data.Universe.Everything
 
 getInferenceTask : SupportedLanguage -> ∑𝔏ω InferenceTask
 getInferenceTask LambdaCalculusTypesᵗ = {!!}
-getInferenceTask Testᵗ = _ , BaseExprInferenceTask 𝕋ΛTypeData
+getInferenceTask Testᵗ = _ , BaseSyntaxTreeInferenceTask {𝕋ΛTypeData} {𝕋ΛTypeData2} refl-≅
 
 
 

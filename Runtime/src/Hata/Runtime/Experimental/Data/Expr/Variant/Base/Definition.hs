@@ -33,7 +33,7 @@ pTokenBaseExpr def = List <$> (space *> pBaseExprs <* eof)
     pBaseExpr = try pParensedBaseExpr <|> try pToken <|> pVar
 
     pBaseExprs :: Parser [BaseExpr a Text]
-    pBaseExprs = some (pBaseExpr <* space)
+    pBaseExprs = many (pBaseExpr <* space)
 
     pParensedBaseExpr :: Parser (BaseExpr a Text)
     pParensedBaseExpr = between (char '(') (char ')') (List <$> pBaseExprs)
@@ -52,6 +52,6 @@ pTokenBaseExpr def = List <$> (space *> pBaseExprs <* eof)
 
     pIdentifier :: Parser Text
     pIdentifier = label "identifier" $
-      T.pack <$> some (noneOf [' ', '\n', '\r', '\t'])
+      T.pack <$> some (noneOf [' ', '\n', '\r', '\t', '(', ')'])
 
 

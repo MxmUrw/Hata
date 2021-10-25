@@ -1,3 +1,5 @@
 
 -- LANGUAGE: Test
-Snoc (Snoc (Nil) (Arr (Arr (Arr b b) b) (Arr x y))) z
+Snoc (iSnoc Nil (Arr (Arr (Arr b b) b) (Arr x y z)))
+ (z)
+

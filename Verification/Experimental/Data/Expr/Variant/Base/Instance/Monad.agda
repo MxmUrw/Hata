@@ -42,7 +42,7 @@ instance
 
 module _ {P : BaseExprData} where
   mutual
-    map-BaseExprs : ∀{A B} -> (A -> B) -> List (BaseExpr P A) -> List (BaseExpr P B)
+    map-BaseExprs : ∀{A B} -> (A -> B) -> Vec (BaseExpr P A) n -> Vec (BaseExpr P B) n
     map-BaseExprs f [] = []
     map-BaseExprs f (x ∷ xs) = map-BaseExpr f x ∷ map-BaseExprs f xs
 
@@ -64,7 +64,7 @@ module _ {P : BaseExprData} where
   pure-BaseExpr _ = hole
 
   mutual
-    join-BaseExprs : ∀(A) -> List (BaseExpr P (BaseExpr P A)) -> List (BaseExpr P A)
+    join-BaseExprs : ∀(A) -> Vec (BaseExpr P (BaseExpr P A)) n -> Vec (BaseExpr P A) n
     join-BaseExprs _ [] = []
     join-BaseExprs _ (x ∷ xs) = join-BaseExpr _ x ∷ join-BaseExprs _ xs
 

@@ -20,11 +20,13 @@ module Hata.Runtime.UI.Test where
 
 import qualified GI.Cairo
 import qualified GI.Gdk as GDK
-import qualified GI.Gtk as GTK  
+import qualified GI.Gtk as GTK
+import qualified GI.Gdk.Objects.Window as GDK
 -- import GI.GLib (pattern PRIORITY_DEFAULT, timeoutAdd)
 import GI.GLib -- (PRIORITY_DEFAULT, timeoutAdd)
 import GI.Cairo.Render.Connector (renderWithContext)
 import GI.Cairo.Render
+import GI.Cairo.Render.Types
 import Data.Time
 import Control.Monad (when)
 import Data.Maybe (isJust)
@@ -433,6 +435,8 @@ main :: (forall widget. GTK.IsWidget widget => widget -> Render Bool)
 main renderer keyhandler = do
   GTK.init Nothing
   window <- GTK.windowNew GTK.WindowTypeToplevel 
+
+
   GTK.windowSetPosition window GTK.WindowPositionCenterAlways
 
   GTK.widgetSetAppPaintable window True
@@ -474,6 +478,30 @@ main renderer keyhandler = do
 
   canvas <- GTK.drawingAreaNew
   GTK.containerAdd window canvas
+
+
+  --------
+  -- get my surface
+  -- gdkwindow <- (castTo GDK.Window window)
+  --
+  -- on this surface I want to do my drawing operations, and then only "copy"
+  -- them to the given surface in `onDraw`.
+  -- Here I can do my custom computation of delta difference incurred by an input.
+  --
+  -- Since we create the surface using `createSimilarSurface`, it should be faster.
+  -- See https://news.ycombinator.com/item?id=16539446
+  --
+  -- gdkwindow <- GTK.widgetGetWindow canvas
+  -- case gdkwindow of
+  --   Nothing -> error ""
+  --   Just gdkwindow -> do
+  --     mygoodsurface <- GDK.windowCreateSimilarSurface gdkwindow GI.Cairo.ContentColorAlpha 400 400
+  --      -- mygoodsurface
+  --     -- renderWith (Surface mygoodsurface) undefined
+  --     return ()
+  --
+  --------
+
 
   GTK.setWindowDecorated window True
   GTK.setWindowResizable window True
