@@ -39,8 +39,18 @@ module _ {𝒞 : Category 𝑖} {A : 𝒰 𝑗} where
 
     open SubcategoryHom public
 
-    isSetoid:SubcategoryHom : ∀{a b} -> isSetoid (SubcategoryHom a b)
-    isSetoid:SubcategoryHom = setoid (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl (λ p -> sym p) (λ p q -> p ∙ q)
+    module _ {a b : A} where
+      record _∼-SubcategoryHom_ (f g : SubcategoryHom a b) : 𝒰 (𝑖 ､ 𝑘) where
+        constructor incl
+        field ⟨_⟩ : ⟨ f ⟩ ∼ ⟨ g ⟩
+
+      open _∼-SubcategoryHom_ public
+
+      instance
+        isSetoid:SubcategoryHom : isSetoid (SubcategoryHom a b)
+        isSetoid:SubcategoryHom = setoid _∼-SubcategoryHom_ (incl refl) (λ x → incl (sym ⟨ x ⟩)) (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
+
+        -- isSetoid:SubcategoryHom = setoid (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl (λ p -> sym p) (λ p q -> p ∙ q)
 
     id-𝐒𝐮𝐛 : ∀{a : A} -> SubcategoryHom a a
     id-𝐒𝐮𝐛 = subcathom id closed-id
@@ -54,12 +64,12 @@ module _ {𝒞 : Category 𝑖} {A : 𝒰 𝑗} where
     isCategory.isSetoid:Hom isCategory:bySubcategory  = isSetoid:SubcategoryHom
     isCategory.id isCategory:bySubcategory            = id-𝐒𝐮𝐛
     isCategory._◆_ isCategory:bySubcategory           = _◆-𝐒𝐮𝐛_
-    isCategory.unit-l-◆ isCategory:bySubcategory      = unit-l-◆
-    isCategory.unit-r-◆ isCategory:bySubcategory      = unit-r-◆
-    isCategory.unit-2-◆ isCategory:bySubcategory      = unit-2-◆
-    isCategory.assoc-l-◆ isCategory:bySubcategory     = assoc-l-◆
-    isCategory.assoc-r-◆ isCategory:bySubcategory     = assoc-r-◆
-    isCategory._◈_ isCategory:bySubcategory           = _◈_
+    isCategory.unit-l-◆ isCategory:bySubcategory      = incl $ unit-l-◆
+    isCategory.unit-r-◆ isCategory:bySubcategory      = incl $ unit-r-◆
+    isCategory.unit-2-◆ isCategory:bySubcategory      = incl $ unit-2-◆
+    isCategory.assoc-l-◆ isCategory:bySubcategory     = incl $ assoc-l-◆
+    isCategory.assoc-r-◆ isCategory:bySubcategory     = incl $ assoc-r-◆
+    isCategory._◈_ isCategory:bySubcategory           = {!!}
 
 
 

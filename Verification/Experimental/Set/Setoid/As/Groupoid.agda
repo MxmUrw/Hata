@@ -15,17 +15,17 @@ open import Verification.Experimental.Category.Std.Morphism.Iso
 module _ {A : 𝒰 𝑖} {{Ap : isSetoid {𝑗} A}} where
 
   private instance
-    _ : isCategory {_ , 𝑘} A
+    _ : isCategory {_ , _} A
     _ = isCategory:bySetoid
 
-  isGroupoid:bySetoid : isGroupoid {_ , _ , 𝑘} ′ A ′
+  isGroupoid:bySetoid : isGroupoid {_ , _ , _} ′ A ′
   isGroupoid.isIso:hom isGroupoid:bySetoid {a} {b} {ϕ} = P
     where
       P : isIso (hom ϕ)
       P = record
           { inverse-◆ = sym ϕ
-          ; inv-r-◆   = tt
-          ; inv-l-◆   = tt
+          ; inv-r-◆   = {!!}
+          ; inv-l-◆   = {!!}
           }
 
 

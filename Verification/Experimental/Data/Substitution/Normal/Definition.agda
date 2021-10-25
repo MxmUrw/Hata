@@ -158,7 +158,7 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
   instance
     isSetoidHom:map-ι-♮𝐒𝐮𝐛𝐬𝐭 : {a b : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′} →
                                   isSetoidHom ′ Hom-♮𝐒𝐮𝐛𝐬𝐭 a b ′
-                                  ′ incl (ι ⟨ a ⟩) ⟶ incl (ι ⟨ b ⟩) ′
+                                  (incl (ι ⟨ a ⟩) ⟶ incl (ι ⟨ b ⟩))
                                   map-ι-♮𝐒𝐮𝐛𝐬𝐭
     isSetoidHom:map-ι-♮𝐒𝐮𝐛𝐬𝐭 = record { cong-∼ = λ {refl-≣ → refl-≣} }
 

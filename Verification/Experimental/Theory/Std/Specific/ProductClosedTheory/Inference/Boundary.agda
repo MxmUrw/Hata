@@ -24,6 +24,10 @@ open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
 
+open import Verification.Experimental.Data.Expr.Variant.Base.InferenceTask
+open import Verification.Experimental.Data.Expr.Variant.Base.Definition
+open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
+
 
 data 𝒷₀ : 𝒰₀ where
   分tyᵗ 全tyᵗ jdgᵗ : 𝒷₀
@@ -80,7 +84,7 @@ private
 -- 𝒷 : 𝒜 ℓ₀
 Sort 𝒷 = 𝒷₀
 isDiscrete:Sort 𝒷 = it
-isSet-Str:Sort 𝒷 = {!𝒷!}
+isSet-Str:Sort 𝒷 = {!!}
 Con 𝒷 = 𝒷₁
 isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
 
@@ -90,7 +94,32 @@ isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
 -- Con 𝒷 = 𝒷₁
 -- isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
 
+showTokType : (UntypedCon 𝒷) -> Text
+showTokType (_ , _ , ⇒ᵗ) = "Arr"
+showTokType (_ , _ , ℕᵗ) = "Nat"
+showTokType (_ , _ , 𝔹ᵗ) = "Bool"
+showTokType (_ , _ , []ᵗ) = "Nil"
+showTokType (_ , _ , ▻ᵗ) = "Snoc"
+showTokType (_ , _ , 影⊢ᵗ) = "Entails"
+showTokType (_ , _ , 分⊢ᵗ) = "Entails"
+showTokType (_ , _ , 全⊢ᵗ) = "Entails"
 
+𝕋ΛTypeData : BaseExprData
+TokenType 𝕋ΛTypeData = (UntypedCon 𝒷)
+IShow:TokenType 𝕋ΛTypeData = record { show = showTokType }
+hasElementNames:TokenType 𝕋ΛTypeData = record
+  { all =
+    (_ , _ , 𝔹ᵗ)
+    ∷ (_ , _ , ℕᵗ)
+    ∷ (_ , _ , ⇒ᵗ)
+    ∷ (_ , _ , ▻ᵗ)
+    ∷ (_ , _ , []ᵗ)
+    -- ∷ (_ , _ , 影⊢ᵗ)
+    -- ∷ (_ , _ , 分⊢ᵗ)
+    -- ∷ (_ , _ , 全⊢ᵗ)
+    ∷ []
+  ; name = showTokType
+  }
 
 
 {-

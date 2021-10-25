@@ -9,6 +9,7 @@ open import Verification.Experimental.Data.Lift.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Instance.Category
+open import Verification.Experimental.Category.Std.Category.Instance.FiniteProductCategory
 open import Verification.Experimental.Category.Std.Category.Construction.Product
 open import Verification.Experimental.Category.Std.Category.Instance.ProductMonoid
 open import Verification.Experimental.Category.Std.Limit.Specific.Product
@@ -47,7 +48,7 @@ module MonoidalNotation (𝒞 : Category 𝑖) {{isMonoid:this : isMonoid (⟨ �
   λₘ = unit-l-⋆ {{isMonoid:this}}
   ρₘ = unit-r-⋆ {{isMonoid:this}}
 
-  ⊗⃨ : Functor (𝒞 × 𝒞) 𝒞
+  ⊗⃨ : Functor (𝒞 ×-𝐂𝐚𝐭 𝒞) 𝒞
   ⊗⃨ = ⋆⃨
 
   _⇃⊗⇂_ : ∀{a b c d : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) (g : c ⟶ d) -> (a ⋆ c ⟶ b ⋆ d)
@@ -85,6 +86,11 @@ record isMonoidal (𝒞 : Category 𝑖) : 𝒰 𝑖 where
                             -> ⟨ p ≀⋆≀ q ⟩ ∼ map (⟨ p ⟩ , ⟨ q ⟩)
 
   open MonoidalNotation 𝒞 {{isMonoid:this}} {{isFunctor:⋆}} public
+
+
+
+
+
 
   -- field {{isNaturalIso:unit-l-⋆}} : isNaturalIso 𝖨𝖽⊗ id (unit-l-⋆ {{isMonoid:this}})
   -- field {{isNaturalIso:unit-r-⋆}} : isNaturalIso ⊗𝖨𝖽 id (unit-r-⋆ {{isMonoid:this}})

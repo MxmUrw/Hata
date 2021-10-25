@@ -15,6 +15,7 @@ open import Verification.Experimental.Category.Std.Natural.Definition
 open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Category.Instance.Category
+open import Verification.Experimental.Category.Std.Category.Instance.FiniteProductCategory
 open import Verification.Experimental.Category.Std.Category.Construction.Product
 open import Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.As.Monoid
 open import Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.Definition

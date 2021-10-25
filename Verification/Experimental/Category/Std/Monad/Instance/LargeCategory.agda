@@ -52,7 +52,6 @@ module _ {a : 大Monad 𝑖} {b : 大Monad 𝑗} where
       isSetoid:大MonadTrans : isSetoid (大MonadTrans f g)
       isSetoid:大MonadTrans = setoid (λ α β → ⟨ α ⟩ ∼ ⟨ β ⟩) {!!} {!!} {!!}
 
-
   instance
     isCategory:大MonadHom : isCategory (大MonadHom a b)
     isCategory.Hom isCategory:大MonadHom = 大MonadTrans
@@ -70,11 +69,16 @@ module _ {a : 大Monad 𝑖} {b : 大Monad 𝑗} where
     isSetoid:大MonadHom = isSetoid:byCategory
 
 
+id-大𝐌𝐧𝐝 : ∀{a : 大𝐌𝐧𝐝 𝑖} -> 大MonadHom a a
+id-大𝐌𝐧𝐝 {a = a} = record { fst = id ; snd = (λ x → id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹) }
+-- ⟨ unit-r-◆ {a = ↳ snd a} ⟩ ◆ ⟨ unit-l-◆ ⟩⁻¹ }
+
+
 instance
   isCategory:大𝐌𝐧𝐝 : isCategory (大𝐌𝐧𝐝 𝑖)
   isCategory.Hom isCategory:大𝐌𝐧𝐝 = 大MonadHom
   isCategory.isSetoid:Hom isCategory:大𝐌𝐧𝐝 = isSetoid:大MonadHom
-  isCategory.id isCategory:大𝐌𝐧𝐝 = {!!}
+  isCategory.id isCategory:大𝐌𝐧𝐝 = id-大𝐌𝐧𝐝
   isCategory._◆_ isCategory:大𝐌𝐧𝐝 = {!!}
   isCategory.unit-l-◆ isCategory:大𝐌𝐧𝐝 = {!!}
   isCategory.unit-r-◆ isCategory:大𝐌𝐧𝐝 = {!!}

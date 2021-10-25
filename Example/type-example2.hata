@@ -1,2 +1,4 @@
 Nil
 Nil
+Cons (Cons (Nil) (Arr (Arr (Arr b b) b) (Arr x y))) z
+Cons x (Arr (Arr b a) a)

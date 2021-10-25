@@ -43,16 +43,16 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : hasCoproducts �
   --           idab                       ∎
 
   instance
-    isSetoidHom:map-⊔ : ∀{a b c d : 𝒞} -> isSetoidHom ′((a ⟶ b) ×-𝒰 (c ⟶ d))′ ′(a ⊔ c ⟶ b ⊔ d)′ (map-⊔)
+    isSetoidHom:map-⊔ : ∀{a b c d : 𝒞} -> isSetoidHom ′((a ⟶ b) ×-𝒰 (c ⟶ d))′ (a ⊔ c ⟶ b ⊔ d) (map-⊔)
     isSetoidHom:map-⊔ = {!!}
 
-  instance
-    isFunctor:⊔ : isFunctor (𝒞' ×-𝐂𝐚𝐭 𝒞') 𝒞' (λ₋ _⊔_)
-    isFunctor.map isFunctor:⊔               = map-⊔
-    isFunctor.isSetoidHom:map isFunctor:⊔   = isSetoidHom:map-⊔
-    -- {!!} -- record { cong-∼ = λ (p , q) → cong-∼ (refl ◈ p , refl ◈ q) }
-    isFunctor.functoriality-id isFunctor:⊔  = {!!} -- lem-1
-    isFunctor.functoriality-◆ isFunctor:⊔   = {!!}
+  -- instance
+  isFunctor:⊔ : isFunctor (𝒞' ×-𝐂𝐚𝐭 𝒞') 𝒞' (λ₋ _⊔_)
+  isFunctor.map isFunctor:⊔               = map-⊔
+  isFunctor.isSetoidHom:map isFunctor:⊔   = isSetoidHom:map-⊔
+  -- {!!} -- record { cong-∼ = λ (p , q) → cong-∼ (refl ◈ p , refl ◈ q) }
+  isFunctor.functoriality-id isFunctor:⊔  = {!!} -- lem-1
+  isFunctor.functoriality-◆ isFunctor:⊔   = {!!}
 
   --------------------------------------------------------------
   -- properties

@@ -8,8 +8,16 @@ open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Opposite
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Functor.Instance.Category
+open import Verification.Experimental.Category.Std.Natural.Definition
+open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
+open import Verification.Experimental.Category.Std.Category.Instance.Category
+open import Verification.Experimental.Category.Std.Category.Instance.2Category
+open import Verification.Experimental.Category.Std.Morphism.Iso
 
 open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Experimental.Category.Std.Monad.Instance.Category
+open import Verification.Experimental.Category.Std.Monad.Instance.LargeCategory
 open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
 -- open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
@@ -21,9 +29,72 @@ open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
 open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 
+
+record Infer (𝑖 : 𝔏 ^ 3) : 𝒰 (𝑖 ⁺) where
+  constructor incl
+  field ⟨_⟩ : 大𝐌𝐧𝐝 𝑖
+
+open Infer public
+
+module _ (𝑖 : 𝔏 ^ 3) where
+  macro 𝐈𝐧𝐟𝐞𝐫 = #structureOn (Infer 𝑖)
+
+record isInferHom {b a : Infer 𝑖} (f : ⟨ b ⟩ ⟶ ⟨ a ⟩) : 𝒰 𝑖 where
+  field inferF : fst ⟨ a ⟩ ⟶ fst ⟨ b ⟩
+  field infer : (↳ snd ⟨ a ⟩) ⟶ ((↳ snd ⟨ a ⟩) ◆ ((inferF ◆ ((↳ snd ⟨ b ⟩) ◆ fst f))))
+  field eval-infer : inferF ◆-𝐂𝐚𝐭 fst f ⟶ id
+
+open isInferHom public
+
+SubcategoryData-Infer : SubcategoryData (大𝐌𝐧𝐝 𝑖) (Infer 𝑖)
+SubcategoryData-Infer = subcatdata ⟨_⟩ isInferHom
+
+open ShortMonadNotation
+
+isInferHom:id : ∀{a : Infer 𝑖} -> isInferHom (idOn ⟨ a ⟩)
+isInferHom:id {a = a} = record
+  { inferF = id
+  -- ; infer = (λ x → map (pure x)) since natural {!!}
+
+  ; infer = ⟨ unit-r-◆ ⟩⁻¹ ◆ _⇃◆⇂_ {f₀ = ↳ snd ⟨ a ⟩} {f₁ = ↳ snd ⟨ a ⟩} {g₀ = id-𝐂𝐚𝐭} {g₁ = id-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ((↳ snd ⟨ a ⟩) ◆-𝐂𝐚𝐭 fst (idOn ⟨ a ⟩))}
+                             id
+                             (⟨ unit-l-◆ ⟩⁻¹ ◆ _⇃◆⇂_ {f₀ = id-𝐂𝐚𝐭} {f₁ = id-𝐂𝐚𝐭} {g₀ = id-𝐂𝐚𝐭} {g₁ = (↳ snd ⟨ a ⟩) ◆-𝐂𝐚𝐭 fst (idOn ⟨ a ⟩)}
+                                               id
+                                               (pure since natural naturality))
+
+  ; eval-infer = (λ x → id) since natural (λ f → {!!})
+  }
+
+instance
+  isSubcategory:Infer : isSubcategory (SubcategoryData-Infer {𝑖 = 𝑖})
+  isSubcategory:Infer = record
+    { closed-◆ = {!!}
+    ; closed-id = isInferHom:id
+    }
+
+instance
+  isCategory:𝐈𝐧𝐟𝐞𝐫 : isCategory (𝐈𝐧𝐟𝐞𝐫 𝑖)
+  isCategory:𝐈𝐧𝐟𝐞𝐫 = isCategory:bySubcategory
+
+
+module _ {a b : 𝐈𝐧𝐟𝐞𝐫 𝑖} where
+  runaround : (f : b ⟶ a) -> (↳ snd ⟨ a ⟩) ⟶ (↳ snd ⟨ a ⟩)
+  runaround f = infer (goodHom f)
+                ◆ (_⇃◆⇂_ {f₀ = (↳ snd ⟨ a ⟩)} {f₁ = (↳ snd ⟨ a ⟩)} {g₀ = (inferF (goodHom f) ◆ ((↳ snd ⟨ b ⟩) ◆ fst ⟨ f ⟩))} {g₁ = (↳ snd ⟨ a ⟩)}
+                  id (_⇃◆⇂_ {f₀ = inferF (goodHom f)} {f₁ = inferF (goodHom f)} {g₀ = ((↳ snd ⟨ b ⟩) ◆-𝐂𝐚𝐭 fst ⟨ f ⟩)} {g₁ = fst ⟨ f ⟩ ◆-𝐂𝐚𝐭 (↳ snd ⟨ a ⟩)}
+                            id
+                            (snd ⟨ f ⟩)
+                     ◆ ( ⟨ assoc-r-◆ {{isCategory:Category}} {f = inferF (goodHom f)} {g = (fst ⟨ f ⟩)} {h = (↳ snd ⟨ a ⟩)} ⟩ ◆
+                          (_⇃◆⇂_ {f₀ = inferF (goodHom f) ◆-𝐂𝐚𝐭 (fst ⟨ f ⟩)} {f₁ = id-𝐂𝐚𝐭} {g₀ = (↳ snd ⟨ a ⟩)} {g₁ = (↳ snd ⟨ a ⟩)}
+                                (eval-infer (goodHom f)) id)
+                       ◆ ⟨ unit-l-◆ {{isCategory:Category}} ⟩))
+                  ◆ μ)
+
+-- {!!} ⇃◆⇂ id
 
 
 -- module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
@@ -38,27 +109,27 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 --     isCategory:Monad = {!!}
 
 
-module _ {I : 𝒰 𝑖} where
-  instance
-    isCategory:FinitaryRelativeMonad : isCategory {𝑖 , 𝑖} (FinitaryRelativeMonad I)
-    isCategory:FinitaryRelativeMonad = {!!}
+-- module _ {I : 𝒰 𝑖} where
+--   instance
+--     isCategory:FinitaryRelativeMonad : isCategory {𝑖 , 𝑖} (FinitaryRelativeMonad I)
+--     isCategory:FinitaryRelativeMonad = {!!}
 
-module _ (I : 𝒰 𝑖) where
-  macro 𝐅𝐢𝐧𝐑𝐞𝐥𝐌𝐧𝐝 = #structureOn (FinitaryRelativeMonad I)
+-- module _ (I : 𝒰 𝑖) where
+--   macro 𝐅𝐢𝐧𝐑𝐞𝐥𝐌𝐧𝐝 = #structureOn (FinitaryRelativeMonad I)
 
 
-𝑖𝑥mnd : 𝒰 𝑖 -> Category _
-𝑖𝑥mnd {𝑖} I = 𝐅𝐢𝐧𝐑𝐞𝐥𝐌𝐧𝐝 (I)
+-- 𝑖𝑥mnd : 𝒰 𝑖 -> Category _
+-- 𝑖𝑥mnd {𝑖} I = 𝐅𝐢𝐧𝐑𝐞𝐥𝐌𝐧𝐝 (I)
 
-map-𝑖𝑥mnd : ∀{a b : 𝒰 𝑖} -> (a → b) → Functor (𝑖𝑥mnd b) (𝑖𝑥mnd a)
-map-𝑖𝑥mnd = {!!}
+-- map-𝑖𝑥mnd : ∀{a b : 𝒰 𝑖} -> (a → b) → Functor (𝑖𝑥mnd b) (𝑖𝑥mnd a)
+-- map-𝑖𝑥mnd = {!!}
 
-instance
-  isFunctor:𝑖𝑥mnd : isFunctor (𝐔𝐧𝐢𝐯 𝑖 ᵒᵖ) (𝐂𝐚𝐭 _) 𝑖𝑥mnd
-  isFunctor.map isFunctor:𝑖𝑥mnd = map-𝑖𝑥mnd
-  isFunctor.isSetoidHom:map isFunctor:𝑖𝑥mnd = {!!}
-  isFunctor.functoriality-id isFunctor:𝑖𝑥mnd = {!!}
-  isFunctor.functoriality-◆ isFunctor:𝑖𝑥mnd = {!!}
+-- instance
+--   isFunctor:𝑖𝑥mnd : isFunctor (𝐔𝐧𝐢𝐯 𝑖 ᵒᵖ) (𝐂𝐚𝐭 _) 𝑖𝑥mnd
+--   isFunctor.map isFunctor:𝑖𝑥mnd = map-𝑖𝑥mnd
+--   isFunctor.isSetoidHom:map isFunctor:𝑖𝑥mnd = {!!}
+--   isFunctor.functoriality-id isFunctor:𝑖𝑥mnd = {!!}
+--   isFunctor.functoriality-◆ isFunctor:𝑖𝑥mnd = {!!}
 
 {-
 module _ (𝑖 : 𝔏) where

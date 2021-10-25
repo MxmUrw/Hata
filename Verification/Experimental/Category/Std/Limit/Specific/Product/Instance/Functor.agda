@@ -20,6 +20,10 @@ module _ {𝒞 : 𝒰 _} {{_ : FiniteProductCategory 𝑖 on 𝒞}} where
   map-⊓ : ∀{a b c d : 𝒞} -> (a ⟶ b) × (c ⟶ d) -> (a ⊓ c ⟶ b ⊓ d)
   map-⊓ (f , g) = ⧼ π₀ ◆ f , π₁ ◆ g ⧽
 
+  infixl 100 _⇃⊓⇂_
+  _⇃⊓⇂_ : ∀{a b c d : 𝒞} -> (a ⟶ b) -> (c ⟶ d) -> (a ⊓ c ⟶ b ⊓ d)
+  _⇃⊓⇂_ = λ₊ map-⊓
+
 
   private instance
     -- TODO: Why is it necessary to create this local instance?
@@ -42,12 +46,11 @@ module _ {𝒞 : 𝒰 _} {{_ : FiniteProductCategory 𝑖 on 𝒞}} where
             ⧼ idab ◆ π₀ , idab ◆ π₁ ⧽  ⟨ expand-⊓ ⁻¹ ⟩-∼
             idab                       ∎
 
-  instance
-    isFunctor:⊓ : isFunctor (𝒞' ×-𝐂𝐚𝐭 𝒞') 𝒞' ⊓⃨
-    isFunctor.map isFunctor:⊓               = map-⊓
-    isFunctor.isSetoidHom:map isFunctor:⊓   = record { cong-∼ = λ (p , q) → cong-∼ (refl ◈ p , refl ◈ q) }
-    isFunctor.functoriality-id isFunctor:⊓  = lem-1
-    isFunctor.functoriality-◆ isFunctor:⊓   = {!!}
+  isFunctor:⊓ : isFunctor (𝒞' ×-𝐂𝐚𝐭 𝒞') 𝒞' ⊓⃨
+  isFunctor.map isFunctor:⊓               = map-⊓
+  isFunctor.isSetoidHom:map isFunctor:⊓   = record { cong-∼ = λ (p , q) → cong-∼ (refl ◈ p , refl ◈ q) }
+  isFunctor.functoriality-id isFunctor:⊓  = lem-1
+  isFunctor.functoriality-◆ isFunctor:⊓   = {!!}
 
 
 

@@ -5,6 +5,7 @@ open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Experimental.Data.AllOf.Sum
 open import Verification.Experimental.Data.Universe.Everything
 
+{-# FOREIGN GHC import Hata.Runtime.Experimental.Data.Expr.Variant.Base.Definition #-}
 
 ----------------------------------------------------------
 -- definition of tokens for parsing
@@ -31,7 +32,7 @@ data BaseExpr~ (A : 𝒰₀) (X : 𝒰₀) : 𝒰₀ where
 {-# COMPILE GHC BaseExpr~ = data BaseExpr (Hole | Var | Token | List) #-}
 
 postulate
-  parseBaseExpr~ : ∀{A : 𝒰₀} -> (D : hasElementNames A) -> Text -> Text +-𝒰 BaseExpr~ A ⊤-𝒰
+  parseBaseExpr~ : ∀{A : 𝒰₀} -> (D : hasElementNames A) -> Text -> Text +-𝒰 BaseExpr~ A Text
 
 {-# COMPILE GHC parseBaseExpr~ = \a -> parseBaseExpr #-}
 
@@ -39,25 +40,26 @@ postulate
 ----------------------------------------------------------
 -- concisely parametrized version
 
-record BaseExprParam : 𝒰₁ where
+record BaseExprData : 𝒰₁ where
   field TokenType : 𝒰₀
   field {{IShow:TokenType}} : IShow TokenType
   field {{hasElementNames:TokenType}} : hasElementNames TokenType
 
-open BaseExprParam public
+open BaseExprData public
 
-data BaseExprᵘ (P : BaseExprParam) (X : 𝒰₀) : 𝒰₀ where
+data BaseExprᵘ (P : BaseExprData) (X : 𝒰₀) : 𝒰₀ where
   hole : X -> BaseExprᵘ P X
   var : Text -> BaseExprᵘ P X
   token : TokenType P -> BaseExprᵘ P X
   list : List (BaseExprᵘ P X) -> BaseExprᵘ P X
+  annotation : Text -> BaseExprᵘ P X -> BaseExprᵘ P X
 
 
-module _ (P : BaseExprParam) where
+module _ (P : BaseExprData) where
   macro BaseExpr = #structureOn (BaseExprᵘ P)
 
 
-module _ {P : BaseExprParam} where
+module _ {P : BaseExprData} where
   instance
     IShow:BaseExpr : ∀{X} -> {{_ : IShow X}} -> IShow (BaseExprᵘ P X)
     IShow:BaseExpr {X} = record { show = f }
@@ -72,6 +74,7 @@ module _ {P : BaseExprParam} where
           f (token x) = name x
           f (list x) = "(" <> fs x <> ")"
           f (hole x) = "?{" <> show x <> "}"
+          f (annotation t rest) = "[" <> t <> "](" <> f rest <> ")"
 
 instance
   IShow:⊤-𝒰 : IShow (⊤-𝒰 {𝑖})
@@ -95,7 +98,7 @@ instance
         ι' (token x) = token x
         ι' (list x) = list (ι's x)
 
-parseBaseExpr : ∀{P : BaseExprParam} -> Text -> Text + BaseExpr P ⊤-𝒰
+parseBaseExpr : ∀{P : BaseExprData} -> Text -> Text + BaseExpr P Text
 parseBaseExpr = mapRight ι ∘ parseBaseExpr~ it
 
 

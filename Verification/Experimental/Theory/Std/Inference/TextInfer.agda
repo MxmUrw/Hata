@@ -5,13 +5,17 @@ open import Verification.Conventions hiding (lookup ; ℕ)
 
 
 
+open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Experimental.Set.Setoid.Instance.Category
 open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Category.Opposite
 open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Experimental.Category.Std.Morphism.Iso
 
 open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Experimental.Category.Std.Monad.Instance.LargeCategory
 open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
 -- open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
@@ -30,10 +34,16 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Defi
 open import Verification.Experimental.Theory.Std.Inference.Definition
 
 
-record hasTextInfer (TIMonad : Monad (𝐔𝐧𝐢𝐯 𝑖)) : 𝒰 (𝑖 ⁺) where
-  field TIObj : 𝒰 𝑖
-  field parse : Text -> Text + ⟨ TIMonad ⟩ TIObj
-  field {{IShow:TI}} : IShow (⟨ TIMonad ⟩ TIObj)
+record hasTextInfer (t : 𝐈𝐧𝐟𝐞𝐫 𝑖) : 𝒰 (𝑖 ⁺) where
+  field RepObj : ⟨ fst ⟨ t ⟩ ⟩
+  field TIObj : ⟨ fst ⟨ t ⟩ ⟩
+  field RepType : Setoid _
+  field rep : (RepObj ⟶ ⟨ snd ⟨ t ⟩ ⟩ TIObj) ≅ RepType
+
+  field parse : Text -> Text + RepType
+  field {{IShow:TI}} : IShow ⟨ RepType ⟩
+
+open hasTextInfer public
 
 
 

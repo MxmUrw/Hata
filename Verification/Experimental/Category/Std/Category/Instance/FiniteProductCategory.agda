@@ -8,7 +8,7 @@ open import Verification.Experimental.Data.Lift.Definition
 -- open import Verification.Experimental.Data.Fin.Definition
 -- open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.CategoryLike
+open import Verification.Experimental.Category.Std.Category.Instance.Category
 open import Verification.Experimental.Category.Std.Category.Construction.Id
 open import Verification.Experimental.Category.Std.Limit.Specific.Product
 open import Verification.Experimental.Category.Std.Functor.Definition

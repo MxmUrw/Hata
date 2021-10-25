@@ -15,10 +15,14 @@ open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Monad.Definition
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 
+{-# FOREIGN GHC import Hata.Runtime.Application.Persistent.ContentFile #-}
+
 record BaseContentFile : 𝒰₀ where
   constructor baseContentFile
-  field language : String
+  field language : Text
   field content : Text
+
+{-# COMPILE GHC BaseContentFile = data BaseContentFile (BaseContentFile) #-}
 
 
 record ContentFile : 𝒰₀ where
@@ -27,7 +31,9 @@ record ContentFile : 𝒰₀ where
   field content : Text
 
 postulate
-  parseContentFile : String -> PersistencyError + BaseContentFile
+  parseContentFile : String -> Text + BaseContentFile
+
+{-# COMPILE GHC parseContentFile = parseContentFile #-}
 
 
 module _ {A : 𝒰 𝑖} {{_ : IShow A}} where

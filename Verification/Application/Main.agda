@@ -9,6 +9,10 @@ open import Verification.Application.Render.Definition
 open import Verification.Experimental.Data.Product.Definition
 -- open import Verification.Experimental.Data.Rational.Definition
 open import Verification.Experimental.Data.Int.Definition
+
+
+open import Verification.Application.Applications.InferStandalone.Definition
+
 -- open import Verification.Experimental.Data.Real.Application.Definition
 
 -- open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Instance.TypeTheory
@@ -44,7 +48,7 @@ printApp = executable (printExe) loop
 
 
 getApplicationList : List RegisterExecutable
-getApplicationList = registerExecutable "test" testApp ∷ registerExecutable "print" printApp ∷ []
+getApplicationList = registerExecutable "infer" inferStandaloneExecutable ∷ []
 
 {-# COMPILE GHC getApplicationList as getApplicationList #-}
 

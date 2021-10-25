@@ -1,7 +1,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-module Hata.Runtime.Experimental.Theory.Std.Presentation.Token.Definition where
+module Hata.Runtime.Experimental.Data.Expr.Variant.Base.Definition where
 
 import Data.Text as T
 import Data.HashMap.Strict as H
@@ -15,14 +15,43 @@ import Control.Applicative hiding (many, some)
 type Parser = Parsec Void Text
 
 data HasElementNames a = HasElementNames
-  { tokens :: [a]
+  { tokenValues :: [a]
   , nameOfToken :: (a -> Text)
   }
 
-data BaseExpr a v x = Hole x | Var v | Token a | List (BaseExpr a v x)
+data BaseExpr a x = Hole x | Var Text | Token a | List [BaseExpr a x]
 
-parseTokens :: HasElementNames a -> Text -> Either Text (BaseExpr a Text ())
-parseTokens = undefined
+parseBaseExpr :: HasElementNames a -> Text -> Either Text (BaseExpr a Text)
+parseBaseExpr hen input = case runParser (pTokenBaseExpr hen) "input" input of
+  Left err -> Left $ T.pack $ errorBundlePretty err
+  Right x -> Right x
 
+pTokenBaseExpr :: forall a. HasElementNames a -> Parser (BaseExpr a Text)
+pTokenBaseExpr def = List <$> (space *> pBaseExprs <* eof)
+  where
+    pBaseExpr :: Parser (BaseExpr a Text)
+    pBaseExpr = try pParensedBaseExpr <|> try pToken <|> pVar
+
+    pBaseExprs :: Parser [BaseExpr a Text]
+    pBaseExprs = some (pBaseExpr <* space)
+
+    pParensedBaseExpr :: Parser (BaseExpr a Text)
+    pParensedBaseExpr = between (char '(') (char ')') (List <$> pBaseExprs)
+
+    pToken :: Parser (BaseExpr a Text)
+    pToken = Token <$> pCon
+
+    pCon :: Parser a
+    pCon = choice (p <$> tokenValues def)
+      where
+        p :: a -> Parser a
+        p a = try (string (nameOfToken def a) *> pure a)
+
+    pVar :: Parser (BaseExpr a Text)
+    pVar = Var <$> pIdentifier
+
+    pIdentifier :: Parser Text
+    pIdentifier = label "identifier" $
+      T.pack <$> some (noneOf [' ', '\n', '\r', '\t'])
 
 

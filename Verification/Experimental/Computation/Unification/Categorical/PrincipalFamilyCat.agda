@@ -79,7 +79,7 @@ IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> HomPair a b
 
 
 module _ (𝒞 : SizedHomPairCategory 𝑖) where
-  record isSplittableC (n : ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ b) ^ 2) : 𝒰 𝑖 where
+  record isSplittableC (n : ℕ) {a b : ⟨ 𝒞 ⟩} (f : (a ⟶ᵘ b) ^ 2) : 𝒰 𝑖 where
     field famC : Fin-R n -> ∑ λ a' -> (HomPair a' b)
     field coversC : ∀{x} -> (h : b ⟶ x) -> (f ⌄ 0 ◆ h ∼ f ⌄ 1 ◆ h) ↔ (∀ p -> (famC p .snd) ⌄ 0 ◆ h ∼ (famC p .snd) ⌄ 1 ◆ h)
     -- field coversC : ⋀-fin (λ i -> 𝓘C 𝒞 (famC i)) ∼ 𝓘C 𝒞 i

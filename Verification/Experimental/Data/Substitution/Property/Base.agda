@@ -47,6 +47,7 @@ open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Refl
 open import Verification.Experimental.Category.Std.Category.Subcategory.Full.Construction.Coproduct
 
 open import Verification.Experimental.Category.Std.RelativeMonad.Definition
+open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductCategory
 

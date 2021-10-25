@@ -12,9 +12,9 @@ open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Algebra.Monoid.Free.Definition
 open import Verification.Experimental.Category.Std.Groupoid.Definition
 
-module _ {A : 𝒰 𝑖} {𝑘 : 𝔏} where
+module _ {A : 𝒰 𝑖} where
   instance
-    isCategory:Free-𝐌𝐨𝐧 : isCategory {_ , 𝑘} (Free-𝐌𝐨𝐧 A)
+    isCategory:Free-𝐌𝐨𝐧 : isCategory {_ , _} (Free-𝐌𝐨𝐧 A)
     isCategory:Free-𝐌𝐨𝐧 = isCategory:bySetoid
 
     isGroupoid:Free-𝐌𝐨𝐧 : isGroupoid (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A)

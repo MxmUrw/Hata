@@ -9,13 +9,15 @@ open import Verification.Experimental.Theory.Std.Inference.Task
 
 data SupportedLanguage : 𝒰₀ where
   LambdaCalculusTypesᵗ : SupportedLanguage
+  Testᵗ : SupportedLanguage
 
 instance
   IShow:SupportedLanguage : IShow SupportedLanguage
   IShow.show IShow:SupportedLanguage LambdaCalculusTypesᵗ = "LambdaCalculusTypes"
+  IShow.show IShow:SupportedLanguage Testᵗ = "Test"
 
 getSupportedLanguages : List SupportedLanguage
-getSupportedLanguages = LambdaCalculusTypesᵗ ∷ []
+getSupportedLanguages = Testᵗ ∷ []
 
 
 record ∑𝔏ω {n : ℕ} {F : 𝔏 ^ n -> 𝔏} (A : (𝑖 : 𝔏 ^ n) -> 𝒰 (F 𝑖)) : 𝒰ω where
@@ -25,8 +27,13 @@ record ∑𝔏ω {n : ℕ} {F : 𝔏 ^ n -> 𝔏} (A : (𝑖 : 𝔏 ^ n) -> 𝒰
 
 open ∑𝔏ω public
 
+
+open import Verification.Experimental.Data.Expr.Variant.Base.InferenceTask
+open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
+
 getInferenceTask : SupportedLanguage -> ∑𝔏ω InferenceTask
-getInferenceTask = {!!}
+getInferenceTask LambdaCalculusTypesᵗ = {!!}
+getInferenceTask Testᵗ = _ , BaseExprInferenceTask 𝕋ΛTypeData
 
 
 
