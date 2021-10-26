@@ -17,7 +17,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-18.0
+resolver: lts-18.14
   # url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/17/13.yaml
 
 # User packages to be built.
@@ -37,6 +37,7 @@ packages:
 
 ghc-options:
   "$locals": -Wno-overlapping-patterns
+  "*": -j
 
 extra-deps:
   - gi-cairo-render-0.1.0

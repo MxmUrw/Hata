@@ -1,6 +1,12 @@
 # Hata
 
-### Note
+## Note
+### Building
+To build the `gi-cairo` bindings on windows, the following workaround is usually necessary:
+https://github.com/haskell-gi/haskell-gi/wiki/Using-haskell-gi-in-Windows#a-workaround-for-stack
+
+
+### Executing
 To execute, on Windows we currently need to do:
 
 ```
