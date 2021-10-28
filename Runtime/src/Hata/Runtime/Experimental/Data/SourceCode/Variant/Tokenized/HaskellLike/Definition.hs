@@ -10,6 +10,7 @@ import Data.Void
 -- parser
 import Text.Megaparsec
 import Text.Megaparsec.Char
+import Text.Megaparsec.Debug
 import Control.Applicative hiding (many, some)
 
 import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition
@@ -25,7 +26,11 @@ data HaskellLikeTokenizedSourceCode a x =
   | Vertical Integer [HaskellLikeTokenizedSourceCode a x]
 
 
-data Space = NewLine Int | HSpace Int
+-- NewLine "Number of spaces after newline"
+-- HSpace "Number of (horizontal) spaces"
+-- EmptyLine "Number of empty lines" (`number of \n` - 1)
+data Space = NewLine Int | HSpace Int | EmptyLine Int
+  deriving (Show)
 
 data SourceExpr a x =
   SVar Text
@@ -71,15 +76,20 @@ pSourceExpr def = pTop <* eof
     pCountSpace' :: Parser Int
     pCountSpace' = Prelude.length <$> many (char ' ')
 
-    pSpace :: Parser Space
-    pSpace = try pNew <|> try pHSpace
-      where
+    pCountEmptyLine :: Parser Int
+    pCountEmptyLine = (Prelude.length <$> some (try (newline >> hspace >> lookAhead (newline >> (return ' ')))))
 
+    pSpace :: Parser Space
+    pSpace = try pEmpty <|> try pNew <|> try pHSpace
+      where
         pHSpace :: Parser Space
         pHSpace = HSpace <$> pCountSpace
 
         pNew :: Parser Space
         pNew = newline *> (NewLine <$> pCountSpace')
+
+        pEmpty :: Parser Space
+        pEmpty = EmptyLine <$> pCountEmptyLine
 
     -------
     -- parsing non space
@@ -139,7 +149,9 @@ processHorizontal b (Right (SWhere n) : xs) | b < n  =
 processHorizontal b (Right (SWhere n) : xs) | b >= n = processHorizontal b xs
 processHorizontal b (Right x : xs) = Right (processSingle b x) : processHorizontal b xs
 processHorizontal b (Left (HSpace n) : xs) = processHorizontal b xs
-processHorizontal b (Left (NewLine n) : xs) = Left (fromIntegral n) : processHorizontal b xs 
+processHorizontal b (Left (NewLine n) : xs) = Left (fromIntegral n) : processHorizontal b xs
+processHorizontal b (Left (EmptyLine n) : xs) = processHorizontal b xs
+-- Right (Var $ "[emptyline " <> T.pack (show n) <> "]") : 
 
 splitFirst :: (a -> (Maybe b)) -> [a] -> Maybe ([a],b,[a])
 splitFirst f xs = fmap i $ dosplit f xs []

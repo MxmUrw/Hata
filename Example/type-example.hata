@@ -2,7 +2,7 @@
 -- LANGUAGE: Test
 Snoc (iSnoc Nil (Arr (Arr (Arr b b) b) (Arr x y z))) where
   a
-  b
+b
   c
   (z) (z where
     x
