@@ -8,7 +8,7 @@ import qualified GI.Gtk as Gtk
 import Data.GI.Base
 
 createWindow :: IO ()
-createWindow = do
+createWindow = undefined {- do
   Gtk.init Nothing
 
   win <- new Gtk.Window [ #title := "Hi there" ]
@@ -34,6 +34,6 @@ createWindow = do
   #showAll win
 
   Gtk.main
-
+-}
 
 

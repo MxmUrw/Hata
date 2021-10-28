@@ -24,6 +24,7 @@ open import Verification.Experimental.Data.Substitution.Definition
 
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
 
+open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
 open import Verification.Experimental.Data.Expr.Variant.Base.InferenceTask
 open import Verification.Experimental.Data.Expr.Variant.Base.Definition
 open import Verification.Experimental.Data.SyntaxTree.Definition

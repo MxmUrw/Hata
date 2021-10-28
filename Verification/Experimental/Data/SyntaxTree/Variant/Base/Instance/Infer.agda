@@ -36,6 +36,7 @@ open import Verification.Experimental.Data.SyntaxTree.Definition
 open import Verification.Experimental.Data.SyntaxTree.Variant.Base.Definition
 open import Verification.Experimental.Data.SyntaxTree.Variant.Base.Instance.Monad
 
+open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
 open import Verification.Experimental.Data.Expr.Variant.Base.Definition
 open import Verification.Experimental.Data.Expr.Variant.Base.Instance.Monad
 

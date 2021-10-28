@@ -4,19 +4,11 @@ module Verification.Experimental.Data.Expr.Variant.Base.Definition where
 open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Experimental.Data.AllOf.Sum
 open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
 
 {-# FOREIGN GHC import Hata.Runtime.Experimental.Data.Expr.Variant.Base.Definition #-}
+{-# FOREIGN GHC import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition #-}
 
-----------------------------------------------------------
--- definition of tokens for parsing
-
-record hasElementNames (Tok : 𝒰₀) : 𝒰₀ where
-  field all : List Tok
-  field name : Tok -> Text
-
-open hasElementNames {{...}} public
-
-{-# COMPILE GHC hasElementNames = data HasElementNames (HasElementNames) #-}
 
 
 ----------------------------------------------------------
@@ -40,12 +32,14 @@ postulate
 ----------------------------------------------------------
 -- concisely parametrized version
 
-record BaseExprData : 𝒰₁ where
-  field TokenType : 𝒰₀
-  field {{IShow:TokenType}} : IShow TokenType
-  field {{hasElementNames:TokenType}} : hasElementNames TokenType
+BaseExprData = TokenizedSourceCodeData
 
-open BaseExprData public
+-- record BaseExprData : 𝒰₁ where
+--   field TokenType : 𝒰₀
+--   field {{IShow:TokenType}} : IShow TokenType
+--   field {{hasElementNames:TokenType}} : hasElementNames TokenType
+
+-- open BaseExprData public
 
 data BaseExprᵘ (P : BaseExprData) (X : 𝒰₀) : 𝒰₀ where
   hole : X -> BaseExprᵘ P X

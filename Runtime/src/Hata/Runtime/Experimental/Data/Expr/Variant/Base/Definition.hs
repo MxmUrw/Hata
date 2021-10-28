@@ -12,12 +12,9 @@ import Text.Megaparsec
 import Text.Megaparsec.Char
 import Control.Applicative hiding (many, some)
 
-type Parser = Parsec Void Text
+import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition
 
-data HasElementNames a = HasElementNames
-  { tokenValues :: [a]
-  , nameOfToken :: (a -> Text)
-  }
+type Parser = Parsec Void Text
 
 data BaseExpr a x = Hole x | Var Text | Token a | List [BaseExpr a x]
 

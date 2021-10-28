@@ -21,12 +21,13 @@ module Hata.Runtime.UI.Test where
 import qualified GI.Cairo
 import qualified GI.Gdk as GDK
 import qualified GI.Gtk as GTK
-import qualified GI.Gdk.Objects.Window as GDK
+-- import qualified GI.Gdk.Objects.Window as GDK
 -- import GI.GLib (pattern PRIORITY_DEFAULT, timeoutAdd)
 import GI.GLib -- (PRIORITY_DEFAULT, timeoutAdd)
 import GI.Cairo.Render.Connector (renderWithContext)
 import GI.Cairo.Render
 import GI.Cairo.Render.Types
+import qualified GI.Cairo.Render.Internal as Internal
 import Data.Time
 import Control.Monad (when)
 import Data.Maybe (isJust)
@@ -36,6 +37,7 @@ import Data.Maybe (fromMaybe)
 import Data.HashMap.Strict as H
 
 import Hata.Runtime.Application.Render.Definition
+import qualified GI.Cairo.Render.Types as Internal
 
 type DrawState = HashMap Text Extent
 
@@ -432,7 +434,7 @@ drawCanvasHandler widget =
 main :: (forall widget. GTK.IsWidget widget => widget -> Render Bool)
      -> (Text -> IO ())
      -> IO ()
-main renderer keyhandler = do
+main renderer keyhandler = undefined {- do
   GTK.init Nothing
   window <- GTK.windowNew GTK.WindowTypeToplevel 
 
@@ -479,7 +481,6 @@ main renderer keyhandler = do
   canvas <- GTK.drawingAreaNew
   GTK.containerAdd window canvas
 
-
   --------
   -- get my surface
   -- gdkwindow <- (castTo GDK.Window window)
@@ -496,6 +497,8 @@ main renderer keyhandler = do
   --   Nothing -> error ""
   --   Just gdkwindow -> do
   --     mygoodsurface <- GDK.windowCreateSimilarSurface gdkwindow GI.Cairo.ContentColorAlpha 400 400
+  --     renderWith (Surface mygoodsurface) undefined
+  --     undefined
   --      -- mygoodsurface
   --     -- renderWith (Surface mygoodsurface) undefined
   --     return ()
@@ -513,4 +516,5 @@ main renderer keyhandler = do
   timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (GTK.widgetQueueDraw window >> return True)
   GTK.main
 
+-}
 

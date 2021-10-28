@@ -37,11 +37,14 @@ packages:
 
 ghc-options:
   "$locals": -Wno-overlapping-patterns
-  "*": -j
+  "$locals": -j
 
 extra-deps:
   - gi-cairo-render-0.1.0
   - gi-cairo-connector-0.1.0
+  - gi-gdk-4.0.3
+  - gi-gsk-4.0.3
+  - gi-gtk-4.0.4
 
 #  - gi-gmodule-2.0.1
 #  - haskell-gi-0.25.0

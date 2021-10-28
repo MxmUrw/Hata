@@ -18,6 +18,27 @@ packages:
       sha256: 4414eca6922175779e3ec5d0eb932ee0d10307217a32ff6671a8f5efdd1bc4f0
   original:
     hackage: gi-cairo-connector-0.1.0
+- completed:
+    hackage: gi-gdk-4.0.3@sha256:de4e750445727d94238da2d94714a60fd7c941ec7463e4f54ca5e633807cdaa5,8932
+    pantry-tree:
+      size: 355
+      sha256: ff85fa6a5a44e3fc1b8450165ca9f2f8180258350c66511a1ccb5e10b3bedf60
+  original:
+    hackage: gi-gdk-4.0.3
+- completed:
+    hackage: gi-gsk-4.0.3@sha256:d7486678c2341655b6c6c65465c0121171660e15326d2abcf10443ec796fdcac,7118
+    pantry-tree:
+      size: 353
+      sha256: 30f595d05a0c776c7ba86e8a336e7d7a3499ddb0cab00f2a265a2ec09416e741
+  original:
+    hackage: gi-gsk-4.0.3
+- completed:
+    hackage: gi-gtk-4.0.4@sha256:93774442cb48403b4e1c561015eb8e12466bf1ad237d237be6827554d7cb0bb7,34046
+    pantry-tree:
+      size: 357
+      sha256: 2f42fad42e7db22880029a3478f44f9ff0f373f23c2d1cf7b5c4f4d4161cfc8b
+  original:
+    hackage: gi-gtk-4.0.4
 snapshots:
 - completed:
     size: 586069
