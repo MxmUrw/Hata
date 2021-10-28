@@ -434,18 +434,20 @@ drawCanvasHandler widget =
 main :: (forall widget. GTK.IsWidget widget => widget -> Render Bool)
      -> (Text -> IO ())
      -> IO ()
-main renderer keyhandler = undefined {- do
-  GTK.init Nothing
-  window <- GTK.windowNew GTK.WindowTypeToplevel 
+main renderer keyhandler = do
+  GTK.init
+  window <- GTK.windowNew
 
+  return ()
 
-  GTK.windowSetPosition window GTK.WindowPositionCenterAlways
+  -- GTK.windowSetPosition window GTK.WindowPositionCenterAlways
 
-  GTK.widgetSetAppPaintable window True
+  -- GTK.widgetSetAppPaintable window True
 
-  GTK.windowSetDefaultSize window (fromIntegral initialSize) 
+  GTK.windowSetDefaultSize window (fromIntegral initialSize)
                                   (fromIntegral initialSize)
 
+  {-
   geometry <- GDK.newZeroGeometry
   GDK.setGeometryMaxWidth  geometry 512
   GDK.setGeometryMaxHeight geometry 512

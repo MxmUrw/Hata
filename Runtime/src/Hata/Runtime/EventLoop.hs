@@ -3,7 +3,8 @@ module Hata.Runtime.EventLoop where
 
 import Hata.Runtime.Application
 import Hata.Runtime.UI.Window
-import Hata.Runtime.UI.Test as Test
+-- import Hata.Runtime.UI.Test as Test
+import Hata.Runtime.UI.EditorMain as EditorMain
 import Hata.Runtime.Application.Render.Definition
 
 import Data.Text as T
@@ -45,8 +46,8 @@ el_step x ev ref = do
 react :: Executable a -> IORef a -> Reaction a -> IO ()
 react exe ref (Reaction_NewWindow cmd) = do
   drawStateRef <- newIORef (H.empty @Text @Extent)
-  Test.main
-    (\a -> Test.drawCommands a drawStateRef ref cmd)
+  EditorMain.main
+    (\a -> EditorMain.drawCommands a drawStateRef ref cmd)
     (\key -> el_step exe (Event_KeyPress key) ref)
 react exe ref (Reaction_PrintDebug t) = putStrLn (T.unpack t)
 react exe ref (Reaction_Exit) = undefined
