@@ -3,40 +3,13 @@ module Verification.Core.Data.Tree.Variant.Syntax.Instance.Infer where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
-open import Verification.Core.Set.Setoid.Definition
-open import Verification.Core.Set.Setoid.Instance.Category
-open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.AllOf.Nat
-open import Verification.Core.Data.AllOf.Product
-open import Verification.Core.Data.AllOf.Sum
-open import Verification.Core.Data.AllOf.List
-open import Verification.Core.Data.Expr.Variant.Base.Definition
-open import Verification.Core.Data.Universe.Everything
-open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Category.Opposite
-open import Verification.Core.Category.Std.Category.Construction.Product
-open import Verification.Core.Category.Std.Category.Instance.Category
-open import Verification.Core.Category.Std.Category.Instance.FiniteProductCategory
-open import Verification.Core.Category.Std.Limit.Specific.Product
-open import Verification.Core.Category.Std.Limit.Specific.Product.Instance.Functor
-open import Verification.Core.Category.Std.Functor.Definition
-open import Verification.Core.Category.Std.Functor.Constant
-open import Verification.Core.Category.Std.Morphism.Iso
-open import Verification.Core.Set.Setoid.As.Category
-open import Verification.Core.Set.Setoid.Discrete
-open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.AllOf.Setoid
+open import Verification.Core.Data.AllOf.Collection.Basics
+open import Verification.Core.Data.AllOf.Collection.TermTools
+open import Verification.Core.Category.Std.AllOf.Collection.Basics
+open import Verification.Core.Category.Std.AllOf.Collection.Limits
+open import Verification.Core.Category.Std.AllOf.Collection.Monads
 
-open import Verification.Core.Data.Indexed.Definition
-open import Verification.Core.Data.Indexed.Duplicate
-
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
-open import Verification.Core.Data.Substitution.Variant.Normal.Definition
-
-open import Verification.Core.Category.Std.Monad.Definition
-open import Verification.Core.Category.Std.Monad.Instance.Category
-open import Verification.Core.Category.Std.Monad.Instance.LargeCategory
-open import Verification.Core.Category.Std.Category.Subcategory.Definition
 open import Verification.Core.Theory.Std.Inference.Definition
 open import Verification.Core.Theory.Std.Inference.Task
 

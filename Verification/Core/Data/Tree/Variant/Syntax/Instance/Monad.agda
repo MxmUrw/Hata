@@ -6,12 +6,11 @@ open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Instance.Category
-open import Verification.Core.Data.Nat.Free
-open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Product
 open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.AllOf.Nat
+open import Verification.Core.Data.AllOf.Universe
 open import Verification.Core.Data.Expr.Variant.Base.Definition
-open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Opposite
 open import Verification.Core.Category.Std.Category.Construction.Product
