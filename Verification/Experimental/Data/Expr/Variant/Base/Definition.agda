@@ -2,6 +2,7 @@
 module Verification.Experimental.Data.Expr.Variant.Base.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Experimental.Data.AllOf.List
 open import Verification.Experimental.Data.AllOf.Sum
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
@@ -76,11 +77,6 @@ instance
 
 --------------
 -- Haskell to native version
-
-module _ {A : 𝒰 𝑖} where
-  List→Vec : List A -> ∑ Vec A
-  List→Vec [] = zero , []
-  List→Vec (x ∷ xs) = _ , x ∷ List→Vec xs .snd
 
 instance
   hasInclusion:BaseExpr~,BaseExpr : ∀{P X} -> hasInclusion (BaseExpr~ (TokenType P) X) (BaseExpr P X)

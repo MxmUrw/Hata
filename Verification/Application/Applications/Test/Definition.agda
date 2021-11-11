@@ -13,13 +13,15 @@ open import Verification.Experimental.Data.Expr.Variant.Base.Definition
 
 open import Verification.Application.Persistent
 
+open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Category.Std.Monad.Definition
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 
 open import Verification.Experimental.Theory.Std.Inference.Definition
 open import Verification.Experimental.Theory.Std.Inference.Task
 
-open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition
+open import Verification.Experimental.Data.SourceCode.Variant.HaskellLike.Definition
+open import Verification.Experimental.Data.Expr.Variant.List.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
 
 
@@ -53,8 +55,9 @@ doTest input = do
   where
     inferCF : ContentFile -> String
     inferCF (contentFile language content) =
-      let res = parseHaskellLikeTokenizedSourceCode {P = 𝕋ΛTypeData} content
-      in show res
+      let res = parseHaskellLikeSourceCode content
+          res2 = (map makeListExpr res)
+      in show res <> "\n-----------------------\n" <> show res2
       -- let _ , task = getInferenceTask language
       -- in executeInferenceFlat task content
 

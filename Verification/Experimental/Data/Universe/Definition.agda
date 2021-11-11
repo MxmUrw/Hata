@@ -30,6 +30,11 @@ macro
   𝐔𝐧𝐢𝐯 : ∀(𝑖 : 𝔏) -> SomeStructure
   𝐔𝐧𝐢𝐯 (𝑖) = #structureOn (𝒰' 𝑖)
 
+  𝐔𝐧𝐢𝐯₀ : SomeStructure
+  𝐔𝐧𝐢𝐯₀ = #structureOn (𝒰₀)
+
+  𝐔𝐧𝐢𝐯₁ : SomeStructure
+  𝐔𝐧𝐢𝐯₁ = #structureOn (𝒰₁)
 
 
 _↔_ : ∀{𝑖 𝑗} -> 𝒰 𝑖 -> 𝒰 𝑗 -> 𝒰 _

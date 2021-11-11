@@ -1,7 +1,11 @@
 
 module Verification.Experimental.Data.FinR.Definition where
 
-open import Verification.Conventions
+open import Verification.Conventions hiding (lookup)
+open import Verification.Experimental.Data.Sum.Definition
+open import Verification.Experimental.Data.Sum.Instance.Functor
+open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Experimental.Category.Std.Functor.Definition
 
 
 data _≤-⧜-ℕ_ : ∀(m n : ℕ) -> 𝒰₀ where
@@ -16,6 +20,33 @@ fromNat-Fin-R (suc m) {{suc}} = suc (fromNat-Fin-R m)
 instance
   HasFromNat:Fin-R : ∀{n} -> HasFromNat (Fin-R n)
   HasFromNat:Fin-R {n} = record { Constraint = (λ m -> suc m ≤-⧜-ℕ n) ; fromNat = fromNat-Fin-R }
+
+
+module _ {A : 𝒰 𝑖} where
+  length : List A -> ℕ
+  length [] = 0
+  length (x ∷ as) = suc (length as)
+
+  lookup' : ∀(as : List A) -> Fin-R (length as) -> A
+  lookup' (x ∷ as) zero = x
+  lookup' (x ∷ as) (suc i) = lookup' as i
+
+lookup : ∀ {n} {A : 𝒰 ℓ} → Fin-R n → Vec A n → A
+lookup zero    (x ∷ xs) = x
+lookup (suc i) (x ∷ xs) = lookup i xs
+
+toVec : {A : 𝒰 ℓ} → (as : List A) -> Vec A (length as)
+toVec [] = []
+toVec (x ∷ as) = x ∷ toVec as
+
+
+--------------------------------------------------------------
+-- Helpers
+
+asFin : ∀{n} -> (m : ℕ) -> Maybe (Fin-R n)
+asFin {zero} m = nothing
+asFin {suc n} zero = just zero
+asFin {suc n} (suc m) = map suc (asFin {n} m)
 
 
 

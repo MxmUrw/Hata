@@ -15,13 +15,14 @@ open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definiti
 -- Haskell version
 
 data HaskellLikeTokenizedSourceCode~ (T : 𝒰₀) (X : 𝒰₀) : 𝒰₀ where
-  var : String -> HaskellLikeTokenizedSourceCode~ T X
+  var : Text -> HaskellLikeTokenizedSourceCode~ T X
   hole : X -> HaskellLikeTokenizedSourceCode~ T X
-  token : T -> HaskellLikeTokenizedSourceCode~ T X
+  -- token : T -> HaskellLikeTokenizedSourceCode~ T X
+  newline : ℕ -> HaskellLikeTokenizedSourceCode~ T X
   horizontal : List (ℕ + HaskellLikeTokenizedSourceCode~ T X) -> HaskellLikeTokenizedSourceCode~ T X
   vertical  : ℕ -> List (HaskellLikeTokenizedSourceCode~ T X) -> HaskellLikeTokenizedSourceCode~ T X
 
-{-# COMPILE GHC HaskellLikeTokenizedSourceCode~ = data HaskellLikeTokenizedSourceCode (Var | Hole | Token | Horizontal | Vertical) #-}
+{-# COMPILE GHC HaskellLikeTokenizedSourceCode~ = data HaskellLikeTokenizedSourceCode (Var | Hole | Token | NewLine | Horizontal | Vertical) #-}
 
 postulate
   parseHaskellLikeTokenizedSourceCode~ : ∀{A : 𝒰₀} -> (D : hasElementNames A) -> Text -> Text +-𝒰 HaskellLikeTokenizedSourceCode~ A Text
@@ -37,6 +38,7 @@ module _ (d : TokenizedSourceCodeData) where
     var : Text -> HaskellLikeTokenizedSourceCode X
     hole : X -> HaskellLikeTokenizedSourceCode X
     token : TokenType d -> HaskellLikeTokenizedSourceCode X
+    newline : ℕ -> HaskellLikeTokenizedSourceCode X
     horizontal : List (ℕ + HaskellLikeTokenizedSourceCode X) -> HaskellLikeTokenizedSourceCode X
     vertical  : ℕ -> List (HaskellLikeTokenizedSourceCode X) -> HaskellLikeTokenizedSourceCode X
 
@@ -51,6 +53,10 @@ module _ {d : TokenizedSourceCodeData} where
           space zero = ""
           space (suc n) = " " <> space n
 
+          mkNewline : ℕ -> Text
+          mkNewline zero = ""
+          mkNewline (suc n) = "\n" <> mkNewline n
+
           verts : List (ℕ + HaskellLikeTokenizedSourceCode d X) -> Text
           verts [] = ""
           verts (left n ∷ xs) = "\n" <> space n <> verts xs
@@ -64,6 +70,7 @@ module _ {d : TokenizedSourceCodeData} where
           f (var x) = x
           f (hole x) = show x
           f (token x) = show x
+          f (newline x) = mkNewline x
           f (horizontal x) = "(" <> verts x <> ")"
           f (vertical n xs) = "where" <> horizs n xs
 
@@ -90,6 +97,7 @@ instance
         f (var x) = var x
         f (hole x) = hole x
         f (token x) = token x
+        f (newline x) = newline x
         f (horizontal x) = horizontal (fs x)
         f (vertical n xs) = vertical n (gs xs)
 

@@ -41,6 +41,7 @@ module _ {A : 𝒰 𝑖} {{_ : IBootEq A}} where
   _∈?-List_ :  (a : A) -> (xs : List A) -> Bool
   a ∈?-List xs = foldr (λ a' res -> (a' ≟ a) or res) false xs
 
+module _ {A : 𝒰 𝑖} where
   filter : (A -> Bool) -> List A -> List A
   filter f [] = []
   filter f (x ∷ xs) with f x

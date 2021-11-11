@@ -135,5 +135,10 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗}
     isFunctor:⨆ᶠ : ∀{n} -> isFunctor (𝐈𝐱 [ n ]ᶠ 𝒞) 𝒞 ⨆ᶠ
     isFunctor:⨆ᶠ = {!!}
 
+--------------------------------------------------------------
+-- the indexed coproduct
+
+module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
+
 
 

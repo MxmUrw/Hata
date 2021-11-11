@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: aeb7a3d987a311347391422947e42e77f2c346156266cc1347b6eccd50835aff
+-- hash: a8eadbbb75347cc7adc6da5ab312c630e20fe3638a01c54f66992743c6b1fb69
 
 name:           Hata
 version:        0.1.0.0
@@ -33,6 +33,7 @@ library
       Hata.Runtime.CLI
       Hata.Runtime.EventLoop
       Hata.Runtime.Experimental.Data.Expr.Variant.Base.Definition
+      Hata.Runtime.Experimental.Data.SourceCode.Variant.HaskellLike.Definition
       Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition
       Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition
       Hata.Runtime.Experimental.Theory.Std.Presentation.Token.Definition

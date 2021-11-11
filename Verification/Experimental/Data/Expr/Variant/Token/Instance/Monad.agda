@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Data.SyntaxTree.Variant.Base.Instance.Monad where
+module Verification.Experimental.Data.Expr.Variant.Token.Instance.Monad where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
@@ -27,33 +27,38 @@ open import Verification.Experimental.Category.Std.Monad.Instance.Category
 open import Verification.Experimental.Category.Std.Monad.Instance.LargeCategory
 open import Verification.Experimental.Theory.Std.Inference.Definition
 
-
-open import Verification.Experimental.Data.SyntaxTree.Definition
-open import Verification.Experimental.Data.SyntaxTree.Variant.Base.Definition
-
+open import Verification.Experimental.Data.Expr.Variant.Token.Data
+open import Verification.Experimental.Data.Expr.Variant.Token.Definition
 
 
-module _ {d : SyntaxTreeData} where
-  map-BaseSyntaxTree : ∀{A B} -> (A -> B) -> BaseSyntaxTree d A -> BaseSyntaxTree d B
-  map-BaseSyntaxTree = {!!}
 
-  instance
-    isFunctor:BaseSyntaxTree : isFunctor (𝐔𝐧𝐢𝐯 ℓ₀) (𝐔𝐧𝐢𝐯 ℓ₀) (BaseSyntaxTree d)
-    isFunctor.map isFunctor:BaseSyntaxTree = map-BaseSyntaxTree
-    isFunctor.isSetoidHom:map isFunctor:BaseSyntaxTree = {!!}
-    isFunctor.functoriality-id isFunctor:BaseSyntaxTree = {!!}
-    isFunctor.functoriality-◆ isFunctor:BaseSyntaxTree = {!!}
+module _ {𝒹 : TokenExprData} where
+  map-TokenExpr : ∀{A B} -> (A -> B) -> TokenExpr 𝒹 A -> TokenExpr 𝒹 B
+  map-TokenExpr = {!!}
 
   instance
-    isMonad:BaseSyntaxTree : isMonad (BaseSyntaxTree d)
-    isMonad.pure isMonad:BaseSyntaxTree = {!!}
-    isMonad.join isMonad:BaseSyntaxTree = {!!}
-    isMonad.isNatural:pure isMonad:BaseSyntaxTree = {!!}
-    isMonad.isNatural:join isMonad:BaseSyntaxTree = {!!}
-    isMonad.unit-l-join isMonad:BaseSyntaxTree = {!!}
-    isMonad.unit-r-join isMonad:BaseSyntaxTree = {!!}
-    isMonad.assoc-join isMonad:BaseSyntaxTree = {!!}
+    isFunctor:TokenExpr : isFunctor (𝐔𝐧𝐢𝐯 ℓ₀) (𝐔𝐧𝐢𝐯 ℓ₀) (TokenExpr 𝒹)
+    isFunctor.map isFunctor:TokenExpr = map-TokenExpr
+    isFunctor.isSetoidHom:map isFunctor:TokenExpr = {!!}
+    isFunctor.functoriality-id isFunctor:TokenExpr = {!!}
+    isFunctor.functoriality-◆ isFunctor:TokenExpr = {!!}
 
-BaseSyntaxTreeInfer : (d : SyntaxTreeData) -> 𝐈𝐧𝐟𝐞𝐫 _
-BaseSyntaxTreeInfer d = incl (_ , BaseSyntaxTree d)
+  instance
+    isMonad:TokenExpr : isMonad (TokenExpr 𝒹)
+    isMonad.pure isMonad:TokenExpr = {!!}
+    isMonad.join isMonad:TokenExpr = {!!}
+    isMonad.isNatural:pure isMonad:TokenExpr = {!!}
+    isMonad.isNatural:join isMonad:TokenExpr = {!!}
+    isMonad.unit-l-join isMonad:TokenExpr = {!!}
+    isMonad.unit-r-join isMonad:TokenExpr = {!!}
+    isMonad.assoc-join isMonad:TokenExpr = {!!}
+
+TokenExprInfer : (d : TokenExprData) -> 𝐈𝐧𝐟𝐞𝐫 _
+TokenExprInfer 𝒹 = incl (_ , TokenExpr 𝒹)
+
+
+
+
+
+
 

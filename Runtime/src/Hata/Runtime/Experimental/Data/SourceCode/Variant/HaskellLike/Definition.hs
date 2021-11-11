@@ -1,7 +1,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-module Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition where
+module Hata.Runtime.Experimental.Data.SourceCode.Variant.HaskellLike.Definition where
 
 import Data.Text as T
 import Data.HashMap.Strict as H
@@ -13,18 +13,14 @@ import Text.Megaparsec.Char
 import Text.Megaparsec.Debug
 import Control.Applicative hiding (many, some)
 
-import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition
-
 type Parser = Parsec Void Text
 
 
-data HaskellLikeTokenizedSourceCode a x =
-  Var Text
-  | Hole x
-  | Token a
+data HaskellLikeSourceCode x =
+  Var x
   | NewLine Integer
-  | Horizontal [Either Integer (HaskellLikeTokenizedSourceCode a x)]
-  | Vertical Integer [HaskellLikeTokenizedSourceCode a x]
+  | Horizontal [Either Integer (HaskellLikeSourceCode x)]
+  | Vertical Integer [HaskellLikeSourceCode x]
 
 
 -- SNewLine "Number of spaces after newline"
@@ -33,39 +29,38 @@ data HaskellLikeTokenizedSourceCode a x =
 data Space = SNewLine Int | HSpace Int | EmptyLine Int
   deriving (Show)
 
-data SourceExpr a x =
+data SourceExpr =
   SVar Text
-  | SToken a
-  | SList [Either Space (SourceExpr a x)]
+  | SList [Either Space (SourceExpr)]
   | SWhere Int
 
-type SpaceSourceExpr a x = Either Space (SourceExpr a x)
+type SpaceSourceExpr = Either Space (SourceExpr)
 
 
-parseHaskellLikeTokenizedSourceCode :: HasElementNames a -> Text -> Either Text (HaskellLikeTokenizedSourceCode a Text)
-parseHaskellLikeTokenizedSourceCode hen input = fmap (processSingle 0) (parseSourceExpr hen input)
+parseHaskellLikeSourceCode :: Text -> Either Text (HaskellLikeSourceCode Text)
+parseHaskellLikeSourceCode input = fmap (processSingle 0) (parseSourceExpr input)
 
--- pTokenHaskellLikeTokenizedSourceCode def = List <$> (space *> pHaskellLikeTokenizedSourceCodes <* eof)
+-- pTokenHaskellLikeSourceCode def = List <$> (space *> pHaskellLikeSourceCodes <* eof)
 
-parseSourceExpr :: HasElementNames a -> Text -> Either Text (SourceExpr a Text)
-parseSourceExpr hen input = case runParser (pSourceExpr hen) "input" input of
+parseSourceExpr :: Text -> Either Text (SourceExpr)
+parseSourceExpr input = case runParser (pSourceExpr) "input" input of
   Left err -> Left $ T.pack $ errorBundlePretty err
   Right x -> Right x
 
-pSourceExpr :: forall a. HasElementNames a -> Parser (SourceExpr a Text)
-pSourceExpr def = pTop <* eof
+pSourceExpr :: Parser (SourceExpr)
+pSourceExpr = pTop <* eof
   where
-    pTop :: Parser (SourceExpr a Text)
+    pTop :: Parser (SourceExpr)
     pTop = SList <$> pItems
 
-    pItems :: Parser [Either Space (SourceExpr a Text)]
+    pItems :: Parser [Either Space (SourceExpr)]
     pItems = many (try (Right <$> pNonSpace) <|> try (Left <$> pSpace))
       -- where
         -- both a b = f <$> (many ((,) <$> a <*> b))
         -- f [] = []
         -- f ((a,b):xs) = a:b:f xs
 
-    pParensedItems :: Parser (SourceExpr a Text)
+    pParensedItems :: Parser (SourceExpr)
     pParensedItems = between (char '(') (char ')') (SList <$> pItems)
 
 
@@ -95,22 +90,22 @@ pSourceExpr def = pTop <* eof
     -------
     -- parsing non space
 
-    pNonSpace :: Parser (SourceExpr a Text)
-    pNonSpace = try pParensedItems <|> try pWhere <|> try pToken <|> try pVar
+    pNonSpace :: Parser (SourceExpr)
+    pNonSpace = try pParensedItems <|> try pWhere <|> try pVar
 
-    pWhere :: Parser (SourceExpr a Text)
+    pWhere :: Parser (SourceExpr)
     pWhere = string "where" >> newline >> (SWhere <$> pCountSpace')
 
-    pToken :: Parser (SourceExpr a Text)
-    pToken = SToken <$> pCon
+    -- pToken :: Parser (SourceExpr)
+    -- pToken = SToken <$> pCon
 
-    pCon :: Parser a
-    pCon = choice (p <$> tokenValues def)
-      where
-        p :: a -> Parser a
-        p a = try (string (nameOfToken def a) *> pure a)
+    -- pCon :: Parser a
+    -- pCon = choice (p <$> tokenValues def)
+    --   where
+    --     p :: a -> Parser a
+    --     p a = try (string (nameOfToken def a) *> pure a)
 
-    pVar :: Parser (SourceExpr a Text)
+    pVar :: Parser (SourceExpr)
     pVar = SVar <$> pIdentifier
 
     pIdentifier :: Parser Text
@@ -119,13 +114,13 @@ pSourceExpr def = pTop <* eof
 
 
 
-processSingle :: Int -> SourceExpr a Text -> HaskellLikeTokenizedSourceCode a Text
+processSingle :: Int -> SourceExpr -> HaskellLikeSourceCode Text
 processSingle n (SVar t) = Var t
-processSingle n (SToken t) = Token t
+-- processSingle n (SToken t) = Token t
 processSingle n (SList t) = Horizontal (processHorizontal n t)
 processSingle n (SWhere t) = Var "where"
 
-processHorizontal :: Int -> [SpaceSourceExpr a Text] -> [Either Integer (HaskellLikeTokenizedSourceCode a Text)]
+processHorizontal :: Int -> [SpaceSourceExpr] -> [Either Integer (HaskellLikeSourceCode Text)]
 processHorizontal b [] = []
 processHorizontal b (Right (SWhere n) : xs) | b < n  =
   let isLessIndented (Left (SNewLine i)) | (i <= b) = Just i
@@ -174,7 +169,7 @@ splitAll f xs = dosplit f xs
                      Just (xs,b,as) -> let (as2,bas) = dosplit f as
                                        in (xs,((b,as2) : bas))
 
--- splitNewlines :: Int -> Int -> [SpaceSourceExpr a Text] -> ([SpaceSourceExpr a Text],[SpaceSourceExpr a Text])
+-- splitNewlines :: Int -> Int -> [SpaceSourceExpr] -> ([SpaceSourceExpr],[SpaceSourceExpr])
 -- splitNewlines prev cur [] acc = ([],[])
 -- splitNewlines prev cur (Left (SNewLine n):xs) acc | n <= prev = (acc,xs)
 -- splitNewlines prev cur (Left (SNewLine n):xs) acc | n <= prev = (acc,xs)
@@ -182,7 +177,5 @@ splitAll f xs = dosplit f xs
 
   -- SVar Text
   -- SToken a
-  -- SList [Either Space (SourceExpr a x)]
+  -- SList [Either Space (SourceExpr)]
   -- SWhere Int
-
-
