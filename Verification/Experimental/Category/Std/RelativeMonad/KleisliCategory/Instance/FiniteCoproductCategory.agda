@@ -41,7 +41,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {𝒟 : Categor
         isCoproduct.isSetoidHom:⦗⦘ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬 = {!!}
         isCoproduct.reduce-ι₀ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬      = {!!}
         isCoproduct.reduce-ι₁ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬      = {!!}
-        isCoproduct.expand-⊔ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬       = {!!}
+        isCoproduct.expand-ι₀,ι₁ isCoproduct:⊔-𝐑𝐞𝐊𝐥𝐬       = {!!}
 
     ⊥-𝐑𝐞𝐊𝐥𝐬 : 𝐑𝐞𝐊𝐥𝐬 T
     ⊥-𝐑𝐞𝐊𝐥𝐬 = incl ⊥

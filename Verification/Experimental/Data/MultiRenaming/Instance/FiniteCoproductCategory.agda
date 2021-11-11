@@ -86,7 +86,7 @@ module _ {K : 𝒰 𝑖} {L : 𝒰 𝑗} where
       isCoproduct.isSetoidHom:⦗⦘ isCoproduct:⊔-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = {!!}
       isCoproduct.reduce-ι₀ isCoproduct:⊔-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = {!!}
       isCoproduct.reduce-ι₁ isCoproduct:⊔-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = {!!}
-      isCoproduct.expand-⊔ isCoproduct:⊔-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = {!!}
+      isCoproduct.expand-ι₀,ι₁ isCoproduct:⊔-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 = {!!}
 
 
   instance

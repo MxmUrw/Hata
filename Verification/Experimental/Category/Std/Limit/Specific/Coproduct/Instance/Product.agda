@@ -22,7 +22,7 @@ module _ {𝒞 : Category 𝑖} where
       isProduct.isSetoidHom:⧼⧽ isProduct:Coproduct = it
       isProduct.reduce-π₀ isProduct:Coproduct = reduce-ι₀
       isProduct.reduce-π₁ isProduct:Coproduct = reduce-ι₁
-      isProduct.expand-⊓ isProduct:Coproduct = expand-⊔
+      isProduct.expand-⊓ isProduct:Coproduct = expand-ι₀,ι₁
 
   instance
     isTerminal:Initial : ∀{x : ⟨ 𝒞 ⟩} -> {{_ : isInitial x}} -> isTerminal {{of 𝒞 ᵒᵖ}} x

@@ -31,7 +31,7 @@ module _ {I : 𝒰 𝑖} {𝒞 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}}
       isCoproduct.isSetoidHom:⦗⦘ isCoproduct:⊔-𝐈𝐱 = {!!}
       isCoproduct.reduce-ι₀ isCoproduct:⊔-𝐈𝐱      = {!!}
       isCoproduct.reduce-ι₁ isCoproduct:⊔-𝐈𝐱      = {!!}
-      isCoproduct.expand-⊔ isCoproduct:⊔-𝐈𝐱       = {!!}
+      isCoproduct.expand-ι₀,ι₁ isCoproduct:⊔-𝐈𝐱       = {!!}
 
 
   instance

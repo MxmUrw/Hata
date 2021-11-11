@@ -31,7 +31,7 @@ module _ {a b : 𝒰 𝑖} where
     isCoproduct.isSetoidHom:⦗⦘ isCoproduct:+-𝒰 = record { cong-∼ = λ (p , q) i x → either (p i) (q i) x }
     isCoproduct.reduce-ι₀ isCoproduct:+-𝒰 = refl
     isCoproduct.reduce-ι₁ isCoproduct:+-𝒰 = refl
-    isCoproduct.expand-⊔ isCoproduct:+-𝒰 {f = f} = λ { i (left x) -> f (left x)
+    isCoproduct.expand-ι₀,ι₁ isCoproduct:+-𝒰 {f = f} = λ { i (left x) -> f (left x)
                                                    ; i (right x) -> f (right x)}
 
 instance

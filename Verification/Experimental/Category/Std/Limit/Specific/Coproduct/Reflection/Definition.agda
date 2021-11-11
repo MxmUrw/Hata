@@ -40,7 +40,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {
     isCoproduct.isSetoidHom:⦗⦘ isCoproduct:byFullyFaithfull = {!!}
     isCoproduct.reduce-ι₀ isCoproduct:byFullyFaithfull = {!!}
     isCoproduct.reduce-ι₁ isCoproduct:byFullyFaithfull = {!!}
-    isCoproduct.expand-⊔ isCoproduct:byFullyFaithfull = {!!}
+    isCoproduct.expand-ι₀,ι₁ isCoproduct:byFullyFaithfull = {!!}
 
   module _ {{_ : isEssentiallySurjective F}} {{_ : hasCoproducts 𝒟}} where
     private
@@ -89,4 +89,4 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {
     -- isCoproduct.isSetoidHom:⦗⦘ isCoproduct:byFullSubcategory = {!!}
     -- isCoproduct.reduce-ι₀ isCoproduct:byFullSubcategory = reduce-ι₀
     -- isCoproduct.reduce-ι₁ isCoproduct:byFullSubcategory = reduce-ι₁
-    -- isCoproduct.expand-⊔ isCoproduct:byFullSubcategory = expand-⊔
+    -- isCoproduct.expand-ι₀,ι₁ isCoproduct:byFullSubcategory = expand-ι₀,ι₁
