@@ -8,12 +8,14 @@ open import Verification.Experimental.Data.AllOf.Sum
 open import Verification.Experimental.Data.Universe.Everything
 
 open import Verification.Experimental.Data.Tree.Variant.Token.Data
+open import Verification.Experimental.Data.Substitution.Variant.Normal.Definition
+
 
 
 data TokenTreeᵘ (𝒹 : TokenTreeData) (A : 𝒰₀) : 𝒰₀ where
   hole : A -> TokenTreeᵘ 𝒹 A
   var : Text -> TokenTreeᵘ 𝒹 A
-  node : (t : TokenType 𝒹) -> Vec (TokenTreeᵘ 𝒹 A) (tokenSize 𝒹 t) -> TokenTreeᵘ 𝒹 A
+  node : (t : TokenType 𝒹) -> ConstDList (TokenTreeᵘ 𝒹 A) (tokenSize 𝒹 t) -> TokenTreeᵘ 𝒹 A
   annotation : Text -> TokenTreeᵘ 𝒹 A -> TokenTreeᵘ 𝒹 A
 
 module _ (𝒹 : TokenTreeData) where

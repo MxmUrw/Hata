@@ -9,7 +9,7 @@ open import Verification.Experimental.Data.Universe.Everything
 
 record TokenTreeData : 𝒰₁ where
   field TokenType : 𝒰₀
-  field tokenSize : TokenType -> ℕ
+  field tokenSize : TokenType -> ♮ℕ
   field tokenName : TokenType -> String
   field tokenList : List TokenType
 

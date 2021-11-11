@@ -138,7 +138,16 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗}
 --------------------------------------------------------------
 -- the indexed coproduct
 
-module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
+module _ {𝒞 : Category 𝑖} {{_ : hasIndexedCoproducts {𝑗} 𝒞}} {A : 𝒰 𝑗} where
+
+  ⨆ᵘ : 𝐈𝐱 A 𝒞 -> ⟨ 𝒞 ⟩
+  ⨆ᵘ x = ⨆ᵢ (ix x)
+
+  macro ⨆ = #structureOn (⨆ᵘ)
+
+  instance
+    isFunctor:⨆ : isFunctor (𝐈𝐱 A 𝒞) 𝒞 ⨆
+    isFunctor:⨆ = {!!}
 
 
 

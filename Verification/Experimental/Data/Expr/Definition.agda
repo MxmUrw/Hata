@@ -11,7 +11,7 @@ open import Verification.Experimental.Category.Std.Monad.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
 -- open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
 open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 open import Verification.Experimental.Data.Indexed.Definition
 open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition

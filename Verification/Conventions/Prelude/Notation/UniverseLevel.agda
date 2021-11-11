@@ -27,7 +27,7 @@ merge {n = suc (suc n)} (x , xs) = x ⊔ merge xs
 
 instance
   IMultiJoinable:VecLevel : IMultiJoinable (𝔏 ^ m) 𝔏
-  IMultiJoinable.⨆ IMultiJoinable:VecLevel = merge
+  IMultiJoinable.⩏ IMultiJoinable:VecLevel = merge
 
 -- instance
 --   Cast:A,^ : ∀{A : 𝒰 𝑖} -> Cast A (A ^ 1)

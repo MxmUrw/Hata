@@ -19,7 +19,7 @@ open Notation-Inverse {{...}} public
 -- ====* Join notation
 
 record IMultiJoinable (X : 𝒰 𝑖) (V : 𝒰 𝑗) : 𝒰 (𝑗 ⊔ 𝑖 ⁺) where
-  field ⨆ : X -> V
+  field ⩏ : X -> V
 
 open IMultiJoinable {{...}} public
 

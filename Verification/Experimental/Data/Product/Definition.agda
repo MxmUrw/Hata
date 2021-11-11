@@ -37,3 +37,7 @@ isProp:⊤-𝒰 {a = tt} {tt} = refl-≣
 isSet:⊤-𝒰 : ∀{a b : ⊤-𝒰 {𝑖}} {p q : a ≣ b} -> p ≣ q
 isSet:⊤-𝒰 {p = refl-≣} {q} = {!!}
 
+instance
+  isDiscrete:⊤-𝒰 : isDiscrete (⊤-𝒰 {𝑖})
+  isDiscrete:⊤-𝒰 = record { _≟-Str_ = λ {tt tt → yes refl-≣} }
+

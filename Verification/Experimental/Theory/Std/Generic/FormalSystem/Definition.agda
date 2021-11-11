@@ -35,8 +35,8 @@ open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
-open import Verification.Experimental.Data.Substitution.Definition
-open import Verification.Experimental.Data.Substitution.Normal.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Normal.Definition
 open import Verification.Experimental.Computation.Unification.Definition
 
 

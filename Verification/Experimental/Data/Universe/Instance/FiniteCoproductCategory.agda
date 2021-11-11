@@ -8,7 +8,7 @@ open import Verification.Experimental.Data.Universe.Definition
 open import Verification.Experimental.Data.Sum.Definition
 open import Verification.Experimental.Category.Std.Morphism.Iso
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Construction.Product
+-- open import Verification.Experimental.Category.Std.Category.Construction.Product
 open import Verification.Experimental.Category.Std.Functor.Definition
 -- open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
 -- open import Verification.Experimental.Algebra.Monoid.Definition

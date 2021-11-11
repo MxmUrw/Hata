@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Data.Substitution.Definition where
+module Verification.Experimental.Data.Substitution.Variant.Base.Definition where
 
 open import Verification.Experimental.Conventions hiding (_⊔_)
 

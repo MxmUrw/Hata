@@ -40,7 +40,7 @@ open import Verification.Experimental.Order.Lattice hiding (⊥)
 -- open import Verification.Experimental.Data.FiniteIndexed.Definition
 -- open import Verification.Experimental.Data.Renaming.Definition
 -- open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
--- open import Verification.Experimental.Data.Substitution.Definition
+-- open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Definition

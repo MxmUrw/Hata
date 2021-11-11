@@ -23,7 +23,7 @@ open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Data.Sum.Instance.Monad
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Data.List.Instance.Traversable
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 
 
 -----------------------------------------

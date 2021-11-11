@@ -51,7 +51,7 @@ open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Defini
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductCategory
 
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 
 
 -- if the indexing set is only ⊤

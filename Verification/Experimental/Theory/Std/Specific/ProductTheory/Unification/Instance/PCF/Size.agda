@@ -49,7 +49,7 @@ open import Verification.Experimental.Data.Indexed.Instance.Monoid
 open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Data.Renaming.Definition
 open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition

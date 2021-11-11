@@ -4,10 +4,12 @@ module Verification.Experimental.Data.Tree.Variant.Token.Instance.Infer where
 open import Verification.Conventions hiding (lookup ; ℕ)
 
 open import Verification.Experimental.Data.Nat.Definition
+open import Verification.Experimental.Data.Nat.Free
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Instance.Category
 open import Verification.Experimental.Data.AllOf.Product
 open import Verification.Experimental.Data.AllOf.Sum
+open import Verification.Experimental.Data.AllOf.List
 open import Verification.Experimental.Data.Expr.Variant.Base.Definition
 open import Verification.Experimental.Data.Universe.Everything
 open import Verification.Experimental.Category.Std.Category.Definition
@@ -39,6 +41,8 @@ open import Verification.Experimental.Data.Tree.Variant.Token.Data
 open import Verification.Experimental.Data.Tree.Variant.Token.Definition
 open import Verification.Experimental.Data.Tree.Variant.Token.Instance.Monad
 
+open import Verification.Experimental.Data.Substitution.Variant.Normal.Definition
+
 -- open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
 -- open import Verification.Experimental.Data.Expr.Variant.Base.Definition
 -- open import Verification.Experimental.Data.Expr.Variant.Base.Instance.Monad
@@ -58,19 +62,19 @@ private
 
 module _ {𝒹 : TokenTreeData} where
   mutual
-    printᵘ-TokenTrees : ∀{A} -> Vec (TokenTree 𝒹 A) n -> Vec (TokenExpr (δ 𝒹) A) n
+    printᵘ-TokenTrees : ∀{A n} -> ConstDList (TokenTree 𝒹 A) n -> ConstDList (TokenExpr (δ 𝒹) A) n
     printᵘ-TokenTrees [] = []
     printᵘ-TokenTrees (x ∷ xs) = (printᵘ-TokenTree x) ∷ (printᵘ-TokenTrees xs)
 
     printᵘ-TokenTree : ∀{A} -> TokenTree 𝒹 A -> TokenExpr (δ 𝒹) A
     printᵘ-TokenTree (hole x) = hole x
     printᵘ-TokenTree (var x) = var x
-    printᵘ-TokenTree (node t x) = list (token t ∷ (printᵘ-TokenTrees x))
+    printᵘ-TokenTree (node t x) = list (_∷_ {a = tt} (token t) (printᵘ-TokenTrees x))
     printᵘ-TokenTree (annotation x e) = annotation x (printᵘ-TokenTree e)
 
 
   mutual
-    parseᵘ-TokenTrees : ∀{A} -> Vec (TokenExpr (δ 𝒹) A) n -> Vec (TokenTree 𝒹 (TokenExpr (δ 𝒹) A)) n
+    parseᵘ-TokenTrees : ∀{A n} -> ConstDList (TokenExpr (δ 𝒹) A) n -> ConstDList (TokenTree 𝒹 (TokenExpr (δ 𝒹) A)) n
     parseᵘ-TokenTrees [] = []
     parseᵘ-TokenTrees (x ∷ xs) = (parseᵘ-TokenTree x) ∷ (parseᵘ-TokenTrees xs)
 
@@ -78,15 +82,15 @@ module _ {𝒹 : TokenTreeData} where
     parseᵘ-TokenTree (hole x) = hole (hole x)
     parseᵘ-TokenTree (var x) = var x
     parseᵘ-TokenTree (token x) with tokenSize 𝒹 x ≟-Str 0
-    ... | yes p = node (x) (transport-Str (cong-Str (λ ξ -> Vec (TokenTree 𝒹 (TokenExpr (δ 𝒹) _)) ξ) (sym-≣ p)) [])
+    ... | yes p = node (x) (transport-Str (cong-Str (λ ξ -> ConstDList (TokenTree 𝒹 (TokenExpr (δ 𝒹) _)) ξ) (sym-≣ p)) [])
     ... | no ¬p = hole (annotation ("This token has " <> show (tokenSize 𝒹 (x)) <> " arguments, but has been applied to none.")
                                    (token x))
-    parseᵘ-TokenTree (list {zero} []) = hole (annotation "Empty expressions are not allowed." (list []))
-    parseᵘ-TokenTree (list {suc n} (token x ∷ xs)) with tokenSize 𝒹 (x) ≟-Str n
+    parseᵘ-TokenTree (list {[]} []) = hole (annotation "Empty expressions are not allowed." (list []))
+    parseᵘ-TokenTree (list {tt ∷ n} (token x ∷ xs)) with tokenSize 𝒹 (x) ≟-Str n
     ... | yes refl-≣ = node (x) (parseᵘ-TokenTrees xs)
     ... | no ¬p = hole (annotation ("This token has " <> show (tokenSize 𝒹 (x)) <> " arguments, but has been applied to " <> show n <> ".")
-                                   ((list (token x ∷ xs))))
-    parseᵘ-TokenTree (list {suc n} (x ∷ xs)) = hole (annotation "The first element of an expression has to be a token." (list (x ∷ xs)))
+                                   ((list (_∷_ {a = tt} (token x) xs))))
+    parseᵘ-TokenTree (list {tt ∷ n} (x ∷ xs)) = hole (annotation "The first element of an expression has to be a token." (list (_∷_ {a = tt} x xs)))
     parseᵘ-TokenTree (annotation x e) = annotation x (parseᵘ-TokenTree e)
 
   print-TokenTree : 大MonadHom (_ , TokenTree 𝒹) ((_ , TokenExpr (δ 𝒹)))

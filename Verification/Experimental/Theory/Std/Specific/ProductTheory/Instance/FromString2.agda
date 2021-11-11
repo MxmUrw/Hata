@@ -26,7 +26,7 @@ open import Verification.Experimental.Data.FiniteIndexed.Definition
 open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 open import Verification.Experimental.Data.Substitution.Property.Base
 open import Verification.Experimental.Theory.Std.Presentation.NGraph.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition

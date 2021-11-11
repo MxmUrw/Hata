@@ -22,7 +22,7 @@ open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
 open import Verification.Experimental.Data.Nat.Definition
 open import Verification.Experimental.Data.Sum.Instance.Monad
 open import Verification.Experimental.Data.List.Instance.Traversable
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 
 
 record TokenDefinition (Tok : 𝒰₀) : 𝒰₀ where

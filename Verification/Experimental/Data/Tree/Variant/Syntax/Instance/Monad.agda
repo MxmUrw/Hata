@@ -37,11 +37,11 @@ open import Verification.Experimental.Data.Tree.Variant.Syntax.Definition
 
 
 module _ {𝒹 : SyntaxTreeData} where
-  map-SyntaxTree : ∀{A B : 𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀} -> (A ⟶ B) -> SyntaxTree 𝒹 A ⟶ SyntaxTree 𝒹 B
+  map-SyntaxTree : ∀{A B : 𝐈𝐱 _ 𝐔𝐧𝐢𝐯₀} -> (A ⟶ B) -> SyntaxTree 𝒹 A ⟶ SyntaxTree 𝒹 B
   map-SyntaxTree = {!!}
 
   instance
-    isFunctor:SyntaxTree : isFunctor (𝐈𝐱 人ℕ (𝐔𝐧𝐢𝐯 ℓ₀)) (𝐈𝐱 人ℕ (𝐔𝐧𝐢𝐯 ℓ₀)) (SyntaxTree 𝒹)
+    isFunctor:SyntaxTree : isFunctor (𝐈𝐱 _ (𝐔𝐧𝐢𝐯 ℓ₀)) (𝐈𝐱 _ (𝐔𝐧𝐢𝐯 ℓ₀)) (SyntaxTree 𝒹)
     isFunctor.map isFunctor:SyntaxTree = map-SyntaxTree
     isFunctor.isSetoidHom:map isFunctor:SyntaxTree = {!!}
     isFunctor.functoriality-id isFunctor:SyntaxTree = {!!}

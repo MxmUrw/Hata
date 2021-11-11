@@ -6,6 +6,7 @@ open import Verification.Experimental.Conventions hiding (ℕ)
 open import Verification.Experimental.Category.Std.Category.Definition
 open import Verification.Experimental.Category.Std.Functor.Definition
 open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Experimental.Set.Decidable
 open import Verification.Experimental.Set.Setoid.Definition
 open import Verification.Experimental.Set.Setoid.Free
 open import Verification.Experimental.Set.Function.Injective
@@ -284,3 +285,21 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
 module _ {A : 𝒰 𝑖} where
   人length : ∀(a : Free-𝐌𝐨𝐧 A) -> ℕ
   人length = rec-Free-𝐌𝐨𝐧 (const 1)
+
+
+-----------------------------------------
+-- we can decide whether an element is in a list
+
+module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
+  find-first-∍ : ∀ (xs : Free-𝐌𝐨𝐧 A) -> (x : A) -> isDecidable (xs ∍ x)
+  find-first-∍ (incl y) x with x ≟-Str y
+  ... | yes refl-≣ = just incl
+  ... | no ¬p = left λ {incl → impossible (¬p refl-≣)}
+  find-first-∍ (xs ⋆-Free-𝐌𝐨𝐧 ys) x with find-first-∍ xs x | find-first-∍ ys x
+  ... | left ¬xs∍x | left ¬ys∍x = left λ { (left-∍ xs∍x) → ¬xs∍x xs∍x
+                                         ; (right-∍ ys∍x) → ¬ys∍x ys∍x
+                                         }
+  ... | left ¬xs∍x | just ys∍x = just (right-∍ ys∍x)
+  ... | just xs∍x | Y = right (left-∍ xs∍x)
+  find-first-∍ ◌-Free-𝐌𝐨𝐧 x = left λ ()
+

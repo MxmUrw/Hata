@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Data.Substitution.Normal.Definition where
+module Verification.Experimental.Data.Substitution.Variant.Normal.Definition where
 
 open import Verification.Experimental.Conventions hiding (_⊔_)
 
@@ -53,7 +53,7 @@ open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory
 open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.IsoGetting
 open import Verification.Experimental.Data.FiniteIndexed.Property.IsoGetting
 
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 
 -- lists
 module _ {A : 𝒰 𝑖} where
@@ -72,6 +72,9 @@ module _ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) where
   data DList : (as : List A) -> 𝒰 (𝑖 ､ 𝑗) where
     [] : DList []
     _∷_ : ∀{a as} -> (b : B a) -> (bs : DList as) -> DList (a ∷ as)
+
+ConstDList : (A : 𝒰 𝑖) (n : ♮ℕ) -> 𝒰 _
+ConstDList A = DList (const A)
 
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
 

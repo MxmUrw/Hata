@@ -8,7 +8,7 @@ open import Verification.Experimental.Algebra.Monoid.Definition
 open import Verification.Experimental.Algebra.Monoid.Free
 open import Verification.Experimental.Algebra.Monoid.Free.Element
 open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 open import Verification.Experimental.Data.FinR.Definition
 
 open import Verification.Experimental.Computation.Unification.Definition
@@ -16,7 +16,7 @@ open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
 open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
 open import Verification.Experimental.Data.Substitution.Normal.Definition
 
 open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
