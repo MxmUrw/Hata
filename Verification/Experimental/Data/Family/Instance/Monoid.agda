@@ -1,21 +1,21 @@
 
-module Verification.Experimental.Data.Family.Instance.Monoid where
+module Verification.Core.Data.Family.Instance.Monoid where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Data.Family.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Data.Family.Definition
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Set.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Set.Instance.Category
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
 
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Everything
 
-open import Verification.Experimental.Category.Std.Fibration.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Category.Std.Fibration.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 
 
 

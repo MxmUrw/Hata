@@ -1,6 +1,6 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Properties where
+module Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties where
 
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Properties.EpiMono
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.EpiMono
 
 

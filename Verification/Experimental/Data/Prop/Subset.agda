@@ -1,19 +1,19 @@
 
-module Verification.Experimental.Data.Prop.Subset where
+module Verification.Core.Data.Prop.Subset where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Data.Prop.Instance.Setoid
-open import Verification.Experimental.Data.Prop.Instance.Preorder
-open import Verification.Experimental.Data.Prop.Instance.Lattice
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Instance.Preorder
-open import Verification.Experimental.Data.Universe.Instance.Lattice
-open import Verification.Experimental.Data.Sum.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Data.Prop.Instance.Setoid
+open import Verification.Core.Data.Prop.Instance.Preorder
+open import Verification.Core.Data.Prop.Instance.Lattice
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Preorder
+open import Verification.Core.Data.Universe.Instance.Lattice
+open import Verification.Core.Data.Sum.Definition
 
 
 ----------------------------------------------------------

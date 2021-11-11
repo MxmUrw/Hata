@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Conventions where
+module Verification.Core.Conventions where
 
 open import Verification.Conventions public
 --  public

@@ -2,9 +2,9 @@
 module Verification.Explorational.Theory.Std.Generic.Path.Definition where
 
 open import Verification.Conventions hiding (_⊕_)
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
 record PathsAxiom (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   field Con₀ : 𝒰 𝑖

@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Category.Std.Morphism.Iso.Definition where
+module Verification.Core.Category.Std.Morphism.Iso.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Faithful
-open import Verification.Experimental.Category.Std.Functor.Full
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Faithful
+open import Verification.Core.Category.Std.Functor.Full
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where

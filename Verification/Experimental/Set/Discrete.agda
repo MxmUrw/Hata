@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Set.Discrete where
+module Verification.Core.Set.Discrete where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Prop.Everything
 
 
 record isDiscrete-∼ (A : 𝒰 𝑖) {{_ : isSetoid {𝑗} A}} : 𝒰 (𝑗 ､ 𝑖) where

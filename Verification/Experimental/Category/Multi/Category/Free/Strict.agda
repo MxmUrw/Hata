@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Category.Multi.Category.Free.Strict where
+module Verification.Core.Category.Multi.Category.Free.Strict where
 
 open import Verification.Conventions hiding (ℕ)
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Set.Finite.ReachableSubsets.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Set.Finite.ReachableSubsets.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Experimental.Category.Multi.Graph.Definition
-open import Verification.Experimental.Category.Multi.Category.Definition
+open import Verification.Core.Category.Multi.Graph.Definition
+open import Verification.Core.Category.Multi.Category.Definition
 
 
 module _ {A : 𝒰 _} {{_ : Monoid 𝑖 on A}} where

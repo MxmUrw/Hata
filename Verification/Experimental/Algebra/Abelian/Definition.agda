@@ -1,15 +1,15 @@
 
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Algebra.Abelian.Definition where
+module Verification.Core.Algebra.Abelian.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Group.Definition
-open import Verification.Experimental.Algebra.Group.Quotient
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Group.Definition
+open import Verification.Core.Algebra.Group.Quotient
 
 
 Abelian : (𝑗 : 𝔏 ^ 2) -> 𝒰 _

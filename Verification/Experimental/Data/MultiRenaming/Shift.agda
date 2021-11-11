@@ -1,41 +1,41 @@
 
-module Verification.Experimental.Data.MultiRenaming.Shift where
+module Verification.Core.Data.MultiRenaming.Shift where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
--- open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Definition
-open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
-open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Instance.Functor
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Definition
+open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
+open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Op.Instance.Functor
 
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
 
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.FiniteIndexed.Definition
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Duplicate
-open import Verification.Experimental.Data.Indexed.LiftFunctor
-open import Verification.Experimental.Data.Renaming.Definition
-open import Verification.Experimental.Data.Renaming.Shift
-open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
-open import Verification.Experimental.Category.Std.Category.Opposite
-open import Verification.Experimental.Category.Std.Category.Opposite.LiftFunctor
-open import Verification.Experimental.Category.Std.Category.Opposite.Instance.Monoid
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.FiniteIndexed.Definition
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Duplicate
+open import Verification.Core.Data.Indexed.LiftFunctor
+open import Verification.Core.Data.Renaming.Definition
+open import Verification.Core.Data.Renaming.Shift
+open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Morphism.EpiMono
+open import Verification.Core.Category.Std.Category.Opposite
+open import Verification.Core.Category.Std.Category.Opposite.LiftFunctor
+open import Verification.Core.Category.Std.Category.Opposite.Instance.Monoid
 
-open import Verification.Experimental.Data.MultiRenaming.Definition
-open import Verification.Experimental.Data.MultiRenaming.Instance.FiniteCoproductCategory
+open import Verification.Core.Data.MultiRenaming.Definition
+open import Verification.Core.Data.MultiRenaming.Instance.FiniteCoproductCategory
 
 
 module _ {K : 𝒰 𝑖} {L : 𝒰 𝑗} {{_ : isDiscrete L}} where

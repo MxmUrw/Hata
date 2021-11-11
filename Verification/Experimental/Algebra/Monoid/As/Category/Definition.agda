@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Algebra.Monoid.As.Category.Definition where
+module Verification.Core.Algebra.Monoid.As.Category.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 
 -- record
 -- { Hom' = ?

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Meta.Structure5 where
+module Verification.Core.Meta.Structure5 where
 
 open import Verification.Conventions hiding (⟪_⟫ ; Structure ; ′_′)
 -- open import Verification.Core.Category.Definition

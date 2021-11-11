@@ -1,46 +1,46 @@
 
-module Verification.Experimental.Data.FiniteIndexed.Property.Merge where
+module Verification.Core.Data.FiniteIndexed.Property.Merge where
 
-open import Verification.Experimental.Conventions hiding (_⊔_ ; ℕ)
+open import Verification.Core.Conventions hiding (_⊔_ ; ℕ)
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Function.Injective
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Set.Contradiction
--- open import Verification.Experimental.Set.Set.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
-open import Verification.Experimental.Category.Std.Functor.Image
-open import Verification.Experimental.Category.Std.Functor.Adjoint
-open import Verification.Experimental.Category.Std.Category.Structured.SeparatingFamily
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Function.Injective
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Set.Contradiction
+-- open import Verification.Core.Set.Set.Instance.Category
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Morphism.EpiMono
+open import Verification.Core.Category.Std.Functor.Image
+open import Verification.Core.Category.Std.Functor.Adjoint
+open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
-open import Verification.Experimental.Data.Universe.Instance.SeparatingFamily
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
+open import Verification.Core.Data.Universe.Instance.SeparatingFamily
 
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Xiix
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.Indexed.Instance.FiniteCoproductCategory
-open import Verification.Experimental.Data.Indexed.Instance.SeparatingFamily
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Xiix
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.Indexed.Instance.FiniteCoproductCategory
+open import Verification.Core.Data.Indexed.Instance.SeparatingFamily
 
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
 
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full.Construction.Coproduct
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Full.Construction.Coproduct
 
-open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Core.Data.FiniteIndexed.Definition
 
 private
   lem-0 : ∀{A : 𝒰 𝑖} -> (f g : ¬ A) -> f ≣ g

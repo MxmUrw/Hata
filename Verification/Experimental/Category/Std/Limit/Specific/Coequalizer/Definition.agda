@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition where
+module Verification.Core.Category.Std.Limit.Specific.Coequalizer.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.EpiMono
 
 module _ {X : 𝒰 𝑖} {{_ : isCategory {𝑗} X}} where
   LiftU : (X -> 𝒰 𝑘) -> (Obj ′ X ′ -> 𝒰 𝑘)

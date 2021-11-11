@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Computation.Unification.RiFl.Definition where
+module Verification.Core.Computation.Unification.RiFl.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Preservation
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer.Preservation
 
 
 module _ (𝒞 : 𝒰 𝑖) {{_ : isCategory {𝑖₁} 𝒞}} where

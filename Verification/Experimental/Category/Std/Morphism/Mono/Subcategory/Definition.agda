@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Category.Std.Morphism.Mono.Subcategory.Definition where
+module Verification.Core.Category.Std.Morphism.Mono.Subcategory.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Morphism.Mono.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Morphism.Mono.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
 
 
 module _ (𝒞 : Category 𝑖) where

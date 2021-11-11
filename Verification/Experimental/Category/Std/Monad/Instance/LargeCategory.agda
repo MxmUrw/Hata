@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Category.Std.Monad.Instance.LargeCategory where
+module Verification.Core.Category.Std.Monad.Instance.LargeCategory where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Opposite
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Opposite
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Instance.Setoid
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
 
 --
 -- definition from https://ncatlab.org/nlab/show/monad

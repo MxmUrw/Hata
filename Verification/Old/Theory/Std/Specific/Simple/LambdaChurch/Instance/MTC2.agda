@@ -1,37 +1,37 @@
 
-module Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Instance.MTC2 where
+module Verification.Core.Theory.Std.Specific.Simple.LambdaChurch.Instance.MTC2 where
 
-open import Verification.Experimental.Conventions hiding (Maybe)
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Sum.Instance.Monad
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Definition
-open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
--- open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition
-import Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Definition as Λ
-open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaChurch.Definition
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Definition
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Instance.LogicalFramework
-open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.Monoidal.Definition
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
-open import Verification.Experimental.Data.Lift.Definition
-open import Verification.Experimental.Data.Type.Definition
+open import Verification.Core.Conventions hiding (Maybe)
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Sum.Instance.Monad
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.Monoidal
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.KleisliCategory.Definition
+open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
+-- open import Verification.Core.Theory.Std.Presentation.Signature.SingleSorted.Definition
+import Verification.Core.Theory.Std.Specific.Simple.LambdaChurch.Definition as Λ
+open import Verification.Core.Theory.Std.Specific.Simple.LambdaChurch.Definition
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Definition
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Instance.LogicalFramework
+open import Verification.Core.Theory.Std.Generic.LogicalFramework.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2
+open import Verification.Core.Theory.Std.TypologicalTypeTheory.Monoidal.Definition
+open import Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Core.Data.Lift.Definition
+open import Verification.Core.Data.Type.Definition
 
 Maybe : 𝒰 𝑖 -> 𝒰 𝑖
 Maybe {𝑖} A = ⊤-𝒰 {𝑖} + A

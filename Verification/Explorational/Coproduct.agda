@@ -2,8 +2,8 @@
 module Verification.Temporary.Coproduct where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Universe.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Universe.Definition
 _+_ = _+-𝒰_
 pattern ι₀ = left
 pattern ι₁ = right

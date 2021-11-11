@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Computation.Unification.Categorical.Definition where
+module Verification.Core.Computation.Unification.Categorical.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
-open import Verification.Experimental.Category.Std.Morphism.Epi.Definition
-open import Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Sized.Definition
+open import Verification.Core.Category.Std.Morphism.Epi.Definition
+open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
 
 
 instance

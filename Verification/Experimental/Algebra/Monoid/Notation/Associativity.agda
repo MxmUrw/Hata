@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Algebra.Monoid.Notation.Associativity where
+module Verification.Core.Algebra.Monoid.Notation.Associativity where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 
 
 module _ {M : 𝒰 _} {{_ : Monoid 𝑗 on M}} where

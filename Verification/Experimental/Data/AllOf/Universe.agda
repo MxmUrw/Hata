@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Data.AllOf.Universe where
+module Verification.Core.Data.AllOf.Universe where
 
-open import Verification.Experimental.Data.Universe.Everything public
+open import Verification.Core.Data.Universe.Everything public
 

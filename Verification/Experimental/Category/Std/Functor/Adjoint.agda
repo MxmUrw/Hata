@@ -1,9 +1,9 @@
 
 
-module Verification.Experimental.Category.Std.Functor.Adjoint where
+module Verification.Core.Category.Std.Functor.Adjoint where
 
-open import Verification.Experimental.Category.Std.Functor.Adjoint.Definition public
-open import Verification.Experimental.Category.Std.Functor.Adjoint.Property.Preservation public
+open import Verification.Core.Category.Std.Functor.Adjoint.Definition public
+open import Verification.Core.Category.Std.Functor.Adjoint.Property.Preservation public
 
 
 

@@ -1,13 +1,13 @@
 
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Order.Frame where
+module Verification.Core.Order.Frame where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
 
 
 data Test : 𝒰₀ where

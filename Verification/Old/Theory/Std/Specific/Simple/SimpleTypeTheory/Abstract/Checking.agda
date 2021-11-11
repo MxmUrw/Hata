@@ -1,23 +1,23 @@
 
-module Verification.Experimental.Theory.Formal.Specific.SimpleTypeTheory.Abstract.Checking where
+module Verification.Core.Theory.Formal.Specific.SimpleTypeTheory.Abstract.Checking where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Computation.Question.Definition
-open import Verification.Experimental.Theory.Computation.Question.Specific.Check
-open import Verification.Experimental.Theory.Computation.Question.Specific.Small
--- open import Verification.Experimental.Theory.Computation.Question.Codiscrete
--- open import Verification.Experimental.Theory.Computation.Question.Selection
--- open import Verification.Experimental.Theory.Computation.Question.Specific.Small
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Theory.Computation.Question.Definition
+open import Verification.Core.Theory.Computation.Question.Specific.Check
+open import Verification.Core.Theory.Computation.Question.Specific.Small
+-- open import Verification.Core.Theory.Computation.Question.Codiscrete
+-- open import Verification.Core.Theory.Computation.Question.Selection
+-- open import Verification.Core.Theory.Computation.Question.Specific.Small
 
-open import Verification.Experimental.Theory.Formal.Specific.SimpleTypeTheory.Definition as Λᶜ using ()
-open import Verification.Experimental.Theory.Formal.Specific.SimpleTypeTheory.Definition using (_∣_⊢_ ; _∣_⊢_/_)
+open import Verification.Core.Theory.Formal.Specific.SimpleTypeTheory.Definition as Λᶜ using ()
+open import Verification.Core.Theory.Formal.Specific.SimpleTypeTheory.Definition using (_∣_⊢_ ; _∣_⊢_/_)
 
 
 _∣_⊢_∶_ : Λᶜ.BCtx -> Λᶜ.FCtx -> Λᶜ.Term -> Λᶜ.Type -> 𝒰 _

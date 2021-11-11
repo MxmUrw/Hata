@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Algebra.MonoidWithZero.Definition where
+module Verification.Core.Algebra.MonoidWithZero.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 
 
 record hasZero (A : Monoid 𝑖) : 𝒰 𝑖 where

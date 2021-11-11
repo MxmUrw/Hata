@@ -1,19 +1,19 @@
 
-module Verification.Experimental.Algebra.Ring.Localization.Instance.Ring where
+module Verification.Core.Algebra.Ring.Localization.Instance.Ring where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Group.Definition
--- open import Verification.Experimental.Algebra.Group.Quotient
-open import Verification.Experimental.Algebra.Abelian.Definition
-open import Verification.Experimental.Algebra.Ring.Definition
-open import Verification.Experimental.Algebra.Ring.Localization.Definition
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Setoid
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Monoid
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Group
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Group.Definition
+-- open import Verification.Core.Algebra.Group.Quotient
+open import Verification.Core.Algebra.Abelian.Definition
+open import Verification.Core.Algebra.Ring.Definition
+open import Verification.Core.Algebra.Ring.Localization.Definition
+open import Verification.Core.Algebra.Ring.Localization.Instance.Setoid
+open import Verification.Core.Algebra.Ring.Localization.Instance.Monoid
+open import Verification.Core.Algebra.Ring.Localization.Instance.Group
 
 
 

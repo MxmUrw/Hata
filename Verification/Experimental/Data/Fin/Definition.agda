@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Data.Fin.Definition where
+module Verification.Core.Data.Fin.Definition where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Prop.Subset
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
--- open import Verification.Experimental.Set.Finite.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Totalorder
+open import Verification.Core.Conventions
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Prop.Subset
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+-- open import Verification.Core.Set.Finite.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Totalorder
 
 open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
 

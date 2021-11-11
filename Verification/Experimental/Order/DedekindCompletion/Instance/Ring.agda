@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Order.DedekindCompletion.Instance.Ring where
+module Verification.Core.Order.DedekindCompletion.Instance.Ring where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Rational.Definition
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Rational.Definition
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Algebra.Monoid
-open import Verification.Experimental.Algebra.Group
-open import Verification.Experimental.Algebra.Ring
-open import Verification.Experimental.Order.DedekindCompletion.Definition3
--- open import Verification.Experimental.Order.DedekindCompletion.Instance.Linearorder
-open import Verification.Experimental.Order.Linearorder
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Algebra.Monoid
+open import Verification.Core.Algebra.Group
+open import Verification.Core.Algebra.Ring
+open import Verification.Core.Order.DedekindCompletion.Definition3
+-- open import Verification.Core.Order.DedekindCompletion.Instance.Linearorder
+open import Verification.Core.Order.Linearorder
 
 
 

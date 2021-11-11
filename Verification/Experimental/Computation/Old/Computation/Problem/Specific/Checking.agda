@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Computation.Problem.Specific.Checking where
+module Verification.Core.Theory.Computation.Problem.Specific.Checking where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Computation.Problem.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Theory.Computation.Problem.Definition
 
 record CheckingProblem (𝑖 : 𝔏 ^ 3) : 𝒰 (𝑖 ⁺) where
   field Questions : 𝒰 (𝑖 ⌄ 0)

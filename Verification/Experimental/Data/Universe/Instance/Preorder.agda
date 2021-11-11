@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Data.Universe.Instance.Preorder where
+module Verification.Core.Data.Universe.Instance.Preorder where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Instance.Setoid
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Setoid
 
 -- instance
 --   isPreorder:𝒰 : isPreorder _ ′ 𝒰 𝑖 ′

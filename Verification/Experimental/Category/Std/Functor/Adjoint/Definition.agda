@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Category.Std.Functor.Adjoint.Definition where
+module Verification.Core.Category.Std.Functor.Adjoint.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Morphism
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Notation.Associativity
+open import Verification.Core.Set.Setoid.Morphism
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Notation.Associativity
 
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where

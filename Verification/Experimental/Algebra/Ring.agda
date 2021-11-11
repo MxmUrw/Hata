@@ -1,10 +1,10 @@
 
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Algebra.Ring where
+module Verification.Core.Algebra.Ring where
 
-open import Verification.Experimental.Algebra.Ring.Definition public
-open import Verification.Experimental.Algebra.Ring.Quotient public
--- open import Verification.Experimental.Algebra.Ring.Localization public
+open import Verification.Core.Algebra.Ring.Definition public
+open import Verification.Core.Algebra.Ring.Quotient public
+-- open import Verification.Core.Algebra.Ring.Localization public
 
 

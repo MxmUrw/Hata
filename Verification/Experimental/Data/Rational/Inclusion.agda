@@ -1,24 +1,24 @@
 
-module Verification.Experimental.Data.Rational.Inclusion where
+module Verification.Core.Data.Rational.Inclusion where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Rational.Definition
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Conventions
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Rational.Definition
+open import Verification.Core.Data.Universe.Everything
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Algebra.Monoid
-open import Verification.Experimental.Algebra.Group
-open import Verification.Experimental.Algebra.Ring
-open import Verification.Experimental.Algebra.Ring.Ordered
-open import Verification.Experimental.Algebra.Ring.Localization
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.OrderedRing
-open import Verification.Experimental.Algebra.Field.Definition
-open import Verification.Experimental.Order.Linearorder
-open import Verification.Experimental.Order.Preorder
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Algebra.Monoid
+open import Verification.Core.Algebra.Group
+open import Verification.Core.Algebra.Ring
+open import Verification.Core.Algebra.Ring.Ordered
+open import Verification.Core.Algebra.Ring.Localization
+open import Verification.Core.Algebra.Ring.Localization.Instance.Linearorder
+open import Verification.Core.Algebra.Ring.Localization.Instance.OrderedRing
+open import Verification.Core.Algebra.Field.Definition
+open import Verification.Core.Order.Linearorder
+open import Verification.Core.Order.Preorder
 
 open AbelianMonoidNotation
 

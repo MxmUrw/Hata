@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Category.Std.Functor.Image where
+module Verification.Core.Category.Std.Functor.Image where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Set.Setoid.Morphism
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Set.Setoid.Morphism
 
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where

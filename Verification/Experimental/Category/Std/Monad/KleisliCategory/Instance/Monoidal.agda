@@ -1,23 +1,23 @@
 
-module Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal where
+module Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Construction.Product
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Construction.Product
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.KleisliCategory.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
 
 
 module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}}

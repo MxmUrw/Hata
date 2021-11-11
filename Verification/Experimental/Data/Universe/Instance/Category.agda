@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Data.Universe.Instance.Category where
+module Verification.Core.Data.Universe.Instance.Category where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Data.Universe.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Data.Universe.Definition
 
 
 

@@ -1,29 +1,29 @@
 
-module Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Unification where
+module Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Unification where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Setoid.Instance.Category
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.As.Monoid
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
--- open import Verification.Experimental.Theory.Computation.Unification.Definition
--- open import Verification.Experimental.Theory.Computation.Unification.Monoidic.ToCoequalizer
--- open import Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamily
--- open import Verification.Experimental.Theory.Computation.Unification.Monoidic.PrincipalFamilyCat2
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Definition
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Setoid
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Functor
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Monad
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Setoid.Instance.Category
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.As.Monoid
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.KleisliCategory.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+-- open import Verification.Core.Theory.Computation.Unification.Definition
+-- open import Verification.Core.Theory.Computation.Unification.Monoidic.ToCoequalizer
+-- open import Verification.Core.Theory.Computation.Unification.Monoidic.PrincipalFamily
+-- open import Verification.Core.Theory.Computation.Unification.Monoidic.PrincipalFamilyCat2
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Definition
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Setoid
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Functor
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Monad
 
 Obj = _:&_.⟨_⟩
 

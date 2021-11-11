@@ -2,11 +2,11 @@
 module Verification.Application.Applications.Editor.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Application.Definition
 open import Verification.Application.Render.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Int.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Int.Definition
 
 
 

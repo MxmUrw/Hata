@@ -1,20 +1,20 @@
 
-module Verification.Experimental.Algebra.Monoid.Free.Element where
+module Verification.Core.Algebra.Monoid.Free.Element where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Free
--- open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Free
+-- open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
 
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.Semiring
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.Semiring
 
 
 module _ {A : 𝒰 𝑖} where
@@ -190,7 +190,7 @@ module _ {A : 𝒰 𝑖} where
 
 
   -- -- setoid hom to 𝐅𝐢𝐧𝐈𝐱
-  -- open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+  -- open import Verification.Core.Category.Std.Category.Subcategory.Full
   -- private
   --   instance
   --     _ : isSetoid (𝐅𝐮𝐥𝐥 (𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙)

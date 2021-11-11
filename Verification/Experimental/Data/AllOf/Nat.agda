@@ -1,6 +1,6 @@
 
-module Verification.Experimental.Data.AllOf.Nat where
+module Verification.Core.Data.AllOf.Nat where
 
-open import Verification.Experimental.Data.Nat.Definition public
-open import Verification.Experimental.Data.Nat.Free public
+open import Verification.Core.Data.Nat.Definition public
+open import Verification.Core.Data.Nat.Free public
 

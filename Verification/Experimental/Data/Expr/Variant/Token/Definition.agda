@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Data.Expr.Variant.Token.Definition where
+module Verification.Core.Data.Expr.Variant.Token.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Data.FinR.Definition
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.AllOf.List
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Data.FinR.Definition
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.AllOf.List
+open import Verification.Core.Data.Universe.Everything
 
-open import Verification.Experimental.Data.Expr.Variant.List.Definition
-open import Verification.Experimental.Data.Expr.Variant.Token.Data
+open import Verification.Core.Data.Expr.Variant.List.Definition
+open import Verification.Core.Data.Expr.Variant.Token.Data
 
-open import Verification.Experimental.Data.Substitution.Variant.Normal.Definition
+open import Verification.Core.Data.Substitution.Variant.Normal.Definition
 
 
 module _ (𝒹 : TokenExprData) where

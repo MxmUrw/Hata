@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Product where
+module Verification.Core.Category.Std.Limit.Specific.Product where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
--- open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid
+-- open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where

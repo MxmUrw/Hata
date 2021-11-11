@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Data.Universe.Definition where
+module Verification.Core.Data.Universe.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
 -- | - The identity morphisms [..] are given by [..].
 id-𝒰 : ∀{A : 𝒰 𝑖} -> A -> A

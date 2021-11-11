@@ -1,19 +1,19 @@
 
-module Verification.Experimental.Data.Indexed.Instance.FiniteCoproductCategory where
+module Verification.Core.Data.Indexed.Instance.FiniteCoproductCategory where
 
-open import Verification.Experimental.Conventions hiding (_⊔_)
+open import Verification.Core.Conventions hiding (_⊔_)
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Set.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Set.Instance.Category
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Indexed.Definition
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Indexed.Definition
 
 
 module _ {I : 𝒰 𝑖} {𝒞 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}} where

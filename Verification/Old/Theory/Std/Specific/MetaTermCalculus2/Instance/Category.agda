@@ -1,21 +1,21 @@
 
-module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Instance.Category where
+module Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Instance.Category where
 
-open import Verification.Experimental.Conventions hiding (Structure)
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
-open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Cartesian
+open import Verification.Core.Conventions hiding (Structure)
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2
+open import Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Cartesian
 
 
 module _ {K : Kinding 𝑗} {γ : MetaTermCalculus K 𝑖} where

@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition where
+module Verification.Core.Theory.Std.Presentation.Signature.SingleSorted.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
 
 Signature : 𝒰 _

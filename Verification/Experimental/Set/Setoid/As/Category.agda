@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Set.Setoid.As.Category where
+module Verification.Core.Set.Setoid.As.Category where
 
 open import Verification.Conventions
--- open import Verification.Experimental.Data.Prop.Definition
--- open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Discrete
-open import Verification.Experimental.Category.Std.Category.Definition
+-- open import Verification.Core.Data.Prop.Definition
+-- open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Discrete
+open import Verification.Core.Category.Std.Category.Definition
 
 
 module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where

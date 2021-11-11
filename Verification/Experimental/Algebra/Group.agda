@@ -1,8 +1,8 @@
 
-module Verification.Experimental.Algebra.Group where
+module Verification.Core.Algebra.Group where
 
-open import Verification.Experimental.Algebra.Group.Definition public
-open import Verification.Experimental.Algebra.Group.Quotient public
+open import Verification.Core.Algebra.Group.Definition public
+open import Verification.Core.Algebra.Group.Quotient public
 
 
 

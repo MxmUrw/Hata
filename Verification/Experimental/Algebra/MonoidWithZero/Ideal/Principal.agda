@@ -1,20 +1,20 @@
 
-module Verification.Experimental.Algebra.MonoidWithZero.Ideal.Principal where
+module Verification.Core.Algebra.MonoidWithZero.Ideal.Principal where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Subsetoid
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Special
-open import Verification.Experimental.Algebra.MonoidAction.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Instance.Lattice
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Instance.hasAction
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Subsetoid
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Special
+open import Verification.Core.Algebra.MonoidAction.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Instance.Lattice
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Instance.hasAction
 
 
 

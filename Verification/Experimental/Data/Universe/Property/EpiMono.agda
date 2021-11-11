@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Data.Universe.Property.EpiMono where
+module Verification.Core.Data.Universe.Property.EpiMono where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Instance.Category
-open import Verification.Experimental.Set.Function.Injective
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Morphism.EpiMono
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
+open import Verification.Core.Set.Function.Injective
 
 module _ {A B : 𝒰 𝑖} where
   construct-isMono-𝐔𝐧𝐢𝐯 : ∀{f : A -> B} -> isInjective-𝒰 f -> isMono f

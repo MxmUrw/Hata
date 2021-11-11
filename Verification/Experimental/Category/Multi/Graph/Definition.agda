@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Category.Multi.Graph.Definition where
+module Verification.Core.Category.Multi.Graph.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Set.Finite.ReachableSubsets.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Set.Finite.ReachableSubsets.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
 
 
 record isMultiGraph (𝑗 : 𝔏) (G : 𝒰 𝑖) : 𝒰 (𝑖 ､ 𝑗 ⁺) where

@@ -3,8 +3,8 @@ module Verification.Application.Configuration.Static where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Theory.Std.Inference.Definition
-open import Verification.Experimental.Theory.Std.Inference.Task
+open import Verification.Core.Theory.Std.Inference.Definition
+open import Verification.Core.Theory.Std.Inference.Task
 
 
 data SupportedLanguage : 𝒰₀ where
@@ -28,11 +28,11 @@ record ∑𝔏ω {n : ℕ} {F : 𝔏 ^ n -> 𝔏} (A : (𝑖 : 𝔏 ^ n) -> 𝒰
 open ∑𝔏ω public
 
 
-open import Verification.Experimental.Data.Expr.Variant.Base.InferenceTask
-open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
-open import Verification.Experimental.Data.SyntaxTree.Variant.Base.Instance.Infer
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Data.Expr.Variant.Base.InferenceTask
+open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
+open import Verification.Core.Data.SyntaxTree.Variant.Base.Instance.Infer
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Data.Universe.Everything
 
 getInferenceTask : SupportedLanguage -> ∑𝔏ω InferenceTask
 getInferenceTask LambdaCalculusTypesᵗ = {!!}

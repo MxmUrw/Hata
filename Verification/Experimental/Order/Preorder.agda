@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Order.Preorder where
+module Verification.Core.Order.Preorder where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 -- open import Verification.Core.Type
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Universe.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Universe.Definition
 
 --------------------------------------------------------------------
 -- == Preorder

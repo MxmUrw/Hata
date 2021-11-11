@@ -2,10 +2,10 @@
 module Verification.Application.Render.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Data.Rational.Definition
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Product.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Data.Rational.Definition
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Product.Definition
 
 {-# FOREIGN GHC import Hata.Runtime.Application.Render.Definition #-}
 

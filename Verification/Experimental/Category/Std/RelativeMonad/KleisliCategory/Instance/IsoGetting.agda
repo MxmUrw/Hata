@@ -1,24 +1,24 @@
 
-module Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Instance.IsoGetting where
+module Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Instance.IsoGetting where
 
 open import Verification.Conventions hiding (_⊔_)
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Setoid.Morphism
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.RelativeMonad.Definition
-open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Functor.Faithful
-open import Verification.Experimental.Category.Std.Functor.Full
-open import Verification.Experimental.Category.Std.Functor.EssentiallySurjective
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Setoid.Morphism
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.RelativeMonad.Definition
+open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Functor.Faithful
+open import Verification.Core.Category.Std.Functor.Full
+open import Verification.Core.Category.Std.Functor.EssentiallySurjective
 
 record hasIsoGetting (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field getIso : ∀(a b : ⟨ 𝒞 ⟩) -> Maybe (a ≅ b)

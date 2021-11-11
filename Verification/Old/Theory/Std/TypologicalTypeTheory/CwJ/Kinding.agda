@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding where
+module Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Kinding where
 
 open import Verification.Conventions
 

@@ -1,36 +1,36 @@
 
-module Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition where
+module Verification.Core.Theory.Std.Generic.ProgrammingLanguage.Definition where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.Category
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Sum.Definition
--- open import Verification.Experimental.Data.Rational.Definition
--- open import Verification.Experimental.Algebra.Monoid.Definition
--- open import Verification.Experimental.Category.Std.Category.Definition
--- open import Verification.Experimental.Theory.Computation.Question.Definition
--- open import Verification.Experimental.Category.Std.Morphism.Iso
--- open import Verification.Experimental.Theory.Computation.Question.Construction.Product
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.Category
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Sum.Definition
+-- open import Verification.Core.Data.Rational.Definition
+-- open import Verification.Core.Algebra.Monoid.Definition
+-- open import Verification.Core.Category.Std.Category.Definition
+-- open import Verification.Core.Theory.Computation.Question.Definition
+-- open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Theory.Computation.Question.Construction.Product
 
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Generic.Theory.Definition
-open import Verification.Experimental.Theory.Std.Generic.ComputationalTheory.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Generic.Theory.Definition
+open import Verification.Core.Theory.Std.Generic.ComputationalTheory.Definition
 
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Graph.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Graph.Definition
 
-open import Verification.Experimental.Category.Std.Fibration.Specific.Fam.Definition
-open import Verification.Experimental.Category.Std.Fibration.BaseChange.Definition
-open import Verification.Experimental.Category.Std.Fibration.Definition
-open import Verification.Experimental.Category.Std.Fibration.Instance.BaseChange
+open import Verification.Core.Category.Std.Fibration.Specific.Fam.Definition
+open import Verification.Core.Category.Std.Fibration.BaseChange.Definition
+open import Verification.Core.Category.Std.Fibration.Definition
+open import Verification.Core.Category.Std.Fibration.Instance.BaseChange
 
-open import Verification.Experimental.Computation.Question.Definition
-open import Verification.Experimental.Computation.Question.Specific.Check
+open import Verification.Core.Computation.Question.Definition
+open import Verification.Core.Computation.Question.Specific.Check
 
 
 open import Verification.Application.Definition

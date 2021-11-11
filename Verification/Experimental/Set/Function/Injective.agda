@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Set.Function.Injective where
+module Verification.Core.Set.Function.Injective where
 
 open import Verification.Conventions
 

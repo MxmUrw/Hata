@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Data.Sum.Instance.Functor where
+module Verification.Core.Data.Sum.Instance.Functor where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Function.Injective
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Set.Function.Injective
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Data.Universe.Everything
 
 
 -- | Fix a type [..].

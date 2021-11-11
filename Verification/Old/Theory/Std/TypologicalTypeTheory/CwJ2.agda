@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ where
+module Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ where
 
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Definition
 
 
 

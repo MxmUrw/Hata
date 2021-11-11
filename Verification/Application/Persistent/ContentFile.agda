@@ -2,18 +2,18 @@
 module Verification.Application.Persistent.ContentFile where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Discrete
+open import Verification.Core.Set.Discrete
 open import Verification.Application.Configuration.Static
-open import Verification.Experimental.Data.Expr.Variant.Base.Definition
+open import Verification.Core.Data.Expr.Variant.Base.Definition
 
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.AllOf.List
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.AllOf.List
 
 open import Verification.Application.Persistent.Error
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 
 {-# FOREIGN GHC import Hata.Runtime.Application.Persistent.ContentFile #-}
 

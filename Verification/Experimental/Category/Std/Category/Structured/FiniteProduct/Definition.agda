@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.Definition where
+module Verification.Core.Category.Std.Category.Structured.FiniteProduct.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Product
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Product
 
 FiniteProductCategory : ∀ 𝑖 -> 𝒰 _
 FiniteProductCategory 𝑖 = Category 𝑖 :& hasFiniteProducts

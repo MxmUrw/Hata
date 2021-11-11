@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Algebra.Group.Quotient where
+module Verification.Core.Algebra.Group.Quotient where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Group.Definition
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Group.Definition
 
 module _ {𝑗 : 𝔏 ^ 2} {G : Group 𝑗} where
   record isNormal (H : Subgroup G) : 𝒰 𝑗 where

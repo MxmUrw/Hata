@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Algebra.Monoid.Definition where
+module Verification.Core.Algebra.Monoid.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Prop.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Prop.Definition
 
 
 

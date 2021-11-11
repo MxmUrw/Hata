@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Algebra.MonoidAction.Definition where
+module Verification.Core.Algebra.MonoidAction.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 
 
 record hasActionₗ (M : Monoid 𝑖) (A : Setoid 𝑗) : 𝒰 (𝑖 ､ 𝑗) where

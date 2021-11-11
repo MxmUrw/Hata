@@ -1,19 +1,19 @@
 
-module Verification.Experimental.Data.Tree.Variant.Syntax.Definition where
+module Verification.Core.Data.Tree.Variant.Syntax.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.AllOf.List
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
-open import Verification.Experimental.Data.Substitution.Variant.Normal.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.AllOf.List
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.Substitution.Variant.Normal.Definition
 
-open import Verification.Experimental.Data.Tree.Variant.Syntax.Data
+open import Verification.Core.Data.Tree.Variant.Syntax.Data
 
 
 module _ (𝒹 : SyntaxTreeData) where

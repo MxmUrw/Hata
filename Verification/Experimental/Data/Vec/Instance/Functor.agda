@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Data.Vec.Instance.Functor where
+module Verification.Core.Data.Vec.Instance.Functor where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
--- open import Verification.Experimental.Category.Std.Functor.Instance.Category
--- open import Verification.Experimental.Category.Std.Natural.Definition
--- open import Verification.Experimental.Category.Std.Category.Instance.Category
--- open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+-- open import Verification.Core.Category.Std.Functor.Instance.Category
+-- open import Verification.Core.Category.Std.Natural.Definition
+-- open import Verification.Core.Category.Std.Category.Instance.Category
+-- open import Verification.Core.Category.Std.Monad.Definition
 
-open import Verification.Experimental.Data.Universe.Everything
--- open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Universe.Everything
+-- open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 
 private
   lem-1 : ∀{n} -> {A B C : 𝒰 𝑖} -> {f : A -> B} -> {g : B -> C}

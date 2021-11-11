@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Data.State.Definition where
+module Verification.Core.Data.State.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Product.Everything
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Product.Everything
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 
 
 module _ (T : Monad (𝐔𝐧𝐢𝐯 𝑖)) where

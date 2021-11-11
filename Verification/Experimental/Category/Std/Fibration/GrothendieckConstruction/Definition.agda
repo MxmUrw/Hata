@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Definition where
+module Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
--- open import Verification.Experimental.Category.Std.Natural.Instance.Category
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Category.Std.Natural.Instance.Category
 
 record hasGrothendieckSum (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
   field ⨊ : A -> B

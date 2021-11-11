@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Definition where
+module Verification.Core.Theory.Std.Specific.Simple.LambdaCurry.Definition where
 
-open import Verification.Experimental.Conventions hiding (isSet)
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Theory.Std.Presentation.Signature.SingleSorted.Definition as SingleSorted
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Conventions hiding (isSet)
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Theory.Std.Presentation.Signature.SingleSorted.Definition as SingleSorted
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
 
 data TySig : ℕ -> 𝒰₀ where
   `ℕ` `𝔹` : TySig 0

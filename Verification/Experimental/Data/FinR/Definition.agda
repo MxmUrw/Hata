@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Data.FinR.Definition where
+module Verification.Core.Data.FinR.Definition where
 
 open import Verification.Conventions hiding (lookup)
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Sum.Instance.Functor
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Sum.Instance.Functor
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
 
 data _≤-⧜-ℕ_ : ∀(m n : ℕ) -> 𝒰₀ where

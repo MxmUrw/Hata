@@ -1,21 +1,21 @@
 
-module Verification.Experimental.Data.List.Instance.Traversable where
+module Verification.Core.Data.List.Instance.Traversable where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
 
-open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.Definition
 
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 
 -- instance
 --   isFunctor:List : isFunctor (𝐔𝐧𝐢𝐯 𝑖) (𝐔𝐧𝐢𝐯 𝑖) List

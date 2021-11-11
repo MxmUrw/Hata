@@ -1,31 +1,31 @@
 
-module Verification.Experimental.Data.Expr.Variant.Base.Instance.Monad where
+module Verification.Core.Data.Expr.Variant.Base.Instance.Monad where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Instance.Category
-open import Verification.Experimental.Data.AllOf.Product
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.Expr.Variant.Base.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Opposite
-open import Verification.Experimental.Category.Std.Category.Construction.Product
-open import Verification.Experimental.Category.Std.Category.Instance.FiniteProductCategory
-open import Verification.Experimental.Category.Std.Limit.Specific.Product
-open import Verification.Experimental.Category.Std.Limit.Specific.Product.Instance.Functor
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Constant
-open import Verification.Experimental.Set.Setoid.As.Category
-open import Verification.Experimental.Set.Setoid.Discrete
-open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Instance.Category
+open import Verification.Core.Data.AllOf.Product
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.Expr.Variant.Base.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Opposite
+open import Verification.Core.Category.Std.Category.Construction.Product
+open import Verification.Core.Category.Std.Category.Instance.FiniteProductCategory
+open import Verification.Core.Category.Std.Limit.Specific.Product
+open import Verification.Core.Category.Std.Limit.Specific.Product.Instance.Functor
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Constant
+open import Verification.Core.Set.Setoid.As.Category
+open import Verification.Core.Set.Setoid.Discrete
+open import Verification.Core.Set.Setoid.Definition
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.Instance.Category
-open import Verification.Experimental.Category.Std.Monad.Instance.LargeCategory
-open import Verification.Experimental.Theory.Std.Inference.Definition
-open import Verification.Experimental.Theory.Std.Inference.TextInfer
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.Instance.Category
+open import Verification.Core.Category.Std.Monad.Instance.LargeCategory
+open import Verification.Core.Theory.Std.Inference.Definition
+open import Verification.Core.Theory.Std.Inference.TextInfer
 
 
 module _ {A : 𝒰 𝑖} {a b : A} where
@@ -96,14 +96,14 @@ module _ {P : BaseExprData} where
 -------------------------
 -- Building a monad from a parametrized monad
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Instance.Setoid
+open import Verification.Core.Category.Std.Morphism.Iso
 
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where

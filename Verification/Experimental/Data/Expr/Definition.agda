@@ -1,24 +1,24 @@
 
-module Verification.Experimental.Data.Expr.Definition where
+module Verification.Core.Data.Expr.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
--- open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.RelativeMonad.Finitary.Definition
+-- open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.FiniteIndexed.Definition
 
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Category.Std.Category.Subcategory.Full
 
 
 data Exprᵘ (B : 𝒰 𝑖) (A : 𝐅𝐢𝐧𝐈𝐱 (⊤-𝒰 {𝑖})) : 𝒰 𝑖 where
@@ -47,7 +47,7 @@ module _ (B : 𝒰 𝑖) where
 {-
 -- product theory
 
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
 
 module _ {A : 𝒰 𝑖} (a b : A) where
   data 𝕋List₁ : List A -> A -> 𝒰 𝑖 where

@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Setoid where
+module Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Setoid where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Definition
--- open import Verification.Experimental.Category.Std.Category.Definition
--- open import Verification.Experimental.Category.Std.Functor.Definition
--- open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Definition
+-- open import Verification.Core.Category.Std.Category.Definition
+-- open import Verification.Core.Category.Std.Functor.Definition
+-- open import Verification.Core.Category.Std.Monad.Definition
 
 
 module _ {σ : Signature} {V : 𝒰 𝑗} {{_ : isSetoid 𝑖 V}} where

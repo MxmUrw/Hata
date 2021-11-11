@@ -1,20 +1,20 @@
 
-module Verification.Experimental.Category.Std.Category.As.Monoid.Special where
+module Verification.Core.Category.Std.Category.As.Monoid.Special where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Special
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
-open import Verification.Experimental.Category.Std.Category.As.Monoid.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Special
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Sized.Definition
+open import Verification.Core.Category.Std.Category.As.Monoid.Definition
 
 module _ {𝒞 : 𝒰 _} {{_ : SizedCategory 𝑖 on 𝒞}} where
 

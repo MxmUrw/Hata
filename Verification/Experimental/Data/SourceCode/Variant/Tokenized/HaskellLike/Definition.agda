@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition where
+module Verification.Core.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.SourceCode.Variant.Tokenized.Definition
 
-{-# FOREIGN GHC import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition #-}
-{-# FOREIGN GHC import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition #-}
+{-# FOREIGN GHC import Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition #-}
+{-# FOREIGN GHC import Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.Definition #-}
 
 
 ----------------------------------------------------------

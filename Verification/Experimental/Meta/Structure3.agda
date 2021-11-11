@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Meta.Structure3 where
+module Verification.Core.Meta.Structure3 where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition

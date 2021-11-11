@@ -1,8 +1,8 @@
 
-module Verification.Experimental.Data.Sum.Definition where
+module Verification.Core.Data.Sum.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Function.Injective
+open import Verification.Core.Set.Function.Injective
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.EpiMono
 -- open import Verification.Core.Category.Instance.Type

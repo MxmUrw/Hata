@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Pullback where
+module Verification.Core.Category.Std.Limit.Specific.Pullback where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
 
 
 

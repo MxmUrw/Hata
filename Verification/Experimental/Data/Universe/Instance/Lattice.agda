@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Data.Universe.Instance.Lattice where
+module Verification.Core.Data.Universe.Instance.Lattice where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Instance.Setoid
-open import Verification.Experimental.Data.Universe.Instance.Preorder
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Setoid
+open import Verification.Core.Data.Universe.Instance.Preorder
 
 -- instance
   -- hasFiniteJoins:𝒰 : hasFiniteJoins ′ 𝒰 𝑖 ′

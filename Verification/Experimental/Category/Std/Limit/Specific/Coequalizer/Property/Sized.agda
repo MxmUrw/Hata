@@ -1,17 +1,17 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Sized where
+module Verification.Core.Category.Std.Limit.Specific.Coequalizer.Property.Sized where
 
 open import Verification.Conventions hiding (_⊔_)
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Morphism.Epi.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Sized.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Morphism.Epi.Definition
 
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Property.Base
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer.Property.Base
 
 
 

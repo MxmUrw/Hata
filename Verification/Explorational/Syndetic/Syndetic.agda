@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Category.Syndetic where
+module Verification.Core.Category.Syndetic where
 
 open import Verification.Conventions hiding (Square ; extend)
 open import Verification.Core.Category.Definition

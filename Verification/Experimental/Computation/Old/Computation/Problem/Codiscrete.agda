@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Computation.Problem.Codiscrete where
+module Verification.Core.Theory.Computation.Problem.Codiscrete where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Theory.Computation.Problem.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Theory.Computation.Problem.Definition
 
 coDisc : 𝐏𝐫𝐨𝐛 𝑖 -> 𝐏𝐫𝐨𝐛 𝑖
 coDisc Π = ′ ⟨ Π ⟩ ′ {{problem λ x → ⊥-𝒰}}

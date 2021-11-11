@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Category.Std.Category.Opposite.Definition where
+module Verification.Core.Category.Std.Category.Opposite.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
 
 
 

@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Order.WellFounded.Definition where
+module Verification.Core.Order.WellFounded.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
 
 record isWF 𝑗 (A : 𝒰 𝑖) : 𝒰 (𝑖 ､ (𝑗 ⁺)) where

@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Set.Setoid.Free where
+module Verification.Core.Set.Setoid.Free where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Set.Setoid.Definition
 
 
 

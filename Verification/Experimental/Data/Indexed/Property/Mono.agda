@@ -1,24 +1,24 @@
 
-module Verification.Experimental.Data.Indexed.Property.Mono where
+module Verification.Core.Data.Indexed.Property.Mono where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Contradiction
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Category.Std.Category.Structured.SeparatingFamily
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Data.Universe.Instance.Category
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Contradiction
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Morphism.EpiMono
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Indexed.Definition
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Indexed.Definition
 
 
 

@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Category.Infinity.Simplicial.Simplex.Definition where
+module Verification.Core.Category.Infinity.Simplicial.Simplex.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Finite.Definition
+open import Verification.Core.Set.Finite.Definition
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Totalorder
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Totalorder
+open import Verification.Core.Category.Std.Category.Definition
 
 record isSimplex (A : 𝒰 _ :& (is Finite _) :, (is Totalorder⁺ 𝑖)) : 𝒰 𝑖 where
 instance

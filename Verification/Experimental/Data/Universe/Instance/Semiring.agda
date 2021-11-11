@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Data.Universe.Instance.Semiring where
+module Verification.Core.Data.Universe.Instance.Semiring where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Category.Structured.FiniteCoproduct.Definition
-open import Verification.Experimental.Category.Std.Category.Structured.FiniteCoproduct.As.Monoid
-open import Verification.Experimental.Data.Universe.Instance.FiniteCoproductCategory
-open import Verification.Experimental.Data.Universe.Instance.Setoid
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Category.Structured.FiniteCoproduct.Definition
+open import Verification.Core.Category.Std.Category.Structured.FiniteCoproduct.As.Monoid
+open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
+open import Verification.Core.Data.Universe.Instance.Setoid
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
 
 instance

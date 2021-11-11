@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Order.WellFounded.Construction.Product where
+module Verification.Core.Order.WellFounded.Construction.Product where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Order.WellFounded.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Order.WellFounded.Definition
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} (R : A -> A -> 𝒰 𝑘) (S : B -> B -> 𝒰 𝑙) where
   ×-≪ : (A × B) -> (A × B) -> 𝒰 (𝑘 ､ 𝑙)

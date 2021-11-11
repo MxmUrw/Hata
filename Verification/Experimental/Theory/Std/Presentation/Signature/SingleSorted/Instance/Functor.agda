@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Formal.Presentation.Signature.SingleSorted.Instance.Functor where
+module Verification.Core.Theory.Formal.Presentation.Signature.SingleSorted.Instance.Functor where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Setoid.Instance.Category
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Theory.Formal.Presentation.Signature.SingleSorted.Definition
--- open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Setoid
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Setoid.Instance.Category
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.Category
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Theory.Formal.Presentation.Signature.SingleSorted.Definition
+-- open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Setoid
 
 
 module _ {σ : Signature} {A B : 𝐓𝐲𝐩𝐞 𝑖} where

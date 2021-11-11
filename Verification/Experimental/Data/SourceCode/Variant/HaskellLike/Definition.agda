@@ -1,20 +1,20 @@
 
-module Verification.Experimental.Data.SourceCode.Variant.HaskellLike.Definition where
+module Verification.Core.Data.SourceCode.Variant.HaskellLike.Definition where
 
 open import Verification.Conventions hiding (ℕ ; lookup)
-open import Verification.Experimental.Data.FinR.Definition
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.List.Definition
-open import Verification.Experimental.Data.List.Instance.Traversable
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Order.Preorder
--- open import Verification.Experimental.Data.SourceCode.Variant.Tokenized.Definition
+open import Verification.Core.Data.FinR.Definition
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.List.Definition
+open import Verification.Core.Data.List.Instance.Traversable
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Order.Preorder
+-- open import Verification.Core.Data.SourceCode.Variant.Tokenized.Definition
 
-{-# FOREIGN GHC import Hata.Runtime.Experimental.Data.SourceCode.Variant.HaskellLike.Definition #-}
+{-# FOREIGN GHC import Hata.Runtime.Core.Data.SourceCode.Variant.HaskellLike.Definition #-}
 
 
 ----------------------------------------------------------

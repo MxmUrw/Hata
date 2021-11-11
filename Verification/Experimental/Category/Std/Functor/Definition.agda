@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Category.Std.Functor.Definition where
+module Verification.Core.Category.Std.Functor.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
 
 

@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Theory.Computation.Problem.Definition where
+module Verification.Core.Theory.Computation.Problem.Definition where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
 ---------------------------------------------------------------
 -- Definition of a problem

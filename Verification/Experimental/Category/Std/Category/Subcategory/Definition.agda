@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Category.Std.Category.Subcategory.Definition where
+module Verification.Core.Category.Std.Category.Subcategory.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
 
 record SubcategoryData (𝒞 : Category 𝑖) {𝑘} (A : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘 ⁺) where

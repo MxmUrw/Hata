@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Set.Setoid where
+module Verification.Core.Set.Setoid where
 
-open import Verification.Experimental.Set.Setoid.Definition public
+open import Verification.Core.Set.Setoid.Definition public
 
 
 

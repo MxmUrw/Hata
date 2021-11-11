@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Set.Decidable where
+module Verification.Core.Set.Decidable where
 
 open import Verification.Conventions
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Data.Universe.Everything
 
--- open import Verification.Experimental.Data.Prop.Everything
+-- open import Verification.Core.Data.Prop.Everything
 
 isDecidable : ∀(A : 𝒰 𝑖) -> 𝒰 _
 isDecidable A = (¬ A) +-𝒰 A

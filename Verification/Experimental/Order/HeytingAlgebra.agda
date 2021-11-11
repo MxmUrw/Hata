@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Order.HeytingAlgebra where
+module Verification.Core.Order.HeytingAlgebra where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
 
 
 record isHeytingAlgebra {𝑖 : 𝔏 ^ 3} (L : Lattice 𝑖) : 𝒰 𝑖 where

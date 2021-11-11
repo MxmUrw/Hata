@@ -1,18 +1,18 @@
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Algebra.Ring.PartiallyOrdered where
+module Verification.Core.Algebra.Ring.PartiallyOrdered where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Algebra.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Group.Definition
-open import Verification.Experimental.Algebra.Group.Quotient
-open import Verification.Experimental.Algebra.Abelian.Definition
-open import Verification.Experimental.Algebra.Ring.Definition
-open import Verification.Experimental.Algebra.Ring.Domain
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Totalorder
+open import Verification.Core.Algebra.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Group.Definition
+open import Verification.Core.Algebra.Group.Quotient
+open import Verification.Core.Algebra.Abelian.Definition
+open import Verification.Core.Algebra.Ring.Definition
+open import Verification.Core.Algebra.Ring.Domain
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Totalorder
 
 module _ {𝑖 : 𝔏 ^ 2} where
   record isOrderedRing (𝑗 : 𝔏) (R : Ring 𝑖)  : 𝒰 (𝑖 ⁺ ､ 𝑗 ⁺) where

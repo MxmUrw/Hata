@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Set.Set.Definition where
+module Verification.Core.Set.Set.Definition where
 
-open import Verification.Experimental.Conventions renaming (isSet to isSetᵈ)
+open import Verification.Core.Conventions renaming (isSet to isSetᵈ)
 
 record isSet (A : 𝒰 𝑖) : 𝒰 𝑖 where
   field fillPath-Set : isSetᵈ A

@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Set.Contradiction where
+module Verification.Core.Set.Contradiction where
 
 open import Verification.Conventions
 

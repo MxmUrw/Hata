@@ -1,21 +1,21 @@
 
-module Verification.Experimental.Category.Std.Bicategory.Definition where
+module Verification.Core.Category.Std.Bicategory.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.AllOf.Product
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Instance.FiniteProductCategory
-open import Verification.Experimental.Category.Std.Category.Construction.Product
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Constant
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
-open import Verification.Experimental.Category.Std.Limit.Specific.Product
--- open import Verification.Experimental.Category.Std.Natural.Instance.Category
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.AllOf.Product
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Category.Instance.FiniteProductCategory
+open import Verification.Core.Category.Std.Category.Construction.Product
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Constant
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Instance.Setoid
+open import Verification.Core.Category.Std.Limit.Specific.Product
+-- open import Verification.Core.Category.Std.Natural.Instance.Category
 
 record isBicategory {𝑗 : 𝔏 ^ 3} {𝑖 : 𝔏} (𝒞 : 𝒰 𝑖) : 𝒰 (𝑖 ､ (𝑗 ⁺)) where
   field Cell₁ : 𝒞 -> 𝒞 -> 𝒰 (𝑗 ⌄ 0)

@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Order.WellFounded.Construction.Sum where
+module Verification.Core.Order.WellFounded.Construction.Sum where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Order.WellFounded.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Order.WellFounded.Definition
 
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isWF 𝑘 A}} {{_ : isWF 𝑙 B}} where

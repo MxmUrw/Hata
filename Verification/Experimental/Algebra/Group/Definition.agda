@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Algebra.Group.Definition where
+module Verification.Core.Algebra.Group.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Algebra.Monoid.Definition
 
 
 record isGroup {𝑗 : 𝔏 ^ 2} (A : Monoid 𝑗) : 𝒰 𝑗 where

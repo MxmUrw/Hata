@@ -4,10 +4,10 @@
 module Verification.Explorational.CategorifiedAlgebra.Free where
 
 open import Verification.Conventions hiding (Path)
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Data.AllOf.Universe
-open import Verification.Experimental.Data.AllOf.Product
-open import Verification.Experimental.Data.AllOf.Sum
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Data.AllOf.Universe
+open import Verification.Core.Data.AllOf.Product
+open import Verification.Core.Data.AllOf.Sum
 
 
 

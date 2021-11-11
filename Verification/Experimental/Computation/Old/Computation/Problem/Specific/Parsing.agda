@@ -1,8 +1,8 @@
 
-module Verification.Experimental.Theory.Computation.Problem.Specific.Parsing where
+module Verification.Core.Theory.Computation.Problem.Specific.Parsing where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Theory.Formal.Presentation.Signature.SingleSorted.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Theory.Formal.Presentation.Signature.SingleSorted.Definition
 
 -- data Term-λ : 𝒰₀ where
 --   app : (f g : Term-λ) -> Term-λ

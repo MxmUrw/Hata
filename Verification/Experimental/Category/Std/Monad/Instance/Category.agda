@@ -1,20 +1,20 @@
 
-module Verification.Experimental.Category.Std.Monad.Instance.Category where
+module Verification.Core.Category.Std.Monad.Instance.Category where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
--- open import Verification.Experimental.Category.Std.Category.Opposite
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Instance.2Category
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+-- open import Verification.Core.Category.Std.Category.Opposite
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Category.Instance.2Category
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Instance.Setoid
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   module ShortMonadNotation where

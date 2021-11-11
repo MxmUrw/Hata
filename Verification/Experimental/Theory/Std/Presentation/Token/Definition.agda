@@ -1,28 +1,28 @@
 
-module Verification.Experimental.Theory.Std.Presentation.Token.Definition where
+module Verification.Core.Theory.Std.Presentation.Token.Definition where
 
-{-# FOREIGN GHC import Hata.Runtime.Experimental.Theory.Std.Presentation.Token.Definition #-}
+{-# FOREIGN GHC import Hata.Runtime.Core.Theory.Std.Presentation.Token.Definition #-}
 {-# FOREIGN GHC import Data.HashMap.Strict (HashMap) #-}
 
 
 open import Verification.Conventions hiding (lookup ; ℕ)
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Sum.Instance.Functor
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Sum.Instance.Functor
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.Sum.Instance.Monad
-open import Verification.Experimental.Data.List.Instance.Traversable
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.Sum.Instance.Monad
+open import Verification.Core.Data.List.Instance.Traversable
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 
 record TokenDefinition (Tok : 𝒰₀) : 𝒰₀ where

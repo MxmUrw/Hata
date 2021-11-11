@@ -1,30 +1,30 @@
 
-module Verification.Experimental.Data.MultiRenaming.Definition where
+module Verification.Core.Data.MultiRenaming.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
--- open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Definition
-open import Verification.Experimental.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Definition
+open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Op.Definition
 
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
 
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.FiniteIndexed.Definition
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Renaming.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
-open import Verification.Experimental.Category.Std.Category.Opposite
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.FiniteIndexed.Definition
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Renaming.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Morphism.EpiMono
+open import Verification.Core.Category.Std.Category.Opposite
 
 
 

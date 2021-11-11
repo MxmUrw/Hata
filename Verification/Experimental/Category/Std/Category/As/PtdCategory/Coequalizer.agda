@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Category.Std.Category.As.PtdCategory.Coequalizer where
+module Verification.Core.Category.Std.Category.As.PtdCategory.Coequalizer where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Contradiction
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
-open import Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition
-open import Verification.Experimental.Computation.Unification.Categorical.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Contradiction
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Sized.Definition
+open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Computation.Unification.Categorical.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 
 module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
   by-≣-∼ : ∀{a b : A} -> a ≣ b -> a ∼ b

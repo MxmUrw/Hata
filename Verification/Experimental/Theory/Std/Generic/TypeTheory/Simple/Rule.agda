@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Rule where
+module Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Rule where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.MonoidAction.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Context
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.MonoidAction.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Context
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement
 
 
 record Rule-⦿ (A : 𝒰 𝑖) : 𝒰 𝑖 where

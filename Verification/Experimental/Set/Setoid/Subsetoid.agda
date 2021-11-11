@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Set.Setoid.Subsetoid where
+module Verification.Core.Set.Setoid.Subsetoid where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
 
 module _ {X : Setoid 𝑖} where
 

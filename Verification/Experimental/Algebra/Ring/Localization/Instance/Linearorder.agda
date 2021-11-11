@@ -1,22 +1,22 @@
 
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder where
+module Verification.Core.Algebra.Ring.Localization.Instance.Linearorder where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Group.Definition
--- open import Verification.Experimental.Algebra.Group.Quotient
-open import Verification.Experimental.Algebra.Abelian.Definition
-open import Verification.Experimental.Algebra.Ring.Definition
-open import Verification.Experimental.Algebra.Ring.Localization
-open import Verification.Experimental.Algebra.Ring.Ordered
-open import Verification.Experimental.Algebra.Ring.Domain
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Group.Definition
+-- open import Verification.Core.Algebra.Group.Quotient
+open import Verification.Core.Algebra.Abelian.Definition
+open import Verification.Core.Algebra.Ring.Definition
+open import Verification.Core.Algebra.Ring.Localization
+open import Verification.Core.Algebra.Ring.Ordered
+open import Verification.Core.Algebra.Ring.Domain
 
-open import Verification.Experimental.Order.Linearorder
+open import Verification.Core.Order.Linearorder
 
 record Repr {𝑖 𝑗 : 𝔏} {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} (P : A -> 𝒰 𝑘) (a : A) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
   constructor mkrepr

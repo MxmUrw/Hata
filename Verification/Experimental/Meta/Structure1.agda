@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Meta.Structure1 where
+module Verification.Core.Meta.Structure1 where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 open import Verification.Core.Order.Preorder renaming (IPreorder to isPreorder)
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Order.Lattice
 
 record hasU (A : 𝒰 𝑖) 𝑗 𝑘 : 𝒰 (𝑖 ､ 𝑗 ⁺ ､ 𝑘 ⁺) where
   field getU : 𝒰 𝑗

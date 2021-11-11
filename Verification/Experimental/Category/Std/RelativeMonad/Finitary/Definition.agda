@@ -1,27 +1,27 @@
 
-module Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition where
+module Verification.Core.Category.Std.RelativeMonad.Finitary.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
 
-open import Verification.Experimental.Category.Std.RelativeMonad.Definition
-open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.RelativeMonad.Definition
+open import Verification.Core.Category.Std.Monad.Definition
 
-open import Verification.Experimental.Data.Indexed.Duplicate
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.FiniteIndexed.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Data.Indexed.Duplicate
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.FiniteIndexed.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Subcategory.Full
 
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
 
 
 module _ (I : 𝒰 𝑖) where

@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Order.WellFounded.Construction.Lexicographic where
+module Verification.Core.Order.WellFounded.Construction.Lexicographic where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Order.WellFounded.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Order.WellFounded.Definition
 
 record Lexicographic (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
   constructor _,_

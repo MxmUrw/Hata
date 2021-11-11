@@ -1,6 +1,6 @@
 
-module Verification.Experimental.Category.Std.Category.Opposite.Strict where
+module Verification.Core.Category.Std.Category.Opposite.Strict where
 
-open import Verification.Experimental.Category.Std.Category.Opposite.Strict.Definition public
+open import Verification.Core.Category.Std.Category.Opposite.Strict.Definition public
 
 

@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Meta.Structure2 where
+module Verification.Core.Meta.Structure2 where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 open import Verification.Core.Order.Preorder renaming (IPreorder to isPreorder)
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Order.Lattice
 
 record ∑i_ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
   field {{ifst}} : A

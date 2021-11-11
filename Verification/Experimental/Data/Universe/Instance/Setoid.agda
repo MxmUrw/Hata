@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Data.Universe.Instance.Setoid where
+module Verification.Core.Data.Universe.Instance.Setoid where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Universe.Definition
-open import Verification.Experimental.Data.Universe.Instance.Category using (isSetoid:𝒰) public
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category using (isSetoid:𝒰) public
 
 
 record isIso-𝒰 {a : 𝒰 𝑖} {b : 𝒰 𝑗} (f : a -> b) : 𝒰 (𝑖 ､ 𝑗) where

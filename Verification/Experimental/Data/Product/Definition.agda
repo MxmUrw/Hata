@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Data.Product.Definition where
+module Verification.Core.Data.Product.Definition where
 
 open import Verification.Conventions
 

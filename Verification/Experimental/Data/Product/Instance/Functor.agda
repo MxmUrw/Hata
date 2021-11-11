@@ -1,17 +1,17 @@
 
-module Verification.Experimental.Data.Product.Instance.Functor where
+module Verification.Core.Data.Product.Instance.Functor where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Construction.Product
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Product
-open import Verification.Experimental.Category.Std.Limit.Specific.Product.Instance.Functor
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Construction.Product
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Product
+open import Verification.Core.Category.Std.Limit.Specific.Product.Instance.Functor
 
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Product.Instance.Product
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Product.Instance.Product
 
 
 instance

@@ -1,9 +1,9 @@
 
 
-module Verification.Experimental.Data.Type.Definition where
+module Verification.Core.Data.Type.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Lift.Definition
+open import Verification.Core.Data.Lift.Definition
 
 macro
   𝐓𝐲𝐩𝐞' : ∀ (𝑖 : 𝔏) -> SomeStructure

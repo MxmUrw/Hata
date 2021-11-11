@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Instance.Functor where
+module Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor where
 
 open import Verification.Conventions hiding (_⊔_)
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Category.Std.Morphism.Epi.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Category.Construction.Product
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Category.Std.Category.Structured.FiniteCoproduct.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Category.Std.Morphism.Epi.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Category.Construction.Product
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Category.Structured.FiniteCoproduct.Definition
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : hasCoproducts ′ 𝒞 ′ }} where
 -- {{_ : FiniteCoproductCategory 𝑖 on 𝒞}} where

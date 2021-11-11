@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Category.Std.Monad.KleisliCategory.Definition where
+module Verification.Core.Category.Std.Monad.KleisliCategory.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Monad.Definition
 
 
 record Kleisli {𝒞 : Category 𝑖} (T : Monad 𝒞) : 𝒰 𝑖 where

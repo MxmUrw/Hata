@@ -1,7 +1,7 @@
 
-module Verification.Experimental.Data.AllOf.Product where
+module Verification.Core.Data.AllOf.Product where
 
-open import Verification.Experimental.Data.Product.Definition public
-open import Verification.Experimental.Data.Product.Instance.Product public
-open import Verification.Experimental.Data.Product.Instance.Functor public
+open import Verification.Core.Data.Product.Definition public
+open import Verification.Core.Data.Product.Instance.Product public
+open import Verification.Core.Data.Product.Instance.Functor public
 

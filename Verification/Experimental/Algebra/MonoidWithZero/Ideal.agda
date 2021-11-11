@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Algebra.MonoidWithZero.Ideal where
+module Verification.Core.Algebra.MonoidWithZero.Ideal where
 
 
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Definition public
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Principal public
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Instance.Lattice public
-open import Verification.Experimental.Algebra.MonoidWithZero.Ideal.Instance.hasAction public
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Definition public
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Principal public
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Instance.Lattice public
+open import Verification.Core.Algebra.MonoidWithZero.Ideal.Instance.hasAction public
 
 
 

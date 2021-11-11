@@ -1,9 +1,9 @@
 
 module Verification.Application.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 open import Verification.Application.Render.Definition
-open import Verification.Experimental.Data.Product.Definition
+open import Verification.Core.Data.Product.Definition
 
 {-# FOREIGN GHC import Hata.Runtime.Application #-}
 

@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Set.Set.Instance.Category where
+module Verification.Core.Set.Set.Instance.Category where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Universe.Instance.Category
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 
 -- module _ {P : 𝒰 𝑖 -> 𝒰 𝑗} where

@@ -2,22 +2,22 @@
 module Verification.Application.Applications.InferStandalone.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Application.Definition
 open import Verification.Application.Configuration.Static
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.AllOf.Product
-open import Verification.Experimental.Data.AllOf.Universe
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Expr.Variant.Base.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.AllOf.Product
+open import Verification.Core.Data.AllOf.Universe
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Expr.Variant.Base.Definition
 
 open import Verification.Application.Persistent
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 
-open import Verification.Experimental.Theory.Std.Inference.Definition
-open import Verification.Experimental.Theory.Std.Inference.Task
+open import Verification.Core.Theory.Std.Inference.Definition
+open import Verification.Core.Theory.Std.Inference.Task
 
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where

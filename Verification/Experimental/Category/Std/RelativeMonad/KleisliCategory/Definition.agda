@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition where
+module Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.RelativeMonad.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.RelativeMonad.Definition
 
 -- module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
 module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗} {{_ : isCategory {𝑙} 𝒟'}} where

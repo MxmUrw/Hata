@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition where
+module Verification.Core.Category.Std.Category.As.PtdCategory.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Contradiction
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
-open import Verification.Experimental.Category.Std.Morphism.Epi.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Contradiction
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Sized.Definition
+open import Verification.Core.Category.Std.Morphism.Epi.Definition
 
 record isPtdCategory (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field pt : ∀{a b : ⟨ 𝒞 ⟩} -> a ⟶ b

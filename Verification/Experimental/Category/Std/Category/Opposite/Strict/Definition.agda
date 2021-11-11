@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Category.Std.Category.Opposite.Strict.Definition where
+module Verification.Core.Category.Std.Category.Opposite.Strict.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
 
 
 -- | For a more general kind of example, consider an arbitrary category |𝒞|.

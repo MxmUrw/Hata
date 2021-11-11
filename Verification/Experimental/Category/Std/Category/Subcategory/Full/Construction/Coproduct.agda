@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Category.Std.Category.Subcategory.Full.Construction.Coproduct where
+module Verification.Core.Category.Std.Category.Subcategory.Full.Construction.Coproduct where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
 
 module _ {𝒞 : Category 𝑖} {A : 𝒰 𝑗} {f : A -> ⟨ 𝒞 ⟩} where

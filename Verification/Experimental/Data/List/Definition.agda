@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Data.List.Definition where
+module Verification.Core.Data.List.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Contradiction
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Discrete
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Contradiction
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Discrete
 
 module _ {A : 𝒰 𝑖} where
 

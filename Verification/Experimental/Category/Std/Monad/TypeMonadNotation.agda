@@ -1,18 +1,18 @@
 
-module Verification.Experimental.Category.Std.Monad.TypeMonadNotation where
+module Verification.Core.Category.Std.Monad.TypeMonadNotation where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
 
-open import Verification.Experimental.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.Definition
 
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Everything
 
 
 module _ {T : _ -> _} {{_ : Monad (𝐓𝐲𝐩𝐞 𝑖) on T}} where

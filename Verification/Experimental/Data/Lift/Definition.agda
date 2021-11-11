@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Data.Lift.Definition where
+module Verification.Core.Data.Lift.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 
 record Lift-Cat {j : 𝔏 ^ 3} {i} (A : 𝒰 i) : 𝒰 (i ⊔ (j ⌄ 0)) where
   constructor lift

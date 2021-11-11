@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Set.Setoid.Codiscrete where
+module Verification.Core.Set.Setoid.Codiscrete where
 
 open import Verification.Conventions
--- open import Verification.Experimental.Data.Prop.Definition
--- open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Set.Setoid.Definition
--- open import Verification.Experimental.Category.Std.Category.Definition
+-- open import Verification.Core.Data.Prop.Definition
+-- open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Set.Setoid.Definition
+-- open import Verification.Core.Category.Std.Category.Definition
 
 
 isSetoid:byCodiscrete : ∀{A : 𝒰 𝑖} -> isSetoid {𝑗} A

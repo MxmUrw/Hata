@@ -1,36 +1,36 @@
 
-module Verification.Experimental.Theory.Std.Presentation.CheckTree.FromUnification where
+module Verification.Core.Theory.Std.Presentation.CheckTree.FromUnification where
 
 open import Verification.Conventions hiding (_⊔_)
-open import Verification.Experimental.Set.Function.Surjective
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Sum.Instance.Functor
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Data.FiniteIndexed.Property.Merge
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.Semiring
-open import Verification.Experimental.Computation.Unification.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Set.Function.Surjective
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Sum.Instance.Functor
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Data.FiniteIndexed.Property.Merge
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.Semiring
+open import Verification.Core.Computation.Unification.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Data.Sum.Instance.Monad
-open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Sum.Instance.Monad
+open import Verification.Core.Theory.Std.Presentation.CheckTree.Definition2
 
 record is1Category (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field ∼→≡ : ∀{a b : ⟨ 𝒞 ⟩} -> {f g : a ⟶ b} -> (f ∼ g) -> f ≡ g

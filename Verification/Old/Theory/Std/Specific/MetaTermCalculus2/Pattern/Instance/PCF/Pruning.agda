@@ -1,37 +1,37 @@
 
-module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.PCF.Pruning where
+module Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.PCF.Pruning where
 
-open import Verification.Experimental.Conventions hiding (Structure)
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
+open import Verification.Core.Conventions hiding (Structure)
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2
+open import Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Kinding
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Pattern.Definition
 
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.RelativeMonad.Definition
-open import Verification.Experimental.Category.Std.RelativeMonad.KleisliCategory.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.RelativeMonad.Definition
+open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Morphism.EpiMono
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.FiniteIndexed.Definition
-open import Verification.Experimental.Data.Renaming.Definition
-open import Verification.Experimental.Data.Renaming.Instance.CoproductMonoidal
-open import Verification.Experimental.Data.Substitution.Definition
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.FiniteIndexed.Definition
+open import Verification.Core.Data.Renaming.Definition
+open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
+open import Verification.Core.Data.Substitution.Definition
 
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.Category
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Pattern.Instance.Category
 
 
 module _ {𝑖 : 𝔏} {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where

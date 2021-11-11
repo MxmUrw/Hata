@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Std.Presentation.AnnGraph.Definition where
+module Verification.Core.Theory.Std.Presentation.AnnGraph.Definition where
 
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Function.Surjective
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Sum.Instance.Functor
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
+open import Verification.Core.Set.Function.Surjective
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Sum.Instance.Functor
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
 
 
 module _ {ℬ : Category 𝑖} (F : Functor ℬ (𝐔𝐧𝐢𝐯 𝑗)) where

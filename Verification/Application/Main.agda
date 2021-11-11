@@ -3,24 +3,24 @@
 module Verification.Application.Main where
 
 open import Verification.Conventions
-open import Verification.Experimental.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Application.Definition
 open import Verification.Application.Render.Definition
-open import Verification.Experimental.Data.Product.Definition
--- open import Verification.Experimental.Data.Rational.Definition
-open import Verification.Experimental.Data.Int.Definition
+open import Verification.Core.Data.Product.Definition
+-- open import Verification.Core.Data.Rational.Definition
+open import Verification.Core.Data.Int.Definition
 
 
 open import Verification.Application.Applications.InferStandalone.Definition
 open import Verification.Application.Applications.Editor.Definition
 open import Verification.Application.Applications.Test.Definition
 
--- open import Verification.Experimental.Data.Real.Application.Definition
+-- open import Verification.Core.Data.Real.Application.Definition
 
--- open import Verification.Experimental.Theory.Std.Specific.Simple.LambdaCurry.Instance.TypeTheory
+-- open import Verification.Core.Theory.Std.Specific.Simple.LambdaCurry.Instance.TypeTheory
 
--- open import Verification.Experimental.Theory.Std.Generic.ProgrammingLanguage.Definition
--- open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Definition
+-- open import Verification.Core.Theory.Std.Generic.ProgrammingLanguage.Definition
+-- open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Definition
 
 -- testApp : Application
 -- testApp = execute "test" (λ x -> PString (x <> x <> x))

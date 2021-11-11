@@ -2,8 +2,8 @@
 module Verification.Explorational.Complexity.Axiomatic where
 
 open import Verification.Conventions hiding (Path) public
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Category.Std.Graph.Definition public
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Category.Std.Graph.Definition public
 
 
 RewritingSystem : 𝒰 𝑖 -> _

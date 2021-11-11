@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Space.Typological.Definition where
+module Verification.Core.Space.Typological.Definition where
 
 open import Verification.Conventions hiding (Discrete ; ∅ ; Bool ; _and_)
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
 
 
 -- Definition of topological space on base from

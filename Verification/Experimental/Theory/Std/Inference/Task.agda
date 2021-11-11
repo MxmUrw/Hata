@@ -1,37 +1,37 @@
 
-module Verification.Experimental.Theory.Std.Inference.Task where
+module Verification.Core.Theory.Std.Inference.Task where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Instance.Category
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Opposite
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Instance.Category
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Opposite
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.Instance.LargeCategory
-open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
--- open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.Instance.LargeCategory
+open import Verification.Core.Category.Std.RelativeMonad.Finitary.Definition
+-- open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.FiniteIndexed.Definition
 
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
 
-open import Verification.Experimental.Theory.Std.Inference.Definition
-open import Verification.Experimental.Theory.Std.Inference.TextInfer
+open import Verification.Core.Theory.Std.Inference.Definition
+open import Verification.Core.Theory.Std.Inference.TextInfer
 
 -- record InferenceTask (𝑖 : 𝔏 ^ 4) : 𝒰 (𝑖 ⁺ ⁺) where
   -- constructor inferenceTask

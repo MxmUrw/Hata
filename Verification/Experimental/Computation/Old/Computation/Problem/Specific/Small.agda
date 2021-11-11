@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Theory.Computation.Problem.Specific.Small where
+module Verification.Core.Theory.Computation.Problem.Specific.Small where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Computation.Problem.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Theory.Computation.Problem.Definition
 
 
 macro

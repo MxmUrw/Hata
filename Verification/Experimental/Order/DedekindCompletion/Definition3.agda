@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Order.DedekindCompletion.Definition3 where
+module Verification.Core.Order.DedekindCompletion.Definition3 where
 
 open import Verification.Conventions
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Rational.Definition
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Rational.Definition
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Order.Linearorder
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Order.Linearorder
 
 -- mostly from https://ncatlab.org/nlab/show/real+number
 -- and https://ncatlab.org/nlab/show/Dedekind+cut

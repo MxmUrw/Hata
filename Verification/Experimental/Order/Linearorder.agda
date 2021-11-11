@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Order.Linearorder where
+module Verification.Core.Order.Linearorder where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 -- open import Verification.Core.Type
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Data.Prop.Everything
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Data.Prop.Everything
 
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Totalorder
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Totalorder
 
 --------------------------------------------------------------------
 -- == Linear order

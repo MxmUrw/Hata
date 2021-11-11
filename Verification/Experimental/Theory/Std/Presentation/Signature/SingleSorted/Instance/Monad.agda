@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Monad where
+module Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Monad where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Setoid.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Definition
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Setoid
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Instance.Functor
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Setoid.Instance.Category
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Definition
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Setoid
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Instance.Functor
 
 
 module _ {σ : Signature} where

@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Category.Std.Category.Definition where
+module Verification.Core.Category.Std.Category.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
+open import Verification.Core.Set.Setoid
 
 --------------------------------------------------------------------------------
 -- == Basic definitions

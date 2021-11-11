@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Category.Std.Category.Notation.Associativity where
+module Verification.Core.Category.Std.Category.Notation.Associativity where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where

@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Theory.TypeField.Definition where
+module Verification.Core.Theory.TypeField.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Definition
 
 record isDirSet (X : Setoid 𝑖) : 𝒰 (𝑖 ⁺) where
   field Dir : 𝒰₀

@@ -1,9 +1,9 @@
 
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Algebra.Monoid where
+module Verification.Core.Algebra.Monoid where
 
 
-open import Verification.Experimental.Algebra.Monoid.Definition public
+open import Verification.Core.Algebra.Monoid.Definition public
 
 

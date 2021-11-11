@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Category.Std.Category.As.Monoid.Definition where
+module Verification.Core.Category.Std.Category.As.Monoid.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
--- open import Verification.Experimental.Data.Universe.Definition
+-- open import Verification.Core.Data.Universe.Definition
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where

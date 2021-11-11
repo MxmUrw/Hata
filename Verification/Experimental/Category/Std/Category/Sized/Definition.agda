@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Category.Std.Category.Sized.Definition where
+module Verification.Core.Category.Std.Category.Sized.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Experimental.Computation.Unification.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Computation.Unification.Definition
 
 
 record isSizedCategory (𝒞 : Category 𝑖) : 𝒰 (𝑖 ､ ℓ₁) where

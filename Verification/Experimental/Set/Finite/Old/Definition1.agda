@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Set.Finite.Definition where
+module Verification.Core.Set.Finite.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Algebra.Setoid
-open import Verification.Experimental.Set.Discrete
+open import Verification.Core.Algebra.Setoid
+open import Verification.Core.Set.Discrete
 
 record isDec (A : 𝒰 𝑖) : 𝒰 𝑖 where
   field decide : ((¬ A) +-𝒰 A)

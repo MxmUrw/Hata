@@ -1,15 +1,15 @@
 
-module Verification.Experimental.Data.Nat.Definition where
+module Verification.Core.Data.Nat.Definition where
 
-open import Verification.Experimental.Conventions renaming (ℕ to Nat)
+open import Verification.Core.Conventions renaming (ℕ to Nat)
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Algebra.Monoid
-open import Verification.Experimental.Algebra.Group
-open import Verification.Experimental.Algebra.Ring
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Totalorder
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Algebra.Monoid
+open import Verification.Core.Algebra.Group
+open import Verification.Core.Algebra.Ring
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Totalorder
 
 ℕᵘ = Nat
 

@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Category.Std.Category.Structured.SeparatingFamily where
+module Verification.Core.Category.Std.Category.Structured.SeparatingFamily where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
 
 
 module _ (𝒞 : Category 𝑖) where

@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Data.Tree.Variant.Token.Definition where
+module Verification.Core.Data.Tree.Variant.Token.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.Universe.Everything
 
-open import Verification.Experimental.Data.Tree.Variant.Token.Data
-open import Verification.Experimental.Data.Substitution.Variant.Normal.Definition
+open import Verification.Core.Data.Tree.Variant.Token.Data
+open import Verification.Core.Data.Substitution.Variant.Normal.Definition
 
 
 
@@ -31,7 +31,7 @@ module _ (𝒹 : TokenTreeData) where
 --     token : (t : TokenType 𝒹) -> Vec (TokenTree X) (tokenSize 𝒹 t) -> TokenTree X
 
 
---   open import Verification.Experimental.Data.Expr.Variant.List.Definition
+--   open import Verification.Core.Data.Expr.Variant.List.Definition
 
 --   ListExpr→TokenTree : ∀{X} -> ListExpr X -> TokenTree (ListExpr X)
 --   ListExpr→TokenTree (var x) = var x

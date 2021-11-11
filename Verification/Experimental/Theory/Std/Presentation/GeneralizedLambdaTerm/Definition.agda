@@ -1,16 +1,16 @@
 
-module Verification.Experimental.Theory.Std.Presentation.GeneralizedLambdaTerm.Definition where
+module Verification.Core.Theory.Std.Presentation.GeneralizedLambdaTerm.Definition where
 
-open import Verification.Experimental.Conventions
+open import Verification.Core.Conventions
 open import Application.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Computation.Question.Definition
-open import Verification.Experimental.Computation.Question.Specific.Small
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Sum.Instance.Monad
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Data.List.Instance.Traversable
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Computation.Question.Definition
+open import Verification.Core.Computation.Question.Specific.Small
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Sum.Instance.Monad
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Data.List.Instance.Traversable
 
 {-# FOREIGN GHC import Hata.Runtime.Service.Parse.GeneralizedLambdaTerm #-}
 

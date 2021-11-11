@@ -1,13 +1,13 @@
 
 -- {-# OPTIONS --overlapping-instances #-}
 
-module Verification.Experimental.Order.Lattice where
+module Verification.Core.Order.Lattice where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Definition
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
-open import Verification.Experimental.Order.Preorder
+open import Verification.Core.Order.Preorder
 
 
 module _ {A : 𝒰 _} {{_ : Preorder 𝑗 on A}} where

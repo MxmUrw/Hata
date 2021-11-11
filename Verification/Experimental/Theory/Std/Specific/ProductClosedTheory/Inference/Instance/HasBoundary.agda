@@ -1,39 +1,39 @@
 
-module Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Instance.HasBoundary where
+module Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Instance.HasBoundary where
 
 open import Verification.Conventions hiding (_⊔_)
 
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
-open import Verification.Experimental.Data.FinR.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.FinR.Definition
 
-open import Verification.Experimental.Computation.Unification.Definition
-open import Verification.Experimental.Theory.Std.Presentation.Token.Definition
-open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer.Definition
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
-open import Verification.Experimental.Data.Substitution.Normal.Definition
+open import Verification.Core.Computation.Unification.Definition
+open import Verification.Core.Theory.Std.Presentation.Token.Definition
+open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer.Definition
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.Substitution.Normal.Definition
 
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Definition
--- open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Module
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF
-open import Verification.Experimental.Theory.Std.Generic.FormalSystem.Definition
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition
+-- open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF
+open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
 
-open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
-open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Definition
+open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
+open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Definition
 
-open import Verification.Experimental.Theory.Std.Presentation.CheckTree.Definition2
-open import Verification.Experimental.Theory.Std.Presentation.CheckTree.FromUnification
-open import Verification.Experimental.Theory.Std.Specific.ProductClosedTheory.Inference.Instance.IsCheckingBoundary
+open import Verification.Core.Theory.Std.Presentation.CheckTree.Definition2
+open import Verification.Core.Theory.Std.Presentation.CheckTree.FromUnification
+open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Instance.IsCheckingBoundary
 
 -- for anvectree
-open import Verification.Experimental.Theory.Std.Specific.ProductTheory.Instance.FromANVecTree
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.FromANVecTree
   -- using (ANVecTree)
 
 

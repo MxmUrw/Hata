@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Theory.Syndetic.v2.Definition where
+module Verification.Core.Theory.Syndetic.v2.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Theory.Presentation.Signature.SingleSorted.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Theory.Presentation.Signature.SingleSorted.Definition
 
 
 data Var (σ : 𝒰₀) (A : 𝒰₀) : 𝒰₀ where

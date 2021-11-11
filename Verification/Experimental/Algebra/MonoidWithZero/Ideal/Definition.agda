@@ -1,17 +1,17 @@
 
-module Verification.Experimental.Algebra.MonoidWithZero.Ideal.Definition where
+module Verification.Core.Algebra.MonoidWithZero.Ideal.Definition where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Subsetoid
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.MonoidWithZero.Definition
-open import Verification.Experimental.Algebra.MonoidAction.Definition
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Subsetoid
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.MonoidWithZero.Definition
+open import Verification.Core.Algebra.MonoidAction.Definition
 
 
 -- TODO: Give this a proper name, and move somewhere general

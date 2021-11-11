@@ -1,37 +1,37 @@
 
-module Verification.Experimental.Theory.Std.Inference.Definition where
+module Verification.Core.Theory.Std.Inference.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Opposite
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Functor.Instance.Category
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Natural.Instance.Setoid
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Instance.2Category
-open import Verification.Experimental.Category.Std.Morphism.Iso
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Opposite
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Instance.Setoid
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Category.Instance.2Category
+open import Verification.Core.Category.Std.Morphism.Iso
 
-open import Verification.Experimental.Category.Std.Monad.Definition
-open import Verification.Experimental.Category.Std.Monad.Instance.Category
-open import Verification.Experimental.Category.Std.Monad.Instance.LargeCategory
-open import Verification.Experimental.Category.Std.RelativeMonad.Finitary.Definition
--- open import Verification.Experimental.Category.Std.Monad.KleisliCategory.Instance.Monoidal
-open import Verification.Experimental.Category.Std.Monad.TypeMonadNotation
-open import Verification.Experimental.Data.Substitution.Variant.Base.Definition
-open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Data.Indexed.Instance.Monoid
-open import Verification.Experimental.Data.FiniteIndexed.Definition
+open import Verification.Core.Category.Std.Monad.Definition
+open import Verification.Core.Category.Std.Monad.Instance.Category
+open import Verification.Core.Category.Std.Monad.Instance.LargeCategory
+open import Verification.Core.Category.Std.RelativeMonad.Finitary.Definition
+-- open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
+open import Verification.Core.Category.Std.Monad.TypeMonadNotation
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.FiniteIndexed.Definition
 
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.Monoid.Free.Element
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full
-open import Verification.Experimental.Category.Std.Category.Subcategory.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Category.Subcategory.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
 
 record Infer (𝑖 : 𝔏 ^ 3) : 𝒰 (𝑖 ⁺) where

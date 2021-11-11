@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Equalizer.Definition where
+module Verification.Core.Category.Std.Limit.Specific.Equalizer.Definition where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.EpiMono
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.EpiMono
 
 
 

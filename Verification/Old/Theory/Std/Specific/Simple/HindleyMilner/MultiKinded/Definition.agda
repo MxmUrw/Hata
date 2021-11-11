@@ -1,10 +1,10 @@
 
 
-module Verification.Experimental.Theory.Example.Type.HM.Definition where
+module Verification.Core.Theory.Example.Type.HM.Definition where
 
 open import Verification.Conventions hiding (_,_)
 -- open import Verification.Unification.Instance.SignatureZ3
-open import Verification.Experimental.Theory.Presentation.Signature.Definition
+open import Verification.Core.Theory.Presentation.Signature.Definition
 
 
 

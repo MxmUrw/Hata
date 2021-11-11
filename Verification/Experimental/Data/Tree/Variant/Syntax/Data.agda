@@ -1,11 +1,11 @@
 
-module Verification.Experimental.Data.Tree.Variant.Syntax.Data where
+module Verification.Core.Data.Tree.Variant.Syntax.Data where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
-open import Verification.Experimental.Data.Nat.Free
-open import Verification.Experimental.Data.Nat.Definition
-open import Verification.Experimental.Data.AllOf.Sum
-open import Verification.Experimental.Data.Universe.Everything
+open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.AllOf.Sum
+open import Verification.Core.Data.Universe.Everything
 
 
 record SyntaxTreeData : 𝒰₁ where

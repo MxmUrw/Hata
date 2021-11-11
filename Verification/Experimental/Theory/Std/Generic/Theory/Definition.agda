@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Theory.Std.Generic.Theory.Definition where
+module Verification.Core.Theory.Std.Generic.Theory.Definition where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
 
 -- ===* Theories
 

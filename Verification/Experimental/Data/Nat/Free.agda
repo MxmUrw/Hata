@@ -1,13 +1,13 @@
 
-module Verification.Experimental.Data.Nat.Free where
+module Verification.Core.Data.Nat.Free where
 
-open import Verification.Experimental.Conventions renaming (ℕ to Nat)
+open import Verification.Core.Conventions renaming (ℕ to Nat)
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Algebra.Monoid
-open import Verification.Experimental.Algebra.Monoid.Free.Definition
-open import Verification.Experimental.Order.Preorder
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Algebra.Monoid
+open import Verification.Core.Algebra.Monoid.Free.Definition
+open import Verification.Core.Order.Preorder
 
 
 人ℕᵘ : 𝒰₀

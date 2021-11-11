@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Category.Std.Category.Opposite.LiftFunctor where
+module Verification.Core.Category.Std.Category.Opposite.LiftFunctor where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Category.Opposite.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Category.Opposite.Definition
 
 
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where

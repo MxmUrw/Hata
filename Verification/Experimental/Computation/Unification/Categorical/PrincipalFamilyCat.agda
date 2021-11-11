@@ -1,30 +1,30 @@
 
-module Verification.Experimental.Computation.Unification.Categorical.PrincipalFamilyCat where
+module Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat where
 
 open import Verification.Conventions
 
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Sized.Definition
-open import Verification.Experimental.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Setoid.Subsetoid
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Data.Nat.Free
--- open import Verification.Experimental.Data.Indexed.Definition
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Order.WellFounded.Definition
-open import Verification.Experimental.Order.WellFounded.Construction.Lexicographic
-open import Verification.Experimental.Computation.Unification.Definition
-open import Verification.Experimental.Computation.Unification.Categorical.PrincipalFamily
-open import Verification.Experimental.Computation.Unification.Categorical.Definition
-open import Verification.Experimental.Category.Std.Category.As.PtdCategory.Definition
-open import Verification.Experimental.Category.Std.Category.As.PtdCategory.Coequalizer
--- open import Verification.Experimental.Theory.Presentation.Signature.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Sized.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Subsetoid
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Nat.Free
+-- open import Verification.Core.Data.Indexed.Definition
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Order.WellFounded.Definition
+open import Verification.Core.Order.WellFounded.Construction.Lexicographic
+open import Verification.Core.Computation.Unification.Definition
+open import Verification.Core.Computation.Unification.Categorical.PrincipalFamily
+open import Verification.Core.Computation.Unification.Categorical.Definition
+open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Category.Std.Category.As.PtdCategory.Coequalizer
+-- open import Verification.Core.Theory.Presentation.Signature.Definition
 
 
 -- module _ {M : 𝒰 𝑖} {{_ : Monoid₀ (𝑖 , 𝑖) on M}} where

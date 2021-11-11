@@ -1,10 +1,10 @@
 
-module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.MetaSubstitution where
+module Verification.Core.Theory.Std.Specific.MetaTermCalculus.MetaSubstitution where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Theory.Std.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Theory.Std.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus.Definition
 
 
 

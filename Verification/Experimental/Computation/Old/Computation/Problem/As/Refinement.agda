@@ -1,12 +1,12 @@
 
-module Verification.Experimental.Theory.Computation.Problem.As.Refinement where
+module Verification.Core.Theory.Computation.Problem.As.Refinement where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Theory.Computation.Problem.Definition
-open import Verification.Experimental.Theory.Computation.Refinement.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Theory.Computation.Problem.Definition
+open import Verification.Core.Theory.Computation.Refinement.Definition
 
 
 

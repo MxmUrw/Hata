@@ -1,32 +1,32 @@
 
-module Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition where
+module Verification.Core.Theory.Std.Generic.TypeTheory.Definition where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Set.Setoid.Definition
-open import Verification.Experimental.Set.Discrete
-open import Verification.Experimental.Set.Decidable
-open import Verification.Experimental.Set.Set.Definition
-open import Verification.Experimental.Set.Set.Instance.Category
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Universe.Instance.Category
-open import Verification.Experimental.Data.Prop.Everything
--- open import Verification.Experimental.Data.Sum.Definition
--- open import Verification.Experimental.Data.Rational.Definition
--- open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Subcategory.Full2
-open import Verification.Experimental.Category.Std.Morphism.Iso
--- open import Verification.Experimental.Computation.Question.Construction.Product
-open import Verification.Experimental.Theory.Std.Generic.Theory.Definition
-open import Verification.Experimental.Computation.Question.Definition
-open import Verification.Experimental.Computation.Question.Specific.Check
-open import Verification.Experimental.Computation.Question.Specific.Small
+open import Verification.Core.Conventions
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Set.Definition
+open import Verification.Core.Set.Set.Instance.Category
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Instance.Category
+open import Verification.Core.Data.Prop.Everything
+-- open import Verification.Core.Data.Sum.Definition
+-- open import Verification.Core.Data.Rational.Definition
+-- open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Subcategory.Full2
+open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Computation.Question.Construction.Product
+open import Verification.Core.Theory.Std.Generic.Theory.Definition
+open import Verification.Core.Computation.Question.Definition
+open import Verification.Core.Computation.Question.Specific.Check
+open import Verification.Core.Computation.Question.Specific.Small
 
-open import Verification.Experimental.Data.Family.Definition
-open import Verification.Experimental.Data.Family.Instance.Fibration
-open import Verification.Experimental.Category.Std.Fibration.BaseChange.Definition
-open import Verification.Experimental.Category.Std.Fibration.Definition
-open import Verification.Experimental.Category.Std.Fibration.Instance.BaseChange
+open import Verification.Core.Data.Family.Definition
+open import Verification.Core.Data.Family.Instance.Fibration
+open import Verification.Core.Category.Std.Fibration.BaseChange.Definition
+open import Verification.Core.Category.Std.Fibration.Definition
+open import Verification.Core.Category.Std.Fibration.Instance.BaseChange
 
 --------------------------------------------------------------------
 -- The type theoretical perspective on a theory

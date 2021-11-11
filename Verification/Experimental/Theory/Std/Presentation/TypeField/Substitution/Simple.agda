@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Theory.TypeField.Substitution.Simple where
+module Verification.Core.Theory.TypeField.Substitution.Simple where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Sum.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Sum.Definition
 
 
 module _ {𝕋 𝕍 : 𝒰₀} where

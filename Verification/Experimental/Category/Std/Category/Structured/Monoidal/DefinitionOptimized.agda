@@ -1,25 +1,25 @@
 
-module Verification.Experimental.Category.Std.Category.Structured.Monoidal.DefinitionOptimized where
+module Verification.Core.Category.Std.Category.Structured.Monoidal.DefinitionOptimized where
 
 open import Verification.Conventions
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Data.Lift.Definition
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Category.Instance.Category
-open import Verification.Experimental.Category.Std.Category.Construction.Product
-open import Verification.Experimental.Category.Std.Category.Instance.ProductMonoid
-open import Verification.Experimental.Category.Std.Limit.Specific.Product
-open import Verification.Experimental.Category.Std.Limit.Specific.Product.Instance.Functor
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Category.Std.Natural.Definition
-open import Verification.Experimental.Category.Std.Natural.Iso
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.As.Monoid
-open import Verification.Experimental.Category.Std.Category.Structured.FiniteProduct.Definition
--- open import Verification.Experimental.Category.Std.Limit.Specific.Product
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Data.Lift.Definition
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Category.Construction.Product
+open import Verification.Core.Category.Std.Category.Instance.ProductMonoid
+open import Verification.Core.Category.Std.Limit.Specific.Product
+open import Verification.Core.Category.Std.Limit.Specific.Product.Instance.Functor
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Iso
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Category.Structured.FiniteProduct.As.Monoid
+open import Verification.Core.Category.Std.Category.Structured.FiniteProduct.Definition
+-- open import Verification.Core.Category.Std.Limit.Specific.Product
 
 -- instance
 --   isCategory:× : ∀{𝒞 𝒟 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : isCategory {𝑗} 𝒟}} -> isCategory {𝑗} (𝒞 ×-𝒰 𝒟)

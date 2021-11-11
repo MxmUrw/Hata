@@ -1,22 +1,22 @@
 
-module Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Instance.LogicalFramework where
+module Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Instance.LogicalFramework where
 
-open import Verification.Experimental.Conventions hiding (Structure ; _◀)
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Functor.Definition
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Algebra.Monoid.Definition
-open import Verification.Experimental.Algebra.Monoid.Free
-open import Verification.Experimental.Algebra.MonoidAction.Definition
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Category.Std.Category.Structured.Monoidal.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Theory.Std.Specific.MetaTermCalculus2.Definition
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Simple.Judgement2
-open import Verification.Experimental.Theory.Std.Generic.TypeTheory.Definition
-open import Verification.Experimental.Theory.Std.Generic.LogicalFramework.Definition
-open import Verification.Experimental.Theory.Std.TypologicalTypeTheory.CwJ.Definition
+open import Verification.Core.Conventions hiding (Structure ; _◀)
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Algebra.Monoid.Definition
+open import Verification.Core.Algebra.Monoid.Free
+open import Verification.Core.Algebra.MonoidAction.Definition
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Definition
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2
+open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
+open import Verification.Core.Theory.Std.Generic.LogicalFramework.Definition
+open import Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Definition
 
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where

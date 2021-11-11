@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Theory.Formal.Presentation.Signature.MultiSorted.Definition where
+module Verification.Core.Theory.Formal.Presentation.Signature.MultiSorted.Definition where
 
 open import Verification.Conventions
 

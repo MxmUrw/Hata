@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Category.TC.Definition1 where
+module Verification.Core.Category.TC.Definition1 where
 
 open import Verification.Conventions hiding (Square ; extend)
 open import Verification.Core.Category.Definition

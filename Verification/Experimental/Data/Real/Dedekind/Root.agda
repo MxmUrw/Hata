@@ -1,31 +1,31 @@
 
-module Verification.Experimental.Data.Real.Root where
+module Verification.Core.Data.Real.Root where
 
-open import Verification.Experimental.Conventions renaming (∑_ to ∑'_)
-open import Verification.Experimental.Data.Prop.Everything
-open import Verification.Experimental.Data.Universe.Everything
-open import Verification.Experimental.Data.Int.Definition
-open import Verification.Experimental.Data.Rational.Definition
+open import Verification.Core.Conventions renaming (∑_ to ∑'_)
+open import Verification.Core.Data.Prop.Everything
+open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Rational.Definition
 
-open import Verification.Experimental.Set.Setoid
-open import Verification.Experimental.Algebra.Monoid
-open import Verification.Experimental.Algebra.Group
-open import Verification.Experimental.Algebra.Ring
-open import Verification.Experimental.Algebra.Ring.Ordered
-open import Verification.Experimental.Order.Linearorder
-open import Verification.Experimental.Order.Preorder
-open import Verification.Experimental.Order.Lattice
-open import Verification.Experimental.Order.DedekindCompletion.Definition3
-open import Verification.Experimental.Order.DedekindCompletion.Instance.Ring
--- open import Verification.Experimental.Order.DedekindCompletion.Instance.Linearorder
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Linearorder
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Setoid
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Monoid
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Group
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.Ring
-open import Verification.Experimental.Algebra.Ring.Localization.Instance.OrderedRing
-open import Verification.Experimental.Data.Real.Definition
-open import Verification.Experimental.Data.Rational.Definition
+open import Verification.Core.Set.Setoid
+open import Verification.Core.Algebra.Monoid
+open import Verification.Core.Algebra.Group
+open import Verification.Core.Algebra.Ring
+open import Verification.Core.Algebra.Ring.Ordered
+open import Verification.Core.Order.Linearorder
+open import Verification.Core.Order.Preorder
+open import Verification.Core.Order.Lattice
+open import Verification.Core.Order.DedekindCompletion.Definition3
+open import Verification.Core.Order.DedekindCompletion.Instance.Ring
+-- open import Verification.Core.Order.DedekindCompletion.Instance.Linearorder
+open import Verification.Core.Algebra.Ring.Localization.Instance.Linearorder
+open import Verification.Core.Algebra.Ring.Localization.Instance.Setoid
+open import Verification.Core.Algebra.Ring.Localization.Instance.Monoid
+open import Verification.Core.Algebra.Ring.Localization.Instance.Group
+open import Verification.Core.Algebra.Ring.Localization.Instance.Ring
+open import Verification.Core.Algebra.Ring.Localization.Instance.OrderedRing
+open import Verification.Core.Data.Real.Definition
+open import Verification.Core.Data.Rational.Definition
 
 open AbelianMonoidNotation
 

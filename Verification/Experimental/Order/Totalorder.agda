@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Order.Totalorder where
+module Verification.Core.Order.Totalorder where
 
 open import Verification.Conventions
 -- open import Verification.Core.Category.Definition
 -- open import Verification.Core.Category.Instance.Set.Definition
 -- open import Verification.Core.Type
 
-open import Verification.Experimental.Set.Setoid.Definition
+open import Verification.Core.Set.Setoid.Definition
 
-open import Verification.Experimental.Order.Preorder
+open import Verification.Core.Order.Preorder
 
 -- module _ {𝑖 : 𝔏 ^ 3} where
 --   record isPartialorder (A : Preorder 𝑖) : 𝒰 𝑖 where

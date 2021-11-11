@@ -1,5 +1,5 @@
 
-module Verification.Experimental.Category.TC.Log where
+module Verification.Core.Category.TC.Log where
 
 open import Verification.Conventions
 open import Verification.Core.Category.Definition

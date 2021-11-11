@@ -1,14 +1,14 @@
 
-module Verification.Experimental.Category.Std.Limit.Specific.Coproduct.Variant.Binary where
+module Verification.Core.Category.Std.Limit.Specific.Coproduct.Variant.Binary where
 
 open import Verification.Conventions hiding (_⊔_)
-open import Verification.Experimental.Set.Setoid
--- open import Verification.Experimental.Data.Fin.Definition
-open import Verification.Experimental.Data.Product.Definition
-open import Verification.Experimental.Data.Sum.Definition
-open import Verification.Experimental.Category.Std.Category.Definition
-open import Verification.Experimental.Category.Std.Morphism.Iso
-open import Verification.Experimental.Category.Std.Category.Notation.Associativity
+open import Verification.Core.Set.Setoid
+-- open import Verification.Core.Data.Fin.Definition
+open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Category.Notation.Associativity
 
 infixr 20 _[_]→2_
 _[_]→2_ : ∀{𝑗} (X : 𝒰 𝑗) -> ∀ (𝑖 : 𝔏 ^ 2) -> (R : 𝒰 𝑙) -> (𝒰 _)

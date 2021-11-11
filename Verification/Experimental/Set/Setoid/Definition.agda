@@ -1,9 +1,9 @@
 
-module Verification.Experimental.Set.Setoid.Definition where
+module Verification.Core.Set.Setoid.Definition where
 
-open import Verification.Experimental.Conventions
-open import Verification.Experimental.Data.Prop.Definition
-open import Verification.Experimental.Data.Product.Definition
+open import Verification.Core.Conventions
+open import Verification.Core.Data.Prop.Definition
+open import Verification.Core.Data.Product.Definition
 
 
 record ∼-Base {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) (a : A) (b : A) : 𝒰 (𝑗) where
