@@ -50,26 +50,34 @@ tokenList-ℒHM = lamᵗ ∷ appᵗ ∷ sletᵗ ∷ []
 print-ℒHM : ∀ A -> UntypedℒHM A ⟶ SyntaxTree 𝒹-ℒHM A
 print-ℒHM A Γ (var {name} x) = var name x
 print-ℒHM A Γ (hole x) = hole x
-print-ℒHM A Γ (slet name t s) = node sletᵗ ( incl (print-ℒHM _ _ t)
-                                            ∷ bind name (incl (print-ℒHM _ _ s))
+print-ℒHM A Γ (slet name t s) = node sletᵗ ( incl (incl (print-ℒHM _ _ t))
+                                            ∷ incl (bind name (incl (print-ℒHM _ _ s)))
                                             ∷ [])
-print-ℒHM A Γ (app x y) = node appᵗ (incl (print-ℒHM A Γ x) ∷ incl (print-ℒHM A Γ y) ∷ [])
-print-ℒHM A Γ (lam name t) = node lamᵗ (bind name (incl (print-ℒHM _ _ t)) ∷ [])
+-- print-ℒHM A Γ (sletₓ t s) = node sletᵗ ( incl (incl (print-ℒHM _ _ t))
+--                                         ∷ skipBinding (print-ℒHM _ _ s)
+--                                         ∷ [])
+print-ℒHM A Γ (app x y) = node appᵗ (incl (incl (print-ℒHM A Γ x)) ∷ incl (incl (print-ℒHM A Γ y)) ∷ [])
+print-ℒHM A Γ (lam name t) = node lamᵗ (incl (bind name (incl (print-ℒHM _ _ t))) ∷ [])
+-- print-ℒHM A Γ (lamₓ t) = node lamᵗ (skipBinding (print-ℒHM _ _ t) ∷ [])
 
 mutual
-  print⁻¹-ℒHM' : ∀ {A Γ} -> SyntaxTreeBinding 𝒹-ℒHM A Γ 0 -> UntypedℒHMᵈ A Γ
-  print⁻¹-ℒHM' (hole x) = hole x
-  print⁻¹-ℒHM' (incl x) = print⁻¹-ℒHM _ x
+  parse-ℒHM' : ∀ {A Γ} -> SyntaxTreeBinding 𝒹-ℒHM A Γ 0 -> UntypedℒHMᵈ A Γ
+  parse-ℒHM' = {!!}
+  -- parse-ℒHM' (hole x) = hole x
+  -- parse-ℒHM' (incl x) = parse-ℒHM _ x
 
-  print⁻¹-ℒHM : ∀ {A} -> SyntaxTree 𝒹-ℒHM A ⟶ UntypedℒHM A
-  print⁻¹-ℒHM Γ (hole x) = hole x
-  print⁻¹-ℒHM Γ (var i x) = var x
-  print⁻¹-ℒHM Γ (node lamᵗ (hole x ∷ [])) = hole x
-  print⁻¹-ℒHM Γ (node lamᵗ (bind name x ∷ [])) = lam name (print⁻¹-ℒHM' x)
-  print⁻¹-ℒHM Γ (node appᵗ (x ∷ (y ∷ []))) = app (print⁻¹-ℒHM' x) (print⁻¹-ℒHM' y)
-  print⁻¹-ℒHM Γ (node sletᵗ (x ∷ (hole y ∷ []))) = {!slet (print⁻¹-ℒHM' x) (hole y)!}
-  print⁻¹-ℒHM Γ (node sletᵗ (x ∷ (bind name y ∷ []))) = {!!}
-  print⁻¹-ℒHM Γ (annotation x x₁) = {!!}
+  parse-ℒHM : ∀ {A} -> SyntaxTree 𝒹-ℒHM A ⟶ UntypedℒHM (SyntaxTree 𝒹-ℒHM A)
+  parse-ℒHM Γ (hole x) = hole (hole x)
+  parse-ℒHM Γ (var i x) = var x
+  parse-ℒHM Γ (node lamᵗ (skipBinding x ∷ [])) = hole (node lamᵗ (skipBinding x ∷ [])) -- lamₓ (parse-ℒHM _ x)
+  parse-ℒHM Γ (node lamᵗ (incl (bind name (incl x)) ∷ [])) = lam name (parse-ℒHM _ x)
+  parse-ℒHM Γ (node appᵗ (x ∷ (y ∷ []))) = {!!} -- app (parse-ℒHM' x) (parse-ℒHM' y)
+  parse-ℒHM Γ (node sletᵗ (skipBinding x ∷ (skipBinding y ∷ []))) = hole ((node sletᵗ (skipBinding x ∷ (skipBinding y ∷ []))))
+  parse-ℒHM Γ (node sletᵗ (skipBinding x ∷ (incl y ∷ []))) = hole ((node sletᵗ (skipBinding x ∷ (incl y ∷ []))))
+  parse-ℒHM Γ (node sletᵗ (incl x ∷ (skipBinding y ∷ []))) = hole (node sletᵗ (incl x ∷ (skipBinding y ∷ [])))
+  -- {!sletₓ (parse-ℒHM' x) (parse-ℒHM' y)!}
+  parse-ℒHM Γ (node sletᵗ (incl (incl x) ∷ (incl (bind name (incl y)) ∷ []))) = slet name (parse-ℒHM _ x) (parse-ℒHM _ y)
+  parse-ℒHM Γ (annotation x x₁) = {!!}
 
--- {!app (print⁻¹-ℒHM _ x) (print⁻¹-ℒHM _ y)!}
+-- {!app (parse-ℒHM _ x) (parse-ℒHM _ y)!}
 

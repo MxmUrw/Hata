@@ -27,7 +27,8 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
 open import Verification.Core.Data.SourceCode.Variant.Tokenized.Definition
 open import Verification.Core.Data.Expr.Variant.Base.InferenceTask
 open import Verification.Core.Data.Expr.Variant.Base.Definition
-open import Verification.Core.Data.SyntaxTree.Definition
+open import Verification.Core.Data.Tree.Variant.Syntax.Data
+open import Verification.Core.Data.Tree.Variant.Syntax.Definition
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
 
@@ -96,6 +97,7 @@ isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
 -- Con 𝒷 = 𝒷₁
 -- isDiscrete:Con 𝒷 = record { _≟-Str_ = lem-1 }
 
+{-
 showTokType : (UntypedCon 𝒷) -> Text
 showTokType (_ , _ , ⇒ᵗ) = "Arr"
 showTokType (_ , _ , ℕᵗ) = "Nat"
@@ -123,9 +125,10 @@ hasElementNames:TokenType 𝕋ΛTypeData = record
   ; name = showTokType
   }
 
-𝕋ΛTypeData2 : SyntaxTreeData
-TokenType 𝕋ΛTypeData2 = UntypedCon 𝒷
-TokenSize 𝕋ΛTypeData2 = λ (τs , _ , x) → length τs
+-}
+-- 𝕋ΛTypeData2 : SyntaxTreeData
+-- TokenType 𝕋ΛTypeData2 = UntypedCon 𝒷
+-- TokenSize 𝕋ΛTypeData2 = λ (τs , _ , x) → length τs
 
 
 {-

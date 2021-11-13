@@ -8,6 +8,8 @@ open import Verification.Core.Data.Universe.Everything
 ----------------------------------------------------------
 -- definition of tokens for parsing
 
+{-
+
 {-# FOREIGN GHC import Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.Definition #-}
 
 record hasElementNames (Tok : 𝒰₀) : 𝒰₀ where
@@ -28,7 +30,7 @@ record TokenizedSourceCodeData : 𝒰₁ where
 open TokenizedSourceCodeData public
 
 
-
+-}
 
 
 

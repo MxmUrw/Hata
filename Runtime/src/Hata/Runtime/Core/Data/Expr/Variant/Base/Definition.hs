@@ -1,7 +1,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-module Hata.Runtime.Experimental.Data.Expr.Variant.Base.Definition where
+module Hata.Runtime.Core.Data.Expr.Variant.Base.Definition where
 
 import Data.Text as T
 import Data.HashMap.Strict as H
@@ -12,7 +12,7 @@ import Text.Megaparsec
 import Text.Megaparsec.Char
 import Control.Applicative hiding (many, some)
 
-import Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition
+import Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.Definition
 
 type Parser = Parsec Void Text
 

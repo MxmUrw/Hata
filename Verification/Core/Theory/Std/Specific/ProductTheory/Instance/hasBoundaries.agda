@@ -49,6 +49,8 @@ open import Verification.Core.Theory.Std.Presentation.CheckTree.FromUnification
 -- open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.FromString2
 -- open import Verification.Core.Theory.Std.Presentation.CheckTree.Definition2
 
+{-
+
 instance
   isSet-Str:⊤ : isSet-Str (⊤-𝒰 {𝑖})
   isSet-Str:⊤ = {!!}
@@ -356,4 +358,5 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
 
   makeSort : SortTermᵈ ◌ -> Sort 𝒯
   makeSort (con x) = x
+-}
 -}

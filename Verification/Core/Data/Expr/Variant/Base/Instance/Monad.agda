@@ -27,6 +27,7 @@ open import Verification.Core.Category.Std.Monad.Instance.LargeCategory
 open import Verification.Core.Theory.Std.Inference.Definition
 open import Verification.Core.Theory.Std.Inference.TextInfer
 
+{-
 
 module _ {A : 𝒰 𝑖} {a b : A} where
   instance
@@ -347,4 +348,4 @@ hasTextInfer:BaseExpr d = record
 -- 大𝐌𝐧𝐝>BaseExpr = {!!} , {!!}
 
 
-
+-}

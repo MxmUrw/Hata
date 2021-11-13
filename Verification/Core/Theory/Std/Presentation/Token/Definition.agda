@@ -1,6 +1,8 @@
 
 module Verification.Core.Theory.Std.Presentation.Token.Definition where
 
+{-
+
 {-# FOREIGN GHC import Hata.Runtime.Core.Theory.Std.Presentation.Token.Definition #-}
 {-# FOREIGN GHC import Data.HashMap.Strict (HashMap) #-}
 
@@ -257,4 +259,4 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {l : A -> 人ℕ' (𝑖 ､ 𝑗)} wher
 -}
 -}
 
-
+-}

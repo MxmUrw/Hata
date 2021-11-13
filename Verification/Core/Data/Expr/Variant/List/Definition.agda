@@ -17,6 +17,7 @@ data ListExprᵘ (X : 𝒰₀) : 𝒰₀ where
   var : Text -> ListExprᵘ X
   hole : X -> ListExprᵘ X
   list : List (ListExprᵘ X) -> ListExprᵘ X
+  annotation : Text -> ListExprᵘ X -> ListExprᵘ X
 
 macro ListExpr = #structureOn ListExprᵘ
 
@@ -56,6 +57,7 @@ module _ {X : 𝒰₀} {{_ : IShow X}} where
           f (hole x) = show x
           f (var x) = show x
           f (list x) = "(" <> fs x <> ")"
+          f (annotation t x) = "{" <> t <> "} " <> f x
 
 module _ {X : 𝒰₀} where
   data ListExprᵘLoc : (γ : ListExprᵘ X) -> 𝒰₀ where

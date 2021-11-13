@@ -1,7 +1,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-module Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition where
+module Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.Definition where
 
 import Data.Text as T
 import Data.HashMap.Strict as H

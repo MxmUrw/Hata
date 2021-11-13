@@ -21,8 +21,10 @@ data UntypedℒHMᵈ (X : 人List Text -> 𝒰₀) : (Γ : 人List Text) -> 𝒰
   var  : ∀{i Γ} -> Γ ∍ i -> UntypedℒHMᵈ X Γ
   hole : ∀{Γ} -> X Γ -> UntypedℒHMᵈ X Γ
   slet : ∀{Γ} -> (name : Text) -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X (Γ ⋆ incl name) -> UntypedℒHMᵈ X Γ
+  -- sletₓ : ∀{Γ} -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ
   app : ∀{Γ} -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ
   lam : ∀{Γ} -> (name : Text) -> UntypedℒHMᵈ X (Γ ⋆ incl name) -> UntypedℒHMᵈ X Γ
+  -- lamₓ : ∀{Γ} -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ
 
 -- data ℒHMType : 𝒰₀ where
 

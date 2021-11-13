@@ -29,9 +29,10 @@ open import Verification.Core.Data.Expr.Variant.Base.Instance.Monad
 
 
 
+{-
 
 BaseExprInferenceTask : BaseExprData -> InferenceTask _
 BaseExprInferenceTask p = inferenceTask (BaseExprInfer p) (hasTextInfer:BaseExpr p) (BaseExprInfer p) id
 
-
+-}
 

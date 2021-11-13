@@ -1,7 +1,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-module Hata.Runtime.Experimental.Data.SourceCode.Variant.HaskellLike.Definition where
+module Hata.Runtime.Core.Data.SourceCode.Variant.HaskellLike.Definition where
 
 import Data.Text as T
 import Data.HashMap.Strict as H
@@ -17,7 +17,8 @@ type Parser = Parsec Void Text
 
 
 data HaskellLikeSourceCode x =
-  Var x
+  Var Text
+  | Hole x
   | NewLine Integer
   | Horizontal [Either Integer (HaskellLikeSourceCode x)]
   | Vertical Integer [HaskellLikeSourceCode x]

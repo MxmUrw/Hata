@@ -52,6 +52,10 @@ open import Verification.Core.Data.Substitution.Variant.Normal.Definition
 --   Vec→List [] = []
 --   Vec→List (x ∷ xs) = x ∷ Vec→List xs
 
+instance
+  IShow:⊤-𝒰 : IShow (⊤-𝒰 {𝑖})
+  IShow:⊤-𝒰 = record { show = const "()" }
+
 
 toTokenExprData : TokenTreeData -> TokenExprData
 toTokenExprData 𝒹 = record { TokenType = TokenType 𝒹 ; tokenName = tokenName 𝒹 ; tokenList = tokenList 𝒹 }

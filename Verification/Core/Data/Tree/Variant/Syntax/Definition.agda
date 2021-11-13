@@ -20,15 +20,19 @@ module _ (𝒹 : SyntaxTreeData) where
 
   mutual
     data SyntaxTreeBinding (A : 人List Text -> 𝒰₀) : (Γ : 人List Text) (n : ♮ℕ) -> 𝒰₀ where
-      hole : ∀{Γ n} -> A Γ -> SyntaxTreeBinding A Γ n
+      -- hole : ∀{Γ n} -> A Γ -> SyntaxTreeBinding A Γ n -> SyntaxTreeBinding A Γ (tt ∷ n)
       incl : ∀{Γ} -> SyntaxTreeᵈ A Γ -> SyntaxTreeBinding A Γ 0
       bind : ∀{Γ n} -> (name : Text) -> SyntaxTreeBinding A (Γ ⋆ incl name) n -> SyntaxTreeBinding A Γ (tt ∷ n)
+
+    data SyntaxTreeBindingWithHole (A : 人List Text -> 𝒰₀) : (Γ : 人List Text) (n : ♮ℕ) -> 𝒰₀ where
+      skipBinding : ∀{Γ n} -> SyntaxTreeᵈ A Γ -> SyntaxTreeBindingWithHole A Γ n
+      incl : ∀{Γ n} -> SyntaxTreeBinding A Γ n -> SyntaxTreeBindingWithHole A Γ n
 
     data SyntaxTreeᵈ (A : 人List Text -> 𝒰₀) : (Γ : 人List Text) -> 𝒰₀ where
       hole : ∀{Γ} -> A Γ -> SyntaxTreeᵈ A Γ
       var : ∀ {Γ} -> ∀ i -> Γ ∍ i -> SyntaxTreeᵈ A Γ
       node : ∀{Γ} -> (t : TokenType 𝒹)
-                  -> DList (SyntaxTreeBinding A Γ) (tokenSize 𝒹 t)
+                  -> DList (SyntaxTreeBindingWithHole A Γ) (tokenSize 𝒹 t)
                   -> SyntaxTreeᵈ A Γ
       annotation : ∀{Γ} -> Text -> SyntaxTreeᵈ A Γ -> SyntaxTreeᵈ A Γ
 

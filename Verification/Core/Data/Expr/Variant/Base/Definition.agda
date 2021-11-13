@@ -7,6 +7,7 @@ open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.SourceCode.Variant.Tokenized.Definition
 
+{-
 {-# FOREIGN GHC import Hata.Runtime.Core.Data.Expr.Variant.Base.Definition #-}
 {-# FOREIGN GHC import Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.Definition #-}
 
@@ -96,4 +97,4 @@ instance
 parseBaseExpr : ∀{P : BaseExprData} -> Text -> Text + BaseExpr P Text
 parseBaseExpr = mapRight ι ∘ parseBaseExpr~ it
 
-
+-}

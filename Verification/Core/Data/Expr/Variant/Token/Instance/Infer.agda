@@ -6,6 +6,7 @@ open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Instance.Category
+open import Verification.Core.Data.AllOf.Collection.TermTools
 open import Verification.Core.Data.AllOf.Product
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.Expr.Variant.Base.Definition
@@ -46,7 +47,7 @@ module _ {𝒹 : TokenExprData} where
   ----------------------------------------------------------
   -- printing the tokenExpressions to listExpressions
   mutual
-    print-TokenExprs : ∀{X} -> List (TokenExpr 𝒹 X) -> List (ListExpr X)
+    print-TokenExprs : ∀{X n} -> ConstDList (TokenExpr 𝒹 X) n -> List (ListExpr X)
     print-TokenExprs [] = []
     print-TokenExprs (x ∷ xs) = print-TokenExpr x ∷ print-TokenExprs xs
 
@@ -55,6 +56,8 @@ module _ {𝒹 : TokenExprData} where
     print-TokenExpr (hole x) = hole x
     print-TokenExpr (token x) = var (tokenName 𝒹 x)
     print-TokenExpr (list x) = list (print-TokenExprs x)
+    print-TokenExpr (annotation t x) = annotation t (print-TokenExpr x)
+
 
   ----------------------------------------------------------
   -- parsing the tokenExpressions from listExpressions
@@ -67,16 +70,17 @@ module _ {𝒹 : TokenExprData} where
     ... | x ∷ x₁ ∷ X = just x
 
   mutual
-    parse-TokenExprs : ∀{X} -> List (ListExpr X) -> List (TokenExpr 𝒹 (ListExpr X))
-    parse-TokenExprs [] = []
-    parse-TokenExprs (x ∷ xs) = parse-TokenExpr x ∷ parse-TokenExprs xs
+    parse-TokenExprs : ∀{X} -> List (ListExpr X) -> ∑ ConstDList (TokenExpr 𝒹 (ListExpr X))
+    parse-TokenExprs [] = _ , []
+    parse-TokenExprs (x ∷ xs) = (tt ∷ _) , parse-TokenExpr x ∷ parse-TokenExprs xs .snd
 
     parse-TokenExpr : ∀{X} -> ListExpr X -> TokenExpr 𝒹 (ListExpr X)
     parse-TokenExpr (var x) = case findToken x of
                                      (λ _ -> var x)
                                      λ x → token x
     parse-TokenExpr (hole x) = hole (hole x)
-    parse-TokenExpr (list x) = list (parse-TokenExprs x)
+    parse-TokenExpr (list x) = list (parse-TokenExprs x .snd)
+    parse-TokenExpr (annotation t x) = annotation t (parse-TokenExpr x)
 
 
 

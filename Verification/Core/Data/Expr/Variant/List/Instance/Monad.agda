@@ -26,6 +26,8 @@ open import Verification.Core.Category.Std.Monad.Definition
 open import Verification.Core.Category.Std.Monad.Instance.Category
 open import Verification.Core.Category.Std.Monad.Instance.LargeCategory
 open import Verification.Core.Theory.Std.Inference.Definition
+open import Verification.Core.Theory.Std.Inference.Task
+open import Verification.Core.Theory.Std.Inference.TextInfer
 
 -- open import Verification.Core.Data.Expr.Variant.List.Data
 open import Verification.Core.Data.Expr.Variant.List.Definition
@@ -54,6 +56,22 @@ instance
 
 ListExprInfer : 𝐈𝐧𝐟𝐞𝐫 _
 ListExprInfer = incl (_ , ListExpr)
+
+
+open import Verification.Core.Data.SourceCode.Variant.HaskellLike.Definition
+instance
+  hasTextInfer:ListExprInfer : hasTextInfer ListExprInfer
+  hasTextInfer:ListExprInfer = record
+    { RepObj = ⊤-𝒰
+    ; TIObj = Text
+    ; RepType = ListExpr Text since isSetoid:byDiscrete
+    ; rep = ((λ f → f tt) since {!!}) since record { inverse-◆ = (λ x x₁ → x) since {!!} ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
+    ; parse = λ x → map makeListExprᵘ (parseHaskellLikeSourceCode x)
+    }
+
+
+ListExprInferenceTask : InferenceTask _
+ListExprInferenceTask = inferenceTask ListExprInfer hasTextInfer:ListExprInfer ListExprInfer id
 
 
 

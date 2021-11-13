@@ -56,7 +56,7 @@ doTest input = do
     inferCF : ContentFile -> String
     inferCF (contentFile language content) =
       let res = parseHaskellLikeSourceCode content
-          res2 = (map makeListExpr res)
+          res2 = (map makeListExprᵘ res)
       in show res <> "\n-----------------------\n" <> show res2
       -- let _ , task = getInferenceTask language
       -- in executeInferenceFlat task content

@@ -28,15 +28,18 @@ record ∑𝔏ω {n : ℕ} {F : 𝔏 ^ n -> 𝔏} (A : (𝑖 : 𝔏 ^ n) -> 𝒰
 open ∑𝔏ω public
 
 
-open import Verification.Core.Data.Expr.Variant.Base.InferenceTask
-open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
-open import Verification.Core.Data.SyntaxTree.Variant.Base.Instance.Infer
+open import Verification.Core.Data.Expr.Variant.Token.Data
+open import Verification.Core.Data.Expr.Variant.Token.Definition
+open import Verification.Core.Data.Expr.Variant.List.Instance.Monad
+-- open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
+open import Verification.Core.Data.Tree.Variant.Syntax.Instance.Infer
+open import Verification.Core.Data.Tree.Variant.Token.Instance.Infer
 open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Data.Universe.Everything
 
 getInferenceTask : SupportedLanguage -> ∑𝔏ω InferenceTask
 getInferenceTask LambdaCalculusTypesᵗ = {!!}
-getInferenceTask Testᵗ = _ , BaseSyntaxTreeInferenceTask {𝕋ΛTypeData} {𝕋ΛTypeData2} refl-≅
+getInferenceTask Testᵗ = _ , ListExprInferenceTask -- BaseExprInferenceTask {!!} -- {𝕋ΛTypeData} {𝕋ΛTypeData2} refl-≅
 
 
 

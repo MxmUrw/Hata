@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a8eadbbb75347cc7adc6da5ab312c630e20fe3638a01c54f66992743c6b1fb69
+-- hash: ad466bc5d97a6beed00735e096a2b73fd193c4166ca23e09f0833fcde728beee
 
 name:           Hata
 version:        0.1.0.0
@@ -31,13 +31,13 @@ library
       Hata.Runtime.Application.Persistent.ContentFile
       Hata.Runtime.Application.Render.Definition
       Hata.Runtime.CLI
+      Hata.Runtime.Core.Data.Expr.Variant.Base.Definition
+      Hata.Runtime.Core.Data.SourceCode.Variant.HaskellLike.Definition
+      Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.Definition
+      Hata.Runtime.Core.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition
+      Hata.Runtime.Core.Theory.Std.Presentation.Token.Definition
+      Hata.Runtime.Core.Theory.Std.Specific.ProductTheory.Definition
       Hata.Runtime.EventLoop
-      Hata.Runtime.Experimental.Data.Expr.Variant.Base.Definition
-      Hata.Runtime.Experimental.Data.SourceCode.Variant.HaskellLike.Definition
-      Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.Definition
-      Hata.Runtime.Experimental.Data.SourceCode.Variant.Tokenized.HaskellLike.Definition
-      Hata.Runtime.Experimental.Theory.Std.Presentation.Token.Definition
-      Hata.Runtime.Experimental.Theory.Std.Specific.ProductTheory.Definition
       Hata.Runtime.Main
       Hata.Runtime.Service.Parse.GeneralizedLambdaTerm
       Hata.Runtime.UI.EditorMain
