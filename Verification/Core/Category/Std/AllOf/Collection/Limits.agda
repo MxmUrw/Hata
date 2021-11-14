@@ -5,6 +5,8 @@ open import Verification.Core.Category.Std.Category.Instance.FiniteProductCatego
 open import Verification.Core.Category.Std.Category.Construction.Product public
 open import Verification.Core.Category.Std.Limit.Specific.Product public
 open import Verification.Core.Category.Std.Limit.Specific.Product.Instance.Functor public
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition public
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor public
 
 
 

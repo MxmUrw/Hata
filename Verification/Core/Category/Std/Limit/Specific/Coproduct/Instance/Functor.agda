@@ -15,8 +15,9 @@ open import Verification.Core.Category.Std.Category.Structured.FiniteCoproduct.D
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : hasCoproducts ′ 𝒞 ′ }} where
 -- {{_ : FiniteCoproductCategory 𝑖 on 𝒞}} where
 
-  𝒞' : Category _
-  𝒞' = ′ 𝒞 ′
+  private
+    𝒞' : Category _
+    𝒞' = ′ 𝒞 ′
 
   map-⊔ : ∀{a b c d : 𝒞} -> (a ⟶ b) × (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
   map-⊔ (f , g) = ⦗ f ◆ ι₀ , g ◆ ι₁ ⦘

@@ -9,6 +9,7 @@ open import Verification.Core.Category.Std.Functor.Definition public
 open import Verification.Core.Category.Std.Functor.Constant public
 open import Verification.Core.Category.Std.Morphism.Iso public
 open import Verification.Core.Category.Std.Functor.Instance.Category public
-
+open import Verification.Core.Category.Std.Natural.Definition public
+open import Verification.Core.Category.Std.Natural.Instance.Setoid public
 
 

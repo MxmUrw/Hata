@@ -14,8 +14,9 @@ open import Verification.Core.Category.Std.Category.Structured.FiniteProduct.Def
 
 module _ {𝒞 : 𝒰 _} {{_ : FiniteProductCategory 𝑖 on 𝒞}} where
 
-  𝒞' : Category 𝑖
-  𝒞' = ′ 𝒞 ′
+  private
+    𝒞' : Category 𝑖
+    𝒞' = ′ 𝒞 ′
 
   map-⊓ : ∀{a b c d : 𝒞} -> (a ⟶ b) × (c ⟶ d) -> (a ⊓ c ⟶ b ⊓ d)
   map-⊓ (f , g) = ⧼ π₀ ◆ f , π₁ ◆ g ⧽

@@ -33,9 +33,16 @@ open import Verification.Core.Theory.Std.Inference.TextInfer
 open import Verification.Core.Data.Expr.Variant.List.Definition
 
 
+mutual
+  map-ListExprs : ∀{A B} -> (A -> B) -> List (ListExpr A) -> List (ListExpr B)
+  map-ListExprs f [] = []
+  map-ListExprs f (x ∷ xs) = map-ListExpr f x ∷ map-ListExprs f xs
 
-map-ListExpr : ∀{A B} -> (A -> B) -> ListExpr A -> ListExpr B
-map-ListExpr = {!!}
+  map-ListExpr : ∀{A B} -> (A -> B) -> ListExpr A -> ListExpr B
+  map-ListExpr f (var x) = var x
+  map-ListExpr f (hole x) = hole (f x)
+  map-ListExpr f (list x) = list (map-ListExprs f x)
+  map-ListExpr f (annotation x xs) = annotation x (map-ListExpr f xs)
 
 instance
   isFunctor:ListExpr : isFunctor (𝐔𝐧𝐢𝐯 ℓ₀) (𝐔𝐧𝐢𝐯 ℓ₀) (ListExpr)
@@ -44,10 +51,24 @@ instance
   isFunctor.functoriality-id isFunctor:ListExpr = {!!}
   isFunctor.functoriality-◆ isFunctor:ListExpr = {!!}
 
+pure-ListExpr : ∀ A -> A -> ListExpr A
+pure-ListExpr _ = hole
+
+mutual
+  join-ListExprs : ∀ A -> List (ListExpr (ListExpr A)) -> List (ListExpr A)
+  join-ListExprs _ [] = []
+  join-ListExprs _ (x ∷ xs) = join-ListExpr _ x ∷ join-ListExprs _ xs
+
+  join-ListExpr : ∀ A -> ListExpr (ListExpr A) -> ListExpr A
+  join-ListExpr _ (var x) = var x
+  join-ListExpr _ (hole xs) = xs
+  join-ListExpr _ (list x) = list (join-ListExprs _ x)
+  join-ListExpr _ (annotation x xs) = annotation x (join-ListExpr _ xs)
+
 instance
   isMonad:ListExpr : isMonad (ListExpr)
-  isMonad.pure isMonad:ListExpr = {!!}
-  isMonad.join isMonad:ListExpr = {!!}
+  isMonad.pure isMonad:ListExpr = pure-ListExpr
+  isMonad.join isMonad:ListExpr = join-ListExpr
   isMonad.isNatural:pure isMonad:ListExpr = {!!}
   isMonad.isNatural:join isMonad:ListExpr = {!!}
   isMonad.unit-l-join isMonad:ListExpr = {!!}
