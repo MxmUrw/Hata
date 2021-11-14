@@ -19,17 +19,17 @@ data AListExprAnn : 𝒰₀ where
   varᵗ : AListExprAnn
 
 
-data AListExprᵘ (A : AListExprAnn -> 𝐏𝐭𝐝₀) (X : 𝒰₀) : 𝒰₀ where
-  var : ⟨ A varᵗ ⟩ -> Text -> AListExprᵘ A X
+data AListExprᵘ (A : 𝐏𝐭𝐝₀) (X : 𝒰₀) : 𝒰₀ where
+  var : ⟨ A ⟩ -> Text -> AListExprᵘ A X
   hole : X -> AListExprᵘ A X
   list : List (AListExprᵘ A X) -> AListExprᵘ A X
   -- annotation : Text -> AListExprᵘ A X -> AListExprᵘ A X
 
-module _ (A : AListExprAnn -> 𝐏𝐭𝐝₀) where
+module _ (A :  𝐏𝐭𝐝₀) where
   macro AListExpr = #structureOn (AListExprᵘ A)
 
 
-module _ {A : AListExprAnn -> 𝐏𝐭𝐝₀} {X : 𝒰₀} where
+module _ {A :  𝐏𝐭𝐝₀} {X : 𝒰₀} where
   mutual
     parseHorizontal : Vec (ℕ +-𝒰 HaskellLikeSourceCode X) n -> Vec (List (AListExprᵘ A X)) n
     parseHorizontal [] = []
@@ -42,7 +42,7 @@ module _ {A : AListExprAnn -> 𝐏𝐭𝐝₀} {X : 𝒰₀} where
 
     makeAListExprᵘs : HsCode X -> List (AListExprᵘ A X)
     makeAListExprᵘs (hole x) = (hole x) ∷ []
-    makeAListExprᵘs (var x) = (var (pt {{of A varᵗ}}) x) ∷ []
+    makeAListExprᵘs (var x) = (var pt x) ∷ []
     makeAListExprᵘs (newline x) = []
     makeAListExprᵘs (horizontal x) = pure-List (list (join-List ((Vec→List (parseHorizontal x)))))
     makeAListExprᵘs (vertical _ x) = join-List ((Vec→List (parseVertical x)))
@@ -50,7 +50,7 @@ module _ {A : AListExprAnn -> 𝐏𝐭𝐝₀} {X : 𝒰₀} where
     makeAListExprᵘ : HsCode X -> (AListExprᵘ A X)
     makeAListExprᵘ x = list (makeAListExprᵘs x)
 
-module _ {A : AListExprAnn -> 𝐏𝐭𝐝₀} {X : 𝒰₀} {{_ : IShow X}} {{_ : ∀{a} -> IShow (⟨ A a ⟩)}} where
+module _ {A :  𝐏𝐭𝐝₀} {X : 𝒰₀} {{_ : IShow X}} {{_ : IShow ⟨ A ⟩}} where
   instance
     IShow:AListExprᵘ : IShow (AListExprᵘ A X)
     IShow:AListExprᵘ = record { show = f }

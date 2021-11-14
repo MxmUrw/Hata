@@ -15,14 +15,16 @@ open import Verification.Core.Data.Expr.Variant.AnnotatedToken.Data
 
 open import Verification.Core.Data.Substitution.Variant.Normal.Definition
 
-data ATokenExprAnn : 𝒰₀ where
-  varᵗ tokenᵗ : ATokenExprAnn
+data ATokenExprAnnᵈ : 𝒰₀ where
+  isvar istoken : ATokenExprAnnᵈ
 
-module _ (𝒹 : ATokenExprData) (Ann : ATokenExprAnn -> 𝐏𝐭𝐝₀) where
+macro ATokenExprAnn = #structureOn (Maybe ATokenExprAnnᵈ)
+
+module _ (𝒹 : ATokenExprData) (Ann : 𝐏𝐭𝐝₀) where
   data ATokenExprᵘ (X : 𝒰₀) : 𝒰₀ where
-    var : ⟨ Ann varᵗ ⟩ -> Text -> ATokenExprᵘ X
+    var : ⟨ Ann ⟩ -> Text -> ATokenExprᵘ X
     hole : X -> ATokenExprᵘ X
-    token : ⟨ Ann tokenᵗ ⟩ -> TokenType 𝒹 -> ATokenExprᵘ X
+    token : ⟨ Ann ⟩ -> TokenType 𝒹 -> ATokenExprᵘ X
     list : ∀{n} -> ConstDList (ATokenExprᵘ X) n -> ATokenExprᵘ X
     -- annotation : Text -> ATokenExprᵘ X -> ATokenExprᵘ X
 

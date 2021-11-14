@@ -41,3 +41,7 @@ instance
   isDiscrete:⊤-𝒰 : isDiscrete (⊤-𝒰 {𝑖})
   isDiscrete:⊤-𝒰 = record { _≟-Str_ = λ {tt tt → yes refl-≣} }
 
+instance
+  IShow:⊤-𝒰 : IShow (⊤-𝒰 {𝑖})
+  IShow:⊤-𝒰 = record { show = const "()" }
+

@@ -83,6 +83,13 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} {D : 𝒰 𝑙} where
   instance
     isInjective-𝒰:either : {f : A -> C} {g : B -> C} -> {{_ : isInjective-𝒰 f}} {{_ : isInjective-𝒰 g}} -> isInjective-𝒰 (map-+ f g)
     isInjective-𝒰:either = {!!}
+
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
+  instance
+    IShow:+-𝒰 : {{_ : IShow A}} {{_ : IShow B}} -> IShow (A + B)
+    IShow:+-𝒰 = record { show = either show show }
+
     -- isInjective-𝒰.injective (isInjective-𝒰:either {f} {g}) {left x} {left x₁} p = cong-Str left (injective (injective {{isInjective-𝒰:left}} p))
     -- isInjective-𝒰.injective (isInjective-𝒰:either {f} {g}) {just x} {just x₁} p = cong-Str right (injective (injective {{isInjective-𝒰:right}} p))
 

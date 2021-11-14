@@ -34,7 +34,7 @@ open import Verification.Core.Theory.Std.Inference.TextInfer
 open import Verification.Core.Data.Expr.Variant.AnnotatedList.Definition
 
 
-module _ (Ann : AListExprAnn -> 𝐏𝐭𝐝₀) where
+module _ {Ann : 𝐏𝐭𝐝₀} where
   mutual
     map-AListExprs : ∀{A B} -> (A -> B) -> List (AListExpr Ann A) -> List (AListExpr Ann B)
     map-AListExprs f [] = []
@@ -77,14 +77,21 @@ module _ (Ann : AListExprAnn -> 𝐏𝐭𝐝₀) where
     isMonad.unit-r-join isMonad:AListExpr = {!!}
     isMonad.assoc-join isMonad:AListExpr = {!!}
 
+
+
+
+
+module _ (Ann : 𝐏𝐭𝐝₀) where
+
   AListExprInfer : 𝐈𝐧𝐟𝐞𝐫 _
   AListExprInfer = incl (_ , AListExpr Ann)
 
 
 
+module _ {Ann : 𝐏𝐭𝐝₀} where
   open import Verification.Core.Data.SourceCode.Variant.HaskellLike.Definition
   instance
-    hasTextInfer:AListExprInfer : {{_ : ∀{a} -> IShow (⟨ Ann a ⟩)}} -> hasTextInfer AListExprInfer
+    hasTextInfer:AListExprInfer : {{_ : IShow ⟨ Ann ⟩}} -> hasTextInfer (AListExprInfer Ann)
     hasTextInfer:AListExprInfer = record
       { RepObj = ⊤-𝒰
       ; TIObj = Text
@@ -93,8 +100,6 @@ module _ (Ann : AListExprAnn -> 𝐏𝐭𝐝₀) where
       ; parse = λ x → map makeAListExprᵘ (parseHaskellLikeSourceCode x)
       }
 
-
-  AListExprInferenceTask : {{_ : ∀{a} -> IShow (⟨ Ann a ⟩)}} -> InferenceTask _
-  AListExprInferenceTask = inferenceTask AListExprInfer hasTextInfer:AListExprInfer AListExprInfer id
-
-
+module _ (Ann : 𝐏𝐭𝐝₀) where
+  AListExprInferenceTask : {{_ : IShow ⟨ Ann ⟩}} -> InferenceTask _
+  AListExprInferenceTask = inferenceTask (AListExprInfer Ann) hasTextInfer:AListExprInfer (AListExprInfer Ann) id

@@ -20,10 +20,6 @@ open import Verification.Core.Theory.Std.Inference.Definition
 open import Verification.Core.Theory.Std.Inference.Task
 
 
-module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
-  instance
-    IShow:+-𝒰 : {{_ : IShow A}} {{_ : IShow B}} -> IShow (A + B)
-    IShow:+-𝒰 = record { show = either show show }
 
 record InferStandaloneState : 𝒰₀ where
   constructor printExe
