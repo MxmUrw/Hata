@@ -74,6 +74,7 @@ id-大𝐌𝐧𝐝 {a = a} = record { fst = id ; snd = (λ x → id) since natur
 -- ⟨ unit-r-◆ {a = ↳ snd a} ⟩ ◆ ⟨ unit-l-◆ ⟩⁻¹ }
 
 
+
 instance
   isCategory:大𝐌𝐧𝐝 : isCategory (大𝐌𝐧𝐝 𝑖)
   isCategory.Hom isCategory:大𝐌𝐧𝐝 = 大MonadHom

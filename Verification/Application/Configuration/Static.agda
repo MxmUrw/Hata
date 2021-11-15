@@ -34,6 +34,8 @@ open import Verification.Core.Data.Expr.Variant.AnnotatedList.Instance.Monad
 open import Verification.Core.Data.Expr.Variant.AnnotatedToken.Data
 open import Verification.Core.Data.Expr.Variant.AnnotatedToken.Instance.Monad
 open import Verification.Core.Data.Expr.Variant.AnnotatedToken.Instance.Infer
+open import Verification.Core.Data.Tree.Variant.AnnotatedToken.Instance.Infer
+open import Verification.Core.Data.Tree.Variant.AnnotatedToken.Data
 -- open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary
 open import Verification.Core.Data.Tree.Variant.Syntax.Instance.Infer
 open import Verification.Core.Data.Tree.Variant.Token.Instance.Infer
@@ -58,15 +60,20 @@ tokenName-ℒHM sletᵗ = "let"
 tokenList-ℒHM : List ℒHMTokenType
 tokenList-ℒHM = lamᵗ ∷ appᵗ ∷ sletᵗ ∷ []
 
-my𝒹 : ATokenExprData
-my𝒹 = record { TokenType = ℒHMTokenType ; tokenName = tokenName-ℒHM ; tokenList = tokenList-ℒHM }
+tokenSize-ℒHM : ℒHMTokenType -> (♮ℕ)
+tokenSize-ℒHM lamᵗ = 1 -- 1 ∷ []
+tokenSize-ℒHM appᵗ = 2 -- 0 ∷ 0 ∷ []
+tokenSize-ℒHM sletᵗ = 2 -- 0 ∷ 1 ∷ []
+
+my𝒹 : ATokenTreeData
+my𝒹 = record { TokenType = ℒHMTokenType ; tokenName = tokenName-ℒHM ; tokenList = tokenList-ℒHM ; tokenSize = tokenSize-ℒHM }
 
 --------------
 
 
 getInferenceTask : SupportedLanguage -> ∑𝔏ω InferenceTask
 getInferenceTask LambdaCalculusTypesᵗ = {!!}
-getInferenceTask Testᵗ = _ , ATokenExprInferenceTask {𝒹 = my𝒹} {Ann = 0-𝐏𝐭𝐝} -- BaseExprInferenceTask {!!} -- {𝕋ΛTypeData} {𝕋ΛTypeData2} refl-≅
+getInferenceTask Testᵗ = _ , ATokenTreeInferenceTask {𝒹 = my𝒹} {Ann = 0-𝐏𝐭𝐝} -- BaseExprInferenceTask {!!} -- {𝕋ΛTypeData} {𝕋ΛTypeData2} refl-≅
 
 
 

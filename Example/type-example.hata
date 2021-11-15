@@ -5,8 +5,8 @@ Snoc (iSnoc Nil (Arr (Arr (Arr b b) b) (Arr x y z))) where
 b
   c
   (z) (z where
-    x
-    y
+    app x
+    y let app let
     z)
 
 

@@ -22,7 +22,7 @@ data AListExprAnn : 𝒰₀ where
 data AListExprᵘ (A : 𝐏𝐭𝐝₀) (X : 𝒰₀) : 𝒰₀ where
   var : ⟨ A ⟩ -> Text -> AListExprᵘ A X
   hole : X -> AListExprᵘ A X
-  list : List (AListExprᵘ A X) -> AListExprᵘ A X
+  list : ⟨ A ⟩ -> List (AListExprᵘ A X) -> AListExprᵘ A X
   -- annotation : Text -> AListExprᵘ A X -> AListExprᵘ A X
 
 module _ (A :  𝐏𝐭𝐝₀) where
@@ -44,11 +44,11 @@ module _ {A :  𝐏𝐭𝐝₀} {X : 𝒰₀} where
     makeAListExprᵘs (hole x) = (hole x) ∷ []
     makeAListExprᵘs (var x) = (var pt x) ∷ []
     makeAListExprᵘs (newline x) = []
-    makeAListExprᵘs (horizontal x) = pure-List (list (join-List ((Vec→List (parseHorizontal x)))))
+    makeAListExprᵘs (horizontal x) = pure-List (list pt (join-List ((Vec→List (parseHorizontal x)))))
     makeAListExprᵘs (vertical _ x) = join-List ((Vec→List (parseVertical x)))
 
     makeAListExprᵘ : HsCode X -> (AListExprᵘ A X)
-    makeAListExprᵘ x = list (makeAListExprᵘs x)
+    makeAListExprᵘ x = list pt (makeAListExprᵘs x)
 
 module _ {A :  𝐏𝐭𝐝₀} {X : 𝒰₀} {{_ : IShow X}} {{_ : IShow ⟨ A ⟩}} where
   instance
@@ -63,7 +63,7 @@ module _ {A :  𝐏𝐭𝐝₀} {X : 𝒰₀} {{_ : IShow X}} {{_ : IShow ⟨ A 
           f : AListExprᵘ A X -> Text
           f (hole x) = show x
           f (var ann x) = "{" <> show ann <> "} " <> show x
-          f (list x) = "(" <> fs x <> ")"
+          f (list ann x) = "{" <> show ann <> "} " <> "(" <> fs x <> ")"
 
 
           -- f (annotation t x) = "{" <> t <> "} " <> f x

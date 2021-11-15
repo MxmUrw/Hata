@@ -56,6 +56,7 @@ instance
       lem-1 : ATokenExprAnnᵈ → Text
       lem-1 isvar = "var"
       lem-1 istoken = "token"
+      lem-1 iscall = "call"
 
 
 module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
@@ -75,7 +76,7 @@ module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
     print-ATokenExprᵘ (var ann x) = var (ann , (just isvar)) x
     print-ATokenExprᵘ (hole x) = hole x
     print-ATokenExprᵘ (token ann x) = var (ann , (just istoken)) (tokenName 𝒹 x)
-    print-ATokenExprᵘ (list x) = list (print-ATokenExprᵘs x)
+    print-ATokenExprᵘ (list ann x) = list (ann , (just iscall)) (print-ATokenExprᵘs x)
     -- print-ATokenExprᵘ (annotation t x) = annotation t (print-ATokenExprᵘ x)
 
   print-ATokenExpr : 大MonadHom (_ , ATokenExpr 𝒹 Ann) (_ , AListExpr Ann')
@@ -101,7 +102,7 @@ module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
                                      (λ _ -> var ann x)
                                      λ x → token ann x
     parse-ATokenExpr (hole x) = hole (hole x)
-    parse-ATokenExpr (list x) = list (parse-ATokenExprs x .snd)
+    parse-ATokenExpr (list (ann , _) x) = list ann (parse-ATokenExprs x .snd)
 
     -- parse-ATokenExpr (annotation t x) = annotation t (parse-ATokenExpr x)
 
@@ -112,6 +113,9 @@ module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
     ; eval-infer = {!!}
     }
 
+  infer-TokenExpr : ATokenExprInfer 𝒹 Ann ⟶ AListExprInfer Ann'
+  infer-TokenExpr = (subcathom print-ATokenExpr isInferHom:print-ATokenExpr)
+
 
 
   -- the inference task
@@ -119,6 +123,6 @@ module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
   ATokenExprInferenceTask : {{_ : IShow ⟨ Ann ⟩}} -> InferenceTask _
   ATokenExprInferenceTask = inferenceTask (AListExprInfer Ann') (hasTextInfer:AListExprInfer)
                                           (ATokenExprInfer 𝒹 Ann)
-                                          (subcathom print-ATokenExpr isInferHom:print-ATokenExpr)
+                                          infer-TokenExpr
 
 

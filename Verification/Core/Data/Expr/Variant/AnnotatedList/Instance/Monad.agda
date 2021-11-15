@@ -43,7 +43,7 @@ module _ {Ann : 𝐏𝐭𝐝₀} where
     map-AListExpr : ∀{A B} -> (A -> B) -> AListExpr Ann A -> AListExpr Ann B
     map-AListExpr f (var a x) = var a x
     map-AListExpr f (hole x) = hole (f x)
-    map-AListExpr f (list x) = list (map-AListExprs f x)
+    map-AListExpr f (list ann x) = list ann (map-AListExprs f x)
     -- map-AListExpr f (annotation x xs) = annotation x (map-AListExpr f xs)
 
   instance
@@ -64,7 +64,7 @@ module _ {Ann : 𝐏𝐭𝐝₀} where
     join-AListExpr : ∀ A -> AListExpr Ann (AListExpr Ann A) -> AListExpr Ann A
     join-AListExpr _ (var a x) = var a x
     join-AListExpr _ (hole xs) = xs
-    join-AListExpr _ (list x) = list (join-AListExprs _ x)
+    join-AListExpr _ (list ann x) = list ann (join-AListExprs _ x)
     -- join-AListExpr _ (annotation x xs) = annotation x (join-AListExpr _ xs)
 
   instance
