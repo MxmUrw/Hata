@@ -36,10 +36,6 @@ module _ (I : 𝒰 𝑖) where
 
 
 
-module mytestwhat {𝑖 : 𝔏} (J : 𝒰 𝑗) where
-  bla : (Functor (𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)) (𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖))) -> ℕ
-  bla = {!!}
-
  -- {a b : 𝐈𝐱𝐌𝐧𝐝 𝑖} (f : a ⟶ b)
 module _ (J : 𝒰 𝑗) where
   record hasPseudoInverse {𝑖 : 𝔏} : 𝒰 (join-𝔏 (𝑖 ⁺) 𝑗) where

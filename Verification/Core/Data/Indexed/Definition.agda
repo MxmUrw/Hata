@@ -25,7 +25,11 @@ module _ (I : 𝒰 𝑖) (A : Category 𝑗) where
     𝐈𝐱 : SomeStructure
     𝐈𝐱 = #structureOn (Indexed I A)
 
-
+-- notation with index
+module _ {I : 𝒰 𝑖} {𝒞 : Category 𝑗} where
+  instance
+    Index-Notation:𝐈𝐱 : Index-Notation (𝐈𝐱 I 𝒞) (const I) (λ _ -> ⊤-𝒰 {ℓ₀}) (const ⟨ 𝒞 ⟩)
+    Index-Notation:𝐈𝐱 = record { _⌄_ = λ x i -> ix x i }
 
 module _ {I : 𝒰 𝑖} {A' : 𝒰 𝑗} {{_ : isCategory {𝑘} A'}} where
 

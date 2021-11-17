@@ -123,6 +123,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
 
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
 
+
   ⨆ᶠᵘ : ∀{n : 人List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
   ⨆ᶠᵘ {incl x} a = ix a (x , incl)
   ⨆ᶠᵘ {n ⋆-⧜ n₁} a = {!!}
@@ -131,9 +132,17 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗}
   module _ {n : 人List A} where
     macro ⨆ᶠ = #structureOn (⨆ᶠᵘ {n})
 
+  map-⨆ᶠ : ∀{n} -> {a b : 𝐈𝐱 [ n ]ᶠ 𝒞} -> (f : a ⟶ b) -> ⨆ᶠ a ⟶ ⨆ᶠ b
+  map-⨆ᶠ {incl x} f = f (_ , incl)
+  map-⨆ᶠ {n ⋆-Free-𝐌𝐨𝐧 n₁} f = {!!}
+  map-⨆ᶠ {◌-Free-𝐌𝐨𝐧} f = {!!}
+
   instance
     isFunctor:⨆ᶠ : ∀{n} -> isFunctor (𝐈𝐱 [ n ]ᶠ 𝒞) 𝒞 ⨆ᶠ
-    isFunctor:⨆ᶠ = {!!}
+    isFunctor.map isFunctor:⨆ᶠ = map-⨆ᶠ
+    isFunctor.isSetoidHom:map isFunctor:⨆ᶠ = {!!}
+    isFunctor.functoriality-id isFunctor:⨆ᶠ = {!!}
+    isFunctor.functoriality-◆ isFunctor:⨆ᶠ = {!!}
 
 --------------------------------------------------------------
 -- the indexed coproduct
@@ -145,9 +154,15 @@ module _ {𝒞 : Category 𝑖} {{_ : hasIndexedCoproducts {𝑗} 𝒞}} {A : �
 
   macro ⨆ = #structureOn (⨆ᵘ)
 
+  map-⨆ : ∀{a b} -> a ⟶ b -> ⨆ a ⟶ ⨆ b
+  map-⨆ f = ⦗ (λ i -> f i ◆ ιᵢ i) ⦘ᵢ
+
   instance
     isFunctor:⨆ : isFunctor (𝐈𝐱 A 𝒞) 𝒞 ⨆
-    isFunctor:⨆ = {!!}
+    isFunctor.map isFunctor:⨆ = map-⨆
+    isFunctor.isSetoidHom:map isFunctor:⨆ = {!!}
+    isFunctor.functoriality-id isFunctor:⨆ = {!!}
+    isFunctor.functoriality-◆ isFunctor:⨆ = {!!}
 
 
 

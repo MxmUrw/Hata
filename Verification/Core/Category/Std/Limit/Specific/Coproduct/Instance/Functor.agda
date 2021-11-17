@@ -22,6 +22,10 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : hasCoproducts �
   map-⊔ : ∀{a b c d : 𝒞} -> (a ⟶ b) × (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
   map-⊔ (f , g) = ⦗ f ◆ ι₀ , g ◆ ι₁ ⦘
 
+  infixl 100 _⇃⊔⇂_
+  _⇃⊔⇂_ : ∀{a b c d : 𝒞} -> (a ⟶ b) -> (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
+  _⇃⊔⇂_ = λ₊ map-⊔
+
   private instance
     -- TODO: Why is it necessary to create this local instance?
     _ = isSetoidHom:⦗⦘
