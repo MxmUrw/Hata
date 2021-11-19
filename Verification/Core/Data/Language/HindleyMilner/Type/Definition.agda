@@ -77,8 +77,8 @@ st = incl (incl tt)
 infix 25 ∀[_]_
 record ℒHMPolyTypeᵘ (a : ℒHMTypes) : 𝒰₀ where
   constructor ∀[_]_
-  field fst : ℒHMTypes
-  field snd : ℒHMType ⟨ a ⊔ fst ⟩
+  field fst : ♮𝐒𝐮𝐛𝐬𝐭 ′ Term-𝕋× 𝒹 ′
+  field snd : ℒHMType ⟨ a ⊔ (ι fst) ⟩
   -- Term₁-𝕋× 𝒹 ⟨ (a ⊔ fst) ⟩ tt
 
 open ℒHMPolyTypeᵘ public
@@ -91,7 +91,7 @@ _⇃[_]⇂ x f = subst-⧜𝐒𝐮𝐛𝐬𝐭 f tt x
 
 module _ {a : ℒHMTypes} where
   record ℒHMPolyTypeHom (α β : ℒHMPolyType a) : 𝒰₀ where
-    field fst : fst α ⟶ fst β
+    field fst : ι (fst α) ⟶ ι (fst β)
     field snd : snd α ⇃[ id ⇃⊔⇂ fst ]⇂ ≡ snd β
 
 instance
@@ -134,7 +134,10 @@ instance
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.Monoidal
 
 abstr : ∀{m n : ℒHMTypes} -> ℒHMPolyType (m ⊔ n) -> ℒHMPolyType m
-abstr {m} {n} (∀[ v ] x) = ∀[ (n ⊔ v) ] (x ⇃[ ⟨ assoc-l-⊔ ⟩ ]⇂)
+abstr {m} {n} (∀[ v ] x) = {!!} --  ∀[ (n ⊔ v) ] (x ⇃[ ⟨ assoc-l-⊔ ⟩ ]⇂)
+
+-- abstr : ∀{m n : ℒHMTypes} -> ℒHMPolyType (m ⊔ n) -> ℒHMPolyType m
+-- abstr {m} {n} (∀[ v ] x) = ∀[ (n ⊔ v) ] (x ⇃[ ⟨ assoc-l-⊔ ⟩ ]⇂)
 
 {-
 -}

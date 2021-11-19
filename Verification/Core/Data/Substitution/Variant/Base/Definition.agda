@@ -405,6 +405,13 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 : hasInitial (⧜𝐒𝐮𝐛𝐬𝐭 T)
     hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
 
+  ⊥-⧜𝐒𝐮𝐛𝐬𝐭 : ⧜𝐒𝐮𝐛𝐬𝐭 T
+  ⊥-⧜𝐒𝐮𝐛𝐬𝐭 = incl ◌
+
+  instance
+    isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 : isInitial ⊥-⧜𝐒𝐮𝐛𝐬𝐭
+    isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 = isInitial:⊥
+
   instance
     hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
     hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
