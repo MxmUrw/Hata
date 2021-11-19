@@ -1,26 +1,38 @@
 
 # Table of Contents
 
-1.  [Project Hata](#org825c4bf)
-    1.  [Goal](#org6724814)
-    2.  [Current state](#orgc81ea6a)
-        1.  [Concerning formalization of mathematics](#org9e0e0d2)
-        2.  [Concerning execution of the code](#orgd5938f8)
-        3.  [Concerning compilation to pdf](#orgdc5a71d)
+1.  [Project Hata](#orga64c632)
+    1.  [Goal](#orgf204207)
+    2.  [Philosophy](#orgb0be30c)
+    3.  [Current state](#org09eb827)
+        1.  [Concerning formalization of mathematics](#orgc74acd6)
+        2.  [Concerning execution of the code](#org760b4fa)
+        3.  [Concerning compilation to pdf](#orgdc1065f)
 
 
-<a id="org825c4bf"></a>
+<a id="orga64c632"></a>
 
 # Project Hata
 
 
-<a id="org6724814"></a>
+<a id="orgf204207"></a>
 
 ## Goal
 
 The goal of this project is to formalize enough mathematics (category theory, algebra) to
 be able to do proper verified development of theoretical computer science, i.e., type theory,
 logic, algorithms, compilation.
+
+Currently, the focus is on creating a theory of type checking / type inference systems. It should
+include the full pipeline a real world programming language needs to have: from a collection of files
+in the file system via an interactive editor to an internal data type of well typed terms of that language.
+This means that a proper way to record errors, as well as information derived during the inference process
+will be a core part of the theory.
+
+
+<a id="orgb0be30c"></a>
+
+## Philosophy
 
 The philosophy of the formalization is that 3 aspects should be accommodated with as few
 compromises as possible:
@@ -33,7 +45,7 @@ compromises as possible:
     than e.g. Tex.
 
 
-<a id="orgc81ea6a"></a>
+<a id="org09eb827"></a>
 
 ## Current state
 
@@ -48,7 +60,7 @@ Explanation of the checkboxes:
     once was implemented, but is currently pending a rewrite (REW) (being out of date because of rewrites in other places).
 
 
-<a id="org9e0e0d2"></a>
+<a id="orgc74acd6"></a>
 
 ### Concerning formalization of mathematics
 
@@ -99,7 +111,7 @@ Explanation of the checkboxes:
         -   [ ] Generic definition of the concept of a "type theory"
 
 
-<a id="orgd5938f8"></a>
+<a id="org760b4fa"></a>
 
 ### Concerning execution of the code
 
@@ -110,7 +122,7 @@ Explanation of the checkboxes:
     -   [ ] Parsing of lambda calculus terms into AST
 
 
-<a id="orgdc5a71d"></a>
+<a id="orgdc1065f"></a>
 
 ### Concerning compilation to pdf
 

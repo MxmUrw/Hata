@@ -5,6 +5,13 @@
    be able to do proper verified development of theoretical computer science, i.e., type theory,
    logic, algorithms, compilation.
 
+   Currently, the focus is on creating a theory of type checking / type inference systems. It should
+   include the full pipeline a real world programming language needs to have: from a collection of files
+   in the file system via an interactive editor to an internal data type of well typed terms of that language.
+   This means that a proper way to record errors, as well as information derived during the inference process
+   will be a core part of the theory.
+
+** Philosophy
    The philosophy of the formalization is that 3 aspects should be accommodated with as few
    compromises as possible:
     - The code should compile into a native binary.
