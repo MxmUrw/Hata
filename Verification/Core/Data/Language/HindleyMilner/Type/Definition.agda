@@ -10,6 +10,10 @@ open import Verification.Core.Data.AllOf.Collection.TermTools
 open import Verification.Core.Category.Std.AllOf.Collection.Basics
 open import Verification.Core.Category.Std.AllOf.Collection.Limits
 
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Computation.Unification.Definition
+
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
@@ -85,9 +89,22 @@ open ℒHMPolyTypeᵘ public
 
 macro ℒHMPolyType = #structureOn ℒHMPolyTypeᵘ
 
+asArr : ∀ {a} -> ℒHMType ⟨ a ⟩ -> st ⟶ a
+asArr t = ⧜subst (incl t)
+
+fromArr : ∀ {a} -> st ⟶ a -> ℒHMType ⟨ a ⟩
+fromArr (⧜subst (incl x)) = x
+
+abstract
+  unify-ℒHMTypes : ∀{a b : ℒHMTypes} -> (f g : a ⟶ b) -> (¬ hasCoequalizerCandidate (f , g)) +-𝒰 (hasCoequalizer f g)
+  unify-ℒHMTypes f g = unify f g
+
 _⇃[_]⇂ : ∀{a b : ℒHMTypes} -> Term₁-𝕋× 𝒹 ⟨ a ⟩ tt -> (a ⟶ b) -> Term₁-𝕋× 𝒹 ⟨ b ⟩ tt
 _⇃[_]⇂ x f = subst-⧜𝐒𝐮𝐛𝐬𝐭 f tt x
 
+
+_⇃[_]⇂-poly : ∀{a b : ℒHMTypes} -> ℒHMPolyType a -> (a ⟶ b) -> ℒHMPolyType b
+_⇃[_]⇂-poly (∀[ vs ] α) f = ∀[ vs ] (α ⇃[ f ⇃⊔⇂ id ]⇂)
 
 module _ {a : ℒHMTypes} where
   record ℒHMPolyTypeHom (α β : ℒHMPolyType a) : 𝒰₀ where
@@ -120,6 +137,8 @@ instance
   isFunctor.functoriality-id isFunctor:ℒHMPolyTypeᵘ = {!!}
   isFunctor.functoriality-◆ isFunctor:ℒHMPolyTypeᵘ = {!!}
 
+-----------------------------------------
+-- Ctx'
 
 ℒHMCtxᵘ : ℒHMTypes -> 𝐔𝐧𝐢𝐯₀
 ℒHMCtxᵘ = 人List ∘ ℒHMPolyType
@@ -129,6 +148,35 @@ macro ℒHMCtx = #structureOn ℒHMCtxᵘ
 instance
   isFunctor:ℒHMCtx : isFunctor ℒHMTypes 𝐔𝐧𝐢𝐯₀ ℒHMCtx
   isFunctor:ℒHMCtx = {!!}
+
+-----------------------------------------
+-- Ctx'
+
+
+module _ (n : ♮ℕ) (m : ℒHMTypes) where
+  ℒHMCtx'ᵘ = DList (const (ℒHMPolyType m)) n
+
+module _ (n : ♮ℕ) where
+  macro ℒHMCtx' = #structureOn (ℒHMCtx'ᵘ n)
+
+map-ℒHMCtx' : ∀{n : ♮ℕ} -> {a b : ℒHMTypes} -> a ⟶ b -> ℒHMCtx' n a ⟶ ℒHMCtx' n b
+map-ℒHMCtx' f [] = []
+map-ℒHMCtx' f (b ∷ x) = (mapOf ℒHMPolyType f b) ∷ map-ℒHMCtx' f x
+
+instance
+  isFunctor:ℒHMCtx'  : ∀{n} -> isFunctor ℒHMTypes 𝐔𝐧𝐢𝐯₀ (ℒHMCtx' n)
+  isFunctor.map isFunctor:ℒHMCtx' = map-ℒHMCtx'
+  isFunctor.isSetoidHom:map isFunctor:ℒHMCtx' = {!!}
+  isFunctor.functoriality-id isFunctor:ℒHMCtx' = {!!}
+  isFunctor.functoriality-◆ isFunctor:ℒHMCtx' = {!!}
+
+
+_⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx' k a -> (a ⟶ b) -> ℒHMCtx' k b
+_⇃[_]⇂-Ctx x f = map-ℒHMCtx' f x
+-- (∀[ vs ] α) f = ∀[ vs ] (α ⇃[ f ⇃⊔⇂ id ]⇂)
+
+
+
 
 -- TODO: move this into a collection
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.Monoidal

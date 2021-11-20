@@ -17,6 +17,8 @@ macro
   𝐂𝐚𝐭 : ∀ 𝑖 -> SomeStructure
   𝐂𝐚𝐭 𝑖 = #structureOn (Category 𝑖)
 
+macro 𝐂𝐚𝐭₀ = #structureOn (Category (ℓ₀ , ℓ₀ , ℓ₀))
+
 
 module _ {𝒞 : Category 𝑖} where
   id-𝐂𝐚𝐭 : Functor 𝒞 𝒞

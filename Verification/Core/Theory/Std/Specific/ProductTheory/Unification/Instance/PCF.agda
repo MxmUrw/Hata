@@ -61,8 +61,14 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isPrincipalFamilyCat:𝐂𝐭𝐱-𝕋× : isPrincipalFamilyCat (𝐂𝐭𝐱 𝑨)
     isPrincipalFamilyCat:𝐂𝐭𝐱-𝕋× = record { isBase = isBase-𝕋× ; ∂C = ∂-𝕋× ; isPrincipalC:Base = decide-Base-𝕋× }
 
-  instance
-    hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
-    hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat
+  -- abstract
+  --   instance
+  --     hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
+  --     hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat
+
+  abstract
+    instance
+      hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
+      hasUnification:𝐂𝐭𝐱-𝕋× = {!!} --  hasUnification:byPrincipalFamilyCat
 
 

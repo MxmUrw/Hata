@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Untyped.Definition where
+module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Core.Set.Discrete
@@ -14,21 +14,20 @@ open import Verification.Core.Data.AllOf.Collection.TermTools
 -- open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
 
-macro 𝐂𝐚𝐭₀ = #structureOn (Category (ℓ₀ , ℓ₀ , ℓ₀))
 
-data UntypedℒHMᵈ (X : ♮ℕ -> 𝒰₀) : (Γ : ♮ℕ) -> 𝒰₀ where
-  -- var  : ∀{i Γ} -> Γ ∍ i -> UntypedℒHMᵈ X Γ
-  var  : ∀{Γ} -> UntypedℒHMᵈ X Γ
-  hole : ∀{Γ} -> X Γ -> UntypedℒHMᵈ X Γ
-  slet : ∀{Γ} -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X (tt ∷ Γ) -> UntypedℒHMᵈ X Γ
-  app : ∀{Γ} -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X Γ
-  lam : ∀{Γ} -> UntypedℒHMᵈ X (tt ∷ Γ) -> UntypedℒHMᵈ X Γ
+data UntypedℒHMᵈ : (Γ : ♮ℕ) -> 𝒰₀ where
+  -- var  : ∀{i Γ} -> Γ ∍ i -> UntypedℒHMᵈ Γ
+  var  : ∀{Γ} -> UntypedℒHMᵈ Γ
+  slet : ∀{Γ} -> UntypedℒHMᵈ Γ -> UntypedℒHMᵈ (tt ∷ Γ) -> UntypedℒHMᵈ Γ
+  app : ∀{Γ} -> UntypedℒHMᵈ Γ -> UntypedℒHMᵈ Γ -> UntypedℒHMᵈ Γ
+  lam : ∀{Γ} -> UntypedℒHMᵈ (tt ∷ Γ) -> UntypedℒHMᵈ Γ
 
+UntypedℒHM = UntypedℒHMᵈ
 
-UntypedℒHMᵘ : 𝐈𝐱 _ (𝐔𝐧𝐢𝐯 ℓ₀) -> 𝐈𝐱 _ (𝐔𝐧𝐢𝐯 ℓ₀)
-UntypedℒHMᵘ A = indexed (UntypedℒHMᵈ (ix A))
+-- UntypedℒHMᵘ : 𝐈𝐱 _ (𝐔𝐧𝐢𝐯 ℓ₀)
+-- UntypedℒHMᵘ = indexed (UntypedℒHMᵈ)
 
-macro UntypedℒHM = #structureOn UntypedℒHMᵘ
+-- macro UntypedℒHM = #structureOn UntypedℒHMᵘ
 
 
 
