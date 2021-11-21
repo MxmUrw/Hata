@@ -171,11 +171,10 @@ instance
   isFunctor.functoriality-◆ isFunctor:ℒHMCtx' = {!!}
 
 
+infixl 80 _⇃[_]⇂-Ctx _⇃[_]⇂
 _⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx' k a -> (a ⟶ b) -> ℒHMCtx' k b
 _⇃[_]⇂-Ctx x f = map-ℒHMCtx' f x
 -- (∀[ vs ] α) f = ∀[ vs ] (α ⇃[ f ⇃⊔⇂ id ]⇂)
-
-
 
 
 -- TODO: move this into a collection

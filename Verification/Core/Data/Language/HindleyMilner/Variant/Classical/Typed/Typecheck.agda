@@ -34,9 +34,9 @@ record CtxTypingInstance {μs k} (Γ : ℒHMCtx' k μs) (te : UntypedℒHM k) : 
   constructor _⊩_,_,_,_
   field metas : ℒHMTypes
   field ctx : ℒHMCtx' k metas
-  field typ : ℒHMType (⟨ metas ⊔ ⊥ ⟩)
+  field typ : ℒHMType (⟨ metas ⟩)
   field isInstance : Γ <Γ ctx
-  field hasType : isTypedℒHM (metas ⊩ ctx ⊢ (∀[ (incl ◌) ] typ)) te
+  field hasType : isTypedℒHM (metas ⊩ ctx ⊢ typ) te
 
 open CtxTypingInstance public
 
@@ -45,11 +45,49 @@ open CtxTypingInstance public
     +
      CtxTypingInstance Γ te
 γ Γ var = {!!}
-γ Γ (slet te te₁) = {!!}
+γ Γ (slet te se) with γ Γ te
+... | (left _) = {!!}
+... | (right (νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀)) =
+  let νs₀' , Γ₀' , τ₀' , isAb = abstr-Ctx Γ₀⊢τ₀
+
+      ϕ = metasProof isAb
+
+      κs = τ₀' .fst
+
+      -- add the type τ₀' to the context
+      -- and typecheck se
+      x = γ (τ₀' ∷ Γ₀') se
+
+  in case x of
+        {!!}
+
+        -- if we get a good result
+        λ {(μs ⊩ (τ₁ ∷ Γ₁) , β , Γ₁<τ₀Γ , Γ₁⊢τ₁) →
+
+          let σ = fst Γ₁<τ₀Γ
+
+              Γ₀v = Γ₀ ⇃[ ⟨ ϕ ⟩⁻¹ ◆ (σ ⇃⊔⇂ id) ]⇂-Ctx
+              τ₀v = τ₀ ⇃[ ⟨ ϕ ⟩⁻¹ ◆ (σ ⇃⊔⇂ id) ]⇂
+
+              tepv : isTypedℒHM ((μs ⊔ ι κs) ⊩ Γ₀v ⊢ τ₀v) te
+              tepv = §-isTypedℒHM.prop-2 _ Γ₀⊢τ₀
+
+              abPv : isAbstr (ι (τ₁ .fst)) Γ₀v Γ₁ τ₀v (τ₁ .snd)
+              abPv =
+                let
+                    lem-1 : μs ⊔ ι (τ₁ .fst) ≅ (μs ⊔ ι κs)
+                    lem-1 = {!!} -- but we know that actually ι (τ₁.fst) ≡ ι κs
+                                 -- since they both come from the quantified part of the context
+                in record { metasProof = lem-1 ; ctxProof = {!!} ; typeProof = {!!} }
+
+          in right (μs ⊩ Γ₁ , β , {!!} , slet abPv tepv Γ₁⊢τ₁)
+        }
 
 -- the case of an application
 -- typecheck the first term with the given context
-γ Γ (app te se) with γ Γ te
+γ Γ (app te se) = {!!}
+{-
+ with γ Γ te
 ... | (left _) = {!!}
 ... | (right (νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀ )) with γ Γ₀ se
 ... | (left _) = {!!}
@@ -61,11 +99,11 @@ open CtxTypingInstance public
 
     -- we lift the old type τ₀ to the metas νs₁
     τ₀' : ℒHMType _
-    τ₀' = τ₀ ⇃[ σ₀ ⇃⊔⇂ id ]⇂
+    τ₀' = τ₀ ⇃[ σ₀ ]⇂
 
     -- we need a new type variable for the return
     -- type of the application, so we move to νs₂
-    νs₂ = (νs₁ ⊔ ⊥) ⊔ st
+    νs₂ = (νs₁) ⊔ st
 
     τ₀'' : ℒHMType ⟨ νs₂ ⟩
     τ₀'' = τ₀' ⇃[ ι₀ ]⇂
@@ -76,13 +114,13 @@ open CtxTypingInstance public
 
     -- the types which we unify are:
     ϕ : ℒHMType ⟨ νs₂ ⟩
-    ϕ = τ₀'' ⇒ β
+    ϕ = τ₀''
 
     τ₁' : ℒHMType ⟨ νs₂ ⟩
-    τ₁' = τ₁ ⇃[ ι₀ ]⇂
+    τ₁' = τ₁ ⇃[ ι₀ ]⇂ ⇒ β
 
     Γ₁' : ℒHMCtx' _ νs₂
-    Γ₁' = Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂-Ctx
+    Γ₁' = Γ₁ ⇃[ ι₀ ]⇂-Ctx
 
     res = unify-ℒHMTypes (asArr ϕ) (asArr τ₁')
 
@@ -90,17 +128,31 @@ open CtxTypingInstance public
            {!!}
            λ x →
              let σ = π₌
-                 β₂ = β ⇃[ σ ◆ ι₀ ]⇂
+                 β₂ = β ⇃[ σ ]⇂
                  Γ₂ = Γ₁' ⇃[ σ ]⇂-Ctx
 
-             in right (⟨ x ⟩ ⊩ Γ₂ , β₂ , {!!} , app {!!} {!!})
+                 -- move the typing of se to Γ₂ = Γ₁[ ι₀ ◆ σ ]
+                 sp : isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx) ⊢ (τ₁ ⇃[ ι₀ ]⇂)) se
+                 sp = §-isTypedℒHM.prop-2 ι₀ Γ₁⊢τ₁
 
+                 sp' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₁ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂)) se
+                 sp' = §-isTypedℒHM.prop-2 σ sp
 
--- ... | (left _) = {!!}
--- ... | (right res) = {!!}
+                 -- move the typing of te to Γ₂ = Γ₀[ σ₀ ◆ ι₀ ◆ σ ]
+                 tp : isTypedℒHM (νs₁ ⊩ Γ₁ ⊢ (τ₀ ⇃[ σ₀ ]⇂)) te
+                 tp = {!!}
 
+                 tp' : isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx) ⊢ (τ₀ ⇃[ σ₀ ]⇂ ⇃[ ι₀ ]⇂)) te
+                 tp' = §-isTypedℒHM.prop-2 ι₀ tp
 
+                 tp'' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₀ ⇃[ σ₀ ]⇂ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂)) te
+                 tp'' = §-isTypedℒHM.prop-2 σ tp'
 
+                 tp''' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₁ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂ ⇒ β ⇃[ σ ]⇂)) te
+                 tp''' = {!!}
+
+             in right (⟨ x ⟩ ⊩ Γ₂ , β₂ , {!!} , app tp'''  sp')
+-}
 
 -- the case of a lambda
 γ {μs} {k} Γ (lam te) = {!!}

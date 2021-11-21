@@ -51,7 +51,7 @@ record ℒHMJudgementᵈ : 𝒰₀ where
   field {contextsize} : ♮ℕ
   field context : DList (const (ℒHMPolyType metavars)) contextsize
   -- ℒHMCtx' metavars
-  field type : ℒHMPolyType metavars
+  field type : ℒHMType ⟨ metavars ⟩
 
 open ℒHMJudgementᵈ public
 
@@ -73,38 +73,61 @@ pattern _∷'_ x xs = _∷_ {a = tt} x xs
 infix 30 ∀[]_
 pattern ∀[]_ xs = ∀[ incl [] ] xs
 
-data isAbstr (m : ℒHMTypes) : (a b : ℒHMJudgement) -> 𝒰₀ where
+record isAbstr {k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtx' k μs₀) (Γ₁ : ℒHMCtx' k μs₁)
+               (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
+  field metasProof : (μs₁ ⊔ κs) ≅ μs₀
+  field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ Γ₀
+  field typeProof : τ₁ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₀
+
+open isAbstr public
+
+
   -- incl : ∀{k n} -> ∀{τ : ℒHMPolyType (n ⊔ m)} -> ∀{Γ : ℒHMCtx' n k}
   --        -> isAbstr m (mapOf ℒHMCtx' ι₀ μs ⊩ Γ ⊢ τ) (μs ⊩ Γ ⊢ abstr τ)
 
+record Abstraction (𝐽 : ℒHMJudgement) : 𝒰₀ where
+  field baseMetas : ℒHMTypes
+  field extraMetas : ℒHMTypes
+  field metasProof : (baseMetas ⊔ extraMetas) ≅ metavars 𝐽
+  field baseCtx : ℒHMCtx' _ baseMetas
+  field baseCtxProof : baseCtx ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ context 𝐽
+  field baseType : ℒHMType ⟨ baseMetas ⊔ extraMetas ⟩
+  field baseTypeProof : baseType ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ type 𝐽
+
+open Abstraction public
+
 data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
-  var  : ∀{μs k} -> {Γ : ℒHMCtx' k μs} {α : ℒHMPolyType μs}
+  var  : ∀{μs k} -> {Γ : ℒHMCtx' k μs} {α : ℒHMType ⟨ μs ⟩}
          -- -> Γ ∍ α
          -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α) var
 
 
-  gen : ∀{k μs te} {Γ₀ Γ₁ : ℒHMCtx' k μs} {τ₀ τ₁ : ℒHMPolyType μs}
+{-
+  gen : ∀{k μs te} {Γ₀ Γ₁ : ℒHMCtx' k μs} {τ₀ τ₁ : ℒHMType ⟨ μs ⟩}
         -> isAbstr μs (μs ⊩ Γ₀ ⊢ τ₀) (μs ⊩ Γ₁ ⊢ τ₁)
         -> isTypedℒHMᵈ (μs ⊩ Γ₀ ⊢ τ₀) te
         -> isTypedℒHMᵈ (μs ⊩ Γ₁ ⊢ τ₁) te
+-}
 
-  app : ∀{μs k te₀ te₁} {Γ : ℒHMCtx' k μs} {α β : Term₁-𝕋× 𝒹 (⟨ μs ⟩ ⋆ ◌) tt}
-        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ ∀[ (incl ◌) ] (α ⇒ β)) te₀
-        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ ∀[ (incl ◌) ] α) te₁
-        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ ∀[ (incl ◌) ] β) (app te₀ te₁)
+  app : ∀{μs k te₀ te₁} {Γ : ℒHMCtx' k μs} {α β : ℒHMType ⟨ μs ⟩}
+        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ (α ⇒ β)) te₀
+        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α) te₁
+        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ β) (app te₀ te₁)
 
-{-
-  lam : ∀{μs k} {Γ : ℒHMCtx' k μs} {α β : Term₁-𝕋× 𝒹 ⟨ μs ⊔ ⊥ ⟩ tt}
-        -> isTypedℒHMᵈ (μs ⊩ ((∀[] α) ∷' Γ) ⊢ ∀[] β)
-        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ ∀[] α ⇒ β)
-        -}
+  lam : ∀{μs k te} {Γ : ℒHMCtx' k μs}
+         {α : ℒHMType ⟨ μs ⟩}
+         {β : ℒHMType ⟨ μs ⟩}
+         -> isTypedℒHMᵈ (μs ⊩ ((∀[] (α ⇃[ ι₀ ]⇂)) ∷' Γ) ⊢ β) te
+         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α ⇒ β) (lam te)
 
-
-  lam2 : ∀{μs k vβ te} {Γ : ℒHMCtx' k μs}
-         {α : Term₁-𝕋× 𝒹 ⟨ μs ⊔ ⊥ ⟩ tt}
-         {β : Term₁-𝕋× 𝒹 ⟨ μs ⊔ ι vβ ⟩ tt}
-         -> isTypedℒHMᵈ (μs ⊩ ((∀[] α) ∷' Γ) ⊢ ∀[ vβ ] β) te
-         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ ∀[ vβ ] (α ⇃[ id {a = μs} ⇃⊔⇂ elim-⊥ ]⇂) ⇒ β) (lam te)
+  slet : ∀{μs κs νs k te₀ te₁} {Γ : ℒHMCtx' k μs} {Γ' : ℒHMCtx' k νs}
+        -> {α : ℒHMType ⟨ μs ⟩}
+        -> {α' : ℒHMType ⟨ νs ⊔ ι κs ⟩}
+        -> {β : ℒHMType ⟨ νs ⟩}
+        -> isAbstr (ι κs) Γ Γ' α α'
+        -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α) te₀
+        -> isTypedℒHMᵈ (νs ⊩ (∀[ κs ] α' ∷ Γ') ⊢ β) te₁
+        -> isTypedℒHMᵈ (νs ⊩ Γ' ⊢ β) (slet te₀ te₁)
 
 {-
   -- convert : ∀{m0 m1 k} -> (m0 ⟶ m1) -> {Γ₀ : ℒHMCtx' k m0} -> ∀{τ₀} -> {Γ₁ : ℒHMCtx' k m1} -> ∀{τ₁}
@@ -127,25 +150,35 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
 isTypedℒHM = isTypedℒHMᵈ
 
 module §-isTypedℒHM where
-  prop-1 : ∀{μs k} -> {Γ : ℒHMCtx' k μs} {τ : ℒHMPolyType μs}
+  prop-1 : ∀{μs k} -> {Γ : ℒHMCtx' k μs} {τ : ℒHMType ⟨ μs ⟩}
            -> ∀ te
            -> isTypedℒHM (μs ⊩ Γ ⊢ τ) (lam te)
-           -> ∑ λ νs -> ∑ λ (Δ : ℒHMCtx' (tt ∷ k) νs) -> ∑ λ (τ' : ℒHMPolyType νs)
+           -> ∑ λ νs -> ∑ λ (Δ : ℒHMCtx' (tt ∷ k) νs) -> ∑ λ (τ' : ℒHMType ⟨ νs ⟩)
            -> isTypedℒHM (νs ⊩ Δ ⊢ τ') te
-  prop-1 te (lam2 p) = {!!} , ({!!} , ({!!} , p))
+  prop-1 te (lam p) = {!!} , ({!!} , ({!!} , p))
 
 
-  prop-2 : ∀{k μs νs te} {Γ : ℒHMCtx' k μs} {τ : ℒHMPolyType μs}
+  prop-2 : ∀{k μs νs te} {Γ : ℒHMCtx' k μs} {τ : ℒHMType ⟨ μs ⟩}
          -> (σ : μs ⟶ νs)
          -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
-         -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂-poly)) te
+         -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂)) te
   prop-2 σ var = {!!}
   prop-2 σ (app te se) =
     let te' = prop-2 σ te
         se' = prop-2 σ se
     in app te' se'
-  prop-2 σ (lam2 te) = {!!} --  let res = prop-2 σ te
-                        -- in lam2 res
+  prop-2 σ (lam te) = let res = prop-2 σ te
+                      in lam {!!} -- res
+
+  prop-2 σ (slet ab te se) = {!!}
+
+abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx' k μs} -> {τ : ℒHMType ⟨ μs ⟩}
+          -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
+          -> ∑ λ νs -> ∑ λ (Γ' : ℒHMCtx' k νs) -> ∑ λ (τ' : ℒHMPolyType νs)
+          -> isAbstr _ Γ Γ' τ (snd τ')
+            -- -> 
+            -- -> isTypedℒHM (νs ⊩ Γ' ⊢ τ') te
+abstr-Ctx = {!!}
 
   -- isTypedℒHM
   -- (νs ⊩ Γ ⇃[ σ ]⇂-Ctx ⊢
