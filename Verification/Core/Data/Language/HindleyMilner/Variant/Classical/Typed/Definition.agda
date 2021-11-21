@@ -44,6 +44,18 @@ module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
   size-DList : ∀{m} -> DList F m -> List A
   size-DList {m} _ = m
 
+module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
+  lookup-DList : ∀{as : List A} -> (xs : DList B as) -> ∀{a} -> (as ∍♮ a) -> B a
+  lookup-DList = {!!}
+
+
+
+-- module _ {A : 𝒰 𝑖} where
+--   data _∍♮D_ : ∀{as : ♮ℕ} -> (xs : ConstDList A as) -> (a : A) -> 𝒰 𝑖 where
+
+    -- incl : ∀{a bs} -> (a ∷ bs) ∍♮ a
+    -- skip : ∀{a b bs} -> bs ∍♮ a ->  (b ∷ bs) ∍♮ a
+
 
 record ℒHMJudgementᵈ : 𝒰₀ where
   constructor _⊩_⊢_
@@ -96,10 +108,13 @@ record Abstraction (𝐽 : ℒHMJudgement) : 𝒰₀ where
 
 open Abstraction public
 
+
 data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
-  var  : ∀{μs k} -> {Γ : ℒHMCtx' k μs} {α : ℒHMType ⟨ μs ⟩}
-         -- -> Γ ∍ α
-         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α) var
+  var  : ∀{μs k i} -> {Γ : ℒHMCtx' k μs} -> ∀{vα vα' α}
+         -> (k∍i : k ∍♮ i)
+         -> lookup-DList Γ k∍i ≣ (∀[ vα ] α)
+         -> (σ : ι vα ⟶ vα')
+         -> isTypedℒHMᵈ ((μs ⊔ vα') ⊩ Γ ⇃[ ι₀ ]⇂-Ctx ⊢ α ⇃[ id ⇃⊔⇂ σ ]⇂) (var k∍i)
 
 
 {-
@@ -162,7 +177,7 @@ module §-isTypedℒHM where
          -> (σ : μs ⟶ νs)
          -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
          -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂)) te
-  prop-2 σ var = {!!}
+  prop-2 σ (var x xp ρ) = {!!}
   prop-2 σ (app te se) =
     let te' = prop-2 σ te
         se' = prop-2 σ se

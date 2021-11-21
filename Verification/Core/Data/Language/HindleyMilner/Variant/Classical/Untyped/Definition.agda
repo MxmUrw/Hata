@@ -17,7 +17,7 @@ open import Verification.Core.Data.AllOf.Collection.TermTools
 
 data UntypedℒHMᵈ : (Γ : ♮ℕ) -> 𝒰₀ where
   -- var  : ∀{i Γ} -> Γ ∍ i -> UntypedℒHMᵈ Γ
-  var  : ∀{Γ} -> UntypedℒHMᵈ Γ
+  var  : ∀{Γ i} -> Γ ∍♮ i -> UntypedℒHMᵈ Γ
   slet : ∀{Γ} -> UntypedℒHMᵈ Γ -> UntypedℒHMᵈ (tt ∷ Γ) -> UntypedℒHMᵈ Γ
   app : ∀{Γ} -> UntypedℒHMᵈ Γ -> UntypedℒHMᵈ Γ -> UntypedℒHMᵈ Γ
   lam : ∀{Γ} -> UntypedℒHMᵈ (tt ∷ Γ) -> UntypedℒHMᵈ Γ

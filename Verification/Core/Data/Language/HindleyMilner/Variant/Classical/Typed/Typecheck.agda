@@ -44,7 +44,10 @@ open CtxTypingInstance public
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      CtxTypingInstance Γ te
-γ Γ var = {!!}
+γ {μs} {k} Γ (var k∍i) =
+  let ∀[ vα ] α = lookup-DList Γ k∍i
+  in right ((μs ⊔ ι vα) ⊩ Γ ⇃[ ι₀ ]⇂-Ctx , α ⇃[ id ⇃⊔⇂ id ]⇂ , {!!} , var k∍i refl-≣ id)
+
 γ Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
 ... | (right (νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀)) =
