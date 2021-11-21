@@ -9,12 +9,15 @@ open import Verification.Core.Data.AllOf.Collection.Basics
 open import Verification.Core.Data.AllOf.Collection.TermTools
 open import Verification.Core.Category.Std.AllOf.Collection.Basics
 open import Verification.Core.Category.Std.AllOf.Collection.Limits
+open import Verification.Core.Category.Std.Category.Subcategory.Full
 
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
+
+open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
 
 -----------------------------------------
 -- 人Vecᵖ
@@ -36,6 +39,7 @@ get-∍-人Vecᵖ = {!!}
 
 -}
 
+
 module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
   size-D人List : ∀{m} -> D人List F m -> 人List A
   size-D人List {m} _ = m
@@ -44,17 +48,48 @@ module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
   size-DList : ∀{m} -> DList F m -> List A
   size-DList {m} _ = m
 
+  split-DList : ∀{as : List A} {a : A} -> DList F (a ∷ as) -> (F a) × DList F as
+  split-DList (b ∷ xs) = b , xs
+
+
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
   lookup-DList : ∀{as : List A} -> (xs : DList B as) -> ∀{a} -> (as ∍♮ a) -> B a
-  lookup-DList = {!!}
+  lookup-DList (b ∷ xs) incl = b
+  lookup-DList (b ∷ xs) (skip p) = lookup-DList xs p
+
+
+ι∀∍ : ∀{μs νs k i} -> (Γ : ℒHMCtx' k μs) -> (k∍i : k ∍♮ i)
+      -> ∀ {σ : μs ⟶ νs}
+      -> ι (lookup-DList (Γ ⇃[ σ ]⇂-Ctx) k∍i .fst) ≅ ι (lookup-DList Γ k∍i .fst)
+ι∀∍ (b ∷ Γ) incl = refl-≅
+ι∀∍ (b ∷ Γ) (skip k∍i) = ι∀∍ Γ k∍i
+
+module §-ℒHMCtx where
+
+{-
+  prop-1 : ∀{μs νs k i} -> {Γ : ℒHMCtx' k μs} -> (k∍i : k ∍♮ i)
+           -> ∀ (σ : μs ⊔ _ ⟶ νs)
+           -> lookup-DList Γ k∍i .snd ⇃[ σ ]⇂ ≡ lookup-DList (Γ ⇃[ ι₀ ◆ σ ]⇂-Ctx) k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Γ k∍i ⟩ ◆ ι₁ ◆ σ ⦘ ]⇂
+  prop-1 {Γ = (∀[ vα ] α) ∷ Γ} incl σ =
+    let p : α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂ ≡ α ⇃[ σ ]⇂
+        p = α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂ ⟨ functoriality-⇃[]⇂ {τ = α} {f = (ι₀ ◆ σ) ⇃⊔⇂ id} {g = ⦗ id , id ◆ ι₁ ◆ σ ⦘} ⟩-≡
+            α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ◆ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂     ⟨ {!!} ⟩-≡
+            -- call what we need here `append-⇃⊔⇂` vs `append-⇃⊓⇂`
+            α ⇃[ σ ]⇂                                          ∎-≡
+    in sym-Path p
+  prop-1 {Γ = b ∷ Γ} (skip k∍i) σ = {!!}
+  -}
+
+  prop-2 : ∀{μs νs₀ νs₁ : ℒHMTypes} -> ∀{k i} -> {Γ : ℒHMCtx' k μs} -> (k∍i : k ∍♮ i)
+           -> ∀ (σ₀ : μs ⟶ νs₀)
+           -> ∀ (σ₁ : ι (lookup-DList (Γ ⇃[ σ₀ ]⇂-Ctx) k∍i .fst) ⟶ νs₁)
+           -> lookup-DList (Γ ⇃[ σ₀ ]⇂-Ctx) k∍i .snd ⇃[ (id ⇃⊔⇂ σ₁) ]⇂
+             ≡ lookup-DList Γ k∍i .snd ⇃[ σ₀ ⇃⊔⇂ (⟨ ι∀∍ Γ k∍i ⟩⁻¹ ◆ σ₁) ]⇂
+  prop-2 {Γ = b ∷ Γ} incl σ₀ σ₁ = {!!}
+  prop-2 {Γ = b ∷ Γ} (skip k∍i) σ₀ σ₁ = {!!}
 
 
 
--- module _ {A : 𝒰 𝑖} where
---   data _∍♮D_ : ∀{as : ♮ℕ} -> (xs : ConstDList A as) -> (a : A) -> 𝒰 𝑖 where
-
-    -- incl : ∀{a bs} -> (a ∷ bs) ∍♮ a
-    -- skip : ∀{a b bs} -> bs ∍♮ a ->  (b ∷ bs) ∍♮ a
 
 
 record ℒHMJudgementᵈ : 𝒰₀ where
@@ -62,24 +97,17 @@ record ℒHMJudgementᵈ : 𝒰₀ where
   field metavars : ℒHMTypes
   field {contextsize} : ♮ℕ
   field context : DList (const (ℒHMPolyType metavars)) contextsize
-  -- ℒHMCtx' metavars
   field type : ℒHMType ⟨ metavars ⟩
 
 open ℒHMJudgementᵈ public
 
 macro ℒHMJudgement = #structureOn ℒHMJudgementᵈ
 
--- instance
---   isCategory:ℒHMJudgement : isCategory {ℓ₀ , ℓ₀} ℒHMJudgement
---   isCategory:ℒHMJudgement = {!!}
-
 sᵘ : ℒHMJudgement -> ♮ℕ
 sᵘ (_ ⊩ Γ ⊢ τ) = size-DList Γ
 
 macro s = #structureOn sᵘ
 
--- ℒHMJudgementCategory : 𝐂𝐚𝐭₀
--- ℒHMJudgementCategory = ℒHMJudgement
 
 pattern _∷'_ x xs = _∷_ {a = tt} x xs
 infix 30 ∀[]_
@@ -94,19 +122,16 @@ record isAbstr {k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtx' k μs�
 open isAbstr public
 
 
-  -- incl : ∀{k n} -> ∀{τ : ℒHMPolyType (n ⊔ m)} -> ∀{Γ : ℒHMCtx' n k}
-  --        -> isAbstr m (mapOf ℒHMCtx' ι₀ μs ⊩ Γ ⊢ τ) (μs ⊩ Γ ⊢ abstr τ)
+-- record Abstraction (𝐽 : ℒHMJudgement) : 𝒰₀ where
+--   field baseMetas : ℒHMTypes
+--   field extraMetas : ℒHMTypes
+--   field metasProof : (baseMetas ⊔ extraMetas) ≅ metavars 𝐽
+--   field baseCtx : ℒHMCtx' _ baseMetas
+--   field baseCtxProof : baseCtx ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ context 𝐽
+--   field baseType : ℒHMType ⟨ baseMetas ⊔ extraMetas ⟩
+--   field baseTypeProof : baseType ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ type 𝐽
 
-record Abstraction (𝐽 : ℒHMJudgement) : 𝒰₀ where
-  field baseMetas : ℒHMTypes
-  field extraMetas : ℒHMTypes
-  field metasProof : (baseMetas ⊔ extraMetas) ≅ metavars 𝐽
-  field baseCtx : ℒHMCtx' _ baseMetas
-  field baseCtxProof : baseCtx ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ context 𝐽
-  field baseType : ℒHMType ⟨ baseMetas ⊔ extraMetas ⟩
-  field baseTypeProof : baseType ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ type 𝐽
-
-open Abstraction public
+-- open Abstraction public
 
 
 data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
@@ -115,7 +140,6 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
          -> lookup-DList Γ k∍i ≣ (∀[ vα ] α)
          -> (σ : ι vα ⟶ vα')
          -> isTypedℒHMᵈ ((μs ⊔ vα') ⊩ Γ ⇃[ ι₀ ]⇂-Ctx ⊢ α ⇃[ id ⇃⊔⇂ σ ]⇂) (var k∍i)
-
 
 {-
   gen : ∀{k μs te} {Γ₀ Γ₁ : ℒHMCtx' k μs} {τ₀ τ₁ : ℒHMType ⟨ μs ⟩}
@@ -130,10 +154,10 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ β) (app te₀ te₁)
 
   lam : ∀{μs k te} {Γ : ℒHMCtx' k μs}
-         {α : ℒHMType ⟨ μs ⟩}
+         {α : ℒHMType ⟨ μs ⊔ ⊥ ⟩}
          {β : ℒHMType ⟨ μs ⟩}
-         -> isTypedℒHMᵈ (μs ⊩ ((∀[] (α ⇃[ ι₀ ]⇂)) ∷' Γ) ⊢ β) te
-         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α ⇒ β) (lam te)
+         -> isTypedℒHMᵈ (μs ⊩ ((∀[] (α)) ∷' Γ) ⊢ β) te
+         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) (lam te)
 
   slet : ∀{μs κs νs k te₀ te₁} {Γ : ℒHMCtx' k μs} {Γ' : ℒHMCtx' k νs}
         -> {α : ℒHMType ⟨ μs ⟩}
@@ -144,23 +168,6 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
         -> isTypedℒHMᵈ (νs ⊩ (∀[ κs ] α' ∷ Γ') ⊢ β) te₁
         -> isTypedℒHMᵈ (νs ⊩ Γ' ⊢ β) (slet te₀ te₁)
 
-{-
-  -- convert : ∀{m0 m1 k} -> (m0 ⟶ m1) -> {Γ₀ : ℒHMCtx' k m0} -> ∀{τ₀} -> {Γ₁ : ℒHMCtx' k m1} -> ∀{τ₁}
-  --           -> isTypedℒHMᵈ (m0 ⊩ Γ₀ ⊢ τ₀)
-  --           -> isTypedℒHMᵈ (m1 ⊩ Γ₁ ⊢ τ₁)
-
-  mapmeta : ∀{k μs νs} (ϕ : μs ⟶ νs) -> {Γ₀ : ℒHMCtx' k μs} -> ∀{τ₀}
-            -> isTypedℒHMᵈ (μs ⊩ Γ₀ ⊢ τ₀)
-            -> isTypedℒHMᵈ (νs ⊩ mapOf (ℒHMCtx' k) ϕ Γ₀ ⊢ mapOf ℒHMPolyType ϕ τ₀)
-
-  instantiate : ∀{μs k} {Γ : ℒHMCtx' k μs} {α β : ℒHMPolyType μs}
-         -> (α ⟶ β)
-         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ α)
-         -> isTypedℒHMᵈ (μs ⊩ Γ ⊢ β)
--}
--- instance
---   isCategory:TypedℒHM : ∀{X Γ} -> isCategory {ℓ₀ , ℓ₀} (isTypedℒHMᵈ Γ)
---   isCategory:TypedℒHM = {!!}
 
 isTypedℒHM = isTypedℒHMᵈ
 
@@ -191,9 +198,8 @@ abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx' k μs} -> {τ : ℒHMType ⟨ μs �
           -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
           -> ∑ λ νs -> ∑ λ (Γ' : ℒHMCtx' k νs) -> ∑ λ (τ' : ℒHMPolyType νs)
           -> isAbstr _ Γ Γ' τ (snd τ')
-            -- -> 
-            -- -> isTypedℒHM (νs ⊩ Γ' ⊢ τ') te
 abstr-Ctx = {!!}
+
 
   -- isTypedℒHM
   -- (νs ⊩ Γ ⇃[ σ ]⇂-Ctx ⊢
@@ -333,5 +339,4 @@ data isTypedℒHMᵈ (X : ℒHMJudgement -> 𝒰₀) : (Γ : ℒHMJudgement) -> 
 -- TypedℒHMᵘ A = indexed (TypedℒHMᵈ (ix A))
 
 -- macro TypedℒHM = #structureOn TypedℒHMᵘ
-
 

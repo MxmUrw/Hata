@@ -117,6 +117,7 @@ record NormalInductiveSubstitution {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖�
   constructor incl
   field ⟨_⟩ : List I
 
+{-# DISPLAY NormalInductiveSubstitution.⟨_⟩ a = ⟨ a ⟩ #-}
 open NormalInductiveSubstitution {{...}} public
 
 module _ {I : 𝒰 𝑖} (T : RelativeMonad (𝑓𝑖𝑛 I)) where
@@ -256,11 +257,11 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
         lem-01 = cong⁻¹-≅ lem-02
 
 
-  abstract
-    instance
-      hasInitial:♮𝐒𝐮𝐛𝐬𝐭 : hasInitial (♮𝐒𝐮𝐛𝐬𝐭 T)
-      hasInitial:♮𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
+  instance
+    hasInitial:♮𝐒𝐮𝐛𝐬𝐭 : hasInitial (♮𝐒𝐮𝐛𝐬𝐭 T)
+    hasInitial:♮𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
 
+  abstract
     instance
       hasCoproducts:♮𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (♮𝐒𝐮𝐛𝐬𝐭 T)
       hasCoproducts:♮𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso

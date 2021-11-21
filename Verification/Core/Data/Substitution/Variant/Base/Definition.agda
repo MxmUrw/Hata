@@ -214,6 +214,7 @@ record InductiveSubstitution {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) : �
   constructor incl
   field ⟨_⟩ : Free-𝐌𝐨𝐧 I
 
+{-# DISPLAY InductiveSubstitution.⟨_⟩ a = ⟨ a ⟩ #-}
 open InductiveSubstitution {{...}} public
 
 module _ {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) where

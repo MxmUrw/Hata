@@ -97,6 +97,9 @@ data Free-𝐌𝐨𝐧 (A : 𝒰 𝑖) : 𝒰 𝑖 where
 pattern _⋆-Free-𝐌𝐨𝐧_ a b = a ⋆-⧜ b
 pattern ◌-Free-𝐌𝐨𝐧 = ◌-⧜
 
+{-# DISPLAY _⋆-Free-𝐌𝐨𝐧_ a b = a ⋆ b #-}
+{-# DISPLAY ◌-Free-𝐌𝐨𝐧 = ◌ #-}
+
 
 macro
   𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 : (A : 𝒰 𝑖) -> SomeStructure

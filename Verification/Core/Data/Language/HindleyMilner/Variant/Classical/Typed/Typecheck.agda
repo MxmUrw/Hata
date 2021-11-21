@@ -2,6 +2,7 @@
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck where
 
 open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
@@ -10,7 +11,7 @@ open import Verification.Core.Data.AllOf.Collection.TermTools
 open import Verification.Core.Category.Std.AllOf.Collection.Basics
 open import Verification.Core.Category.Std.AllOf.Collection.Limits
 open import Verification.Core.Computation.Unification.Definition
--- open import Verification.Core.Category.Std.AllOf.Collection.Monads
+open import Verification.Core.Category.Std.AllOf.Collection.Monads
 -- open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Definition
 
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
@@ -23,11 +24,13 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Unty
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 open import Verification.Core.Set.Decidable
 
+open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
+
 
 
 record _<Γ_ {k} {μs νs} (Γ : ℒHMCtx' k μs) (Γ' : ℒHMCtx' k νs) : 𝒰₀ where
   field fst : μs ⟶ νs
-  -- field snd 
+  field snd : Γ ⇃[ fst ]⇂-Ctx ≡ Γ'
 open _<Γ_ public
 
 record CtxTypingInstance {μs k} (Γ : ℒHMCtx' k μs) (te : UntypedℒHM k) : 𝒰₀ where
@@ -40,17 +43,123 @@ record CtxTypingInstance {μs k} (Γ : ℒHMCtx' k μs) (te : UntypedℒHM k) : 
 
 open CtxTypingInstance public
 
+module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
+  record _<TI_ (𝑇 𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
+    field tiSub : metas 𝑇 ⟶ metas 𝑆
+    field typProof : typ 𝑇 ⇃[ tiSub ]⇂ ≡ typ 𝑆
+    field ctxProof : ctx 𝑇 ⇃[ tiSub ]⇂-Ctx ≡ ctx 𝑆
+
+  open _<TI_ public
+
+
 γ : ∀{μs k} -> (Γ : ℒHMCtx' k μs) -> (te : UntypedℒHM k)
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
-     CtxTypingInstance Γ te
-γ {μs} {k} Γ (var k∍i) =
+     (∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆)
+γ {μs} {k} Γ (var k∍i) = {!!}
+{-
   let ∀[ vα ] α = lookup-DList Γ k∍i
-  in right ((μs ⊔ ι vα) ⊩ Γ ⇃[ ι₀ ]⇂-Ctx , α ⇃[ id ⇃⊔⇂ id ]⇂ , {!!} , var k∍i refl-≣ id)
+  in right (((μs ⊔ ι vα) ⊩ Γ ⇃[ ι₀ ]⇂-Ctx , α ⇃[ id ⇃⊔⇂ id ]⇂ , {!!} , var k∍i refl-≣ id)
+
+           -- now we have to prove that this is the "initial" such typing instance
+           , λ {(ξs ⊩ Δ , δ , Γ<Δ , var {μs = μs₁} {Γ = Γ₁} {vα' = vα'} _ refl-≣ σ) →
+               -- given another instance, which has to use `var` to prove the typing
+
+                 let
+                     -- first we construct the substitution
+                     -- for this, we have two relevant statements
+                     --     Γ<Δ and (σ : ι vα'ᵇ ⟶ vα')
+                     ρ : μs ⟶ μs₁ ⊔ vα'
+                     ρ = Γ<Δ .fst
+
+                     vα'ᵇ = lookup-DList Γ₁ k∍i
+
+                     σ'ᵇ : ι vα ⟶ ι (vα'ᵇ .fst)
+                     σ'ᵇ = {!⟨ ι∀∍ Γ k∍i ⟩⁻¹!}
+
+                     tiσ : μs ⊔ ι vα ⟶ μs₁ ⊔ vα'
+                     tiσ = ⦗ ρ , {!!} ◆ σ ◆ ι₁ ⦘
+
+                     --------------------------------------
+                     -- next, we need to show that this
+                     -- substitution recreates the given Δ and δ
+
+                     -------------
+                     -- i) for Δ
+                     -------------
+                     lem-20 : Γ ⇃[ ι₀ ]⇂-Ctx ⇃[ tiσ ]⇂-Ctx ≡ Δ
+                     lem-20 = {!!}
+                     {-
+                              Γ ⇃[ ι₀ ]⇂-Ctx ⇃[ tiσ ]⇂-Ctx ⟨ {!!} ⟩-≡ -- functoriality here
+                              Γ ⇃[ ι₀ ◆ tiσ ]⇂-Ctx         ⟨ refl-≡ ⟩-≡
+                              Γ ⇃[ ι₀ ◆ ⦗ ρ , σ'ᵇ ◆ σ ◆ ι₁ ⦘ ]⇂-Ctx   ⟨ Γ ⇃[≀ reduce-ι₀ {f = ρ} {g = σ'ᵇ ◆ σ ◆ ι₁} ≀]⇂-Ctx ⟩-≡
+                              Γ ⇃[ ρ ]⇂-Ctx                ⟨ Γ<Δ .snd ⟩-≡
+                              Δ                           ∎-≡
+                     -}
+
+                     -------------
+                     -- ii) for δ
+                     -------------
+
+                     -- we know that looking up sth in Γ translates to
+                     -- looking up sth in Δ
+
+                     lem-01 : δ ≡ lookup-DList Γ₁ k∍i .snd ⇃[ id ⇃⊔⇂ σ ]⇂
+                     lem-01 = refl-≡
+
+{-
+                     lem-02 : lookup-DList Γ₁ k∍i .snd ⇃[ id ⇃⊔⇂ σ ]⇂
+                              ≡
+                              lookup-DList (Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx) k∍i .snd
+                                           ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
+                     lem-02 = §-ℒHMCtx.prop-1 {Γ = Γ₁} k∍i (id ⇃⊔⇂ σ)
+
+                     lem-03a : Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx ≡ Δ
+                     lem-03a = Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx  ⟨ Γ₁ ⇃[≀ reduce-ι₀ ≀]⇂-Ctx ⟩-≡
+                               Γ₁ ⇃[ id ◆ ι₀ ]⇂-Ctx          ⟨ Γ₁ ⇃[≀ unit-l-◆ ≀]⇂-Ctx ⟩-≡
+                               Γ₁ ⇃[ ι₀ ]⇂-Ctx               ∎-≡
+
+                     -- lem-03b : ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘
+                     --           ∼ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ σ ◆ ι₁ ⦘
+                     -- lem-03b = {!!}
+
+                     map-lookup : ∀{Δ₀ Δ₁ : ℒHMCtx' k ξs} -> Δ₀ ≡ Δ₁
+                                  -> lookup-DList Δ₀ k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Δ₀ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
+                                  ≡ lookup-DList Δ₁ k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Δ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
+                     map-lookup = {!!}
+-}
+                     -- lem-03 : lookup-DList (Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx) k∍i .snd
+                     --                       ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
+                     --          ≡
+                     --          lookup-DList Δ k∍i .snd
+                     --                       ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
+                     -- lem-03 = (λ i -> lookup-DList (lem-03a i) k∍i .snd
+                     --                       ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂ )
+
+                              -- ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ σ ◆ ι₁ ⦘ ]⇂
+
+                     -- lem-01 : lookup-DList (Γ ⇃[ ρ ]⇂-Ctx) k∍i ≡ lookup-DList Γ k∍i ⇃[ ρ ]⇂-poly
+                     -- lem-01 = {!!}
+
+                     -- lem-08 : Γ₁ ⇃[ ι₀ ]⇂-Ctx ≡ Δ
+                     -- lem-08 = refl-≡
+
+
+                     lem-10 : α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ tiσ ]⇂ ≡ δ
+                     lem-10 = {!!}
+
+
+                 in record { tiSub = tiσ ; typProof = lem-10 ; ctxProof = lem-20 }
+
+               }
+
+           )
+-}
 
 γ Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
-... | (right (νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀)) =
+... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ξ)) = {!!}
+{-
   let νs₀' , Γ₀' , τ₀' , isAb = abstr-Ctx Γ₀⊢τ₀
 
       ϕ = metasProof isAb
@@ -85,7 +194,7 @@ open CtxTypingInstance public
 
           in right (μs ⊩ Γ₁ , β , {!!} , slet abPv tepv Γ₁⊢τ₁)
         }
-
+-}
 -- the case of an application
 -- typecheck the first term with the given context
 γ Γ (app te se) = {!!}
@@ -158,8 +267,7 @@ open CtxTypingInstance public
 -}
 
 -- the case of a lambda
-γ {μs} {k} Γ (lam te) = {!!}
-{-
+γ {μs} {k} Γ (lam te) =
   let
     -- create a new metavariable
     μs' = μs ⊔ st
@@ -187,18 +295,43 @@ open CtxTypingInstance public
 
       -- if there was no failure, we can use this result
       λ {
-        -- we know that `α` has no quantification
-        (νs ⊩ (∀[] α ∷ Δ) , β , Γ'<Δ , hastype) →
-
-          right (νs ⊩ Δ , _ , {!!} , lam2 hastype)
-
         -- the case where our type suddenly has a quantification
         -- cannot occur
-        ;(νs ⊩ (∀[ incl (a ∷ as) ] α ∷ Δ) , β , Γ'<Δ , hastype) →
+        ((νs ⊩ (∀[ incl (a ∷ as) ] α ∷ Δ) , β , Γ'<Δ , hastype) , Ξ) →
           {!!}
+
+        -- we know that `α` has no quantification
+        ; ((νs ⊩ (∀[] α ∷ Δ) , β , Γ'<Δ , hastype) , Ω) →
+
+          right ((νs ⊩ Δ , _ , {!!} , lam hastype),
+
+                -- here we have to show that we are the best typing instance
+                λ {(ζs ⊩ Ξ , .(_ ⇒ _) , Γ<Ξ , lam {α = ξ₀} {β = ξ₁} Ξξ₀⊢ξ₁) →
+
+                  let ΩR = Ω (ζs ⊩ (∀[] ξ₀) ∷ Ξ , ξ₁ , {!!} , Ξξ₀⊢ξ₁)
+
+                      σ : νs ⟶ ζs
+                      σ = tiSub ΩR
+
+                      lem-1 : (∀[] α ∷ Δ) ⇃[ σ ]⇂-Ctx ≡ ∀[] ξ₀ ∷ Ξ
+                      lem-1 = ctxProof ΩR
+
+                      lem-2 : ((∀[] α) ⇃[ σ ]⇂-poly ≡ ∀[] ξ₀) × (Δ ⇃[ σ ]⇂-Ctx ≡ Ξ)
+                      lem-2 = (λ i → split-DList (lem-1 i) .fst) , (λ i → split-DList (lem-1 i) .snd)
+                      -- λ i -> (λ {(a ∷ _) -> a}) (lem-1 i)
+
+                      -- here: show functoriality for substitution over ⇒
+                      -- use the two proofs above, and the one from typProof
+                      -- to show the combined fact below
+
+                      lem-10 : (α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) ⇃[ σ ]⇂ ≡ (ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ ξ₁)
+                      lem-10 = {!!}
+
+                  in record { tiSub = σ ; typProof = lem-10 ; ctxProof = lem-2 .snd }
+                  })
+
         }
 
--}
 
 
 

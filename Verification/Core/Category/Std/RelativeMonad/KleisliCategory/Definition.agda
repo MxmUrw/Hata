@@ -24,7 +24,10 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗}
     record RelativeKleisli (T : RelativeMonad J) : 𝒰 𝑖 where
       constructor incl
       field ⟨_⟩ : ⟨ 𝒞 ⟩
+
+    {-# DISPLAY RelativeKleisli.⟨_⟩ a = ⟨ a ⟩ #-}
     open RelativeKleisli {{...}} public
+
 
     macro
       𝐑𝐞𝐊𝐥𝐬 : (T : RelativeMonad J) -> SomeStructure
@@ -35,6 +38,8 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗}
     record Hom-𝐑𝐞𝐊𝐥𝐬 (a b : 𝐑𝐞𝐊𝐥𝐬 T) : 𝒰 (𝑗 ､ 𝑙) where
       constructor incl
       field ⟨_⟩ : ⟨ J ⟩ ⟨ a ⟩ ⟶ ⟨ T ⟩ ⟨ b ⟩
+
+    {-# DISPLAY Hom-𝐑𝐞𝐊𝐥𝐬.⟨_⟩ a = ⟨ a ⟩ #-}
     open Hom-𝐑𝐞𝐊𝐥𝐬 public
 
     RelativeKleisliHom : (A B : 𝐑𝐞𝐊𝐥𝐬 T) -> 𝒰 _

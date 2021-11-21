@@ -2,6 +2,7 @@
 module Verification.Core.Data.Language.HindleyMilner.Type.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
@@ -163,10 +164,20 @@ map-ℒHMCtx' : ∀{n : ♮ℕ} -> {a b : ℒHMTypes} -> a ⟶ b -> ℒHMCtx' n 
 map-ℒHMCtx' f [] = []
 map-ℒHMCtx' f (b ∷ x) = (mapOf ℒHMPolyType f b) ∷ map-ℒHMCtx' f x
 
+isSetoidHom:map-ℒHMCtx'-2 : ∀{n : ♮ℕ} -> {a b : ℒHMTypes} -> {f g : a ⟶ b}
+                          -> (f ∼ g) -> map-ℒHMCtx' {n = n} f ≡ map-ℒHMCtx' g
+isSetoidHom:map-ℒHMCtx'-2 = {!!}
+
+instance
+  isSetoidHom:map-ℒHMCtx' : ∀{n : ♮ℕ} -> {a b : ℒHMTypes}
+                            -> isSetoidHom (a ⟶ b) ((ℒHMCtx' n a -> ℒHMCtx' n b) since isSetoid:byPath) map-ℒHMCtx'
+  isSetoidHom:map-ℒHMCtx' = record { cong-∼ = isSetoidHom:map-ℒHMCtx'-2 }
+
+
 instance
   isFunctor:ℒHMCtx'  : ∀{n} -> isFunctor ℒHMTypes 𝐔𝐧𝐢𝐯₀ (ℒHMCtx' n)
   isFunctor.map isFunctor:ℒHMCtx' = map-ℒHMCtx'
-  isFunctor.isSetoidHom:map isFunctor:ℒHMCtx' = {!!}
+  isFunctor.isSetoidHom:map isFunctor:ℒHMCtx' = it
   isFunctor.functoriality-id isFunctor:ℒHMCtx' = {!!}
   isFunctor.functoriality-◆ isFunctor:ℒHMCtx' = {!!}
 
@@ -174,7 +185,25 @@ instance
 infixl 80 _⇃[_]⇂-Ctx _⇃[_]⇂
 _⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx' k a -> (a ⟶ b) -> ℒHMCtx' k b
 _⇃[_]⇂-Ctx x f = map-ℒHMCtx' f x
--- (∀[ vs ] α) f = ∀[ vs ] (α ⇃[ f ⇃⊔⇂ id ]⇂)
+
+_⇃[≀_≀]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtx' k a) -> {f g : a ⟶ b}
+              -> f ∼ g -> Γ ⇃[ f ]⇂-Ctx ≡ Γ ⇃[ g ]⇂-Ctx
+_⇃[≀_≀]⇂-Ctx Γ {f = f} {g} p =
+  let p' : map-ℒHMCtx' f ≡ map-ℒHMCtx' g
+      p' = cong-∼ p
+  in funExt⁻¹ p' Γ
+
+module _ {k} {a b c : ℒHMTypes} where
+  functoriality-⇃[]⇂-Ctx : ∀{Γ : ℒHMCtx' k a} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                           -> Γ ⇃[ f ]⇂-Ctx ⇃[ g ]⇂-Ctx ≡ Γ ⇃[ f ◆ g ]⇂-Ctx
+  functoriality-⇃[]⇂-Ctx = {!!}
+
+
+module _ {a b c : ℒHMTypes} where
+  functoriality-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                           -> τ ⇃[ f ]⇂ ⇃[ g ]⇂ ≡ τ ⇃[ f ◆ g ]⇂
+  functoriality-⇃[]⇂ = {!!}
+
 
 
 -- TODO: move this into a collection

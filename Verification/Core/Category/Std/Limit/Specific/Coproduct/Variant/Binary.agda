@@ -41,6 +41,8 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     field expand-ι₀,ι₁  : ∀{c} {f : x ⟶ c} -> f ∼ ⦗ ι₀ ◆ f , ι₁ ◆ f ⦘
 
   open isCoproduct {{...}} public
+  {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
+  {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
 
 
   module _ {a b x y : 𝒞} (p : x ≅ y) {{_ : isCoproduct a b x}} where
@@ -118,7 +120,9 @@ record hasCoproducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   infixl 80 _⊔_
   field _⊔_ : ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩ -> ⟨ 𝒞 ⟩
   field {{isCoproduct:⊔}} : ∀{a b} -> isCoproduct a b (a ⊔ b)
+
 open hasCoproducts {{...}} public
+{-# DISPLAY hasCoproducts._⊔_ _ x y = x ⊔ y #-}
 
 record hasFiniteCoproducts (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field {{hasInitial:this}} : hasInitial 𝒞

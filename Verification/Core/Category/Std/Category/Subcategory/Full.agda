@@ -18,6 +18,8 @@ module _ (𝒞 : Category 𝑖) where
   record FullSubcategory {X : 𝒰 𝑘} (f : X -> ⟨ 𝒞 ⟩) : 𝒰 𝑘 where
     constructor incl
     field ⟨_⟩ : X
+
+  {-# DISPLAY FullSubcategory.⟨_⟩ a = ⟨ a ⟩ #-}
   open FullSubcategory {{...}} public
 
   macro
