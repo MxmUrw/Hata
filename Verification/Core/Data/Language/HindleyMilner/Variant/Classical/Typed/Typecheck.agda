@@ -28,36 +28,36 @@ open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definit
 
 
 
-record _<Γ_ {k} {μs νs} (Γ : ℒHMCtx' k μs) (Γ' : ℒHMCtx' k νs) : 𝒰₀ where
+record _<Γ_ {k} {Q : ℒHMQuant k} {μs νs} (Γ : ℒHMCtxFor Q μs) (Γ' : ℒHMCtxFor Q νs) : 𝒰₀ where
   field fst : μs ⟶ νs
-  field snd : Γ ⇃[ fst ]⇂-Ctx ≡ Γ'
+  field snd : Γ ⇃[ fst ]⇂-CtxFor ≡ Γ'
 open _<Γ_ public
 
-record CtxTypingInstance {μs k} (Γ : ℒHMCtx' k μs) (te : UntypedℒHM k) : 𝒰₀ where
+record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
   constructor _⊩_,_,_,_
   field metas : ℒHMTypes
-  field ctx : ℒHMCtx' k metas
+  field ctx : ℒHMCtxFor Q metas
   field typ : ℒHMType (⟨ metas ⟩)
   field isInstance : Γ <Γ ctx
-  field hasType : isTypedℒHM (metas ⊩ ctx ⊢ typ) te
+  field hasType : isTypedℒHM (metas ⊩ (Q , ctx) ⊢ typ) te
 
 open CtxTypingInstance public
 
-module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
+module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM k}  where
   record _<TI_ (𝑇 𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
     field tiSub : metas 𝑇 ⟶ metas 𝑆
     field typProof : typ 𝑇 ⇃[ tiSub ]⇂ ≡ typ 𝑆
-    field ctxProof : ctx 𝑇 ⇃[ tiSub ]⇂-Ctx ≡ ctx 𝑆
+    field ctxProof : ctx 𝑇 ⇃[ tiSub ]⇂-CtxFor ≡ ctx 𝑆
     field subProof : isInstance 𝑇 .fst ◆ tiSub ∼ isInstance 𝑆 .fst
 
   open _<TI_ public
 
 
-γ : ∀{μs k} -> (Γ : ℒHMCtx' k μs) -> (te : UntypedℒHM k)
+γ : ∀{μs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) -> (te : UntypedℒHM k)
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆)
-γ {μs} {k} Γ (var k∍i) =
+γ {μs} {k} {Q} Γ (var k∍i) =
 {-
   let
       -- ∀[ vα ] α = lookup-DList Γ k∍i
@@ -75,13 +75,60 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
   in right (((νs₀) ⊩ (Γ ⇃[ σᵤ₀ ]⇂-Ctx) , {!!} , {!!} , {!!}) , {!!})
 
 -}
-  let ∀[ vα ] α = lookup-DList Γ k∍i
-  in right (((μs ⊔ ι vα) ⊩ Γ ⇃[ ι₀ ]⇂-Ctx , α ⇃[ id ⇃⊔⇂ id ]⇂ , {!!} , var k∍i refl-≣ id)
+  let vα = lookup-DList Q k∍i
+      α = lookup-DDList Γ k∍i
+      σᵤ₀ : μs ⟶ μs ⊔ vα
+      σᵤ₀ = ι₀
+
+      α₀ = α ⇃[ id ⇃⊔⇂ id ]⇂
+
+  in right (((μs ⊔ vα) ⊩ Γ ⇃[ ι₀ ]⇂-CtxFor , α₀ , {!!} , var k∍i refl-≣ id)
 
            -- now we have to prove that this is the "initial" such typing instance
-           , λ {(ξs ⊩ Δ , δ , Γ<Δ , var {μs = μs₁} {Γ = Γ₁} {vα' = vα'} _ refl-≣ σ) →
+           , λ {(.(μs₁ ⊔ vα₁) ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {μs = μs₁} {Γ = Γ₁'} _ {vα' = vα₁} refl-≣ ρ) →
+
                -- given another instance, which has to use `var` to prove the typing
 
+                let σᵤ₁ : μs ⟶ μs₁ ⊔ vα₁
+                    σᵤ₁ = Γ<Γ₁ .fst
+
+                    σ₀₁ : μs ⊔ vα ⟶ μs₁ ⊔ vα₁
+                    σ₀₁ = ⦗ σᵤ₁ , (ρ ◆ ι₁) ⦘
+
+                    --------------------------------------
+                    -- next, we need to show that this
+                    -- substitution recreates the given Δ and δ
+
+                    -------------
+                    -- i) for σ₀₁
+                    -------------
+
+                    lem-10 : σᵤ₀ ◆ σ₀₁ ∼ σᵤ₁
+                    lem-10 = {!!}
+
+                    -------------
+                    -- ii) for α₀
+                    -------------
+
+                    lem-11 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-11 = α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ σ₀₁ ]⇂     ⟨ {!!} ⟩-≡
+                              lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ , ρ ◆ ι₁ ⦘ ]⇂  ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i σᵤ₁ (ρ ◆ ι₁)) ⟩-≡
+                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂   ⟨ {!!} ⟩-≡
+                              lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                     ∎-≡
+
+                    lem-12 : α₁ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-12 = {!lookup-DDList Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
+                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂ ⟨ ? ⟩-≡
+                              lookup-DDList (Γ₁) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                       ∎-≡!}
+
+                    lem-20 : α₀ ⇃[ σ₀₁ ]⇂ ≡ α₁
+                    lem-20 = trans-Path lem-11 (sym-Path lem-12) 
+
+
+                in record { tiSub = σ₀₁ ; typProof = lem-20 ; ctxProof = {!!} ; subProof = lem-10 }
+
+               })
+{-
                  let
                      -- first we construct the substitution
                      -- for this, we have two relevant statements
@@ -140,7 +187,7 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
                      --           ∼ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ σ ◆ ι₁ ⦘
                      -- lem-03b = {!!}
 
-                     map-lookup : ∀{Δ₀ Δ₁ : ℒHMCtx' k ξs} -> Δ₀ ≡ Δ₁
+                     map-lookup : ∀{Δ₀ Δ₁ : ℒHMCtx k ξs} -> Δ₀ ≡ Δ₁
                                   -> lookup-DList Δ₀ k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Δ₀ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
                                   ≡ lookup-DList Δ₁ k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Δ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
                      map-lookup = {!!}
@@ -175,6 +222,7 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
 {-
 -}
 
+-}
 γ Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
 ... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ξ)) = {!!}
@@ -377,8 +425,8 @@ with γ Γ te
     μs' = μs ⊔ st
 
     -- create the context which contains this new variable
-    Γ' : ℒHMCtx' (tt ∷ k) μs'
-    Γ' = ∀[ (incl ◌) ] (var (left-∍ (right-∍ incl))) ∷ mapOf (ℒHMCtx' k) ι₀ Γ
+    Γ' : ℒHMCtx (tt ∷ k) μs'
+    Γ' = ∀[ (incl ◌) ] (var (left-∍ (right-∍ incl))) ∷ mapOf (ℒHMCtx k) ι₀ Γ
 
     -- call typechecking recursively on `te`
     res = γ Γ' te
@@ -456,64 +504,3 @@ with γ Γ te
 
 
 
-
-
-
-{-
-γ Γ (app te se) =
-  -- typecheck the first term with the given context
-  case γ Γ te of
-    {!!}
-    λ {(νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀ ) ->
-
-        -- typecheck the second term with the returned context
-        case γ Γ₀ se of
-          {!!}
-          λ {(νs₁ ⊩ Γ₁ , τ₁ , Γ₁<Γ₀ , Γ₁⊢τ₁ ) ->
-            -- lift the τ0 typing to Γ₁
-            let σᵤ₀ : νs₀ ⟶ νs₁
-                σᵤ₀ = fst Γ₁<Γ₀
-
-                -- we lift the old type τ₀ to the metas νs₁
-                τ₀' : ℒHMType _
-                τ₀' = τ₀ ⇃[ σᵤ₀ ⇃⊔⇂ id ]⇂
-
-                -- we need a new type variable for the return
-                -- type of the application, so we move to νs₂
-                νs₂ = (νs₁ ⊔ ⊥) ⊔ st
-
-                τ₀'' : ℒHMType ⟨ νs₂ ⟩
-                τ₀'' = τ₀' ⇃[ ι₀ ]⇂
-
-                -- we call the new type β
-                β : ℒHMType ⟨ νs₂ ⟩
-                β = var (right-∍ incl)
-
-                -- the types which we unify are:
-                ϕ : ℒHMType ⟨ νs₂ ⟩
-                ϕ = τ₀'' ⇒ β
-
-                ψ : ℒHMType ⟨ νs₂ ⟩
-                ψ = τ₁ ⇃[ ι₀ ]⇂
-
-                res : (¬ hasCoequalizerCandidate (asArr ϕ , asArr ψ)) + (hasCoequalizer (asArr ϕ) (asArr ψ))
-                res = unify (asArr ϕ) (asArr ψ)
-
-                -- typing₀ : isTypedℒHM (Γ₁ ⊢ )
-                -- typing₀ = ?
-
-            in case res of
-                {!!}
-                λ {x → {!!}
-                }
-
-                -- case res of
-                -- ωs : ℒHMTypes
-                -- ωs = {!!}
-
-                -- ρ : ℒHMType ⟨ ωs ⟩
-                -- ρ = {!!}
-            }
-      }
-
--}
