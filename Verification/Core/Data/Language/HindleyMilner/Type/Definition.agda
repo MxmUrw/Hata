@@ -138,6 +138,7 @@ instance
   isFunctor.functoriality-id isFunctor:ℒHMPolyTypeᵘ = {!!}
   isFunctor.functoriality-◆ isFunctor:ℒHMPolyTypeᵘ = {!!}
 
+{-
 -----------------------------------------
 -- Ctx'
 
@@ -181,7 +182,6 @@ instance
   isFunctor.functoriality-id isFunctor:ℒHMCtx' = {!!}
   isFunctor.functoriality-◆ isFunctor:ℒHMCtx' = {!!}
 
-
 infixl 80 _⇃[_]⇂-Ctx _⇃[_]⇂
 _⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx' k a -> (a ⟶ b) -> ℒHMCtx' k b
 _⇃[_]⇂-Ctx x f = map-ℒHMCtx' f x
@@ -205,6 +205,7 @@ module _ {a b c : ℒHMTypes} where
   functoriality-⇃[]⇂ = {!!}
 
 
+-}
 
 -- TODO: move this into a collection
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.Monoidal

@@ -16,6 +16,7 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
 
@@ -91,17 +92,24 @@ module §-ℒHMCtx where
 
 
 
+ℒHMCtx₂ : ∀ k -> 𝒰
+ℒHMCtx₂ k = ∑ λ (q : DList (const (ℒHMTypes)) k) -> DDList (λ a -> ℒHMType ⟨ a ⟩) q
+
 
 record ℒHMJudgementᵈ : 𝒰₀ where
   constructor _⊩_⊢_
   field metavars : ℒHMTypes
   field {contextsize} : ♮ℕ
-  field context : DList (const (ℒHMPolyType metavars)) contextsize
+  field context : ℒHMCtx contextsize
+  -- field quantifiers : DList (const (ℒHMTypes)) contextsize
+  -- field context : DDList (λ a -> ℒHMType ⟨ a ⟩) quantifiers
   field type : ℒHMType ⟨ metavars ⟩
 
 open ℒHMJudgementᵈ public
 
 macro ℒHMJudgement = #structureOn ℒHMJudgementᵈ
+
+{-
 
 sᵘ : ℒHMJudgement -> ♮ℕ
 sᵘ (_ ⊩ Γ ⊢ τ) = size-DList Γ
@@ -195,7 +203,7 @@ module §-isTypedℒHM where
     let te' = prop-2 σ te
         se' = prop-2 σ se
     in app te' se'
-  prop-2 σ (lam te) = ?
+  prop-2 σ (lam te) = {!!}
   -- let res = prop-2 σ te
   --                     in lam {!!} -- res
 
@@ -207,7 +215,6 @@ abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx' k μs} -> {τ : ℒHMType ⟨ μs �
           -> isAbstr _ Γ Γ' τ (snd τ')
 abstr-Ctx = {!!}
 
-{-
 -}
 
   -- isTypedℒHM

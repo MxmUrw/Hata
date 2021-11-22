@@ -48,6 +48,7 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
     field tiSub : metas 𝑇 ⟶ metas 𝑆
     field typProof : typ 𝑇 ⇃[ tiSub ]⇂ ≡ typ 𝑆
     field ctxProof : ctx 𝑇 ⇃[ tiSub ]⇂-Ctx ≡ ctx 𝑆
+    field subProof : isInstance 𝑇 .fst ◆ tiSub ∼ isInstance 𝑆 .fst
 
   open _<TI_ public
 
@@ -56,8 +57,24 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆)
-γ {μs} {k} Γ (var k∍i) = {!!}
+γ {μs} {k} Γ (var k∍i) =
 {-
+  let
+      -- ∀[ vα ] α = lookup-DList Γ k∍i
+      vα : ℒHMTypes
+      vα = {!!}
+
+      νs₀ : ℒHMTypes
+      νs₀ = νs ⊔ vα
+
+      σᵤ₀ : νs ⟶ νs ⊔ vα
+      σᵤ₀ = ι₀
+
+      -- Γ₀ = Γ ⇃[ σᵤ₀ ]⇂-Ctx
+
+  in right (((νs₀) ⊩ (Γ ⇃[ σᵤ₀ ]⇂-Ctx) , {!!} , {!!} , {!!}) , {!!})
+
+-}
   let ∀[ vα ] α = lookup-DList Γ k∍i
   in right (((μs ⊔ ι vα) ⊩ Γ ⇃[ ι₀ ]⇂-Ctx , α ⇃[ id ⇃⊔⇂ id ]⇂ , {!!} , var k∍i refl-≣ id)
 
@@ -149,11 +166,13 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
                      lem-10 = {!!}
 
 
-                 in record { tiSub = tiσ ; typProof = lem-10 ; ctxProof = lem-20 }
+                 in record { tiSub = tiσ ; typProof = lem-10 ; ctxProof = lem-20 ; subProof = {!!} }
 
                }
 
            )
+
+{-
 -}
 
 γ Γ (slet te se) with γ Γ te
@@ -197,52 +216,73 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
 -}
 -- the case of an application
 -- typecheck the first term with the given context
-γ Γ (app te se) = {!!}
+γ {μs = νs} Γ (app te se) = {!!}
 {-
- with γ Γ te
+with γ Γ te
 ... | (left _) = {!!}
-... | (right (νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀ )) with γ Γ₀ se
+... | (right ((νs₀ ⊩ Γ₀ , α₀ , Γ<Γ₀ , Γ₀⊢α₀), Ω₀)) with γ Γ₀ se
 ... | (left _) = {!!}
-... | (right (νs₁ ⊩ Γ₁ , τ₁ , Γ₁<Γ₀ , Γ₁⊢τ₁ )) = resn
+... | (right ((νs₁ ⊩ Γ₁ , β₁ , Γ₀<Γ₁ , Γ₁⊢β₁), Ω₁)) = resn
   where
-    -- lift the τ0 typing to Γ₁
-    σ₀ : νs₀ ⟶ νs₁
-    σ₀ = fst Γ₁<Γ₀
 
-    -- we lift the old type τ₀ to the metas νs₁
-    τ₀' : ℒHMType _
-    τ₀' = τ₀ ⇃[ σ₀ ]⇂
+    σᵤ₀ : _ ⟶ νs₀
+    σᵤ₀ = fst Γ<Γ₀
+
+    -- lift the τ0 typing to Γ₁
+    σ₀₁ : νs₀ ⟶ νs₁
+    σ₀₁ = fst Γ₀<Γ₁
+
+    -- we lift α₀ to the metas νs₁
+    -- τ₀'
+    α₁ : ℒHMType _
+    α₁ = α₀ ⇃[ σ₀₁ ]⇂
 
     -- we need a new type variable for the return
     -- type of the application, so we move to νs₂
     νs₂ = (νs₁) ⊔ st
+    σ₁₂ : νs₁ ⟶ νs₂
+    σ₁₂ = ι₀
 
-    τ₀'' : ℒHMType ⟨ νs₂ ⟩
-    τ₀'' = τ₀' ⇃[ ι₀ ]⇂
+    -- τ₀''
+    α₂ : ℒHMType ⟨ νs₂ ⟩
+    α₂ = α₁ ⇃[ σ₁₂ ]⇂
 
-    -- we call the new type β
-    β : ℒHMType ⟨ νs₂ ⟩
-    β = var (right-∍ incl)
+    β₂ : ℒHMType ⟨ νs₂ ⟩
+    β₂ = β₁ ⇃[ σ₁₂ ]⇂
+
+    -- Γ₁'
+    Γ₂ = Γ₁ ⇃[ σ₁₂ ]⇂-Ctx
+
+    -- we call the new type γ
+    γ₂ : ℒHMType ⟨ νs₂ ⟩
+    γ₂ = var (right-∍ incl)
 
     -- the types which we unify are:
-    ϕ : ℒHMType ⟨ νs₂ ⟩
-    ϕ = τ₀''
+    u : ℒHMType ⟨ νs₂ ⟩
+    u = α₂
 
-    τ₁' : ℒHMType ⟨ νs₂ ⟩
-    τ₁' = τ₁ ⇃[ ι₀ ]⇂ ⇒ β
+    v : ℒHMType ⟨ νs₂ ⟩
+    v = β₂ ⇒ γ₂
 
-    Γ₁' : ℒHMCtx' _ νs₂
-    Γ₁' = Γ₁ ⇃[ ι₀ ]⇂-Ctx
-
-    res = unify-ℒHMTypes (asArr ϕ) (asArr τ₁')
+    res = unify-ℒHMTypes (asArr u) (asArr v)
 
     resn = case res of
            {!!}
            λ x →
-             let σ = π₌
-                 β₂ = β ⇃[ σ ]⇂
-                 Γ₂ = Γ₁' ⇃[ σ ]⇂-Ctx
+             let νs₃ = ⟨ x ⟩
+                 σ₂₃ : νs₂ ⟶ νs₃
+                 σ₂₃ = π₌
 
+                 β₃ = β₂ ⇃[ σ₂₃ ]⇂
+                 Γ₃ = Γ₂ ⇃[ σ₂₃ ]⇂-Ctx
+
+                 -- thus the full substitution we need is the following
+                 σᵤ₃ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃
+
+                 Γ<Γ₃ : Γ <Γ Γ₃
+                 Γ<Γ₃ = record { fst = σᵤ₃ ; snd = {!!} }
+
+{-
                  -- move the typing of se to Γ₂ = Γ₁[ ι₀ ◆ σ ]
                  sp : isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx) ⊢ (τ₁ ⇃[ ι₀ ]⇂)) se
                  sp = §-isTypedℒHM.prop-2 ι₀ Γ₁⊢τ₁
@@ -250,24 +290,88 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
                  sp' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₁ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂)) se
                  sp' = §-isTypedℒHM.prop-2 σ sp
 
-                 -- move the typing of te to Γ₂ = Γ₀[ σ₀ ◆ ι₀ ◆ σ ]
-                 tp : isTypedℒHM (νs₁ ⊩ Γ₁ ⊢ (τ₀ ⇃[ σ₀ ]⇂)) te
+                 -- move the typing of te to Γ₂ = Γ₀[ σᵤ₀ ◆ ι₀ ◆ σ ]
+                 tp : isTypedℒHM (νs₁ ⊩ Γ₁ ⊢ (τ₀ ⇃[ σᵤ₀ ]⇂)) te
                  tp = {!!}
 
-                 tp' : isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx) ⊢ (τ₀ ⇃[ σ₀ ]⇂ ⇃[ ι₀ ]⇂)) te
+                 tp' : isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx) ⊢ (τ₀ ⇃[ σᵤ₀ ]⇂ ⇃[ ι₀ ]⇂)) te
                  tp' = §-isTypedℒHM.prop-2 ι₀ tp
 
-                 tp'' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₀ ⇃[ σ₀ ]⇂ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂)) te
+                 tp'' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₀ ⇃[ σᵤ₀ ]⇂ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂)) te
                  tp'' = §-isTypedℒHM.prop-2 σ tp'
 
                  tp''' : isTypedℒHM (⟨ x ⟩ ⊩ (Γ₁ ⇃[ ι₀ ]⇂-Ctx ⇃[ σ ]⇂-Ctx) ⊢ (τ₁ ⇃[ ι₀ ]⇂ ⇃[ σ ]⇂ ⇒ β ⇃[ σ ]⇂)) te
                  tp''' = {!!}
-
-             in right (⟨ x ⟩ ⊩ Γ₂ , β₂ , {!!} , app tp'''  sp')
 -}
 
+             in right ((νs₃ ⊩ Γ₃ , β₃ , Γ<Γ₃ , {!!} ), -- app tp''' sp'),
+                      λ {(νs₄ ⊩ Ξ , ξ , Γ<Ξ , app {α = ξ₄} {β = ζ₄} Ξ⊢ξ⇒ζ Ξ⊢ξ) ->
+                        let σᵤ₄ : νs ⟶ νs₄
+                            σᵤ₄ = fst Γ<Ξ
+
+                            ΩR₀ = Ω₀ (νs₄ ⊩ Ξ , (ξ₄ ⇒ ζ₄) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+
+                            σ₀₄ : νs₀ ⟶ νs₄
+                            σ₀₄ = tiSub ΩR₀
+
+                            Γ₀<Ξ : Γ₀ <Γ Ξ
+                            Γ₀<Ξ = record { fst = σ₀₄ ; snd = ctxProof ΩR₀ }
+
+                            ΩR₁ = Ω₁ (νs₄ ⊩ Ξ , ξ₄ , Γ₀<Ξ , Ξ⊢ξ)
+
+                            σ₁₄ : νs₁ ⟶ νs₄
+                            σ₁₄ = tiSub ΩR₁
+
+                            -- we can build a substitution from νs₂ by mapping γ to ζ₄
+                            σ₂₄ : νs₂ ⟶ νs₄
+                            σ₂₄ = ⦗ σ₁₄ , ⧜subst (incl ζ₄) ⦘
+
+                            -- we know that under this substitution,
+                            -- u = α₂ and v = β₂ ⇒ γ₂ become both ξ⇒ζ
+                            lem-1 : u ⇃[ σ₂₄ ]⇂ ≡ ξ₄ ⇒ ζ₄
+                            lem-1 = α₁ ⇃[ ι₀ ]⇂ ⇃[ σ₂₄ ]⇂       ⟨ {!!} ⟩-≡
+                                     α₁ ⇃[ ι₀ ◆ ⦗ σ₁₄ , _ ⦘ ]⇂   ⟨ {!!} ⟩-≡
+                                     α₁ ⇃[ σ₁₄ ]⇂                ⟨ {!!} ⟩-≡
+                                     α₀ ⇃[ σ₀₁ ]⇂ ⇃[ σ₁₄ ]⇂      ⟨ {!!} ⟩-≡
+                                     α₀ ⇃[ σ₀₁ ◆ σ₁₄ ]⇂          ⟨ {!!} ⟩-≡
+                                     α₀ ⇃[ σ₀₄ ]⇂                ⟨ typProof ΩR₀ ⟩-≡
+                                     ξ₄ ⇒ ζ₄                    ∎-≡
+
+                            -- ... thus we can use the universal property
+                            -- to get νs₃ ⟶ νs₄
+                            σ₃₄ : νs₃ ⟶ νs₄
+                            σ₃₄ = {!!}
+
+                            -- and we know that
+                            lem-20 : σᵤ₃ ◆ σ₃₄ ∼ σᵤ₄
+                            lem-20 = {!!}
+
+                        in record { tiSub = σ₃₄ ; typProof = {!!} ; ctxProof = {!!} ; subProof = lem-20 }
+                -}
+
+{-
+                      let ΩR₀ = Ω₀ (ζs ⊩ Ξ , (ξ₀ ⇒ ξ₁) , Γ?<Ξ , Ξ⊢ξ₀⇒ξ₁)
+
+                          σᵤ₀ = tiSub ΩR₀
+
+                          Γ₀<Ξ : Γ₀ <Γ Ξ
+                          Γ₀<Ξ = record { fst = σᵤ₀ ; snd = ctxProof ΩR₀ }
+
+                          ΩR₁ = Ω₁ (ζs ⊩ Ξ , ξ₀ , Γ₀<Ξ , Ξ⊢ξ₀)
+
+                          σ₀₁ = tiSub ΩR₁
+
+                          aa = τ₀'' ⇃[ σᵤ₀ ]⇂
+
+
+                      in record { tiSub = {!!} ; typProof = {!!} ; ctxProof = {!!} }
+
+                      })
+
+-}
 -- the case of a lambda
-γ {μs} {k} Γ (lam te) =
+γ {μs} {k} Γ (lam te) = {!!}
+{-
   let
     -- create a new metavariable
     μs' = μs ⊔ st
@@ -345,7 +449,7 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
                   })
 
         }
-
+-}
 
 
 
@@ -367,12 +471,12 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
           {!!}
           λ {(νs₁ ⊩ Γ₁ , τ₁ , Γ₁<Γ₀ , Γ₁⊢τ₁ ) ->
             -- lift the τ0 typing to Γ₁
-            let σ₀ : νs₀ ⟶ νs₁
-                σ₀ = fst Γ₁<Γ₀
+            let σᵤ₀ : νs₀ ⟶ νs₁
+                σᵤ₀ = fst Γ₁<Γ₀
 
                 -- we lift the old type τ₀ to the metas νs₁
                 τ₀' : ℒHMType _
-                τ₀' = τ₀ ⇃[ σ₀ ⇃⊔⇂ id ]⇂
+                τ₀' = τ₀ ⇃[ σᵤ₀ ⇃⊔⇂ id ]⇂
 
                 -- we need a new type variable for the return
                 -- type of the application, so we move to νs₂
