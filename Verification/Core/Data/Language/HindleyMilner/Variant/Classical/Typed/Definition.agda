@@ -121,6 +121,12 @@ record isAbstr {k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtx' k μs�
 
 open isAbstr public
 
+isInjective:∀[] : ∀{μs : ℒHMTypes} -> {α β : ℒHMType ⟨ μs ⊔ ⊥ ⟩} -> ∀[] α ≡ ∀[] β -> α ≡ β
+isInjective:∀[] {α = α} {β} p = ≡-Str→≡ (lem-1 (≡→≡-Str p))
+  where
+    lem-1 : ∀[] α ≣ ∀[] β -> α ≣ β
+    lem-1 refl-≣ = refl-≣
+
 
 -- record Abstraction (𝐽 : ℒHMJudgement) : 𝒰₀ where
 --   field baseMetas : ℒHMTypes
@@ -189,8 +195,9 @@ module §-isTypedℒHM where
     let te' = prop-2 σ te
         se' = prop-2 σ se
     in app te' se'
-  prop-2 σ (lam te) = let res = prop-2 σ te
-                      in lam {!!} -- res
+  prop-2 σ (lam te) = ?
+  -- let res = prop-2 σ te
+  --                     in lam {!!} -- res
 
   prop-2 σ (slet ab te se) = {!!}
 
@@ -200,6 +207,8 @@ abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx' k μs} -> {τ : ℒHMType ⟨ μs �
           -> isAbstr _ Γ Γ' τ (snd τ')
 abstr-Ctx = {!!}
 
+{-
+-}
 
   -- isTypedℒHM
   -- (νs ⊩ Γ ⇃[ σ ]⇂-Ctx ⊢

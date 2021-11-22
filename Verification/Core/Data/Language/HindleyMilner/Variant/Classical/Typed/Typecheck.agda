@@ -318,14 +318,28 @@ module _ {μs k} {Γ : ℒHMCtx' k μs} {te : UntypedℒHM k}  where
 
                       lem-2 : ((∀[] α) ⇃[ σ ]⇂-poly ≡ ∀[] ξ₀) × (Δ ⇃[ σ ]⇂-Ctx ≡ Ξ)
                       lem-2 = (λ i → split-DList (lem-1 i) .fst) , (λ i → split-DList (lem-1 i) .snd)
-                      -- λ i -> (λ {(a ∷ _) -> a}) (lem-1 i)
 
-                      -- here: show functoriality for substitution over ⇒
-                      -- use the two proofs above, and the one from typProof
-                      -- to show the combined fact below
+                      lem-3 : ∀[] α ⇃[ σ ⇃⊔⇂ id ]⇂ ≡ ∀[] ξ₀
+                      lem-3 = lem-2 .fst
+
+                      lem-4 : α ⇃[ σ ⇃⊔⇂ id ]⇂ ≡ ξ₀
+                      lem-4 = isInjective:∀[] lem-3
+
+                      lem-5 : α ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+                      lem-5 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-4
+
+                      lem-6 : α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂ ≡ ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+                      lem-6 = α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ functoriality-⇃[]⇂ {τ = α} {f = ⦗ id , elim-⊥ ⦘} {g = σ} ⟩-≡
+                              α ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ ]⇂              ⟨ {!α ⇃[≀ ? ≀]⇂!} ⟩-≡
+                              α ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-⇃[]⇂ {τ = α} {f = σ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
+                              α ⇃[ (σ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-5 ⟩-≡
+                              ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂                 ∎-≡
+
+                      lem-9 : β ⇃[ σ ]⇂ ≡ ξ₁
+                      lem-9 = typProof ΩR
 
                       lem-10 : (α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) ⇃[ σ ]⇂ ≡ (ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ ξ₁)
-                      lem-10 = {!!}
+                      lem-10 = λ i → lem-6 i ⇒ lem-9 i
 
                   in record { tiSub = σ ; typProof = lem-10 ; ctxProof = lem-2 .snd }
                   })
