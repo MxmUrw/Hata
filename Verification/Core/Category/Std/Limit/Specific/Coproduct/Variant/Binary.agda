@@ -43,6 +43,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   open isCoproduct {{...}} public
   {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
   {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
+  {-# DISPLAY isCoproduct.⦗_⦘ _ x = ⦗ x ⦘ #-}
 
 
   module _ {a b x y : 𝒞} (p : x ≅ y) {{_ : isCoproduct a b x}} where
