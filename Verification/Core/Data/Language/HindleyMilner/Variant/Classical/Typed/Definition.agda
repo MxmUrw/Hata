@@ -147,10 +147,10 @@ pattern _∷'_ x xs = _∷_ {a = tt} x xs
 infix 30 ∀[]_
 pattern ∀[]_ xs = ∀[ incl [] ] xs
 
-record isAbstr {k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtx k μs₀) (Γ₁ : ℒHMCtx k μs₁)
+record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtxFor Q μs₀) (Γ₁ : ℒHMCtxFor Q μs₁)
                (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
   field metasProof : (μs₁ ⊔ κs) ≅ μs₀
-  field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ Γ₀
+  field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-CtxFor ≡ Γ₀
   field typeProof : τ₁ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₀
 
 open isAbstr public
@@ -202,17 +202,18 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
          -> isTypedℒHMᵈ (μs ⊩ (⊥ ∷' Q , α ∷ Γ) ⊢ β) te
          -> isTypedℒHMᵈ (μs ⊩ (Q , Γ) ⊢ α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) (lam te)
 
-{-
   slet : ∀{μs κs νs k te₀ te₁}
-        -> {Q : ℒHMQuant k} {Q' : ℒHMQuant k}
-        -> {Γ : ℒHMCtxFor Q μs} {Γ' : ℒHMCtxFor Q' νs}
+        -> {Q : ℒHMQuant k}
+        -> {Γ : ℒHMCtxFor Q μs} {Γ' : ℒHMCtxFor Q νs}
         -> {α : ℒHMType ⟨ μs ⟩}
-        -> {α' : ℒHMType ⟨ νs ⊔ ι κs ⟩}
+        -> {α' : ℒHMType ⟨ νs ⊔ κs ⟩}
         -> {β : ℒHMType ⟨ νs ⟩}
-        -> isAbstr (ι κs) (Q , Γ) (Q' , Γ') α α'
+        -> isAbstr (κs) (Γ) (Γ') α α'
         -> isTypedℒHMᵈ (μs ⊩ (Q , Γ) ⊢ α) te₀
-        -> isTypedℒHMᵈ (νs ⊩ (ι κs ∷' Q' , α' ∷ Γ') ⊢ β) te₁
-        -> isTypedℒHMᵈ (νs ⊩ (Q' , Γ') ⊢ β) (slet te₀ te₁)
+        -> isTypedℒHMᵈ (νs ⊩ (κs ∷' Q , α' ∷ Γ') ⊢ β) te₁
+        -> isTypedℒHMᵈ (νs ⊩ (Q , Γ') ⊢ β) (slet te₀ te₁)
+
+{-
 -}
 
 isTypedℒHM = isTypedℒHMᵈ
@@ -236,16 +237,17 @@ module §-isTypedℒHM where
         se' = prop-2 σ se
     in app te' se'
   prop-2 σ (lam te) = {!!}
+  prop-2 σ (slet ab set te) = {!!}
   -- let res = prop-2 σ te
   --                     in lam {!!} -- res
 
   -- prop-2 σ (slet ab te se) = {!!}
 
 
-abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx k μs} -> {τ : ℒHMType ⟨ μs ⟩}
-          -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
-          -> ∑ λ νs -> ∑ λ (Γ' : ℒHMCtx k νs) -> ∑ λ (τ' : ℒHMPolyType νs)
-          -> isAbstr _ Γ Γ' τ (snd τ')
+abstr-Ctx : ∀{νs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q νs)
+          -> (τ : ℒHMType ⟨ νs ⟩)
+          -> ∑ λ μsa -> ∑ λ μsb -> ∑ λ (Γ' : ℒHMCtxFor Q μsa) -> ∑ λ (τ' : ℒHMType ⟨ μsa ⊔ μsb ⟩)
+          -> isAbstr _ Γ Γ' τ τ'
 abstr-Ctx = {!!}
 
 {-

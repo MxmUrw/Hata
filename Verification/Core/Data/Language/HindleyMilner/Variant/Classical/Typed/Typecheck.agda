@@ -141,9 +141,49 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
 
                })
 -}
-γ Γ (slet te se) with γ Γ te
+γ {μs = νs} {Q = Q} Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
-... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ξ)) = {!!}
+... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ω₀)) = (withAbstr (abstr-Ctx Γ₀ τ₀))
+  where
+    withAbstr : (∑ λ νs₁ -> ∑ λ νsₓ -> ∑ λ (Γ₁ : ℒHMCtxFor Q νs₁) -> ∑ λ (τ₁ : ℒHMType ⟨ νs₁ ⊔ νsₓ ⟩)
+              -> isAbstr _ Γ₀ Γ₁ τ₀ τ₁)
+              -> (CtxTypingInstance Γ (slet te se) -> ⊥-𝒰 {ℓ₀}) + InitialCtxTypingInstance Γ (slet te se)
+    withAbstr (νs₁ , νsₓ , Γ₁ , τ₁ , isAb) = {!!}
+
+      where
+        res = γ (τ₁ ∷ Γ₁) se
+        -- σ₀₁ : νs₀ ⟶ νs₁
+        -- σ₀₁ = ⟨ metasProof ⟩⁻¹ ◆ v
+
+        success : InitialCtxTypingInstance (τ₁ ∷ Γ₁) se -> InitialCtxTypingInstance Γ (slet te se)
+        success ((νs₂ ⊩ (τ₂ ∷ Γ₂) , α₂ , τ₂Γ₂<τ₁Γ₁ , τ₂Γ₂⊢α₂) , Ω₂) = 𝑇 , {!!}
+          where
+
+            σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νsₓ
+            σ₀₁ₓ = ⟨ metasProof isAb ⟩⁻¹
+
+            Γ₁ₓ = Γ₀ ⇃[ σ₀₁ₓ ]⇂-CtxFor
+            τ₁ₓ = τ₀ ⇃[ σ₀₁ₓ ]⇂
+
+            Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νsₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
+            Γ₁ₓ⊢τ₁ₓ = §-isTypedℒHM.prop-2 σ₀₁ₓ Γ₀⊢τ₀
+
+            Γ₂⊢α₂ : isTypedℒHM (νs₂ ⊩ (_ , Γ₂) ⊢ α₂) (slet te se)
+            Γ₂⊢α₂ = slet {!!} Γ₁ₓ⊢τ₁ₓ τ₂Γ₂⊢α₂
+
+            𝑇 : CtxTypingInstance Γ (slet te se)
+            𝑇 = νs₂ ⊩ Γ₂ , α₂ , {!!} , Γ₂⊢α₂
+
+
+
+
+        --------------------------------------
+        -- putting success and error case together
+
+        resn = case res of
+                {!!}
+                success
+
 {-
   let νs₀' , Γ₀' , τ₀' , isAb = abstr-Ctx Γ₀⊢τ₀
 
@@ -180,9 +220,10 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
           in right (μs ⊩ Γ₁ , β , {!!} , slet abPv tepv Γ₁⊢τ₁)
         }
 -}
+
 -- the case of an application
--- typecheck the first term with the given context
-γ {μs = νs} Γ (app te se) with γ Γ te
+γ {μs = νs} Γ (app te se) = {!!} -- with γ Γ te
+{-
 ... | (left _) = {!!}
 ... | (right ((νs₀ ⊩ Γ₀ , α₀ , Γ<Γ₀ , Γ₀⊢α₀), Ω₀)) with γ Γ₀ se
 ... | (left _) = {!!}
@@ -387,7 +428,7 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
                      γ₂ ⇃[ σ₂₃ ◆ σ₃₄ ]⇂        ⟨ γ₂ ⇃[≀ reduce-π₌ {p = lem-13} ≀]⇂ ⟩-≡
                      γ₂ ⇃[ σ₂₄ ]⇂              ⟨ lem-12b ⟩-≡
                      ζ₄                        ∎-≡
-
+-}
 
 
 -------------------------------------------------------
