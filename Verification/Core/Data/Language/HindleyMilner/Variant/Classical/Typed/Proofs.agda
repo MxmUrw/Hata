@@ -59,3 +59,19 @@ module §-HM-Proofs where
     prop-2 : Γ ⇃[ ι₀ ]⇂-CtxFor ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂-CtxFor ≡ Γ ⇃[ σ₀ ]⇂-CtxFor
     prop-2 = {!!}
 
+  module _ {μs νs ξs : ℒHMTypes}
+           (σ₀ : μs ⟶ ξs)
+           (σ₁ : νs ⟶ ξs)
+           (τ : ℒHMType ⟨ μs ⟩) where
+
+    prop-3 : τ ⇃[ ι₀ ]⇂ ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂ ≡ τ ⇃[ σ₀ ]⇂
+    prop-3 = {!!}
+
+  module _ {μs νs ξs : ℒHMTypes}
+           (σ₀ : νs ⟶ ξs)
+           (σ₁ : μs ⟶ ξs)
+           (τ : ℒHMType ⟨ μs ⟩) where
+
+    prop-4 : τ ⇃[ ι₁ ]⇂ ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂ ≡ τ ⇃[ σ₁ ]⇂
+    prop-4 = {!!}
+
