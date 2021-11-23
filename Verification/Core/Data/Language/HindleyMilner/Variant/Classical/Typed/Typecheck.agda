@@ -47,8 +47,10 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
   record _<TI_ (𝑇 𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
     field tiSub : metas 𝑇 ⟶ metas 𝑆
     field typProof : typ 𝑇 ⇃[ tiSub ]⇂ ≡ typ 𝑆
-    field ctxProof : ctx 𝑇 ⇃[ tiSub ]⇂-CtxFor ≡ ctx 𝑆
     field subProof : isInstance 𝑇 .fst ◆ tiSub ∼ isInstance 𝑆 .fst
+
+    ctxProofTI : ctx 𝑇 ⇃[ tiSub ]⇂-CtxFor ≡ ctx 𝑆
+    ctxProofTI = ?
 
   open _<TI_ public
 
@@ -58,23 +60,6 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
     +
      (∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆)
 γ {μs} {k} {Q} Γ (var k∍i) =
-{-
-  let
-      -- ∀[ vα ] α = lookup-DList Γ k∍i
-      vα : ℒHMTypes
-      vα = {!!}
-
-      νs₀ : ℒHMTypes
-      νs₀ = νs ⊔ vα
-
-      σᵤ₀ : νs ⟶ νs ⊔ vα
-      σᵤ₀ = ι₀
-
-      -- Γ₀ = Γ ⇃[ σᵤ₀ ]⇂-Ctx
-
-  in right (((νs₀) ⊩ (Γ ⇃[ σᵤ₀ ]⇂-Ctx) , {!!} , {!!} , {!!}) , {!!})
-
--}
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
@@ -82,7 +67,12 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
 
       α₀ = α ⇃[ id ⇃⊔⇂ id ]⇂
 
-  in right (((μs ⊔ vα) ⊩ Γ ⇃[ ι₀ ]⇂-CtxFor , α₀ , {!!} , var k∍i refl-≣ id)
+      Γ₀ = Γ ⇃[ ι₀ ]⇂-CtxFor
+
+      Γ<Γ₀ : Γ <Γ Γ₀
+      Γ<Γ₀ = record { fst = σᵤ₀ ; snd = refl-≡ }
+
+  in right (((μs ⊔ vα) ⊩ Γ₀ , α₀ , Γ<Γ₀ , var k∍i refl-≣ id)
 
            -- now we have to prove that this is the "initial" such typing instance
            , λ {(.(μs₁ ⊔ vα₁) ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {μs = μs₁} {Γ = Γ₁'} _ {vα' = vα₁} refl-≣ ρ) →
@@ -104,125 +94,46 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
                     -------------
 
                     lem-10 : σᵤ₀ ◆ σ₀₁ ∼ σᵤ₁
-                    lem-10 = {!!}
+                    lem-10 = reduce-ι₀ {g = ρ ◆ ι₁}
 
                     -------------
                     -- ii) for α₀
                     -------------
 
-                    lem-11 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
-                    lem-11 = α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ σ₀₁ ]⇂     ⟨ {!!} ⟩-≡
+                    lem-11 : α₀ ≡ α
+                    lem-11 = α ⇃[ id ⇃⊔⇂ id ]⇂    ⟨ α ⇃[≀ functoriality-id-⊔ ≀]⇂ ⟩-≡
+                              α ⇃[ id ]⇂           ⟨ functoriality-id-⇃[]⇂ {τ = α} ⟩-≡
+                              α                    ∎-≡
+
+                    lem-12 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-12 = α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ σ₀₁ ]⇂     ⟨ cong _⇃[ σ₀₁ ]⇂ lem-11 ⟩-≡
                               lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ , ρ ◆ ι₁ ⦘ ]⇂  ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i σᵤ₁ (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂   ⟨ {!!} ⟩-≡
+                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+
+                              ⟨ (λ i -> lookup-DDList (Γ<Γ₁ .snd i ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
+
                               lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                     ∎-≡
 
-                    lem-12 : α₁ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
-                    lem-12 = {!lookup-DDList Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂ ⟨ ? ⟩-≡
-                              lookup-DDList (Γ₁) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                       ∎-≡!}
+
+                    lem-15 : Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor ≡ Γ₁
+                    lem-15 = Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor  ⟨ Γ₁' ⇃[≀ unit-l-◆ ≀]⇂-CtxFor ⟩-≡
+                             Γ₁' ⇃[ ι₀ ]⇂-CtxFor       ∎-≡
+
+                    lem-16 : α₁ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-16 = lookup-DDList Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ₁'} k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
+                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+
+                              ⟨ (λ i -> lookup-DDList (lem-15 i) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
+
+                              lookup-DDList (Γ₁) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                       ∎-≡
 
                     lem-20 : α₀ ⇃[ σ₀₁ ]⇂ ≡ α₁
-                    lem-20 = trans-Path lem-11 (sym-Path lem-12) 
+                    lem-20 = trans-Path lem-12 (sym-Path lem-16)
 
-
-                in record { tiSub = σ₀₁ ; typProof = lem-20 ; ctxProof = {!!} ; subProof = lem-10 }
+                in record { tiSub = σ₀₁ ; typProof = lem-20 ; subProof = lem-10 }
 
                })
-{-
-                 let
-                     -- first we construct the substitution
-                     -- for this, we have two relevant statements
-                     --     Γ<Δ and (σ : ι vα'ᵇ ⟶ vα')
-                     ρ : μs ⟶ μs₁ ⊔ vα'
-                     ρ = Γ<Δ .fst
 
-                     vα'ᵇ = lookup-DList Γ₁ k∍i
-
-                     σ'ᵇ : ι vα ⟶ ι (vα'ᵇ .fst)
-                     σ'ᵇ = {!⟨ ι∀∍ Γ k∍i ⟩⁻¹!}
-
-                     tiσ : μs ⊔ ι vα ⟶ μs₁ ⊔ vα'
-                     tiσ = ⦗ ρ , {!!} ◆ σ ◆ ι₁ ⦘
-
-                     --------------------------------------
-                     -- next, we need to show that this
-                     -- substitution recreates the given Δ and δ
-
-                     -------------
-                     -- i) for Δ
-                     -------------
-                     lem-20 : Γ ⇃[ ι₀ ]⇂-Ctx ⇃[ tiσ ]⇂-Ctx ≡ Δ
-                     lem-20 = {!!}
-                     {-
-                              Γ ⇃[ ι₀ ]⇂-Ctx ⇃[ tiσ ]⇂-Ctx ⟨ {!!} ⟩-≡ -- functoriality here
-                              Γ ⇃[ ι₀ ◆ tiσ ]⇂-Ctx         ⟨ refl-≡ ⟩-≡
-                              Γ ⇃[ ι₀ ◆ ⦗ ρ , σ'ᵇ ◆ σ ◆ ι₁ ⦘ ]⇂-Ctx   ⟨ Γ ⇃[≀ reduce-ι₀ {f = ρ} {g = σ'ᵇ ◆ σ ◆ ι₁} ≀]⇂-Ctx ⟩-≡
-                              Γ ⇃[ ρ ]⇂-Ctx                ⟨ Γ<Δ .snd ⟩-≡
-                              Δ                           ∎-≡
-                     -}
-
-                     -------------
-                     -- ii) for δ
-                     -------------
-
-                     -- we know that looking up sth in Γ translates to
-                     -- looking up sth in Δ
-
-                     lem-01 : δ ≡ lookup-DList Γ₁ k∍i .snd ⇃[ id ⇃⊔⇂ σ ]⇂
-                     lem-01 = refl-≡
-
-{-
-                     lem-02 : lookup-DList Γ₁ k∍i .snd ⇃[ id ⇃⊔⇂ σ ]⇂
-                              ≡
-                              lookup-DList (Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx) k∍i .snd
-                                           ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
-                     lem-02 = §-ℒHMCtx.prop-1 {Γ = Γ₁} k∍i (id ⇃⊔⇂ σ)
-
-                     lem-03a : Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx ≡ Δ
-                     lem-03a = Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx  ⟨ Γ₁ ⇃[≀ reduce-ι₀ ≀]⇂-Ctx ⟩-≡
-                               Γ₁ ⇃[ id ◆ ι₀ ]⇂-Ctx          ⟨ Γ₁ ⇃[≀ unit-l-◆ ≀]⇂-Ctx ⟩-≡
-                               Γ₁ ⇃[ ι₀ ]⇂-Ctx               ∎-≡
-
-                     -- lem-03b : ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘
-                     --           ∼ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ σ ◆ ι₁ ⦘
-                     -- lem-03b = {!!}
-
-                     map-lookup : ∀{Δ₀ Δ₁ : ℒHMCtx k ξs} -> Δ₀ ≡ Δ₁
-                                  -> lookup-DList Δ₀ k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Δ₀ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
-                                  ≡ lookup-DList Δ₁ k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Δ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
-                     map-lookup = {!!}
--}
-                     -- lem-03 : lookup-DList (Γ₁ ⇃[ ι₀ ◆ (id ⇃⊔⇂ σ) ]⇂-Ctx) k∍i .snd
-                     --                       ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
-                     --          ≡
-                     --          lookup-DList Δ k∍i .snd
-                     --                       ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂
-                     -- lem-03 = (λ i -> lookup-DList (lem-03a i) k∍i .snd
-                     --                       ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ ι₁ ◆ (id ⇃⊔⇂ σ) ⦘ ]⇂ )
-
-                              -- ⇃[ ⦗ id , ⟨ ι∀∍ Γ₁ k∍i ⟩ ◆ σ ◆ ι₁ ⦘ ]⇂
-
-                     -- lem-01 : lookup-DList (Γ ⇃[ ρ ]⇂-Ctx) k∍i ≡ lookup-DList Γ k∍i ⇃[ ρ ]⇂-poly
-                     -- lem-01 = {!!}
-
-                     -- lem-08 : Γ₁ ⇃[ ι₀ ]⇂-Ctx ≡ Δ
-                     -- lem-08 = refl-≡
-
-
-                     lem-10 : α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ tiσ ]⇂ ≡ δ
-                     lem-10 = {!!}
-
-
-                 in record { tiSub = tiσ ; typProof = lem-10 ; ctxProof = lem-20 ; subProof = {!!} }
-
-               }
-
-           )
-
-{-
--}
-
--}
 γ Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
 ... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ξ)) = {!!}
@@ -481,9 +392,9 @@ with γ Γ te
                       lem-5 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-4
 
                       lem-6 : α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂ ≡ ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
-                      lem-6 = α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ functoriality-⇃[]⇂ {τ = α} {f = ⦗ id , elim-⊥ ⦘} {g = σ} ⟩-≡
+                      lem-6 = α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ functoriality-◆-⇃[]⇂ {τ = α} {f = ⦗ id , elim-⊥ ⦘} {g = σ} ⟩-≡
                               α ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ ]⇂              ⟨ {!α ⇃[≀ ? ≀]⇂!} ⟩-≡
-                              α ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-⇃[]⇂ {τ = α} {f = σ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
+                              α ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α} {f = σ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
                               α ⇃[ (σ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-5 ⟩-≡
                               ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂                 ∎-≡
 

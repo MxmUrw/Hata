@@ -2,6 +2,7 @@
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
@@ -84,7 +85,7 @@ module §-ℒHMCtx where
 --   prop-1 {Γ = (∀[ vα ] α) ∷ Γ} incl σ = ?
 
   --   let p : α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂ ≡ α ⇃[ σ ]⇂
-  --       p = α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂ ⟨ functoriality-⇃[]⇂ {τ = α} {f = (ι₀ ◆ σ) ⇃⊔⇂ id} {g = ⦗ id , id ◆ ι₁ ◆ σ ⦘} ⟩-≡
+  --       p = α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂ ⟨ functoriality-◆-⇃[]⇂ {τ = α} {f = (ι₀ ◆ σ) ⇃⊔⇂ id} {g = ⦗ id , id ◆ ι₁ ◆ σ ⦘} ⟩-≡
   --           α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ◆ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂     ⟨ {!!} ⟩-≡
   --           -- call what we need here `append-⇃⊔⇂` vs `append-⇃⊓⇂`
   --           α ⇃[ σ ]⇂                                          ∎-≡
@@ -102,8 +103,15 @@ module §-ℒHMCtx where
              ≡
                lookup-DDList Γ k∍i ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
   prop-2 {Γ = b ∷ Γ} incl σ₀ σ₁ =
-    let lem-1 : b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂ ≡ b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
-        lem-1 = {!!}
+    let lem-0 : (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ∼ ⦗ σ₀ , σ₁ ⦘
+        lem-0 = (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘   ⟨ append-⇃⊔⇂ {f0 = σ₀} {id} {id} {σ₁} ⟩-∼
+                 ⦗ σ₀ ◆ id , id ◆ σ₁ ⦘       ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-r-◆ {f = σ₀} , unit-l-◆ {f = σ₁}) ⟩-∼
+                 ⦗ σ₀ , σ₁ ⦘                 ∎
+
+        lem-1 : b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂ ≡ b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
+        lem-1 = b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂    ⟨ functoriality-◆-⇃[]⇂ {τ = b} {f = (σ₀ ⇃⊔⇂ id)} {g = ⦗ id , σ₁ ⦘} ⟩-≡
+                b ⇃[ (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ]⇂      ⟨ b ⇃[≀ lem-0 ≀]⇂ ⟩-≡
+                b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂                    ∎-≡
     in lem-1
   prop-2 {Γ = b ∷ Γ} (skip k∍i) σ₀ σ₁ = prop-2 {Γ = Γ} k∍i σ₀ σ₁
 
