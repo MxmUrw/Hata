@@ -27,5 +27,19 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} (C : ∀{a} -> B a -> 𝒰 𝑘) w
     _∷_ : ∀{a as} -> {b : B a} {bs : DList B as} -> (c : C b) -> (cs : DDList bs) -> DDList (b ∷ bs)
 
 
+module §-HM-Helpers where
+  module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} {{_ : hasFiniteCoproducts ′ 𝒞ᵘ ′ }} where
+
+    private macro 𝒞 = #structureOn 𝒞ᵘ
+    private instance _ = isSetoidHom:⦗⦘
+
+    prop-1 : ∀{a b : 𝒞} -> ∀{f : a ⟶ b} -> ⦗ id , elim-⊥ ⦘ ◆ f ∼ (f ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘
+    prop-1 {f = f} =
+      ⦗ id , elim-⊥ ⦘ ◆ f     ⟨ append-⦗⦘ ⟩-∼
+      ⦗ id ◆ f , elim-⊥ ◆ f ⦘  ⟨ cong-∼ (unit-l-◆ , expand-⊥) ⟩-∼
+      ⦗ f , elim-⊥ ⦘           ⟨ cong-∼ ((unit-r-◆ ⁻¹) , (unit-l-◆ ⁻¹)) ⟩-∼
+      ⦗ f ◆ id , id ◆ elim-⊥ ⦘ ⟨ append-⇃⊔⇂ ⁻¹ ⟩-∼
+      (f ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘  ∎
+
 
 

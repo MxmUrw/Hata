@@ -142,3 +142,17 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
     ⊔⃨ : SomeStructure
     ⊔⃨ = #structureOn (λ₋ _⊔_)
 
+module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} {{_ : hasCoproducts ′ 𝒞ᵘ ′ }} where
+
+  private macro 𝒞 = #structureOn 𝒞ᵘ
+  private instance _ = isSetoidHom:⦗⦘
+
+  append-⦗⦘ : ∀{a b c d : 𝒞} {f : a ⟶ c} {g : b ⟶ c} {h : c ⟶ d}
+            -> ⦗ f , g ⦘ ◆ h ∼ ⦗ f ◆ h , g ◆ h ⦘
+  append-⦗⦘ {f = f} {g} {h} =
+    ⦗ f , g ⦘ ◆ h                                     ⟨ expand-ι₀,ι₁ ⟩-∼
+    ⦗ ι₀ ◆ (⦗ f , g ⦘ ◆ h) , ι₁ ◆ (⦗ f , g ⦘ ◆ h) ⦘   ⟨ cong-∼ ( (assoc-r-◆ ∙ (reduce-ι₀ ◈ refl))
+                                                               , (assoc-r-◆ ∙ (reduce-ι₁ ◈ refl))) ⟩-∼
+    ⦗ f ◆ h , g ◆ h ⦘                                 ∎
+
+

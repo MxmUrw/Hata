@@ -20,6 +20,7 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 open import Verification.Core.Set.Decidable
@@ -50,7 +51,7 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
     field subProof : isInstance 𝑇 .fst ◆ tiSub ∼ isInstance 𝑆 .fst
 
     ctxProofTI : ctx 𝑇 ⇃[ tiSub ]⇂-CtxFor ≡ ctx 𝑆
-    ctxProofTI = ?
+    ctxProofTI = {!!}
 
   open _<TI_ public
 
@@ -59,7 +60,8 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆)
-γ {μs} {k} {Q} Γ (var k∍i) =
+γ {μs} {k} {Q} Γ (var k∍i) = {!!}
+{-
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
@@ -133,7 +135,7 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
                 in record { tiSub = σ₀₁ ; typProof = lem-20 ; subProof = lem-10 }
 
                })
-
+-}
 γ Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
 ... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ξ)) = {!!}
@@ -329,28 +331,40 @@ with γ Γ te
 
 -}
 -- the case of a lambda
-γ {μs} {k} Γ (lam te) = {!!}
-{-
-  let
+γ {μs} {k} {Q = Q} Γ (lam te) = resn
+  where
     -- create a new metavariable
-    μs' = μs ⊔ st
+    μs₀ = μs ⊔ st
+
+    αᵘ : ℒHMType ⟨ st ⟩
+    αᵘ = var incl
+
+    α₀ : ℒHMType ⟨ μs₀ ⊔ ⊥ ⟩
+    α₀ = αᵘ ⇃[ ι₁ ◆ ι₀ ]⇂
 
     -- create the context which contains this new variable
-    Γ' : ℒHMCtx (tt ∷ k) μs'
-    Γ' = ∀[ (incl ◌) ] (var (left-∍ (right-∍ incl))) ∷ mapOf (ℒHMCtx k) ι₀ Γ
+    Γ₀ : ℒHMCtxFor Q μs₀
+    Γ₀ = Γ ⇃[ ι₀ ]⇂-CtxFor
+
+    σ₀ : μs ⟶ μs ⊔ st
+    σ₀ = ι₀
+
+    -- Γ₀ : ℒHMCtx (tt ∷ k) μs₀
+    -- Γ₀ =
+    -- ∀[ (incl ◌) ] (var (left-∍ (right-∍ incl))) ∷ mapOf (ℒHMCtx k) ι₀ Γ
 
     -- call typechecking recursively on `te`
-    res = γ Γ' te
+    res = γ (α₀ ∷ Γ₀) te
 
     -- distinguish between failure and not
-  in case res of
+    resn = case res of
       -- if there was a failure,
       -- we also have to fail
       (λ ¬typing → left
          -- assume we have a typing for lambda
          -- this means that we also have a typing for te
          -- which we know is impossible
-         λ {(νs ⊩ Δ , τ , Γ'<Δ , hastyp)
+         λ {(νs ⊩ Δ , τ , Γ₀<Δ , hastyp)
                 → let νs' , Δ' , τ' , hastyp' = §-isTypedℒHM.prop-1 te hastyp
                   in {!!} -- ¬typing (νs' ⊩ Δ' , τ' , {!!} , hastyp')
                   })
@@ -358,57 +372,74 @@ with γ Γ te
 
       -- if there was no failure, we can use this result
       λ {
-        -- the case where our type suddenly has a quantification
-        -- cannot occur
-        ((νs ⊩ (∀[ incl (a ∷ as) ] α ∷ Δ) , β , Γ'<Δ , hastype) , Ξ) →
-          {!!}
-
         -- we know that `α` has no quantification
-        ; ((νs ⊩ (∀[] α ∷ Δ) , β , Γ'<Δ , hastype) , Ω) →
+          ((μs₁ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , hastype) , Ω) →
 
-          right ((νs ⊩ Δ , _ , {!!} , lam hastype),
+          right ((μs₁ ⊩ Γ₁ , _ , {!!} , lam hastype),
 
                 -- here we have to show that we are the best typing instance
-                λ {(ζs ⊩ Ξ , .(_ ⇒ _) , Γ<Ξ , lam {α = ξ₀} {β = ξ₁} Ξξ₀⊢ξ₁) →
+                λ {(μs₂ ⊩ Γ₂ , .(_ ⇒ _) , Γ<Γ₂ , lam {α = α₂} {β = β₂} Γ₂α₂⊢β₂) →
+                  let σᵤ₂ : μs ⟶ μs₂
+                      σᵤ₂ = Γ<Γ₂ .fst
 
-                  let ΩR = Ω (ζs ⊩ (∀[] ξ₀) ∷ Ξ , ξ₁ , {!!} , Ξξ₀⊢ξ₁)
+                      -- μs ⊔ st = μs₀
+                      σ₀₂ : (μs ⊔ st) ⟶ μs₂
+                      σ₀₂ = ⦗ σᵤ₂ , ⧜subst (incl α₂) ◆ ⦗ id , elim-⊥ ⦘ ⦘
 
-                      σ : νs ⟶ ζs
+                      -- extract this proof to where everything is faster
+                      lem-5 : α₀ ⇃[ σ₀₂ ⇃⊔⇂ id ]⇂ ≡ α₂
+                      lem-5 = αᵘ ⇃[ ι₁ ◆ ι₀ ]⇂ ⇃[ σ₀₂ ⇃⊔⇂ id ]⇂         ⟨ {!!} ⟩-≡
+                              αᵘ ⇃[ ι₁ ◆ ι₀ ◆ (σ₀₂ ⇃⊔⇂ id)]⇂            ⟨ {!!} ⟩-≡
+                              αᵘ ⇃[ ι₁ ◆ (ι₀ ◆ (σ₀₂ ⇃⊔⇂ id)) ]⇂         ⟨ {!!} ⟩-≡
+                              αᵘ ⇃[ ι₁ ◆ (σ₀₂ ◆ ι₀) ]⇂                  ⟨ {!!} ⟩-≡
+                              αᵘ ⇃[ ⧜subst (incl α₂) ◆ ⦗ id , elim-⊥ ⦘ ◆ ι₀ ]⇂  ⟨ {!!} ⟩-≡
+                              αᵘ ⇃[ ⧜subst (incl α₂) ]⇂                         ⟨ refl-≡ ⟩-≡
+                              α₂                                       ∎-≡
+
+                      lem-10 : (α₀ ∷ Γ₀) ⇃[ σ₀₂ ]⇂-CtxFor ≡ (α₂ ∷ Γ₂)
+                      lem-10 = λ i → lem-5 i ∷ {!!}
+
+                      α₀Γ₀<α₂Γ₂ : (α₀ ∷ Γ₀) <Γ (α₂ ∷ Γ₂)
+                      α₀Γ₀<α₂Γ₂ = record { fst = σ₀₂ ; snd = lem-10 }
+
+                      ΩR = Ω (μs₂ ⊩ (α₂ ∷ Γ₂) , β₂ , α₀Γ₀<α₂Γ₂ , Γ₂α₂⊢β₂)
+
+                  in {!!}
+
+{-
+                  let ΩR = Ω (μs₂ ⊩ (α₂ ∷ Γ₂) , β₂ , {!!} , Γ₂α₂⊢β₂)
+
+                      σ : μs₁ ⟶ μs₂
                       σ = tiSub ΩR
 
-                      lem-1 : (∀[] α ∷ Δ) ⇃[ σ ]⇂-Ctx ≡ ∀[] ξ₀ ∷ Ξ
-                      lem-1 = ctxProof ΩR
+                      lem-1 : (α₁ ∷ Γ₁) ⇃[ σ ]⇂-CtxFor ≡ α₂ ∷ Γ₂
+                      lem-1 = ctxProofTI ΩR
 
-                      lem-2 : ((∀[] α) ⇃[ σ ]⇂-poly ≡ ∀[] ξ₀) × (Δ ⇃[ σ ]⇂-Ctx ≡ Ξ)
-                      lem-2 = (λ i → split-DList (lem-1 i) .fst) , (λ i → split-DList (lem-1 i) .snd)
+                      lem-4 : α₁ ⇃[ σ ⇃⊔⇂ id ]⇂ ≡ α₂
+                      lem-4 = λ i → split-DDList (lem-1 i) .fst
 
-                      lem-3 : ∀[] α ⇃[ σ ⇃⊔⇂ id ]⇂ ≡ ∀[] ξ₀
-                      lem-3 = lem-2 .fst
-
-                      lem-4 : α ⇃[ σ ⇃⊔⇂ id ]⇂ ≡ ξ₀
-                      lem-4 = isInjective:∀[] lem-3
-
-                      lem-5 : α ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+                      lem-5 : α₁ ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
                       lem-5 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-4
 
-                      lem-6 : α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂ ≡ ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
-                      lem-6 = α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ functoriality-◆-⇃[]⇂ {τ = α} {f = ⦗ id , elim-⊥ ⦘} {g = σ} ⟩-≡
-                              α ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ ]⇂              ⟨ {!α ⇃[≀ ? ≀]⇂!} ⟩-≡
-                              α ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α} {f = σ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
-                              α ⇃[ (σ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-5 ⟩-≡
-                              ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂                 ∎-≡
+                      lem-6 : α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+                      lem-6 = α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ functoriality-◆-⇃[]⇂ {τ = α} {f = ⦗ id , elim-⊥ ⦘} {g = σ} ⟩-≡
+                              α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ ]⇂              ⟨ α₁ ⇃[≀ §-HM-Helpers.prop-1 {f = σ} ≀]⇂ ⟩-≡
+                              α₁ ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α} {f = σ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
+                              α₁ ⇃[ (σ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-5 ⟩-≡
+                              α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂                 ∎-≡
 
-                      lem-9 : β ⇃[ σ ]⇂ ≡ ξ₁
+                      lem-9 : β ⇃[ σ ]⇂ ≡ β₂
                       lem-9 = typProof ΩR
 
-                      lem-10 : (α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) ⇃[ σ ]⇂ ≡ (ξ₀ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ ξ₁)
+                      lem-10 : (α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) ⇃[ σ ]⇂ ≡ (α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β₂)
                       lem-10 = λ i → lem-6 i ⇒ lem-9 i
 
-                  in record { tiSub = σ ; typProof = lem-10 ; ctxProof = lem-2 .snd }
+                  in {!!}
+                  -}
+                  -- record { tiSub = σ ; typProof = lem-10 ; subProof = {!!} }
                   })
 
         }
--}
 
 
 

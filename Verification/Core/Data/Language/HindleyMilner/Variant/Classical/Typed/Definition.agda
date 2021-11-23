@@ -64,6 +64,9 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} w
   lookup-DDList (c ∷ ys) incl = c
   lookup-DDList (c ∷ ys) (skip p) = lookup-DDList ys p
 
+  split-DDList : ∀{as : List A} {a : A} {bs : DList B as} {b : B a} -> DDList C (b ∷ bs) -> (C b) × DDList C bs
+  split-DDList (b ∷ xs) = b , xs
+
 
 {-
 ι∀∍ : ∀{μs νs k i} -> (Γ : ℒHMCtx k μs) -> (k∍i : k ∍♮ i)
@@ -214,7 +217,6 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
 
 isTypedℒHM = isTypedℒHMᵈ
 
-{-
 module §-isTypedℒHM where
   prop-1 : ∀{μs k} -> {Γ : ℒHMCtx k μs} {τ : ℒHMType ⟨ μs ⟩}
            -> ∀ te
@@ -237,7 +239,7 @@ module §-isTypedℒHM where
   -- let res = prop-2 σ te
   --                     in lam {!!} -- res
 
-  prop-2 σ (slet ab te se) = {!!}
+  -- prop-2 σ (slet ab te se) = {!!}
 
 
 abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx k μs} -> {τ : ℒHMType ⟨ μs ⟩}
@@ -245,6 +247,8 @@ abstr-Ctx : ∀{μs k te} -> {Γ : ℒHMCtx k μs} -> {τ : ℒHMType ⟨ μs �
           -> ∑ λ νs -> ∑ λ (Γ' : ℒHMCtx k νs) -> ∑ λ (τ' : ℒHMPolyType νs)
           -> isAbstr _ Γ Γ' τ (snd τ')
 abstr-Ctx = {!!}
+
+{-
 
 -}
 
