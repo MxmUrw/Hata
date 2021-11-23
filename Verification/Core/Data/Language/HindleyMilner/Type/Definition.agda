@@ -218,6 +218,11 @@ module _ {k} {a b c : ℒHMTypes} where
                            -> Γ ⇃[ f ]⇂-Ctx ⇃[ g ]⇂-Ctx ≡ Γ ⇃[ f ◆ g ]⇂-Ctx
   functoriality-◆-⇃[]⇂-Ctx = {!!}
 
+module _ {k} {Q : ℒHMQuant k} {a b c : ℒHMTypes} where
+  functoriality-◆-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                           -> Γ ⇃[ f ]⇂-CtxFor ⇃[ g ]⇂-CtxFor ≡ Γ ⇃[ f ◆ g ]⇂-CtxFor
+  functoriality-◆-⇃[]⇂-CtxFor = {!!}
+
 
 module _ {a b c : ℒHMTypes} where
   functoriality-◆-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> {f : a ⟶ b} -> {g : b ⟶ c}

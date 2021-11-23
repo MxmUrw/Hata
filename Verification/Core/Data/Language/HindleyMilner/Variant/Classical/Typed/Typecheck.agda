@@ -19,6 +19,7 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Proofs
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
@@ -44,6 +45,7 @@ record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te
 
 open CtxTypingInstance public
 
+
 module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM k}  where
   record _<TI_ (𝑇 𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
     field tiSub : metas 𝑇 ⟶ metas 𝑆
@@ -55,11 +57,14 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
 
   open _<TI_ public
 
+InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
+InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
+
 
 γ : ∀{μs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) -> (te : UntypedℒHM k)
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
-     (∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆)
+     (InitialCtxTypingInstance Γ te)
 γ {μs} {k} {Q} Γ (var k∍i) = {!!}
 {-
   let vα = lookup-DList Q k∍i
@@ -349,12 +354,93 @@ with γ Γ te
     σ₀ : μs ⟶ μs ⊔ st
     σ₀ = ι₀
 
-    -- Γ₀ : ℒHMCtx (tt ∷ k) μs₀
-    -- Γ₀ =
-    -- ∀[ (incl ◌) ] (var (left-∍ (right-∍ incl))) ∷ mapOf (ℒHMCtx k) ι₀ Γ
-
     -- call typechecking recursively on `te`
     res = γ (α₀ ∷ Γ₀) te
+
+    -- computing the initial typing instance
+    -- assuming we have one for te
+    success : InitialCtxTypingInstance (α₀ ∷ Γ₀) te -> InitialCtxTypingInstance Γ (lam te)
+    success ((μs₁ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , hastype) , Ω) = 𝑇 , isInitial:𝑇
+      where
+        σ₀₁ : μs₀ ⟶ μs₁
+        σ₀₁ = α₀Γ₀<α₁Γ₁ .fst
+
+        σᵤ₁ : μs ⟶ μs₁
+        σᵤ₁ = σ₀ ◆ σ₀₁
+
+        lem-1 : Γ ⇃[ σᵤ₁ ]⇂-CtxFor ≡ Γ₁
+        lem-1 = Γ ⇃[ σᵤ₁ ]⇂-CtxFor                  ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σ₀} {σ₀₁}) ⟩-≡
+                Γ ⇃[ σ₀ ]⇂-CtxFor ⇃[ σ₀₁ ]⇂-CtxFor  ⟨ (λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
+                Γ₁                                  ∎-≡
+
+        Γ<Γ₁ : Γ <Γ Γ₁
+        Γ<Γ₁ = record { fst = σᵤ₁ ; snd = lem-1 }
+
+        𝑇 : CtxTypingInstance Γ (lam te)
+        𝑇 = (μs₁ ⊩ Γ₁ , _ , Γ<Γ₁ , lam hastype)
+
+        isInitial:𝑇 : (𝑆 : CtxTypingInstance Γ (lam te)) -> 𝑇 <TI 𝑆
+        isInitial:𝑇 (μs₂ ⊩ Γ₂ , .(_ ⇒ _) , Γ<Γ₂ , lam {α = α₂} {β = β₂} Γ₂α₂⊢β₂) =
+          record { tiSub = σ₁₂ ; typProof = lem-30 ; subProof = lem-40 }
+
+          where
+            σᵤ₂ : μs ⟶ μs₂
+            σᵤ₂ = Γ<Γ₂ .fst
+
+            σₜ₂ : st ⟶ μs₂
+            σₜ₂ = ⧜subst (incl α₂) ◆ ⦗ id , elim-⊥ ⦘
+
+            -- μs ⊔ st = μs₀
+            σ₀₂ : (μs ⊔ st) ⟶ μs₂
+            σ₀₂ = ⦗ σᵤ₂ , σₜ₂ ⦘
+
+            lem-5 : Γ₀ ⇃[ σ₀₂ ]⇂-CtxFor ≡ Γ₂
+            lem-5 = Γ ⇃[ ι₀ ]⇂-CtxFor ⇃[ σ₀₂ ]⇂-CtxFor  ⟨ §-HM-Proofs.prop-2 σᵤ₂ σₜ₂ Γ ⟩-≡
+                    Γ ⇃[ σᵤ₂ ]⇂-CtxFor                  ⟨ Γ<Γ₂ .snd ⟩-≡
+                    Γ₂                                  ∎-≡
+
+            lem-10 : (α₀ ∷ Γ₀) ⇃[ σ₀₂ ]⇂-CtxFor ≡ (α₂ ∷ Γ₂)
+            lem-10 = λ i → §-HM-Proofs.prop-1 α₂ σ₀₂ i ∷ lem-5 i
+
+            α₀Γ₀<α₂Γ₂ : (α₀ ∷ Γ₀) <Γ (α₂ ∷ Γ₂)
+            α₀Γ₀<α₂Γ₂ = record { fst = σ₀₂ ; snd = lem-10 }
+
+            ΩR = Ω (μs₂ ⊩ (α₂ ∷ Γ₂) , β₂ , α₀Γ₀<α₂Γ₂ , Γ₂α₂⊢β₂)
+
+            σ₁₂ : μs₁ ⟶ μs₂
+            σ₁₂ = tiSub ΩR
+
+            lem-21 : (α₁ ∷ Γ₁) ⇃[ σ₁₂ ]⇂-CtxFor ≡ α₂ ∷ Γ₂
+            lem-21 = ctxProofTI ΩR
+
+            lem-24 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ α₂
+            lem-24 = λ i → split-DDList (lem-21 i) .fst
+
+            lem-25 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+            lem-25 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-24
+
+            lem-26 : α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ₁₂ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+            lem-26 = α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ₁₂ ]⇂          ⟨ functoriality-◆-⇃[]⇂ {τ = α₁} {f = ⦗ id , elim-⊥ ⦘} {g = σ₁₂} ⟩-≡
+                    α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ₁₂ ]⇂              ⟨ α₁ ⇃[≀ §-HM-Helpers.prop-1 {f = σ₁₂} ≀]⇂ ⟩-≡
+                    α₁ ⇃[ (σ₁₂ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α₁} {f = σ₁₂ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
+                    α₁ ⇃[ (σ₁₂ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-25 ⟩-≡
+                    α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂                 ∎-≡
+
+            lem-29 : β₁ ⇃[ σ₁₂ ]⇂ ≡ β₂
+            lem-29 = typProof ΩR
+
+            lem-30 : (α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β₁) ⇃[ σ₁₂ ]⇂ ≡ (α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β₂)
+            lem-30 = λ i → lem-26 i ⇒ lem-29 i
+
+            lem-40 : σᵤ₁ ◆ σ₁₂ ∼ σᵤ₂
+            lem-40 = (σ₀ ◆ σ₀₁) ◆ σ₁₂   ⟨ assoc-l-◆ {f = σ₀} {σ₀₁} {σ₁₂} ⟩-∼
+                     σ₀ ◆ (σ₀₁ ◆ σ₁₂)   ⟨ refl {x = σ₀} ◈ subProof ΩR ⟩-∼
+                     σ₀ ◆ σ₀₂           ⟨ reduce-ι₀ {g = σₜ₂} ⟩-∼
+                     σᵤ₂                ∎
+
+
+    -------------------------------------------------
+    -- putting it together
 
     -- distinguish between failure and not
     resn = case res of
@@ -368,14 +454,30 @@ with γ Γ te
                 → let νs' , Δ' , τ' , hastyp' = §-isTypedℒHM.prop-1 te hastyp
                   in {!!} -- ¬typing (νs' ⊩ Δ' , τ' , {!!} , hastyp')
                   })
+      (right ∘ success)
 
 
+
+{-
       -- if there was no failure, we can use this result
       λ {
         -- we know that `α` has no quantification
           ((μs₁ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , hastype) , Ω) →
+          let σ₀₁ : μs₀ ⟶ μs₁
+              σ₀₁ = α₀Γ₀<α₁Γ₁ .fst
 
-          right ((μs₁ ⊩ Γ₁ , _ , {!!} , lam hastype),
+              σᵤ₁ : μs ⟶ μs₁
+              σᵤ₁ = σ₀ ◆ σ₀₁
+
+              lem-1 : Γ ⇃[ σᵤ₁ ]⇂-CtxFor ≡ Γ₁
+              lem-1 = Γ ⇃[ σᵤ₁ ]⇂-CtxFor                  ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σ₀} {σ₀₁}) ⟩-≡
+                      Γ ⇃[ σ₀ ]⇂-CtxFor ⇃[ σ₀₁ ]⇂-CtxFor  ⟨ (λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
+                      Γ₁                                  ∎-≡
+
+              Γ<Γ₁ : Γ <Γ Γ₁
+              Γ<Γ₁ = record { fst = σᵤ₁ ; snd = lem-1 }
+
+          in right ((μs₁ ⊩ Γ₁ , _ , Γ<Γ₁ , lam hastype),
 
                 -- here we have to show that we are the best typing instance
                 λ {(μs₂ ⊩ Γ₂ , .(_ ⇒ _) , Γ<Γ₂ , lam {α = α₂} {β = β₂} Γ₂α₂⊢β₂) →
@@ -386,61 +488,55 @@ with γ Γ te
                       σ₀₂ : (μs ⊔ st) ⟶ μs₂
                       σ₀₂ = ⦗ σᵤ₂ , ⧜subst (incl α₂) ◆ ⦗ id , elim-⊥ ⦘ ⦘
 
-                      -- extract this proof to where everything is faster
-                      lem-5 : α₀ ⇃[ σ₀₂ ⇃⊔⇂ id ]⇂ ≡ α₂
-                      lem-5 = αᵘ ⇃[ ι₁ ◆ ι₀ ]⇂ ⇃[ σ₀₂ ⇃⊔⇂ id ]⇂         ⟨ {!!} ⟩-≡
-                              αᵘ ⇃[ ι₁ ◆ ι₀ ◆ (σ₀₂ ⇃⊔⇂ id)]⇂            ⟨ {!!} ⟩-≡
-                              αᵘ ⇃[ ι₁ ◆ (ι₀ ◆ (σ₀₂ ⇃⊔⇂ id)) ]⇂         ⟨ {!!} ⟩-≡
-                              αᵘ ⇃[ ι₁ ◆ (σ₀₂ ◆ ι₀) ]⇂                  ⟨ {!!} ⟩-≡
-                              αᵘ ⇃[ ⧜subst (incl α₂) ◆ ⦗ id , elim-⊥ ⦘ ◆ ι₀ ]⇂  ⟨ {!!} ⟩-≡
-                              αᵘ ⇃[ ⧜subst (incl α₂) ]⇂                         ⟨ refl-≡ ⟩-≡
-                              α₂                                       ∎-≡
+                      lem-5 : Γ₀ ⇃[ σ₀₂ ]⇂-CtxFor ≡ Γ₂
+                      lem-5 = Γ ⇃[ ι₀ ]⇂-CtxFor ⇃[ σ₀₂ ]⇂-CtxFor  ⟨ §-HM-Proofs.prop-2 σᵤ₂ (⧜subst (incl α₂) ◆ ⦗ id , elim-⊥ ⦘) Γ ⟩-≡
+                              Γ ⇃[ σᵤ₂ ]⇂-CtxFor                  ⟨ Γ<Γ₂ .snd ⟩-≡
+                              Γ₂                                  ∎-≡
 
                       lem-10 : (α₀ ∷ Γ₀) ⇃[ σ₀₂ ]⇂-CtxFor ≡ (α₂ ∷ Γ₂)
-                      lem-10 = λ i → lem-5 i ∷ {!!}
+                      lem-10 = λ i → §-HM-Proofs.prop-1 α₂ σ₀₂ i ∷ lem-5 i
 
                       α₀Γ₀<α₂Γ₂ : (α₀ ∷ Γ₀) <Γ (α₂ ∷ Γ₂)
                       α₀Γ₀<α₂Γ₂ = record { fst = σ₀₂ ; snd = lem-10 }
 
                       ΩR = Ω (μs₂ ⊩ (α₂ ∷ Γ₂) , β₂ , α₀Γ₀<α₂Γ₂ , Γ₂α₂⊢β₂)
 
-                  in {!!}
+                  -- let ΩR = Ω (μs₂ ⊩ (α₂ ∷ Γ₂) , β₂ , {!!} , Γ₂α₂⊢β₂)
 
-{-
-                  let ΩR = Ω (μs₂ ⊩ (α₂ ∷ Γ₂) , β₂ , {!!} , Γ₂α₂⊢β₂)
+                      σ₁₂ : μs₁ ⟶ μs₂
+                      σ₁₂ = tiSub ΩR
 
-                      σ : μs₁ ⟶ μs₂
-                      σ = tiSub ΩR
+                      lem-21 : (α₁ ∷ Γ₁) ⇃[ σ₁₂ ]⇂-CtxFor ≡ α₂ ∷ Γ₂
+                      lem-21 = ctxProofTI ΩR
 
-                      lem-1 : (α₁ ∷ Γ₁) ⇃[ σ ]⇂-CtxFor ≡ α₂ ∷ Γ₂
-                      lem-1 = ctxProofTI ΩR
+                      lem-24 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ α₂
+                      lem-24 = λ i → split-DDList (lem-21 i) .fst
 
-                      lem-4 : α₁ ⇃[ σ ⇃⊔⇂ id ]⇂ ≡ α₂
-                      lem-4 = λ i → split-DDList (lem-1 i) .fst
+                      lem-25 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+                      lem-25 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-24
 
-                      lem-5 : α₁ ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
-                      lem-5 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-4
-
-                      lem-6 : α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
-                      lem-6 = α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ functoriality-◆-⇃[]⇂ {τ = α} {f = ⦗ id , elim-⊥ ⦘} {g = σ} ⟩-≡
-                              α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ ]⇂              ⟨ α₁ ⇃[≀ §-HM-Helpers.prop-1 {f = σ} ≀]⇂ ⟩-≡
-                              α₁ ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α} {f = σ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
-                              α₁ ⇃[ (σ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-5 ⟩-≡
+                      lem-26 : α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ₁₂ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+                      lem-26 = α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ₁₂ ]⇂          ⟨ functoriality-◆-⇃[]⇂ {τ = α₁} {f = ⦗ id , elim-⊥ ⦘} {g = σ₁₂} ⟩-≡
+                              α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ₁₂ ]⇂              ⟨ α₁ ⇃[≀ §-HM-Helpers.prop-1 {f = σ₁₂} ≀]⇂ ⟩-≡
+                              α₁ ⇃[ (σ₁₂ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘ ]⇂     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α₁} {f = σ₁₂ ⇃⊔⇂ id} {g = ⦗ id , elim-⊥ ⦘}) ⟩-≡
+                              α₁ ⇃[ (σ₁₂ ⇃⊔⇂ id) ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⟨ lem-25 ⟩-≡
                               α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂                 ∎-≡
 
-                      lem-9 : β ⇃[ σ ]⇂ ≡ β₂
-                      lem-9 = typProof ΩR
+                      lem-29 : β₁ ⇃[ σ₁₂ ]⇂ ≡ β₂
+                      lem-29 = typProof ΩR
 
-                      lem-10 : (α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) ⇃[ σ ]⇂ ≡ (α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β₂)
-                      lem-10 = λ i → lem-6 i ⇒ lem-9 i
+                      lem-30 : (α₁ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β₁) ⇃[ σ₁₂ ]⇂ ≡ (α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β₂)
+                      lem-30 = λ i → lem-26 i ⇒ lem-29 i
 
-                  in {!!}
-                  -}
-                  -- record { tiSub = σ ; typProof = lem-10 ; subProof = {!!} }
+                      lem-40 : σᵤ₁ ◆ σ₁₂ ∼ σᵤ₂
+                      lem-40 = ?
+
+                  in record { tiSub = σ₁₂ ; typProof = lem-30 ; subProof = lem-40 }
+
                   })
 
         }
-
+-}
 
 
 
