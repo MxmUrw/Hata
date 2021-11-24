@@ -155,6 +155,14 @@ record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ 
 
 open isAbstr public
 
+module §-isAbstr where
+  prop-1 : ∀{k} {Q : ℒHMQuant k} {κs : ℒHMTypes} {μs₀ μs₁ μs₂} {Γ₀ : ℒHMCtxFor Q μs₀} {Γ₁ : ℒHMCtxFor Q μs₁}
+               {τ₀ : ℒHMType ⟨ μs₀ ⟩} {τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩}
+           -> (σ₁₂ : μs₁ ⟶ μs₂)
+           -> isAbstr κs Γ₀ Γ₁ τ₀ τ₁
+           -> isAbstr κs Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂)
+  prop-1 = {!!}
+
 isInjective:∀[] : ∀{μs : ℒHMTypes} -> {α β : ℒHMType ⟨ μs ⊔ ⊥ ⟩} -> ∀[] α ≡ ∀[] β -> α ≡ β
 isInjective:∀[] {α = α} {β} p = ≡-Str→≡ (lem-1 (≡→≡-Str p))
   where

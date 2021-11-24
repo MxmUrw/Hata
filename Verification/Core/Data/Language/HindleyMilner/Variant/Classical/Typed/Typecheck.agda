@@ -81,6 +81,7 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
 
   in right (((μs ⊔ vα) ⊩ Γ₀ , α₀ , Γ<Γ₀ , var k∍i refl-≣ id)
 
+
            -- now we have to prove that this is the "initial" such typing instance
            , λ {(.(μs₁ ⊔ vα₁) ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {μs = μs₁} {Γ = Γ₁'} _ {vα' = vα₁} refl-≣ ρ) →
 
@@ -143,8 +144,12 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
 -}
 γ {μs = νs} {Q = Q} Γ (slet te se) with γ Γ te
 ... | (left _) = {!!}
-... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ₀<Γ , Γ₀⊢τ₀), Ω₀)) = (withAbstr (abstr-Ctx Γ₀ τ₀))
+... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ<Γ₀ , Γ₀⊢τ₀), Ω₀)) = (withAbstr (abstr-Ctx Γ₀ τ₀))
   where
+    σᵤ₀ : νs ⟶ νs₀
+    σᵤ₀ = Γ<Γ₀ .fst
+
+
     withAbstr : (∑ λ νs₁ -> ∑ λ νsₓ -> ∑ λ (Γ₁ : ℒHMCtxFor Q νs₁) -> ∑ λ (τ₁ : ℒHMType ⟨ νs₁ ⊔ νsₓ ⟩)
               -> isAbstr _ Γ₀ Γ₁ τ₀ τ₁)
               -> (CtxTypingInstance Γ (slet te se) -> ⊥-𝒰 {ℓ₀}) + InitialCtxTypingInstance Γ (slet te se)
@@ -152,12 +157,15 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
 
       where
         res = γ (τ₁ ∷ Γ₁) se
+
         -- σ₀₁ : νs₀ ⟶ νs₁
         -- σ₀₁ = ⟨ metasProof ⟩⁻¹ ◆ v
 
         success : InitialCtxTypingInstance (τ₁ ∷ Γ₁) se -> InitialCtxTypingInstance Γ (slet te se)
-        success ((νs₂ ⊩ (τ₂ ∷ Γ₂) , α₂ , τ₂Γ₂<τ₁Γ₁ , τ₂Γ₂⊢α₂) , Ω₂) = 𝑇 , {!!}
+        success ((νs₂ ⊩ (τ₂ ∷ Γ₂) , α₂ , τ₁Γ₁<τ₂Γ₂ , τ₂Γ₂⊢α₂) , Ω₂) = 𝑇 , {!!}
           where
+            σ₁₂ : νs₁ ⟶ νs₂
+            σ₁₂ = τ₁Γ₁<τ₂Γ₂ .fst
 
             σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νsₓ
             σ₀₁ₓ = ⟨ metasProof isAb ⟩⁻¹
@@ -168,8 +176,23 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
             Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νsₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
             Γ₁ₓ⊢τ₁ₓ = §-isTypedℒHM.prop-2 σ₀₁ₓ Γ₀⊢τ₀
 
+            isAbstr₀,₁' : isAbstr νsₓ Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂) --  Γ₁ₓ τ₀ τ₁ₓ
+            isAbstr₀,₁' = §-isAbstr.prop-1 σ₁₂ isAb
+
+            isAbstr₀,₂ : isAbstr νsₓ Γ₀ (Γ₂) τ₀ (τ₂) --  Γ₁ₓ τ₀ τ₁ₓ
+            isAbstr₀,₂ = transport (λ i -> isAbstr νsₓ Γ₀ (Γ₁₂ i) τ₀ (τ₁₂ i)) isAbstr₀,₁'
+              where
+                Γ₁₂ : Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor ≡ Γ₂
+                Γ₁₂ = λ i -> split-DDList (τ₁Γ₁<τ₂Γ₂ .snd i) .snd
+
+                τ₁₂ : τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ τ₂
+                τ₁₂ = λ i -> split-DDList (τ₁Γ₁<τ₂Γ₂ .snd i) .fst
+
             Γ₂⊢α₂ : isTypedℒHM (νs₂ ⊩ (_ , Γ₂) ⊢ α₂) (slet te se)
-            Γ₂⊢α₂ = slet {!!} Γ₁ₓ⊢τ₁ₓ τ₂Γ₂⊢α₂
+            Γ₂⊢α₂ = slet isAbstr₀,₂ Γ₀⊢τ₀ τ₂Γ₂⊢α₂
+
+            σᵤ₂ : νs₀ ⟶ νs₂
+            σᵤ₂ = {!!} -- σᵤ₀ ◆ σ₀
 
             𝑇 : CtxTypingInstance Γ (slet te se)
             𝑇 = νs₂ ⊩ Γ₂ , α₂ , {!!} , Γ₂⊢α₂
