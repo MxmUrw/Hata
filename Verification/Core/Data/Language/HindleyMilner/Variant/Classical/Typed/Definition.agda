@@ -149,9 +149,12 @@ pattern ∀[]_ xs = ∀[ incl [] ] xs
 
 record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtxFor Q μs₀) (Γ₁ : ℒHMCtxFor Q μs₁)
                (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
-  field metasProof : (μs₁ ⊔ κs) ≅ μs₀
-  field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-CtxFor ≡ Γ₀
-  field typeProof : τ₁ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₀
+  field metasForget : μs₀ ⟶ μs₁
+  field ctxProof : Γ₀ ⇃[ metasForget ]⇂-CtxFor ≡ Γ₁
+  -- field metasProof : (μs₁ ⊔ κs) ≅ μs₀
+
+  -- field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-CtxFor ≡ Γ₀
+  -- field typeProof : τ₁ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₀
 
 open isAbstr public
 

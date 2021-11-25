@@ -31,8 +31,8 @@ agdaPublishProjects:
       documentType: SCReport
       documentDate: ""
       documentFilesAndHeadings:
-      - Experimental/Theory/Std/Generic/Theory/Definition.agda
-      - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
+      - === Categories
+      - Core/Category/Std/Category/Definition.agda
 
     libraryDefinitions_Filename: hata.agda-lib
 

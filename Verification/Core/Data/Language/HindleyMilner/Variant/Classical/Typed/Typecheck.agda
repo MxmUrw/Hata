@@ -30,11 +30,6 @@ open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definit
 
 
 
-record _<Γ_ {k} {Q : ℒHMQuant k} {μs νs} (Γ : ℒHMCtxFor Q μs) (Γ' : ℒHMCtxFor Q νs) : 𝒰₀ where
-  field fst : μs ⟶ νs
-  field snd : Γ ⇃[ fst ]⇂-CtxFor ≡ Γ'
-open _<Γ_ public
-
 record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
   constructor _⊩_,_,_,_
   field metas : ℒHMTypes
@@ -158,8 +153,8 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
       where
         res = γ (τ₁ ∷ Γ₁) se
 
-        -- σ₀₁ : νs₀ ⟶ νs₁
-        -- σ₀₁ = ⟨ metasProof ⟩⁻¹ ◆ v
+        σ₀₁ : νs₀ ⟶ νs₁
+        σ₀₁ = metasForget isAb
 
         success : InitialCtxTypingInstance (τ₁ ∷ Γ₁) se -> InitialCtxTypingInstance Γ (slet te se)
         success ((νs₂ ⊩ (τ₂ ∷ Γ₂) , α₂ , τ₁Γ₁<τ₂Γ₂ , τ₂Γ₂⊢α₂) , Ω₂) = 𝑇 , {!!}
@@ -167,14 +162,14 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
             σ₁₂ : νs₁ ⟶ νs₂
             σ₁₂ = τ₁Γ₁<τ₂Γ₂ .fst
 
-            σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νsₓ
-            σ₀₁ₓ = ⟨ metasProof isAb ⟩⁻¹
+            -- σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νsₓ
+            -- σ₀₁ₓ = ⟨ metasProof isAb ⟩⁻¹
 
-            Γ₁ₓ = Γ₀ ⇃[ σ₀₁ₓ ]⇂-CtxFor
-            τ₁ₓ = τ₀ ⇃[ σ₀₁ₓ ]⇂
+            -- Γ₁ₓ = Γ₀ ⇃[ σ₀₁ₓ ]⇂-CtxFor
+            -- τ₁ₓ = τ₀ ⇃[ σ₀₁ₓ ]⇂
 
-            Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νsₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
-            Γ₁ₓ⊢τ₁ₓ = §-isTypedℒHM.prop-2 σ₀₁ₓ Γ₀⊢τ₀
+            -- Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νsₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
+            -- Γ₁ₓ⊢τ₁ₓ = §-isTypedℒHM.prop-2 σ₀₁ₓ Γ₀⊢τ₀
 
             isAbstr₀,₁' : isAbstr νsₓ Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂) --  Γ₁ₓ τ₀ τ₁ₓ
             isAbstr₀,₁' = §-isAbstr.prop-1 σ₁₂ isAb
@@ -191,8 +186,11 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
             Γ₂⊢α₂ : isTypedℒHM (νs₂ ⊩ (_ , Γ₂) ⊢ α₂) (slet te se)
             Γ₂⊢α₂ = slet isAbstr₀,₂ Γ₀⊢τ₀ τ₂Γ₂⊢α₂
 
-            σᵤ₂ : νs₀ ⟶ νs₂
-            σᵤ₂ = {!!} -- σᵤ₀ ◆ σ₀
+            σᵤ₂ : νs ⟶ νs₂
+            σᵤ₂ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂
+
+            Γ<Γ₂ : Γ <Γ Γ₂
+            Γ<Γ₂ = {!!}
 
             𝑇 : CtxTypingInstance Γ (slet te se)
             𝑇 = νs₂ ⊩ Γ₂ , α₂ , {!!} , Γ₂⊢α₂

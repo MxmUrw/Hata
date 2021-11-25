@@ -1,2 +1,3 @@
 _build/
 *.stackdump
+dist-newstyle/cache/
