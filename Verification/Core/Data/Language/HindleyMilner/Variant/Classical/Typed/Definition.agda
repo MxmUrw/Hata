@@ -18,8 +18,11 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
+
+open import Verification.Core.Order.Preorder
 
 -----------------------------------------
 -- 人Vecᵖ
@@ -150,6 +153,7 @@ pattern ∀[]_ xs = ∀[ incl [] ] xs
 record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtxFor Q μs₀) (Γ₁ : ℒHMCtxFor Q μs₁)
                (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
   field metasForget : μs₀ ⟶ μs₁
+  field metasCreate : somectx Γ₁ ≤ somectx Γ₀ -- μs₁ ⟶ μs₀
   field ctxProof : Γ₀ ⇃[ metasForget ]⇂-CtxFor ≡ Γ₁
   -- field metasProof : (μs₁ ⊔ κs) ≅ μs₀
 
@@ -172,17 +176,22 @@ isInjective:∀[] {α = α} {β} p = ≡-Str→≡ (lem-1 (≡→≡-Str p))
     lem-1 : ∀[] α ≣ ∀[] β -> α ≣ β
     lem-1 refl-≣ = refl-≣
 
+module _ {k νs} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q νs) (τ : ℒHMType ⟨ νs ⟩) (κs : ℒHMTypes) where
+  record Abstraction : 𝒰₀ where
+    constructor abstraction
+    field otherMetas : ℒHMTypes
+    field otherCtx : ℒHMCtxFor Q otherMetas
+    field otherType : ℒHMType ⟨ otherMetas ⊔ κs ⟩
+    field isAbstrProof : isAbstr κs Γ otherCtx τ otherType
+    -- field baseMetas : ℒHMTypes
+    -- field extraMetas : ℒHMTypes
+    -- field metasProof : (baseMetas ⊔ extraMetas) ≅ metavars 𝐽
+    -- field baseCtx : ℒHMCtx _ baseMetas
+    -- field baseCtxProof : baseCtx ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ context 𝐽
+    -- field baseType : ℒHMType ⟨ baseMetas ⊔ extraMetas ⟩
+    -- field baseTypeProof : baseType ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ type 𝐽
 
--- record Abstraction (𝐽 : ℒHMJudgement) : 𝒰₀ where
---   field baseMetas : ℒHMTypes
---   field extraMetas : ℒHMTypes
---   field metasProof : (baseMetas ⊔ extraMetas) ≅ metavars 𝐽
---   field baseCtx : ℒHMCtx _ baseMetas
---   field baseCtxProof : baseCtx ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-Ctx ≡ context 𝐽
---   field baseType : ℒHMType ⟨ baseMetas ⊔ extraMetas ⟩
---   field baseTypeProof : baseType ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ type 𝐽
-
--- open Abstraction public
+open Abstraction public
 
 
 data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
@@ -255,10 +264,16 @@ module §-isTypedℒHM where
   -- prop-2 σ (slet ab te se) = {!!}
 
 
+InitialAbstraction : ∀{νs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q νs)
+                     -> (τ : ℒHMType ⟨ νs ⟩) -> 𝒰₀
+InitialAbstraction Γ τ = ∑ λ (ab : ∑ Abstraction Γ τ) -> ∀(ab' : ∑ Abstraction Γ τ) -> fst ab ⟶ fst ab'
+
 abstr-Ctx : ∀{νs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q νs)
           -> (τ : ℒHMType ⟨ νs ⟩)
-          -> ∑ λ μsa -> ∑ λ μsb -> ∑ λ (Γ' : ℒHMCtxFor Q μsa) -> ∑ λ (τ' : ℒHMType ⟨ μsa ⊔ μsb ⟩)
-          -> isAbstr _ Γ Γ' τ τ'
+          -- -> ∑ λ μsa -> ∑ λ μsb -> ∑ λ (Γ' : ℒHMCtxFor Q μsa) -> ∑ λ (τ' : ℒHMType ⟨ μsa ⊔ μsb ⟩)
+          -- -> (isAbstr _ Γ Γ' τ τ')
+          -- (ab : ∑ Abstraction Γ τ) -> ∀(ab' : ∑ Abstraction Γ τ) -> fst ab ⟶ fst ab'
+          -> InitialAbstraction Γ τ
 abstr-Ctx = {!!}
 
 {-

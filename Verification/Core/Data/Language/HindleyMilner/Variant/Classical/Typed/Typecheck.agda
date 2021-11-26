@@ -20,11 +20,13 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Proofs
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 open import Verification.Core.Set.Decidable
+open import Verification.Core.Order.Preorder
 
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
 
@@ -54,6 +56,8 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
 
 InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
 InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
+
+
 
 
 γ : ∀{μs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) -> (te : UntypedℒHM k)
@@ -144,38 +148,46 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
     σᵤ₀ : νs ⟶ νs₀
     σᵤ₀ = Γ<Γ₀ .fst
 
-
-    withAbstr : (∑ λ νs₁ -> ∑ λ νsₓ -> ∑ λ (Γ₁ : ℒHMCtxFor Q νs₁) -> ∑ λ (τ₁ : ℒHMType ⟨ νs₁ ⊔ νsₓ ⟩)
-              -> isAbstr _ Γ₀ Γ₁ τ₀ τ₁)
+    withAbstr :
+              -- (∑ λ νs₁ -> ∑ λ νs₁ₓ -> ∑ λ (Γ₁ : ℒHMCtxFor Q νs₁) -> ∑ λ (τ₁ : ℒHMType ⟨ νs₁ ⊔ νs₁ₓ ⟩)
+              -- -> isAbstr _ Γ₀ Γ₁ τ₀ τ₁)
+              InitialAbstraction Γ₀ τ₀
               -> (CtxTypingInstance Γ (slet te se) -> ⊥-𝒰 {ℓ₀}) + InitialCtxTypingInstance Γ (slet te se)
-    withAbstr (νs₁ , νsₓ , Γ₁ , τ₁ , isAb) = {!!}
-
+    withAbstr ((νs₁ₓ , abstraction νs₁ Γ₁ τ₁ isAb) , 𝐴) = {!!}
       where
         res = γ (τ₁ ∷ Γ₁) se
 
         σ₀₁ : νs₀ ⟶ νs₁
         σ₀₁ = metasForget isAb
 
+        σᵤ₁ : νs ⟶ νs₁
+        σᵤ₁ = σᵤ₀ ◆ σ₀₁
+
+        Γ₀<Γ₁ : somectx Γ₀ ≤ somectx Γ₁
+        Γ₀<Γ₁ = record { fst = σ₀₁ ; snd = ctxProof isAb }
+
         success : InitialCtxTypingInstance (τ₁ ∷ Γ₁) se -> InitialCtxTypingInstance Γ (slet te se)
-        success ((νs₂ ⊩ (τ₂ ∷ Γ₂) , α₂ , τ₁Γ₁<τ₂Γ₂ , τ₂Γ₂⊢α₂) , Ω₂) = 𝑇 , {!!}
+        success ((νs₂ ⊩ (τ₂ ∷ Γ₂) , α₂ , τ₁Γ₁<τ₂Γ₂ , τ₂Γ₂⊢α₂) , Ω₁) = 𝑇 , {!!}
           where
             σ₁₂ : νs₁ ⟶ νs₂
             σ₁₂ = τ₁Γ₁<τ₂Γ₂ .fst
 
-            -- σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νsₓ
+            Γ₁<Γ₂ = tail-SomeℒHMCtx τ₁Γ₁<τ₂Γ₂
+
+            -- σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νs₁ₓ
             -- σ₀₁ₓ = ⟨ metasProof isAb ⟩⁻¹
 
             -- Γ₁ₓ = Γ₀ ⇃[ σ₀₁ₓ ]⇂-CtxFor
             -- τ₁ₓ = τ₀ ⇃[ σ₀₁ₓ ]⇂
 
-            -- Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νsₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
+            -- Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νs₁ₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
             -- Γ₁ₓ⊢τ₁ₓ = §-isTypedℒHM.prop-2 σ₀₁ₓ Γ₀⊢τ₀
 
-            isAbstr₀,₁' : isAbstr νsₓ Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂) --  Γ₁ₓ τ₀ τ₁ₓ
+            isAbstr₀,₁' : isAbstr νs₁ₓ Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂) --  Γ₁ₓ τ₀ τ₁ₓ
             isAbstr₀,₁' = §-isAbstr.prop-1 σ₁₂ isAb
 
-            isAbstr₀,₂ : isAbstr νsₓ Γ₀ (Γ₂) τ₀ (τ₂) --  Γ₁ₓ τ₀ τ₁ₓ
-            isAbstr₀,₂ = transport (λ i -> isAbstr νsₓ Γ₀ (Γ₁₂ i) τ₀ (τ₁₂ i)) isAbstr₀,₁'
+            isAbstr₀,₂ : isAbstr νs₁ₓ Γ₀ (Γ₂) τ₀ (τ₂) --  Γ₁ₓ τ₀ τ₁ₓ
+            isAbstr₀,₂ = transport (λ i -> isAbstr νs₁ₓ Γ₀ (Γ₁₂ i) τ₀ (τ₁₂ i)) isAbstr₀,₁'
               where
                 Γ₁₂ : Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor ≡ Γ₂
                 Γ₁₂ = λ i -> split-DDList (τ₁Γ₁<τ₂Γ₂ .snd i) .snd
@@ -190,12 +202,66 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
             σᵤ₂ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂
 
             Γ<Γ₂ : Γ <Γ Γ₂
-            Γ<Γ₂ = {!!}
+            Γ<Γ₂ = Γ<Γ₀ ⟡ Γ₀<Γ₁ ⟡ Γ₁<Γ₂
 
             𝑇 : CtxTypingInstance Γ (slet te se)
-            𝑇 = νs₂ ⊩ Γ₂ , α₂ , {!!} , Γ₂⊢α₂
+            𝑇 = νs₂ ⊩ Γ₂ , α₂ , Γ<Γ₂ , Γ₂⊢α₂
+
+            isInitial:𝑇 : ∀(𝑆 : CtxTypingInstance Γ (slet te se)) -> 𝑇 <TI 𝑆
+            isInitial:𝑇 (νs₄ ⊩ Γ₄ , α₄ , Γ<Γ₄ , slet {μs = νs₃} {κs = νs₄ₓ} {Γ = Γ₃} {Γ₄} {τ₃} {τ₄} isAb₃ Γ₃⊢τ₃ τ₄Γ₄⊢α₄) =
+              record { tiSub = σ₂₄ ; typProof = {!!} ; subProof = lem-20 }
+              where
+                σᵤ₄ = Γ<Γ₄ .fst
+
+                Γ₄<Γ₃ : somectx Γ₄ ≤ somectx Γ₃
+                Γ₄<Γ₃ = metasCreate isAb₃
+                -- record { fst = {!metasForget isAb₃!} ; snd = {!!} }
+
+                Ω₀R = Ω₀ (νs₃ ⊩ Γ₃ , τ₃ , Γ<Γ₄ ⟡ Γ₄<Γ₃ , Γ₃⊢τ₃)
+
+                σ₀₃ : νs₀ ⟶ νs₃
+                σ₀₃ = tiSub Ω₀R
+
+                lem-1 : τ₀ ⇃[ σ₀₃ ]⇂ ≡ τ₃
+                lem-1 = typProof Ω₀R
+
+                -- ρ : νs₁ ⟶ νs₄
+                -- ρ = {!!}
+
+                ρ : νs₁ ⊔ νs₁ₓ ⟶ νs₄ ⊔ νs₄ₓ
+                ρ = {!!}
+
+                ρ⃨ : νs₁ ⟶ νs₄
+                ρ⃨ = {!!}
+
+                lem-2 : τ₄ ≡ τ₁ ⇃[ ⦗ ρ⃨ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂
+                lem-2 = {!!}
+
+                lem-3 : isTypedℒHM (νs₄ ⊩ (νs₄ₓ ∷ Q , τ₁ ⇃[ ⦗ ρ⃨ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂ ∷ Γ₄) ⊢ α₄) se
+                lem-3 = {!!}
+
+                -- we can change the quantification to be over νs₁ₓ
+                lem-4 : isTypedℒHM (νs₄ ⊩ (νs₁ₓ ∷ Q , τ₁ ⇃[ ⦗ ρ⃨ ◆ ι₀ , ι₁ ⦘ ]⇂ ∷ Γ₄) ⊢ α₄) se
+                lem-4 = {!!}
+
+                τ₁Γ₁<τ₁'Γ₄ : (τ₁ ∷ Γ₁) <Γ (τ₁ ⇃[ ⦗ ρ⃨ ◆ ι₀ , ι₁ ⦘ ]⇂ ∷ Γ₄)
+                τ₁Γ₁<τ₁'Γ₄ = record { fst = ρ⃨ ; snd = {!!} }
+
+                Ω₁R = Ω₁ (νs₄ ⊩ _ , _ , τ₁Γ₁<τ₁'Γ₄ , lem-4)
+                -- (νs₄ ⊩ (τ₁ ⇃[ ⦗ ρ ◆ ι₀ , ι₁ ⦘ ]⇂) ∷ Γ₄ , α₄ , {!!} , {!τ₄Γ₄⊢α₄!})
 
 
+                σ₂₄ : νs₂ ⟶ νs₄
+                σ₂₄ = tiSub Ω₁R
+
+                lem-20 : σᵤ₂ ◆ σ₂₄ ∼ σᵤ₄
+                lem-20 = σᵤ₁ ◆ σ₁₂ ◆ σ₂₄    ⟨ assoc-l-◆ {f = σᵤ₁} {g = σ₁₂} {h = σ₂₄} ⟩-∼ -- ⟨ refl ◈ subProof Ω₁R ⟩-∼
+                         σᵤ₁ ◆ (σ₁₂ ◆ σ₂₄)  ⟨ refl {x = σᵤ₁} ◈ subProof Ω₁R ⟩-∼
+                         σᵤ₁ ◆ ρ⃨            ⟨ {!!} ⟩-∼
+                         σᵤ₀ ◆  ◆ ρ⃨            ⟨ {!!} ⟩-∼
+                         σᵤ₄                ∎
+
+                -- lem-20 : α\
 
 
         --------------------------------------
@@ -204,6 +270,7 @@ InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(
         resn = case res of
                 {!!}
                 success
+
 
 {-
   let νs₀' , Γ₀' , τ₀' , isAb = abstr-Ctx Γ₀⊢τ₀
