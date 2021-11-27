@@ -30,42 +30,39 @@ module _ {D : 𝒰 𝑙} {{_ : isCategory {𝑙₁} D}}
   (functoriality-id' : ∀{a : A} -> map-ϕ (id' {a}) ∼ id)
   where
 
-  private
-    lem-1 : ∀{a b : A} {f : Hom' a b} -> (id' ◆' f) ∼ f
-    lem-1 {f = f} = cancel-injective p
-      where
-        p = map-ϕ (id' ◆' f)         ⟨ functoriality-◆' ⟩-∼
-            map-ϕ id' ◆ map-ϕ f      ⟨ functoriality-id' ◈ refl ⟩-∼
-            id ◆ map-ϕ f             ⟨ unit-l-◆ ⟩-∼
-            map-ϕ f                  ∎
+  abstract
+    private
+      lem-1 : ∀{a b : A} {f : Hom' a b} -> (id' ◆' f) ∼ f
+      lem-1 {f = f} = cancel-injective $
+              map-ϕ (id' ◆' f)         ⟨ functoriality-◆' ⟩-∼
+              map-ϕ id' ◆ map-ϕ f      ⟨ functoriality-id' ◈ refl ⟩-∼
+              id ◆ map-ϕ f             ⟨ unit-l-◆ ⟩-∼
+              map-ϕ f                  ∎
 
-    lem-2 : ∀{a b : A} {f : Hom' a b} -> (f ◆' id') ∼ f
-    lem-2 {f = f} = cancel-injective p
-      where
-        p = map-ϕ (f ◆' id')         ⟨ functoriality-◆' ⟩-∼
-            map-ϕ f ◆ map-ϕ id'      ⟨ refl ◈ functoriality-id' ⟩-∼
-            map-ϕ f ◆ id             ⟨ unit-r-◆ ⟩-∼
-            map-ϕ f                  ∎
+      lem-2 : ∀{a b : A} {f : Hom' a b} -> (f ◆' id') ∼ f
+      lem-2 {f = f} = cancel-injective $
+              map-ϕ (f ◆' id')         ⟨ functoriality-◆' ⟩-∼
+              map-ϕ f ◆ map-ϕ id'      ⟨ refl ◈ functoriality-id' ⟩-∼
+              map-ϕ f ◆ id             ⟨ unit-r-◆ ⟩-∼
+              map-ϕ f                  ∎
 
-    lem-3 : ∀{a b c d : A} {f : Hom' a b} {g : Hom' b c} {h : Hom' c d} -> ((f ◆' g) ◆' h) ∼ (f ◆' (g ◆' h))
-    lem-3 {f = f} {g} {h} = cancel-injective p
-      where
-        p = map-ϕ ((f ◆' g) ◆' h)            ⟨ functoriality-◆' ⟩-∼
-            map-ϕ (f ◆' g) ◆ map-ϕ h         ⟨ functoriality-◆' ◈ refl ⟩-∼
-            (map-ϕ f ◆ map-ϕ g) ◆ map-ϕ h    ⟨ assoc-l-◆ ⟩-∼
-            map-ϕ f ◆ (map-ϕ g ◆ map-ϕ h)    ⟨ refl ◈ functoriality-◆' ⁻¹ ⟩-∼
-            map-ϕ f ◆ map-ϕ (g ◆' h)         ⟨ functoriality-◆' ⁻¹ ⟩-∼
-            map-ϕ (f ◆' (g ◆' h))            ∎
+      lem-3 : ∀{a b c d : A} {f : Hom' a b} {g : Hom' b c} {h : Hom' c d} -> ((f ◆' g) ◆' h) ∼ (f ◆' (g ◆' h))
+      lem-3 {f = f} {g} {h} = cancel-injective $
+              map-ϕ ((f ◆' g) ◆' h)            ⟨ functoriality-◆' ⟩-∼
+              map-ϕ (f ◆' g) ◆ map-ϕ h         ⟨ functoriality-◆' ◈ refl ⟩-∼
+              (map-ϕ f ◆ map-ϕ g) ◆ map-ϕ h    ⟨ assoc-l-◆ ⟩-∼
+              map-ϕ f ◆ (map-ϕ g ◆ map-ϕ h)    ⟨ refl ◈ functoriality-◆' ⁻¹ ⟩-∼
+              map-ϕ f ◆ map-ϕ (g ◆' h)         ⟨ functoriality-◆' ⁻¹ ⟩-∼
+              map-ϕ (f ◆' (g ◆' h))            ∎
 
-    lem-4 : ∀{a b c : A} {f g : Hom' a b} {h i : Hom' b c}
-            -> (f ∼ g) -> (h ∼ i)
-            -> (f ◆' h) ∼ (g ◆' i)
-    lem-4 {f = f} {g} {h} {i} p q = cancel-injective r
-      where
-        r = map-ϕ (f ◆' h)    ⟨ functoriality-◆' ⟩-∼
-            map-ϕ f ◆ map-ϕ h ⟨ cong-∼ p ◈ cong-∼ q ⟩-∼
-            map-ϕ g ◆ map-ϕ i ⟨ functoriality-◆' ⁻¹ ⟩-∼
-            map-ϕ (g ◆' i)    ∎
+      lem-4 : ∀{a b c : A} {f g : Hom' a b} {h i : Hom' b c}
+              -> (f ∼ g) -> (h ∼ i)
+              -> (f ◆' h) ∼ (g ◆' i)
+      lem-4 {f = f} {g} {h} {i} p q = cancel-injective $
+              map-ϕ (f ◆' h)    ⟨ functoriality-◆' ⟩-∼
+              map-ϕ f ◆ map-ϕ h ⟨ cong-∼ p ◈ cong-∼ q ⟩-∼
+              map-ϕ g ◆ map-ϕ i ⟨ functoriality-◆' ⁻¹ ⟩-∼
+              map-ϕ (g ◆' i)    ∎
 
   isCategory:byFaithful : isCategory A
   isCategory.Hom isCategory:byFaithful = Hom'

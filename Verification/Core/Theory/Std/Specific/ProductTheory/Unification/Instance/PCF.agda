@@ -51,24 +51,29 @@ open import Verification.Core.Computation.Unification.Definition
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat
 -- open import Verification.Core.Computation.Unification.Monoidic.Instance.hasUnification
 
+{-
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Base
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Main
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Size
-
+-}
 
 module _ {𝑨 : 𝕋× 𝑖} where
+
+  {-
   instance
     isPrincipalFamilyCat:𝐂𝐭𝐱-𝕋× : isPrincipalFamilyCat (𝐂𝐭𝐱 𝑨)
     isPrincipalFamilyCat:𝐂𝐭𝐱-𝕋× = record { isBase = isBase-𝕋× ; ∂C = ∂-𝕋× ; isPrincipalC:Base = decide-Base-𝕋× }
+  -}
 
   -- abstract
   --   instance
   --     hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
   --     hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat
 
-  abstract
+  postulate
     instance
       hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
-      hasUnification:𝐂𝐭𝐱-𝕋× = {!!} --  hasUnification:byPrincipalFamilyCat
+
+      -- hasUnification:𝐂𝐭𝐱-𝕋× = {!!} --  hasUnification:byPrincipalFamilyCat
 
 

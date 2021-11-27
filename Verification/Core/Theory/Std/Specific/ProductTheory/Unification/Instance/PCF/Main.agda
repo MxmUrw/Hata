@@ -60,7 +60,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
   ∂-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> (t : HomPair x y) -> (isBase-𝕋× t +-𝒰 (∑ λ n -> isSplittableC (𝐂𝐭𝐱 𝑨) n t))
   ∂-𝕋× (⧜subst ◌-⧜ , ⧜subst ◌-⧜) = left isBase:⊥
-  ∂-𝕋× {x} {y} (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁)) = right (2 , record { famC = fam' ; coversC = (λ h -> covers-0 h , covers-1 h) ; fampropsC = sizes })
+  ∂-𝕋× {x} {y} (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁)) = right (2 , record
+    { famC = fam'
+    ; coversC = ? -- (λ h -> covers-0 h , covers-1 h)
+    ; fampropsC = sizes
+    })
     where
       fam' : Fin-R 2 -> ∑ λ x' -> HomPair x' y
       fam' (zero) = _ , ⧜subst f₀ , ⧜subst g₀

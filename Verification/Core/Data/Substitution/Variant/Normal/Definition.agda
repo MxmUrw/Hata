@@ -202,66 +202,71 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
     lem-1 : {a b c : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′}
             {f : Hom-♮𝐒𝐮𝐛𝐬𝐭 a b} {g : Hom-♮𝐒𝐮𝐛𝐬𝐭 b c} →
             (it isSetoid.∼ map-ι-♮𝐒𝐮𝐛𝐬𝐭 (f ◆-♮𝐒𝐮𝐛𝐬𝐭 g))
-            (map-ι-♮𝐒𝐮𝐛𝐬𝐭 f ◆-⧜𝐒𝐮𝐛𝐬𝐭 map-ι-♮𝐒𝐮𝐛𝐬𝐭 g)
-    lem-1 {a}{b}{c}{f}{g} = ≡→≡-Str (cong ⧜subst ( inv-l-◆-construct-DList _))
+            (map-ι-♮𝐒𝐮𝐛𝐬𝐭 f ◆ map-ι-♮𝐒𝐮𝐛𝐬𝐭 g)
+    lem-1 {a}{b}{c}{f}{g} = ≡→≡-Str (cong ⧜subst ( inv-l-◆-construct-DList _)) ∙-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭
 
-    lem-2 : {a : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′} → (it isSetoid.∼ map-ι-♮𝐒𝐮𝐛𝐬𝐭 (id-♮𝐒𝐮𝐛𝐬𝐭 {a = a})) id-⧜𝐒𝐮𝐛𝐬𝐭
-    lem-2 = ≡→≡-Str (cong ⧜subst (inv-l-◆-construct-DList _))
+    lem-2 : {a : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′} → (it isSetoid.∼ map-ι-♮𝐒𝐮𝐛𝐬𝐭 (id-♮𝐒𝐮𝐛𝐬𝐭 {a = a})) id
+    lem-2 = ≡→≡-Str (cong ⧜subst (inv-l-◆-construct-DList _)) ∙-≣ abstract-id-⧜𝐒𝐮𝐛𝐬𝐭
 
-
-  instance
-    isCategory:♮𝐒𝐮𝐛𝐬𝐭 : isCategory (♮𝐒𝐮𝐛𝐬𝐭 T)
-    isCategory:♮𝐒𝐮𝐛𝐬𝐭 = isCategory:byFaithful Hom-♮𝐒𝐮𝐛𝐬𝐭 id-♮𝐒𝐮𝐛𝐬𝐭 _◆-♮𝐒𝐮𝐛𝐬𝐭_ ι map-ι-♮𝐒𝐮𝐛𝐬𝐭 lem-1 lem-2
-
-
-  instance
-    isFunctor:ι-♮𝐒𝐮𝐛𝐬𝐭 : isFunctor (♮𝐒𝐮𝐛𝐬𝐭 T) (⧜𝐒𝐮𝐛𝐬𝐭 T) ι
-    isFunctor:ι-♮𝐒𝐮𝐛𝐬𝐭 = functor map-ι-♮𝐒𝐮𝐛𝐬𝐭 lem-2 lem-1
-
-  instance
-    isFaithful:ι-♮𝐒𝐮𝐛𝐬𝐭 : isFaithful (ι-♮𝐒𝐮𝐛𝐬𝐭)
-    isFaithful.isInjective:map isFaithful:ι-♮𝐒𝐮𝐛𝐬𝐭 = isInjective:map-ι-♮𝐒𝐮𝐛𝐬𝐭
-
-  instance
-    isFull:ι-♮𝐒𝐮𝐛𝐬𝐭 : isFull (ι-♮𝐒𝐮𝐛𝐬𝐭)
-    isFull:ι-♮𝐒𝐮𝐛𝐬𝐭 = record {}
-
-  eso-♮𝐒𝐮𝐛𝐬𝐭 : (⧜𝐒𝐮𝐛𝐬𝐭 T) -> ♮𝐒𝐮𝐛𝐬𝐭 T
-  eso-♮𝐒𝐮𝐛𝐬𝐭 (incl x) = incl (♮ x)
-
-  instance
-    isEssentiallySurjective:ι-♮𝐒𝐮𝐛𝐬𝐭 : isEssentiallySurjective (ι-♮𝐒𝐮𝐛𝐬𝐭)
-    isEssentiallySurjective.eso isEssentiallySurjective:ι-♮𝐒𝐮𝐛𝐬𝐭 = eso-♮𝐒𝐮𝐛𝐬𝐭
-    isEssentiallySurjective.inv-eso isEssentiallySurjective:ι-♮𝐒𝐮𝐛𝐬𝐭 {d} = lem-01
-      where
-        -- in 𝐈𝐱
-        lem-04 : 𝑒𝑙 (ι (♮ ⟨ d ⟩)) ≅ 𝑒𝑙 ⟨ d ⟩
-        lem-04 = cong-∼ surj-♮-Free-𝐌𝐨𝐧
-
-        d'' : 𝐅𝐢𝐧𝐈𝐱 _
-        d'' = incl ⟨ d ⟩
-
-        -- in 𝐅𝐢𝐧𝐈𝐱
-        lem-03 : (incl (ι (♮ ⟨ d ⟩))) ≅ d''
-        lem-03 = cong⁻¹-≅ lem-04
-
-        d' : 𝐒𝐮𝐛𝐬𝐭 T
-        d' = incl (incl ⟨ d ⟩)
-
-        -- in 𝐑𝐞𝐊𝐥𝐬 T = 𝐒𝐮𝐛𝐬𝐭
-        lem-02 : incl (incl (ι (♮ ⟨ d ⟩))) ≅ d'
-        lem-02 = cong-≅ lem-03
-
-        -- in ⧜𝐒𝐮𝐛𝐬𝐭
-        lem-01 : incl (ι (♮ ⟨ d ⟩)) ≅ d
-        lem-01 = cong⁻¹-≅ lem-02
-
-
-  instance
-    hasInitial:♮𝐒𝐮𝐛𝐬𝐭 : hasInitial (♮𝐒𝐮𝐛𝐬𝐭 T)
-    hasInitial:♮𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
 
   abstract
+    instance
+      isCategory:♮𝐒𝐮𝐛𝐬𝐭 : isCategory {𝑖 , 𝑖} (♮𝐒𝐮𝐛𝐬𝐭 T)
+      isCategory:♮𝐒𝐮𝐛𝐬𝐭 = isCategory:byFaithful Hom-♮𝐒𝐮𝐛𝐬𝐭 id-♮𝐒𝐮𝐛𝐬𝐭 _◆-♮𝐒𝐮𝐛𝐬𝐭_ ι map-ι-♮𝐒𝐮𝐛𝐬𝐭 lem-1 lem-2
+
+    instance
+      isFunctor:ι-♮𝐒𝐮𝐛𝐬𝐭 : isFunctor (♮𝐒𝐮𝐛𝐬𝐭 T) (⧜𝐒𝐮𝐛𝐬𝐭 T) ι
+      isFunctor:ι-♮𝐒𝐮𝐛𝐬𝐭 = functor map-ι-♮𝐒𝐮𝐛𝐬𝐭 lem-2 lem-1
+
+    instance
+      isFaithful:ι-♮𝐒𝐮𝐛𝐬𝐭 : isFaithful (ι-♮𝐒𝐮𝐛𝐬𝐭)
+      isFaithful.isInjective:map isFaithful:ι-♮𝐒𝐮𝐛𝐬𝐭 = isInjective:map-ι-♮𝐒𝐮𝐛𝐬𝐭
+
+    instance
+      isFull:ι-♮𝐒𝐮𝐛𝐬𝐭 : isFull (ι-♮𝐒𝐮𝐛𝐬𝐭)
+      isFull:ι-♮𝐒𝐮𝐛𝐬𝐭 = record {}
+
+    eso-♮𝐒𝐮𝐛𝐬𝐭 : (⧜𝐒𝐮𝐛𝐬𝐭 T) -> ♮𝐒𝐮𝐛𝐬𝐭 T
+    eso-♮𝐒𝐮𝐛𝐬𝐭 (incl x) = incl (♮ x)
+
+    instance
+      isEssentiallySurjective:ι-♮𝐒𝐮𝐛𝐬𝐭 : isEssentiallySurjective (ι-♮𝐒𝐮𝐛𝐬𝐭)
+      isEssentiallySurjective.eso isEssentiallySurjective:ι-♮𝐒𝐮𝐛𝐬𝐭 = eso-♮𝐒𝐮𝐛𝐬𝐭
+      isEssentiallySurjective.inv-eso isEssentiallySurjective:ι-♮𝐒𝐮𝐛𝐬𝐭 {d} = lem-01
+        where
+          -- NOTE: we currently need a `module _ where` here, because
+          -- otherwise the `abstract` outside is applied to
+          -- every line individually, and then does not see
+          -- that the type and term definitions belong together
+          module _ where
+            -- in 𝐈𝐱
+            lem-04 : 𝑒𝑙 (ι (♮ ⟨ d ⟩)) ≅ 𝑒𝑙 ⟨ d ⟩
+            lem-04 = cong-∼ surj-♮-Free-𝐌𝐨𝐧
+
+            d'' : 𝐅𝐢𝐧𝐈𝐱 I
+            d'' = incl ⟨ d ⟩
+
+            -- in 𝐅𝐢𝐧𝐈𝐱
+            lem-03 : (incl (ι (♮ ⟨ d ⟩))) ≅ d''
+            lem-03 = cong⁻¹-≅ lem-04
+
+            d' : 𝐒𝐮𝐛𝐬𝐭 T
+            d' = incl (incl ⟨ d ⟩)
+
+            -- in 𝐑𝐞𝐊𝐥𝐬 T = 𝐒𝐮𝐛𝐬𝐭
+            lem-02 : incl (incl (ι (♮ ⟨ d ⟩))) ≅ d'
+            lem-02 = cong-≅ lem-03
+
+            -- in ⧜𝐒𝐮𝐛𝐬𝐭
+            lem-01 : incl (ι (♮ ⟨ d ⟩)) ≅ d
+            lem-01 = cong⁻¹-≅ lem-02
+
+
+  abstract
+    instance
+      hasInitial:♮𝐒𝐮𝐛𝐬𝐭 : hasInitial (♮𝐒𝐮𝐛𝐬𝐭 T)
+      hasInitial:♮𝐒𝐮𝐛𝐬𝐭 = hasInitial:byFFEso
+
     instance
       hasCoproducts:♮𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (♮𝐒𝐮𝐛𝐬𝐭 T)
       hasCoproducts:♮𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
@@ -277,11 +282,12 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
 
 
 
-  -----------------------------------------
-  -- "Iso getting"
-  --
-  module _ {{_ : isDiscrete I}} where
-    hasIsoGetting:♮𝐒𝐮𝐛𝐬𝐭 : hasIsoGetting (♮𝐒𝐮𝐛𝐬𝐭 T)
-    hasIsoGetting:♮𝐒𝐮𝐛𝐬𝐭 = hasIsoGetting:byFFEso hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭
+    -----------------------------------------
+    -- "Iso getting"
+    --
+    module _ {{_ : isDiscrete I}} where
+      hasIsoGetting:♮𝐒𝐮𝐛𝐬𝐭 : hasIsoGetting (♮𝐒𝐮𝐛𝐬𝐭 T)
+      hasIsoGetting:♮𝐒𝐮𝐛𝐬𝐭 = hasIsoGetting:byFFEso hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭
 
-
+{-
+-}

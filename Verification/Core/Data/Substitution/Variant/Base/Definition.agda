@@ -354,22 +354,43 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})
     isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
 
-  private
-    mι = map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-    sι = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-    ids = id-⧜𝐒𝐮𝐛𝐬𝐭
-    _◆s_ = _◆-⧜𝐒𝐮𝐛𝐬𝐭_
+  -- private
+  --   mι = map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+  --   sι = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+
+  abstract
+    内id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a a
+    内id-⧜𝐒𝐮𝐛𝐬𝐭 = id-⧜𝐒𝐮𝐛𝐬𝐭
+
+    _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b) -> (Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c) -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a c
+    _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ = _◆-⧜𝐒𝐮𝐛𝐬𝐭_
+
+    lem-02-abstract : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (内id-⧜𝐒𝐮𝐛𝐬𝐭 {a = a}) ∼ id
+    lem-02-abstract = lem-02
+
+    -- functoriality ◆
+    lem-03-abstract : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} {f : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b} {g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (f 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ∼ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f ◆ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 g
+    lem-03-abstract {a} {b} {c} {f} {g} = lem-03 {a} {b} {c} {f} {g}
+
+    {-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
+    {-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
+
+    abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} {f : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b} {g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c} -> (f ◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ∼ (f 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g)
+    abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 = refl-≣
+
+    abstract-id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> id-⧜𝐒𝐮𝐛𝐬𝐭 ∼ 内id-⧜𝐒𝐮𝐛𝐬𝐭 {a = a}
+    abstract-id-⧜𝐒𝐮𝐛𝐬𝐭 = refl-≣
 
   instance
-    isCategory:⧜𝐒𝐮𝐛𝐬𝐭 : isCategory (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    isCategory:⧜𝐒𝐮𝐛𝐬𝐭 : isCategory {𝑖 , 𝑖} (⧜𝐒𝐮𝐛𝐬𝐭 T)
     isCategory:⧜𝐒𝐮𝐛𝐬𝐭 = isCategory:byFaithful
       Hom-⧜𝐒𝐮𝐛𝐬𝐭'
-      id-⧜𝐒𝐮𝐛𝐬𝐭
-      _◆-⧜𝐒𝐮𝐛𝐬𝐭_
+      内id-⧜𝐒𝐮𝐛𝐬𝐭
+      _内◆-⧜𝐒𝐮𝐛𝐬𝐭_
       ι-⧜𝐒𝐮𝐛𝐬𝐭
       map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-      (λ {a} {b} {c} {f} {g} -> lem-03 {a} {b} {c} {f} {g})
-      lem-02
+      (λ {a} {b} {c} {f} {g} -> lem-03-abstract {a} {b} {c} {f} {g})
+      lem-02-abstract
 
 
   ----------------------------------------------------------
@@ -380,8 +401,8 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 : isFunctor (⧜𝐒𝐮𝐛𝐬𝐭 T) (𝐒𝐮𝐛𝐬𝐭 T) ι
     isFunctor.map isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = map-ι-⧜𝐒𝐮𝐛𝐬𝐭
     isFunctor.isSetoidHom:map isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = it
-    isFunctor.functoriality-id isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = lem-02
-    isFunctor.functoriality-◆ isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b} {c} {f} {g} = lem-03 {a} {b} {c} {f} {g}
+    isFunctor.functoriality-id isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 = lem-02-abstract
+    isFunctor.functoriality-◆ isFunctor:ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b} {c} {f} {g} = lem-03-abstract {a} {b} {c} {f} {g}
 
 
   instance
@@ -413,13 +434,14 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 : isInitial ⊥-⧜𝐒𝐮𝐛𝐬𝐭
     isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 = isInitial:⊥
 
-  instance
-    hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
+  abstract
+    instance
+      hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
+      hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
 
-  instance
-    hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasFiniteCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasFiniteCoproducts:byFFEso
+    instance
+      hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasFiniteCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
+      hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasFiniteCoproducts:byFFEso
 
   module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
     instance
@@ -437,5 +459,3 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
 
 
-{-
--}
