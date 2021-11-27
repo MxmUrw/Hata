@@ -297,7 +297,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
 
 -- the case of an application
-γ {μs = νsₐ} Γ (app te se) = ?
+γ {μs = νsₐ} Γ (app te se) = {!!}
 {-
   case (γ Γ te) of
   {!!}
@@ -594,7 +594,6 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
 -- the case of a lambda
 γ {μs} {k} {Q = Q} Γ (lam te) = {!!} -- resn
-{-
   where
     -- create a new metavariable
     μs₀ = μs ⊔ st
@@ -612,31 +611,30 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
     σ₀ : μs ⟶ μs ⊔ st
     σ₀ = ι₀
 
+    Γ<Γ₀ : Γ <Γ Γ₀
+    Γ<Γ₀ = record { fst = ι₀ ; snd = refl-≡ }
+
     -- call typechecking recursively on `te`
     res = γ (α₀ ∷ Γ₀) te
 
     -- computing the initial typing instance
     -- assuming we have one for te
     success : InitialCtxTypingInstance (α₀ ∷ Γ₀) te -> InitialCtxTypingInstance Γ (lam te)
-    success ((μs₁ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , hastype) , Ω) = 𝑇 , isInitial:𝑇
+    success ((μs₁ₐ / μs₁ₓ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢β₁) , Ω) = {!𝑇 , ?!} -- 𝑇 , isInitial:𝑇
       where
-        σ₀₁ : μs₀ ⟶ μs₁
-        σ₀₁ = α₀Γ₀<α₁Γ₁ .fst
+        σᵃ₀₁ : μs₀ ⟶ μs₁ₐ
+        σᵃ₀₁ = α₀Γ₀<α₁Γ₁ .fst
 
-        σᵤ₁ : μs ⟶ μs₁
-        σᵤ₁ = σ₀ ◆ σ₀₁
-
-        lem-1 : Γ ⇃[ σᵤ₁ ]⇂ᶜ ≡ Γ₁
-        lem-1 = Γ ⇃[ σᵤ₁ ]⇂ᶜ                  ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σ₀} {σ₀₁}) ⟩-≡
-                Γ ⇃[ σ₀ ]⇂ᶜ ⇃[ σ₀₁ ]⇂ᶜ  ⟨ (λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
-                Γ₁                                  ∎-≡
+        -- σᵤ₁ : μs ⟶ μs₁
+        -- σᵤ₁ = σ₀ ◆ σ₀₁
 
         Γ<Γ₁ : Γ <Γ Γ₁
-        Γ<Γ₁ = record { fst = σᵤ₁ ; snd = lem-1 }
+        Γ<Γ₁ = Γ<Γ₀ ⟡ tail-SomeℒHMCtx α₀Γ₀<α₁Γ₁
 
         𝑇 : CtxTypingInstance Γ (lam te)
-        𝑇 = (μs₁ ⊩ Γ₁ , _ , Γ<Γ₁ , lam hastype)
+        𝑇 = μs₁ₐ / μs₁ₓ ⊩ Γ₁ , _ , Γ<Γ₁ , lam α₁Γ₁⊢β₁
 
+{-
         isInitial:𝑇 : (𝑆 : CtxTypingInstance Γ (lam te)) -> 𝑇 <TI 𝑆
         isInitial:𝑇 (μs₂ ⊩ Γ₂ , .(_ ⇒ _) , Γ<Γ₂ , lam {α = α₂} {β = β₂} Γ₂α₂⊢β₂) =
           record { tiSub = σ₁₂ ; typProof = lem-30 ; subProof = lem-40 }
