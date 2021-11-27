@@ -195,48 +195,53 @@ _⇃[_]⇂-Ctx x f = map-ℒHMCtx f x
 _⇃[_]⇂-CtxFor : ∀{k} -> ∀{a b : ℒHMTypes} -> {Q : ℒHMQuant k} -> ℒHMCtxFor Q a -> (a ⟶ b) -> ℒHMCtxFor Q b
 _⇃[_]⇂-CtxFor x f = map-ℒHMCtxFor f x
 
-_⇃[≀_≀]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtx k a) -> {f g : a ⟶ b}
-              -> f ∼ g -> Γ ⇃[ f ]⇂-Ctx ≡ Γ ⇃[ g ]⇂-Ctx
-_⇃[≀_≀]⇂-Ctx Γ {f = f} {g} p =
-  let p' : map-ℒHMCtx f ≡ map-ℒHMCtx g
-      p' = cong-∼ p
-  in funExt⁻¹ p' Γ
 
-_⇃[≀_≀]⇂-CtxFor : ∀{k} {Q : ℒHMQuant k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtxFor Q a) -> {f g : a ⟶ b}
-              -> f ∼ g -> Γ ⇃[ f ]⇂-CtxFor ≡ Γ ⇃[ g ]⇂-CtxFor
-_⇃[≀_≀]⇂-CtxFor Γ {f = f} {g} p = {!!}
+abstract
+  _⇃[≀_≀]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtx k a) -> {f g : a ⟶ b}
+                -> f ∼ g -> Γ ⇃[ f ]⇂-Ctx ≡ Γ ⇃[ g ]⇂-Ctx
+  _⇃[≀_≀]⇂-Ctx Γ {f = f} {g} p =
+    let p' : map-ℒHMCtx f ≡ map-ℒHMCtx g
+        p' = cong-∼ p
+    in funExt⁻¹ p' Γ
 
-_⇃[≀_≀]⇂ : ∀{a b : ℒHMTypes} -> (Γ : ℒHMType ⟨ a ⟩) -> {f g : a ⟶ b}
-              -> f ∼ g -> Γ ⇃[ f ]⇂ ≡ Γ ⇃[ g ]⇂
-_⇃[≀_≀]⇂ Γ {f = f} {g} p = {!!}
-  -- let p' : map-ℒHMCtx f ≡ map-ℒHMCtx g
-  --     p' = cong-∼ p
-  -- in funExt⁻¹ p' Γ
+  _⇃[≀_≀]⇂-CtxFor : ∀{k} {Q : ℒHMQuant k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtxFor Q a) -> {f g : a ⟶ b}
+                -> f ∼ g -> Γ ⇃[ f ]⇂-CtxFor ≡ Γ ⇃[ g ]⇂-CtxFor
+  _⇃[≀_≀]⇂-CtxFor Γ {f = f} {g} p = {!!}
 
-module _ {k} {a b c : ℒHMTypes} where
-  functoriality-◆-⇃[]⇂-Ctx : ∀{Γ : ℒHMCtx k a} -> {f : a ⟶ b} -> {g : b ⟶ c}
-                           -> Γ ⇃[ f ]⇂-Ctx ⇃[ g ]⇂-Ctx ≡ Γ ⇃[ f ◆ g ]⇂-Ctx
-  functoriality-◆-⇃[]⇂-Ctx = {!!}
+  _⇃[≀_≀]⇂ : ∀{a b : ℒHMTypes} -> (Γ : ℒHMType ⟨ a ⟩) -> {f g : a ⟶ b}
+                -> f ∼ g -> Γ ⇃[ f ]⇂ ≡ Γ ⇃[ g ]⇂
+  _⇃[≀_≀]⇂ Γ {f = f} {g} p = {!!}
+    -- let p' : map-ℒHMCtx f ≡ map-ℒHMCtx g
+    --     p' = cong-∼ p
+    -- in funExt⁻¹ p' Γ
 
-module _ {k} {Q : ℒHMQuant k} {a b c : ℒHMTypes} where
-  functoriality-◆-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> {f : a ⟶ b} -> {g : b ⟶ c}
-                           -> Γ ⇃[ f ]⇂-CtxFor ⇃[ g ]⇂-CtxFor ≡ Γ ⇃[ f ◆ g ]⇂-CtxFor
-  functoriality-◆-⇃[]⇂-CtxFor = {!!}
+  module _ {k} {a b c : ℒHMTypes} where
+    functoriality-◆-⇃[]⇂-Ctx : ∀{Γ : ℒHMCtx k a} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                            -> Γ ⇃[ f ]⇂-Ctx ⇃[ g ]⇂-Ctx ≡ Γ ⇃[ f ◆ g ]⇂-Ctx
+    functoriality-◆-⇃[]⇂-Ctx = {!!}
 
-module _ {k} {Q : ℒHMQuant k} {a : ℒHMTypes} where
+  module _ {k} {Q : ℒHMQuant k} {a b c : ℒHMTypes} where
+    functoriality-◆-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                            -> Γ ⇃[ f ]⇂-CtxFor ⇃[ g ]⇂-CtxFor ≡ Γ ⇃[ f ◆ g ]⇂-CtxFor
+    functoriality-◆-⇃[]⇂-CtxFor = {!!}
 
-  functoriality-id-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> Γ ⇃[ id ]⇂-CtxFor ≡ Γ
-  functoriality-id-⇃[]⇂-CtxFor = {!!}
+  module _ {k} {Q : ℒHMQuant k} {a : ℒHMTypes} where
+
+    functoriality-id-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> Γ ⇃[ id ]⇂-CtxFor ≡ Γ
+    functoriality-id-⇃[]⇂-CtxFor = {!!}
 
 
-module _ {a b c : ℒHMTypes} where
-  functoriality-◆-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> {f : a ⟶ b} -> {g : b ⟶ c}
-                           -> τ ⇃[ f ]⇂ ⇃[ g ]⇂ ≡ τ ⇃[ f ◆ g ]⇂
-  functoriality-◆-⇃[]⇂ = {!!}
+  module _ {a b c : ℒHMTypes} where
+    functoriality-◆-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                            -> τ ⇃[ f ]⇂ ⇃[ g ]⇂ ≡ τ ⇃[ f ◆ g ]⇂
+    functoriality-◆-⇃[]⇂ = {!!}
 
-module _ {a : ℒHMTypes} where
-  functoriality-id-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> τ ⇃[ id ]⇂ ≡ τ
-  functoriality-id-⇃[]⇂ = {!!}
+  module _ {a : ℒHMTypes} where
+    functoriality-id-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> τ ⇃[ id ]⇂ ≡ τ
+    functoriality-id-⇃[]⇂ = {!!}
+
+_⇃[_]⇂ᶜ = _⇃[_]⇂-CtxFor
+_⇃[≀_≀]⇂ᶜ = _⇃[≀_≀]⇂-CtxFor
 
 {-
 

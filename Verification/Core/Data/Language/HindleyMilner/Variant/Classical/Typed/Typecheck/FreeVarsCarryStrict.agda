@@ -32,6 +32,12 @@ open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definit
 
 open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
 
+{-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
+{-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
+{-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
+{-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
+{-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
+
 instance
   hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
   hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
@@ -47,7 +53,7 @@ record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te
   field isInstance : Γ <Γ ctx
   -- field hiddenEpiSub : μs ⟶ metas
   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
-  field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (Q , ctx ⇃[ ι₀ ]⇂-CtxFor) ⊢ typ) te
+  field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (Q , ctx ⇃[ ι₀ ]⇂ᶜ) ⊢ typ) te
 
 open CtxTypingInstance public
 
@@ -61,7 +67,7 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
 
     -- field tiSub : metas 𝑇 ⊔ typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
 
-    -- ctxProofTI : ctx 𝑇 ⇃[ tiSub ]⇂-CtxFor ≡ ctx 𝑆
+    -- ctxProofTI : ctx 𝑇 ⇃[ tiSub ]⇂ᶜ ≡ ctx 𝑆
     -- ctxProofTI = {!!}
 
   open _<TI_ public
@@ -86,7 +92,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
       α₀ = α ⇃[ id ⇃⊔⇂ id ]⇂
 
-      Γ₀ = Γ ⇃[ ι₀ ]⇂-CtxFor
+      Γ₀ = Γ ⇃[ ι₀ ]⇂ᶜ
 
       Γ<Γ₀ : Γ <Γ Γ₀
       Γ<Γ₀ = record { fst = σᵤ₀ ; snd = refl-≡ }
@@ -129,20 +135,20 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
                     lem-12 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
                     lem-12 = α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ σ₀₁ ]⇂     ⟨ cong _⇃[ σ₀₁ ]⇂ lem-11 ⟩-≡
                               lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ , ρ ◆ ι₁ ⦘ ]⇂  ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i σᵤ₁ (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
 
                               ⟨ (λ i -> lookup-DDList (Γ<Γ₁ .snd i ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
 
                               lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                     ∎-≡
 
 
-                    lem-15 : Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor ≡ Γ₁
-                    lem-15 = Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor  ⟨ Γ₁' ⇃[≀ unit-l-◆ ≀]⇂-CtxFor ⟩-≡
-                             Γ₁' ⇃[ ι₀ ]⇂-CtxFor       ∎-≡
+                    lem-15 : Γ₁' ⇃[ id ◆ ι₀ ]⇂ᶜ ≡ Γ₁
+                    lem-15 = Γ₁' ⇃[ id ◆ ι₀ ]⇂ᶜ  ⟨ Γ₁' ⇃[≀ unit-l-◆ ≀]⇂-CtxFor ⟩-≡
+                             Γ₁' ⇃[ ι₀ ]⇂ᶜ       ∎-≡
 
                     lem-16 : α₁ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
                     lem-16 = lookup-DDList Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ₁'} k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
 
                               ⟨ (λ i -> lookup-DDList (lem-15 i) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
 
@@ -194,19 +200,19 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             -- σ₀₁ₓ : νs₀ ⟶ νs₁ ⊔ νs₁ₓ
             -- σ₀₁ₓ = ⟨ metasProof isAb ⟩⁻¹
 
-            -- Γ₁ₓ = Γ₀ ⇃[ σ₀₁ₓ ]⇂-CtxFor
+            -- Γ₁ₓ = Γ₀ ⇃[ σ₀₁ₓ ]⇂ᶜ
             -- τ₁ₓ = τ₀ ⇃[ σ₀₁ₓ ]⇂
 
             -- Γ₁ₓ⊢τ₁ₓ : isTypedℒHM (νs₁ ⊔ νs₁ₓ ⊩ (_ , Γ₁ₓ) ⊢ τ₁ₓ) te
             -- Γ₁ₓ⊢τ₁ₓ = §-isTypedℒHM.prop-2 σ₀₁ₓ Γ₀⊢τ₀
 
-            isAbstr₀,₁' : isAbstr νs₁ₓ Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂) --  Γ₁ₓ τ₀ τ₁ₓ
+            isAbstr₀,₁' : isAbstr νs₁ₓ Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂ᶜ) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂) --  Γ₁ₓ τ₀ τ₁ₓ
             isAbstr₀,₁' = §-isAbstr.prop-1 σ₁₂ isAb
 
             isAbstr₀,₂ : isAbstr νs₁ₓ Γ₀ (Γ₂) τ₀ (τ₂) --  Γ₁ₓ τ₀ τ₁ₓ
             isAbstr₀,₂ = transport (λ i -> isAbstr νs₁ₓ Γ₀ (Γ₁₂ i) τ₀ (τ₁₂ i)) isAbstr₀,₁'
               where
-                Γ₁₂ : Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor ≡ Γ₂
+                Γ₁₂ : Γ₁ ⇃[ σ₁₂ ]⇂ᶜ ≡ Γ₂
                 Γ₁₂ = λ i -> split-DDList (τ₁Γ₁<τ₂Γ₂ .snd i) .snd
 
                 τ₁₂ : τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ τ₂
@@ -350,7 +356,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 {-
 
       -- and the typing of the term `te`
-      Γ₁⊢α₁' : isTypedℒHM (νs₁ ⊩ (_ , Γ₀ ⇃[ σ₀₁ ]⇂-CtxFor) ⊢ α₁) te
+      Γ₁⊢α₁' : isTypedℒHM (νs₁ ⊩ (_ , Γ₀ ⇃[ σ₀₁ ]⇂ᶜ) ⊢ α₁) te
       Γ₁⊢α₁' = §-isTypedℒHM.prop-2 σ₀₁ Γ₀⊢α₀
 
       Γ₁⊢α₁ : isTypedℒHM (νs₁ ⊩ (_ , Γ₁) ⊢ α₁) te
@@ -382,7 +388,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
 
       -- Γ₁'
-      -- Γ₂ = Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor
+      -- Γ₂ = Γ₁ ⇃[ σ₁₂ ]⇂ᶜ
       Γ₂ = Γ₁
 
       -- we call the new type γ
@@ -427,24 +433,26 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
           β₃ = β₂ ⇃[ σ₂₃ ]⇂
           γ₃ = γ₂ ⇃[ σ₂₃ ]⇂
-          Γ₃ = Γ₂ ⇃[ σᵃ₂₃ ]⇂-CtxFor
+          Γ₃ = Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ
 
+          lem-0 : ι₀ ◆ σ₂₃ ∼ σᵃ₂₃ ◆ ι₀
+          lem-0 = {!!}
 
           -- thus the full substitution we need is the following
           σᵤ₃ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃
 
 {-
-          lem-1 : Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂-CtxFor ≡ Γ₁
-          lem-1 = Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂-CtxFor             ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀} {σ₀₁})  ⟩-≡
-                  Γ ⇃[ σᵤ₀ ]⇂-CtxFor ⇃[ σ₀₁ ]⇂-CtxFor  ⟨ cong _⇃[ σ₀₁ ]⇂-CtxFor (Γ<Γ₀ .snd) ⟩-≡
-                  Γ₀ ⇃[ σ₀₁ ]⇂-CtxFor                  ⟨ Γ₀<Γ₁ .snd ⟩-≡
+          lem-1 : Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂ᶜ ≡ Γ₁
+          lem-1 = Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂ᶜ             ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀} {σ₀₁})  ⟩-≡
+                  Γ ⇃[ σᵤ₀ ]⇂ᶜ ⇃[ σ₀₁ ]⇂ᶜ  ⟨ cong _⇃[ σ₀₁ ]⇂ᶜ (Γ<Γ₀ .snd) ⟩-≡
+                  Γ₀ ⇃[ σ₀₁ ]⇂ᶜ                  ⟨ Γ₀<Γ₁ .snd ⟩-≡
                   Γ₁                                   ∎-≡
 
-          lem-2 : Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃ ]⇂-CtxFor ≡ Γ₃
-          lem-2 = Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃ ]⇂-CtxFor                         ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂} {σ₂₃}) ⟩-≡
-                  Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ]⇂-CtxFor ⇃[ σ₂₃ ]⇂-CtxFor              ⟨ cong _⇃[ σ₂₃ ]⇂-CtxFor (sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀ ◆ σ₀₁} {σ₁₂})) ⟩-≡
-                  Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂-CtxFor ⇃[ σ₁₂ ]⇂-CtxFor ⇃[ σ₂₃ ]⇂-CtxFor   ⟨ cong (λ ξ -> ξ ⇃[ σ₁₂ ]⇂-CtxFor ⇃[ σ₂₃ ]⇂-CtxFor) lem-1 ⟩-≡
-                  Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor ⇃[ σ₂₃ ]⇂-CtxFor                         ∎-≡
+          lem-2 : Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃ ]⇂ᶜ ≡ Γ₃
+          lem-2 = Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃ ]⇂ᶜ                         ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂} {σ₂₃}) ⟩-≡
+                  Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ              ⟨ cong _⇃[ σ₂₃ ]⇂ᶜ (sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀ ◆ σ₀₁} {σ₁₂})) ⟩-≡
+                  Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂ᶜ ⇃[ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ   ⟨ cong (λ ξ -> ξ ⇃[ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) lem-1 ⟩-≡
+                  Γ₁ ⇃[ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ                         ∎-≡
         -}
           Γ₂<Γ₃ : Γ₂ <Γ Γ₃
           Γ₂<Γ₃ = record { fst = σᵃ₂₃ ; snd = refl-≡ }
@@ -453,39 +461,85 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
           Γ<Γ₃ = Γ<Γ₀ ⟡ Γ₀<Γ₁ ⟡ Γ₂<Γ₃
           -- record { fst = σᵃᵤ₀ ◆ σᵃ₀₁ ◆ σᵃ₂₃ ; snd = {!!} }
             -- record { fst = σᵤ₃ ; snd = lem-2 }
-            {-
+
 
           -- we know that under `σ₂₃` both α₂ and `β₂ ⇒ γ₂` are the same
           lem-5 : α₂ ⇃[ σ₂₃ ]⇂ ≡ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂
-          lem-5 = let x = lem-5a
-                      y = cong-Str ⟨_⟩ x
-                      z = cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 y
-                      q = ≡-Str→≡ z
-                  in q
+          lem-5 = α₂ ⇃[ π₌ ◆ ⟨ splitting factor:f ⟩⁻¹ ]⇂      ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α₂} {f = π₌} {⟨ splitting factor:f ⟩⁻¹}) ⟩-≡
+                  α₂ ⇃[ π₌ ]⇂ ⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂  ⟨ cong _⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂ lem-5b ⟩-≡
+                  (β₂ ⇒ γ₂) ⇃[ π₌ ]⇂ ⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂ ⟨ functoriality-◆-⇃[]⇂ {τ = β₂ ⇒ γ₂} {f = π₌} {⟨ splitting factor:f ⟩⁻¹} ⟩-≡
+                  (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂                              ∎-≡
+
             where
-              lem-5a : (asArr α₂) ◆ σ₂₃ ∼ (asArr (β₂ ⇒ γ₂)) ◆ σ₂₃
+              lem-5a : (asArr α₂) ◆ π₌ ∼ (asArr (β₂ ⇒ γ₂)) ◆ π₌
               lem-5a = equate-π₌
 
-          -- lift the typing to Γ₃
+              lem-5a' : ((asArr α₂) ◆-⧜𝐒𝐮𝐛𝐬𝐭 π₌) ∼ ((asArr (β₂ ⇒ γ₂)) ◆-⧜𝐒𝐮𝐛𝐬𝐭 π₌)
+              lem-5a' = (abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 ∙-≣ lem-5a) ∙-≣ (sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭)
 
-          sp₃ : isTypedℒHM (νs₃ ⊩ (_ , Γ₃) ⊢ β₃) se
-          sp₃ = §-isTypedℒHM.prop-2 σ₂₃ (§-isTypedℒHM.prop-2 σ₁₂ Γ₁⊢β₁)
+              lem-5b : α₂ ⇃[ π₌ ]⇂ ≡ (β₂ ⇒ γ₂) ⇃[ π₌ ]⇂
+              lem-5b = let x = lem-5a'
+                           y = cong-Str ⟨_⟩ x
+                           z = cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 y
+                           q = ≡-Str→≡ z
+                       in q
 
-          tp₃' : isTypedℒHM (νs₃ ⊩ (_ , Γ₃) ⊢ (α₂ ⇃[ σ₂₃ ]⇂)) te
-          tp₃' = §-isTypedℒHM.prop-2 σ₂₃ (§-isTypedℒHM.prop-2 σ₁₂ Γ₁⊢α₁)
 
-          tp₃ : isTypedℒHM (νs₃ ⊩ (_ , Γ₃) ⊢ (β₃ ⇒ γ₃)) te
-          tp₃ = transport (λ i -> isTypedℒHM (νs₃ ⊩ (_ , Γ₃) ⊢ (lem-5 i)) te) tp₃'
+          lem-6 : Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ ≡ Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
+          lem-6 = Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₂} {f = ι₀} {σ₂₃} ⟩-≡
+                  Γ₂ ⇃[ ι₀ ◆ σ₂₃ ]⇂ᶜ       ⟨ Γ₂ ⇃[≀ lem-0 ≀]⇂-CtxFor ⟩-≡
+                  Γ₂ ⇃[ σᵃ₂₃ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
+                  Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ∎-≡
 
--}
+          -------------
+          -- lift the typing of se and te to νs₃
 
-          sp₃ : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂-CtxFor) ⊢ β₃) se
-          sp₃ = {!!}
-          -- §-isTypedℒHM.prop-2 σ₂₃ (§-isTypedℒHM.prop-2 σ₁₂ Γ₁⊢β₁)
+          sp₃ : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
+          sp₃ = Γ₁⊢βᵇ₁
+                >> isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ βᵇ₁) se <<
+                ⟪ §-isTypedℒHM.prop-3 ι₁ ⟫
+                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁) se <<
+                ⟪ §-isTypedℒHM.prop-3 ι₀ ⟫
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) se <<
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂) se <<
+                ⟪ §-isTypedℒHM.prop-2 {Γ = _ , Γ₂ ⇃[ ι₀ ]⇂ᶜ} {τ = β₂} σ₂₃ ⟫
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
+                ⟪ transp-isTypedℒHM lem-6 refl-≡ ⟫
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se <<
+
+          tp₃ : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₃ ⇒ γ₃)) te
+          tp₃ = Γ₀⊢αᵇ₀
+
+                >> isTypedℒHM (νs₀ ⊩ (_ , Γ₀ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ) te <<
+
+                ⟪ §-isTypedℒHM.prop-4 σᵃ₀₁ ι₀ ⟫
+
+                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ ι₀ ]⇂) te <<
+
+                ⟪ transp-isTypedℒHM (cong _⇃[ ι₀ ]⇂ᶜ (Γ₀<Γ₁ .snd)) refl-≡ ⟫
+
+                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ) te <<
+
+                ⟪ §-isTypedℒHM.prop-3 ι₀ ⟫
+
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) te <<
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₂) te <<
+
+                ⟪ §-isTypedℒHM.prop-2 σ₂₃ ⟫
+
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ α₂ ⇃[ σ₂₃ ]⇂) te <<
+
+                ⟪ transp-isTypedℒHM lem-6 lem-5 ⟫
+
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂) te <<
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃ ⇒ γ₃) te <<
+
+          -- transport (λ i -> isTypedℒHM (νs₃ ⊩ (_ , Γ₃) ⊢ (lem-5 i)) te) tp₃'
 
           -- this shows that we do have the typing instance
           𝑇 : CtxTypingInstance Γ (app te se)
-          𝑇 = νs₃ₐ / νs₃ₓ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , (app {!!} sp₃)
+          𝑇 = νs₃ₐ / νs₃ₓ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , (app tp₃ sp₃)
             -- (νs₃ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , app tp₃ sp₃ )
   {-
 
@@ -699,7 +753,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
     -- create the context which contains this new variable
     Γ₀ : ℒHMCtxFor Q μs₀
-    Γ₀ = Γ ⇃[ ι₀ ]⇂-CtxFor
+    Γ₀ = Γ ⇃[ ι₀ ]⇂ᶜ
 
     σ₀ : μs ⟶ μs ⊔ st
     σ₀ = ι₀
@@ -718,9 +772,9 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
         σᵤ₁ : μs ⟶ μs₁
         σᵤ₁ = σ₀ ◆ σ₀₁
 
-        lem-1 : Γ ⇃[ σᵤ₁ ]⇂-CtxFor ≡ Γ₁
-        lem-1 = Γ ⇃[ σᵤ₁ ]⇂-CtxFor                  ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σ₀} {σ₀₁}) ⟩-≡
-                Γ ⇃[ σ₀ ]⇂-CtxFor ⇃[ σ₀₁ ]⇂-CtxFor  ⟨ (λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
+        lem-1 : Γ ⇃[ σᵤ₁ ]⇂ᶜ ≡ Γ₁
+        lem-1 = Γ ⇃[ σᵤ₁ ]⇂ᶜ                  ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σ₀} {σ₀₁}) ⟩-≡
+                Γ ⇃[ σ₀ ]⇂ᶜ ⇃[ σ₀₁ ]⇂ᶜ  ⟨ (λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
                 Γ₁                                  ∎-≡
 
         Γ<Γ₁ : Γ <Γ Γ₁
@@ -744,12 +798,12 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             σ₀₂ : (μs ⊔ st) ⟶ μs₂
             σ₀₂ = ⦗ σᵤ₂ , σₜ₂ ⦘
 
-            lem-5 : Γ₀ ⇃[ σ₀₂ ]⇂-CtxFor ≡ Γ₂
-            lem-5 = Γ ⇃[ ι₀ ]⇂-CtxFor ⇃[ σ₀₂ ]⇂-CtxFor  ⟨ §-HM-Proofs.prop-2 σᵤ₂ σₜ₂ Γ ⟩-≡
-                    Γ ⇃[ σᵤ₂ ]⇂-CtxFor                  ⟨ Γ<Γ₂ .snd ⟩-≡
+            lem-5 : Γ₀ ⇃[ σ₀₂ ]⇂ᶜ ≡ Γ₂
+            lem-5 = Γ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₀₂ ]⇂ᶜ  ⟨ §-HM-Proofs.prop-2 σᵤ₂ σₜ₂ Γ ⟩-≡
+                    Γ ⇃[ σᵤ₂ ]⇂ᶜ                  ⟨ Γ<Γ₂ .snd ⟩-≡
                     Γ₂                                  ∎-≡
 
-            lem-10 : (α₀ ∷ Γ₀) ⇃[ σ₀₂ ]⇂-CtxFor ≡ (α₂ ∷ Γ₂)
+            lem-10 : (α₀ ∷ Γ₀) ⇃[ σ₀₂ ]⇂ᶜ ≡ (α₂ ∷ Γ₂)
             lem-10 = λ i → §-HM-Proofs.prop-1 α₂ σ₀₂ i ∷ lem-5 i
 
             α₀Γ₀<α₂Γ₂ : (α₀ ∷ Γ₀) <Γ (α₂ ∷ Γ₂)
@@ -760,7 +814,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             σ₁₂ : μs₁ ⟶ μs₂
             σ₁₂ = tiSub ΩR
 
-            lem-21 : (α₁ ∷ Γ₁) ⇃[ σ₁₂ ]⇂-CtxFor ≡ α₂ ∷ Γ₂
+            lem-21 : (α₁ ∷ Γ₁) ⇃[ σ₁₂ ]⇂ᶜ ≡ α₂ ∷ Γ₂
             lem-21 = ctxProofTI ΩR
 
             lem-24 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ α₂
