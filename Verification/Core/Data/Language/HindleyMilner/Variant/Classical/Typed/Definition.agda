@@ -275,7 +275,7 @@ module §-isTypedℒHM where
           -> (σₓ : μsₓ ⟶ νsₓ)
           -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (_ , Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
           -> isTypedℒHM (νsₐ ⊔ νsₓ ⊩ (_ , Γ ⇃[ σₐ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ σₐ ⇃⊔⇂ σₓ ]⇂)) te
-    prop-4 = ?
+    prop-4 = {!!}
 
     prop-3 : ∀{k μsₐ μsₓ νsₓ te} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
           -> (σ : μsₓ ⟶ νsₓ)

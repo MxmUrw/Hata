@@ -308,18 +308,9 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
     {!!}
     continue₁ where
 
-  --   -- continue₁ : InitialCtxTypingInstance Γ₀ se -> TypingDecision Γ (app te se)
     continue₁ : InitialCtxTypingInstance Γ₀  se -> TypingDecision Γ (app te se)
-    continue₁ ((νs₁ₐ / νs₁ₓ ⊩ Γ₁ , βᵇ₁ , Γ₀<Γ₁ , Γ₁⊢βᵇ₁), Ω₁) = {!!} where
+    continue₁ ((νs₁ₐ / νs₁ₓ ⊩ Γ₁ , βᵇ₁ , Γ₀<Γ₁ , Γ₁⊢βᵇ₁), Ω₁) = resn res where
 
-
--- with γ Γ te
--- ... | (left _) = {!!}
--- ... | (right ((νs₀ / νs₀ₓ ⊩ Γ₀ , α₀ , Γ<Γ₀ , hσ₀ , phσ₀ , Γ₀⊢α₀), Ω₀)) with γ Γ₀ se
--- ... | (left _) = {!!}
--- ... | (right ((νs₁ / νs₁ₓ ⊩ Γ₁ , β₁ , Γ₀<Γ₁ , hσ₁ , phσ₁ , Γ₁⊢β₁), Ω₁)) = {!!}
-
--- (resn res)
       νs = νsₐ
 
 
@@ -353,17 +344,6 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
       β₁ : ℒHMType ⟨ νs₁ₐ ⊔ (νs₀ₓ ⊔ νs₁ₓ) ⟩
       β₁ = βᵇ₁ ⇃[ id ⇃⊔⇂ ι₁ ]⇂
 
-{-
-
-      -- and the typing of the term `te`
-      Γ₁⊢α₁' : isTypedℒHM (νs₁ ⊩ (_ , Γ₀ ⇃[ σ₀₁ ]⇂ᶜ) ⊢ α₁) te
-      Γ₁⊢α₁' = §-isTypedℒHM.prop-2 σ₀₁ Γ₀⊢α₀
-
-      Γ₁⊢α₁ : isTypedℒHM (νs₁ ⊩ (_ , Γ₁) ⊢ α₁) te
-      Γ₁⊢α₁ = transport (λ i -> isTypedℒHM (νs₁ ⊩ (_ , (Γ₀<Γ₁ .snd i)) ⊢ α₁) te) Γ₁⊢α₁'
-
-
--}
       -- we need a new type variable for the return
       -- type of the application, so we move to νs₂
       νs₂ₐ = νs₁ₐ
@@ -372,14 +352,9 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
       σ₁₂ : νs₁ ⟶ νs₂
       σ₁₂ = id ⇃⊔⇂ ι₀
 
-      -- νs₂ = (νs₁) ⊔ st
-      -- σᵇ₁₂ : νs₁ ⟶ νs₂
-      -- σᵇ₁₂ = ι₀
-
       -- σᵤ₂ : νs ⟶ νs₂
       -- σᵤ₂ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂
 
-      -- τ₀''
       α₂ : ℒHMType ⟨ νs₂ₐ ⊔ (νs₀ₓ ⊔ νs₁ₓ ⊔ st) ⟩
       α₂ = α₁ ⇃[ σ₁₂ ]⇂
 
@@ -387,7 +362,6 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
       β₂ = β₁ ⇃[ σ₁₂ ]⇂
 
 
-      -- Γ₁'
       -- Γ₂ = Γ₁ ⇃[ σ₁₂ ]⇂ᶜ
       Γ₂ = Γ₁
 
@@ -411,7 +385,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
       resn : (¬ hasCoequalizerCandidate (asArr u , asArr v)) +-𝒰 (hasCoequalizer (asArr u) (asArr v))
             -> (CtxTypingInstance Γ (app te se) -> ⊥-𝒰 {ℓ₀}) + InitialCtxTypingInstance Γ (app te se)
       resn (left _) = {!!}
-      resn (right x) = {!!} -- right (𝑇 , isInitial:𝑇)
+      resn (right x) = right (𝑇 , {!!}) -- right (𝑇 , isInitial:𝑇)
         where
           -- we now have the coequalizer `π₌`,
           -- but we need to factorize the map ι₀ ◆ π₌
@@ -439,28 +413,13 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
           lem-0 = {!!}
 
           -- thus the full substitution we need is the following
-          σᵤ₃ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃
+          -- σᵤ₃ = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃
 
-{-
-          lem-1 : Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂ᶜ ≡ Γ₁
-          lem-1 = Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂ᶜ             ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀} {σ₀₁})  ⟩-≡
-                  Γ ⇃[ σᵤ₀ ]⇂ᶜ ⇃[ σ₀₁ ]⇂ᶜ  ⟨ cong _⇃[ σ₀₁ ]⇂ᶜ (Γ<Γ₀ .snd) ⟩-≡
-                  Γ₀ ⇃[ σ₀₁ ]⇂ᶜ                  ⟨ Γ₀<Γ₁ .snd ⟩-≡
-                  Γ₁                                   ∎-≡
-
-          lem-2 : Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃ ]⇂ᶜ ≡ Γ₃
-          lem-2 = Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ◆ σ₂₃ ]⇂ᶜ                         ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀ ◆ σ₀₁ ◆ σ₁₂} {σ₂₃}) ⟩-≡
-                  Γ ⇃[ σᵤ₀ ◆ σ₀₁ ◆ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ              ⟨ cong _⇃[ σ₂₃ ]⇂ᶜ (sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σᵤ₀ ◆ σ₀₁} {σ₁₂})) ⟩-≡
-                  Γ ⇃[ σᵤ₀ ◆ σ₀₁ ]⇂ᶜ ⇃[ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ   ⟨ cong (λ ξ -> ξ ⇃[ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) lem-1 ⟩-≡
-                  Γ₁ ⇃[ σ₁₂ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ                         ∎-≡
-        -}
           Γ₂<Γ₃ : Γ₂ <Γ Γ₃
           Γ₂<Γ₃ = record { fst = σᵃ₂₃ ; snd = refl-≡ }
 
           Γ<Γ₃ : Γ <Γ Γ₃
           Γ<Γ₃ = Γ<Γ₀ ⟡ Γ₀<Γ₁ ⟡ Γ₂<Γ₃
-          -- record { fst = σᵃᵤ₀ ◆ σᵃ₀₁ ◆ σᵃ₂₃ ; snd = {!!} }
-            -- record { fst = σᵤ₃ ; snd = lem-2 }
 
 
           -- we know that under `σ₂₃` both α₂ and `β₂ ⇒ γ₂` are the same
@@ -535,12 +494,10 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
                 >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂) te <<
                 >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃ ⇒ γ₃) te <<
 
-          -- transport (λ i -> isTypedℒHM (νs₃ ⊩ (_ , Γ₃) ⊢ (lem-5 i)) te) tp₃'
-
           -- this shows that we do have the typing instance
           𝑇 : CtxTypingInstance Γ (app te se)
           𝑇 = νs₃ₐ / νs₃ₓ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , (app tp₃ sp₃)
-            -- (νs₃ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , app tp₃ sp₃ )
+
   {-
 
 
