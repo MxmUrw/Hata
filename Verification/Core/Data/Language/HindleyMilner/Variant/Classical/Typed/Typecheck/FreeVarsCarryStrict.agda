@@ -98,7 +98,8 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (InitialCtxTypingInstance Γ te)
-γ {μs} {k} {Q} Γ (var k∍i) =
+γ {μs} {k} {Q} Γ (var k∍i) = {!!}
+{-
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
@@ -159,10 +160,9 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
                })
 
+-}
 
-
-γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
-{-
+γ {μs = νs} {Q = Q} Γ (slet te se) =
   case (γ Γ te) of
   {!!}
   continue₀ where
@@ -222,8 +222,44 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             isAb : isAbstr νs₀ₓ (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) (Γ₁ ⇃[ ι₀ ]⇂ᶜ) α₁' (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
             isAb = record { metasProof = refl-≅ ; ctxProof = lem-2 ; typeProof = functoriality-id-⇃[]⇂ }
 
-            𝑇 : CtxTypingInstance Γ (slet te se)
+            𝑇 : GoodCtxTypingInstance Γ (slet te se)
             𝑇 = νs₁ₐ / νs₁ₓ ⊩ Γ₁ , βᵇ₁ , Γ<Γ₀ ⟡ Γ₀<Γ₁ , (slet isAb Γ₁⊢α₁' α₁Γ₁⊢βᵇ₁)
+
+            isInitial:𝑇 : ∀(𝑆 : CtxTypingInstance Γ (slet te se)) -> 𝑇 <TI 𝑆
+            isInitial:𝑇 (νs₃ ⊩ Γ₃ , β₃ , Γ<Γ₃ , slet {μs = νs₂} {κs = νs₃ₓ₊} {α = α₂} {α' = α₃} isAb₂ Γ₂⊢α₂ α₃Γ₃⊢β₃) =
+              record { tiSubₐ = σᵃ₁₃ ; tiSubₓ = σˣ₁₃ ; typProof = {!!} ; subProof = {!!} }
+
+              where
+
+                lem-10 : isTypedℒHM (νs₃ ⊔ νs₃ₓ₊ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₃) te
+                lem-10 = {!!}
+
+                Ω₀R = Ω₀ (νs₃ ⊔ νs₃ₓ₊ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ , α₃ , {!!} , lem-10)
+
+                σᵃ₀₃ : νs₀ₐ ⟶ νs₃ ⊔ νs₃ₓ₊
+                σᵃ₀₃ = tiSubₐ Ω₀R
+
+                σˣ₀₃ : νs₀ₓ ⟶ νs₃ ⊔ νs₃ₓ₊
+                σˣ₀₃ = tiSubₓ Ω₀R
+
+                myσ : νs₃ ⊔ νs₃ₓ₊ ⟶ νs₃ ⊔ νs₀ₓ
+                myσ = {!!}
+
+                -- α₃₋ = αᵇ₀ ⇃[ id ⇃⊔⇂ σᵃ₀₃ ]⇂
+
+                lem-20 : isTypedℒHM (νs₃ ⊩ ((νs₀ₓ ∷' Q) , {!!} ∷ Γ₃) ⊢ β₃) se
+                lem-20 = {!!}
+
+                Ω₁R = Ω₁ (νs₃ ⊩ {!!} ∷ Γ₃ , {!!} , {!!} , ?)
+
+
+                σᵃ₁₃ : νs₁ₐ ⟶ νs₃
+                σᵃ₁₃ = {!!}
+
+                σˣ₁₃ : νs₁ₓ ⟶ νs₃
+                σˣ₁₃ = {!!}
+
+{-
 
             isInitial:𝑇 : ∀(𝑆 : CtxTypingInstance Γ (slet te se)) -> 𝑇 <TI 𝑆
             isInitial:𝑇 (νs₃ₐ / νs₃ₓ ⊩ Γ₃ , β₃ , Γ<Γ₃ , slet {μs = νs₂} {κs = νs₃ₓ₊} {α = α₂} {α' = α₃} isAb₂ Γ₂⊢α₂ α₃Γ₃⊢β₃) =
@@ -256,6 +292,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
                 σˣ₁₃ : νs₁ₓ ⟶ (νs₃ₐ ⊔ νs₃ₓ)
                 σˣ₁₃ = {!!}
+
 -}
 
 {-
