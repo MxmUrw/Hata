@@ -79,90 +79,112 @@ TypingDecision : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (t
 TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (InitialCtxTypingInstance Γ te)
 
 
+
 γ : ∀{μs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) -> (te : UntypedℒHM k)
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (InitialCtxTypingInstance Γ te)
-γ {μs} {k} {Q} Γ (var k∍i) = {!!}
-{-
+γ {μs} {k} {Q} Γ (var k∍i) =
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
       σᵤ₀ = ι₀
 
-      α₀ = α ⇃[ id ⇃⊔⇂ id ]⇂
+      α₀ = α ⇃[ id ]⇂
 
       Γ₀ = Γ ⇃[ ι₀ ]⇂ᶜ
 
       Γ<Γ₀ : Γ <Γ Γ₀
       Γ<Γ₀ = record { fst = σᵤ₀ ; snd = refl-≡ }
 
-  in right ((μs / vα ⊩ Γ₀ , α₀ , Γ<Γ₀ , id , unit-l-◆ , (var k∍i refl-≣ id))
+      lem-1 : (Γ ⇃[ ι₀ ◆ id ]⇂ᶜ) ≡ (Γ ⇃[ ι₀ ]⇂ᶜ)
+      lem-1 = Γ ⇃[≀ unit-r-◆ ≀]⇂ᶜ
+
+  in right ((μs / vα ⊩ Γ , α₀ , reflexive , (var {Γ = Γ} k∍i id refl-≣ lem-1)) -- refl-≣ {!!}))
 
            -- now we have to prove that this is the "initial" such typing instance
-           , λ {(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , hidden , hiddenP , var {μs = μs₁} {Γ = Γ₁'} _ {vα' = vα₁} refl-≣ ρ) →
+           , λ {(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {Γ = Γ₁'} _ ρ refl-≣ Γp) →
            -- , λ {(.(μs₁ ⊔ vα₁) ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {μs = μs₁} {Γ = Γ₁'} _ {vα' = vα₁} refl-≣ ρ) →
 
                -- given another instance, which has to use `var` to prove the typing
 
-                let σᵤ₁ : μs ⟶ μs₁ ⊔ vα₁
+                let σᵤ₁ : μs ⟶ μs₁
                     σᵤ₁ = Γ<Γ₁ .fst
 
+                    σᵤ₁-ty : lookup-DList Q k∍i ⟶ μs₁ ⊔ να₁
+                    σᵤ₁-ty = ι₁ ◆ ρ
 
-                    σ₀₁ : μs ⊔ vα ⟶ μs₁ ⊔ vα₁
-                    σ₀₁ = ⦗ σᵤ₁ , (ρ ◆ ι₁) ⦘
-
-                    --------------------------------------
-                    -- next, we need to show that this
-                    -- substitution recreates the given Δ and δ
-
-                    -------------
-                    -- i) for σ₀₁
-                    -------------
-
-                    lem-10 : σᵤ₀ ◆ σ₀₁ ∼ σᵤ₁
-                    lem-10 = reduce-ι₀ {g = ρ ◆ ι₁}
-
-                    -------------
-                    -- ii) for α₀
-                    -------------
-
-                    lem-11 : α₀ ≡ α
-                    lem-11 = α ⇃[ id ⇃⊔⇂ id ]⇂    ⟨ α ⇃[≀ functoriality-id-⊔ ≀]⇂ ⟩-≡
-                              α ⇃[ id ]⇂           ⟨ functoriality-id-⇃[]⇂ {τ = α} ⟩-≡
-                              α                    ∎-≡
-
-                    lem-12 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
-                    lem-12 = α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ σ₀₁ ]⇂     ⟨ cong _⇃[ σ₀₁ ]⇂ lem-11 ⟩-≡
-                              lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ , ρ ◆ ι₁ ⦘ ]⇂  ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i σᵤ₁ (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
-
-                              ⟨ (λ i -> lookup-DDList (Γ<Γ₁ .snd i ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
-
-                              lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                     ∎-≡
+                    lem-4 : Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ ≡ Γ₁' ⇃[ ι₀ ◆ ρ ]⇂ᶜ
+                    lem-4 = Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
+                            Γ ⇃[ σᵤ₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ⟨ cong _⇃[ ι₀ ]⇂ᶜ (Γ<Γ₁ .snd) ⟩-≡
+                            Γ₁ ⇃[ ι₀ ]⇂ᶜ           ⟨ sym-Path Γp ⟩-≡
+                            Γ₁' ⇃[ ι₀ ◆ ρ ]⇂ᶜ      ∎-≡
 
 
-                    lem-15 : Γ₁' ⇃[ id ◆ ι₀ ]⇂ᶜ ≡ Γ₁
-                    lem-15 = Γ₁' ⇃[ id ◆ ι₀ ]⇂ᶜ  ⟨ Γ₁' ⇃[≀ unit-l-◆ ≀]⇂-CtxFor ⟩-≡
-                             Γ₁' ⇃[ ι₀ ]⇂ᶜ       ∎-≡
+                    lem-5 : lookup-DDList Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂ ≡ lookup-DDList Γ₁' k∍i ⇃[ ρ ]⇂
+                    lem-5 = lookup-DDList Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂
 
-                    lem-16 : α₁ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
-                    lem-16 = lookup-DDList Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ₁'} k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                            ⟨ cong _⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂ (functoriality-id-⇃[]⇂ {τ = lookup-DDList Γ k∍i}) ⟩-≡
+                            lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂
 
-                              ⟨ (λ i -> lookup-DDList (lem-15 i) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
+                            ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ι₁ ◆ ρ)) ⟩-≡
 
-                              lookup-DDList (Γ₁) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                       ∎-≡
+                            lookup-DDList (Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ◆ ρ ⦘ ]⇂
 
-                    lem-20 : α₀ ⇃[ σ₀₁ ]⇂ ≡ α₁
-                    lem-20 = trans-Path lem-12 (sym-Path lem-16)
+                            ⟨ cong (λ ξ -> lookup-DDList ξ k∍i ⇃[ ⦗ id , ι₁ ◆ ρ ⦘ ]⇂) lem-4 ⟩-≡
 
-                in record { tiSub = σ₀₁ ; typProof = lem-20 ; subProof = lem-10 }
+                            lookup-DDList (Γ₁' ⇃[ ι₀ ◆ ρ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ◆ ρ ⦘ ]⇂
+
+                            ⟨ §-ℒHMCtx.prop-3 {Γ = Γ₁'} k∍i ρ ⟩-≡
+
+                            lookup-DDList Γ₁' k∍i ⇃[ ρ ]⇂
+
+                            ∎-≡
+
+                in record { tiSubₐ = σᵤ₁ ; tiSubₓ = σᵤ₁-ty ; typProof = lem-5 ; subProof = unit-l-◆ }
 
                })
+
+γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
+{-
+  case (γ Γ te) of
+  {!!}
+  continue₀ where
+
+  continue₀ : InitialCtxTypingInstance Γ te -> TypingDecision Γ (slet te se)
+  continue₀ ((νs₀ₐ / νs₀ₓ ⊩ Γ₀ , αᵇ₀ , Γ<Γ₀ , Γ₀⊢αᵇ₀), Ω₀) = {!!}
+    where
+
+      -- once we have typechecked te, we know that νs₀ₓ are the
+      -- variables over which the type αᵇ₀ is quantified
+      -- thus the context in which we typecheck `se` is the following
+      α₀Γ₀ : ℒHMCtxFor (νs₀ₓ ∷' Q) νs₀ₐ
+      α₀Γ₀ = αᵇ₀ ∷ Γ₀
+
+      result = case (γ α₀Γ₀ se) of
+        {!!}
+        continue₁ where
+
+        continue₁ : InitialCtxTypingInstance (α₀Γ₀) se -> TypingDecision Γ (slet te se)
+        continue₁ ((νs₁ₐ / νs₁ₓ ⊩ (α₁ ∷ Γ₁) , βᵇ₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢βᵇ₁), Ω₁) = right (𝑇 , {!!})
+          where
+            Γ₀<Γ₁ : Γ₀ <Γ Γ₁
+            Γ₀<Γ₁ = tail-SomeℒHMCtx α₀Γ₀<α₁Γ₁
+
+            α₁' : ℒHMType ⟨ νs₁ₐ ⊔ νs₁ₓ ⊔ νs₀ₓ ⟩
+            α₁' = (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
+
+            Γ₁⊢α₁' : isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊔ νs₀ₓ ⊩ (_ , Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) ⊢ α₁') te
+            Γ₁⊢α₁' = {!!}
+
+            isAb : isAbstr νs₀ₓ (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) (Γ₁ ⇃[ ι₀ ]⇂ᶜ) α₁' (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
+            isAb = record { metasProof = refl-≅ ; ctxProof = {!!} ; typeProof = {!!} }
+
+            𝑇 : CtxTypingInstance Γ (slet te se)
+            𝑇 = νs₁ₐ / νs₁ₓ ⊩ Γ₁ , βᵇ₁ , Γ<Γ₀ ⟡ Γ₀<Γ₁ , (slet isAb Γ₁⊢α₁' α₁Γ₁⊢βᵇ₁)
 -}
 
-γ {μs = νs} {Q = Q} Γ (slet te se) = {!!} -- with γ Γ te
+-- with γ Γ te
 -- ... | (left _) = {!!}
 -- ... | (right ((νs₀ / νs₀ₓ ⊩ Γ₀ , τ₀ , Γ<Γ₀ , Γ₀⊢τ₀), Ω₀)) = ? -- (withAbstr (abstr-Ctx Γ₀ τ₀))
 -- ... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ<Γ₀ , Γ₀⊢τ₀), Ω₀)) = ? -- (withAbstr (abstr-Ctx Γ₀ τ₀))
@@ -620,7 +642,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
     -- computing the initial typing instance
     -- assuming we have one for te
     success : InitialCtxTypingInstance (α₀ ∷ Γ₀) te -> InitialCtxTypingInstance Γ (lam te)
-    success ((μs₁ₐ / μs₁ₓ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢β₁) , Ω) = {!𝑇 , ?!} -- 𝑇 , isInitial:𝑇
+    success ((μs₁ₐ / μs₁ₓ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢β₁) , Ω) = 𝑇 , {!!} -- 𝑇 , isInitial:𝑇
       where
         σᵃ₀₁ : μs₀ ⟶ μs₁ₐ
         σᵃ₀₁ = α₀Γ₀<α₁Γ₁ .fst

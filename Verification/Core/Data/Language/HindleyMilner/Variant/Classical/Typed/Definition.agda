@@ -122,6 +122,15 @@ module §-ℒHMCtx where
       in {!!} --  lem-1
     prop-2 {Γ = b ∷ Γ} (skip k∍i) σ₀ σ₁ = {!!} -- prop-2 {Γ = Γ} k∍i σ₀ σ₁
 
+    prop-3 : ∀{μs νs : ℒHMTypes}
+            -> ∀{k i} -> {Q : ℒHMQuant k}
+            -> {Γ : ℒHMCtxFor Q μs} -> (k∍i : k ∍♮ i)
+            -> ∀ (σ : μs ⊔ lookup-DList Q k∍i ⟶ νs)
+            ->  lookup-DDList (Γ ⇃[ ι₀ ◆ σ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ι₁ ◆ σ ⦘ ]⇂
+              ≡
+                lookup-DDList Γ k∍i ⇃[ σ ]⇂
+    prop-3 = {!!}
+
 
 
 
@@ -153,13 +162,13 @@ pattern ∀[]_ xs = ∀[ incl [] ] xs
 
 record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtxFor Q μs₀) (Γ₁ : ℒHMCtxFor Q μs₁)
                (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
-  field metasForget : μs₀ ⟶ μs₁
-  field metasCreate : somectx Γ₁ ≤ somectx Γ₀ -- μs₁ ⟶ μs₀
-  field ctxProof : Γ₀ ⇃[ metasForget ]⇂-CtxFor ≡ Γ₁
-  -- field metasProof : (μs₁ ⊔ κs) ≅ μs₀
+  -- field metasForget : μs₀ ⟶ μs₁
+  -- field metasCreate : somectx Γ₁ ≤ somectx Γ₀ -- μs₁ ⟶ μs₀
+  -- field ctxProof : Γ₀ ⇃[ metasForget ]⇂-CtxFor ≡ Γ₁
+  field metasProof : (μs₁ ⊔ κs) ≅ μs₀
 
-  -- field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂-CtxFor ≡ Γ₀
-  -- field typeProof : τ₁ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₀
+  field ctxProof : Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩ ]⇂ᶜ ≡ Γ₀
+  field typeProof : τ₁ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₀
 
 open isAbstr public
 
@@ -196,14 +205,17 @@ open Abstraction public
 
 
 data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
-  var  : ∀{μs k i} -> {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs}
+  var  : ∀{μs k i ξs} -> {Q : ℒHMQuant k}
+         -> {Γ : ℒHMCtxFor Q μs} {Γ' : ℒHMCtxFor Q (ξs)}
          -> (k∍i : k ∍♮ i)
-         -> ∀{vα' α}
-         -- -> lookup-DList Q k∍i ≣ vα
+         -> (σ : (μs ⊔ lookup-DList Q k∍i) ⟶ ξs)
+         -> ∀{α}
          -> lookup-DDList Γ k∍i ≣ α
+         -> Γ ⇃[ ι₀ ◆ σ ]⇂ᶜ ≡ Γ'
+         -> isTypedℒHMᵈ ((ξs) ⊩ (Q , Γ') ⊢ α ⇃[ σ ]⇂) (var k∍i)
+
+         -- -> lookup-DList Q k∍i ≣ vα
          -- (∀[ vα ] α)
-         -> (σ : lookup-DList Q k∍i ⟶ vα')
-         -> isTypedℒHMᵈ ((μs ⊔ vα') ⊩ (Q , Γ ⇃[ ι₀ ]⇂-CtxFor) ⊢ α ⇃[ id ⇃⊔⇂ σ ]⇂) (var k∍i)
 
 {-
   gen : ∀{k μs te} {Γ₀ Γ₁ : ℒHMCtx k μs} {τ₀ τ₁ : ℒHMType ⟨ μs ⟩}
@@ -262,7 +274,7 @@ module §-isTypedℒHM where
           -> (σ : μs ⟶ νs)
           -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
           -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂)) te
-    prop-2 σ (var x xp ρ) = {!!}
+    prop-2 σ (var x xp Γp ρ) = {!!}
     prop-2 σ (app te se) =
       let te' = prop-2 σ te
           se' = prop-2 σ se
