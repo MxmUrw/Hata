@@ -44,7 +44,7 @@ instance
 
 
 
-record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
+record GoodCtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
   constructor _/_⊩_,_,_,_
   field metas : ℒHMTypes
   field typeMetas : ℒHMTypes
@@ -55,14 +55,26 @@ record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te
   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
   field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (Q , ctx ⇃[ ι₀ ]⇂ᶜ) ⊢ typ) te
 
+open GoodCtxTypingInstance public
+
+record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
+  constructor _⊩_,_,_,_
+  field metas : ℒHMTypes
+  field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
+  field typ : ℒHMType (⟨ metas ⟩)
+  field isInstance : Γ <Γ ctx
+  -- field hiddenEpiSub : μs ⟶ metas
+  -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
+  field hasType : isTypedℒHM (metas ⊩ (Q , ctx) ⊢ typ) te
+
 open CtxTypingInstance public
 
 
 module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM k}  where
-  record _<TI_ (𝑇 𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
+  record _<TI_ (𝑇 : GoodCtxTypingInstance Γ te) (𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
     field tiSubₐ : metas 𝑇 ⟶ metas 𝑆
-    field tiSubₓ : typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
-    field typProof : typ 𝑇 ⇃[ ⦗ tiSubₐ ◆ ι₀ , tiSubₓ ⦘ ]⇂ ≡ typ 𝑆
+    field tiSubₓ : typeMetas 𝑇 ⟶ metas 𝑆
+    field typProof : typ 𝑇 ⇃[ ⦗ tiSubₐ , tiSubₓ ⦘ ]⇂ ≡ typ 𝑆
     field subProof : isInstance 𝑇 .fst ◆ tiSubₐ ∼ isInstance 𝑆 .fst
 
     -- field tiSub : metas 𝑇 ⊔ typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
@@ -72,11 +84,13 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
 
   open _<TI_ public
 
+
 InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
-InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
+InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : GoodCtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
 
 TypingDecision : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
 TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (InitialCtxTypingInstance Γ te)
+
 
 
 
@@ -84,7 +98,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (InitialCtxTypingInstance Γ te)
-γ {μs} {k} {Q} Γ (var k∍i) =
+γ {μs} {k} {Q} Γ (var k∍i) = {!!}
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
@@ -145,6 +159,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
                })
 
+
 γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
 {-
   case (γ Γ te) of
@@ -171,23 +186,77 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             Γ₀<Γ₁ : Γ₀ <Γ Γ₁
             Γ₀<Γ₁ = tail-SomeℒHMCtx α₀Γ₀<α₁Γ₁
 
+            σ₀₁ = fst Γ₀<Γ₁
+
             α₁' : ℒHMType ⟨ νs₁ₐ ⊔ νs₁ₓ ⊔ νs₀ₓ ⟩
             α₁' = (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
 
+            lem-1a : αᵇ₀ ⇃[ σ₀₁ ⇃⊔⇂ id ]⇂ ≡ α₁
+            lem-1a = λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .fst
+
+            lem-1b : Γ₀ ⇃[ σ₀₁ ]⇂ᶜ ≡ Γ₁
+            lem-1b = λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd
+
             Γ₁⊢α₁' : isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊔ νs₀ₓ ⊩ (_ , Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) ⊢ α₁') te
-            Γ₁⊢α₁' = {!!}
+            Γ₁⊢α₁' = Γ₀⊢αᵇ₀
+                      >> isTypedℒHM ((νs₀ₐ ⊔ νs₀ₓ) ⊩ Q , (Γ₀ ⇃[ ι₀ ]⇂ᶜ) ⊢ αᵇ₀) te <<
+                      ⟪ §-isTypedℒHM.prop-4 σ₀₁ id ⟫
+                      >> isTypedℒHM (_ ⊩ Q , (Γ₀ ⇃[ σ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ αᵇ₀ ⇃[ σ₀₁ ⇃⊔⇂ id ]⇂) te <<
+
+                      ⟪ transp-isTypedℒHM (cong _⇃[ ι₀ ]⇂ᶜ lem-1b) lem-1a ⟫
+
+                      >> isTypedℒHM (_ ⊩ Q , (Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₁ ) te <<
+
+                      ⟪ §-isTypedℒHM.prop-4 ι₀ id ⟫
+
+                      >> isTypedℒHM (_ ⊩ Q , (Γ₁ ⇃[ ι₀ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ) te <<
+
+                      ⟪ transp-isTypedℒHM (functoriality-◆-⇃[]⇂-CtxFor) refl-≡ ⟫
+
+                      >> isTypedℒHM (_ ⊩ Q , (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) ⊢ α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ) te <<
+
+            lem-2 : (Γ₁ ⇃[ ι₀ ]⇂ᶜ ⇃[ ι₀ ◆ ⟨ refl-≅ ⟩ ]⇂ᶜ) ≡ (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ)
+            lem-2 = trans-Path (Γ₁ ⇃[ ι₀ ]⇂ᶜ ⇃[≀ unit-r-◆ ≀]⇂ᶜ) functoriality-◆-⇃[]⇂-CtxFor
 
             isAb : isAbstr νs₀ₓ (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) (Γ₁ ⇃[ ι₀ ]⇂ᶜ) α₁' (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
-            isAb = record { metasProof = refl-≅ ; ctxProof = {!!} ; typeProof = {!!} }
+            isAb = record { metasProof = refl-≅ ; ctxProof = lem-2 ; typeProof = functoriality-id-⇃[]⇂ }
 
             𝑇 : CtxTypingInstance Γ (slet te se)
             𝑇 = νs₁ₐ / νs₁ₓ ⊩ Γ₁ , βᵇ₁ , Γ<Γ₀ ⟡ Γ₀<Γ₁ , (slet isAb Γ₁⊢α₁' α₁Γ₁⊢βᵇ₁)
+
+            isInitial:𝑇 : ∀(𝑆 : CtxTypingInstance Γ (slet te se)) -> 𝑇 <TI 𝑆
+            isInitial:𝑇 (νs₃ₐ / νs₃ₓ ⊩ Γ₃ , β₃ , Γ<Γ₃ , slet {μs = νs₂} {κs = νs₃ₓ₊} {α = α₂} {α' = α₃} isAb₂ Γ₂⊢α₂ α₃Γ₃⊢β₃) =
+              record { tiSubₐ = σᵃ₁₃ ; tiSubₓ = σˣ₁₃ ; typProof = {!!} ; subProof = {!!} }
+              where
+                σ₃₊₂ : νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊ ≅ νs₂
+                σ₃₊₂ = metasProof isAb₂
+
+                lem-10 : isTypedℒHM (νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₃) te
+                lem-10 = {!!}
+
+
+                Ω₀R = Ω₀ ((νs₃ₐ ⊔ νs₃ₓ) / νs₃ₓ₊ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ , α₃ , {!!} , lem-10)
+
+                σᵃ₀₃ : νs₀ₐ ⟶ νs₃ₐ ⊔ νs₃ₓ
+                σᵃ₀₃ = tiSubₐ Ω₀R
+
+                σˣ₀₃ : νs₀ₓ ⟶ νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊
+                σˣ₀₃ = tiSubₓ Ω₀R
+
+                α₃₋ = αᵇ₀ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂
+
+                lem-20 : isTypedℒHM (νs₃ₐ ⊔ νs₃ₓ ⊩ ((νs₀ₓ ∷' Q) , α₃₋ ∷ Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
+                lem-20 = {!!}
+
+                Ω₁R = Ω₁ (νs₃ₐ / νs₃ₓ ⊩ {!!} ∷ Γ₃ , {!!} , {!!} , lem-20)
+
+                σᵃ₁₃ : νs₁ₐ ⟶ νs₃ₐ
+                σᵃ₁₃ = {!!}
+
+                σˣ₁₃ : νs₁ₓ ⟶ (νs₃ₐ ⊔ νs₃ₓ)
+                σˣ₁₃ = {!!}
 -}
 
--- with γ Γ te
--- ... | (left _) = {!!}
--- ... | (right ((νs₀ / νs₀ₓ ⊩ Γ₀ , τ₀ , Γ<Γ₀ , Γ₀⊢τ₀), Ω₀)) = ? -- (withAbstr (abstr-Ctx Γ₀ τ₀))
--- ... | (right ((νs₀ ⊩ Γ₀ , τ₀ , Γ<Γ₀ , Γ₀⊢τ₀), Ω₀)) = ? -- (withAbstr (abstr-Ctx Γ₀ τ₀))
 {-
   where
     σᵤ₀ : νs ⟶ νs₀
@@ -616,6 +685,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
 -- the case of a lambda
 γ {μs} {k} {Q = Q} Γ (lam te) = {!!} -- resn
+{-
   where
     -- create a new metavariable
     μs₀ = μs ⊔ st
@@ -656,7 +726,6 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
         𝑇 : CtxTypingInstance Γ (lam te)
         𝑇 = μs₁ₐ / μs₁ₓ ⊩ Γ₁ , _ , Γ<Γ₁ , lam α₁Γ₁⊢β₁
 
-{-
         isInitial:𝑇 : (𝑆 : CtxTypingInstance Γ (lam te)) -> 𝑇 <TI 𝑆
         isInitial:𝑇 (μs₂ ⊩ Γ₂ , .(_ ⇒ _) , Γ<Γ₂ , lam {α = α₂} {β = β₂} Γ₂α₂⊢β₂) =
           record { tiSub = σ₁₂ ; typProof = lem-30 ; subProof = lem-40 }
@@ -736,5 +805,3 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 -}
 
 
-{-
--}
