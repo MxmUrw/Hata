@@ -44,7 +44,7 @@ instance
 
 
 
-record GoodCtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
+record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
   constructor _/_⊩_,_,_,_
   field metas : ℒHMTypes
   field typeMetas : ℒHMTypes
@@ -55,26 +55,26 @@ record GoodCtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs)
   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
   field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (Q , ctx ⇃[ ι₀ ]⇂ᶜ) ⊢ typ) te
 
-open GoodCtxTypingInstance public
-
-record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
-  constructor _⊩_,_,_,_
-  field metas : ℒHMTypes
-  field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
-  field typ : ℒHMType (⟨ metas ⟩)
-  field isInstance : Γ <Γ ctx
-  -- field hiddenEpiSub : μs ⟶ metas
-  -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
-  field hasType : isTypedℒHM (metas ⊩ (Q , ctx) ⊢ typ) te
-
 open CtxTypingInstance public
+
+-- record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
+--   constructor _⊩_,_,_,_
+--   field metas : ℒHMTypes
+--   field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
+--   field typ : ℒHMType (⟨ metas ⟩)
+--   field isInstance : Γ <Γ ctx
+--   -- field hiddenEpiSub : μs ⟶ metas
+--   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
+--   field hasType : isTypedℒHM (metas ⊩ (Q , ctx) ⊢ typ) te
+
+-- open CtxTypingInstance public
 
 
 module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM k}  where
-  record _<TI_ (𝑇 : GoodCtxTypingInstance Γ te) (𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
+  record _<TI_ (𝑇 : CtxTypingInstance Γ te) (𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
     field tiSubₐ : metas 𝑇 ⟶ metas 𝑆
-    field tiSubₓ : typeMetas 𝑇 ⟶ metas 𝑆
-    field typProof : typ 𝑇 ⇃[ ⦗ tiSubₐ , tiSubₓ ⦘ ]⇂ ≡ typ 𝑆
+    field tiSubₓ : typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
+    field typProof : typ 𝑇 ⇃[ ⦗ tiSubₐ ◆ ι₀ , tiSubₓ ⦘ ]⇂ ≡ typ 𝑆
     field subProof : isInstance 𝑇 .fst ◆ tiSubₐ ∼ isInstance 𝑆 .fst
 
     -- field tiSub : metas 𝑇 ⊔ typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
@@ -86,7 +86,7 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
 
 
 InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
-InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : GoodCtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
+InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
 
 TypingDecision : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
 TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (InitialCtxTypingInstance Γ te)
@@ -99,6 +99,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
     +
      (InitialCtxTypingInstance Γ te)
 γ {μs} {k} {Q} Γ (var k∍i) = {!!}
+{-
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
@@ -158,10 +159,9 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
                 in record { tiSubₐ = σᵤ₁ ; tiSubₓ = σᵤ₁-ty ; typProof = lem-5 ; subProof = unit-l-◆ }
 
                })
+-}
 
-
-γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
-{-
+γ {μs = νs} {Q = Q} Γ (slet te se) =
   case (γ Γ te) of
   {!!}
   continue₀ where
@@ -255,7 +255,6 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
                 σˣ₁₃ : νs₁ₓ ⟶ (νs₃ₐ ⊔ νs₃ₓ)
                 σˣ₁₃ = {!!}
--}
 
 {-
   where
