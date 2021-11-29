@@ -140,3 +140,15 @@ module §-ℒHMQuantMap where
 
 
 
+sz : ∀{a b : ℒHMTypes} -> a ⟶ b
+sz = ⧜subst (construct-D人List λ {tt x → con ℕᵗ ◌-⧜})
+
+ϖ₀ : ∀{a b : ℒHMTypes} -> a ⊔ b ⟶ a
+ϖ₀ = ⦗ id , sz ⦘
+
+ϖ₁ : ∀{a b : ℒHMTypes} -> a ⊔ b ⟶ b
+ϖ₁ = ⦗ sz , id ⦘
+
+
+
+
