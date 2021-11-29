@@ -45,30 +45,6 @@ get-∍-人Vecᵖ = {!!}
 -}
 
 
-module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
-  size-D人List : ∀{m} -> D人List F m -> 人List A
-  size-D人List {m} _ = m
-
-module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
-  size-DList : ∀{m} -> DList F m -> List A
-  size-DList {m} _ = m
-
-  split-DList : ∀{as : List A} {a : A} -> DList F (a ∷ as) -> (F a) × DList F as
-  split-DList (b ∷ xs) = b , xs
-
-
-module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
-  lookup-DList : ∀{as : List A} -> (xs : DList B as) -> ∀{a} -> (as ∍♮ a) -> B a
-  lookup-DList (b ∷ xs) incl = b
-  lookup-DList (b ∷ xs) (skip p) = lookup-DList xs p
-
-module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} where
-  lookup-DDList : ∀{as : List A} -> {xs : DList B as} -> (ys : DDList C xs) -> ∀{a} -> (p : as ∍♮ a) -> C (lookup-DList xs p)
-  lookup-DDList (c ∷ ys) incl = c
-  lookup-DDList (c ∷ ys) (skip p) = lookup-DDList ys p
-
-  split-DDList : ∀{as : List A} {a : A} {bs : DList B as} {b : B a} -> DDList C (b ∷ bs) -> (C b) × DDList C bs
-  split-DDList (b ∷ xs) = b , xs
 
 
 {-
@@ -162,9 +138,13 @@ pattern ∀[]_ xs = ∀[ incl [] ] xs
 
 record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtxFor Q μs₀) (Γ₁ : ℒHMCtxFor Q μs₁)
                (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
+  constructor isAbstr:byDef
   field metasProof : μs₀ ≅ (μs₁ ⊔ κs)
   field ctxProof : Γ₀ ⇃[ ⟨ metasProof ⟩ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ
   field typeProof : τ₀ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₁
+
+  inverseCtxProof : Γ₀ ≡ Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩⁻¹ ]⇂ᶜ
+  inverseCtxProof = {!!}
 
 open isAbstr public
 
@@ -201,14 +181,14 @@ open Abstraction public
 
 
 data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
-  var  : ∀{μs k i ξs} -> {Q : ℒHMQuant k}
-         -> {Γ : ℒHMCtxFor Q μs} {Γ' : ℒHMCtxFor Q (ξs)}
+  var  : ∀{μs k i} -> {Q : ℒHMQuant k}
+         -> {Γ : ℒHMCtxFor Q μs}
          -> (k∍i : k ∍♮ i)
-         -> (σ : (μs ⊔ lookup-DList Q k∍i) ⟶ ξs)
+         -> (σ : (lookup-DList Q k∍i) ⟶ μs)
          -> ∀{α}
-         -> lookup-DDList Γ k∍i ≣ α
-         -> Γ ⇃[ ι₀ ◆ σ ]⇂ᶜ ≡ Γ'
-         -> isTypedℒHMᵈ ((ξs) ⊩ (Q , Γ') ⊢ α ⇃[ σ ]⇂) (var k∍i)
+         -> lookup-DDList Γ k∍i ⇃[ ⦗ id , σ ⦘ ]⇂ ≡ α
+         -- -> Γ ⇃[ ι₀ ◆ σ ]⇂ᶜ ≡ Γ'
+         -> isTypedℒHMᵈ ((μs) ⊩ (Q , Γ) ⊢ α) (var k∍i)
 
          -- -> lookup-DList Q k∍i ≣ vα
          -- (∀[ vα ] α)
@@ -270,7 +250,7 @@ module §-isTypedℒHM where
           -> (σ : μs ⟶ νs)
           -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
           -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂)) te
-    prop-2 σ (var x xp Γp ρ) = {!!}
+    prop-2 σ (var x xp ρ) = {!!}
     prop-2 σ (app te se) =
       let te' = prop-2 σ te
           se' = prop-2 σ se

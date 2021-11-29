@@ -27,6 +27,7 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} (C : ∀{a} -> B a -> 𝒰 𝑘) w
     _∷_ : ∀{a as} -> {b : B a} {bs : DList B as} -> (c : C b) -> (cs : DDList bs) -> DDList (b ∷ bs)
 
 
+
 module §-HM-Helpers where
   module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} {{_ : hasFiniteCoproducts ′ 𝒞ᵘ ′ }} where
 
@@ -42,4 +43,28 @@ module §-HM-Helpers where
       (f ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘  ∎
 
 
+module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
+  size-D人List : ∀{m} -> D人List F m -> 人List A
+  size-D人List {m} _ = m
+
+module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
+  size-DList : ∀{m} -> DList F m -> List A
+  size-DList {m} _ = m
+
+  split-DList : ∀{as : List A} {a : A} -> DList F (a ∷ as) -> (F a) × DList F as
+  split-DList (b ∷ xs) = b , xs
+
+
+module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
+  lookup-DList : ∀{as : List A} -> (xs : DList B as) -> ∀{a} -> (as ∍♮ a) -> B a
+  lookup-DList (b ∷ xs) incl = b
+  lookup-DList (b ∷ xs) (skip p) = lookup-DList xs p
+
+module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} where
+  lookup-DDList : ∀{as : List A} -> {xs : DList B as} -> (ys : DDList C xs) -> ∀{a} -> (p : as ∍♮ a) -> C (lookup-DList xs p)
+  lookup-DDList (c ∷ ys) incl = c
+  lookup-DDList (c ∷ ys) (skip p) = lookup-DDList ys p
+
+  split-DDList : ∀{as : List A} {a : A} {bs : DList B as} {b : B a} -> DDList C (b ∷ bs) -> (C b) × DDList C bs
+  split-DDList (b ∷ xs) = b , xs
 
