@@ -23,6 +23,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Proofs
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition2
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
@@ -121,8 +122,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
   -> (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀})
     +
      (InitialCtxTypingInstance Γ te)
-γ {μs} {k} {Q} Γ (var k∍i) = {!!}
-{-
+γ {μs} {k} {Q} Γ (var k∍i) =
   let vα = lookup-DList Q k∍i
       α = lookup-DDList Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
@@ -135,56 +135,55 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
       Γ<Γ₀ : Γ <Γ Γ₀
       Γ<Γ₀ = record { fst = σᵤ₀ ; snd = refl-≡ }
 
-      lem-1 : (Γ ⇃[ ι₀ ◆ id ]⇂ᶜ) ≡ (Γ ⇃[ ι₀ ]⇂ᶜ)
-      lem-1 = Γ ⇃[≀ unit-r-◆ ≀]⇂ᶜ
+      lem-1 : lookup-DDList (Γ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ⦘ ]⇂ ≡ lookup-DDList Γ k∍i ⇃[ id ]⇂
+      lem-1 = trans-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i ι₀ ι₁) (lookup-DDList Γ k∍i ⇃[≀ §-ℒHMTypes.prop-1 ⁻¹ ≀]⇂)
 
-  in right ((μs / vα ⊩ Γ , α₀ , reflexive , (var {Γ = Γ} k∍i id refl-≣ lem-1)) -- refl-≣ {!!}))
+  in right ((μs / vα ⊩ Γ , α₀ , reflexive , var k∍i ι₁ lem-1)
 
            -- now we have to prove that this is the "initial" such typing instance
-           , λ {(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {Γ = Γ₁'} _ ρ refl-≣ Γp) →
-           -- , λ {(.(μs₁ ⊔ vα₁) ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {μs = μs₁} {Γ = Γ₁'} _ {vα' = vα₁} refl-≣ ρ) →
+           , λ {(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {Γ = Γ₁'} _ ρ Γp) →
 
                -- given another instance, which has to use `var` to prove the typing
 
                 let σᵤ₁ : μs ⟶ μs₁
                     σᵤ₁ = Γ<Γ₁ .fst
 
-                    σᵤ₁-ty : lookup-DList Q k∍i ⟶ μs₁ ⊔ να₁
-                    σᵤ₁-ty = ι₁ ◆ ρ
 
-                    lem-4 : Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ ≡ Γ₁' ⇃[ ι₀ ◆ ρ ]⇂ᶜ
+                    σᵤ₁-ty : lookup-DList Q k∍i ⟶ μs₁ ⊔ να₁
+                    σᵤ₁-ty = ρ
+
+                    lem-4 : Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ
                     lem-4 = Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
                             Γ ⇃[ σᵤ₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ⟨ cong _⇃[ ι₀ ]⇂ᶜ (Γ<Γ₁ .snd) ⟩-≡
-                            Γ₁ ⇃[ ι₀ ]⇂ᶜ           ⟨ sym-Path Γp ⟩-≡
-                            Γ₁' ⇃[ ι₀ ◆ ρ ]⇂ᶜ      ∎-≡
+                            Γ₁ ⇃[ ι₀ ]⇂ᶜ           ∎-≡
 
 
-                    lem-5 : lookup-DDList Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂ ≡ lookup-DDList Γ₁' k∍i ⇃[ ρ ]⇂
-                    lem-5 = lookup-DDList Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂
+                    lem-5 : lookup-DDList Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ ≡ α₁
+                    lem-5 = lookup-DDList Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
 
-                            ⟨ cong _⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂ (functoriality-id-⇃[]⇂ {τ = lookup-DDList Γ k∍i}) ⟩-≡
-                            lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ι₁ ◆ ρ ⦘ ]⇂
+                            ⟨ cong _⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ (functoriality-id-⇃[]⇂ {τ = lookup-DDList Γ k∍i}) ⟩-≡
+                            lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
 
-                            ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ι₁ ◆ ρ)) ⟩-≡
+                            ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ρ)) ⟩-≡
 
-                            lookup-DDList (Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ◆ ρ ⦘ ]⇂
+                            lookup-DDList (Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
 
-                            ⟨ cong (λ ξ -> lookup-DDList ξ k∍i ⇃[ ⦗ id , ι₁ ◆ ρ ⦘ ]⇂) lem-4 ⟩-≡
+                            ⟨ cong (λ ξ -> lookup-DDList ξ k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂) lem-4 ⟩-≡
 
-                            lookup-DDList (Γ₁' ⇃[ ι₀ ◆ ρ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ◆ ρ ⦘ ]⇂
+                            lookup-DDList (Γ₁ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
 
-                            ⟨ §-ℒHMCtx.prop-3 {Γ = Γ₁'} k∍i ρ ⟩-≡
+                            ⟨ Γp ⟩-≡
 
-                            lookup-DDList Γ₁' k∍i ⇃[ ρ ]⇂
+                            α₁
 
                             ∎-≡
 
-                in record { tiSubₐ = σᵤ₁ ; tiSubₓ = σᵤ₁-ty ; typProof = lem-5 ; subProof = unit-l-◆ }
+                in record { tiSubₐ = σᵤ₁ ; tiSubₓ = ρ ; typProof = lem-5 ; subProof = unit-l-◆ }
 
                })
--}
 
-γ {μs = νs} {Q = Q} Γ (slet te se) =
+γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
+{-
   case (γ Γ te) of
   {!!}
   continue₀ where
@@ -326,7 +325,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
                          σᵃᵤ₀ ◆ σᵃ₀₃          ⟨ subProof Ω₀R ⟩-∼
                          fst Γ<Γ₃             ∎
 
-
+-}
 
 
 {-
