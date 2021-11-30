@@ -150,11 +150,14 @@ sz = ⧜subst (construct-D人List λ {tt x → con ℕᵗ ◌-⧜})
 ϖ₁ = ⦗ sz , id ⦘
 
 module §-ϖ where
-  prop-1 : ∀{a} -> ϖ₀ {a = a} {b = ⊥} ◆ ι₀ ∼ id
-  prop-1 {a} = ⦗ id , sz ⦘ ◆ ι₀         ⟨ append-⦗⦘ ⟩-∼
-           ⦗ id ◆ ι₀ , sz ◆ ι₀ ⦘    ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-l-◆ , expand-⊥) ⟩-∼
+  prop-1 : ∀{a : ℒHMTypes} {f : ⊥ ⟶ a} -> ⦗ id , f ⦘ ◆ ι₀ ∼ id {a = a ⊔ ⊥}
+  prop-1 {a} {f} = ⦗ id , f ⦘ ◆ ι₀                  ⟨ append-⦗⦘ ⟩-∼
+           ⦗ id ◆ ι₀ , f ◆ ι₀ ⦘                     ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-l-◆ , expand-⊥) ⟩-∼
            ⦗ ι₀ {a = a} {b = ⊥} , elim-⊥ ⦘          ⟨ cong-∼ {{isSetoidHom:⦗⦘}} ((unit-r-◆ ⁻¹) , (expand-⊥ ⁻¹)) ⟩-∼
            ⦗ ι₀ {b = ⊥} ◆ id , ι₁ {a = a} ◆ id ⦘    ⟨ expand-ι₀,ι₁ ⁻¹ ⟩-∼
            id {a = a ⊔ ⊥}                       ∎
 
+
+  prop-2 : ∀{a b : ℒHMTypes} {f g : (a ⊔ ⊥) ⟶ b} -> ι₀ ◆ f ∼ ι₀ ◆ g -> f ∼ g
+  prop-2 = ?
 
