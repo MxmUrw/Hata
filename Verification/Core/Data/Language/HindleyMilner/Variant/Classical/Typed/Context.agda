@@ -149,6 +149,12 @@ sz = ⧜subst (construct-D人List λ {tt x → con ℕᵗ ◌-⧜})
 ϖ₁ : ∀{a b : ℒHMTypes} -> a ⊔ b ⟶ b
 ϖ₁ = ⦗ sz , id ⦘
 
-
+module §-ϖ where
+  prop-1 : ∀{a} -> ϖ₀ {a = a} {b = ⊥} ◆ ι₀ ∼ id
+  prop-1 {a} = ⦗ id , sz ⦘ ◆ ι₀         ⟨ append-⦗⦘ ⟩-∼
+           ⦗ id ◆ ι₀ , sz ◆ ι₀ ⦘    ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-l-◆ , expand-⊥) ⟩-∼
+           ⦗ ι₀ {a = a} {b = ⊥} , elim-⊥ ⦘          ⟨ cong-∼ {{isSetoidHom:⦗⦘}} ((unit-r-◆ ⁻¹) , (expand-⊥ ⁻¹)) ⟩-∼
+           ⦗ ι₀ {b = ⊥} ◆ id , ι₁ {a = a} ◆ id ⦘    ⟨ expand-ι₀,ι₁ ⁻¹ ⟩-∼
+           id {a = a ⊔ ⊥}                       ∎
 
 
