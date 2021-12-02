@@ -236,10 +236,13 @@ makeRules_AgdaPublishProject egc eappc = do
     let targetDir = eappc.>generateTex_Target_AbDir
     liftIO $ createDirectoryIfMissing True targetDir
 
-    let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
-          then ["--only-scope-checking"]
-          else []
+    -- let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
+    --       then ["--only-scope-checking"]
+    --       else []
 
+    let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
+          then PrettyCheckingFast
+          else PrettyCheckingSlow
     -- load command file for prettifier
     commands <- liftIO $ Yaml.decodeFileThrow (eappc.>commands_AbFile)
 
@@ -247,7 +250,7 @@ makeRules_AgdaPublishProject egc eappc = do
     let prtf = Prettifier (MetaBuilder.Project.Type.AgdaPublish.Highlevel.parseAndGenerate commands) (MetaBuilder.Project.Type.AgdaPublish.Common.prettyChars)
 
     -- call latex generation in the agda library
-    liftIO $ generatePrettyLatexIO prtf sourcefile targetDir
+    liftIO $ generatePrettyLatexIO fastbuildarg prtf sourcefile targetDir
 
 
     -- cmd_ "agda" (Cwd (eappc.>generateTex_Source_AbDir)) (["--latex"] ++ fastbuildarg ++ ["--latex-dir=" ++ targetDir, sourcefile])

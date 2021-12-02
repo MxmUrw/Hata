@@ -42,7 +42,7 @@ ghc-options:
 
 extra-deps:
 - git: https://github.com/MxmUrw/agda.git
-  commit: 1163a8432a7f4659cecf2fed87db65de26628fb8
+  commit: 3a94364b14e2ab8ead5cf38ab2bcc2db7a396e83
 
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
