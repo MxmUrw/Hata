@@ -13,6 +13,7 @@ module _ {𝒞' : Category 𝑖} {{_ : hasCoproducts 𝒞'}} where
   private macro 𝒞 = #structureOn ⟨ 𝒞' ⟩
 
   record isSplitEpiMonoFactorizable {a b : 𝒞} (f : a ⟶ b) : 𝒰 𝑖 where
+    constructor isSplitEpiMonoFactorizable:byDef
     field image : 𝒞
     field rest : 𝒞
     field splitting : image ⊔ rest ≅ b

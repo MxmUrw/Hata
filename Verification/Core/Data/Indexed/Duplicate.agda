@@ -144,6 +144,25 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗}
     isFunctor.functoriality-id isFunctor:⨆ᶠ = {!!}
     isFunctor.functoriality-◆ isFunctor:⨆ᶠ = {!!}
 
+  coadj-⨆ᶠ : ∀{n} -> (a : Indexed [ n ]ᶠ 𝒞) → IndexedHom a (duplix (⨆ᶠᵘ a))
+  coadj-⨆ᶠ = {!!}
+
+  module _ {n} where
+    instance
+      isAdjoint:⨆ᶠ,写 : ⨆ᶠ {n} ⊣ 写
+      isAdjoint.adj isAdjoint:⨆ᶠ,写 = {!!}
+      isAdjoint.coadj isAdjoint:⨆ᶠ,写 = coadj-⨆ᶠ
+      isAdjoint.isNatural:adj isAdjoint:⨆ᶠ,写 = {!!}
+      isAdjoint.isNatural:coadj isAdjoint:⨆ᶠ,写 = {!!}
+      isAdjoint.reduce-coadj isAdjoint:⨆ᶠ,写 = {!!}
+      isAdjoint.reduce-adj isAdjoint:⨆ᶠ,写 = {!!}
+
+  ιᶠ : ∀{n} -> {a : 𝐈𝐱 [ n ]ᶠ 𝒞} -> ∀(i : [ n ]ᶠ) -> a ⌄ i ⟶ ⨆ᶠ a
+  ιᶠ {n} {a} i = coadj-⨆ᶠ a i
+
+  ⦗_⦘ᶠ : ∀{n} -> {a : 𝐈𝐱 [ n ]ᶠ 𝒞} {b : ⟨ 𝒞 ⟩} -> (∀(i : [ n ]ᶠ) -> a ⌄ i ⟶ b) -> ⨆ᶠ a ⟶ b
+  ⦗_⦘ᶠ = free
+
 --------------------------------------------------------------
 -- the indexed coproduct
 

@@ -62,23 +62,6 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Inst
 
 
 module _ {𝑨 : 𝕋× 𝑖} where
-  mutual
-    data VarPath-Terms-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
-      left-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
-                  -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
-
-      right-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
-                  -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
-
-      incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
-                  -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
-
-    data VarPath-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Sort 𝑨} -> (Γ ∍ s) -> 𝒰 𝑖 where
-      var : ∀{Γ s} -> (x : Γ ∍ s) -> VarPath-Term-𝕋× (var x) x
-      con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl Γ) }
-            -> VarPath-Terms-𝕋× ts x
-            -> VarPath-Term-𝕋× (con c ts) x
-
   private VarPath = VarPath-Term-𝕋×
 
   mutual
@@ -136,6 +119,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         prop-1 (con c ts) v ¬occ {_} {h} = λ i -> con c (prop-1s ts v (λ occ -> (¬occ (con c occ))) {h = h} i)
 
 
+    {-
     private
       Γ' : 𝐂𝐭𝐱 𝑨
       Γ' = incl (Γ \\ v)
@@ -227,8 +211,10 @@ module _ {𝑨 : 𝕋× 𝑖} where
         >> id ◆ α ∼ id ◆ β <<
         ⟪ unit-l-◆ ≀∼≀ unit-l-◆ ⟫
 
+
     isEpi:π' : isEpi π'
     isEpi:π' = epi P-11
+
 
     isCoequalizer:byNoOccur : isCoequalizer (map (⧜subst (incl t))) (map (simpleVar v)) (ι (Γ'))
     isCoequalizer.π₌ isCoequalizer:byNoOccur = π'
@@ -236,11 +222,13 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isCoequalizer.compute-Coeq isCoequalizer:byNoOccur = compute-Coeq'
     isCoequalizer.isEpi:π₌ isCoequalizer:byNoOccur = isEpi:π'
 
+    -}
+
     hasCoequalizer:byNoOccur : hasCoequalizer (⧜subst (incl t)) (simpleVar v)
-    hasCoequalizer:byNoOccur = Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
+    hasCoequalizer:byNoOccur = {!!} -- Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
 
     hasSizedCoequalizer:byNoOccur : hasSizedCoequalizer (⧜subst (incl t)) (simpleVar v)
-    hasSizedCoequalizer:byNoOccur = hasCoequalizer:byNoOccur , right lem-12
+    hasSizedCoequalizer:byNoOccur = {!!} -- hasCoequalizer:byNoOccur , right lem-12
 
 
 
