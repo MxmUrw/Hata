@@ -147,7 +147,7 @@ module _ {𝑖 : 𝔏} {𝑗 : 𝔏} (X : Linearorder (𝑖 , 𝑗 , 𝑖)) {{_ 
   --   isMonoid.unit-r-⋆ isMonoid:Cut = {!!}
   --   isMonoid.assoc-l-⋆ isMonoid:Cut = {!!}
   --   isMonoid.assoc-r-⋆ isMonoid:Cut = {!!}
-  --   isMonoid._`cong-⋆`_ isMonoid:Cut = {!!}
+  --   isMonoid._≀⋆≀_ isMonoid:Cut = {!!}
 
 
 

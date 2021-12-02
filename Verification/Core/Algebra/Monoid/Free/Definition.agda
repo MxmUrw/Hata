@@ -94,7 +94,7 @@ module _ {A : 𝒰 𝑖} where
                           ; unit-l-⋆   = incl unit-l-⋆-Free-𝐌𝐨𝐧
                           ; unit-r-⋆   = incl unit-r-⋆-Free-𝐌𝐨𝐧
                           ; assoc-l-⋆  = incl assoc-l-⋆-Free-𝐌𝐨𝐧
-                          ; _`cong-⋆`_ = cong-⋆-Free-𝐌𝐨𝐧
+                          ; _≀⋆≀_ = cong-⋆-Free-𝐌𝐨𝐧
                           }
 
 

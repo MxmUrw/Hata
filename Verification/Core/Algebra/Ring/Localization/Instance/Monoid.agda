@@ -138,7 +138,7 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
     isMonoid.unit-r-⋆ isMonoid:Localize = lem-30
     isMonoid.assoc-l-⋆ isMonoid:Localize = lem-40
     -- isMonoid.assoc-r-⋆ isMonoid:Localize = lem-40 ⁻¹
-    isMonoid._`cong-⋆`_ isMonoid:Localize = lem-50
+    isMonoid._≀⋆≀_ isMonoid:Localize = lem-50
 
 
   instance

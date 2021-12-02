@@ -75,7 +75,7 @@ instance
                   ; unit-l-⋆   = lem-1
                   ; unit-r-⋆   = lem-2
                   ; assoc-l-⋆  = lem-3
-                  ; _`cong-⋆`_ = λ p q -> cong-≅ (into-×-≅ p q)
+                  ; _≀⋆≀_ = λ p q -> cong-≅ (into-×-≅ p q)
                   }
 
 instance

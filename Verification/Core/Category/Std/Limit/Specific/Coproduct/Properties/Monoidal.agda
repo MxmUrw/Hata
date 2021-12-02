@@ -32,6 +32,6 @@ module _ {𝒞' : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞'}} where
                            ; unit-l-⋆ = {!!}
                            ; unit-r-⋆ = {!!}
                            ; assoc-l-⋆ = {!!}
-                           ; _`cong-⋆`_ = {!!}
+                           ; _≀⋆≀_ = {!!}
                            }
 

@@ -39,9 +39,9 @@ Subabelian A = Subgroup ′ ⟨ A ⟩ ′ :& isSubabelian {A = A}
 --     isNormal:Subabelian : isNormal ′ B ′
 --     isNormal.normal isNormal:Subabelian a {b} b∈B =
 --       let P₀ = b             ≣⟨ unit-r-⋆ ⁻¹ ⟩
---                 b ⋆ ◌         ≣⟨ refl `cong-⋆` inv-r-⋆ ⁻¹ ⟩
+--                 b ⋆ ◌         ≣⟨ refl ≀⋆≀ inv-r-⋆ ⁻¹ ⟩
 --                 b ⋆ (a ⋆ ◡ a) ≣⟨ assoc-r-⋆ ⟩
---                 b ⋆ a ⋆ ◡ a   ≣⟨ comm-⋆ `cong-⋆` refl ⟩
+--                 b ⋆ a ⋆ ◡ a   ≣⟨ comm-⋆ ≀⋆≀ refl ⟩
 --                 a ⋆ b ⋆ ◡ a   ∎
 
 --           P₁ : B (a ⋆ b ⋆ ◡ a)
@@ -54,9 +54,9 @@ module _ {𝑗 : 𝔏 ^ 2} {A : Group 𝑗} {B : Subgroup A} {{_ : isCommutative
     isNormal:Subabelian : isNormal ′ ⟨ B ⟩ ′
     isNormal.normal isNormal:Subabelian a {b} b∈B =
       let P₀ = b             ≣⟨ unit-r-⋆ ⁻¹ ⟩
-                b ⋆ ◌         ≣⟨ refl `cong-⋆` inv-r-⋆ ⁻¹ ⟩
+                b ⋆ ◌         ≣⟨ refl ≀⋆≀ inv-r-⋆ ⁻¹ ⟩
                 b ⋆ (a ⋆ ◡ a) ≣⟨ assoc-r-⋆ ⟩
-                b ⋆ a ⋆ ◡ a   ≣⟨ comm-⋆ `cong-⋆` refl ⟩
+                b ⋆ a ⋆ ◡ a   ≣⟨ comm-⋆ ≀⋆≀ refl ⟩
                 a ⋆ b ⋆ ◡ a   ∎
 
           P₁ : ⟨ ⟨ B ⟩ (a ⋆ b ⋆ ◡ a) ⟩

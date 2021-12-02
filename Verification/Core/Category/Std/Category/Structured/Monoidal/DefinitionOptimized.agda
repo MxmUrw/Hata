@@ -135,7 +135,7 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
     isMonoid.unit-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     isMonoid.assoc-l-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     -- isMonoid.assoc-r-⋆ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
-    isMonoid._`cong-⋆`_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
+    isMonoid._≀⋆≀_ (isMonoidal.isMonoid:this isMonoidal:Lift) = {!!}
     isMonoidal.compat-Monoidal-⋆ isMonoidal:Lift p q = {!!}
     isMonoidal.isFunctor:⋆ isMonoidal:Lift = {!!}
     isMonoidal.isNaturalIso:unit-l-⋆ isMonoidal:Lift = {!!}

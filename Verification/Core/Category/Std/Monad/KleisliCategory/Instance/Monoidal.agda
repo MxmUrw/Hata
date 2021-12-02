@@ -95,7 +95,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isMonoidal 𝒞}}
                          ; unit-l-⋆   = lem-1
                          ; unit-r-⋆   = cong-≅ unit-r-⋆
                          ; assoc-l-⋆  = cong-≅ assoc-l-⋆
-                         ; _`cong-⋆`_ = λ p q -> cong-≅ {{isFunctor:⊗-𝐊𝐥𝐬}} (into-×-≅ p q)
+                         ; _≀⋆≀_ = λ p q -> cong-≅ {{isFunctor:⊗-𝐊𝐥𝐬}} (into-×-≅ p q)
                          }
 
   instance

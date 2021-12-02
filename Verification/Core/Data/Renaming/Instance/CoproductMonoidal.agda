@@ -103,7 +103,7 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
                      ; unit-l-⋆   = {!!}
                      ; unit-r-⋆   = {!!}
                      ; assoc-l-⋆  = {!!}
-                     ; _`cong-⋆`_ = {!!}
+                     ; _≀⋆≀_ = {!!}
                      }
 
   instance

@@ -31,7 +31,7 @@ instance
                  ; unit-r-⋆ = {!!}
                  ; assoc-l-⋆ = {!!}
                  -- ; assoc-r-⋆ = {!!}
-                 ; _`cong-⋆`_ = {!!}
+                 ; _≀⋆≀_ = {!!}
                  }
 
 instance

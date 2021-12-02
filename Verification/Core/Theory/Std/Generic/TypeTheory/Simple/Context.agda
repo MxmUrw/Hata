@@ -57,7 +57,7 @@ module _ {A : 𝒰 𝑖} where
                        ; unit-l-⋆ = {!!}
                        ; unit-r-⋆ = {!!}
                        ; assoc-l-⋆ = {!!}
-                       ; _`cong-⋆`_ = {!!}
+                       ; _≀⋆≀_ = {!!}
                        }
 
     isFunctor:Ctx-⦿ : isFunctor (𝐓𝐲𝐩𝐞 𝑖) (𝐓𝐲𝐩𝐞 𝑖) Ctx-⦿

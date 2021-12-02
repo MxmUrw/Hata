@@ -115,5 +115,5 @@ module _ {𝒞 : Category 𝑖} {{_ : isDiscrete ⟨ 𝒞 ⟩}} {{_ : isSet-Str 
     isMonoid.unit-r-⋆ isMonoid:PathMon = lem-20
     isMonoid.assoc-l-⋆ isMonoid:PathMon {a} {b} {c} = lem-30 {a} {b} {c}
     isMonoid.assoc-r-⋆ isMonoid:PathMon {a} {b} {c} = lem-30 {a} {b} {c} ⁻¹
-    isMonoid._`cong-⋆`_ isMonoid:PathMon = lem-40
+    isMonoid._≀⋆≀_ isMonoid:PathMon = lem-40
 

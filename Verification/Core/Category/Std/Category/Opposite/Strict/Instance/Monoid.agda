@@ -24,7 +24,7 @@ module _ {𝒞 : Category 𝑖} where
   --     isMonoid.unit-l-⋆ isMonoid:ᵒᵖ = ⟨ sym-≅ unit-l-⋆ ⟩ since {!!}
   --     isMonoid.unit-r-⋆ isMonoid:ᵒᵖ = {!!}
   --     isMonoid.assoc-l-⋆ isMonoid:ᵒᵖ = {!!}
-  --     isMonoid._`cong-⋆`_ isMonoid:ᵒᵖ = {!!}
+  --     isMonoid._≀⋆≀_ isMonoid:ᵒᵖ = {!!}
 
   ≅ᵒᵖ⁻¹ : ∀{a b : ⟨ 𝒞 ⟩} -> (_≅_ {{of 𝒞 ᵒᵖ}} a b) -> (a ≅ b)
   ≅ᵒᵖ⁻¹ f = inverse-◆ {{of 𝒞 ᵒᵖ}} (of f) since
@@ -42,7 +42,7 @@ module _ {𝒞 : Category 𝑖} where
     isMonoid.unit-l-⋆ isMonoid:byᵒᵖ   = ≅ᵒᵖ⁻¹ unit-l-⋆
     isMonoid.unit-r-⋆ isMonoid:byᵒᵖ   = ≅ᵒᵖ⁻¹ unit-r-⋆
     isMonoid.assoc-l-⋆ isMonoid:byᵒᵖ  = ≅ᵒᵖ⁻¹ assoc-l-⋆
-    isMonoid._`cong-⋆`_ isMonoid:byᵒᵖ = {!!}
+    isMonoid._≀⋆≀_ isMonoid:byᵒᵖ = {!!}
 
 
 

@@ -30,7 +30,7 @@ module _ {A : 𝒰 𝑖} where
                       ; unit-l-⋆ = refl
                       ; unit-r-⋆ = lem-1
                       ; assoc-l-⋆ = λ {a} {b} {c} -> lem-2 {a} {b} {c}
-                      ; _`cong-⋆`_ = {!!}
+                      ; _≀⋆≀_ = {!!}
                       }
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where

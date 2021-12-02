@@ -37,7 +37,7 @@ instance
   isMonoid.unit-r-⋆ isMonoid:ℤ = refl
   isMonoid.assoc-l-⋆ isMonoid:ℤ {a} {b} {c} = (assoc-+-ℤ a b c ⁻¹)
   -- isMonoid.assoc-r-⋆ isMonoid:ℤ {a} {b} {c} = (assoc-+-ℤ a b c)
-  isMonoid._`cong-⋆`_ isMonoid:ℤ (p) (q) = {!!} -- incl $ λ i -> p i +-ℤ q i
+  isMonoid._≀⋆≀_ isMonoid:ℤ (p) (q) = {!!} -- incl $ λ i -> p i +-ℤ q i
 
   isCommutative:ℤ : isCommutative ℤ
   isCommutative.comm-⋆ isCommutative:ℤ {a} {b} = comm-+-ℤ a b

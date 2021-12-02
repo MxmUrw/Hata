@@ -145,7 +145,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
                         ; unit-l-⋆   = lem-10
                         ; unit-r-⋆   = lem-20
                         ; assoc-l-⋆  = lem-30
-                        ; _`cong-⋆`_ = λ p q -> cong-≅ (into-×-≅ p q)
+                        ; _≀⋆≀_ = λ p q -> cong-≅ (into-×-≅ p q)
                         }
 
     instance
