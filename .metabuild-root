@@ -32,9 +32,11 @@ agdaPublishProjects:
       documentDate: ""
       documentFilesAndHeadings:
       - = Theoretical foundations
-      - == Setoids
+      - == Basics
+      - === Setoids
       - Conventions/Prelude/Classes/Setoid.agda
-      # - == Monoids
+      - === Monoids
+      - Core/Algebra/Monoid/Definition.agda
       # - == Data types
       # - === Basics
       # - === Lists

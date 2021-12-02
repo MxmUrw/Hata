@@ -22,6 +22,7 @@ open import Verification.Conventions.Prelude.Data.Bool.Base
 open import Verification.Conventions.Proprelude
 open import Verification.Conventions.Prelude.Data.StrictId
 open import Verification.Conventions.Prelude.Classes.EquivalenceRelation
+open import Verification.Conventions.Prelude.Classes.Setoid
 open import Verification.Conventions.Prelude.Classes.Discrete
 
 private

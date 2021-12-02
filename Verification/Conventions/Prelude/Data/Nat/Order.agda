@@ -18,6 +18,7 @@ open import Verification.Conventions.Prelude.Data.Nat.Properties
 open import Verification.Conventions.Proprelude
 open import Verification.Conventions.Prelude.Data.StrictId
 open import Verification.Conventions.Prelude.Classes.EquivalenceRelation
+open import Verification.Conventions.Prelude.Classes.Setoid
 
 -- open import Cubical.Foundations.Prelude
 -- open import Cubical.Foundations.Function
