@@ -16,7 +16,7 @@ module _ {A : 𝒰 𝑖} (S : isSetoid {𝑗} A) where
   private instance _ = S
 
   isSetoid:∼-Base : isSetoid A
-  isSetoid:∼-Base = setoid
+  isSetoid:∼-Base = isSetoid:byDef
     (∼-Base (_∼_ {{S}}))
     (incl refl)
     (λ p -> incl (sym ⟨ p ⟩))
@@ -28,7 +28,7 @@ module _ {A : 𝒰 𝑖} (S : isSetoid {𝑗} A) where
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isSetoid {𝑖₁} A}} {{_ : isSetoid {𝑗₁} B}} where
   instance
     isSetoid:× : isSetoid (A × B)
-    isSetoid:× = setoid (λ (a₀ , b₀) (a₁ , b₁) -> (a₀ ∼ a₁) × (b₀ ∼ b₁))
+    isSetoid:× = isSetoid:byDef (λ (a₀ , b₀) (a₁ , b₁) -> (a₀ ∼ a₁) × (b₀ ∼ b₁))
                  (refl , refl)
                  (λ (p , q) -> (p ⁻¹ , q ⁻¹))
                  (λ (p₀ , q₀) (p₁ , q₁) -> (p₀ ∙ p₁ , q₀ ∙ q₁))
@@ -159,7 +159,7 @@ Subsetoid X = 𝒫 ⟨ X ⟩ :& isSubsetoid
 
 
 isSetoid:FullSubsetoid : (X : Setoid 𝑖) {A : 𝒰 𝑗} (ϕ : A -> ⟨ X ⟩) -> isSetoid A
-isSetoid:FullSubsetoid X ϕ = setoid (∼-Base (λ a b -> ϕ a ∼ ϕ b))
+isSetoid:FullSubsetoid X ϕ = isSetoid:byDef (∼-Base (λ a b -> ϕ a ∼ ϕ b))
   (incl refl)
   (λ p -> incl (sym ⟨ p ⟩))
   (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
@@ -229,13 +229,13 @@ module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} {I : 𝒰 𝑘} where
 
   -- instance
   --   isEquivRel:∼-Family : isEquivRel (∼-Base _∼-Family_)
-  --   isEquivRel.refl isEquivRel:∼-Family {f} = incl (λ {a} -> ⟨ refl {x = f a} ⟩)
+  --   isEquivRel.refl isEquivRel:∼-Family {f} = incl (λ {a} -> ⟨ refl {a = f a} ⟩)
   --   isEquivRel.sym isEquivRel:∼-Family (incl p) = incl (⟨ incl p ⁻¹ ⟩)
   --   isEquivRel._∙_ isEquivRel:∼-Family (incl p) (incl q) = incl (⟨ incl p ∙ incl q ⟩)
 
   instance
     isSetoid:Family : isSetoid (I -> A)
-    isSetoid:Family = setoid _∼-Family_
+    isSetoid:Family = isSetoid:byDef _∼-Family_
       refl
       (λ p {i} -> sym (p {i}))
       (λ p q {i} -> p {i} ∙ q {i})

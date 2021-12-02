@@ -8,41 +8,13 @@ open import Verification.Conventions.Prelude.Classes.Operators.Unary
 open import Verification.Conventions.Prelude.Classes.Cast
 open import Verification.Conventions.Prelude.Classes.Anything
 open import Verification.Conventions.Prelude.Data.StrictId
+open import Verification.Conventions.Prelude.Classes.Setoid
 -- open import Verification.Conventions.Prelude.Data.Product
 
 
 --------------------------------------------------------------------------------
 -- == Equivalence relation
 --
-
--- #Notation/Annotatable# trans
--- #Notation/SemanticCategory# \mathrm{Eqv} = Equiv
-
-record isSetoid {𝑗 𝑖 : 𝔏} (A : 𝒰 𝑖) : 𝒰 (𝑖 ⊔ 𝑗 ⁺) where
-  constructor setoid
-  field _∼_ : A -> A -> 𝒰 𝑗
-        refl : ∀{x : A} -> x ∼ x
-        sym : ∀{x y : A} -> x ∼ y -> y ∼ x
-        _∙_ : ∀{x y z : A} -> x ∼ y -> y ∼ z -> x ∼ z
-
-  infixl 30 _∙_
-
-  -- _∼_ : A -> A -> 𝒰 (𝑗)
-  -- _∼_ = ∼-Base _∼'_
-
-  -- field {{isEquivRel:∼}} : isEquivRel _∼_
-
-  _≁_ : A -> A -> 𝒰 (𝑗)
-  _≁_ a b = ¬ a ∼ b
-open isSetoid {{...}} public
-
--- Setoid : (𝑗 : 𝔏 ×-𝒰 𝔏) -> 𝒰 _
--- Setoid 𝑗 = 𝒰 (fst 𝑗) :& isSetoid {snd 𝑗}
-
-module _ {X : 𝒰 𝑗} {{_ : isSetoid {𝑖} X}} where
-  instance
-    Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ∼ y) (y ∼ x)
-    Notation-Inverse:Equiv Notation-Inverse.⁻¹ = sym
 
 
 
@@ -69,24 +41,6 @@ open isEquivRel {{...}} public
 --     Notation-Inverse:Equiv : {x y : X} -> Notation-Inverse (x ≣ y) (y ≣ x)
 --     Notation-Inverse:Equiv Notation-Inverse.⁻¹ = sym
 
-module _ {A : 𝒰 𝑖} where
-  sym-≣ : ∀{a b : A} -> a ≣ b -> b ≣ a
-  sym-≣ refl-≣ = refl-≣
-
-  _∙-≣_ : ∀{a b c : A} -> a ≣ b -> b ≣ c -> a ≣ c
-  _∙-≣_ refl-≣ q = q
-
-  isSetoid:byId : isSetoid A
-  isSetoid:byId = setoid _≣_ refl-≣ sym-≣ _∙-≣_
-
-
-
-module _ {X : 𝒰 𝑖} where
-  isSetoid:byPath : isSetoid X
-  isSetoid:byPath = setoid _≡_ refl-Path sym-Path trans-Path
-
-  isSetoid:byStrId : isSetoid X
-  isSetoid:byStrId = isSetoid:byId
 
 
 

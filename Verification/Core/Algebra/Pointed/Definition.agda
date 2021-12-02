@@ -33,7 +33,7 @@ module _ {A : Pointed 𝑖} {B : Pointed 𝑗} where
 
   instance
     isSetoid:PointedHom : isSetoid (PointedHom A B)
-    isSetoid:PointedHom = setoid _∼-PointedHom_ {!!} {!!} {!!}
+    isSetoid:PointedHom = isSetoid:byDef _∼-PointedHom_ {!!} {!!} {!!}
 
 instance
   isPointed:Maybe : ∀{A : 𝒰 𝑖} -> isPointed (Maybe A)

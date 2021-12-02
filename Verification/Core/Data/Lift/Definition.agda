@@ -28,7 +28,7 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞p : isCategory {𝑗} 𝒞}} where
   module _ {𝑘} {a : Lift-Cat {𝑘} 𝒞} {b : Lift-Cat {𝑘} 𝒞} where
     instance
       isSetoid:Hom-Lift : isSetoid (Hom-Lift 𝑘 (Hom {{𝒞p}}) a b)
-      isSetoid:Hom-Lift = setoid
+      isSetoid:Hom-Lift = isSetoid:byDef
         (λ f g -> Lift {𝑘 ⌄ 2} (⟨ f ⟩ ∼ ⟨ g ⟩))
         (lift refl)
         {!!}

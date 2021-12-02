@@ -48,9 +48,9 @@ module _ {𝒞 : Category 𝑖} {A : 𝒰 𝑗} where
 
       instance
         isSetoid:SubcategoryHom : isSetoid (SubcategoryHom a b)
-        isSetoid:SubcategoryHom = setoid _∼-SubcategoryHom_ (incl refl) (λ x → incl (sym ⟨ x ⟩)) (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
+        isSetoid:SubcategoryHom = isSetoid:byDef _∼-SubcategoryHom_ (incl refl) (λ x → incl (sym ⟨ x ⟩)) (λ p q -> incl (⟨ p ⟩ ∙ ⟨ q ⟩))
 
-        -- isSetoid:SubcategoryHom = setoid (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl (λ p -> sym p) (λ p q -> p ∙ q)
+        -- isSetoid:SubcategoryHom = isSetoid:byDef (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl (λ p -> sym p) (λ p q -> p ∙ q)
 
     id-𝐒𝐮𝐛 : ∀{a : A} -> SubcategoryHom a a
     id-𝐒𝐮𝐛 = subcathom id closed-id

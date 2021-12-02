@@ -61,7 +61,7 @@ module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} where
 
     instance
       isSetoid:Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isSetoid (Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a b)
-      isSetoid:Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 = setoid _∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭_ lem-1 lem-2 lem-3
+      isSetoid:Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 = isSetoid:byDef _∼-Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭_ lem-1 lem-2 lem-3
 
   id-Free-𝐏𝐭𝐝𝐂𝐚𝐭 : ∀{a : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} -> Hom-Free-𝐏𝐭𝐝𝐂𝐚𝐭 a a
   id-Free-𝐏𝐭𝐝𝐂𝐚𝐭 = some id

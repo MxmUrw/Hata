@@ -74,7 +74,7 @@ instance
   isCategory:𝐐𝐮𝐞𝐬𝐭 =
     record
     { Hom         = Reduction
-    ; isSetoid:Hom = setoid (λ f g -> ⟨ f ⟩ ≡ ⟨ g ⟩) {!!} {!!} {!!}
+    ; isSetoid:Hom = isSetoid:byDef (λ f g -> ⟨ f ⟩ ≡ ⟨ g ⟩) {!!} {!!} {!!}
     ; id           = (′ id-𝒰 ′ {{id-Question}})
     ; _◆_          = λ f g -> (′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{comp-Question {f = f} {g}}})
     ; unit-l-◆   = refl

@@ -12,7 +12,7 @@ open import Verification.Core.Data.Universe.Definition
 
 instance
   -- isSetoid:Function : ∀{A B : 𝒰 𝑖} -> isSetoid (Hom-Base (λ A B -> A -> B) A B)
-  -- isSetoid:Function = setoid (λ f g -> ⟨ f ⟩ ≡ ⟨ g ⟩) 
+  -- isSetoid:Function = isSetoid:byDef (λ f g -> ⟨ f ⟩ ≡ ⟨ g ⟩) 
   isSetoid:Function : ∀{A B : 𝒰 𝑖} -> isSetoid (A -> B)
   isSetoid:Function = isSetoid:byPath
 

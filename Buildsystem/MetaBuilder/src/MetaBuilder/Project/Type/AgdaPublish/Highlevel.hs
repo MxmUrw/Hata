@@ -200,6 +200,11 @@ pUniverseLevelMTC = (f <$> try (between (stringTC "(") (stringTC ")") (pUniverse
                     <|> (f <$> pUniverseLevel)
   where f t = UniverseLevelClause 
 
+pUniverseLevelImplicitMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
+pUniverseLevelImplicitMTC = (f <$> try (between (stringTC "{") (stringTC "}") (pUniverseLevel *> many1 pIntraMTC)))
+                    <|> (f <$> pUniverseLevel)
+  where f t = UniverseLevelClause 
+
 
 pUniverseLevel_withArrow_MTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
 pUniverseLevel_withArrow_MTC = (f <$> try (between (stringTC "(") (spaceTermTC (stringTC ")") *> stringTC "→") (pUniverseLevel *> many1 pIntraMTC)))
@@ -215,6 +220,7 @@ pMTC = try pRecordHeadMTC
       <|> try pStructureOfMTC
       <|> try pUniverseClauseMTC
       <|> try pUniverseLevel_withArrow_MTC
+      <|> try pUniverseLevelImplicitMTC
       <|> try pUniverseLevelMTC
       <|> try pExponentialClauseMTC
       <|> try pSubscriptClauseMTC

@@ -23,7 +23,7 @@ open _∼-Setoid_ public
 
 instance
   isSetoid:Prop : isSetoid (Prop 𝑖)
-  isSetoid:Prop = setoid _∼-Setoid_
+  isSetoid:Prop = isSetoid:byDef _∼-Setoid_
     (id-𝒰 , id-𝒰)
     (λ (p , q) -> (q , p))
     (λ (p , q) (v , w) -> (p ◆-𝒰 v , w ◆-𝒰 q))

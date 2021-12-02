@@ -31,7 +31,7 @@ data RST (G : Graph 𝑖) : (a b : GraphSetoid G) -> 𝒰 𝑖 where
 
 instance
   isSetoid:RST : ∀{G : Graph 𝑖} -> isSetoid (GraphSetoid G)
-  isSetoid:RST {G = G} = setoid (RST G) (refl-RST) sym-RST trans-RST
+  isSetoid:RST {G = G} = isSetoid:byDef (RST G) (refl-RST) sym-RST trans-RST
 
 
 Graph→Setoid : Graph 𝑖 -> Setoid _

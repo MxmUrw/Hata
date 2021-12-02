@@ -20,7 +20,7 @@ module _ {A B : Setoid 𝑖} where
 
   instance
     isSetoid:SetoidHom : isSetoid (SetoidHom A B)
-    isSetoid:SetoidHom = setoid _∼-SetoidHom_ (pointwise (λ a → refl)) {!!} {!!}
+    isSetoid:SetoidHom = isSetoid:byDef _∼-SetoidHom_ (pointwise (λ a → refl)) {!!} {!!}
 
 module _ {A : Setoid 𝑖} where
 

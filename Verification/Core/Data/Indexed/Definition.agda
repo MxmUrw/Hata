@@ -50,7 +50,7 @@ module _ {I : 𝒰 𝑖} {A' : 𝒰 𝑗} {{_ : isCategory {𝑘} A'}} where
 
     instance
       isSetoid:IndexedHom : isSetoid (IndexedHom F G)
-      isSetoid:IndexedHom = setoid _∼-Indexed_ (λ _ -> refl) (λ p i -> sym (p i)) (λ p q i → p i ∙ q i)
+      isSetoid:IndexedHom = isSetoid:byDef _∼-Indexed_ (λ _ -> refl) (λ p i -> sym (p i)) (λ p q i → p i ∙ q i)
 
   infixl 50 _◆-𝐈𝐱_
   _◆-𝐈𝐱_ : ∀{a b c : Indexed I A} -> (f : IndexedHom a b) -> (g : IndexedHom b c) -> IndexedHom a c
@@ -86,7 +86,7 @@ module _ {I : 𝒰 𝑖} {A' : 𝒰 𝑗} {{_ : isCategory {𝑘} A'}} where
 
 --     instance
 --       isSetoid:IndexedHom : isSetoid (IndexedHom F G)
---       isSetoid:IndexedHom = setoid _∼-Indexed_ (λ _ -> refl) (λ p i -> sym (p i)) (λ p q i → p i ∙ q i)
+--       isSetoid:IndexedHom = isSetoid:byDef _∼-Indexed_ (λ _ -> refl) (λ p i -> sym (p i)) (λ p q i → p i ∙ q i)
 
 --   infixl 50 _◆-𝐈𝐱_
 --   _◆-𝐈𝐱_ : ∀{a b c : Indexed I A} -> (f : IndexedHom a b) -> (g : IndexedHom b c) -> IndexedHom a c

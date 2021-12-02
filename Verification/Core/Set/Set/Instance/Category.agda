@@ -11,7 +11,7 @@ open import Verification.Core.Data.Universe.Instance.Category
 -- module _ {P : 𝒰 𝑖 -> 𝒰 𝑗} where
 --   instance
 --     isSetoid:Hom-Base-UnderlyingArrow : ∀{A B : 𝒰 𝑖 :& P} -> isSetoid _ (Hom-Base (λ A B -> ⟨ A ⟩ -> ⟨ B ⟩) A B)
---     isSetoid:Hom-Base-UnderlyingArrow = setoid R {{lem-1}}
+--     isSetoid:Hom-Base-UnderlyingArrow = isSetoid:byDef R {{lem-1}}
 --       where R : ∀ f g -> 𝒰 _
 --             R f g = ∀ a -> ⟨ f ⟩ a ≣ ⟨ g ⟩ a
 

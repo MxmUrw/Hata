@@ -51,7 +51,7 @@ module _ (𝒞 : Category 𝑖) where
 
     instance
       isSetoid:AnnotatedHom : isSetoid (AnnotatedHom F G)
-      isSetoid:AnnotatedHom = setoid _∼-AnnotatedHom_ {!!} {!!} {!!}
+      isSetoid:AnnotatedHom = isSetoid:byDef _∼-AnnotatedHom_ {!!} {!!} {!!}
         where
           lem-1 : {x : AnnotatedHom F G} → x ∼-AnnotatedHom x
           lem-1 = {!!}

@@ -93,7 +93,7 @@ Monotone A B = _ :& isMonotone A B
 module _ {A : Preorder 𝑖} {B : Preorder 𝑗} where
   instance
     isSetoid:Monotone : isSetoid (Monotone A B)
-    isSetoid:Monotone = setoid (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl sym _∙_
+    isSetoid:Monotone = isSetoid:byDef (λ f g -> ⟨ f ⟩ ∼ ⟨ g ⟩) refl sym _∙_
     -- isSetoid._∼'_ isSetoid:Monotone f g = ⟨ f ⟩ ∼' ⟨ g ⟩
     -- isSetoid.isEquivRel:∼ isSetoid:Monotone = {!!}
 

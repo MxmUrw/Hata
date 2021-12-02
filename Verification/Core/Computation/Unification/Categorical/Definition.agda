@@ -90,7 +90,7 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} wh
 
     instance
       isSetoid:Idealᵣ : isSetoid (Idealᵣ a)
-      isSetoid:Idealᵣ = setoid (_∼-Idealᵣ_) lem-1 lem-2 lem-3
+      isSetoid:Idealᵣ = isSetoid:byDef (_∼-Idealᵣ_) lem-1 lem-2 lem-3
 
     record _≤-Idealᵣ_ (A B : Idealᵣ a) : 𝒰 (𝑖) where
       constructor incl

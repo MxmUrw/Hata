@@ -69,7 +69,7 @@ instance
 
 -- instance
 --   isSetoid:Term : isSetoid _ Term-λ
---   isSetoid:Term = setoid _≣_
+--   isSetoid:Term = isSetoid:byDef _≣_
 
 -- data πVar : ∀{A} -> ℕ -> SCtx A -> Ty-λ A -> 𝒰₁ where
 --   zero : ∀{A} -> ∀{Γ : SCtx A} -> {τ : Ty-λ A} -> πVar 0 (Γ , τ) τ

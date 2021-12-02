@@ -42,7 +42,7 @@ private
 
 -- instance
 --   isSetoid:𝒰 : isSetoid (𝒰 𝑖)
---   isSetoid:𝒰 = setoid
+--   isSetoid:𝒰 = isSetoid:byDef
 --     _≅-𝒰_
 --     (id-𝒰 since lem-10)
 --     (λ f -> inverse-𝒰 since lem-20 {f = f})

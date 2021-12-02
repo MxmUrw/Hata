@@ -62,7 +62,7 @@ module _ {𝒞 : Category 𝑖} where
 
       instance
         isSetoid:Hom-⨊ᵒᵖ : isSetoid (Hom-⨊ᵒᵖ a b)
-        isSetoid:Hom-⨊ᵒᵖ = setoid _∼-Hom-⨊ᵒᵖ_ {!!} {!!} {!!}
+        isSetoid:Hom-⨊ᵒᵖ = isSetoid:byDef _∼-Hom-⨊ᵒᵖ_ {!!} {!!} {!!}
 
     id-⨊ᵒᵖ : ∀{a : ⨊ᵒᵖ F} -> Hom-⨊ᵒᵖ a a
     id-⨊ᵒᵖ = id , ⟨ inverse-◆ (of functoriality-id) ⟩ _

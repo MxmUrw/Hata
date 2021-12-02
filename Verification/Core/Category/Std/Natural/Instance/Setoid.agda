@@ -29,7 +29,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F G : Functor 𝒞 𝒟}
 
   instance
     isSetoid:Natural : isSetoid (Natural F G)
-    isSetoid:Natural = setoid _∼-Natural_ (componentwise (λ _ -> refl)) {!!} {!!}
+    isSetoid:Natural = isSetoid:byDef _∼-Natural_ (componentwise (λ _ -> refl)) {!!} {!!}
     -- isSetoid._∼'_ isSetoid:Natural a b = ⟨ a ⟩ ∼-Natural ⟨ b ⟩
     -- isSetoid.isEquivRel:∼ isSetoid:Natural = isEquivRel:∼-Natural
 

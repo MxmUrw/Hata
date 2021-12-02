@@ -62,7 +62,7 @@ module _ {𝒞 : Category 𝑖} where
 
       instance
         isSetoid:Hom-⨊ : isSetoid (Hom-⨊ a b)
-        isSetoid:Hom-⨊ = setoid _∼-Hom-⨊_ {!!} {!!} {!!}
+        isSetoid:Hom-⨊ = isSetoid:byDef _∼-Hom-⨊_ {!!} {!!} {!!}
 
 
     instance

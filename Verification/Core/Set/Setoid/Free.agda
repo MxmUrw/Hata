@@ -29,7 +29,7 @@ module _ {A : 𝒰 𝑖} {R : A -> A -> 𝒰 𝑗} {X : 𝒰 𝑘} {{_ : isSetoi
 
 module _ {A : 𝒰 𝑖} where
   isSetoid:byFree : (R : A -> A -> 𝒰 𝑗) -> isSetoid A
-  isSetoid:byFree R = setoid (RST R) refl-RST sym-RST _∙-RST_
+  isSetoid:byFree R = isSetoid:byDef (RST R) refl-RST sym-RST _∙-RST_
 
 
 

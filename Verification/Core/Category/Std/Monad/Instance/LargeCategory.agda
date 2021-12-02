@@ -50,7 +50,7 @@ module _ {a : 大Monad 𝑖} {b : 大Monad 𝑗} where
   module _ {f g : 大MonadHom a b} where
     instance
       isSetoid:大MonadTrans : isSetoid (大MonadTrans f g)
-      isSetoid:大MonadTrans = setoid (λ α β → ⟨ α ⟩ ∼ ⟨ β ⟩) {!!} {!!} {!!}
+      isSetoid:大MonadTrans = isSetoid:byDef (λ α β → ⟨ α ⟩ ∼ ⟨ β ⟩) {!!} {!!} {!!}
 
   instance
     isCategory:大MonadHom : isCategory (大MonadHom a b)

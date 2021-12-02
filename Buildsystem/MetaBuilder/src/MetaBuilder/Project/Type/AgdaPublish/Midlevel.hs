@@ -57,6 +57,7 @@ filterEmptyLines = Prelude.filter isNotEmpty
 
 
 instance TShow Wildcard where
+  tshow InlineHidden = "[hide]"
   tshow Inline = "[inline]"
   tshow (Ownline _) = ""
 
@@ -66,6 +67,7 @@ setTrailingCmd t = "\\renewcommand{\\AgdaTrailingText}{" <> val <> "}%\n"
 
 wildcardPrePost :: Wildcard -> (Text,Text)
 wildcardPrePost Inline = ("\\begin{code}[inline]%\n","\\end{code}%\n{}")
+wildcardPrePost InlineHidden = ("\\begin{code}[hide]%\n","\\end{code}%\n{}")
 wildcardPrePost (Ownline "") = ("\\begin{code}%\n", "\\end{code}%\n")
 wildcardPrePost (Ownline trailing) = (setTrailingCmd trailing <> "\\begin{code}%\n", "\\end{code}%\n")
 
@@ -208,7 +210,7 @@ data CommentPart =
   deriving (Show)
 
 data Wildcard =
-  Inline | Ownline Text
+  Inline | InlineHidden | Ownline Text
   deriving (Show)
 
 data WildParagraph = WildParagraph Wildcard [CommentPart]
@@ -337,6 +339,7 @@ pCommentParts_WithBeginning ann = (:) <$> pCommentPart_WithBeginning ann <*> man
 
 pWildcard :: Parsec Text () Wildcard
 pWildcard = try (const Inline <$> string "[..]")
+          <|> try (const InlineHidden <$> string "[]")
           <|> try ((Ownline . T.pack) <$> (string "[..." *> many (satisfy (/= ']')) <* string "]"))
 
 simple a = Split a []

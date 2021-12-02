@@ -35,7 +35,7 @@ module _ {𝒞 : 𝒰 𝑖} {{𝒞P : isCategory {𝑗} 𝒞}} where
 
     -- instance
     isSetoid:Hom-ᵒᵖ⌯ : isSetoid (Hom-ᵒᵖ⌯ a b)
-    isSetoid:Hom-ᵒᵖ⌯ = setoid _∼-Hom-ᵒᵖ⌯_ {!!} {!!} {!!}
+    isSetoid:Hom-ᵒᵖ⌯ = isSetoid:byDef _∼-Hom-ᵒᵖ⌯_ {!!} {!!} {!!}
 
   id-ᵒᵖ⌯ : ∀{a : 𝒞 ᵒᵖ⌯ᵘ} -> Hom-ᵒᵖ⌯ a a
   id-ᵒᵖ⌯ = {!!}

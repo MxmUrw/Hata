@@ -83,9 +83,9 @@ monotone-l-⋆-ℕ : ∀{a b c : ℕ} -> a ≤ b -> c ⋆ a ≤ c ⋆ b
 monotone-l-⋆-ℕ {a} {b} {c} (incl (b-a , bap)) = incl (b-a , p)
   where
     p : b-a +-ℕ (c +-ℕ a) ≣ c +-ℕ b
-    p = b-a +-ℕ (c +-ℕ a)   ⟨ refl {x = b-a} ≀⋆≀ comm-⋆ {a = c} {a} ⟩-∼
+    p = b-a +-ℕ (c +-ℕ a)   ⟨ refl {a = b-a} ≀⋆≀ comm-⋆ {a = c} {a} ⟩-∼
         b-a +-ℕ (a +-ℕ c)   ⟨ assoc-r-⋆ {a = b-a} {b = a} {c = c} ⟩-∼
-        (b-a +-ℕ a) +-ℕ c   ⟨ bap ≀⋆≀ refl {x = c} ⟩-∼
+        (b-a +-ℕ a) +-ℕ c   ⟨ bap ≀⋆≀ refl {a = c} ⟩-∼
         b ⋆ c                ⟨ comm-⋆ {a = b} ⟩-∼
         c ⋆ b                ∎
 

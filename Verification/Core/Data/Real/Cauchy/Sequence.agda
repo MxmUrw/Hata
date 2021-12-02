@@ -69,7 +69,7 @@ private
 
 instance
   isSetoid:ℝᶜ : isSetoid ℝᶜ
-  isSetoid:ℝᶜ = setoid _∼-ℝᶜ_ lem-1 lem-2 lem-3
+  isSetoid:ℝᶜ = isSetoid:byDef _∼-ℝᶜ_ lem-1 lem-2 lem-3
 
 instance
   isMonoid:ℝᶜ : isMonoid ℝᶜ

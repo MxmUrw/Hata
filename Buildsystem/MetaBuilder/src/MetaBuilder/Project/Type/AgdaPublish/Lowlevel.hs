@@ -145,6 +145,7 @@ parseHiddenCodeLLLine :: Parser Text
 parseHiddenCodeLLLine = tshow <$> (Prefixed <$>
   (string "open "
   -- <|> string "module"
+  <|> string "constructor"
   <|> string "{-#"
   <|> string "infix"
   <|> string "private"

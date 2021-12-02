@@ -53,7 +53,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
 
   isSetoid:byCategory : isSetoid 𝒞
-  isSetoid:byCategory = setoid _≅_ refl-≅ sym-≅ _∙-≅_
+  isSetoid:byCategory = isSetoid:byDef _≅_ refl-≅ sym-≅ _∙-≅_
 
   ⟨_⟩⁻¹ : ∀{a b} -> a ≅ b -> b ⟶ a
   ⟨_⟩⁻¹ f = inverse-◆ (of f)
