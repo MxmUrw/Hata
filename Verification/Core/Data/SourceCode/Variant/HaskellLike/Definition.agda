@@ -67,7 +67,7 @@ module _ {X : 𝒰₀} where
 
   instance
     isSetoid:HsLoc : ∀{γ} -> isSetoid (HsLoc γ)
-    isSetoid:HsLoc = isSetoid:byStrId
+    isSetoid:HsLoc = isSetoid:byId
 
   module _ {γ : HsCode X} where
     data _≤-HsLoc_ : (a b : HsLoc γ) -> 𝒰₀ where

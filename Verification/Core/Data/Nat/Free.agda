@@ -51,7 +51,7 @@ instance
 
 instance
   isSetoid:♮ℕ : isSetoid ♮ℕ
-  isSetoid:♮ℕ = isSetoid:byStrId
+  isSetoid:♮ℕ = isSetoid:byId
 
 record _≤-人ℕ_ (a b : 人ℕ) : 𝒰₀ where
   constructor _,_

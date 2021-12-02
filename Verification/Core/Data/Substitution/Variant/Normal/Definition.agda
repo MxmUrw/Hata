@@ -153,7 +153,7 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
   module _ {a b : ♮𝐒𝐮𝐛𝐬𝐭 T} where
     instance
       isSetoid:Hom-♮𝐒𝐮𝐛𝐬𝐭 : isSetoid (Hom-♮𝐒𝐮𝐛𝐬𝐭 a b)
-      isSetoid:Hom-♮𝐒𝐮𝐛𝐬𝐭 = isSetoid:byStrId
+      isSetoid:Hom-♮𝐒𝐮𝐛𝐬𝐭 = isSetoid:byId
 
 
     map-ι-♮𝐒𝐮𝐛𝐬𝐭 : (f : Hom-♮𝐒𝐮𝐛𝐬𝐭 a b) -> (ι a ⟶ ι b)

@@ -34,7 +34,7 @@ module _ {A : 𝒰 𝑖} where
 
   instance
     isSetoid:List : isSetoid (List A)
-    isSetoid:List = isSetoid:byStrId
+    isSetoid:List = isSetoid:byId
 
 
 

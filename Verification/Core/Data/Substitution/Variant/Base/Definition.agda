@@ -80,7 +80,7 @@ module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
 
   instance
     isSetoid:D人List : ∀{a} -> isSetoid (D人List R a)
-    isSetoid:D人List = isSetoid:byStrId
+    isSetoid:D人List = isSetoid:byId
 
   -- distr-CtxHom : ∀{a b x : 人List A} -> (indexed (R a) ⟶ indexed (R b)) -> (CtxHom R x a) -> (CtxHom R x b)
   -- distr-CtxHom f (incl x) = incl (f _ x)
@@ -146,7 +146,7 @@ module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
 
   instance
     isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> isSetoid (CtxHom R a b)
-    isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 = isSetoid:byStrId
+    isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 = isSetoid:byId
 
   -- distr-CtxHom-𝐈𝐱 : ∀{a b : 𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)} -> (indexed (R ⟨ a ⟩) ⟶ indexed (R ⟨ b ⟩)) -> indexed 
   distr-CtxHom : ∀{a b x : 人List A} -> (indexed (R a) ⟶ indexed (R b)) -> (CtxHom R x a) -> (CtxHom R x b)
@@ -272,7 +272,7 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
     instance
       isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' : isSetoid (Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b)
-      isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' = isSetoid:byStrId
+      isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭' = isSetoid:byId
 
   id-⧜𝐒𝐮𝐛𝐬𝐭' : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 a a
   id-⧜𝐒𝐮𝐛𝐬𝐭' = construct-CtxHom λ a x → repure a x

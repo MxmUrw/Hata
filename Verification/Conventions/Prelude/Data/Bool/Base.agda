@@ -44,7 +44,7 @@ infix  0 if_then_else_
 
 instance
   isSetoid:Bool : isSetoid Bool
-  isSetoid:Bool = isSetoid:byStrId
+  isSetoid:Bool = isSetoid:byId
 
 
 not : Bool → Bool

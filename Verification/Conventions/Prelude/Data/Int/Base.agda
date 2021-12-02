@@ -34,7 +34,7 @@ open import Agda.Builtin.Int public
 
 instance
   isSetoid:Int : isSetoid Int
-  isSetoid:Int = isSetoid:byStrId
+  isSetoid:Int = isSetoid:byId
 
 neg : (n : ℕ) → Int
 neg zero = pos zero

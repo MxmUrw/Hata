@@ -46,30 +46,34 @@ module _ {X : 𝒰 𝑗} {{_ : isSetoid {𝑖} X}} where
 -- //
 
 
--- aa[Example]
--- a| Let [..] be a type.
+-- [Example]
+-- | Let [..] be a type.
 module _ {A : 𝒰 𝑖} where
-  -- a| Then the identity type on |A| is symmetric.
-  sym-≣ : ∀{a b : A} -> a ≣ b -> b ≣ a
+  -- |> Then the identity type on |A| is symmetric.
+  -- The proof can be done by pattern matching on the
+  -- given proof of |a ≣ b|, thus reducing the goal
+  -- to |a ≣ a|, which we can conclude by |refl-≣|.
+  sym-≣ : {a b : A} -> a ≣ b -> b ≣ a
   sym-≣ refl-≣ = refl-≣
 
-  -- a| And it is transitive.
-  _∙-≣_ : ∀{a b c : A} -> a ≣ b -> b ≣ c -> a ≣ c
+  -- |> Similarly we can use pattern matching to prove transitivity.
+  _∙-≣_ : {a b c : A} -> a ≣ b -> b ≣ c -> a ≣ c
   _∙-≣_ refl-≣ q = q
 
-  -- a| This means that a type |A| together with the identity type
-  --   is a setoid.
+  -- |> This means that |A| together with the identity type
+  -- is a setoid.
   isSetoid:byId : isSetoid A
   isSetoid:byId = isSetoid:byDef _≣_ refl-≣ sym-≣ _∙-≣_
--- a//
+-- //
 
-
-module _ {X : 𝒰 𝑖} where
-  isSetoid:byPath : isSetoid X
+-- [Example]
+-- | Let [..] be a type.
+module _ {A : 𝒰 𝑖} where
+  -- |> Then similarly the path relation |≡ : A -> A -> 𝒰| makes |A| into a setoid.
+  -- The proofs that this is an equivalence relation can be taken from the builtin cubical library.
+  isSetoid:byPath : isSetoid A
   isSetoid:byPath = isSetoid:byDef _≡_ refl-Path sym-Path trans-Path
-
-  isSetoid:byStrId : isSetoid X
-  isSetoid:byStrId = isSetoid:byId
+-- //
 
 
 

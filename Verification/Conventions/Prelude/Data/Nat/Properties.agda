@@ -39,7 +39,7 @@ private
 
 instance
   isSetoid:ℕ : isSetoid ℕ
-  isSetoid:ℕ = isSetoid:byStrId
+  isSetoid:ℕ = isSetoid:byId
 
 znots : ¬ (0 ≣ suc n)
 znots eq = subst-Str (caseNat ℕ ⊥) eq 0

@@ -57,11 +57,11 @@ module _ {K : Kinding 𝑗} {γ : MetaTermCalculus K 𝑖} where
 
   instance
     isSetoid:Hom-Subs : ∀{a b} -> isSetoid (Hom-Subs a b)
-    isSetoid:Hom-Subs = isSetoid:byStrId
+    isSetoid:Hom-Subs = isSetoid:byId
 
   instance
     isSetoid:⊩ᶠ↑ : ∀{a b} -> isSetoid (a ⊩ᶠ↑ b)
-    isSetoid:⊩ᶠ↑ = isSetoid:byStrId
+    isSetoid:⊩ᶠ↑ = isSetoid:byId
 
 
   wk-getvar-comm : ∀{a b c d} -> {σ : Hom-Subs a b} {x : b ⊨-var c} -> getvar (wk-meta-Subs {d} σ) x ≣ wk-meta (getvar σ x)
