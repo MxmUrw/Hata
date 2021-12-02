@@ -6,6 +6,8 @@ open import Verification.Core.Set.Setoid
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Morphism.EpiMono
 
+-- #Notation/Annotatable# equate
+
 module _ {X : 𝒰 𝑖} {{_ : isCategory {𝑗} X}} where
   LiftU : (X -> 𝒰 𝑘) -> (Obj ′ X ′ -> 𝒰 𝑘)
   LiftU P o = P ⟨ o ⟩
@@ -43,27 +45,6 @@ module _ {X : 𝒰 𝑖} {{_ : isCategory {𝑗} X}} where
   hasCoequalizerCandidate : {a b : X} (f : HomPair a b) -> 𝒰 _
   hasCoequalizerCandidate (f , g) = _ :& LiftU (isCoequalizerCandidate f g)
 
-
-  -- unquoteDecl hasCoequalizer hascoequalizer = #struct "isCoeq" (quote isCoequalizer) "x" hasCoequalizer hascoequalizer
-
-  -- record Coeq-ExUniq {a b : X} (f g : a ⟶ b) (x : Obj ′ X ′) :  𝒰 (𝑖 ､ 𝑗) where
-  --   field π₌EU : b ⟶ x
-  --         equate-π₌EU : f ◆ π₌EU ∼ g ◆ π₌EU
-  --         ⦗_⦘₌EU : ∀{c : X} -> (h : b ⟶ c) -> (f ◆ h ∼ g ◆ h) -> x ⟶ c
-  --         reduce-π₌EU : ∀{d : X} -> (h : b ⟶ d) -> (p : f ◆ h ∼ g ◆ h) -> π₌EU ◆ ⦗_⦘₌EU h p ∼ h
-  --         unique-CoeqEU : ∀{d : X} -> (i j : x ⟶ d) -> (π₌EU ◆ i ∼ π₌EU ◆ j) -> i ∼ j
-
-
-  -- by-CoeqEU-Coeq : {a b : X} {f g : a ⟶ b} {x : Obj ′ X ′} -> Coeq-ExUniq f g x -> isCoequalizer f g x
-  -- by-CoeqEU-Coeq {a} {b} {f} {g} {x} record
-  --   { π₌EU = π₌EU ; equate-π₌EU = equate-π₌EU ; ⦗_⦘₌EU = ⦗_⦘₌EU ; reduce-π₌EU = reduce-π₌EU ; unique-CoeqEU = unique-CoeqEU }
-  --   = record
-  --       { π₌ = π₌EU
-  --       ; equate-π₌ = equate-π₌EU
-  --       ; ⦗_⦘₌ = ⦗_⦘₌EU
-  --       ; reduce-π₌ = reduce-π₌EU
-  --       ; expand-Coeq = λ i p -> unique-CoeqEU (i) (⦗_⦘₌EU (π₌EU ◆ i) p) (reduce-π₌EU (π₌EU ◆ i) p ⁻¹)
-  --       }
 
 record hasCoequalizers (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field Coeq : ∀{a b : ⟨ 𝒞 ⟩} (f g : a ⟶ b) -> ⟨ 𝒞 ⟩

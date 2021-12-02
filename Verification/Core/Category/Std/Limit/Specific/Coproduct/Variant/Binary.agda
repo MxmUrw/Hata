@@ -24,13 +24,18 @@ macro
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
 
+  -- [Definition]
+  -- | An object |x| of a category is called initial if:
   record isInitial (x : 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
     field elim-⊥ : ∀{a} -> x ⟶ a
     field expand-⊥ : ∀{a} -> {f : x ⟶ a} -> f ∼ elim-⊥
 
   open isInitial {{...}} public
+  -- //
 
 
+  -- [Definition]
+  -- | A coproduct is the following:
   record isCoproduct (a b x : 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
     field ι₀ : a ⟶ x
     field ι₁ : b ⟶ x
@@ -39,6 +44,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     field reduce-ι₀ : ∀{c} {f : a ⟶ c} {g : b ⟶ c} -> ι₀ ◆ ⦗ f , g ⦘ ∼ f
     field reduce-ι₁ : ∀{c} {f : a ⟶ c} {g : b ⟶ c} -> ι₁ ◆ ⦗ f , g ⦘ ∼ g
     field expand-ι₀,ι₁  : ∀{c} {f : x ⟶ c} -> f ∼ ⦗ ι₀ ◆ f , ι₁ ◆ f ⦘
+  -- //
 
   open isCoproduct {{...}} public
   {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}

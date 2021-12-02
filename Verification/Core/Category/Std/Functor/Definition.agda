@@ -33,11 +33,9 @@ module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
           -- | - A proof that |map| respects composition.
           functoriality-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> ∀{f : Hom a b} -> ∀{g : Hom b c} -> map (f ◆ g) ∼ (map f) ◆ (map g)
 
-          -- functoriality-∼ : ∀{a b : ⟨ 𝒞 ⟩} -> ∀{f g : Hom a b} -> f ∼ g -> map f ∼ map g
 -- //
 
 
--- unquoteDecl Functor functor = #struct "Fun" (quote isFunctor) "F" Functor functor
   Functor : 𝒰 _
   Functor = (⟨ 𝒞 ⟩ -> ⟨ 𝒟 ⟩) :& isFunctor
 
