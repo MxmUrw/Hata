@@ -30,4 +30,16 @@ module _ {A : 𝒰 𝑖} where
     isSet-Str:List = {!!}
 
 
+module _ {A : 𝒰 𝑖} where
+
+  instance
+    isSetoid:List : isSetoid (List A)
+    isSetoid:List = isSetoid:byStrId
+
+
+
+record Notation:hasRec (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
+  field rec : A -> B
+
+open Notation:hasRec {{...}} public
 

@@ -449,9 +449,9 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
 
 
-  -----------------------------------------
-  -- "Iso getting"
-  --
+-----------------------------------------
+-- Iso getting
+--
   module _ {{_ : isDiscrete I}} where
     hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭 : hasIsoGetting (⧜𝐒𝐮𝐛𝐬𝐭 T)
     hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭 = hasIsoGetting:byFFEso hasIsoGetting:RelativeKleisli

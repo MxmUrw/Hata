@@ -19,6 +19,7 @@ open import Verification.Core.Category.Std.Functor.EssentiallySurjective
 open import Verification.Core.Category.Std.Functor.Adjoint
 open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
+open import Verification.Core.Data.List.Instance.Monoid
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory

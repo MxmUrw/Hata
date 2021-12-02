@@ -2,11 +2,11 @@ globalConfig:
   buildRelDir: _build/metabuild
   binRelDir: _build/bin
 
-haskellStackProjects:
-  - haskellStackBin_RelFile: metabuild
-    haskellStackSource_RelDir: Buildsystem/MetaBuilder
-    haskellStackAutobuild: false
-    installGlobal: true
+haskellStackProjects: []
+  # - haskellStackBin_RelFile: metabuild
+  #   haskellStackSource_RelDir: Buildsystem/MetaBuilder
+  #   haskellStackAutobuild: false
+  #   installGlobal: true
 
 agdaProjects:
   - sourceRelDir: .
@@ -37,6 +37,7 @@ agdaPublishProjects:
       - == Data types
       - === Basics
       - === Lists
+      - Core/Algebra/Monoid/Free/Definition.agda
       - == Categories
       - Core/Category/Std/Category/Definition.agda
       - "=== Example: Types"
@@ -54,15 +55,17 @@ agdaPublishProjects:
       - Core/Computation/Unification/Definition.agda
       - Core/Computation/Unification/Categorical/Definition.agda
       - Core/Computation/Unification/Categorical/PrincipalFamily.agda
+      - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
       - == Relative Monads
       - Core/Category/Std/RelativeMonad/Definition.agda
       - == Category of Substitutions
+      - Core/Data/Indexed/Definition.agda
       - === As Kleisli Category
       - Core/Category/Std/RelativeMonad/KleisliCategory/Definition.agda
       - === Inductively defined
       - Core/Data/Substitution/Variant/Base/Definition.agda
       - === Coproducts
-      - == Free finite product theory
+      - == Free finite coproduct theory
       - === Definition
       - Core/Theory/Std/Specific/ProductTheory/Unification/Definition.agda
       - === Relative Monad and Category instances
