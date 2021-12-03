@@ -322,7 +322,7 @@ generateMainTex texroot doc = do
 
   return content
   where makeIncludes :: Text
-        makeIncludes = T.pack (generateDocumentBody texroot (documentFilesAndHeadings doc))
+        makeIncludes = T.pack (generateDocumentBody doc texroot (documentFilesAndHeadings doc))
           -- T.concat ((\a -> T.pack ("\\input{" ++  (toStandard a) ++ "}\n")) <$> files)
 
 templatefileAgdaSty :: IO FilePath

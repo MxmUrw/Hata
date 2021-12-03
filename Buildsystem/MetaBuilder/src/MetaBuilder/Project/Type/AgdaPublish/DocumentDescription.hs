@@ -31,10 +31,13 @@ getDocumentRelFiles doc = filter f (doc.>documentFilesAndHeadings)
         f _ = True
 
 
-generateDocumentBody :: String -> [String] -> String
-generateDocumentBody docroot filesAndHeadings = concat $ f <$> filesAndHeadings
-  where f ('=' : xs) = makeHeading 0 xs
+generateDocumentBody :: DocumentDescription -> String -> [String] -> String
+generateDocumentBody docdec docroot filesAndHeadings = concat $ f <$> filesAndHeadings
+  where f ('=' : xs) = makeHeading' (documentType docdec) xs
         f xs         = makeInclude xs
+
+        makeHeading' SCReport xs = makeHeading 1 xs
+        makeHeading' Book xs     = makeHeading 0 xs
 
         makeHeading n ('=' : xs) = makeHeading (n + 1) xs
         makeHeading 0 xs = "\\part{" <> xs <> "}\n"
