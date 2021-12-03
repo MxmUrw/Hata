@@ -60,7 +60,7 @@ instance
 
 ま : 𝐈𝐱 ♮ℕ 𝐔𝐧𝐢𝐯₀ -> 𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀
 ま = 写* s
--- (λ (Γ ⊢ τ) → map-Free-𝐌𝐨𝐧 (const tt) Γ)
+-- (λ (Γ ⊢ τ) → map-⋆List (const tt) Γ)
 
 
 π : ∀ A -> TypedℒHM (ま A) ⟶ ま (UntypedℒHM A)

@@ -55,10 +55,10 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   --   (Jdg₂ ⟨ K ⟩) : 𝒰 _
   --   (Jdg₂ ⟨ K ⟩) = Jdg₂ ⟨ K ⟩
 
-  Splitter = Free-𝐌𝐨𝐧 (List (Jdg₂ ⟨ K ⟩))
+  Splitter = ⋆List (List (Jdg₂ ⟨ K ⟩))
 
   mutual
-    getSplitter-inter : {Γ : List (Jdg₂ ⟨ K ⟩)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} -> (Σ : List (Jdg₂ ⟨ K ⟩)) -> Pat-inter Γ Δ 𝔍 -> Splitter
+    getSplitter-inter : {Γ : List (Jdg₂ ⟨ K ⟩)} {Δ : ⋆List (Jdg₂ ⟨ K ⟩)} {𝔍 : ⋆List (Jdg₂ ⟨ K ⟩)} -> (Σ : List (Jdg₂ ⟨ K ⟩)) -> Pat-inter Γ Δ 𝔍 -> Splitter
     getSplitter-inter Σ (incl {𝔍} {j ⇒ α} x) = getSplitter-impl (Σ ⋆ j) x
     getSplitter-inter Σ (tsx ⋆-⧜ tsy) = getSplitter-inter Σ tsx ⋆ getSplitter-inter Σ tsy
     getSplitter-inter Σ ◌-⧜ = ◌
@@ -71,7 +71,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
     getSplitter : ∀{𝔍} {a : (Jdg₂ ⟨ K ⟩)} -> 𝔍 ⊩-inter a -> Splitter
     getSplitter = getSplitter-impl []
 
-  getObj : ∀{J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (t : J ⊩ᶠ-pat i) -> Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)
+  getObj : ∀{J : ⋆List (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (t : J ⊩ᶠ-pat i) -> ⋆List (Jdg₂ ⟨ K ⟩)
   getObj {J} {i} t = ν₋ (⟨ 分 splitter ⟩ start)
     where
       splitter = getSplitter (decompose t .snd .snd)
@@ -80,7 +80,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
       start = ν₊ (incl i)
 
 
-  lem-10 : ∀{J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (t : J ⊩ᶠ-pat i) -> decompose t .fst ≣ getObj t
+  lem-10 : ∀{J : ⋆List (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (t : J ⊩ᶠ-pat i) -> decompose t .fst ≣ getObj t
   lem-10 (app-meta M s) = refl-≣
   lem-10 (app-var x x₁) = {!!}
   lem-10 (app-con x x₁) = {!!}

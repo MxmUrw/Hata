@@ -11,7 +11,7 @@ open import Verification.Core.Order.Preorder
 
 
 人ℕᵘ : 𝒰₀
-人ℕᵘ = Free-𝐌𝐨𝐧 ⊤-𝒰
+人ℕᵘ = ⋆List ⊤-𝒰
 
 macro 人ℕ = #structureOn 人ℕᵘ
 
@@ -23,10 +23,10 @@ instance
   fromNat人ℕ : HasFromNat 人ℕ
   fromNat人ℕ = record { Constraint = λ _ → 𝟙-𝒰 ; fromNat = λ n -> ι-人ℕ n }
 
-人List = Free-𝐌𝐨𝐧
+人List = ⋆List
 
 module _ {A : 𝒰 𝑖} where
-  [_]ᶠ : Free-𝐌𝐨𝐧 A -> 𝒰 𝑖
+  [_]ᶠ : ⋆List A -> 𝒰 𝑖
   [_]ᶠ as = ∑ λ a -> as ∍ a
 
   leftᶠ : ∀{as bs} -> [ as ]ᶠ -> [ as ⋆ bs ]ᶠ
@@ -81,7 +81,7 @@ instance
 private
   lem-1 : ∀{a : 人ℕ} {t : ⊤-𝒰} -> incl t ⋆ a ∼ a ⋆ incl t
   lem-1 {incl tt} {tt} = refl
-  lem-1 {a ⋆-Free-𝐌𝐨𝐧 b} {t} = p
+  lem-1 {a ⋆-⧜ b} {t} = p
     where
       p : incl t ⋆ (a ⋆ b) ∼ (a ⋆ b) ⋆ incl t
       p = incl t ⋆ (a ⋆ b) ⟨ assoc-r-⋆ ⟩-∼
@@ -91,11 +91,11 @@ private
           a ⋆ (b ⋆ incl t) ⟨ assoc-r-⋆ ⟩-∼
           a ⋆ b ⋆ incl t   ∎
 
-  lem-1 {◌-Free-𝐌𝐨𝐧} {t} = unit-r-⋆ ∙ unit-l-⋆ ⁻¹
+  lem-1 {◌-⋆List} {t} = unit-r-⋆ ∙ unit-l-⋆ ⁻¹
 
 comm-⋆-人ℕ : ∀{a b : 人ℕ} -> (a ⋆ b) ∼ b ⋆ a
 comm-⋆-人ℕ {incl x} {b} = lem-1
-comm-⋆-人ℕ {a ⋆-Free-𝐌𝐨𝐧 b} {c} = p ⁻¹
+comm-⋆-人ℕ {a ⋆-⧜ b} {c} = p ⁻¹
   where
     p : c ⋆ (a ⋆ b) ∼ (a ⋆ b) ⋆ c
     p = c ⋆ (a ⋆ b) ⟨ assoc-r-⋆ ⟩-∼
@@ -104,7 +104,7 @@ comm-⋆-人ℕ {a ⋆-Free-𝐌𝐨𝐧 b} {c} = p ⁻¹
         a ⋆ (c ⋆ b) ⟨ refl ≀⋆≀ comm-⋆-人ℕ ⟩-∼
         a ⋆ (b ⋆ c) ⟨ assoc-r-⋆ ⟩-∼
         a ⋆ b ⋆ c   ∎
-comm-⋆-人ℕ {◌-Free-𝐌𝐨𝐧} {b} = unit-l-⋆ ∙ unit-r-⋆ ⁻¹
+comm-⋆-人ℕ {◌-⋆List} {b} = unit-l-⋆ ∙ unit-r-⋆ ⁻¹
 
 instance
   isCommutative:人ℕ : isCommutative 人ℕ

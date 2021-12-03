@@ -46,7 +46,7 @@ module _ {K : 𝒰 𝑖} {R : List K -> K -> 𝒰 𝑗} where
 record Jdg₂ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   inductive
   constructor _⇒_
-  -- field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
+  -- field fst : ⋆List (Jdg₂ A)
   field fst : List (Jdg₂ A)
   field snd : A
 infix 4 _⇒_
@@ -60,7 +60,7 @@ module _ {A : 𝒰 𝑖} where
 
 record Jdg₃ (A : 𝒰 𝑖) : 𝒰 𝑖 where
   constructor _∥_
-  -- field fst : Free-𝐌𝐨𝐧 (Jdg₂ A)
+  -- field fst : ⋆List (Jdg₂ A)
   field fst : List (Jdg₂ A)
   field snd : Jdg₂ A
 infix 4 _∥_
@@ -98,7 +98,7 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
   injVars : List (Jdg₂ K) -> List (Jdg₂ K) -> 𝒰 _
   injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
 
-  -- injVars : Free-𝐌𝐨𝐧 (Jdg₂ K) -> Free-𝐌𝐨𝐧 (Jdg₂ K) -> 𝒰 _
+  -- injVars : ⋆List (Jdg₂ K) -> ⋆List (Jdg₂ K) -> 𝒰 _
   -- injVars a b = Hom {{of InjVars}} (incl (incl a)) (incl (incl b))
 
   -- injVars Γ Δ = ∑ λ (f : ∀ {i} -> (Δ ∍ i) -> (Γ ∍ i)) -> ∀ i -> isInjective (f {i})
@@ -133,7 +133,7 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
       f : Jdg₂ K -> Jdg₂ K
       f (a ⇒ b) = Γ ⋆ a ⇒ b
 
-  extendctx' : (Γ : List (Jdg₂ K)) -> (Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Free-𝐌𝐨𝐧 (Jdg₂ K)
+  extendctx' : (Γ : List (Jdg₂ K)) -> (Δ : ⋆List (Jdg₂ K)) -> ⋆List (Jdg₂ K)
   extendctx' Γ Δ = map f Δ
     where
       f : Jdg₂ K -> Jdg₂ K
@@ -145,7 +145,7 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
   -- γₗ! : List (Jdg₂ K) -> 𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K) -> 𝐅𝐢𝐧𝐈𝐱 (Jdg₂ K) 
   -- γₗ! = {!!}
 
-  γₗ! : List (Jdg₂ K) -> Free-𝐌𝐨𝐧 (Jdg₂ K) -> Free-𝐌𝐨𝐧 (Jdg₂ K)
+  γₗ! : List (Jdg₂ K) -> ⋆List (Jdg₂ K) -> ⋆List (Jdg₂ K)
   γₗ! Γ = map (γₗ Γ)
 
   γₗ* : List (Jdg₂ K) -> 𝐈𝐱 (Jdg₂ K) (𝐔𝐧𝐢𝐯 𝑖) -> 𝐈𝐱 (Jdg₂ K) (𝐔𝐧𝐢𝐯 𝑖)
@@ -157,17 +157,17 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
 
 
 
-    -- data Pat-pats (𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)) (Γ : List (Jdg₂ K)) (Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)) : 𝒰 (𝑖) where
+    -- data Pat-pats (𝔍 : ⋆List (Jdg₂ K)) (Γ : List (Jdg₂ K)) (Δ : ⋆List (Jdg₂ K)) : 𝒰 (𝑖) where
     --   lam : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)}) -> Pat-pats 𝔍 Γ Δ
 
-    data Pat-pats (Γ : List (Jdg₂ ⟨ K' ⟩)) : (Δ : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K' ⟩)) (𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K' ⟩)) -> 𝒰 𝑖 where
-      incl : ∀{𝔍 : (Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K' ⟩))} -> ∀{j} -> 𝔍 ⊩ᶠ-pat (γₗ Γ j) -> Pat-pats Γ (incl j) 𝔍
+    data Pat-pats (Γ : List (Jdg₂ ⟨ K' ⟩)) : (Δ : ⋆List (Jdg₂ ⟨ K' ⟩)) (𝔍 : ⋆List (Jdg₂ ⟨ K' ⟩)) -> 𝒰 𝑖 where
+      incl : ∀{𝔍 : (⋆List (Jdg₂ ⟨ K' ⟩))} -> ∀{j} -> 𝔍 ⊩ᶠ-pat (γₗ Γ j) -> Pat-pats Γ (incl j) 𝔍
       _⋆-⧜_ : ∀{j1 j2 k1 k2} -> Pat-pats Γ j1 k1 -> Pat-pats Γ j2 k2 -> Pat-pats Γ (j1 ⋆ j2) (k1 ⋆ k2)
       ◌-⧜ : Pat-pats Γ ◌ ◌
 
 
     -- this should already be η-long
-    data _⊩ᶠ-pat_ : (𝔍s : Free-𝐌𝐨𝐧 (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑖) where
+    data _⊩ᶠ-pat_ : (𝔍s : ⋆List (Jdg₂ K)) -> Jdg₂ K -> 𝒰 (𝑖) where
 
       app-meta  : ∀{𝔍} {Γ Δ : ⟨ InjVars ⟩} {α : K}
                 -> (M : 𝔍 ∍ ((⟨ ⟨ Δ ⟩ ⟩ ⇒ α))) -> (s : (Δ) ⟶ (Γ))
@@ -232,7 +232,7 @@ module _ {K' : Kinding _} {{_ : isMetaTermCalculus 𝑖 {𝑖} K'}} where
               -> app-con x ts ≣ app-con x' ts' -> ts ≣ ts'
   cancel-injective-app-con' p = {!!}
 
-  -- cancel-injective-lam : {𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ K)} {Γ : List (Jdg₂ K)} {Δ : Free-𝐌𝐨𝐧 (Jdg₂ K)} 
+  -- cancel-injective-lam : {𝔍 : ⋆List (Jdg₂ K)} {Γ : List (Jdg₂ K)} {Δ : ⋆List (Jdg₂ K)} 
   --                        -> {f g : 𝑒𝑙 Δ ⟶ indexed (λ {j -> 𝔍 ⊩ᶠ-pat (γₗ Γ j)})}
   --                        -> lam f ≣ lam g
   --                        -> f ∼ g

@@ -41,7 +41,7 @@ open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Pattern.Defi
 module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
 
 
-  reset-with-meta : ∀{𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {Γ Δ : ⟨ InjVars ⟩} {α : ⟨ K ⟩}
+  reset-with-meta : ∀{𝔍 : ⋆List (Jdg₂ ⟨ K ⟩)} {Γ Δ : ⟨ InjVars ⟩} {α : ⟨ K ⟩}
                   -- -> (M : 𝔍 ∍ ((⟨ ⟨ Δ ⟩ ⟩ ⇒ α))) ->
                   -> (s : Δ ⟶ Γ)
                   -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Γ ⟩ ⟩ ⇒ α) -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Δ ⟩ ⟩ ⇒ α)
@@ -49,7 +49,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   reset-with-meta {𝔍} {Γ} {Δ} σ (app-var x x₁) = {!!}
   reset-with-meta {𝔍} {Γ} {Δ} σ (app-con x x₁) = {!!}
 
-  unify-meta-meta-same : ∀{𝔍 : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {Γ Δ : ⟨ InjVars ⟩} {α : ⟨ K ⟩}
+  unify-meta-meta-same : ∀{𝔍 : ⋆List (Jdg₂ ⟨ K ⟩)} {Γ Δ : ⟨ InjVars ⟩} {α : ⟨ K ⟩}
                   -> (M : 𝔍 ∍ ((⟨ ⟨ Γ ⟩ ⟩ ⇒ α))) -> (s t : Γ ⟶ Δ) -> 𝔍 ⊩ᶠ-pat (⟨ ⟨ Δ ⟩ ⟩ ⇒ α)
   unify-meta-meta-same M s t = app-meta {Δ = Eq {{hasEqualizers:♮𝐑𝐞𝐧}} s t} {!!} {!!}
 

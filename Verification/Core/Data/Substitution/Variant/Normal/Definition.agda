@@ -221,7 +221,7 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
           module _ where
             -- in 𝐈𝐱
             lem-04 : 𝑒𝑙 (ι (♮ ⟨ d ⟩)) ≅ 𝑒𝑙 ⟨ d ⟩
-            lem-04 = cong-∼ surj-♮-Free-𝐌𝐨𝐧
+            lem-04 = cong-∼ surj-♮-⋆List
 
             d'' : 𝐅𝐢𝐧𝐈𝐱 I
             d'' = incl ⟨ d ⟩

@@ -91,9 +91,9 @@ module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
 
   inv-l-◆-construct-D人List : ∀{as : 人List A} -> (r : ∀ a -> as ∍ a -> R a) -> destruct-D人List (construct-D人List r) ≡ r
   inv-l-◆-construct-D人List {incl x} r = λ {i a incl → r x incl}
-  inv-l-◆-construct-D人List {as ⋆-Free-𝐌𝐨𝐧 as₁} r i a (right-∍ x) = inv-l-◆-construct-D人List (λ a -> r a ∘ right-∍) i a x
-  inv-l-◆-construct-D人List {as ⋆-Free-𝐌𝐨𝐧 as₁} r i a (left-∍ x)  = inv-l-◆-construct-D人List (λ a -> r a ∘ left-∍)  i a x
-  inv-l-◆-construct-D人List {◌-Free-𝐌𝐨𝐧} r i a ()
+  inv-l-◆-construct-D人List {as ⋆-⧜ as₁} r i a (right-∍ x) = inv-l-◆-construct-D人List (λ a -> r a ∘ right-∍) i a x
+  inv-l-◆-construct-D人List {as ⋆-⧜ as₁} r i a (left-∍ x)  = inv-l-◆-construct-D人List (λ a -> r a ∘ left-∍)  i a x
+  inv-l-◆-construct-D人List {◌-⋆List} r i a ()
 
   inv-r-◆-construct-D人List : ∀{as : 人List A} -> (f : D人List R as) -> construct-D人List (destruct-D人List f) ≡ f
   inv-r-◆-construct-D人List ◌-⧜ = refl-≡
@@ -137,7 +137,7 @@ module _ {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) where
 
 record InductiveSubstitution {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) : 𝒰 𝑖 where
   constructor incl
-  field ⟨_⟩ : Free-𝐌𝐨𝐧 I
+  field ⟨_⟩ : ⋆List I
 
 {-# DISPLAY InductiveSubstitution.⟨_⟩ a = ⟨ a ⟩ #-}
 open InductiveSubstitution {{...}} public

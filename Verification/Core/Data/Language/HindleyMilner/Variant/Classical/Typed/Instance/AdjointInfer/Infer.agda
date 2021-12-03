@@ -25,7 +25,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Untype
 forgetJudgement : 𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀ -> 𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀
 forgetJudgement x = indexed (λ n →  ∑ λ metas -> ∑ λ (Γ : 人Vecᵖ (ℒHMPolyType metas) n) -> ∑ λ (τ : ℒHMPolyType metas) -> x ⌄ (⟨ Γ ⟩ ⊢ τ))
 
--- ∑ λ (j : ℒHMJudgement) -> (mapOf ′ Free-𝐌𝐨𝐧 ′ (const tt) (context j) ≣ i) × (x ⌄ j))
+-- ∑ λ (j : ℒHMJudgement) -> (mapOf ′ ⋆List ′ (const tt) (context j) ≣ i) × (x ⌄ j))
 
 instance
   isFunctor:forgetJudgement : isFunctor (𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀) (𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀) forgetJudgement
@@ -48,10 +48,10 @@ print-TypedℒHM = record { fst = ′ forgetJudgement ′ ; snd = printᵘ-Typed
 -}
 
 makeJudgement : 𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀ -> 𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀
-makeJudgement = 写* (λ (Γ ⊢ τ) → map-Free-𝐌𝐨𝐧 (const tt) Γ)
+makeJudgement = 写* (λ (Γ ⊢ τ) → map-⋆List (const tt) Γ)
 
--- map-Free-𝐌𝐨𝐧 (const tt)
--- indexed (λ (Γ ⊢ τ) → x ⌄ map-Free-𝐌𝐨𝐧 (const tt) Γ)
+-- map-⋆List (const tt)
+-- indexed (λ (Γ ⊢ τ) → x ⌄ map-⋆List (const tt) Γ)
 
 print2-TypedℒHM : ∀ A -> TypedℒHM (makeJudgement A) ⟶ makeJudgement (UntypedℒHM A)
 print2-TypedℒHM A (Γ ⊢ τ) (var x) = var (map-∍ (const tt) x)

@@ -51,7 +51,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑖} (f : Functor 𝒞 𝒟) w
 
 sᵘ : ℒHMJudgement -> 人ℕ
 sᵘ (Γ ⊢ τ) = size-D人List Γ
--- map-Free-𝐌𝐨𝐧 (const tt) Γ
+-- map-⋆List (const tt) Γ
 
 macro s = #structureOn sᵘ
 
@@ -65,7 +65,7 @@ instance
 ふ : 𝐅𝐮𝐧𝐜 ℒHMJudgement 𝐂𝐚𝐭₀ -> 𝐅𝐮𝐧𝐜 人ℕ 𝐂𝐚𝐭₀
 ふ = ₗ∆ s
 
--- 写* (λ (Γ ⊢ τ) → map-Free-𝐌𝐨𝐧 (const tt) Γ)
+-- 写* (λ (Γ ⊢ τ) → map-⋆List (const tt) Γ)
 
 
 π : ∀ A -> TypedℒHM (ま A) ⟶ ま (UntypedℒHM A)
@@ -105,7 +105,7 @@ instance
 forgetJudgement : 𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀ -> 𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀
 forgetJudgement x = indexed (λ n →  ∑ λ metas -> ∑ λ (Γ : 人Vecᵖ (ℒHMPolyType metas) n) -> ∑ λ (τ : ℒHMPolyType metas) -> x ⌄ (⟨ Γ ⟩ ⊢ τ))
 
--- ∑ λ (j : ℒHMJudgement) -> (mapOf ′ Free-𝐌𝐨𝐧 ′ (const tt) (context j) ≣ i) × (x ⌄ j))
+-- ∑ λ (j : ℒHMJudgement) -> (mapOf ′ ⋆List ′ (const tt) (context j) ≣ i) × (x ⌄ j))
 
 instance
   isFunctor:forgetJudgement : isFunctor (𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀) (𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀) forgetJudgement
@@ -127,10 +127,10 @@ print-TypedℒHM = record { fst = ′ forgetJudgement ′ ; snd = printᵘ-Typed
 -}
 
 makeJudgement : 𝐈𝐱 人ℕ 𝐔𝐧𝐢𝐯₀ -> 𝐈𝐱 ℒHMJudgement 𝐔𝐧𝐢𝐯₀
-makeJudgement = 写* (λ (Γ ⊢ τ) → map-Free-𝐌𝐨𝐧 (const tt) Γ)
+makeJudgement = 写* (λ (Γ ⊢ τ) → map-⋆List (const tt) Γ)
 
--- map-Free-𝐌𝐨𝐧 (const tt)
--- indexed (λ (Γ ⊢ τ) → x ⌄ map-Free-𝐌𝐨𝐧 (const tt) Γ)
+-- map-⋆List (const tt)
+-- indexed (λ (Γ ⊢ τ) → x ⌄ map-⋆List (const tt) Γ)
 
 print2-TypedℒHM : ∀ A -> TypedℒHM (makeJudgement A) ⟶ makeJudgement (UntypedℒHM A)
 print2-TypedℒHM A (Γ ⊢ τ) (var x) = var (map-∍ (const tt) x)

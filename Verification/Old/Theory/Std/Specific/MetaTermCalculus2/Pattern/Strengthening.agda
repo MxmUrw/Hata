@@ -56,7 +56,7 @@ open import Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Pattern.Fact
 
 
 module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
-  freeVars : ∀{J : Free-𝐌𝐨𝐧 (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (t : J ⊩ᶠ-pat i) -> 人List (Jdg₂ ⟨ K ⟩)
+  freeVars : ∀{J : ⋆List (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> (t : J ⊩ᶠ-pat i) -> 人List (Jdg₂ ⟨ K ⟩)
   freeVars = {!!}
 
 

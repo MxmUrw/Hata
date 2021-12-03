@@ -23,7 +23,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Untype
 record 人Vecᵖ (A : 𝒰 𝑖) (n : 人ℕ) : 𝒰 𝑖 where
   constructor vecᵖ
   field ⟨_⟩ : 人List A
-  field hasSize : map-Free-𝐌𝐨𝐧 (const tt) ⟨_⟩ ≡ n
+  field hasSize : map-⋆List (const tt) ⟨_⟩ ≡ n
 
 open 人Vecᵖ public
 

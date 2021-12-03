@@ -72,7 +72,7 @@ module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {J : 𝒰 𝑘} (f : I -> J) whe
 
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} where
 
-  ⨅ᶠᵘ : ∀{n : Free-𝐌𝐨𝐧 A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
+  ⨅ᶠᵘ : ∀{n : ⋆List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
   ⨅ᶠᵘ {incl a} x = ix x (a , incl)
   ⨅ᶠᵘ {n ⋆-⧜ m} a = ⨅ᶠᵘ {n} (写* leftᶠ a) ⊓ ⨅ᶠᵘ {m} (写* rightᶠ a)
   ⨅ᶠᵘ {◌-⧜} a = ⊤
@@ -101,8 +101,8 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
 
   coadj-写 : ∀{n} -> ∀ a -> a ⟶ ⨅ᶠ {n} (写 a)
   coadj-写 {incl x} a = id
-  coadj-写 {n ⋆-Free-𝐌𝐨𝐧 m} a = ⧼ coadj-写 {n} _ , coadj-写 {m} _ ⧽
-  coadj-写 {◌-Free-𝐌𝐨𝐧} a = intro-⊤
+  coadj-写 {n ⋆-⧜ m} a = ⧼ coadj-写 {n} _ , coadj-写 {m} _ ⧽
+  coadj-写 {◌-⋆List} a = intro-⊤
 
   module _ {n} where
     instance
@@ -134,8 +134,8 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗}
 
   map-⨆ᶠ : ∀{n} -> {a b : 𝐈𝐱 [ n ]ᶠ 𝒞} -> (f : a ⟶ b) -> ⨆ᶠ a ⟶ ⨆ᶠ b
   map-⨆ᶠ {incl x} f = f (_ , incl)
-  map-⨆ᶠ {n ⋆-Free-𝐌𝐨𝐧 n₁} f = {!!}
-  map-⨆ᶠ {◌-Free-𝐌𝐨𝐧} f = {!!}
+  map-⨆ᶠ {n ⋆-⧜ n₁} f = {!!}
+  map-⨆ᶠ {◌-⋆List} f = {!!}
 
   instance
     isFunctor:⨆ᶠ : ∀{n} -> isFunctor (𝐈𝐱 [ n ]ᶠ 𝒞) 𝒞 ⨆ᶠ

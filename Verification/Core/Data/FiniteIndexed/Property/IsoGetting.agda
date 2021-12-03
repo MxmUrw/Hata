@@ -49,7 +49,7 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
         lem-1 : (a b : FiniteIndexed A) → Maybe (a ≅ b)
         lem-1 a b with ♮ ⟨ a ⟩ ≟-Str ♮ ⟨ b ⟩
         ... | yes p = let q : ⟨ a ⟩ ∼ ⟨ b ⟩
-                          q = injective-♮-Free-𝐌𝐨𝐧 {a = ⟨ a ⟩} {b = ⟨ b ⟩} (≡-Str→≡ p)
+                          q = injective-♮-⋆List {a = ⟨ a ⟩} {b = ⟨ b ⟩} (≡-Str→≡ p)
                           r : 𝑒𝑙 ⟨ a ⟩ ≅ 𝑒𝑙 ⟨ b ⟩
                           r = cong-∼ q
                       in right (incl ⟨ r ⟩ since record { inverse-◆ = incl (inverse-◆ (of r)) ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} })

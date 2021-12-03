@@ -198,8 +198,8 @@ module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
 -- module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
 --   fromIndexed : {as bs : 人List A} -> (∀{a} -> (as ∍ a) -> R bs a) -> CtxHom R as bs
 --   fromIndexed {incl x} {bs} F = incl (F (incl))
---   fromIndexed {as1 ⋆-Free-𝐌𝐨𝐧 as2} {bs} F = (fromIndexed (λ x -> F (left-∍ x))) ⋆-⧜ ((fromIndexed (λ x -> F (right-∍ x))))
---   fromIndexed {◌-Free-𝐌𝐨𝐧} {bs} F = ◌-⧜
+--   fromIndexed {as1 ⋆-⧜ as2} {bs} F = (fromIndexed (λ x -> F (left-∍ x))) ⋆-⧜ ((fromIndexed (λ x -> F (right-∍ x))))
+--   fromIndexed {◌-⋆List} {bs} F = ◌-⧜
 -}
 
 module _ {R : ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where

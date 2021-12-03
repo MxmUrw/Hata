@@ -235,11 +235,11 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
     -- (isNode x) = incl {!n!}
     -- initb× {n} (isVar x) = {!!}
 
-    makeNode : ∀{n : ℬ× 𝒯} -> (a : Sort 𝒯) → (incl (⟨ n ⟩ ⋆-Free-𝐌𝐨𝐧 incl tt)) ⟶ n
+    makeNode : ∀{n : ℬ× 𝒯} -> (a : Sort 𝒯) → (incl (⟨ n ⟩ ⋆-⧜ incl tt)) ⟶ n
     makeNode τ = ⧜subst (id-⧜𝐒𝐮𝐛𝐬𝐭' {T = ′ Term-𝕋× (Sort×Theory 𝒯) ′} ⋆-⧜ (incl ((con (incl τ) ◌-⧜))))
     -- ⦗ ⟨ id ⟩ , ⧜subst (incl ((con (incl τ) ◌-⧜))) ⦘
 
-    initv× : ∀{n : ℬ× 𝒯} -> (a : Node 𝒯 ⟨ n ⟩) → (incl (⟨ n ⟩ ⋆-Free-𝐌𝐨𝐧 incl tt)) ⟶ n
+    initv× : ∀{n : ℬ× 𝒯} -> (a : Node 𝒯 ⟨ n ⟩) → (incl (⟨ n ⟩ ⋆-⧜ incl tt)) ⟶ n
     initv× {n} (isNode (τs , τ , x)) = makeNode τ
     initv× {n} (isVar (tt , x)) = ⧜subst (id-⧜𝐒𝐮𝐛𝐬𝐭' {T = ′ Term-𝕋× (Sort×Theory 𝒯) ′} ⋆-⧜ (incl (var x)))
     -- ⦗ id , ⧜subst (incl (var x)) ⦘

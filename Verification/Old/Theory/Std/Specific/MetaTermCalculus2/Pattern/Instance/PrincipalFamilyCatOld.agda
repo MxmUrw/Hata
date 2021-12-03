@@ -132,7 +132,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
               +-𝒰 (∑ λ n -> isSplittableC (𝐏𝐚𝐭 K) n (x , y , i) (λ (_ , _ , j) -> msize j ≪-𝒲 msize i)))
 
     -- if the domain is not a singleton, we can split it
-    ∂-𝐏𝐚𝐭 {incl (incl (a ⋆-Free-𝐌𝐨𝐧 b))} {y} (f , g) =
+    ∂-𝐏𝐚𝐭 {incl (incl (a ⋆-⧜ b))} {y} (f , g) =
       right (2 , record
                  { famC      = mfam
                  ; coversC   = {!!}
@@ -152,7 +152,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
           mfam (suc zero) = incl (incl b) , y , (f₁ , g₁)
 
     -- if the domain is empty, we reached a base case
-    ∂-𝐏𝐚𝐭 {incl (incl ◌-Free-𝐌𝐨𝐧)} {y} (f , g) = left ({!!})
+    ∂-𝐏𝐚𝐭 {incl (incl ◌-⋆List)} {y} (f , g) = left ({!!})
 
     -- if the domain is a singleton, we look at the values of f and g at this singleton
     ∂-𝐏𝐚𝐭 {incl (incl (incl x))} {y} (f , g) with (⟨ f ⟩ x incl) in fp | (⟨ g ⟩ x incl) in gp

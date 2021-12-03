@@ -14,11 +14,11 @@ open import Verification.Core.Category.Std.Groupoid.Definition
 
 module _ {A : 𝒰 𝑖} where
   instance
-    isCategory:Free-𝐌𝐨𝐧 : isCategory {_ , _} (Free-𝐌𝐨𝐧 A)
-    isCategory:Free-𝐌𝐨𝐧 = isCategory:bySetoid
+    isCategory:⋆List : isCategory {_ , _} (⋆List A)
+    isCategory:⋆List = isCategory:bySetoid
 
-    isGroupoid:Free-𝐌𝐨𝐧 : isGroupoid (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A)
-    isGroupoid:Free-𝐌𝐨𝐧 = isGroupoid:bySetoid
+    isGroupoid:⋆List : isGroupoid (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A)
+    isGroupoid:⋆List = isGroupoid:bySetoid
 
 
   

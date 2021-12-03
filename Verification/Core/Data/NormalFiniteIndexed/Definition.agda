@@ -58,8 +58,8 @@ module _ (I : 𝒰 𝑖) where
   macro ♮𝐅𝐢𝐧𝐈𝐱 = #structureOn NormalFiniteIndexed
 
   -- instance
-  --   isIso:ι-Free-𝐌𝐨𝐧 : isIso {𝒞 = } (hom ι-Free-𝐌𝐨𝐧)
-  --   isIso:ι-Free-𝐌𝐨𝐧 = {!!}
+  --   isIso:ι-⋆List : isIso {𝒞 = } (hom ι-⋆List)
+  --   isIso:ι-⋆List = {!!}
 
 
 
@@ -77,7 +77,7 @@ module _ {I : 𝒰 𝑖} where
         lem-10 {[]} {bs} = unit-l-⋆ ⁻¹
         lem-10 {x ∷ as} {bs} = (refl ≀⋆≀ lem-10 {as} {bs}) ∙ assoc-r-⋆
 
-    f : ∀{a : I} -> {as : Free-𝐌𝐨𝐧 I} -> as ∍ a -> ι (♮ as) ∍ a
+    f : ∀{a : I} -> {as : ⋆List I} -> as ∍ a -> ι (♮ as) ∍ a
     f incl = left-∍ incl
     f {a} (right-∍ {as} {bs} p) = -- ⟨ cong-∼ (lem-10 ⁻¹) ⟩ a (right-∍ (f p))
       let q : ι (♮ as) ⋆ ι (♮ bs) ∼ ι (♮ as ⋆ ♮ bs)
@@ -96,15 +96,15 @@ module _ {I : 𝒰 𝑖} where
           r = left-∍ (f p)
       in ⟨ q₂ ⟩ a r
 
-    g : ∀{a : I} -> {as : Free-𝐌𝐨𝐧 I} -> ι (♮ as) ∍ a -> as ∍ a
+    g : ∀{a : I} -> {as : ⋆List I} -> ι (♮ as) ∍ a -> as ∍ a
     g {as = incl x} (left-∍ p) = p
-    g {a} {as = as ⋆-Free-𝐌𝐨𝐧 bs} p with ⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs}) ⟩ a p
+    g {a} {as = as ⋆-⧜ bs} p with ⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs}) ⟩ a p
     ... | right-∍ X = right-∍ (g X)
     ... | left-∍ X = left-∍ (g X)
 
-    lem-15 : ∀{a : I} {as : Free-𝐌𝐨𝐧 I} -> (p : ι (♮ as) ∍ a) -> f {a} {as} (g p) ≡ p
+    lem-15 : ∀{a : I} {as : ⋆List I} -> (p : ι (♮ as) ∍ a) -> f {a} {as} (g p) ≡ p
     lem-15 {.x} {incl x} (left-∍ incl) = refl-≡
-    lem-15 {a} {as ⋆-Free-𝐌𝐨𝐧 bs} p with ⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs}) ⟩ a p in ip
+    lem-15 {a} {as ⋆-⧜ bs} p with ⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs}) ⟩ a p in ip
     ... | left-∍ X = ⟨ sym (cong-∼ (lem-10 {as = ♮ as} {♮ bs})) ⟩ a (left-∍ (f {a} {as} (g X)))
 
                        ⟨ (λ i -> ⟨ sym (cong-∼ (lem-10 {as = ♮ as} {♮ bs})) ⟩ a (left-∍ (lem-15 {a} {as} X i)))  ⟩-≡
@@ -133,9 +133,9 @@ module _ {I : 𝒰 𝑖} where
 
                      p                                                                            ∎-≡
 
-    lem-16 : ∀{a : I} {as : Free-𝐌𝐨𝐧 I} -> (p : as ∍ a) -> g {a} {as} (f p) ≡ p
+    lem-16 : ∀{a : I} {as : ⋆List I} -> (p : as ∍ a) -> g {a} {as} (f p) ≡ p
     lem-16 {a} {.(incl a)} incl = refl-≡
-    lem-16 {a} {as ⋆-Free-𝐌𝐨𝐧 bs} (right-∍ p) with (⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs})⟩ a (inverse-◆ (of cong-∼ lem-10) a (right-∍ (f p)))) in ip
+    lem-16 {a} {as ⋆-⧜ bs} (right-∍ p) with (⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs})⟩ a (inverse-◆ (of cong-∼ lem-10) a (right-∍ (f p)))) in ip
     ... | right-∍ X  =
       let q : right-∍ (f p) ≡ right-∍ X
           q = right-∍ (f p)   ⟨ (λ i -> inv-l-◆ (of (cong-∼ (lem-10 {as = ♮ as} {♮ bs}))) a (~ i) (right-∍ (f p))) ⟩-≡
@@ -155,7 +155,7 @@ module _ {I : 𝒰 𝑖} where
       in impossible q
 
 
-    lem-16 {a} {as ⋆-Free-𝐌𝐨𝐧 bs} (left-∍ p) with ⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs}) ⟩ a (⟨ cong-∼ (lem-10 ⁻¹) ⟩ a (left-∍ (f p))) in ip
+    lem-16 {a} {as ⋆-⧜ bs} (left-∍ p) with ⟨ cong-∼ (lem-10 {as = ♮ as} {♮ bs}) ⟩ a (⟨ cong-∼ (lem-10 ⁻¹) ⟩ a (left-∍ (f p))) in ip
     ... | left-∍ X  =
       let q : left-∍ (f p) ≡ left-∍ X
           q = left-∍ (f p)   ⟨ (λ i -> inv-l-◆ (of (cong-∼ (lem-10 {as = ♮ as} {♮ bs}))) a (~ i) (left-∍ (f p))) ⟩-≡
@@ -174,7 +174,7 @@ module _ {I : 𝒰 𝑖} where
               right-∍ X       ∎-≡
       in impossible q
 
-    lem-25 : ∀{a : I} -> {as : Free-𝐌𝐨𝐧 I} -> (ι (♮ as) ∍ a) ≅ (as ∍ a)
+    lem-25 : ∀{a : I} -> {as : ⋆List I} -> (ι (♮ as) ∍ a) ≅ (as ∍ a)
     lem-25 {a} {as} = g since record
                               { inverse-◆ = f
                               ; inv-r-◆   = funExt (lem-15 {as = as})

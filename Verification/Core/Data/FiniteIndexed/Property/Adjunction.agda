@@ -47,7 +47,7 @@ module _ {I J : 𝒰 𝑖} (f : I -> J) where
   macro ix* = #structureOn ix*ᵘ
 
   ix!ᵘ : 𝐅𝐢𝐧𝐈𝐱 I -> 𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)
-  ix!ᵘ (incl s) = 𝑒𝑙 (map-Free-𝐌𝐨𝐧 f s)
+  ix!ᵘ (incl s) = 𝑒𝑙 (map-⋆List f s)
 
   macro ix! = #structureOn ix!ᵘ
 
@@ -67,7 +67,7 @@ module _ {I J : 𝒰 𝑖} {f : I -> J} where
     isFunctor:ix! = {!!}
 
 -- module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
---   map-∍ : (f : A -> B) -> {as : Free-𝐌𝐨𝐧 A} {a : A} -> as ∍ a -> map-Free-𝐌𝐨𝐧 f as ∍ f a
+--   map-∍ : (f : A -> B) -> {as : ⋆List A} {a : A} -> as ∍ a -> map-⋆List f as ∍ f a
 --   map-∍ f incl = incl
 --   map-∍ f (right-∍ p) = right-∍ (map-∍ f p)
 --   map-∍ f (left-∍ p) = left-∍ (map-∍ f p)
@@ -77,9 +77,9 @@ module _ {I J : 𝒰 𝑖} (f : I -> J) where
 
   refree-𝐅𝐢𝐧𝐈𝐱 : ∀{a : 𝐅𝐢𝐧𝐈𝐱 I} {b : 𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)} -> ι a ⟶ (ix* f b) -> ix! f a ⟶ b
   refree-𝐅𝐢𝐧𝐈𝐱 {incl (incl x)} g .(f x) incl = g x incl
-  refree-𝐅𝐢𝐧𝐈𝐱 {incl (a ⋆-Free-𝐌𝐨𝐧 b)} g i (right-∍ p) = refree-𝐅𝐢𝐧𝐈𝐱 {a = incl b} ((λ _ -> right-∍) ◆ g) i p
-  refree-𝐅𝐢𝐧𝐈𝐱 {incl (a ⋆-Free-𝐌𝐨𝐧 b)} g i (left-∍ p)  = refree-𝐅𝐢𝐧𝐈𝐱 {a = incl a} ((λ _ -> left-∍) ◆ g) i p
-  refree-𝐅𝐢𝐧𝐈𝐱 {incl ◌-Free-𝐌𝐨𝐧} g i ()
+  refree-𝐅𝐢𝐧𝐈𝐱 {incl (a ⋆-⧜ b)} g i (right-∍ p) = refree-𝐅𝐢𝐧𝐈𝐱 {a = incl b} ((λ _ -> right-∍) ◆ g) i p
+  refree-𝐅𝐢𝐧𝐈𝐱 {incl (a ⋆-⧜ b)} g i (left-∍ p)  = refree-𝐅𝐢𝐧𝐈𝐱 {a = incl a} ((λ _ -> left-∍) ◆ g) i p
+  refree-𝐅𝐢𝐧𝐈𝐱 {incl ◌-⋆List} g i ()
 
   recofree-𝐅𝐢𝐧𝐈𝐱 : ∀{a : 𝐅𝐢𝐧𝐈𝐱 I} {b : 𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)} -> ix! f a ⟶ b -> ι a ⟶ (ix* f b)
   recofree-𝐅𝐢𝐧𝐈𝐱 {a} g i x = g (f i) (map-∍ f x)

@@ -156,16 +156,16 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
   mutual
     constructTerms : ∀{n} {Γ : CtxHom (Term₁-𝕋× (Sort×Theory 𝒯)) n ◌}
                     -> {fst₁ : List (Sort 𝒯)}
-                    -> {vs : Vec (⟨ F× 𝒯 n ⟩ (incl ◌-Free-𝐌𝐨𝐧)) (length fst₁)}
-                    -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌-Free-𝐌𝐨𝐧)) vs
+                    -> {vs : Vec (⟨ F× 𝒯 n ⟩ (incl ◌-⋆List)) (length fst₁)}
+                    -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌-⋆List)) vs
                     -> isSameCtx Γ fst₁ vs
-                    -> CtxHom (Term₁-𝕋× 𝒯) (ι-Free-𝐌𝐨𝐧 fst₁) (map-Free-𝐌𝐨𝐧 (makeSort 𝒯) (asList Γ))
+                    -> CtxHom (Term₁-𝕋× 𝒯) (ι-⋆List fst₁) (map-⋆List (makeSort 𝒯) (asList Γ))
     constructTerms {fst₁ = ⦋⦌} [] P = ◌-⧜
     constructTerms {fst₁ = x ∷ fst₁} (x₁ ∷ ts) (.x ∷ P) = (incl (constructTerm x₁)) ⋆-⧜ constructTerms ts P
 
     constructTerm : ∀{n} {Γ : CtxHom (Term₁-𝕋× (Sort×Theory 𝒯)) n ◌} -> ∀{τ}
                     -> ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌) (_⊫_ Γ τ)
-                    -> Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 (makeSort 𝒯) (asList Γ)) (makeSort 𝒯 τ)
+                    -> Term₁-𝕋× 𝒯 (map-⋆List (makeSort 𝒯) (asList Γ)) (makeSort 𝒯 τ)
     constructTerm (node1 (isNode (_ , _ , c)) _ vs (conType .c x) ts) = con c (constructTerms ts x)
     constructTerm {Γ = Γ} {τ} (node1 (isVar x₂) _ ⦋⦌ (varType .x₂ atl) []) = var (map-∍ (makeSort 𝒯) P)
       where

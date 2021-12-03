@@ -57,8 +57,8 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition
 -- if the indexing set is only ⊤
 module §-⧜𝐒𝐮𝐛𝐬𝐭-⊤ {T : RelativeMonad (𝑓𝑖𝑛 (⊤-𝒰 {ℓ₀}))} where
   prop-1 : ∀{a b : 人ℕ} -> (f : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = T} (incl a) (incl b)) -> 人List (ix (⟨ T ⟩ (incl b)) tt)
-  prop-1 {.(isMonoid.◌ isMonoid:Free-𝐌𝐨𝐧)} {b} ◌-⧜ = ◌
+  prop-1 {.(isMonoid.◌ isMonoid:⋆List)} {b} ◌-⧜ = ◌
   prop-1 {(incl tt)} {b} (incl x) = incl x
-  prop-1 {.((isMonoid:Free-𝐌𝐨𝐧 isMonoid.⋆ _) _)} {b} (f ⋆-⧜ g) = prop-1 f ⋆ prop-1 g
+  prop-1 {.((isMonoid:⋆List isMonoid.⋆ _) _)} {b} (f ⋆-⧜ g) = prop-1 f ⋆ prop-1 g
 
 

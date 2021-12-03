@@ -245,13 +245,13 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
                where
 
         dKind : (Vertex t) -> 𝒰 _
-        dKind v = Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 makeSort (asList (π₀-⋆-⧜ σ))) (makeSort (getRet σ))
+        dKind v = Term₁-𝕋× 𝒯 (map-⋆List makeSort (asList (π₀-⋆-⧜ σ))) (makeSort (getRet σ))
           where
-            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-Free-𝐌𝐨𝐧 incl tt)) (incl ◌-Free-𝐌𝐨𝐧)
+            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⋆List)
             σ = ⟨ ann (just v) (_ , left-∍ incl) ⟩
 
-        dTermType : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-Free-𝐌𝐨𝐧 incl tt)) (incl ◌-Free-𝐌𝐨𝐧) -> 𝒰 _
-        dTermType σ = Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 makeSort (getCtx σ)) (makeSort (getRet σ))
+        dTermType : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⋆List) -> 𝒰 _
+        dTermType σ = Term₁-𝕋× 𝒯 (map-⋆List makeSort (getCtx σ)) (makeSort (getRet σ))
 
 
 
@@ -279,8 +279,8 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
                                 (ts₁ i)
 
               -- transport from my inner boundary to the requirements of the con ctr
-              ts₃ : ∀{ρ} -> (ι τs ∍ ρ) -> Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 makeSort (getCtx ⟨ ann (just (VecTree.node (τs , τ , c) ts , p)) (_ , left-∍ incl) ⟩)) (ρ)
-              ts₃ {ρ} i = transport (λ k -> Term₁-𝕋× 𝒯 (map-Free-𝐌𝐨𝐧 makeSort (ctxP (_ , right-∍ (map-∍ _ i)) (_ , left-∍ incl) k))
+              ts₃ : ∀{ρ} -> (ι τs ∍ ρ) -> Term₁-𝕋× 𝒯 (map-⋆List makeSort (getCtx ⟨ ann (just (VecTree.node (τs , τ , c) ts , p)) (_ , left-∍ incl) ⟩)) (ρ)
+              ts₃ {ρ} i = transport (λ k -> Term₁-𝕋× 𝒯 (map-⋆List makeSort (ctxP (_ , right-∍ (map-∍ _ i)) (_ , left-∍ incl) k))
                                                        (makeSort (inputP ρ i k)))
                                     (ts₂ (_ , map-∍ _ i))
 
@@ -288,7 +288,7 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
         dType (var x , p) (varType i f (contextHasVar q)) = var (map-∍ makeSort (atasList' (π₀-⋆-⧜ σ) i q))
           where
-            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-Free-𝐌𝐨𝐧 incl tt)) (incl ◌-Free-𝐌𝐨𝐧)
+            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⋆List)
             σ = ⟨ ann (just (var x , p)) (_ , left-∍ incl) ⟩
 
         -- dType : (s : VecTree (UntypedCon 𝒯) ([ n ]ᶠ) l')

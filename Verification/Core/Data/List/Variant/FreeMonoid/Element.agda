@@ -174,12 +174,12 @@ module _ {A : 𝒰 𝑖} where
     isSetoidHom:el : isSetoidHom (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A) (𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)) el
     isSetoidHom:el = record { cong-∼ = rec-RST f}
       where
-        f : ∀{a b : 𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A} -> (a ∼-Free-𝐌𝐨𝐧 b) -> _
-        f unit-l-⋆-Free-𝐌𝐨𝐧 = lem-1
-        f unit-r-⋆-Free-𝐌𝐨𝐧 = lem-2
-        f assoc-l-⋆-Free-𝐌𝐨𝐧 = lem-3
-        f (cong-l-⋆-Free-𝐌𝐨𝐧 p) = lem-4 (f p)
-        f (cong-r-⋆-Free-𝐌𝐨𝐧 p) = lem-5 (f p)
+        f : ∀{a b : 𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A} -> (a ∼-⋆List b) -> _
+        f unit-l-⋆-⧜ = lem-1
+        f unit-r-⋆-⧜ = lem-2
+        f assoc-l-⋆-⧜ = lem-3
+        f (cong-l-⋆-⧜ p) = lem-4 (f p)
+        f (cong-r-⋆-⧜ p) = lem-5 (f p)
 
   instance
     isMonoidHom:el : isMonoidHom (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A) (𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)) 𝑒𝑙
