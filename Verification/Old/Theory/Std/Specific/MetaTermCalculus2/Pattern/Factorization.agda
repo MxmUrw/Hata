@@ -83,11 +83,11 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   ν₋ : 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ (Jdg₂ ⟨ K ⟩) -> ⋆List (Jdg₂ ⟨ K ⟩)
   ν₋ (incl (incl a) , as)            = incl $ ⟨ ⟨ ⟨ ix as (a , incl) ⟩ ⟩ ⟩ ⇒ a
   ν₋ (incl (a ⋆-⧜ b) , as)   = ν₋ ((incl a) , {!!}) ⋆ ν₋ ((incl b) , {!!})
-  ν₋ (incl ◌-⋆List , as)          = {!!}
+  ν₋ (incl ◌-⧜ , as)          = {!!}
 
   -- ν₋ (interren (incl (incl α)) αs) = incl (⟨ ⟨ αs incl ⟩ ⟩ ⇒ α)
   -- ν₋ (interren (incl (a ⋆-⧜ b)) αs) = 
-  -- ν₋ (interren (incl ◌-⋆List) αs) = {!!}
+  -- ν₋ (interren (incl ◌-⧜) αs) = {!!}
 
   ν₊ : ⋆List (Jdg₂ ⟨ K ⟩) -> 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ (Jdg₂ ⟨ K ⟩)
   ν₊ (incl (αs ⇒ α)) = incl (incl α) , indexed (λ x → incl (incl (incl αs)))
@@ -163,7 +163,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
     --   let I0 , f0 , p0 = decompose-lam (lam (λ _ a -> (x _ (left-∍ a))))
     --       I1 , f1 , p1 = decompose-lam (lam (λ _ a -> (x _ (right-∍ a))))
     --   in (I0 ⋆ I1) , ⦗ f0 , f1 ⦘ , p0 ⋆-⧜ p1
-    -- decompose-lam {Δ = ◌-⋆List} (lam x) = ◌ , elim-⊥ , ◌-⧜
+    -- decompose-lam {Δ = ◌-⧜} (lam x) = ◌ , elim-⊥ , ◌-⧜
 
     decompose : ∀{J : ⋆List (Jdg₂ ⟨ K ⟩)} {i : (Jdg₂ ⟨ K ⟩)} -> J ⊩ᶠ-pat i -> ∑ λ I -> ∑ λ (f : (ν₊ I ⟶ ν₊ J)) -> I ⊩-inter i
     -- decompose = {!!}

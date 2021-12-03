@@ -81,11 +81,11 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
   ν₋ : 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ 𝖩 -> ⋆List 𝖩
   ν₋ (incl (incl a) , as)            = incl $ ⟨ ⟨ ⟨ ix as (a , incl) ⟩ ⟩ ⟩ ⇒ a
   ν₋ (incl (a ⋆-⧜ b) , as)   = ν₋ ((incl a) , {!!}) ⋆ ν₋ ((incl b) , {!!})
-  ν₋ (incl ◌-⋆List , as)          = {!!}
+  ν₋ (incl ◌-⧜ , as)          = {!!}
 
   -- ν₋ (interren (incl (incl α)) αs) = incl (⟨ ⟨ αs incl ⟩ ⟩ ⇒ α)
   -- ν₋ (interren (incl (a ⋆-⧜ b)) αs) = 
-  -- ν₋ (interren (incl ◌-⋆List) αs) = {!!}
+  -- ν₋ (interren (incl ◌-⧜) αs) = {!!}
 
   ν₊ : ⋆List 𝖩 -> 𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 ⟨ K ⟩ 𝖩
   ν₊ (incl (αs ⇒ α)) = incl (incl α) , indexed (λ x → incl (incl (incl αs)))

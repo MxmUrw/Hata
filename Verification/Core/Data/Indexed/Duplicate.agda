@@ -102,7 +102,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
   coadj-写 : ∀{n} -> ∀ a -> a ⟶ ⨅ᶠ {n} (写 a)
   coadj-写 {incl x} a = id
   coadj-写 {n ⋆-⧜ m} a = ⧼ coadj-写 {n} _ , coadj-写 {m} _ ⧽
-  coadj-写 {◌-⋆List} a = intro-⊤
+  coadj-写 {◌-⧜} a = intro-⊤
 
   module _ {n} where
     instance
@@ -135,7 +135,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗}
   map-⨆ᶠ : ∀{n} -> {a b : 𝐈𝐱 [ n ]ᶠ 𝒞} -> (f : a ⟶ b) -> ⨆ᶠ a ⟶ ⨆ᶠ b
   map-⨆ᶠ {incl x} f = f (_ , incl)
   map-⨆ᶠ {n ⋆-⧜ n₁} f = {!!}
-  map-⨆ᶠ {◌-⋆List} f = {!!}
+  map-⨆ᶠ {◌-⧜} f = {!!}
 
   instance
     isFunctor:⨆ᶠ : ∀{n} -> isFunctor (𝐈𝐱 [ n ]ᶠ 𝒞) 𝒞 ⨆ᶠ

@@ -152,7 +152,7 @@ module _ {K : Kinding 𝑖} {{_ : isMetaTermCalculus 𝑖 K}} where
           mfam (suc zero) = incl (incl b) , y , (f₁ , g₁)
 
     -- if the domain is empty, we reached a base case
-    ∂-𝐏𝐚𝐭 {incl (incl ◌-⋆List)} {y} (f , g) = left ({!!})
+    ∂-𝐏𝐚𝐭 {incl (incl ◌-⧜)} {y} (f , g) = left ({!!})
 
     -- if the domain is a singleton, we look at the values of f and g at this singleton
     ∂-𝐏𝐚𝐭 {incl (incl (incl x))} {y} (f , g) with (⟨ f ⟩ x incl) in fp | (⟨ g ⟩ x incl) in gp

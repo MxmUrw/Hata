@@ -156,8 +156,8 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
   mutual
     constructTerms : ∀{n} {Γ : CtxHom (Term₁-𝕋× (Sort×Theory 𝒯)) n ◌}
                     -> {fst₁ : List (Sort 𝒯)}
-                    -> {vs : Vec (⟨ F× 𝒯 n ⟩ (incl ◌-⋆List)) (length fst₁)}
-                    -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌-⋆List)) vs
+                    -> {vs : Vec (⟨ F× 𝒯 n ⟩ (incl ◌-⧜)) (length fst₁)}
+                    -> DVec (ANVecTree _ _ (ℬ× 𝒯) (F× 𝒯 n) (incl ◌-⧜)) vs
                     -> isSameCtx Γ fst₁ vs
                     -> CtxHom (Term₁-𝕋× 𝒯) (ι-⋆List fst₁) (map-⋆List (makeSort 𝒯) (asList Γ))
     constructTerms {fst₁ = ⦋⦌} [] P = ◌-⧜

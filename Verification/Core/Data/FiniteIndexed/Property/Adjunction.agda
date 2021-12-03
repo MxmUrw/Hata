@@ -79,7 +79,7 @@ module _ {I J : 𝒰 𝑖} (f : I -> J) where
   refree-𝐅𝐢𝐧𝐈𝐱 {incl (incl x)} g .(f x) incl = g x incl
   refree-𝐅𝐢𝐧𝐈𝐱 {incl (a ⋆-⧜ b)} g i (right-∍ p) = refree-𝐅𝐢𝐧𝐈𝐱 {a = incl b} ((λ _ -> right-∍) ◆ g) i p
   refree-𝐅𝐢𝐧𝐈𝐱 {incl (a ⋆-⧜ b)} g i (left-∍ p)  = refree-𝐅𝐢𝐧𝐈𝐱 {a = incl a} ((λ _ -> left-∍) ◆ g) i p
-  refree-𝐅𝐢𝐧𝐈𝐱 {incl ◌-⋆List} g i ()
+  refree-𝐅𝐢𝐧𝐈𝐱 {incl ◌-⧜} g i ()
 
   recofree-𝐅𝐢𝐧𝐈𝐱 : ∀{a : 𝐅𝐢𝐧𝐈𝐱 I} {b : 𝐈𝐱 J (𝐔𝐧𝐢𝐯 𝑖)} -> ix! f a ⟶ b -> ι a ⟶ (ix* f b)
   recofree-𝐅𝐢𝐧𝐈𝐱 {a} g i x = g (f i) (map-∍ f x)

@@ -247,10 +247,10 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
         dKind : (Vertex t) -> 𝒰 _
         dKind v = Term₁-𝕋× 𝒯 (map-⋆List makeSort (asList (π₀-⋆-⧜ σ))) (makeSort (getRet σ))
           where
-            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⋆List)
+            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⧜)
             σ = ⟨ ann (just v) (_ , left-∍ incl) ⟩
 
-        dTermType : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⋆List) -> 𝒰 _
+        dTermType : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⧜) -> 𝒰 _
         dTermType σ = Term₁-𝕋× 𝒯 (map-⋆List makeSort (getCtx σ)) (makeSort (getRet σ))
 
 
@@ -288,7 +288,7 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
         dType (var x , p) (varType i f (contextHasVar q)) = var (map-∍ makeSort (atasList' (π₀-⋆-⧜ σ) i q))
           where
-            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⋆List)
+            σ : Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (n ⋆-⧜ incl tt)) (incl ◌-⧜)
             σ = ⟨ ann (just (var x , p)) (_ , left-∍ incl) ⟩
 
         -- dType : (s : VecTree (UntypedCon 𝒯) ([ n ]ᶠ) l')

@@ -39,11 +39,9 @@ data ⋆List (A : 𝒰 𝑖) : 𝒰 𝑖 where
 -- //
 
 -- [Hide]
-pattern _⋆-⧜_ a b = a ⋆-⧜ b
-pattern ◌-⋆List = ◌-⧜
 
 {-# DISPLAY _⋆-⧜_ a b = a ⋆ b #-}
-{-# DISPLAY ◌-⋆List = ◌ #-}
+{-# DISPLAY ◌-⧜ = ◌ #-}
 
 
 macro
@@ -57,8 +55,8 @@ module _ {A : 𝒰 𝑖} where
 
   infix 10 _∼-⋆List_
   data _∼-⋆List_ : (a b : ⋆List A) -> 𝒰 𝑖 where
-    unit-l-⋆-⧜  : ∀{a} -> ◌-⋆List ⋆-⧜ a ∼-⋆List a
-    unit-r-⋆-⧜  : ∀{a} -> a ⋆-⧜ ◌-⋆List ∼-⋆List a
+    unit-l-⋆-⧜  : ∀{a} -> ◌-⧜ ⋆-⧜ a ∼-⋆List a
+    unit-r-⋆-⧜  : ∀{a} -> a ⋆-⧜ ◌-⧜ ∼-⋆List a
     assoc-l-⋆-⧜ : ∀{a b c} -> (a ⋆-⧜ b) ⋆-⧜ c ∼-⋆List a ⋆-⧜ (b ⋆-⧜ c)
     cong-l-⋆-⧜  : ∀{a b c} -> (a ∼-⋆List b) -> (a ⋆-⧜ c ∼-⋆List b ⋆-⧜ c)
     cong-r-⋆-⧜  : ∀{a b c} -> (b ∼-⋆List c) -> (a ⋆-⧜ b ∼-⋆List a ⋆-⧜ c)
@@ -83,7 +81,7 @@ module _ {A : 𝒰 𝑖} where
     isMonoid:⋆List : isMonoid (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A)
     isMonoid:⋆List = record
                           { _⋆_        = _⋆-⧜_
-                          ; ◌          = ◌-⋆List
+                          ; ◌          = ◌-⧜
                           ; unit-l-⋆   = incl unit-l-⋆-⧜
                           ; unit-r-⋆   = incl unit-r-⋆-⧜
                           ; assoc-l-⋆  = incl assoc-l-⋆-⧜
@@ -163,7 +161,7 @@ module _ {A : 𝒰 𝑖} where
   ♮-⋆List : ⋆List A -> List A
   ♮-⋆List (incl x) = x ∷ []
   ♮-⋆List (a ⋆-⧜ b) = ♮-⋆List a ⋆ ♮-⋆List b
-  ♮-⋆List ◌-⋆List = ⦋⦌
+  ♮-⋆List ◌-⧜ = ⦋⦌
 
   instance
     hasNormalization:⋆List,List : hasNormalization (⋆List A) (List A)
@@ -172,7 +170,7 @@ module _ {A : 𝒰 𝑖} where
   surj-♮-⋆List : ∀{a : ⋆List A} -> ι (♮ a) ∼ a
   surj-♮-⋆List {incl x} = unit-r-⋆
   surj-♮-⋆List {a ⋆-⧜ a₁} = pres-⋆-ι-⋆List ∙ surj-♮-⋆List ≀⋆≀ surj-♮-⋆List
-  surj-♮-⋆List {◌-⋆List} = refl
+  surj-♮-⋆List {◌-⧜} = refl
 
   injective-♮-⋆List : ∀{a b : ⋆List A} -> ♮ a ≡ ♮ b -> a ∼ b
   injective-♮-⋆List p = surj-♮-⋆List ⁻¹ ∙ ≡→∼ (cong ι p) ∙ surj-♮-⋆List
@@ -184,7 +182,7 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
   rec-⋆List : (f : A -> B) -> ⋆List A -> B
   rec-⋆List f (incl x)           = f x
   rec-⋆List f (a ⋆-⧜ b)  = rec-⋆List f a ⋆ rec-⋆List f b
-  rec-⋆List f ◌-⋆List        = ◌
+  rec-⋆List f ◌-⧜        = ◌
 
   instance
     Notation:hasRec:⋆List : Notation:hasRec (A -> B) (⋆List A -> B)
@@ -194,7 +192,7 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
   map-⋆List : (A -> B) -> ⋆List A -> ⋆List B
   map-⋆List f (incl x) = incl (f x)
   map-⋆List f (as ⋆-⧜ bs) = map-⋆List f as ⋆-⧜ map-⋆List f bs
-  map-⋆List f ◌-⋆List = ◌-⧜
+  map-⋆List f ◌-⧜ = ◌-⧜
 
 
 instance
@@ -232,6 +230,6 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
                                          }
   ... | left ¬xs∍x | just ys∍x = just (right-∍ ys∍x)
   ... | just xs∍x | Y = right (left-∍ xs∍x)
-  find-first-∍ ◌-⋆List x = left λ ()
+  find-first-∍ ◌-⧜ x = left λ ()
 
 -- //

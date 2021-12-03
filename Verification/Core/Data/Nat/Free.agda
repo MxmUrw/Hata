@@ -91,7 +91,7 @@ private
           a ⋆ (b ⋆ incl t) ⟨ assoc-r-⋆ ⟩-∼
           a ⋆ b ⋆ incl t   ∎
 
-  lem-1 {◌-⋆List} {t} = unit-r-⋆ ∙ unit-l-⋆ ⁻¹
+  lem-1 {◌-⧜} {t} = unit-r-⋆ ∙ unit-l-⋆ ⁻¹
 
 comm-⋆-人ℕ : ∀{a b : 人ℕ} -> (a ⋆ b) ∼ b ⋆ a
 comm-⋆-人ℕ {incl x} {b} = lem-1
@@ -104,7 +104,7 @@ comm-⋆-人ℕ {a ⋆-⧜ b} {c} = p ⁻¹
         a ⋆ (c ⋆ b) ⟨ refl ≀⋆≀ comm-⋆-人ℕ ⟩-∼
         a ⋆ (b ⋆ c) ⟨ assoc-r-⋆ ⟩-∼
         a ⋆ b ⋆ c   ∎
-comm-⋆-人ℕ {◌-⋆List} {b} = unit-l-⋆ ∙ unit-r-⋆ ⁻¹
+comm-⋆-人ℕ {◌-⧜} {b} = unit-l-⋆ ∙ unit-r-⋆ ⁻¹
 
 instance
   isCommutative:人ℕ : isCommutative 人ℕ
