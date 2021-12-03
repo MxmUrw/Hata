@@ -28,16 +28,11 @@ record isMonoid {𝑗 : 𝔏 ^ 2} (A : Setoid 𝑗) : 𝒰 (𝑗) where
   --      with the equivalence relation.
         _≀⋆≀_ : ∀{a₀ a₁ b₀ b₁} -> a₀ ∼ a₁ -> b₀ ∼ b₁ -> a₀ ⋆ b₀ ∼ a₁ ⋆ b₁
 
-  -- | We further write [] [..] and [..].
+  -- | We further write [] [..].
   assoc-r-⋆ : ∀{a b c} -> a ⋆ (b ⋆ c) ∼ (a ⋆ b) ⋆ c
   assoc-r-⋆ = assoc-l-⋆ ⁻¹
-  _≀⋆≀_ = _≀⋆≀_
 
-
-
-
-
-  infixl 50 _⋆_ _≀⋆≀_ _≀⋆≀_
+  infixl 50 _⋆_ _≀⋆≀_
 open isMonoid {{...}} public
 
 -- //

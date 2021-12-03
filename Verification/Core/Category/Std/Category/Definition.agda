@@ -22,11 +22,14 @@ open import Verification.Core.Set.Setoid
 --
 -- We also copy other 'tricks' of_ them, as, e.g. requiring left and right associativity proof_s, and an id ◆ id ∼ id proof_.
 
+-- [Hide]
 record Hom-Base {𝑖 𝑗 : 𝔏} {A : 𝒰 𝑖} (Hom : A -> A -> 𝒰 𝑗) (a : A) (b : A) : 𝒰 (𝑗) where
   constructor incl
   field ⟨_⟩ : Hom a b
   -- incl : R a b -> Hom-Base R a b -- a ∼[ R ] b
 open Hom-Base public
+
+-- //
 
 -- [Definition]
 -- | Given a type $𝒞$, whose elements we are going to call /objects/, we say that it has the structure of a category [...] if
@@ -59,17 +62,11 @@ record isCategory {𝑗 : 𝔏 ^ 2} {𝑖 : 𝔏} (𝒞 : 𝒰 𝑖) : 𝒰 ((�
         assoc-r-◆         : ∀{a b c d : 𝒞} -> ∀{f : Hom a b} -> ∀{g : Hom b c} -> ∀{h : Hom c d} -> f ◆ (g ◆ h) ∼ (f ◆ g) ◆ h
 -- | 7. A proof that composition is compatible with the equivalence relation.
         _◈_               : ∀{a b c : 𝒞} -> ∀{f g : Hom a b} -> ∀{h i : Hom b c} -> f ∼ g -> h ∼ i -> f ◆ h ∼ g ◆ i
--- //
-  -- instance
-  --   isEquivRel:∼-Cat : ∀{a b : 𝒞} -> isEquivRel (λ (f g : Hom a b) -> f ∼ g)
-  --   isEquivRel:∼-Cat = isEquivRel:∼
 
 open isCategory ⦃...⦄ public
 
--- module _ {𝑖 : 𝔏} {𝑗 : 𝔏 ^ 2} {𝒞 : 𝒰 𝑖} {{_ : isCategory 𝑗 𝒞}} where
---   instance
---     isEquivRel:∼-Cat : ∀{a b : 𝒞} -> isEquivRel (λ (f g : Hom a b) -> f ∼ g)
---     isEquivRel:∼-Cat = isEquivRel:∼
+-- //
+
 
 Category : (𝑗 : 𝔏 ^ 3) -> 𝒰 _
 Category 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isCategory {𝑗 ⌄ 1 ⋯ 2}
@@ -84,6 +81,9 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} (a b : 𝒞) where
   macro _⟶_ = #structureOn (Hom a b)
 
 -- //
+
+
+-- [Hide]
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   idOn : (a : 𝒞) -> a ⟶ a
@@ -102,12 +102,12 @@ isSetoid:Hom-Base : {A : 𝒰 𝑖} {Hom : A -> A -> 𝒰 𝑗} -> ∀{a b}
 isSetoid._∼'_ (isSetoid:Hom-Base {{P}}) f g = _∼'_ {{P}} ⟨ f ⟩ ⟨ g ⟩
 isSetoid.isEquivRel:∼ isSetoid:Hom-Base = {!!}
 
--- [Hide]
--- | A small category is one where all objects, arrows, and equivalence relations live in $𝒰₀$
--- SmallCategory = Category (ℓ₀ , ℓ₀ , ℓ₀)
--- ISmallCategory : (𝒞 : 𝒰₀) -> 𝒰₁
--- ISmallCategory 𝒞 = isCategory (ℓ₀ , ℓ₀) 𝒞
--- //
+-- a[Hide]
+-- a| A small category is one where all objects, arrows, and equivalence relations live in $𝒰₀$
+-- aSmallCategory = Category (ℓ₀ , ℓ₀ , ℓ₀)
+-- aISmallCategory : (𝒞 : 𝒰₀) -> 𝒰₁
+-- aISmallCategory 𝒞 = isCategory (ℓ₀ , ℓ₀) 𝒞
+-- a//
 -}
 
 record Hom' {𝒞 : Category 𝑖} (a b : ⟨ 𝒞 ⟩) : 𝒰 (𝑖 ⌄ 1) where
@@ -151,6 +151,6 @@ module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   data isId : ∀{a b : 𝒞} (f : a ⟶ b) -> 𝒰 (𝑖 ､ 𝑗) where
     incl : ∀{a : 𝒞} {f : a ⟶ a} -> f ∼ id -> isId {a} {a} f
 
-
+-- //
 
 

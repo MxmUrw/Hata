@@ -77,3 +77,12 @@ module _ {A : 𝒰 𝑖} where
 
 
 
+-- [Hide]
+
+module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
+  ≡→∼ : ∀{a b : A} -> a ≡ b -> a ∼ b
+  ≡→∼ {a} p = transport (λ i -> a ∼ p i) refl
+
+-- //
+
+

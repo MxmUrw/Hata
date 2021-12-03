@@ -31,28 +31,26 @@ agdaPublishProjects:
       documentType: SCReport
       documentDate: ""
       documentFilesAndHeadings:
-      - = Theoretical foundations
-      - == Basics
-      - === Setoids
+      - = Logical foundations
+      - == Setoids
       - Conventions/Prelude/Classes/Setoid.agda
-      - === Monoids
+      - == Monoids
       - Core/Algebra/Monoid/Definition.agda
-      # - == Data types
-      # - === Basics
-      # - === Lists
-      # - Core/Algebra/Monoid/Free/Definition.agda
-      # - == Categories
-      # - Core/Category/Std/Category/Definition.agda
-      # - "=== Example: Types"
-      # - Core/Data/Universe/Instance/Category.agda
-      # - "=== Example: Indexed Types"
-      # - == Functors
-      # - Core/Category/Std/Functor/Definition.agda
-      # - "=== Example: List"
-      # - Core/Data/List/Instance/Functor.agda
-      # - == Special arrows
-      # - Core/Category/Std/Morphism/Iso/Definition.agda
-      # - Core/Category/Std/Morphism/Epi/Definition.agda
+      - "=== Example: List"
+      - Core/Data/List/Instance/Monoid.agda
+      - "=== Example: Free Monoid"
+      - Core/Algebra/Monoid/Free/Definition.agda
+      - = Category theory
+      - == Categories
+      - Core/Category/Std/Category/Definition.agda
+      - Core/Data/Universe/Instance/Category.agda
+      - Core/Data/Indexed/Definition.agda
+      - == Morphisms in categories
+      - Core/Category/Std/Morphism/Iso/Definition.agda
+      - Core/Category/Std/Morphism/Epi/Definition.agda
+      - == Functors
+      - Core/Category/Std/Functor/Definition.agda
+      - Core/Data/List/Instance/Functor.agda
       # - == Colimits
       # - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
       # - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda

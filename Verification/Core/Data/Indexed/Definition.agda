@@ -13,13 +13,17 @@ open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Everything
 
-
+-- [Definition]
+-- | An object is simply.
 record Indexed (I : 𝒰 𝑖) (A : Category 𝑗) : 𝒰 (𝑖 ⊔ 𝑗 ⌄ 0) where
   constructor indexed
   field ix : I -> ⟨ A ⟩
 
 open Indexed public
 
+-- //
+
+-- [Hide]
 module _ (I : 𝒰 𝑖) (A : Category 𝑗) where
   macro
     𝐈𝐱 : SomeStructure
@@ -56,12 +60,16 @@ module _ {I : 𝒰 𝑖} {A' : 𝒰 𝑗} {{_ : isCategory {𝑘} A'}} where
   _◆-𝐈𝐱_ : ∀{a b c : Indexed I A} -> (f : IndexedHom a b) -> (g : IndexedHom b c) -> IndexedHom a c
   _◆-𝐈𝐱_ f g = λ i -> f i ◆ g i
 
+  -- //
+
+-- [Example]
+-- | The indexed objects form a category in the following way.
   instance
     isCategory:Indexed : isCategory (Indexed I A)
-    isCategory.Hom isCategory:Indexed          = IndexedHom -- λ F G -> ∀{i} -> ix F i ⟶ ix G i
+    isCategory.Hom isCategory:Indexed          = IndexedHom
     isCategory.isSetoid:Hom isCategory:Indexed = it
     isCategory.id isCategory:Indexed           = λ i -> id
-    isCategory._◆_ isCategory:Indexed          = _◆-𝐈𝐱_ -- λ f g {i} -> f ◆ g
+    isCategory._◆_ isCategory:Indexed          = _◆-𝐈𝐱_
     isCategory.unit-l-◆ isCategory:Indexed     = λ _ -> unit-l-◆
     isCategory.unit-r-◆ isCategory:Indexed     = λ _ -> unit-r-◆
     isCategory.unit-2-◆ isCategory:Indexed     = λ _ -> unit-2-◆
@@ -69,10 +77,14 @@ module _ {I : 𝒰 𝑖} {A' : 𝒰 𝑗} {{_ : isCategory {𝑘} A'}} where
     isCategory.assoc-r-◆ isCategory:Indexed    = λ _ -> assoc-r-◆
     isCategory._◈_ isCategory:Indexed          = {!!}
 
+-- //
+
+-- [Hide]
   instance
     isSetoid:𝐈𝐱 : isSetoid (𝐈𝐱 I A)
     isSetoid:𝐈𝐱 = isSetoid:byCategory
 
+-- //
 
 -- module _ {I : 𝒰 𝑖} {A : Category 𝑗} where
 

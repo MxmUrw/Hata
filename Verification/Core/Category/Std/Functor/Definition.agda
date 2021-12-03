@@ -8,7 +8,6 @@ open import Verification.Core.Category.Std.Category.Definition
 
 
 
-
 --------------------------------------------------------------------------------
 -- Functors
 
@@ -33,20 +32,19 @@ module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where
           -- | - A proof that |map| respects composition.
           functoriality-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> ∀{f : Hom a b} -> ∀{g : Hom b c} -> map (f ◆ g) ∼ (map f) ◆ (map g)
 
--- //
+  open isFunctor {{...}} public
+  -- //
 
-
+  -- [Hide]
   Functor : 𝒰 _
   Functor = (⟨ 𝒞 ⟩ -> ⟨ 𝒟 ⟩) :& isFunctor
+  -- //
 
-open isFunctor {{...}} public
-
-
+-- [Hide]
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
   mapOf : (F : Functor 𝒞 𝒟) -> ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> ⟨ F ⟩ a ⟶ ⟨ F ⟩ b
   mapOf F f = map f
 
 EndoFunctor : Category 𝑖 -> _
 EndoFunctor 𝒞 = Functor 𝒞 𝒞
-
-
+-- //

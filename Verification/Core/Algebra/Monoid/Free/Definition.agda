@@ -18,34 +18,25 @@ open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Set.Contradiction
 
 
-module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
-  ≡→∼ : ∀{a b : A} -> a ≡ b -> a ∼ b
-  ≡→∼ {a} p = transport (λ i -> a ∼ p i) refl
-
-
-pattern ⦋⦌ = []
--- pattern ⦋_⦌ a = a ∷ []
-pattern ⦋_،_⦌ a b = a ∷ b ∷ []
-pattern ⦋_،_،_⦌ a b c = a ∷ b ∷ c ∷ []
-pattern ⦋_،_،_،_⦌ a b c d = a ∷ b ∷ c ∷ d ∷ []
-pattern ⦋_،_،_،_،_⦌ a b c d e = a ∷ b ∷ c ∷ d ∷ e ∷ []
-
-
-
--- cong₂-Str : ∀{A : 𝒰 𝑖} {B : 𝒰 𝑗} {C : 𝒰 𝑘} -> (f : A -> B -> C) -> {a1 a2 : A} -> {b1 b2 : B} -> (p : a1 ≣ a2) -> (q : b1 ≣ b2) -> f a1 b1 ≣ f a2 b2
--- cong₂-Str f refl-≣ refl-≣ = refl-≣
-
-
-
 
 ----------------------------------------------------------
 -- The free encoding
 
+-- [Definition]
+-- | The type [..] is defined as a data type with the following
+-- constructors:
 data Free-𝐌𝐨𝐧 (A : 𝒰 𝑖) : 𝒰 𝑖 where
+  -- | - An inclusion [..].
   incl : A -> Free-𝐌𝐨𝐧 A
-  _⋆-⧜_ : (a b : Free-𝐌𝐨𝐧 A) -> Free-𝐌𝐨𝐧 A
-  ◌-⧜ : Free-𝐌𝐨𝐧 A
 
+  -- | - Free multiplication [..].
+  _⋆-⧜_ : (a b : Free-𝐌𝐨𝐧 A) -> Free-𝐌𝐨𝐧 A
+
+  -- | - Free unit [..].
+  ◌-⧜ : Free-𝐌𝐨𝐧 A
+-- //
+
+-- [Hide]
 pattern _⋆-Free-𝐌𝐨𝐧_ a b = a ⋆-⧜ b
 pattern ◌-Free-𝐌𝐨𝐧 = ◌-⧜
 
@@ -153,23 +144,6 @@ module _ {A : 𝒰 𝑖} where
         ... | yes p = yes (≡→≡-Str p)
         ... | no ¬p = no (λ q -> ¬p (≡-Str→≡ q))
 
-
-        -- f : ∀{as bs a b} -> (ps : as ≣ bs) -> (p : a ≣ b) -> (x : as ∍ a) -> (y : bs ∍ b) -> Decision (PathP (λ i -> ≡-Str→≡ ps i ∍ ≡-Str→≡ p i) x y)
-        -- f ps p incl incl = yes {!!}
-        -- f ps p incl (right-∍ y) = {!!}
-        -- f ps p incl (left-∍ y) = {!!}
-        -- f ps p (right-∍ x) y = {!!}
-        -- f ps p (left-∍ x) y = {!!}
-
-
-        -- f : ∀{as bs a b} -> (ps : as ≡ bs) -> (p : a ≡ b) -> (x : as ∍ a) -> (y : bs ∍ b) -> Decision (PathP (λ i -> ps i ∍ p i) x y)
-        -- f ps p incl incl = yes {!!}
-        -- f ps p incl (right-∍ y) = {!!}
-        -- f ps p incl (left-∍ y) = {!!}
-        -- f ps p (right-∍ x) y = {!!}
-        -- f ps p (left-∍ x) y = {!!}
-
-
   -- the inclusion from lists
   ι-Free-𝐌𝐨𝐧 : List A -> Free-𝐌𝐨𝐧 A
   ι-Free-𝐌𝐨𝐧 ⦋⦌ = ◌
@@ -258,3 +232,4 @@ module _ {A : 𝒰 𝑖} {{_ : isDiscrete A}} where
   ... | just xs∍x | Y = right (left-∍ xs∍x)
   find-first-∍ ◌-Free-𝐌𝐨𝐧 x = left λ ()
 
+-- //

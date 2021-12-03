@@ -10,20 +10,29 @@ open import Verification.Core.Category.Std.Functor.Faithful
 open import Verification.Core.Category.Std.Functor.Full
 
 
+-- | Let [..] [] be a category.
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
+  -- [Definition]
+  -- | An arrow |f : a ⟶ b| in |𝒞| is called an /isomorphism/,
+  -- | if the following data is given.
   record isIso {a b : 𝒞} (f : Hom' {𝒞 = ′ 𝒞 ′} a b) : 𝒰 (𝑖 ､ 𝑗) where
+  -- | 1. An inverse map [..].
     field inverse-◆ : b ⟶ a
+  -- | 2. Proofs that it really is a left and right sided inverse.
           inv-r-◆ : ⟨ f ⟩ ◆ inverse-◆ ∼ id
           inv-l-◆ : inverse-◆ ◆ ⟨ f ⟩ ∼ id
   open isIso public
 
+  -- //
+
+  -- [Hide]
   _≅_ : (a b : 𝒞) -> 𝒰 (𝑖 ､ 𝑗)
   A ≅ B = Hom' A B :& isIso
 
   instance
     isSetoid:≅ : ∀{a b : 𝒞} -> isSetoid (a ≅ b)
-    isSetoid:≅ = isSetoid:∼-Base (setoid (λ p q -> ⟨ p ⟩ ∼ ⟨ q ⟩) refl sym _∙_)
+    isSetoid:≅ = isSetoid:∼-Base (isSetoid:byDef (λ p q -> ⟨ p ⟩ ∼ ⟨ q ⟩) refl sym _∙_)
 
   private
     lem-10 : ∀{A : 𝒞} -> isIso (hom (id {a = A}))
@@ -59,7 +68,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   ⟨_⟩⁻¹ f = inverse-◆ (of f)
 
 
-
+-- //
 
 
 
