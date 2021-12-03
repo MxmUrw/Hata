@@ -43,7 +43,7 @@ module §2-isTypedℒHM where
         -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ τ) te
   prop-1 {μs = μs} {Q = Q} {R} {Γ} σs (var k∍i ψ {α} p) = var k∍i ϕ lem-5
     where
-      ϕ : lookup-DList Q k∍i ⟶ μs
+      ϕ : lookup-Listᴰ Q k∍i ⟶ μs
       ϕ = lookup-ℒHMQuantMap σs k∍i ◆ ⦗ id , ψ ⦘
 
       lem-3 : ⦗ id , lookup-ℒHMQuantMap σs k∍i ◆ ⦗ id , ψ ⦘ ⦘ ∼ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ◆ ⦗ id , ψ ⦘
@@ -51,17 +51,17 @@ module §2-isTypedℒHM where
               ⦗ ι₀ ◆ ⦗ id , ψ ⦘ , lookup-ℒHMQuantMap σs k∍i ◆ ⦗ id , ψ ⦘ ⦘     ⟨ append-⦗⦘ ⁻¹ ⟩-∼
               ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ◆ ⦗ id , ψ ⦘    ∎
 
-      lem-4 : lookup-DDList Γ k∍i ⇃[ ⦗ id , ϕ ⦘ ]⇂
-              ≡ lookup-DDList (apply-ℒHMQuantMap σs Γ) k∍i ⇃[ ⦗ id , ψ ⦘ ]⇂
-      lem-4 = lookup-DDList Γ k∍i ⇃[ ⦗ id , ϕ ⦘ ]⇂    ⟨ lookup-DDList Γ k∍i ⇃[≀ lem-3 ≀]⇂ ⟩-≡
-              lookup-DDList Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ◆ ⦗ id , ψ ⦘ ]⇂
+      lem-4 : lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , ϕ ⦘ ]⇂
+              ≡ lookup-Listᴰ² (apply-ℒHMQuantMap σs Γ) k∍i ⇃[ ⦗ id , ψ ⦘ ]⇂
+      lem-4 = lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , ϕ ⦘ ]⇂    ⟨ lookup-Listᴰ² Γ k∍i ⇃[≀ lem-3 ≀]⇂ ⟩-≡
+              lookup-Listᴰ² Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ◆ ⦗ id , ψ ⦘ ]⇂
 
-              ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = lookup-DDList Γ k∍i} {f = ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘} {g = ⦗ id , ψ ⦘}) ⟩-≡
+              ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = lookup-Listᴰ² Γ k∍i} {f = ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘} {g = ⦗ id , ψ ⦘}) ⟩-≡
 
-              lookup-DDList Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ]⇂ ⇃[ ⦗ id , ψ ⦘ ]⇂    ⟨ cong _⇃[ ⦗ id , ψ ⦘ ]⇂ (§-ℒHMQuantMap.prop-2 σs Γ k∍i) ⟩-≡
-              lookup-DDList (apply-ℒHMQuantMap σs Γ) k∍i                  ⇃[ ⦗ id , ψ ⦘ ]⇂      ∎-≡
+              lookup-Listᴰ² Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ]⇂ ⇃[ ⦗ id , ψ ⦘ ]⇂    ⟨ cong _⇃[ ⦗ id , ψ ⦘ ]⇂ (§-ℒHMQuantMap.prop-2 σs Γ k∍i) ⟩-≡
+              lookup-Listᴰ² (apply-ℒHMQuantMap σs Γ) k∍i                  ⇃[ ⦗ id , ψ ⦘ ]⇂      ∎-≡
 
-      lem-5 : lookup-DDList Γ k∍i ⇃[ ⦗ id , ϕ ⦘ ]⇂ ≡ α
+      lem-5 : lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , ϕ ⦘ ]⇂ ≡ α
       lem-5 = trans-Path lem-4 p
 
 

@@ -22,7 +22,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Untype
 
 record 人Vecᵖ (A : 𝒰 𝑖) (n : 人ℕ) : 𝒰 𝑖 where
   constructor vecᵖ
-  field ⟨_⟩ : 人List A
+  field ⟨_⟩ : ⋆List A
   field hasSize : map-⋆List (const tt) ⟨_⟩ ≡ n
 
 open 人Vecᵖ public
@@ -37,17 +37,17 @@ get-∍-人Vecᵖ = {!!}
 
 
 module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
-  size-D人List : ∀{m} -> D人List F m -> 人List A
-  size-D人List {m} _ = m
+  size-⋆Listᴰ : ∀{m} -> ⋆Listᴰ F m -> ⋆List A
+  size-⋆Listᴰ {m} _ = m
 
 module _ (m : ℒHMTypes) (n : 人ℕ) where
-  ℒHMCtx' = D人List (const (ℒHMPolyType m)) n
+  ℒHMCtx' = ⋆Listᴰ (const (ℒHMPolyType m)) n
 
 record ℒHMJudgementᵈ : 𝒰₀ where
   constructor _⊢_
   field {metavars} : ℒHMTypes
   field {contextsize} : 人ℕ
-  field context : D人List (const (ℒHMPolyType metavars)) contextsize
+  field context : ⋆Listᴰ (const (ℒHMPolyType metavars)) contextsize
   -- ℒHMCtx' metavars
   field type : ℒHMPolyType metavars
 

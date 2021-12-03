@@ -51,10 +51,10 @@ module _ {K : 𝒰 𝑖} {L : 𝒰 𝑗} {{_ : isDiscrete L}} where
   shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 : List L -> Functor (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L) (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)
   shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 x = map-⨊ᵒᵖ' ′ shiftₗ-𝑚𝑢𝑙𝑡𝑖𝑟𝑒𝑛 x ′
 
-  shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧' : ∀(as : 人List (List L)) -> Functor (𝐈𝐱 [ as ]ᶠ (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)) (𝐈𝐱 [ as ]ᶠ (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L))
+  shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧' : ∀(as : ⋆List (List L)) -> Functor (𝐈𝐱 [ as ]ᶠ (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)) (𝐈𝐱 [ as ]ᶠ (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L))
   shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧' (as) = liftFunctor-𝐈𝐱 (λ (a , p) → shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 a)
 
-  分 : ∀(as : 人List (List L)) -> Functor (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L) (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)
+  分 : ∀(as : ⋆List (List L)) -> Functor (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L) (𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧 K L)
   分 as = (写 ◆-𝐂𝐚𝐭 shiftₗ-𝐌𝐮𝐥𝐭𝐢𝐑𝐞𝐧' as) ◆-𝐂𝐚𝐭 ⨆ᶠ
 
 

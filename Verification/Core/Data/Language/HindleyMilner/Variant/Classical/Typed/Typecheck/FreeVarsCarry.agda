@@ -70,8 +70,8 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
      (InitialCtxTypingInstance Γ te)
 γ {μs} {k} {Q} Γ (var k∍i) = {!!}
 {-
-  let vα = lookup-DList Q k∍i
-      α = lookup-DDList Γ k∍i
+  let vα = lookup-Listᴰ Q k∍i
+      α = lookup-Listᴰ² Γ k∍i
       σᵤ₀ : μs ⟶ μs ⊔ vα
       σᵤ₀ = ι₀
 
@@ -117,27 +117,27 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
                               α ⇃[ id ]⇂           ⟨ functoriality-id-⇃[]⇂ {τ = α} ⟩-≡
                               α                    ∎-≡
 
-                    lem-12 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-12 : α₀ ⇃[ σ₀₁ ]⇂ ≡ lookup-Listᴰ² Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
                     lem-12 = α ⇃[ id ⇃⊔⇂ id ]⇂ ⇃[ σ₀₁ ]⇂     ⟨ cong _⇃[ σ₀₁ ]⇂ lem-11 ⟩-≡
-                              lookup-DDList Γ k∍i ⇃[ ⦗ σᵤ₁ , ρ ◆ ι₁ ⦘ ]⇂  ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i σᵤ₁ (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ ⇃[ σᵤ₁ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                              lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σᵤ₁ , ρ ◆ ι₁ ⦘ ]⇂  ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i σᵤ₁ (ρ ◆ ι₁)) ⟩-≡
+                              lookup-Listᴰ² (Γ ⇃[ σᵤ₁ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
 
-                              ⟨ (λ i -> lookup-DDList (Γ<Γ₁ .snd i ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
+                              ⟨ (λ i -> lookup-Listᴰ² (Γ<Γ₁ .snd i ) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
 
-                              lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                     ∎-≡
+                              lookup-Listᴰ² Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                     ∎-≡
 
 
                     lem-15 : Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor ≡ Γ₁
                     lem-15 = Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor  ⟨ Γ₁' ⇃[≀ unit-l-◆ ≀]⇂-CtxFor ⟩-≡
                              Γ₁' ⇃[ ι₀ ]⇂-CtxFor       ∎-≡
 
-                    lem-16 : α₁ ≡ lookup-DDList Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
-                    lem-16 = lookup-DDList Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ₁'} k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
-                              lookup-DDList (Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-16 : α₁ ≡ lookup-Listᴰ² Γ₁ k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
+                    lem-16 = lookup-Listᴰ² Γ₁' k∍i ⇃[ ⦗ id ◆ ι₀ , ρ ◆ ι₁ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ₁'} k∍i (id ◆ ι₀) (ρ ◆ ι₁)) ⟩-≡
+                              lookup-Listᴰ² (Γ₁' ⇃[ id ◆ ι₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂
 
-                              ⟨ (λ i -> lookup-DDList (lem-15 i) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
+                              ⟨ (λ i -> lookup-Listᴰ² (lem-15 i) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂) ⟩-≡
 
-                              lookup-DDList (Γ₁) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                       ∎-≡
+                              lookup-Listᴰ² (Γ₁) k∍i ⇃[ ⦗ id , ρ ◆ ι₁ ⦘ ]⇂                       ∎-≡
 
                     lem-20 : α₀ ⇃[ σ₀₁ ]⇂ ≡ α₁
                     lem-20 = trans-Path lem-12 (sym-Path lem-16)
@@ -198,10 +198,10 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             isAbstr₀,₂ = transport (λ i -> isAbstr νs₁ₓ Γ₀ (Γ₁₂ i) τ₀ (τ₁₂ i)) isAbstr₀,₁'
               where
                 Γ₁₂ : Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor ≡ Γ₂
-                Γ₁₂ = λ i -> split-DDList (τ₁Γ₁<τ₂Γ₂ .snd i) .snd
+                Γ₁₂ = λ i -> split-Listᴰ² (τ₁Γ₁<τ₂Γ₂ .snd i) .snd
 
                 τ₁₂ : τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ τ₂
-                τ₁₂ = λ i -> split-DDList (τ₁Γ₁<τ₂Γ₂ .snd i) .fst
+                τ₁₂ = λ i -> split-Listᴰ² (τ₁Γ₁<τ₂Γ₂ .snd i) .fst
 
             Γ₂⊢α₂ : isTypedℒHM (νs₂ ⊩ (_ , Γ₂) ⊢ α₂) (slet te se)
             Γ₂⊢α₂ = slet isAbstr₀,₂ Γ₀⊢τ₀ τ₂Γ₂⊢α₂
@@ -653,7 +653,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
 
         lem-1 : Γ ⇃[ σᵤ₁ ]⇂-CtxFor ≡ Γ₁
         lem-1 = Γ ⇃[ σᵤ₁ ]⇂-CtxFor                  ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ} {f = σ₀} {σ₀₁}) ⟩-≡
-                Γ ⇃[ σ₀ ]⇂-CtxFor ⇃[ σ₀₁ ]⇂-CtxFor  ⟨ (λ i -> split-DDList (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
+                Γ ⇃[ σ₀ ]⇂-CtxFor ⇃[ σ₀₁ ]⇂-CtxFor  ⟨ (λ i -> split-Listᴰ² (α₀Γ₀<α₁Γ₁ .snd i) .snd ) ⟩-≡
                 Γ₁                                  ∎-≡
 
         Γ<Γ₁ : Γ <Γ Γ₁
@@ -697,7 +697,7 @@ TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (Initial
             lem-21 = ctxProofTI ΩR
 
             lem-24 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ≡ α₂
-            lem-24 = λ i → split-DDList (lem-21 i) .fst
+            lem-24 = λ i → split-Listᴰ² (lem-21 i) .fst
 
             lem-25 : α₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ α₂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
             lem-25 = cong _⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ lem-24

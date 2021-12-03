@@ -39,6 +39,7 @@ open import Verification.Core.Data.FiniteIndexed.Definition
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Dependent.Variant.FreeMonoid.Definition
 
 open import Verification.Core.Category.Std.Category.Subcategory.Full
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
@@ -55,73 +56,11 @@ open import Verification.Core.Category.Std.RelativeMonad.Finitary.Definition
 
 
 
-module _ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) where
-  infixl 29 _⋆-⧜_
-  data D人List : (as : 人List A) -> 𝒰 (𝑖 ､ 𝑗) where
-    ◌-⧜ : D人List (◌)
-    incl : ∀{a} -> B a -> D人List (incl a)
-    _⋆-⧜_ : ∀{a b} -> D人List a -> D人List b -> D人List (a ⋆ b)
 
+module _ {A : 𝒰 𝑖} (R : ⋆List A -> A -> 𝒰 𝑖) where
+  CtxHom : ⋆List A -> ⋆List A -> 𝒰 _
+  CtxHom as bs = ⋆List[ a ∈ as ] (R bs a)
 
-module _ {A : 𝒰 𝑖} (R : 人List A -> A -> 𝒰 𝑖) where
-  CtxHom : 人List A -> 人List A -> 𝒰 _
-  CtxHom as bs = D人List (R bs) as
-
-
-module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
-
-  instance
-    isSetoid:D人List : ∀{a} -> isSetoid (D人List R a)
-    isSetoid:D人List = isSetoid:byId
-
-  construct-D人List : ∀{as : 人List A} -> (∀ a -> as ∍ a -> R a) -> D人List R as
-  construct-D人List {incl x} r = incl (r x incl)
-  construct-D人List {as ⋆-⧜ as₁} r = construct-D人List (λ a x -> r a (left-∍ x)) ⋆-⧜ construct-D人List (λ a x -> r a (right-∍ x))
-  construct-D人List {◌-⧜} r = ◌-⧜
-
-  construct-CtxHom = construct-D人List
-
-
-  destruct-D人List : ∀{as : 人List A} -> D人List R as -> (∀ a -> as ∍ a -> R a)
-  destruct-D人List (incl x) a incl = x
-  destruct-D人List (f ⋆-⧜ g) a (left-∍ p) = destruct-D人List f a p
-  destruct-D人List (f ⋆-⧜ g) a (right-∍ p) = destruct-D人List g a p
-
-  destruct-CtxHom = destruct-D人List
-
-  inv-l-◆-construct-D人List : ∀{as : 人List A} -> (r : ∀ a -> as ∍ a -> R a) -> destruct-D人List (construct-D人List r) ≡ r
-  inv-l-◆-construct-D人List {incl x} r = λ {i a incl → r x incl}
-  inv-l-◆-construct-D人List {as ⋆-⧜ as₁} r i a (right-∍ x) = inv-l-◆-construct-D人List (λ a -> r a ∘ right-∍) i a x
-  inv-l-◆-construct-D人List {as ⋆-⧜ as₁} r i a (left-∍ x)  = inv-l-◆-construct-D人List (λ a -> r a ∘ left-∍)  i a x
-  inv-l-◆-construct-D人List {◌-⧜} r i a ()
-
-  inv-r-◆-construct-D人List : ∀{as : 人List A} -> (f : D人List R as) -> construct-D人List (destruct-D人List f) ≡ f
-  inv-r-◆-construct-D人List ◌-⧜ = refl-≡
-  inv-r-◆-construct-D人List (incl x) = refl-≡
-  inv-r-◆-construct-D人List (f ⋆-⧜ g) = λ i → inv-r-◆-construct-D人List f i ⋆-⧜ inv-r-◆-construct-D人List g i
-
-  module _ {as : 人List A} where
-    instance
-      isIso:destruct-D人List : isIso {𝒞 = 𝐔𝐧𝐢𝐯 _} (hom (destruct-D人List {as = as}))
-      isIso:destruct-D人List = record
-        { inverse-◆ = construct-D人List
-        ; inv-r-◆ = funExt inv-r-◆-construct-D人List
-        ; inv-l-◆ = funExt inv-l-◆-construct-D人List
-        }
-
-    instance
-      isInjective:destruct-D人List : isInjective-𝒰 (destruct-D人List {as = as})
-      isInjective:destruct-D人List = isInjective-𝒰:byIso
-
-  module §-D人List where
-    prop-1 : ∀{as bs : 人List A} -> ∀{xs xs' : D人List R as} {ys ys' : D人List R bs} -> StrId {A = D人List R (as ⋆ bs)} (xs ⋆-⧜ ys) (xs' ⋆-⧜ ys') -> (xs ≣ xs') ×-𝒰 (ys ≣ ys')
-    prop-1 = {!!}
-
-  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a} -> R a -> D人List R (incl a)
-  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 = incl
-
-  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a} -> {f g : R a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
-  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
 
 
 
@@ -158,7 +97,7 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     ι-⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn ι-⧜𝐒𝐮𝐛𝐬𝐭ᵘ
 
   private
-    RT : 人List I -> I -> 𝒰 _
+    RT : ⋆List I -> I -> 𝒰 _
     RT = (λ b a → ix (⟨ T ⟩ (incl b)) a)
 
   Hom-⧜𝐒𝐮𝐛𝐬𝐭 : (a b : ⧜𝐒𝐮𝐛𝐬𝐭 T) -> 𝒰 𝑖
@@ -226,11 +165,11 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
     -- functoriality id
     lem-02 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (id-⧜𝐒𝐮𝐛𝐬𝐭 {a = a}) ∼ id
-    lem-02 = incl (funExt⁻¹ (inv-l-◆-construct-D人List _))
+    lem-02 = incl (funExt⁻¹ (inv-l-◆-construct-⋆Listᴰ _))
 
     -- functoriality ◆
     lem-03 : ∀{a b c : ⧜𝐒𝐮𝐛𝐬𝐭 T} {f : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b} {g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b c} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (f ◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ∼ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f ◆ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 g
-    lem-03 = incl (funExt⁻¹ (inv-l-◆-construct-D人List _))
+    lem-03 = incl (funExt⁻¹ (inv-l-◆-construct-⋆Listᴰ _))
 
   instance
     isSetoidHom:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{b c : 𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl ⟨ ⟨ b ⟩ ⟩) (incl ⟨ ⟨ c ⟩ ⟩))′ (b ⟶ c) map-ι-⧜𝐒𝐮𝐛𝐬𝐭
@@ -254,10 +193,10 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     isInjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = record { cancel-injective = cancel-injective-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 }
 
   surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ι a ⟶ ι b -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b
-  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = ⧜subst (construct-D人List ⟨ f ⟩)
+  surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = ⧜subst (construct-⋆Listᴰ ⟨ f ⟩)
 
   inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f : ι a ⟶ ι b} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f) ∼ f
-  inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = incl (funExt⁻¹ (inv-l-◆-construct-D人List _))
+  inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = incl (funExt⁻¹ (inv-l-◆-construct-⋆Listᴰ _))
 
   instance
     isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})

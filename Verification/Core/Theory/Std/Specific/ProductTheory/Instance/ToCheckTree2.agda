@@ -99,22 +99,22 @@ module _ {A : 𝒰 𝑖} {l : A -> ℕ} {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗
       makeInitialTree (node1 a x) = _ , (node1 a (initb a) (initv a) (initvs a) {!!} (makeInitialTrees x))
 
     mutual
-      ibounds : 人List ℬ -> Vec (∑ ADANVecTree1) n -> 人List ℬ
+      ibounds : ⋆List ℬ -> Vec (∑ ADANVecTree1) n -> ⋆List ℬ
       ibounds ac ⦋⦌ = ac
       ibounds ac (x ∷ v) = ibounds (ac ⋆ ibound x) v
 
-      ibound : ∑ ADANVecTree1 -> 人List ℬ
+      ibound : ∑ ADANVecTree1 -> ⋆List ℬ
       ibound (_ , node1 a b _ _ _ x) = ibounds (incl b) x
 
     private
-      lem-1 : ∀{a} -> {ac : 人List ℬ} -> (ts : Vec (∑ ADANVecTree1) n) -> ac ∍ a -> ibounds ac ts ∍ a
+      lem-1 : ∀{a} -> {ac : ⋆List ℬ} -> (ts : Vec (∑ ADANVecTree1) n) -> ac ∍ a -> ibounds ac ts ∍ a
       lem-1 ⦋⦌ p = p
       lem-1 (x ∷ ts) p = lem-1 ts (left-∍ p)
 
       lem-1' : (t : ∑ ADANVecTree1) -> ibound t ∍ (t .fst .fst)
       lem-1' (_ , node1 a _ _ _ _ x) = lem-1 x incl
 
-      lem-2 : ∀{a} -> {ac : 人List ℬ} -> (ts : Vec (∑ ADANVecTree1) n) -> (i : Fin-R n) -> ibound (lookup i ts) ∍ a -> ibounds ac ts ∍ a
+      lem-2 : ∀{a} -> {ac : ⋆List ℬ} -> (ts : Vec (∑ ADANVecTree1) n) -> (i : Fin-R n) -> ibound (lookup i ts) ∍ a -> ibounds ac ts ∍ a
       lem-2 (x ∷ ts) zero p = lem-1 ts (right-∍ p)
       lem-2 (x ∷ ts) (suc i) p = lem-2 ts i p
 
@@ -211,7 +211,7 @@ module _ {A : 𝒰 𝑖} {l : A -> ℕ} {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗
       P1path [] P = P
       P1path (step pat x) P = P1path pat (P1step x P)
 
-      -- lem-1₀ : ∀{a} -> {ac : 人List ℬ} -> {ts : Vec (∑ ADANVecTree1) n} -> {ac ∍ a} -> ibounds ac ts ∍ a
+      -- lem-1₀ : ∀{a} -> {ac : ⋆List ℬ} -> {ts : Vec (∑ ADANVecTree1) n} -> {ac ∍ a} -> ibounds ac ts ∍ a
 
 
       lem-1₀ : ∀{as a} -> (s : Strategy as)

@@ -66,7 +66,7 @@ module _ {𝒞 : Category 𝑖} {I : 𝒰 𝑗} {J : 𝒰 𝑘} (f : I -> J) whe
 --------------------------------------------------------------
 -- the finite product
 
--- we have 人List A ≅ List A
+-- we have ⋆List A ≅ List A
 -- just as 人ℕ ≅ ℕ
 -- (but both in 𝐒𝐭𝐝)
 
@@ -77,7 +77,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
   ⨅ᶠᵘ {n ⋆-⧜ m} a = ⨅ᶠᵘ {n} (写* leftᶠ a) ⊓ ⨅ᶠᵘ {m} (写* rightᶠ a)
   ⨅ᶠᵘ {◌-⧜} a = ⊤
 
-  module _ {n : 人List A} where
+  module _ {n : ⋆List A} where
     macro ⨅ᶠ = #structureOn (⨅ᶠᵘ {n})
 
   map-⨅ᶠ : ∀{n} -> {a b : 𝐈𝐱 [ n ]ᶠ 𝒞} -> (f : a ⟶ b) -> ⨅ᶠ a ⟶ ⨅ᶠ b
@@ -124,12 +124,12 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
 
 
-  ⨆ᶠᵘ : ∀{n : 人List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
+  ⨆ᶠᵘ : ∀{n : ⋆List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
   ⨆ᶠᵘ {incl x} a = ix a (x , incl)
   ⨆ᶠᵘ {n ⋆-⧜ n₁} a = {!!}
   ⨆ᶠᵘ {◌-⧜} a = {!!}
 
-  module _ {n : 人List A} where
+  module _ {n : ⋆List A} where
     macro ⨆ᶠ = #structureOn (⨆ᶠᵘ {n})
 
   map-⨆ᶠ : ∀{n} -> {a b : 𝐈𝐱 [ n ]ᶠ 𝒞} -> (f : a ⟶ b) -> ⨆ᶠ a ⟶ ⨆ᶠ b

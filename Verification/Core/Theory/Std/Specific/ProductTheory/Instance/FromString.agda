@@ -91,7 +91,7 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
 
     prop-1 {n} n∼◌ (con x) = x
 
-    prop-2 : ∀{m n : 人ℕ} -> n ∼ ◌ -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (m ⋆ incl tt)) (incl n) -> 人List (Sort 𝒯) × Sort 𝒯
+    prop-2 : ∀{m n : 人ℕ} -> n ∼ ◌ -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (m ⋆ incl tt)) (incl n) -> ⋆List (Sort 𝒯) × Sort 𝒯
     prop-2 n∼◌ (f ⋆-⧜ incl x) = map (prop-1 n∼◌) f' , (prop-1 n∼◌ x)
       where
         f' = §-⧜𝐒𝐮𝐛𝐬𝐭-⊤.prop-1 {T = SortTerm} (f)
@@ -187,13 +187,13 @@ module _ (𝒯 : ProductTheory ℓ₀) {{_ : IShow (Sort 𝒯)}} where
       lem-1 = cong bo (isContr:𝒢)
 
       module _ (isGood:w₀ : bo w₀ ≅ ⊥) where
-        τctx : ∀{s1 s2 : VecTree (UntypedCon 𝒯) [ n ]ᶠ l'} -> TreePath t s1 -> TreeStep s1 s2 -> 人List (Sort 𝒯) × Sort 𝒯
+        τctx : ∀{s1 s2 : VecTree (UntypedCon 𝒯) [ n ]ᶠ l'} -> TreePath t s1 -> TreeStep s1 s2 -> ⋆List (Sort 𝒯) × Sort 𝒯
         τctx {x} p1 p2 = §-SortTerm.prop-2 {!!} ⟨ X .snd ⟩
           where
             X : ∑ λ (v : ⟨ 𝒢 ⟩) -> ⟨ F n ⟩ (bo v)
             X = target (_ , {!!} , p1 , p2)
 
-        myType : 人List (Sort 𝒯) × Sort 𝒯 -> 𝒰 _
+        myType : ⋆List (Sort 𝒯) × Sort 𝒯 -> 𝒰 _
         myType (τs , τ) = Term₁-𝕋× 𝒯 τs τ
 
         lem-x : ∀{s1 s2 : VecTree (UntypedCon 𝒯) [ n ]ᶠ l'} -> (p : TreePath t s1) -> (q : TreeStep s1 s2) -> myType (τctx p q)

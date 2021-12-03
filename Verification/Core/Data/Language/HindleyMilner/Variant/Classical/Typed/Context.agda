@@ -102,7 +102,7 @@ data ℒHMQuantMap (μs : ℒHMTypes) : ∀{k} (Q R : ℒHMQuant k) -> 𝒰₀ w
 
 module _ {μs} where
   lookup-ℒHMQuantMap : ∀{k i} -> {Q R : ℒHMQuant k} -> (σ : ℒHMQuantMap μs Q R) -> (k∍i : k ∍♮ i)
-                       -> lookup-DList Q k∍i ⟶ μs ⊔ lookup-DList R k∍i
+                       -> lookup-Listᴰ Q k∍i ⟶ μs ⊔ lookup-Listᴰ R k∍i
   lookup-ℒHMQuantMap (σ ∷ σs) incl = σ
   lookup-ℒHMQuantMap (σ ∷ σs) (skip k∍i) = lookup-ℒHMQuantMap σs k∍i
 
@@ -132,8 +132,8 @@ module §-ℒHMQuantMap where
   prop-2 : ∀{k i μs₀} {Q R : ℒHMQuant k} -> (σs : ℒHMQuantMap μs₀ Q R)
             -> (Γ : ℒHMCtxFor Q μs₀)
             -> (k∍i : k ∍♮ i)
-            -> lookup-DDList Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ]⇂
-              ≡ lookup-DDList (apply-ℒHMQuantMap σs Γ) k∍i
+            -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ]⇂
+              ≡ lookup-Listᴰ² (apply-ℒHMQuantMap σs Γ) k∍i
   prop-2 (σ ∷ σs) (c ∷ Γ) incl = refl-≡
   prop-2 (σ ∷ σs) (c ∷ Γ) (skip k∍i) = prop-2 σs Γ k∍i
 
@@ -141,7 +141,7 @@ module §-ℒHMQuantMap where
 
 
 sz : ∀{a b : ℒHMTypes} -> a ⟶ b
-sz = ⧜subst (construct-D人List λ {tt x → con ℕᵗ ◌-⧜})
+sz = ⧜subst (construct-⋆Listᴰ λ {tt x → con ℕᵗ ◌-⧜})
 
 ϖ₀ : ∀{a b : ℒHMTypes} -> a ⊔ b ⟶ a
 ϖ₀ = ⦗ id , sz ⦘

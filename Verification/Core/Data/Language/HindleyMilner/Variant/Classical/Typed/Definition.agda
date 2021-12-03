@@ -31,7 +31,7 @@ open import Verification.Core.Order.Preorder
 
 record 人Vecᵖ (A : 𝒰 𝑖) (n : 人ℕ) : 𝒰 𝑖 where
   constructor vecᵖ
-  field ⟨_⟩ : 人List A
+  field ⟨_⟩ : ⋆List A
   field hasSize : map-⋆List (const tt) ⟨_⟩ ≡ n
 
 open 人Vecᵖ public
@@ -50,7 +50,7 @@ get-∍-人Vecᵖ = {!!}
 {-
 ι∀∍ : ∀{μs νs k i} -> (Γ : ℒHMCtx k μs) -> (k∍i : k ∍♮ i)
       -> ∀ {σ : μs ⟶ νs}
-      -> ι (lookup-DList (Γ ⇃[ σ ]⇂-Ctx) k∍i .fst) ≅ ι (lookup-DList Γ k∍i .fst)
+      -> ι (lookup-Listᴰ (Γ ⇃[ σ ]⇂-Ctx) k∍i .fst) ≅ ι (lookup-Listᴰ Γ k∍i .fst)
 ι∀∍ (b ∷ Γ) incl = refl-≅
 ι∀∍ (b ∷ Γ) (skip k∍i) = ι∀∍ Γ k∍i
 -}
@@ -62,8 +62,8 @@ module §-ℒHMCtx where
 --            -> {Q : ℒHMQuant k}
 --            -> {Γ : ℒHMCtxFor Q μs} -> (k∍i : k ∍♮ i)
 --            -> ∀ (σ₀ : μs ⟶ νs)
--- ⊔ (lookup-DList Q k∍i) 
---            -> lookup-DList Γ k∍i .snd ⇃[ σ ]⇂ ≡ lookup-DList (Γ ⇃[ ι₀ ◆ σ ]⇂-Ctx) k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Γ k∍i ⟩ ◆ ι₁ ◆ σ ⦘ ]⇂
+-- ⊔ (lookup-Listᴰ Q k∍i) 
+--            -> lookup-Listᴰ Γ k∍i .snd ⇃[ σ ]⇂ ≡ lookup-Listᴰ (Γ ⇃[ ι₀ ◆ σ ]⇂-Ctx) k∍i .snd ⇃[ ⦗ id , ⟨ ι∀∍ Γ k∍i ⟩ ◆ ι₁ ◆ σ ⦘ ]⇂
 --   prop-1 {Γ = (∀[ vα ] α) ∷ Γ} incl σ = ?
 
   --   let p : α ⇃[ (ι₀ ◆ σ) ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , id ◆ ι₁ ◆ σ ⦘ ]⇂ ≡ α ⇃[ σ ]⇂
@@ -81,10 +81,10 @@ module §-ℒHMCtx where
             -> ∀{k i} -> {Q : ℒHMQuant k}
             -> {Γ : ℒHMCtxFor Q μs} -> (k∍i : k ∍♮ i)
             -> ∀ (σ₀ : μs ⟶ νs)
-            -> ∀ (σ₁ : lookup-DList Q k∍i ⟶ νs)
-            ->  lookup-DDList (Γ ⇃[ σ₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , σ₁ ⦘ ]⇂
+            -> ∀ (σ₁ : lookup-Listᴰ Q k∍i ⟶ νs)
+            ->  lookup-Listᴰ² (Γ ⇃[ σ₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , σ₁ ⦘ ]⇂
               ≡
-                lookup-DDList Γ k∍i ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
+                lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
     prop-2 {Γ = b ∷ Γ} incl σ₀ σ₁ =
       let lem-0 : (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ∼ ⦗ σ₀ , σ₁ ⦘
           lem-0 = (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘   ⟨ append-⇃⊔⇂ {f0 = σ₀} {id} {id} {σ₁} ⟩-∼
@@ -101,10 +101,10 @@ module §-ℒHMCtx where
     prop-3 : ∀{μs νs : ℒHMTypes}
             -> ∀{k i} -> {Q : ℒHMQuant k}
             -> {Γ : ℒHMCtxFor Q μs} -> (k∍i : k ∍♮ i)
-            -> ∀ (σ : μs ⊔ lookup-DList Q k∍i ⟶ νs)
-            ->  lookup-DDList (Γ ⇃[ ι₀ ◆ σ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ι₁ ◆ σ ⦘ ]⇂
+            -> ∀ (σ : μs ⊔ lookup-Listᴰ Q k∍i ⟶ νs)
+            ->  lookup-Listᴰ² (Γ ⇃[ ι₀ ◆ σ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ι₁ ◆ σ ⦘ ]⇂
               ≡
-                lookup-DDList Γ k∍i ⇃[ σ ]⇂
+                lookup-Listᴰ² Γ k∍i ⇃[ σ ]⇂
     prop-3 = {!!}
 
 
@@ -117,8 +117,8 @@ record ℒHMJudgementᵈ : 𝒰₀ where
   field metavars : ℒHMTypes
   field {contextsize} : ♮ℕ
   field context : ℒHMCtx contextsize metavars
-  -- field quantifiers : DList (const (ℒHMTypes)) contextsize
-  -- field context : DDList (λ a -> ℒHMType ⟨ a ⟩) quantifiers
+  -- field quantifiers : Listᴰ (const (ℒHMTypes)) contextsize
+  -- field context : Listᴰ² (λ a -> ℒHMType ⟨ a ⟩) quantifiers
   field type : ℒHMType ⟨ metavars ⟩
 
 open ℒHMJudgementᵈ public
@@ -127,7 +127,7 @@ macro ℒHMJudgement = #structureOn ℒHMJudgementᵈ
 
 
 sᵘ : ℒHMJudgement -> ♮ℕ
-sᵘ (_ ⊩ Γ ⊢ τ) = size-DList (fst Γ)
+sᵘ (_ ⊩ Γ ⊢ τ) = size-Listᴰ (fst Γ)
 
 macro s = #structureOn sᵘ
 
@@ -184,13 +184,13 @@ data isTypedℒHMᵈ : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> �
   var  : ∀{μs k i} -> {Q : ℒHMQuant k}
          -> {Γ : ℒHMCtxFor Q μs}
          -> (k∍i : k ∍♮ i)
-         -> (σ : (lookup-DList Q k∍i) ⟶ μs)
+         -> (σ : (lookup-Listᴰ Q k∍i) ⟶ μs)
          -> ∀{α}
-         -> lookup-DDList Γ k∍i ⇃[ ⦗ id , σ ⦘ ]⇂ ≡ α
+         -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , σ ⦘ ]⇂ ≡ α
          -- -> Γ ⇃[ ι₀ ◆ σ ]⇂ᶜ ≡ Γ'
          -> isTypedℒHMᵈ ((μs) ⊩ (Q , Γ) ⊢ α) (var k∍i)
 
-         -- -> lookup-DList Q k∍i ≣ vα
+         -- -> lookup-Listᴰ Q k∍i ≣ vα
          -- (∀[ vα ] α)
 
 {-
@@ -320,17 +320,17 @@ abstr-Ctx = {!!}
 --         (∀[]
 --          𝕋×.統.reext-Term-𝕋×
 --          (λ i x →
---             destruct-D人List
---             (construct-D人List
+--             destruct-⋆Listᴰ
+--             (construct-⋆Listᴰ
 --              (λ a x₁ →
---                 destruct-D人List
---                 (construct-D人List
+--                 destruct-⋆Listᴰ
+--                 (construct-⋆Listᴰ
 --                  (λ i₁ a₁ →
 --                     𝕋×.統.reext-Term-𝕋×
 --                     (λ i₂ x₂ →
---                        destruct-D人List (construct-D人List (λ i₃ a₂ → var (left-∍ a₂))) i₂
+--                        destruct-⋆Listᴰ (construct-⋆Listᴰ (λ i₃ a₂ → var (left-∍ a₂))) i₂
 --                        x₂)
---                     i₁ (destruct-D人List ⟨ σ ⟩ i₁ a₁)))
+--                     i₁ (destruct-⋆Listᴰ ⟨ σ ⟩ i₁ a₁)))
 --                 a x₁)
 --              ⋆-⧜ ◌-⧜)
 --             i x)
@@ -340,29 +340,29 @@ abstr-Ctx = {!!}
 --         (∀[ fst₁ ]
 --          𝕋×.統.reext-Term-𝕋×
 --          (λ i x →
---             destruct-D人List
---             (construct-D人List
+--             destruct-⋆Listᴰ
+--             (construct-⋆Listᴰ
 --              (λ a x₁ →
---                 destruct-D人List
---                 (construct-D人List
+--                 destruct-⋆Listᴰ
+--                 (construct-⋆Listᴰ
 --                  (λ i₁ a₁ →
 --                     𝕋×.統.reext-Term-𝕋×
 --                     (λ i₂ x₂ →
---                        destruct-D人List (construct-D人List (λ i₃ a₂ → var (left-∍ a₂))) i₂
+--                        destruct-⋆Listᴰ (construct-⋆Listᴰ (λ i₃ a₂ → var (left-∍ a₂))) i₂
 --                        x₂)
---                     i₁ (destruct-D人List ⟨ σ ⟩ i₁ a₁)))
+--                     i₁ (destruct-⋆Listᴰ ⟨ σ ⟩ i₁ a₁)))
 --                 a x₁)
 --              ⋆-⧜
---              construct-D人List
+--              construct-⋆Listᴰ
 --              (λ a x₁ →
---                 destruct-D人List
---                 (construct-D人List
+--                 destruct-⋆Listᴰ
+--                 (construct-⋆Listᴰ
 --                  (λ i₁ a₁ →
 --                     𝕋×.統.reext-Term-𝕋×
 --                     (λ i₂ x₂ →
---                        destruct-D人List (construct-D人List (λ i₃ a₂ → var (right-∍ a₂))) i₂
+--                        destruct-⋆Listᴰ (construct-⋆Listᴰ (λ i₃ a₂ → var (right-∍ a₂))) i₂
 --                        x₂)
---                     i₁ (destruct-D人List (construct-D人List (λ i₂ x₂ → var x₂)) i₁ a₁)))
+--                     i₁ (destruct-⋆Listᴰ (construct-⋆Listᴰ (λ i₂ x₂ → var x₂)) i₁ a₁)))
 --                 a x₁))
 --             i x)
 --          tyᵗ β))

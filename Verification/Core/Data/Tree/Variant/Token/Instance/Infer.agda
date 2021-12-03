@@ -63,7 +63,7 @@ private
 
 module _ {𝒹 : TokenTreeData} where
   mutual
-    printᵘ-TokenTrees : ∀{A n} -> ConstDList (TokenTree 𝒹 A) n -> ConstDList (TokenExpr (δ 𝒹) A) n
+    printᵘ-TokenTrees : ∀{A n} -> ConstListᴰ (TokenTree 𝒹 A) n -> ConstListᴰ (TokenExpr (δ 𝒹) A) n
     printᵘ-TokenTrees [] = []
     printᵘ-TokenTrees (x ∷ xs) = (printᵘ-TokenTree x) ∷ (printᵘ-TokenTrees xs)
 
@@ -75,7 +75,7 @@ module _ {𝒹 : TokenTreeData} where
 
 
   mutual
-    parseᵘ-TokenTrees : ∀{A n} -> ConstDList (TokenExpr (δ 𝒹) A) n -> ConstDList (TokenTree 𝒹 (TokenExpr (δ 𝒹) A)) n
+    parseᵘ-TokenTrees : ∀{A n} -> ConstListᴰ (TokenExpr (δ 𝒹) A) n -> ConstListᴰ (TokenTree 𝒹 (TokenExpr (δ 𝒹) A)) n
     parseᵘ-TokenTrees [] = []
     parseᵘ-TokenTrees (x ∷ xs) = (parseᵘ-TokenTree x) ∷ (parseᵘ-TokenTrees xs)
 
@@ -83,7 +83,7 @@ module _ {𝒹 : TokenTreeData} where
     parseᵘ-TokenTree (hole x) = hole (hole x)
     parseᵘ-TokenTree (var x) = var x
     parseᵘ-TokenTree (token x) with tokenSize 𝒹 x ≟-Str 0
-    ... | yes p = node (x) (transport-Str (cong-Str (λ ξ -> ConstDList (TokenTree 𝒹 (TokenExpr (δ 𝒹) _)) ξ) (sym-≣ p)) [])
+    ... | yes p = node (x) (transport-Str (cong-Str (λ ξ -> ConstListᴰ (TokenTree 𝒹 (TokenExpr (δ 𝒹) _)) ξ) (sym-≣ p)) [])
     ... | no ¬p = hole (annotation ("This token has " <> show (tokenSize 𝒹 (x)) <> " arguments, but has been applied to none.")
                                    (token x))
     parseᵘ-TokenTree (list {[]} []) = hole (annotation "Empty expressions are not allowed." (list []))

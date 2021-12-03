@@ -47,7 +47,7 @@ module _ {𝒹 : TokenExprData} where
   ----------------------------------------------------------
   -- printing the tokenExpressions to listExpressions
   mutual
-    print-TokenExprs : ∀{X n} -> ConstDList (TokenExpr 𝒹 X) n -> List (ListExpr X)
+    print-TokenExprs : ∀{X n} -> ConstListᴰ (TokenExpr 𝒹 X) n -> List (ListExpr X)
     print-TokenExprs [] = []
     print-TokenExprs (x ∷ xs) = print-TokenExpr x ∷ print-TokenExprs xs
 
@@ -70,7 +70,7 @@ module _ {𝒹 : TokenExprData} where
     ... | x ∷ x₁ ∷ X = just x
 
   mutual
-    parse-TokenExprs : ∀{X} -> List (ListExpr X) -> ∑ ConstDList (TokenExpr 𝒹 (ListExpr X))
+    parse-TokenExprs : ∀{X} -> List (ListExpr X) -> ∑ ConstListᴰ (TokenExpr 𝒹 (ListExpr X))
     parse-TokenExprs [] = _ , []
     parse-TokenExprs (x ∷ xs) = (tt ∷ _) , parse-TokenExpr x ∷ parse-TokenExprs xs .snd
 

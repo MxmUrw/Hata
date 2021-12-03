@@ -167,15 +167,15 @@ case-Dec yes x of f g = g x
 --------------------------------------------------------------
 -- non computing lists and vectors
 
-人Vec : (A : 𝒰 𝑖) -> (n : 人List (⊤-𝒰 {𝑖})) -> 𝒰 _
+人Vec : (A : 𝒰 𝑖) -> (n : ⋆List (⊤-𝒰 {𝑖})) -> 𝒰 _
 人Vec A n = CtxHom (λ x x₁ → A) n ◌
 
 人ℕ' : ∀ 𝑖 -> 𝒰 _
-人ℕ' 𝑖 = 人List (⊤-𝒰 {𝑖})
+人ℕ' 𝑖 = ⋆List (⊤-𝒰 {𝑖})
 
 {-
-module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
-  asList : ∀{a b} -> CtxHom R a b -> 人List (R b tt)
+module _ {R : ⋆List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
+  asList : ∀{a b} -> CtxHom R a b -> ⋆List (R b tt)
   asList ◌-⧜ = ◌-⧜
   asList (incl {tt} x) = incl x
   asList (f ⋆-⧜ g) = asList f ⋆ asList g
@@ -195,28 +195,28 @@ module _ {R : 人List (⊤-𝒰 {𝑖}) -> ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
   atasList' : ∀{a b} -> (σ : CtxHom R a b) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
   atasList' σ i refl-≣ = atasList σ i
 
--- module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
---   fromIndexed : {as bs : 人List A} -> (∀{a} -> (as ∍ a) -> R bs a) -> CtxHom R as bs
+-- module _ {A : 𝒰 𝑖} {R : ⋆List A -> A -> 𝒰 𝑖} where
+--   fromIndexed : {as bs : ⋆List A} -> (∀{a} -> (as ∍ a) -> R bs a) -> CtxHom R as bs
 --   fromIndexed {incl x} {bs} F = incl (F (incl))
 --   fromIndexed {as1 ⋆-⧜ as2} {bs} F = (fromIndexed (λ x -> F (left-∍ x))) ⋆-⧜ ((fromIndexed (λ x -> F (right-∍ x))))
 --   fromIndexed {◌-⧜} {bs} F = ◌-⧜
 -}
 
 module _ {R : ⊤-𝒰 {𝑖} -> 𝒰 𝑖} where
-  asList : ∀{a} -> D人List R a -> 人List (R tt)
+  asList : ∀{a} -> ⋆Listᴰ R a -> ⋆List (R tt)
   asList ◌-⧜ = ◌-⧜
   asList (incl {tt} x) = incl x
   asList (f ⋆-⧜ g) = asList f ⋆ asList g
 
-  atList : ∀{a} -> D人List R a -> (i : [ a ]ᶠ) -> (R tt)
+  atList : ∀{a} -> ⋆Listᴰ R a -> (i : [ a ]ᶠ) -> (R tt)
   atList f (tt , p) = destruct-CtxHom f tt p
 
-  atasList : ∀{a} -> (σ : D人List R a) -> (i : [ a ]ᶠ) -> asList σ ∍ atList σ i
+  atasList : ∀{a} -> (σ : ⋆Listᴰ R a) -> (i : [ a ]ᶠ) -> asList σ ∍ atList σ i
   atasList (incl x) (tt , incl) = incl
   atasList (f ⋆-⧜ g) (tt , left-∍ i) = left-∍ (atasList f (_ , i))
   atasList (f ⋆-⧜ g) (tt , right-∍ i) = right-∍ (atasList g (_ , i))
 
-  atasList' : ∀{a} -> (σ : D人List R a) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
+  atasList' : ∀{a} -> (σ : ⋆Listᴰ R a) -> (i : [ a ]ᶠ) -> ∀{x} -> atList σ i ≣ x -> asList σ ∍ x
   atasList' σ i refl-≣ = atasList σ i
 
 

@@ -48,17 +48,17 @@ private
 
 
 module _ {A : 𝒰 𝑖} where
-  data _≠-∍_ : ∀{as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
+  data _≠-∍_ : ∀{as : ⋆List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
     ≠-∍:bySort : ∀{x a b la lb} -> ¬ a ≣ b -> _≠-∍_ {incl x} {a} {b} (la) (lb)
-    ≠-∍:left  : ∀{as bs : 人List A} -> {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> la ≠-∍ lb -> left-∍ {b = bs} la ≠-∍ left-∍ lb
-    ≠-∍:right : ∀{as bs : 人List A} -> {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> la ≠-∍ lb -> right-∍ {a = bs} la ≠-∍ right-∍ lb
-    ≠-∍:left-right : ∀{as bs : 人List A} -> {a b : A} -> {la : as ∍ a} {lb : bs ∍ b} -> left-∍ la ≠-∍ right-∍ lb
-    ≠-∍:right-left : ∀{as bs : 人List A} -> {a b : A} -> {la : bs ∍ a} {lb : as ∍ b} -> right-∍ la ≠-∍ left-∍ lb
+    ≠-∍:left  : ∀{as bs : ⋆List A} -> {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> la ≠-∍ lb -> left-∍ {b = bs} la ≠-∍ left-∍ lb
+    ≠-∍:right : ∀{as bs : ⋆List A} -> {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> la ≠-∍ lb -> right-∍ {a = bs} la ≠-∍ right-∍ lb
+    ≠-∍:left-right : ∀{as bs : ⋆List A} -> {a b : A} -> {la : as ∍ a} {lb : bs ∍ b} -> left-∍ la ≠-∍ right-∍ lb
+    ≠-∍:right-left : ∀{as bs : ⋆List A} -> {a b : A} -> {la : bs ∍ a} {lb : as ∍ b} -> right-∍ la ≠-∍ left-∍ lb
 
-  -- data _=-∍_ : ∀{as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
+  -- data _=-∍_ : ∀{as : ⋆List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) -> 𝒰 𝑖 where
   --   refl-≣-2 : ∀{as} {a : A} {la : as ∍ a} -> la =-∍ la
 
-  record _=-∍_ {as : 人List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) : 𝒰 𝑖 where
+  record _=-∍_ {as : ⋆List A} {a b : A} (la : as ∍ a) (lb : as ∍ b) : 𝒰 𝑖 where
     constructor _,_
     field fst : a ≣ b
     field snd : transport-Str (cong-Str (λ ξ -> as ∍ ξ) fst) la ≣ lb
@@ -69,54 +69,54 @@ module _ {A : 𝒰 𝑖} where
 pattern refl-≣-2 = refl-≣ , refl-≣
 
 module _ {A : 𝒰 𝑖} where
-  cancel-injective-𝒰-=-∍-right-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb) -> la =-∍ lb
+  cancel-injective-𝒰-=-∍-right-∍ : ∀{as bs : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb) -> la =-∍ lb
   cancel-injective-𝒰-=-∍-right-∍ refl-≣-2 = refl-≣-2
 
-  cancel-injective-𝒰-=-∍-left-∍ : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (left-∍ {b = bs} la =-∍ left-∍ {b = bs} lb) -> la =-∍ lb
+  cancel-injective-𝒰-=-∍-left-∍ : ∀{as bs : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (left-∍ {b = bs} la =-∍ left-∍ {b = bs} lb) -> la =-∍ lb
   cancel-injective-𝒰-=-∍-left-∍ refl-≣-2 = refl-≣-2
 
 
-  isProp:≠-∍ : ∀{as : 人List A} {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> (p q : la ≠-∍ lb) -> p ≣ q
+  isProp:≠-∍ : ∀{as : ⋆List A} {a b : A} -> {la : as ∍ a} {lb : as ∍ b} -> (p q : la ≠-∍ lb) -> p ≣ q
   isProp:≠-∍ (≠-∍:bySort x) (≠-∍:bySort x₁) = cong-Str ≠-∍:bySort (lem-0 _ _)
   isProp:≠-∍ (≠-∍:left p) (≠-∍:left q) = cong-Str ≠-∍:left (isProp:≠-∍ p q)
   isProp:≠-∍ (≠-∍:right p) (≠-∍:right q) = cong-Str ≠-∍:right (isProp:≠-∍ p q)
   isProp:≠-∍ ≠-∍:left-right ≠-∍:left-right = refl-≣
   isProp:≠-∍ ≠-∍:right-left ≠-∍:right-left = refl-≣
 
-  -- cong-=-∍-right : ∀{as bs : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> la =-∍ lb -> right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb
+  -- cong-=-∍-right : ∀{as bs : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> la =-∍ lb -> right-∍ {a = bs} la =-∍ right-∍ {a = bs} lb
   -- cong-=-∍-right (refl-≣-2) = refl-≣-2
 
-  =-∍→≣ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (la =-∍ lb) -> a ≣ b
+  =-∍→≣ : ∀{as : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (la =-∍ lb) -> a ≣ b
   =-∍→≣ refl-≣-2 = refl-≣
 
-  transport⁻¹-=-∍ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (P : A -> 𝒰 𝑗) -> (la =-∍ lb) -> P b -> P a
+  transport⁻¹-=-∍ : ∀{as : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (P : A -> 𝒰 𝑗) -> (la =-∍ lb) -> P b -> P a
   transport⁻¹-=-∍ P p x = transport-Str (cong-Str P (sym-≣ (=-∍→≣ p))) x
 
   private
-    skip-∍ : ∀{as : 人List A} {a : A} {la : as ∍ a} -> (la ≠-∍ la) -> ⊥-𝒰 {ℓ₀}
+    skip-∍ : ∀{as : ⋆List A} {a : A} {la : as ∍ a} -> (la ≠-∍ la) -> ⊥-𝒰 {ℓ₀}
     skip-∍ (≠-∍:bySort x) = impossible (x refl-≣)
     skip-∍ (≠-∍:left p) = skip-∍ p
     skip-∍ (≠-∍:right p) = skip-∍ p
 
-    compare-∍ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (la =-∍ lb) ×-𝒰 (la ≠-∍ lb) -> ⊥-𝒰 {ℓ₀}
+    compare-∍ : ∀{as : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (la =-∍ lb) ×-𝒰 (la ≠-∍ lb) -> ⊥-𝒰 {ℓ₀}
     compare-∍ (refl-≣-2 , q) = skip-∍ q
 
   instance
-    isContradiction:≠-∍ : ∀{as : 人List A} {a : A} {la : as ∍ a} -> isContradiction (la ≠-∍ la)
+    isContradiction:≠-∍ : ∀{as : ⋆List A} {a : A} {la : as ∍ a} -> isContradiction (la ≠-∍ la)
     isContradiction:≠-∍ = contradiction skip-∍
 
   instance
-    isContradiction:=-∍,≠-∍ : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> isContradiction ((la =-∍ lb) ×-𝒰 (la ≠-∍ lb))
+    isContradiction:=-∍,≠-∍ : ∀{as : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> isContradiction ((la =-∍ lb) ×-𝒰 (la ≠-∍ lb))
     isContradiction:=-∍,≠-∍ = contradiction compare-∍
 
   -- private
-  --   lem-001 : ∀{as : 人List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (p0 : a ≣ b) -> (p : la =-∍ lb) -> p ≣ transport-Str (cong-Str (λ ξ -> as ∍ ξ) p0) refl-≣-2
+  --   lem-001 : ∀{as : ⋆List A} {a b : A} {la : as ∍ a} {lb : as ∍ b} -> (p0 : a ≣ b) -> (p : la =-∍ lb) -> p ≣ transport-Str (cong-Str (λ ξ -> as ∍ ξ) p0) refl-≣-2
   --   lem-001 = ?
 
  -- {{_ : isDiscrete A}}
 module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
 
-  transport⁻¹-=-∍-refl : ∀{as : 人List A} {a : A} {la : as ∍ a} -> (P : A -> 𝒰 𝑗) -> (p : la =-∍ la) -> (x : P a) -> transport⁻¹-=-∍ P p x ≣ x
+  transport⁻¹-=-∍-refl : ∀{as : ⋆List A} {a : A} {la : as ∍ a} -> (P : A -> 𝒰 𝑗) -> (p : la =-∍ la) -> (x : P a) -> transport⁻¹-=-∍ P p x ≣ x
   transport⁻¹-=-∍-refl P p x =
     let P0 : StrId (transport-Str (cong-Str P (sym-≣ (refl-≣))) x) x
         P0 = refl-≣
@@ -126,7 +126,7 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
     in P1
 
   -- we want to show this by deconstructing an =-∍ statement into two path statements
-  -- isProp-=-∍ : ∀{as : 人List A} {a : A} {b : A} {la : as ∍ a} {lb : as ∍ b} -> (p q : la =-∍ lb) -> p ≣ q
+  -- isProp-=-∍ : ∀{as : ⋆List A} {a : A} {b : A} {la : as ∍ a} {lb : as ∍ b} -> (p q : la =-∍ lb) -> p ≣ q
   -- isProp-=-∍ = {!!}
 
   -- isProp-=-∍ refl-≣-2 q = {!!}
@@ -134,7 +134,7 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
   --     lem-1 : {a : A} {b : A} {la : as ∍ a} {lb : as ∍ b} -> (p : a ≣ b) -> (q : la =-∍ lb) -> q ≣ transport-Str (cong (λ ξ -> ))
 
 
-  _\\_ : (as : 人List A) -> {a : A} -> (as ∍ a) -> 人List A
+  _\\_ : (as : ⋆List A) -> {a : A} -> (as ∍ a) -> ⋆List A
   incl x \\ incl = ◌
   (as ⋆-⧜ bs) \\ right-∍ x = as ⋆ (bs \\ x)
   (as ⋆-⧜ bs) \\ left-∍ x = (as \\ x) ⋆ bs
@@ -142,17 +142,17 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
   _\\'_ : (as : 𝐅𝐢𝐧𝐈𝐱 A) -> {a : A} -> (⟨ as ⟩ ∍ a) -> 𝐅𝐢𝐧𝐈𝐱 A
   _\\'_ as x = incl (⟨ as ⟩ \\ x)
 
-  ι-\\ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 (as \\ x) ⟶ 𝑒𝑙 as
+  ι-\\ : ∀{as : ⋆List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 (as \\ x) ⟶ 𝑒𝑙 as
   ι-\\ (right-∍ x) p (right-∍ y) = right-∍ (ι-\\ x p y)
   ι-\\ (right-∍ x) p (left-∍ y) = left-∍ y
   ι-\\ (left-∍ x) p (right-∍ y) = right-∍ y
   ι-\\ (left-∍ x) p (left-∍ y) = left-∍ (ι-\\ x p y)
 
-  single-∍ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 (incl a) ⟶ 𝑒𝑙 as
+  single-∍ : ∀{as : ⋆List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 (incl a) ⟶ 𝑒𝑙 as
   single-∍ x i incl = x
 
   module §-\\ where
-    prop-1 : ∀{as : 人List A} -> {a : A} -> {ap : as ∍ a} -> 人length as ≣ suc (人length (as \\ ap))
+    prop-1 : ∀{as : ⋆List A} -> {a : A} -> {ap : as ∍ a} -> 人length as ≣ suc (人length (as \\ ap))
     prop-1 {.(incl a)} {a} {incl} = refl-≣
     prop-1 {as ⋆-⧜ bs} {a} {right-∍ ap} = refl ≀⋆≀ prop-1 {ap = ap} ∙ (+-suc (人length as) (人length (bs \\ ap)))
     prop-1 {as ⋆-⧜ bs} {a} {left-∍ ap} = prop-1 {ap = ap} ≀⋆≀ refl
@@ -160,7 +160,7 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
 
 
   -- private
-  --   skip-∍ : ∀{as : 人List A} {a b : A} -> (la : as ∍ a) -> (¬ a ≣ b) -> as ∍ b -> (as \\ la) ∍ b
+  --   skip-∍ : ∀{as : ⋆List A} {a b : A} -> (la : as ∍ a) -> (¬ a ≣ b) -> as ∍ b -> (as \\ la) ∍ b
   --   skip-∍ incl a≠b incl = impossible (a≠b refl-≣)
   --   skip-∍ (right-∍ la) a≠b (right-∍ lb) = right-∍ (skip-∍ la a≠b lb)
   --   skip-∍ (left-∍ la) a≠b (right-∍ lb) = right-∍ lb
@@ -170,21 +170,21 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
   --   compare-∍-0 : ∀{a b : A} -> (p : a ≣ b) -> (la : incl b ∍ a) -> la ≣ (transport-Str (cong-Str (λ ξ -> incl ξ ∍ a) p) incl)
   --   compare-∍-0 p incl = {!!}
 
-  --   compare-∍ : ∀{as : 人List A} {a : A} -> (la lb : as ∍ a) -> (¬ la ≣ lb) -> (as \\ la) ∍ a
+  --   compare-∍ : ∀{as : ⋆List A} {a : A} -> (la lb : as ∍ a) -> (¬ la ≣ lb) -> (as \\ la) ∍ a
   --   compare-∍ incl lb a≠b = impossible (a≠b (sym-≣ (compare-∍-0 refl-≣ lb)))
   --   compare-∍ (right-∍ la) (right-∍ lb) a≠b = right-∍ (compare-∍ la lb (λ p -> a≠b (cong-Str right-∍ p)))
   --   compare-∍ (right-∍ la) (left-∍ lb) a≠b = left-∍ lb
   --   compare-∍ (left-∍ la) (right-∍ lb) a≠b = right-∍ lb
   --   compare-∍ (left-∍ la) (left-∍ lb) a≠b = left-∍ ((compare-∍ la lb (λ p -> a≠b (cong-Str left-∍ p))))
 
-  skip-∍ : ∀{as : 人List A} {a b : A} -> (la : as ∍ a) -> (lb : as ∍ b) -> (la ≠-∍ lb) -> (as \\ lb) ∍ a
+  skip-∍ : ∀{as : ⋆List A} {a b : A} -> (la : as ∍ a) -> (lb : as ∍ b) -> (la ≠-∍ lb) -> (as \\ lb) ∍ a
   skip-∍ incl incl (≠-∍:bySort x) = impossible (x refl-≣)
   skip-∍ (right-∍ la) (right-∍ lb) (≠-∍:right p) = right-∍ (skip-∍ la lb p)
   skip-∍ (right-∍ la) (left-∍ lb) ≠-∍:right-left = right-∍ la
   skip-∍ (left-∍ la) (right-∍ lb) ≠-∍:left-right = left-∍ la
   skip-∍ (left-∍ la) (left-∍ lb) (≠-∍:left p) = left-∍ (skip-∍ la lb p)
 
-  compare-∍ : ∀{as : 人List A} {a b : A} -> (la : as ∍ a) -> (lb : as ∍ b) -> (la ≠-∍ lb) +-𝒰 (la =-∍ lb)
+  compare-∍ : ∀{as : ⋆List A} {a b : A} -> (la : as ∍ a) -> (lb : as ∍ b) -> (la ≠-∍ lb) +-𝒰 (la =-∍ lb)
   compare-∍ incl incl = right (refl-≣-2)
   compare-∍ (right-∍ la) (right-∍ lb) with compare-∍ la lb
   ... | left x = left (≠-∍:right x)
@@ -293,16 +293,16 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
   ... | just r = impossible (lem-7 r)
 
 
-  iso-\\ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 as ⟶ 𝑒𝑙 ((as \\ x)) ⊔ 𝑒𝑙 (incl a)
+  iso-\\ : ∀{as : ⋆List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 as ⟶ 𝑒𝑙 ((as \\ x)) ⊔ 𝑒𝑙 (incl a)
   iso-\\ x i y with compare-∍ y x
   ... | left x≠y = left (skip-∍ y x x≠y)
   ... | just (refl-≣ , q) = right incl
 
-  iso⁻¹-\\ : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 ((as \\ x)) ⊔ 𝑒𝑙 (incl a) ⟶ 𝑒𝑙 as
+  iso⁻¹-\\ : ∀{as : ⋆List A} -> {a : A} -> (x : as ∍ a) -> 𝑒𝑙 ((as \\ x)) ⊔ 𝑒𝑙 (incl a) ⟶ 𝑒𝑙 as
   iso⁻¹-\\ x = ⦗ ι-\\ x , single-∍ x ⦘
 
   module §-iso-\\ where
-    prop-1 : ∀{as : 人List A} -> {a : A} -> (x : as ∍ a) -> iso-\\ x a x ≡ right incl
+    prop-1 : ∀{as : ⋆List A} -> {a : A} -> (x : as ∍ a) -> iso-\\ x a x ≡ right incl
     prop-1 x with compare-∍ x x
     ... | left x≠x = impossible x≠x
     ... | just (p , q) with isset-Str p refl-≣

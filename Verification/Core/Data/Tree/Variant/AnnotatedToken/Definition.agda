@@ -36,7 +36,7 @@ module _ (𝒹 : ATokenTreeData) (Ann : 𝐏𝐭𝐝₀) where
   data ATokenTreeᵘ (A : 𝒰₀) : 𝒰₀ where
     hole : A -> ATokenTreeᵘ A
     var : ⟨ Ann ⟩ -> Text -> ATokenTreeᵘ A
-    node : ⟨ Ann ⟩ -> (t : TokenType 𝒹) -> ConstDList (ATokenTreeᵘ A) (tokenSize 𝒹 t) -> ATokenTreeᵘ A
+    node : ⟨ Ann ⟩ -> (t : TokenType 𝒹) -> ConstListᴰ (ATokenTreeᵘ A) (tokenSize 𝒹 t) -> ATokenTreeᵘ A
     -- annotation : Text -> ATokenTreeᵘ A -> ATokenTreeᵘ A
 
   macro ATokenTree = #structureOn (ATokenTreeᵘ)

@@ -68,7 +68,7 @@ module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
   ----------------------------------------------------------
   -- printing the tokenExpressions to listExpressions
   mutual
-    print-ATokenExprᵘs : ∀{X n} -> ConstDList (ATokenExpr 𝒹 Ann X) n -> List (AListExpr (Ann') X)
+    print-ATokenExprᵘs : ∀{X n} -> ConstListᴰ (ATokenExpr 𝒹 Ann X) n -> List (AListExpr (Ann') X)
     print-ATokenExprᵘs [] = []
     print-ATokenExprᵘs (x ∷ xs) = print-ATokenExprᵘ x ∷ print-ATokenExprᵘs xs
 
@@ -93,7 +93,7 @@ module _ {𝒹 : ATokenExprData} {Ann : 𝐏𝐭𝐝₀} where
     ... | x ∷ x₁ ∷ X = just x
 
   mutual
-    parse-ATokenExprs : ∀{X} -> List (AListExpr Ann' X) -> ∑ ConstDList (ATokenExpr 𝒹 Ann (AListExpr Ann' X))
+    parse-ATokenExprs : ∀{X} -> List (AListExpr Ann' X) -> ∑ ConstListᴰ (ATokenExpr 𝒹 Ann (AListExpr Ann' X))
     parse-ATokenExprs [] = _ , []
     parse-ATokenExprs (x ∷ xs) = (tt ∷ _) , parse-ATokenExpr x ∷ parse-ATokenExprs xs .snd
 

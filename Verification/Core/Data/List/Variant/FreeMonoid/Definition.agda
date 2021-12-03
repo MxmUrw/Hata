@@ -50,7 +50,6 @@ macro
 
 module _ {A : 𝒰 𝑖} where
 
-
   -- the setoid and monoid structure
 
   infix 10 _∼-⋆List_

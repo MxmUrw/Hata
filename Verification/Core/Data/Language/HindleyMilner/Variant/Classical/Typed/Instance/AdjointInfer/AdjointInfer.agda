@@ -50,7 +50,7 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑖} (f : Functor 𝒞 𝒟) w
 
 
 sᵘ : ℒHMJudgement -> 人ℕ
-sᵘ (Γ ⊢ τ) = size-D人List Γ
+sᵘ (Γ ⊢ τ) = size-⋆Listᴰ Γ
 -- map-⋆List (const tt) Γ
 
 macro s = #structureOn sᵘ

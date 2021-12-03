@@ -59,36 +59,36 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
 
 
-  -- construct-DList : ∀{as : List A} -> (∀ a -> as ∍♮ a -> B a) -> DList B as
-  -- construct-DList {[]} f = []
-  -- construct-DList {x ∷ as} f = (f x incl) ∷ (construct-DList (λ a x -> f a (skip x)))
+  -- construct-Listᴰ : ∀{as : List A} -> (∀ a -> as ∍♮ a -> B a) -> Listᴰ B as
+  -- construct-Listᴰ {[]} f = []
+  -- construct-Listᴰ {x ∷ as} f = (f x incl) ∷ (construct-Listᴰ (λ a x -> f a (skip x)))
 
-  -- destruct-DList : ∀{as : List A} -> DList B as -> (∀ a -> as ∍♮ a -> B a)
-  -- destruct-DList {[]} [] a ()
-  -- destruct-DList {x ∷ as} (b ∷ xs) .x incl = b
-  -- destruct-DList {x ∷ as} (b ∷ xs) a (skip p) = destruct-DList xs a p
+  -- destruct-Listᴰ : ∀{as : List A} -> Listᴰ B as -> (∀ a -> as ∍♮ a -> B a)
+  -- destruct-Listᴰ {[]} [] a ()
+  -- destruct-Listᴰ {x ∷ as} (b ∷ xs) .x incl = b
+  -- destruct-Listᴰ {x ∷ as} (b ∷ xs) a (skip p) = destruct-Listᴰ xs a p
 
-  construct-DList-人DList : ∀{as : List A} -> D人List B (ι as) -> DList B as
-  construct-DList-人DList {[]} xs = []
-  construct-DList-人DList {x ∷ as} (incl x₁ ⋆-⧜ xs₁) = x₁ ∷ (construct-DList-人DList xs₁)
+  construct-Listᴰ-人Listᴰ : ∀{as : List A} -> ⋆Listᴰ B (ι as) -> Listᴰ B as
+  construct-Listᴰ-人Listᴰ {[]} xs = []
+  construct-Listᴰ-人Listᴰ {x ∷ as} (incl x₁ ⋆-⧜ xs₁) = x₁ ∷ (construct-Listᴰ-人Listᴰ xs₁)
 
-  destruct-DList-人DList : ∀{as : List A} -> DList B as -> D人List B (ι as)
-  destruct-DList-人DList {[]} xs = ◌-⧜
-  destruct-DList-人DList {x ∷ as} (b ∷ xs) = incl b ⋆-⧜ destruct-DList-人DList xs
+  destruct-Listᴰ-人Listᴰ : ∀{as : List A} -> Listᴰ B as -> ⋆Listᴰ B (ι as)
+  destruct-Listᴰ-人Listᴰ {[]} xs = ◌-⧜
+  destruct-Listᴰ-人Listᴰ {x ∷ as} (b ∷ xs) = incl b ⋆-⧜ destruct-Listᴰ-人Listᴰ xs
 
-  inv-l-◆-construct-DList : ∀{as : List A} -> (r : D人List B (ι as)) -> destruct-DList-人DList (construct-DList-人DList r) ≡ r
-  inv-l-◆-construct-DList {[]} ◌-⧜ = λ i → ◌-⧜
-  inv-l-◆-construct-DList {x ∷ as} (incl x₁ ⋆-⧜ xs₁) = λ i → (incl x₁) ⋆-⧜ (inv-l-◆-construct-DList xs₁ i)
+  inv-l-◆-construct-Listᴰ : ∀{as : List A} -> (r : ⋆Listᴰ B (ι as)) -> destruct-Listᴰ-人Listᴰ (construct-Listᴰ-人Listᴰ r) ≡ r
+  inv-l-◆-construct-Listᴰ {[]} ◌-⧜ = λ i → ◌-⧜
+  inv-l-◆-construct-Listᴰ {x ∷ as} (incl x₁ ⋆-⧜ xs₁) = λ i → (incl x₁) ⋆-⧜ (inv-l-◆-construct-Listᴰ xs₁ i)
 
-  inv-r-◆-construct-DList : ∀{as : List A} -> (f : DList B as) -> construct-DList-人DList (destruct-DList-人DList f) ≡ f
-  inv-r-◆-construct-DList {[]} [] = λ i → []
-  inv-r-◆-construct-DList {x ∷ as} (b ∷ xs) = λ i → b ∷ inv-r-◆-construct-DList xs i
+  inv-r-◆-construct-Listᴰ : ∀{as : List A} -> (f : Listᴰ B as) -> construct-Listᴰ-人Listᴰ (destruct-Listᴰ-人Listᴰ f) ≡ f
+  inv-r-◆-construct-Listᴰ {[]} [] = λ i → []
+  inv-r-◆-construct-Listᴰ {x ∷ as} (b ∷ xs) = λ i → b ∷ inv-r-◆-construct-Listᴰ xs i
 
 
 
 module _ {A : 𝒰 𝑖}  where
-  DListHom : (B : List A -> A -> 𝒰 𝑗) -> List A -> List A -> 𝒰 _
-  DListHom B as bs = DList (B bs) as
+  ListᴰHom : (B : List A -> A -> 𝒰 𝑗) -> List A -> List A -> 𝒰 _
+  ListᴰHom B as bs = Listᴰ (B bs) as
 
 
 -- list based inductive substitutions
@@ -113,7 +113,7 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
     RT = (λ b a → ix (T (incl (ι b))) a)
 
   Hom-♮𝐒𝐮𝐛𝐬𝐭' : (a b : ♮𝐒𝐮𝐛𝐬𝐭 T) -> 𝒰 𝑖
-  Hom-♮𝐒𝐮𝐛𝐬𝐭' a b = DListHom RT ⟨ a ⟩ ⟨ b ⟩
+  Hom-♮𝐒𝐮𝐛𝐬𝐭' a b = ListᴰHom RT ⟨ a ⟩ ⟨ b ⟩
 
   record Hom-♮𝐒𝐮𝐛𝐬𝐭 (a b : ♮𝐒𝐮𝐛𝐬𝐭 T) : 𝒰 𝑖 where
     constructor ♮subst
@@ -137,7 +137,7 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
 
 
     map-ι-♮𝐒𝐮𝐛𝐬𝐭 : (f : Hom-♮𝐒𝐮𝐛𝐬𝐭 a b) -> (ι a ⟶ ι b)
-    map-ι-♮𝐒𝐮𝐛𝐬𝐭 (♮subst f) = ⧜subst (destruct-DList-人DList f)
+    map-ι-♮𝐒𝐮𝐛𝐬𝐭 (♮subst f) = ⧜subst (destruct-Listᴰ-人Listᴰ f)
 
   instance
     isSetoidHom:map-ι-♮𝐒𝐮𝐛𝐬𝐭 : {a b : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′} →
@@ -153,18 +153,18 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
         lem-2 refl-≣ = refl-≣
 
 
-        lem-1 : ∀{a b} -> ∀{f g : Hom-♮𝐒𝐮𝐛𝐬𝐭' a b} -> destruct-DList-人DList f ≣ destruct-DList-人DList g -> f ≣ g
+        lem-1 : ∀{a b} -> ∀{f g : Hom-♮𝐒𝐮𝐛𝐬𝐭' a b} -> destruct-Listᴰ-人Listᴰ f ≣ destruct-Listᴰ-人Listᴰ g -> f ≣ g
         lem-1 {f = []} {[]} p = refl-≣
-        lem-1 {f = b ∷ f} {b₁ ∷ g} p with §-D人List.prop-1 p
+        lem-1 {f = b ∷ f} {b₁ ∷ g} p with §-⋆Listᴰ.prop-1 p
         ... | refl-≣ , Y with lem-1 Y
         ... | refl-≣ = refl-≣
 
 
   surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ♮𝐒𝐮𝐛𝐬𝐭 T} -> ι a ⟶ ι b -> Hom-♮𝐒𝐮𝐛𝐬𝐭 a b
-  surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 f = ♮subst (construct-DList-人DList ⟨ f ⟩)
+  surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 f = ♮subst (construct-Listᴰ-人Listᴰ ⟨ f ⟩)
 
   inv-surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ♮𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f : ι a ⟶ ι b} -> map-ι-♮𝐒𝐮𝐛𝐬𝐭 (surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 f) ∼ f
-  inv-surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 = cong-Str ⧜subst (≡→≡-Str (inv-l-◆-construct-DList _))
+  inv-surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 = cong-Str ⧜subst (≡→≡-Str (inv-l-◆-construct-Listᴰ _))
 
   instance
     isSurjective:map-ι-♮𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ♮𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-♮𝐒𝐮𝐛𝐬𝐭 {a} {b})
@@ -173,20 +173,20 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
 
 
   id-♮𝐒𝐮𝐛𝐬𝐭 : ∀{a} -> Hom-♮𝐒𝐮𝐛𝐬𝐭 a a
-  id-♮𝐒𝐮𝐛𝐬𝐭 = ♮subst (construct-DList-人DList (id-⧜𝐒𝐮𝐛𝐬𝐭' {T = T}))
+  id-♮𝐒𝐮𝐛𝐬𝐭 = ♮subst (construct-Listᴰ-人Listᴰ (id-⧜𝐒𝐮𝐛𝐬𝐭' {T = T}))
 
   _◆-♮𝐒𝐮𝐛𝐬𝐭_ : ∀{a b c} -> Hom-♮𝐒𝐮𝐛𝐬𝐭 a b -> Hom-♮𝐒𝐮𝐛𝐬𝐭 b c -> Hom-♮𝐒𝐮𝐛𝐬𝐭 a c
-  ♮subst f ◆-♮𝐒𝐮𝐛𝐬𝐭 ♮subst g = ♮subst (construct-DList-人DList (_◆-⧜𝐒𝐮𝐛𝐬𝐭''_ {T = T} (destruct-DList-人DList f) (destruct-DList-人DList g)))
+  ♮subst f ◆-♮𝐒𝐮𝐛𝐬𝐭 ♮subst g = ♮subst (construct-Listᴰ-人Listᴰ (_◆-⧜𝐒𝐮𝐛𝐬𝐭''_ {T = T} (destruct-Listᴰ-人Listᴰ f) (destruct-Listᴰ-人Listᴰ g)))
 
   private
     lem-1 : {a b c : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′}
             {f : Hom-♮𝐒𝐮𝐛𝐬𝐭 a b} {g : Hom-♮𝐒𝐮𝐛𝐬𝐭 b c} →
             (it isSetoid.∼ map-ι-♮𝐒𝐮𝐛𝐬𝐭 (f ◆-♮𝐒𝐮𝐛𝐬𝐭 g))
             (map-ι-♮𝐒𝐮𝐛𝐬𝐭 f ◆ map-ι-♮𝐒𝐮𝐛𝐬𝐭 g)
-    lem-1 {a}{b}{c}{f}{g} = ≡→≡-Str (cong ⧜subst ( inv-l-◆-construct-DList _)) ∙-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭
+    lem-1 {a}{b}{c}{f}{g} = ≡→≡-Str (cong ⧜subst ( inv-l-◆-construct-Listᴰ _)) ∙-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭
 
     lem-2 : {a : NormalInductiveSubstitution ′ ⟨ T' ⟩ ′} → (it isSetoid.∼ map-ι-♮𝐒𝐮𝐛𝐬𝐭 (id-♮𝐒𝐮𝐛𝐬𝐭 {a = a})) id
-    lem-2 = ≡→≡-Str (cong ⧜subst (inv-l-◆-construct-DList _)) ∙-≣ abstract-id-⧜𝐒𝐮𝐛𝐬𝐭
+    lem-2 = ≡→≡-Str (cong ⧜subst (inv-l-◆-construct-Listᴰ _)) ∙-≣ abstract-id-⧜𝐒𝐮𝐛𝐬𝐭
 
 
   abstract

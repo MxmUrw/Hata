@@ -60,11 +60,11 @@ instance
 
 
 
-module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
-  π₀-⋆-⧜ : ∀{as0 as1 bs : 人List A} -> CtxHom R (as0 ⋆ as1) bs -> CtxHom R as0 bs
+module _ {A : 𝒰 𝑖} {R : ⋆List A -> A -> 𝒰 𝑖} where
+  π₀-⋆-⧜ : ∀{as0 as1 bs : ⋆List A} -> CtxHom R (as0 ⋆ as1) bs -> CtxHom R as0 bs
   π₀-⋆-⧜ (f ⋆-⧜ g) = f
 
-  π₁-⋆-⧜ : ∀{as0 as1 bs : 人List A} -> CtxHom R (as0 ⋆ as1) bs -> CtxHom R as1 bs
+  π₁-⋆-⧜ : ∀{as0 as1 bs : ⋆List A} -> CtxHom R (as0 ⋆ as1) bs -> CtxHom R as1 bs
   π₁-⋆-⧜ (f ⋆-⧜ g) = g
 
 
@@ -262,7 +262,7 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
     initwt× {n} {isVar (tt , x)} = varType (tt , x) (varlistP x)
       where
         varlistP : ∀{n : 人ℕ} -> (x : n ∍ tt) -> atList (id-⧜𝐒𝐮𝐛𝐬𝐭' {T = ′ Term-𝕋× (Sort×Theory 𝒯) ′}) (tt , x) ≣ var x
-        varlistP x = ≡→≡-Str λ i -> inv-l-◆-construct-D人List {R = Term₁-𝕋× (Sort×Theory 𝒯) _} (λ _ v -> var v) i tt x
+        varlistP x = ≡→≡-Str λ i -> inv-l-◆-construct-⋆Listᴰ {R = Term₁-𝕋× (Sort×Theory 𝒯) _} (λ _ v -> var v) i tt x
 
     map-WT× : ∀{n} -> {b x : 𝐂𝐭𝐱ᵘ (Sort×Theory 𝒯)} {a : Node 𝒯 n}
               {v0 : ⟨ F× 𝒯 n ⟩ b} {vs : Vec (⟨ F× 𝒯 n ⟩ b) (size× 𝒯 a)}
@@ -344,12 +344,12 @@ module _ {𝒯 : ProductTheory ℓ₀} {{_ : IShow (Sort 𝒯)}} where
 
     prop-1 {n} n∼◌ (con x) = x
 
-    prop-2 : ∀{m n : 人ℕ} -> n ∼ ◌ -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (m ⋆ incl tt)) (incl n) -> 人List (Sort 𝒯) × Sort 𝒯
+    prop-2 : ∀{m n : 人ℕ} -> n ∼ ◌ -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (m ⋆ incl tt)) (incl n) -> ⋆List (Sort 𝒯) × Sort 𝒯
     prop-2 n∼◌ (f ⋆-⧜ incl x) = map (prop-1 n∼◌) f' , (prop-1 n∼◌ x)
       where
         f' = §-⧜𝐒𝐮𝐛𝐬𝐭-⊤.prop-1 {T = SortTerm} (f)
 
-  getCtx : ∀{m n : 人ℕ} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (m ⋆ incl tt)) (incl n) -> 人List (SortTermᵈ n)
+  getCtx : ∀{m n : 人ℕ} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 {T = SortTerm} (incl (m ⋆ incl tt)) (incl n) -> ⋆List (SortTermᵈ n)
   -- [ m ]ᶠ -> SortTermᵈ n
   getCtx s = asList (π₀-⋆-⧜ s)
 

@@ -98,7 +98,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
     prop-1 α β (var x) p i s = {!!}
     prop-1 α β (con c x) p i s = {!!}
 
-    prop-2 : ∀{x y : 𝐂𝐭𝐱 𝑨} {αsx : 人List (Type-𝕋× 𝑨)} -> (h : y ⟶ x)
+    prop-2 : ∀{x y : 𝐂𝐭𝐱 𝑨} {αsx : ⋆List (Type-𝕋× 𝑨)} -> (h : y ⟶ x)
              -> (tsx : CtxHom (Term₁-𝕋× 𝑨) (αsx) ⟨ y ⟩)
              -> (reext-Terms-𝕋× (sub-⧜𝐒𝐮𝐛𝐬𝐭 h) tsx)
                ≣

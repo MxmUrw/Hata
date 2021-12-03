@@ -146,17 +146,17 @@ instance
 -- Ctx'
 
 ℒHMQuant : (k : ♮ℕ) -> 𝒰₀
-ℒHMQuant = DList (const (ℒHMTypes))
+ℒHMQuant = Listᴰ (const (ℒHMTypes))
 
 ℒHMCtxFor : ∀{k} -> (q : ℒHMQuant k) -> ∀ μs -> 𝒰₀
-ℒHMCtxFor q μs = DDList (λ a -> ℒHMType ⟨ μs ⊔ a ⟩) q
+ℒHMCtxFor q μs = Listᴰ² (λ a -> ℒHMType ⟨ μs ⊔ a ⟩) q
 
 ℒHMCtx : (k : ♮ℕ) -> (μs : ℒHMTypes) -> 𝒰₀
 ℒHMCtx k μs = ∑ λ (q : ℒHMQuant k) -> ℒHMCtxFor q μs
 
 
 -- module _ (n : ♮ℕ) (m : ℒHMTypes) where
---   ℒHMCtxᵘ = DList (const (ℒHMPolyType m)) n
+--   ℒHMCtxᵘ = Listᴰ (const (ℒHMPolyType m)) n
 
 -- module _ (n : ♮ℕ) where
 --   macro ℒHMCtx = #structureOn (ℒHMCtxᵘ n)

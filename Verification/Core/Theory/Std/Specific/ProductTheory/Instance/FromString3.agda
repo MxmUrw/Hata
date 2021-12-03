@@ -55,7 +55,7 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 ι-Fin-R-[]ᶠ zero = tt , left-∍ incl
 ι-Fin-R-[]ᶠ (suc i) = ι-Fin-R-[]ᶠ i .fst , right-∍ (ι-Fin-R-[]ᶠ i .snd)
 
-getNum : ∀{A : 𝒰 𝑖} {as : 人List A} {a : A} -> (p : as ∍ a) -> ℕ
+getNum : ∀{A : 𝒰 𝑖} {as : ⋆List A} {a : A} -> (p : as ∍ a) -> ℕ
 getNum incl = zero
 getNum {as = as ⋆-⧜ bs} (right-∍ p) = 人length bs +-ℕ getNum p
 getNum (left-∍ p) = getNum p

@@ -40,7 +40,7 @@ module _ {𝒹 : ATokenTreeData} {Ann : 𝐏𝐭𝐝₀} where
     Ann' = Ann × ATokenTreeAnn 𝒹
 
   mutual
-    printᵘ-TokenTrees : ∀{A n} -> ConstDList (ATokenTree 𝒹 Ann A) n -> ConstDList (ATokenExpr (δ 𝒹) Ann' A) n
+    printᵘ-TokenTrees : ∀{A n} -> ConstListᴰ (ATokenTree 𝒹 Ann A) n -> ConstListᴰ (ATokenExpr (δ 𝒹) Ann' A) n
     printᵘ-TokenTrees [] = []
     printᵘ-TokenTrees (x ∷ xs) = (printᵘ-TokenTree x) ∷ (printᵘ-TokenTrees xs)
 
@@ -53,7 +53,7 @@ module _ {𝒹 : ATokenTreeData} {Ann : 𝐏𝐭𝐝₀} where
 
 
   mutual
-    parseᵘ-TokenTrees : ∀{A n} -> ConstDList (ATokenExpr (δ 𝒹) Ann' A) n -> ConstDList (ATokenTree 𝒹 Ann (ATokenExpr (δ 𝒹) Ann' A)) n
+    parseᵘ-TokenTrees : ∀{A n} -> ConstListᴰ (ATokenExpr (δ 𝒹) Ann' A) n -> ConstListᴰ (ATokenTree 𝒹 Ann (ATokenExpr (δ 𝒹) Ann' A)) n
     parseᵘ-TokenTrees [] = []
     parseᵘ-TokenTrees (x ∷ xs) = (parseᵘ-TokenTree x) ∷ (parseᵘ-TokenTrees xs)
 
@@ -61,7 +61,7 @@ module _ {𝒹 : ATokenTreeData} {Ann : 𝐏𝐭𝐝₀} where
     parseᵘ-TokenTree (hole x) = hole (hole x)
     parseᵘ-TokenTree (var (ann , _) x) = var ann x
     parseᵘ-TokenTree (token (ann , _) x) with tokenSize 𝒹 x ≟-Str 0
-    ... | yes p = node {!!} (x) (transport-Str (cong-Str (λ ξ -> ConstDList (ATokenTree 𝒹 Ann (ATokenExpr (δ 𝒹) Ann' _)) ξ) (sym-≣ p)) [])
+    ... | yes p = node {!!} (x) (transport-Str (cong-Str (λ ξ -> ConstListᴰ (ATokenTree 𝒹 Ann (ATokenExpr (δ 𝒹) Ann' _)) ξ) (sym-≣ p)) [])
     ... | no ¬p = hole (token (ann , just (iserror ("Need " <> show (tokenSize 𝒹 (x)) <> " arguments here."))) x)
     -- (annotation ("This token has " <> show (tokenSize 𝒹 (x)) <> " arguments, but has been applied to none.")
     --                                (token x))

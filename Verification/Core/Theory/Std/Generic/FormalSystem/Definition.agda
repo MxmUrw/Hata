@@ -72,7 +72,7 @@ module _ {𝒮 : 𝒰 𝑖} {{_ : isFormalSystem {𝑗} 𝒮}} (𝑨 : 𝒮) whe
 
 -- module _ {𝒮 : FormalSystem 𝑖} {a : ⟨ 𝒮 ⟩} where
 module _ {𝒮 : 𝒰 𝑖} {{_ : isFormalSystem {𝑗} 𝒮}} {𝑨 : 𝒮} where
-  -- _⊢_ : 人List (Type 𝑨) -> Type 𝑨 -> 𝒰 _
+  -- _⊢_ : ⋆List (Type 𝑨) -> Type 𝑨 -> 𝒰 _
   -- _⊢_ Γ τ = τ' ⟶ Γ'
   --   where
   --     Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)

@@ -73,7 +73,7 @@ module _ {A : 𝒰 𝑖} {l : A -> 人ℕ' 𝑖} {ℬ : 𝒰 𝑖} {{_ : isCateg
       fsum {n = n ⋆-⧜ m} f = fsum (λ (_ , i) -> f (_ , left-∍ i)) ⋆ fsum (λ (_ , i) -> f (_ , right-∍ i))
       fsum {n = ◌-⧜} f = ◌
 
-    ibounds : VecTree1 A l -> 人List ℬ
+    ibounds : VecTree1 A l -> ⋆List ℬ
     ibounds (node1 a x) = incl (initb a) ⋆ fsum (λ i -> ibounds (x i))
 
     makeStrategy : (v : VecTree1 A l) -> Strategy (ibounds v)

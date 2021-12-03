@@ -50,7 +50,7 @@ Type-𝕋× a = Sort a
 
 
 
-data Term₁-𝕋× (a : 𝕋× 𝑖) : (Γ : 人List (Type-𝕋× a)) (τ : Type-𝕋× a) -> 𝒰 𝑖 where
+data Term₁-𝕋× (a : 𝕋× 𝑖) : (Γ : ⋆List (Type-𝕋× a)) (τ : Type-𝕋× a) -> 𝒰 𝑖 where
   var : ∀{τ Γ} -> Γ ∍ τ -> Term₁-𝕋× a Γ τ
   con : ∀{Γ αs α} -> (c : Con a αs α) -> CtxHom (Term₁-𝕋× a) ((ι αs)) (Γ) -> Term₁-𝕋× a Γ α
 

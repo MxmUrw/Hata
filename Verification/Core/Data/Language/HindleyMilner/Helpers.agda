@@ -22,9 +22,9 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 
 
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} (C : ∀{a} -> B a -> 𝒰 𝑘) where
-  data DDList : {as : List A} (bs : DList B as) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
-    [] : DDList []
-    _∷_ : ∀{a as} -> {b : B a} {bs : DList B as} -> (c : C b) -> (cs : DDList bs) -> DDList (b ∷ bs)
+  data Listᴰ² : {as : List A} (bs : Listᴰ B as) -> 𝒰 (𝑖 ､ 𝑗 ､ 𝑘) where
+    [] : Listᴰ² []
+    _∷_ : ∀{a as} -> {b : B a} {bs : Listᴰ B as} -> (c : C b) -> (cs : Listᴰ² bs) -> Listᴰ² (b ∷ bs)
 
 
 
@@ -44,27 +44,27 @@ module §-HM-Helpers where
 
 
 module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
-  size-D人List : ∀{m} -> D人List F m -> 人List A
-  size-D人List {m} _ = m
+  size-⋆Listᴰ : ∀{m} -> ⋆Listᴰ F m -> ⋆List A
+  size-⋆Listᴰ {m} _ = m
 
 module _ {A : 𝒰 𝑖} {F : A -> 𝒰 𝑗} where
-  size-DList : ∀{m} -> DList F m -> List A
-  size-DList {m} _ = m
+  size-Listᴰ : ∀{m} -> Listᴰ F m -> List A
+  size-Listᴰ {m} _ = m
 
-  split-DList : ∀{as : List A} {a : A} -> DList F (a ∷ as) -> (F a) × DList F as
-  split-DList (b ∷ xs) = b , xs
+  split-Listᴰ : ∀{as : List A} {a : A} -> Listᴰ F (a ∷ as) -> (F a) × Listᴰ F as
+  split-Listᴰ (b ∷ xs) = b , xs
 
 
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
-  lookup-DList : ∀{as : List A} -> (xs : DList B as) -> ∀{a} -> (as ∍♮ a) -> B a
-  lookup-DList (b ∷ xs) incl = b
-  lookup-DList (b ∷ xs) (skip p) = lookup-DList xs p
+  lookup-Listᴰ : ∀{as : List A} -> (xs : Listᴰ B as) -> ∀{a} -> (as ∍♮ a) -> B a
+  lookup-Listᴰ (b ∷ xs) incl = b
+  lookup-Listᴰ (b ∷ xs) (skip p) = lookup-Listᴰ xs p
 
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} where
-  lookup-DDList : ∀{as : List A} -> {xs : DList B as} -> (ys : DDList C xs) -> ∀{a} -> (p : as ∍♮ a) -> C (lookup-DList xs p)
-  lookup-DDList (c ∷ ys) incl = c
-  lookup-DDList (c ∷ ys) (skip p) = lookup-DDList ys p
+  lookup-Listᴰ² : ∀{as : List A} -> {xs : Listᴰ B as} -> (ys : Listᴰ² C xs) -> ∀{a} -> (p : as ∍♮ a) -> C (lookup-Listᴰ xs p)
+  lookup-Listᴰ² (c ∷ ys) incl = c
+  lookup-Listᴰ² (c ∷ ys) (skip p) = lookup-Listᴰ² ys p
 
-  split-DDList : ∀{as : List A} {a : A} {bs : DList B as} {b : B a} -> DDList C (b ∷ bs) -> (C b) × DDList C bs
-  split-DDList (b ∷ xs) = b , xs
+  split-Listᴰ² : ∀{as : List A} {a : A} {bs : Listᴰ B as} {b : B a} -> Listᴰ² C (b ∷ bs) -> (C b) × Listᴰ² C bs
+  split-Listᴰ² (b ∷ xs) = b , xs
 

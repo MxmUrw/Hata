@@ -52,7 +52,7 @@ open hasBoundary {{...}} public
 module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {F : Functor ′ ℬ ′ (𝐔𝐧𝐢𝐯 𝑙)} {{_ : isCheckingBoundary ′ ℬ ′ F}}
        where
 
-  record ResolutionTarget (as : 人List ℬ) : 𝒰 (𝑖 ､ 𝑙) where
+  record ResolutionTarget (as : ⋆List ℬ) : 𝒰 (𝑖 ､ 𝑙) where
     constructor rtarget
     field fst : ℬ
     field snd : as ∍ fst
@@ -68,10 +68,10 @@ module _ {ℬ : 𝒰 𝑖} {{_ : isCategory {𝑗} ℬ}} {{_ : isSet-Str ℬ}} {
   ResolutionPair₂ : 𝒰 _
   ResolutionPair₂ = ResolutionTarget₂ ^ 2
 
-  ResolutionPair : (as bs : 人List ℬ) -> 𝒰 _
+  ResolutionPair : (as bs : ⋆List ℬ) -> 𝒰 _
   ResolutionPair as bs = ResolutionTarget as × ResolutionTarget bs
 
-  data Strategy : (as : 人List ℬ) -> 𝒰 (𝑖 ､ 𝑙) where
+  data Strategy : (as : ⋆List ℬ) -> 𝒰 (𝑖 ､ 𝑙) where
     begin : ∀ a -> Strategy (incl a)
     resolve : ∀{as bs} -> Strategy as -> Strategy bs
             -- -> (as ∍ a) -> (bs ∍ b) -> ⟨ F ⟩ a -> ⟨ F ⟩ b

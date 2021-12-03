@@ -20,7 +20,7 @@ module _ (𝒹 : TokenExprData) where
     var : Text -> TokenExprᵘ X
     hole : X -> TokenExprᵘ X
     token : TokenType 𝒹 -> TokenExprᵘ X
-    list : ∀{n} -> ConstDList (TokenExprᵘ X) n -> TokenExprᵘ X
+    list : ∀{n} -> ConstListᴰ (TokenExprᵘ X) n -> TokenExprᵘ X
     annotation : Text -> TokenExprᵘ X -> TokenExprᵘ X
 
 

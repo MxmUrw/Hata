@@ -23,7 +23,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Untype
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Untyped.Instance.Monad
 
 sᵘ : ℒHMJudgement -> ♮ℕ
-sᵘ (_ ⊩ Γ ⊢ τ) = size-DList Γ
+sᵘ (_ ⊩ Γ ⊢ τ) = size-Listᴰ Γ
 
 macro s = #structureOn sᵘ
 

@@ -52,8 +52,8 @@ record hasMembership {𝑘} {𝑖} {𝑗} (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰
 open hasMembership {{...}} public
 
 instance
-  hasMembership:人List : ∀{A : 𝒰 𝑖} -> hasMembership (人List A) A
-  hasMembership:人List = hasMembership:byDef (λ as a → as ∍ a)
+  hasMembership:⋆List : ∀{A : 𝒰 𝑖} -> hasMembership (⋆List A) A
+  hasMembership:⋆List = hasMembership:byDef (λ as a → as ∍ a)
 
 -- instance
 --   hasMembership:List : ∀{A : 𝒰 𝑖} -> hasMembership (List A) A
@@ -87,7 +87,7 @@ module _ {𝐴 : 𝕋× 𝑖} where
   -- of the substitution
   module _ {a b : 𝐂𝐭𝐱 𝐴} where
     isEpi-𝕋× : (f : a ⟶ b) -> 𝒰 _
-    isEpi-𝕋× f = ∀{i} -> (p : ⟨ b ⟩ ∍ i) -> ∑ λ j -> ∑ λ (q : ⟨ a ⟩ ∍ j) -> (destruct-D人List ⟨ f ⟩ j q) ∋ p
+    isEpi-𝕋× f = ∀{i} -> (p : ⟨ b ⟩ ∍ i) -> ∑ λ j -> ∑ λ (q : ⟨ a ⟩ ∍ j) -> (destruct-⋆Listᴰ ⟨ f ⟩ j q) ∋ p
 
   private
     module _ {a b : 𝐂𝐭𝐱 𝐴} where
@@ -114,7 +114,7 @@ module _ {𝐴 : 𝕋× 𝑖} where
         lem-20 : g ∼ h
         lem-20 = lem-001 λ a∍i →
                  let j , q , pat = P a∍i
-                 in lem-01 ((destruct-D人List ⟨ f ⟩ j q)) g h {!!} a∍i pat
+                 in lem-01 ((destruct-⋆Listᴰ ⟨ f ⟩ j q)) g h {!!} a∍i pat
 
 
       prop-1 : {f : a ⟶ b} -> isEpi-𝕋× f -> isEpi f

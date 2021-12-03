@@ -99,7 +99,7 @@ module _ {a b : 𝐈𝐧𝐟𝐞𝐫 𝑖} where
 
 -- module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
 --   module _ {A : 𝒰 𝑖} where
---     ⨆ᶠ : ∀{as : 人List A} -> ([ as ]ᶠ -> ⟨ 𝒞 ⟩) -> ⟨ 𝒞 ⟩
+--     ⨆ᶠ : ∀{as : ⋆List A} -> ([ as ]ᶠ -> ⟨ 𝒞 ⟩) -> ⟨ 𝒞 ⟩
 --     ⨆ᶠ = {!!}
 
 

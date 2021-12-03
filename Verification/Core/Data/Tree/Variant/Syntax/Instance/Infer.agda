@@ -61,8 +61,8 @@ module _ {𝒹 : SyntaxTreeData} where
     printᵘ-SyntaxTreeBinding (bind name x) = node (left binder) ((var name) ∷ (printᵘ-SyntaxTreeBinding x) ∷ [])
 
 
-    printᵘ-SyntaxTrees : ∀ {A} {Γ} {n} -> DList (SyntaxTreeBindingWithHole 𝒹 (ix A) Γ) (n)
-                                          -> ConstDList (TokenTreeᵘ (δ 𝒹) (⨆ᵘ A)) (map-List (const tt) n)
+    printᵘ-SyntaxTrees : ∀ {A} {Γ} {n} -> Listᴰ (SyntaxTreeBindingWithHole 𝒹 (ix A) Γ) (n)
+                                          -> ConstListᴰ (TokenTreeᵘ (δ 𝒹) (⨆ᵘ A)) (map-List (const tt) n)
     printᵘ-SyntaxTrees [] = []
     printᵘ-SyntaxTrees (x ∷ xs) = printᵘ-SyntaxTreeBindingWithHole x ∷ (printᵘ-SyntaxTrees xs)
 
@@ -95,15 +95,15 @@ module _ {𝒹 : SyntaxTreeData} where
     parseᵘ-SyntaxTreeBinding {Γ = Γ} {n = tt ∷ n} other@(t) = {!!} -- hole (annotation "Expected binder here." other)
 
     parseᵘ-SyntaxTrees : ∀ {A} {Γ} {n}
-                           -> ConstDList (TokenTreeᵘ (δ 𝒹) (A)) (map-List (const tt) n)
-                           -> DList (SyntaxTreeBindingWithHole 𝒹 (ix (写 (TokenTree (δ 𝒹) A))) Γ) (n)
+                           -> ConstListᴰ (TokenTreeᵘ (δ 𝒹) (A)) (map-List (const tt) n)
+                           -> Listᴰ (SyntaxTreeBindingWithHole 𝒹 (ix (写 (TokenTree (δ 𝒹) A))) Γ) (n)
     parseᵘ-SyntaxTrees {n = ⦋⦌} [] = []
     parseᵘ-SyntaxTrees {n = _ ∷ _} (x ∷ xs) =
       either (const (skipBinding (hole x))) incl (parseᵘ-SyntaxTreeBinding x)
       ∷ parseᵘ-SyntaxTrees xs
 
 
-    parseᵘ-SyntaxTree' : ∀ {A} -> (Γ : 人List Text) -> TokenTree (δ 𝒹) A -> (ix (SyntaxTree 𝒹 (写 (TokenTree (δ 𝒹) A))) Γ)
+    parseᵘ-SyntaxTree' : ∀ {A} -> (Γ : ⋆List Text) -> TokenTree (δ 𝒹) A -> (ix (SyntaxTree 𝒹 (写 (TokenTree (δ 𝒹) A))) Γ)
     parseᵘ-SyntaxTree' Γ (hole x) = hole (hole x)
     parseᵘ-SyntaxTree' Γ (var x) = case find-first-∍ Γ x of
                                            (λ p -> hole (annotation ("The variable " <> x <> " is not in scope") (var x)))

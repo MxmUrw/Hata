@@ -25,7 +25,7 @@ module _ (𝒹 : ATokenExprData) (Ann : 𝐏𝐭𝐝₀) where
     var : ⟨ Ann ⟩ -> Text -> ATokenExprᵘ X
     hole : X -> ATokenExprᵘ X
     token : ⟨ Ann ⟩ -> TokenType 𝒹 -> ATokenExprᵘ X
-    list : ∀{n} -> ⟨ Ann ⟩ -> ConstDList (ATokenExprᵘ X) n -> ATokenExprᵘ X
+    list : ∀{n} -> ⟨ Ann ⟩ -> ConstListᴰ (ATokenExprᵘ X) n -> ATokenExprᵘ X
     -- annotation : Text -> ATokenExprᵘ X -> ATokenExprᵘ X
 
 

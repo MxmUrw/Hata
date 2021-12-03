@@ -17,7 +17,7 @@ open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoun
 ProductTheoryData = 𝕋×.統.𝒜
 
 
-data UntypedℒHMᵈ (X : 人List Text -> 𝒰₀) : (Γ : 人List Text) -> 𝒰₀ where
+data UntypedℒHMᵈ (X : ⋆List Text -> 𝒰₀) : (Γ : ⋆List Text) -> 𝒰₀ where
   var  : ∀{i Γ} -> Γ ∍ i -> UntypedℒHMᵈ X Γ
   hole : ∀{Γ} -> X Γ -> UntypedℒHMᵈ X Γ
   slet : ∀{Γ} -> (name : Text) -> UntypedℒHMᵈ X Γ -> UntypedℒHMᵈ X (Γ ⋆ incl name) -> UntypedℒHMᵈ X Γ
