@@ -48,6 +48,8 @@ library:
     - RankNTypes
     - MultiParamTypeClasses
     - FunctionalDependencies
+    - TypeFamilies
+    - GeneralizedNewtypeDeriving
 
 executables:
   metabuild:

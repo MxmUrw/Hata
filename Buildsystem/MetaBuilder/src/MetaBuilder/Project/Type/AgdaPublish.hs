@@ -27,7 +27,7 @@ import Debug.Trace
 
 import System.Directory
 
-
+import Development.Shake.Classes
 -- The AgdaPublish project
 
 
@@ -123,6 +123,11 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
   , commands_AbFile = commands_AbFile
   }
 
+-------------------------------------------------------
+-- Oracle types
+
+newtype SpecialCommandsOracle = SpecialCommandsOracle [String] deriving (Show,Typeable,Eq,Hashable,Binary,NFData)
+type instance RuleResult SpecialCommandsOracle = [SpecialCommand]
 
 -------------------------------------------------------
 -- AgdaPublish rules
@@ -131,11 +136,22 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
 
 makeRules_AgdaPublishProject :: ExtraGlobalConfig -> ExtraAgdaPublishProjectConfig -> Rules ()
 makeRules_AgdaPublishProject egc eappc = do
+  -- defining oracles
+  getSpecialCommands <- addOracle $ \(SpecialCommandsOracle source_AbFiles) -> do
+    contents <- liftIO $ mapM (TIO.readFile) source_AbFiles
+    commands <- liftIO $ assumeRight $ generateCommands contents
+    return commands
+    -- :: Action [SpecialCommand]
+
+  -- accessing the original config
   let appc = eappc.>originalConfig
+
+  -- rule for automatic building
   if (eappc.>originalConfig.>autobuild)
     then want [eappc.>mainPdf_AbFile]
     else return ()
 
+  -- the actual rules
   phony (eappc.>originalConfig.>projectName) $ do
     need [eappc.>mainPdf_AbFile]
 
@@ -170,7 +186,7 @@ makeRules_AgdaPublishProject egc eappc = do
     let sourcefile = eappc.>generateLiterate_Source_AbDir </> relfile -<.> ".agda"
     let targetfile = eappc.>generateLiterate_Target_AbDir </> relfile -<.> ".lagda"
     putInfo $ "Generating literate file " ++ targetfile ++ " for " ++ sourcefile
-    need [sourcefile, egc.>metabuilder_AbFile] -- , eappc.>commands_AbFile]
+    need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile]
 
     let importantList = (eappc.>generateTex_ImportantSource_AbFiles)
     -- putInfo $ "Checking if file " <> file <> " is in file list: " <> show importantList
@@ -217,10 +233,16 @@ makeRules_AgdaPublishProject egc eappc = do
   (eappc.>commands_AbFile) %> \file -> do
     -- source_Files <- getDirectoryFiles (eappc.>source_AbDir) ["//*.agda"]
     -- let source_AbFiles = [eappc.>source_AbDir </> f | f <- source_Files]
+    -- need ([egc.>metabuilder_AbFile] <> source_AbFiles)
+
     let source_AbFiles = (eappc.>readCommands_ImportantSource_AbFiles)
-    need ([egc.>metabuilder_AbFile] <> source_AbFiles)
-    contents <- liftIO $ mapM (TIO.readFile) source_AbFiles
-    commands <- liftIO $ assumeRight $ generateCommands contents
+    need ([egc.>metabuilder_AbFile])
+
+    -- we ask the oracle, such that this rule is not executed always,
+    -- but only when the commands list changes (or the metabuilder file changed)
+    commands <- getSpecialCommands (SpecialCommandsOracle source_AbFiles)
+    -- contents <- liftIO $ mapM (TIO.readFile) source_AbFiles
+    -- commands <- liftIO $ assumeRight $ generateCommands contents
     putInfo $ "Generating commands file. Found commands: " <> show commands
     liftIO $ encodeFile file commands
 
