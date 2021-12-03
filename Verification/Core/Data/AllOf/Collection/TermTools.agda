@@ -10,6 +10,6 @@ open import Verification.Core.Data.Indexed.Duplicate public
 
 -- we also import these, since they are used in those above
 open import Verification.Core.Algebra.Monoid.Definition public
-open import Verification.Core.Algebra.Monoid.Free public
+open import Verification.Core.Data.List.Variant.FreeMonoid.public
 
 

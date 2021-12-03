@@ -9,7 +9,7 @@ open import Verification.Core.Set.Contradiction
 open import Verification.Core.Set.Setoid.Morphism
 -- open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
--- open import Verification.Core.Algebra.Monoid.Free.Element
+-- open import Verification.Core.Data.List.Variant.FreeMonoid.Element
 open import Verification.Core.Data.Universe.Everything hiding (isCategory:𝒰)
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.List.Variant.Base.Definition

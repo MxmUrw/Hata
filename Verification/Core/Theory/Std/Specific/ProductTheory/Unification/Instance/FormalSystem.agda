@@ -8,7 +8,7 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Data.List.Variant.FreeMonoid.Element
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Product.Definition

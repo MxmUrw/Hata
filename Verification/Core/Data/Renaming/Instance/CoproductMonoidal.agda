@@ -29,7 +29,7 @@ open import Verification.Core.Data.NormalFiniteIndexed.Definition
 
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Data.List.Variant.FreeMonoid.Element
 
 open import Verification.Core.Category.Std.Category.Subcategory.Full public
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition

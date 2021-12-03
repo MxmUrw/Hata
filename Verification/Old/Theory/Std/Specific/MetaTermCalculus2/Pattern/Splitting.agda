@@ -4,7 +4,7 @@ module Verification.Core.Theory.Std.Specific.MetaTermCalculus2.Pattern.Splitting
 open import Verification.Core.Conventions hiding (Structure ; _⊔_ ; extend)
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Algebra.Monoid.Free.Element
+open import Verification.Core.Data.List.Variant.FreeMonoid.Element
 open import Verification.Core.Order.Lattice hiding (⊥)
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Product.Definition

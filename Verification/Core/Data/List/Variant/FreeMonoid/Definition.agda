@@ -1,5 +1,5 @@
 
-module Verification.Core.Algebra.Monoid.Free.Definition where
+module Verification.Core.Data.List.Variant.FreeMonoid.Definition where
 
 
 open import Verification.Core.Conventions hiding (ℕ)
