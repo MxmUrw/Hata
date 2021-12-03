@@ -12,7 +12,7 @@ open import Verification.Core.Algebra.Monoid.Free.Element
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Sum.Definition
-open import Verification.Core.Data.List.Definition
+open import Verification.Core.Data.List.Variant.Base.Definition
 
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition

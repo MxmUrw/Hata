@@ -19,7 +19,7 @@ open import Verification.Core.Category.Std.Functor.EssentiallySurjective
 open import Verification.Core.Category.Std.Functor.Adjoint
 open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
-open import Verification.Core.Data.List.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Base.Instance.Monoid
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
@@ -74,7 +74,7 @@ module _ {I : 𝒰 𝑖} where
     module _ where
       abstract
         lem-10 : {as bs : List I} -> (ι (as ⋆ bs) ∼ ι as ⋆ ι bs)
-        lem-10 {⦋⦌} {bs} = unit-l-⋆ ⁻¹
+        lem-10 {[]} {bs} = unit-l-⋆ ⁻¹
         lem-10 {x ∷ as} {bs} = (refl ≀⋆≀ lem-10 {as} {bs}) ∙ assoc-r-⋆
 
     f : ∀{a : I} -> {as : Free-𝐌𝐨𝐧 I} -> as ∍ a -> ι (♮ as) ∍ a

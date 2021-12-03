@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Definition where
+module Verification.Core.Data.List.Variant.Base.Definition where
 
 open import Verification.Conventions
 

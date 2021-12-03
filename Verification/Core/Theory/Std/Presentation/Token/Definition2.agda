@@ -22,7 +22,7 @@ open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.Sum.Instance.Monad
 open import Verification.Core.Data.Universe.Everything
-open import Verification.Core.Data.List.Instance.Traversable
+open import Verification.Core.Data.List.Variant.Base.Instance.Traversable
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 

@@ -67,25 +67,12 @@ module _ {A : 𝒰 𝑖} (R : 人List A -> A -> 𝒰 𝑖) where
   CtxHom : 人List A -> 人List A -> 𝒰 _
   CtxHom as bs = D人List (R bs) as
 
-  -- data CtxHom : (a b : 人List A) -> 𝒰 𝑖 where
-  --   ◌-⧜ : ∀{b} -> CtxHom (◌) b
-  --   incl : ∀{a b} -> R b a -> CtxHom (incl a) b
-  --   _⋆-⧜_ : ∀{a b x} -> CtxHom a x -> CtxHom b x -> CtxHom (a ⋆ b) x
-
--- Term-𝕋× : (a : 𝕋× 𝑖) -> (𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× a)) -> (𝐈𝐱 (Type-𝕋× a) (𝐔𝐧𝐢𝐯 𝑖))
--- Term-𝕋× a Γ = indexed (λ τ → Term₁-𝕋× a ⟨ Γ ⟩ τ)
-
 
 module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
 
   instance
     isSetoid:D人List : ∀{a} -> isSetoid (D人List R a)
     isSetoid:D人List = isSetoid:byId
-
-  -- distr-CtxHom : ∀{a b x : 人List A} -> (indexed (R a) ⟶ indexed (R b)) -> (CtxHom R x a) -> (CtxHom R x b)
-  -- distr-CtxHom f (incl x) = incl (f _ x)
-  -- distr-CtxHom f (t ⋆-⧜ t₁) = (distr-CtxHom f t) ⋆-⧜ (distr-CtxHom f t₁)
-  -- distr-CtxHom f ◌-⧜ = ◌-⧜
 
   construct-D人List : ∀{as : 人List A} -> (∀ a -> as ∍ a -> R a) -> D人List R as
   construct-D人List {incl x} r = incl (r x incl)
@@ -138,77 +125,15 @@ module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
 
 
 
------------------------------------------
--- BEGIN Old
-{-
 
-module _ {A : 𝒰 𝑖} {R : 人List A -> A -> 𝒰 𝑖} where
-
-  instance
-    isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> isSetoid (CtxHom R a b)
-    isSetoid:Hom-⧜𝐒𝐮𝐛𝐬𝐭 = isSetoid:byId
-
-  -- distr-CtxHom-𝐈𝐱 : ∀{a b : 𝐈𝐱 A (𝐔𝐧𝐢𝐯 𝑖)} -> (indexed (R ⟨ a ⟩) ⟶ indexed (R ⟨ b ⟩)) -> indexed 
-  distr-CtxHom : ∀{a b x : 人List A} -> (indexed (R a) ⟶ indexed (R b)) -> (CtxHom R x a) -> (CtxHom R x b)
-  distr-CtxHom f (incl x) = incl (f _ x)
-  distr-CtxHom f (t ⋆-⧜ t₁) = (distr-CtxHom f t) ⋆-⧜ (distr-CtxHom f t₁)
-  distr-CtxHom f ◌-⧜ = ◌-⧜
-
-  construct-CtxHom : ∀{as bs : 人List A} -> (∀ a -> as ∍ a -> R bs a) -> CtxHom R as bs
-  construct-CtxHom {incl x} {bs} r = incl (r x incl)
-  construct-CtxHom {as ⋆-⧜ as₁} {bs} r = construct-CtxHom (λ a x -> r a (left-∍ x)) ⋆-⧜ construct-CtxHom (λ a x -> r a (right-∍ x))
-  construct-CtxHom {◌-⧜} {bs} r = ◌-⧜
-
-  destruct-CtxHom : ∀{as bs : 人List A} -> CtxHom R as bs -> (∀ a -> as ∍ a -> R bs a)
-  destruct-CtxHom (incl x) a incl = x
-  destruct-CtxHom (f ⋆-⧜ g) a (left-∍ p) = destruct-CtxHom f a p
-  destruct-CtxHom (f ⋆-⧜ g) a (right-∍ p) = destruct-CtxHom g a p
-
-  inv-l-◆-construct-CtxHom : ∀{as bs : 人List A} -> (r : ∀ a -> as ∍ a -> R bs a) -> destruct-CtxHom (construct-CtxHom r) ≡ r
-  inv-l-◆-construct-CtxHom {incl x} {bs} r = λ {i a incl → r x incl}
-  inv-l-◆-construct-CtxHom {as ⋆-Free-𝐌𝐨𝐧 as₁} {bs} r i a (right-∍ x) = inv-l-◆-construct-CtxHom (λ a -> r a ∘ right-∍) i a x
-  inv-l-◆-construct-CtxHom {as ⋆-Free-𝐌𝐨𝐧 as₁} {bs} r i a (left-∍ x)  = inv-l-◆-construct-CtxHom (λ a -> r a ∘ left-∍)  i a x
-  inv-l-◆-construct-CtxHom {◌-Free-𝐌𝐨𝐧} {bs} r i a ()
-
-  inv-r-◆-construct-CtxHom : ∀{as bs : 人List A} -> (f : CtxHom R as bs) -> construct-CtxHom (destruct-CtxHom f) ≡ f
-  inv-r-◆-construct-CtxHom ◌-⧜ = refl-≡
-  inv-r-◆-construct-CtxHom (incl x) = refl-≡
-  inv-r-◆-construct-CtxHom (f ⋆-⧜ g) = λ i → inv-r-◆-construct-CtxHom f i ⋆-⧜ inv-r-◆-construct-CtxHom g i
-
-  module _ {as bs : 人List A} where
-    instance
-      isIso:destruct-CtxHom : isIso {𝒞 = 𝐔𝐧𝐢𝐯 _} (hom (destruct-CtxHom {as = as} {bs}))
-      isIso:destruct-CtxHom = record
-        { inverse-◆ = construct-CtxHom
-        ; inv-r-◆ = funExt inv-r-◆-construct-CtxHom
-        ; inv-l-◆ = funExt inv-l-◆-construct-CtxHom
-        }
-
-    instance
-      isInjective:destruct-CtxHom : isInjective-𝒰 (destruct-CtxHom {as = as} {bs})
-      isInjective:destruct-CtxHom = isInjective-𝒰:byIso
-
-  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> R b a -> CtxHom R (incl a) b
-  incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 = incl
-
-  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b} -> {f g : R b a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
-  cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
-
--}
-
------------------------------------------
--- END Old
-
-
-
-
-
+-- [Hide]
 module _ {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) where
   Substitution = RelativeKleisli T
 
   macro
     𝐒𝐮𝐛𝐬𝐭 : SomeStructure
     𝐒𝐮𝐛𝐬𝐭 = #structureOn (Substitution)
+
 
 record InductiveSubstitution {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) : 𝒰 𝑖 where
   constructor incl
@@ -221,12 +146,6 @@ module _ {I : 𝒰 𝑖} (T : FinitaryRelativeMonad I) where
   macro ⧜𝐒𝐮𝐛𝐬𝐭 = #structureOn (InductiveSubstitution T)
 
 module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
-  -- instance
-  --   isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isDiscrete I}} -> isDiscrete (⧜𝐒𝐮𝐛𝐬𝐭 T)
-  --   isDiscrete:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
-
-  --   isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isSet-Str I}} -> isSet-Str (⧜𝐒𝐮𝐛𝐬𝐭 T)
-  --   isSet-Str:⧜𝐒𝐮𝐛𝐬𝐭 = {!!}
 
   private
     T' : Functor _ _
@@ -252,21 +171,11 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
   open Hom-⧜𝐒𝐮𝐛𝐬𝐭' public
 
 
-  -- private
-  --   ι-l-⧜ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x a -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x (incl (⟨ a ⟩ ⋆ ⟨ b ⟩))
-  --   ι-l-⧜ = distr-CtxHom (map {{of T'}} ι₀)
-
-  --   ι-r-⧜ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x b -> Hom-⧜𝐒𝐮𝐛𝐬𝐭 x (incl (⟨ a ⟩ ⋆ ⟨ b ⟩))
-  --   ι-r-⧜ = distr-CtxHom (map {{of T'}} ι₁)
-
-
   π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (⧜subst (⟨ f ⟩ ⋆-⧜ ⟨ h ⟩)) (⧜subst (⟨ g ⟩ ⋆-⧜ ⟨ i ⟩)) -> f ≣ g
   π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
 
   π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (⧜subst (⟨ f ⟩ ⋆-⧜ ⟨ h ⟩)) (⧜subst (⟨ g ⟩ ⋆-⧜ ⟨ i ⟩)) -> h ≣ i
   π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
-  -- π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ : ∀{a b x : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> {f g : Hom-⧜𝐒𝐮𝐛𝐬𝐭' a x} -> {h i : Hom-⧜𝐒𝐮𝐛𝐬𝐭' b x} -> StrId {A = Hom-⧜𝐒𝐮𝐛𝐬𝐭' (incl (⟨ a ⟩ ⋆ ⟨ b ⟩)) x} (f ⋆-⧜ h) (g ⋆-⧜ i) -> h ≣ i
-  -- π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ refl-≣ = refl-≣
 
   module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
 
@@ -353,10 +262,6 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
   instance
     isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})
     isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-
-  -- private
-  --   mι = map-ι-⧜𝐒𝐮𝐛𝐬𝐭
-  --   sι = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
 
   abstract
     内id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a a
@@ -456,5 +361,6 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭 : hasIsoGetting (⧜𝐒𝐮𝐛𝐬𝐭 T)
     hasIsoGetting:⧜𝐒𝐮𝐛𝐬𝐭 = hasIsoGetting:byFFEso hasIsoGetting:RelativeKleisli
 
+-- //
 
 

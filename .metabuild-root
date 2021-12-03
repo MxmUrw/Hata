@@ -48,40 +48,42 @@ agdaPublishProjects:
       - == Morphisms in categories
       - Core/Category/Std/Morphism/Iso/Definition.agda
       - Core/Category/Std/Morphism/Epi/Definition.agda
+      - == Colimits
+      - === Coproducts
+      - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
+      - === Coequalizers
+      - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
       - == Functors
       - Core/Category/Std/Functor/Definition.agda
       - Core/Data/List/Instance/Functor.agda
-      # - == Colimits
-      # - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
-      # - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
-      # - == Unification
-      # - Core/Computation/Unification/Definition.agda
-      # - Core/Computation/Unification/Categorical/Definition.agda
-      # - Core/Computation/Unification/Categorical/PrincipalFamily.agda
-      # - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
-      # - == Relative Monads
-      # - Core/Category/Std/RelativeMonad/Definition.agda
-      # - == Category of Substitutions
-      # - Core/Data/Indexed/Definition.agda
-      # - === As Kleisli Category
-      # - Core/Category/Std/RelativeMonad/KleisliCategory/Definition.agda
-      # - === Inductively defined
-      # - Core/Data/Substitution/Variant/Base/Definition.agda
-      # - === Coproducts
-      # - == Free finite coproduct theory
-      # - === Definition
-      # - Core/Theory/Std/Specific/ProductTheory/Unification/Definition.agda
-      # - === Relative Monad and Category instances
-      # - Core/Theory/Std/Specific/ProductTheory/Unification/Instance/FormalSystem.agda
-      # - === Unification
-      # - ==== Main proof
-      # - = Hindley Damas Milner Type Theory
-      # - == Types
-      # - == Terms
-      # - === Untyped terms
-      # - === Typed terms
-      # - === Small proof
-      # - === Typechecking algorithm
+      - == Relative Monads
+      - === Definition
+      - Core/Category/Std/RelativeMonad/Definition.agda
+      - === Kleisli Category
+      - Core/Category/Std/RelativeMonad/KleisliCategory/Definition.agda
+      - Core/Category/Std/RelativeMonad/KleisliCategory/Instance/FiniteCoproductCategory.agda
+      - === Inductively defined category of substitutions
+      - Core/Data/Substitution/Variant/Base/Definition.agda
+      - = Unification
+      - Core/Computation/Unification/Definition.agda
+      - == Multisorted Simple Terms
+      - === Definition
+      - Core/Theory/Std/Specific/ProductTheory/Unification/Definition.agda
+      - === Hindley Milner Example
+      - === Functor, Monad instance
+      - Core/Theory/Std/Specific/ProductTheory/Unification/Instance/FormalSystem.agda
+      - == Idea of unification algorithm
+      - == Categorical Unification
+      - Core/Computation/Unification/Categorical/Definition.agda
+      - Core/Computation/Unification/Categorical/PrincipalFamily.agda
+      - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
+      - == Categorical Unification for Simple Terms
+      - = Hindley Damas Milner Type Theory
+      - == Untyped terms
+      - == Typed terms
+      - == Small proof
+      - == Typechecking algorithm
+
 
     libraryDefinitions_Filename: hata.agda-lib
 

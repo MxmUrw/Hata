@@ -43,7 +43,7 @@ open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice hiding (⊥)
 
 open import Verification.Core.Data.Sum.Definition
-open import Verification.Core.Data.List.Definition
+open import Verification.Core.Data.List.Variant.Base.Definition
 -- open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Indexed.Definition

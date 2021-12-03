@@ -10,6 +10,7 @@ open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Category.Std.Category.Notation.Associativity
 
+-- [Hide]
 infixr 20 _[_]→2_
 _[_]→2_ : ∀{𝑗} (X : 𝒰 𝑗) -> ∀ (𝑖 : 𝔏 ^ 2) -> (R : 𝒰 𝑙) -> (𝒰 _)
 _[_]→2_ {𝑗 = 𝑗} X 𝑖 R = {U : 𝒰 (𝑖 ⌄ 0)} -> (u : U) -> {{UU : hasU U (𝑗) (𝑖 ⌄ 1)}} -> {{p : getU UU ≡-Str (X)}} -> R
@@ -20,6 +21,7 @@ macro
   _×2_ = λstr A ↦ λstr B ↦ #structureOn (A ×-𝒰 B)
   infixr 40 _×2_
 
+-- //
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
@@ -52,6 +54,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   {-# DISPLAY isCoproduct.⦗_⦘ _ x = ⦗ x ⦘ #-}
 
 
+  -- [Hide]
   module _ {a b x y : 𝒞} (p : x ≅ y) {{_ : isCoproduct a b x}} where
 
     private
@@ -164,6 +167,6 @@ module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} {{_ : hasCoprod
                                                         , (assoc-r-◆ ∙ (reduce-ι₁ ◈ refl)) ≀⦘ ⟩-∼
     ⦗ f ◆ h , g ◆ h ⦘                                 ∎
 
-
+-- //
 
 

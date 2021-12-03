@@ -5,19 +5,21 @@ module Verification.Core.Algebra.Monoid.Free.Definition where
 open import Verification.Core.Conventions hiding (ℕ)
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Free
 open import Verification.Core.Set.Function.Injective
 open import Verification.Core.Data.Prop.Definition
 open import Verification.Core.Data.Nat.Definition
-open import Verification.Core.Data.List.Definition
-open import Verification.Core.Data.List.Instance.Monoid
+open import Verification.Core.Data.Nat.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Base.Definition
+open import Verification.Core.Data.List.Variant.Base.Instance.Monoid
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Set.Contradiction
 
-
+-- #Notation/Rewrite# incl = \iota
 
 ----------------------------------------------------------
 -- The free encoding

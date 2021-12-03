@@ -55,53 +55,33 @@ open import Verification.Core.Data.FiniteIndexed.Property.IsoGetting
 
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
--- lists
-module _ {A : 𝒰 𝑖} where
-  data _∍♮_ : ∀(as : List A) -> (a : A) -> 𝒰 𝑖 where
-    incl : ∀{a bs} -> (a ∷ bs) ∍♮ a
-    skip : ∀{a b bs} -> bs ∍♮ a ->  (b ∷ bs) ∍♮ a
-
-  -- ι-∍♮ : ∀{as : List A} {a} -> as ∍♮ a -> ι as ∍ a
-  -- ι-∍♮ = {!!}
-
-
-
--- dependent lists
-
-module _ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) where
-  data DList : (as : List A) -> 𝒰 (𝑖 ､ 𝑗) where
-    [] : DList []
-    _∷_ : ∀{a as} -> (b : B a) -> (bs : DList as) -> DList (a ∷ as)
-
-ConstDList : (A : 𝒰 𝑖) (n : ♮ℕ) -> 𝒰 _
-ConstDList A = DList (const A)
 
 module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} where
 
 
   -- construct-DList : ∀{as : List A} -> (∀ a -> as ∍♮ a -> B a) -> DList B as
-  -- construct-DList {⦋⦌} f = []
+  -- construct-DList {[]} f = []
   -- construct-DList {x ∷ as} f = (f x incl) ∷ (construct-DList (λ a x -> f a (skip x)))
 
   -- destruct-DList : ∀{as : List A} -> DList B as -> (∀ a -> as ∍♮ a -> B a)
-  -- destruct-DList {⦋⦌} [] a ()
+  -- destruct-DList {[]} [] a ()
   -- destruct-DList {x ∷ as} (b ∷ xs) .x incl = b
   -- destruct-DList {x ∷ as} (b ∷ xs) a (skip p) = destruct-DList xs a p
 
   construct-DList-人DList : ∀{as : List A} -> D人List B (ι as) -> DList B as
-  construct-DList-人DList {⦋⦌} xs = []
+  construct-DList-人DList {[]} xs = []
   construct-DList-人DList {x ∷ as} (incl x₁ ⋆-⧜ xs₁) = x₁ ∷ (construct-DList-人DList xs₁)
 
   destruct-DList-人DList : ∀{as : List A} -> DList B as -> D人List B (ι as)
-  destruct-DList-人DList {⦋⦌} xs = ◌-⧜
+  destruct-DList-人DList {[]} xs = ◌-⧜
   destruct-DList-人DList {x ∷ as} (b ∷ xs) = incl b ⋆-⧜ destruct-DList-人DList xs
 
   inv-l-◆-construct-DList : ∀{as : List A} -> (r : D人List B (ι as)) -> destruct-DList-人DList (construct-DList-人DList r) ≡ r
-  inv-l-◆-construct-DList {⦋⦌} ◌-⧜ = λ i → ◌-⧜
+  inv-l-◆-construct-DList {[]} ◌-⧜ = λ i → ◌-⧜
   inv-l-◆-construct-DList {x ∷ as} (incl x₁ ⋆-⧜ xs₁) = λ i → (incl x₁) ⋆-⧜ (inv-l-◆-construct-DList xs₁ i)
 
   inv-r-◆-construct-DList : ∀{as : List A} -> (f : DList B as) -> construct-DList-人DList (destruct-DList-人DList f) ≡ f
-  inv-r-◆-construct-DList {⦋⦌} [] = λ i → []
+  inv-r-◆-construct-DList {[]} [] = λ i → []
   inv-r-◆-construct-DList {x ∷ as} (b ∷ xs) = λ i → b ∷ inv-r-◆-construct-DList xs i
 
 

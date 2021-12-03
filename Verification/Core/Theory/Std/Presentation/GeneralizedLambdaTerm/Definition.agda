@@ -10,7 +10,7 @@ open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.Sum.Instance.Monad
 open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 open import Verification.Core.Category.Std.Monad.Definition
-open import Verification.Core.Data.List.Instance.Traversable
+open import Verification.Core.Data.List.Variant.Base.Instance.Traversable
 
 {-# FOREIGN GHC import Hata.Runtime.Service.Parse.GeneralizedLambdaTerm #-}
 

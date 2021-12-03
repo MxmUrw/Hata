@@ -15,7 +15,7 @@ open import Verification.Core.Category.Std.Functor.Image
 open import Verification.Core.Category.Std.Functor.Adjoint
 open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
-open import Verification.Core.Data.List.Definition
+open import Verification.Core.Data.List.Variant.Base.Definition
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
