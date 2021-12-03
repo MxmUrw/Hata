@@ -11,21 +11,21 @@ open import Verification.Core.Data.Nat.Free
 
 open import Verification.Core.Data.List.Variant.Base.Definition
 
-
--- lists
-module _ {A : 𝒰 𝑖} where
-  data _∍♮_ : ∀(as : List A) -> (a : A) -> 𝒰 𝑖 where
-    incl : ∀{a bs} -> (a ∷ bs) ∍♮ a
-    skip : ∀{a b bs} -> bs ∍♮ a ->  (b ∷ bs) ∍♮ a
-
-
-
 -- dependent lists
 
-module _ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) where
-  data DList : (as : List A) -> 𝒰 (𝑖 ､ 𝑗) where
-    [] : DList []
-    _∷_ : ∀{a as} -> (b : B a) -> (bs : DList as) -> DList (a ∷ as)
+
+
+module _ {A : 𝒰 𝑖} where
+  mutual
+    syntax DList (λ a -> B) as = List[ a ∈ as ] B
+
+    data DList (B : A -> 𝒰 𝑗) : (as : List A) -> 𝒰 (𝑖 ､ 𝑗) where
+      -- [] : DList B []
+      -- _∷_ : ∀{a as} -> (b : B a) -> (bs : DList B as) -> DList B (a ∷ as)
+      [] : List[ a ∈ [] ] B a
+      _∷_ : ∀{a as} -> (b : B a) -> (bs : List[ a ∈ as ] B a) -> List[ a ∈ (a ∷ as) ] B a
+
+
 
 ConstDList : (A : 𝒰 𝑖) (n : ♮ℕ) -> 𝒰 _
 ConstDList A = DList (const A)
