@@ -53,8 +53,10 @@ data MultiTokenContainer a =
   | MultipleTC [MTC a]
   | WhitespaceTC (TokenContainer a)
   | RecordHead [(TokenContainer a)]
+  | DataHead [(MTC a)]
   | KeywordTC Keyword (TokenContainer a)
   | AllClause IsImplicit [MTC a]
+  | CustomQuantificationClause [MTC a] [MTC a] -- this is CustomQuantificationClause first rest, where the text was "first[ rest... ]"
   | UniverseClause (TokenContainer a) [MTC a]
   | UniverseLevelClause
   | ExponentialClause [MTC a]
@@ -103,10 +105,23 @@ pRecordHeadMTC = merge <$> stringTC "record" <*> stringTC " " <*> liftTC simpleN
   -- we ignore the "record" in `a`
   where merge a b c = RecordHead (b : c : [])
 
+pDataHeadMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
+pDataHeadMTC = merge <$> stringTC "data" <*> stringTC " " <*> (liftTC simpleNameTokenHL)
+  -- we ignore the "data" in `a`
+  where merge a b c = DataHead (SingleTC <$> (b : c : []))
+
+
 stringsTC :: (TokenLike a, Show a) => [Text] -> Parsec [a] () [TC a]
 stringsTC [] = return []
 stringsTC (x : xs) = (:) <$> stringTC x <*> stringsTC xs
 
+-- This parses words like "List["
+pOpenBracketWordTC :: (TokenLike a, Show a) => Parsec [a] () (TC a)
+pOpenBracketWordTC = liftTC pOpenBracketWordHL
+
+
+------------------------------------------------------------------
+-- MTCs
 pAllClauseMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
 pAllClauseMTC = AllClause IsImplicit <$> p
   where p = between (stringsTC ["∀","{"]) (stringTC "}") (many1 pIntraMTC) <* try (stringsTC [" ", "→", " "])
@@ -116,6 +131,9 @@ pAllClauseExplicitMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
 pAllClauseExplicitMTC = AllClause NotImplicit <$> p
   where p = between (stringsTC ["∀","("]) (stringTC ")") (many1 pIntraMTC) <* try (stringsTC [" ", "→", " "])
   -- where p = between (stringsTC ["∀","("]) (stringTC ")") (many1 (liftTC pNoParensHL)) <* try (stringsTC [" ", "→", " "])
+
+pCustomQuantificationClauseMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
+pCustomQuantificationClauseMTC = CustomQuantificationClause <$> ((pure . SingleTC) <$> pOpenBracketWordTC) <*> (many1 pIntraMTC) <* (stringTC "]")
 
 pUniverseClauseMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
 pUniverseClauseMTC =  UniverseClause <$> stringTC "𝒰" <*> (stringTC " " *> maybeParensedTC)
@@ -213,8 +231,10 @@ pUniverseLevel_withArrow_MTC = (f <$> try (between (stringTC "(") (spaceTermTC (
 
 pMTC :: (TokenLike a, Show a) => Parsec [a] () (MTC a)
 pMTC = try pRecordHeadMTC
+      <|> try pDataHeadMTC
       <|> try pAllClauseMTC
       <|> try pAllClauseExplicitMTC
+      <|> try pCustomQuantificationClauseMTC
       <|> try pStructureAccessMTC
       <|> try pCastMTC
       <|> try pStructureOfMTC
@@ -296,10 +316,20 @@ pNoParensHL :: Parsec Text () TokenHL
 pNoParensHL = try $ AnyHL <$> many1 (noneOf $ ['(', ')'])
 
 pNoParensBracesHL :: Parsec Text () TokenHL
-pNoParensBracesHL = try (qualifiedNameTokenHL [SepSI, SepSA, SepMF]) <|> (try $ AnyHL <$> many1 (noneOf $ "(){}⟨⟩`⦃⦄"))
+pNoParensBracesHL = try (qualifiedNameTokenHL [SepSI, SepSA, SepMF]) <|> (try $ AnyHL <$> many1 (noneOf $ "(){}⟨⟩`⦃⦄]"))
+                  -- we allow `]`, but only if followed by something
+                  <|> (try $ AnyHL <$> closingBracketPrefixedText)
+  where
+    closingBracketPrefixedText :: Parsec Text () String
+    closingBracketPrefixedText = f <$> (char ']' *> many1 (noneOf $ "(){}"))
+      where f x = "]" <> x
 
 pWhitespaceHL :: Parsec Text () TokenHL
 pWhitespaceHL = try $ AnyHL <$> many1 (char ' ' <|> char '\n')
+
+-- this parses words like "List[" or "Pi[", the returned string does not contain the bracket.
+pOpenBracketWordHL :: Parsec Text () TokenHL
+pOpenBracketWordHL = AnyHL <$> (many1 (noneOf (specialSymbols <> "[]")) <* char '[' <* eof)
 
 
 ---------------------------------------------------------------------
@@ -441,10 +471,14 @@ executeCommand_MTC :: TokenLike a => SpecialCommand -> MTC a -> [MTC a]
 executeCommand_MTC (NotationSC _ r t)         (RecordHead tc) = [RecordHead (tc >>= executeCommand (NotationSC MathBF r t))]
 executeCommand_MTC (NotationSC_Short fmt r t) (RecordHead tc) = [RecordHead (tc >>= executeCommand (NotationSC_Short fmt r t))]
 executeCommand_MTC _                          (RecordHead tc) = [RecordHead tc]
+-- executeCommand_MTC (NotationSC _ r t)         (DataHead tc) = [DataHead (tc >>= executeCommand_MTC (NotationSC MathBF r t))]
+-- executeCommand_MTC (NotationSC_Short fmt r t) (DataHead tc) = [DataHead (tc >>= executeCommand_MTC (NotationSC_Short fmt r t))]
+executeCommand_MTC cmd                        (DataHead tc) = [DataHead (tc >>= executeCommand_MTC cmd)]
 executeCommand_MTC cmd (SingleTC tc) = SingleTC <$> executeCommand cmd tc
 executeCommand_MTC cmd (MultipleTC tc) = [MultipleTC (executeCommand_MTC cmd =<< tc)]
 executeCommand_MTC cmd (WhitespaceTC tc) = [WhitespaceTC tc]
 executeCommand_MTC cmd (AllClause i tcs) = [AllClause i (tcs >>= executeCommand_MTC cmd)]
+executeCommand_MTC cmd (CustomQuantificationClause head tcs) = [CustomQuantificationClause (head >>= executeCommand_MTC cmd) (tcs >>= executeCommand_MTC cmd)]
 executeCommand_MTC cmd (UniverseClause uni tcs) = [UniverseClause uni (tcs >>= executeCommand_MTC cmd)]
 executeCommand_MTC cmd (ExponentialClause tcs) = [ExponentialClause (tcs >>= executeCommand_MTC cmd)]
 executeCommand_MTC cmd (SubscriptClause tcs) = [SubscriptClause (tcs >>= executeCommand_MTC cmd)]
@@ -481,6 +515,7 @@ generateToken_MTC (SingleTC tc) = [generateToken tc]
 generateToken_MTC (MultipleTC tc) = generateToken_MTC =<< tc
 generateToken_MTC (WhitespaceTC tc) = [generateToken tc]
 generateToken_MTC (RecordHead tc) = generateToken <$> tc
+generateToken_MTC (DataHead tc) = generateToken_MTC =<< tc
 generateToken_MTC (KeywordTC (KeywordWhere) _) = []
 generateToken_MTC (AllClause implicit tcs) = [Right $ makePlainToken Nothing (T.pack l)]
                                     <> (generateToken_MTC =<< tcs)
@@ -492,6 +527,19 @@ generateToken_MTC (AllClause implicit tcs) = [Right $ makePlainToken Nothing (T.
         extra_l NotImplicit = descape "\\ "
         extra_r IsImplicit  = "}"
         extra_r NotImplicit = descape "\\ "
+        
+generateToken_MTC (CustomQuantificationClause head tcs) = [Right $ makePlainToken Nothing (T.pack l)]
+                                    <> (generateToken_MTC =<< tcs)
+                                    <> r -- [Right $ makePlainToken Nothing (T.pack r)]
+  where l = descape "{\\color{AgdaBound}\\underset{"
+        r = [Right $ makePlainToken Nothing (T.pack (descape "}{"))] <> (generateToken_MTC =<< head) <> [Right $ makePlainToken Nothing (T.pack (descape "}}"))]
+        extra_l = ""
+        extra_r = ""
+
+        -- extra_l IsImplicit  = "{"
+        -- extra_l NotImplicit = descape "\\ "
+        -- extra_r IsImplicit  = "}"
+        -- extra_r NotImplicit = descape "\\ "
 
 generateToken_MTC (UniverseClause uni tcs) = [generateToken uni]
   --                                            <> [Right $ makePlainToken Nothing (T.pack l)]
@@ -602,8 +650,10 @@ changeTC f (SingleTC tc)      = SingleTC (f tc)
 changeTC f (MultipleTC mtc)   = MultipleTC (changeTC f <$> mtc)
 changeTC f (WhitespaceTC tc)  = WhitespaceTC (f tc)
 changeTC f (RecordHead a)     = RecordHead (f <$> a)
+changeTC f (DataHead a)       = DataHead (changeTC f <$> a)
 changeTC f (KeywordTC k a)      = KeywordTC k (f a)
 changeTC f (AllClause i mtcs) = AllClause i (changeTC f <$> mtcs)
+changeTC f (CustomQuantificationClause head mtcs) = CustomQuantificationClause (changeTC f <$> head) (changeTC f <$> mtcs)
 changeTC f (UniverseClause tc mtcs)           = UniverseClause (f tc) (changeTC f <$> mtcs)     
 changeTC f (ExponentialClause mtcs)          = ExponentialClause (changeTC f <$> mtcs) 
 changeTC f (SubscriptClause mtcs)            = SubscriptClause (changeTC f <$> mtcs)
