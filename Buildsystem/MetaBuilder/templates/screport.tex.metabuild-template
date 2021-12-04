@@ -31,7 +31,7 @@ fontsize=11pt,
 \usepackage{tikz}
 \usepackage{tabularx}
 \usepackage{enumitem}
-\usepackage{comment} % For hidden environments
+\usepackage{verbatim} % For hidden environments
 
 %% local sty
 \usepackage{quiver}
