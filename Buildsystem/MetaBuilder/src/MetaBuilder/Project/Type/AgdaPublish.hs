@@ -137,7 +137,7 @@ type instance RuleResult SpecialCommandsOracle = [SpecialCommand]
 --  depends on whether we want to only include it for agda's sake,
 --  or to really include it in the document
 --  - when its Importantness changes, it should be regenerated)
-newtype FileImportantnessOracle = FileImportantnessOracle String deriving (Show,Typeable,Eq,Hashable,Binary,NFData)
+newtype FileImportantnessOracle = FileImportantnessOracle ([FilePath], FilePath) deriving (Show,Typeable,Eq,Hashable,Binary,NFData)
 type instance RuleResult FileImportantnessOracle = Bool
 
 -------------------------------------------------------
@@ -153,9 +153,12 @@ makeRules_AgdaPublishProject egc eappc = do
     commands <- liftIO $ assumeRight $ generateCommands contents
     return commands
 
-  getFileImportantness <- addOracle $ \(FileImportantnessOracle file) -> do
-    let importantList = (eappc.>generateTex_ImportantSource_AbFiles)
+  getFileImportantness <- addOracle $ \(FileImportantnessOracle (importantList, file)) -> do
+    alwaysRerun
     let isImportant = normalise file `elem` importantList
+    liftIO $ Prelude.putStrLn $ "---------------------------------------------------------------------"
+    liftIO $ Prelude.putStrLn $ "Checking if '" <> normalise file <> "' is in " <> show (importantList) 
+    liftIO $ Prelude.putStrLn $ "---------------------------------------------------------------------"
     return isImportant
 
   -- accessing the original config
@@ -203,7 +206,7 @@ makeRules_AgdaPublishProject egc eappc = do
     putInfo $ "Generating literate file " ++ targetfile ++ " for " ++ sourcefile
     need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile]
 
-    isImportant <- getFileImportantness (FileImportantnessOracle file)
+    isImportant <- askOracle (FileImportantnessOracle (eappc.>generateTex_ImportantSource_AbFiles, file))
     case isImportant of
       False -> do
         -------
