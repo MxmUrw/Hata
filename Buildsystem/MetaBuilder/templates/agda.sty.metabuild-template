@@ -848,10 +848,10 @@ calc, environ, xparse, xkeyval, mathtools}
 
 % Underscores are typeset using \AgdaUnderscore{}.
 % \newcommand{\AgdaUnderscore}{\_}
-% \newcommand{\TextUnderscore}{\rule{.4em}{.4pt}}
-% \newcommand{\AgdaUnderscore}{\TextUnderscore}
-\newcommand{\blank}{{-}}
-\newcommand{\AgdaUnderscore}{(\blank)}
+\newcommand{\TextUnderscore}{\rule{.4em}{.4pt}}
+\newcommand{\AgdaUnderscore}{\TextUnderscore}
+% \newcommand{\blank}{{-}}
+% \newcommand{\AgdaUnderscore}{(\blank)}
 
 
 \newcommand{\ADT}[1]{\AgdaDatatype{#1}}

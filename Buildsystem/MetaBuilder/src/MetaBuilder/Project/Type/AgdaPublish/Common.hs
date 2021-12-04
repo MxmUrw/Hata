@@ -64,8 +64,8 @@ modifyChars a | a `inRanges` operators = "{" <> [a] <> "}"
     where inRanges :: Ord a => a -> [(a,a)] -> Bool
           inRanges a xs = or ((\(low, high) -> and [low <= a, a <= high]) <$> xs)
           operators :: [(Char,Char)]
-          operators = [('∴', '⋿'), ('■','◿'), ('/', '/'), ('-', '-'), ('+', '+')
-                      ,('←', '⇿'), ('⟰', '⟿')]
+          operators = [('∈', '∍'), ('∴', '⋿'), ('■','◿'), ('/', '/'), ('-', '-'), ('+', '+')
+                      ,('←', '⇿'), ('⟰', '⟿'), ('♮', '♮')]
 modifyChars a = [a]
 
 prettyChars = modifyChars >=> restoreChars
