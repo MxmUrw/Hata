@@ -7,6 +7,8 @@ open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Data.Prop.Definition
 
 
+-- #Notation/Rewrite# ◌ = \Circle
+
 -- [Definition]
 -- | A setoid |A| is a /monoid/, that is, the type [..] is inhabited,
 --   if the following data is given.
@@ -20,9 +22,9 @@ record isMonoid {𝑗 : 𝔏 ^ 2} (A : Setoid 𝑗) : 𝒰 (𝑗) where
 
   -- | 3. Proofs that |⋆| is associative,
   --      and |◌| is a unit for it.
-        unit-l-⋆ : ∀{a} -> ◌ ⋆ a ∼ a
-        unit-r-⋆ : ∀{a} -> a ⋆ ◌ ∼ a
-        assoc-l-⋆ : ∀{a b c} -> (a ⋆ b) ⋆ c ∼ a ⋆ (b ⋆ c)
+        unit-l-⋆   : ∀ {a} -> ◌ ⋆ a ∼ a
+        unit-r-⋆   : ∀ {a} -> a ⋆ ◌ ∼ a
+        assoc-l-⋆  : ∀ {a b c} -> (a ⋆ b) ⋆ c ∼ a ⋆ (b ⋆ c)
 
   -- | 4. Finally, a proof that the operation is compatible
   --      with the equivalence relation.

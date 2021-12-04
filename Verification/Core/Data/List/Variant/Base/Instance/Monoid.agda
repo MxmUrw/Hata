@@ -10,7 +10,7 @@ open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Data.List.Variant.Base.Definition
 
--- [Example]
+-- [Lemma]
 -- | Let [..] be a type.
 module _ {A : 𝒰 𝑖} where
   module ListProofs where

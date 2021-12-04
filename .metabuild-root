@@ -50,20 +50,23 @@ agdaPublishProjects:
       documentType: SCReport
       documentDate: ""
       documentFilesAndHeadings:
+      - Notes/HataStandardImport.agda
       - = Introduction
       - = Basics
       - == Lists
       - Core/Data/List/Variant/Base/Definition.agda
       - Core/Data/List/Variant/Base/Element.agda
-      # - Core/Data/List/Variant/Base/Natural.agda
-      # - == Hindley Milner Types
-      # - Core/Data/Language/HindleyMilner/Type/Example/Definition.agda
-      # - == Equality and Setoids
-      # - Conventions/Prelude/Classes/Setoid.agda
-      # - == Monoids
-      # - Core/Algebra/Monoid/Definition.agda
-      # - Core/Data/List/Variant/Base/Instance/Monoid.agda
-      # - Core/Data/List/Variant/FreeMonoid/Definition.agda
+      - Core/Data/List/Variant/Base/Natural.agda
+      - == Hindley Milner Types
+      - Core/Data/Language/HindleyMilner/Type/Example/Definition.agda
+      - == Equality and Setoids
+      - Conventions/Prelude/Classes/Setoid.agda
+      - == Monoids
+      - Core/Algebra/Monoid/Definition.agda
+      - Core/Data/List/Variant/Base/Instance/Monoid.agda
+      - == Free Monoids
+      - Core/Data/List/Variant/FreeMonoid/Definition.agda
+      - Core/Data/List/Variant/FreeMonoid/Instance.Monoid.agda
       # - = Category theory
       # - == Categories
       # - Core/Category/Std/Category/Definition.agda
@@ -107,6 +110,9 @@ agdaPublishProjects:
       # - == Typed terms
       # - == Small proof
       # - == Typechecking algorithm
+      - = Appendix
+      - == Notes
+      - Core/Data/List/Notes/ReasonForFreeMonoidVariant.agda
 
 
     libraryDefinitions_Filename: hata.agda-lib

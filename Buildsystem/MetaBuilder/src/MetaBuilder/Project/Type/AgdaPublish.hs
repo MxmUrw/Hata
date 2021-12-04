@@ -156,9 +156,9 @@ makeRules_AgdaPublishProject egc eappc = do
   getFileImportantness <- addOracle $ \(FileImportantnessOracle (importantList, file)) -> do
     alwaysRerun
     let isImportant = normalise file `elem` importantList
-    liftIO $ Prelude.putStrLn $ "---------------------------------------------------------------------"
-    liftIO $ Prelude.putStrLn $ "Checking if '" <> normalise file <> "' is in " <> show (importantList) 
-    liftIO $ Prelude.putStrLn $ "---------------------------------------------------------------------"
+    -- liftIO $ Prelude.putStrLn $ "---------------------------------------------------------------------"
+    -- liftIO $ Prelude.putStrLn $ "Checking if '" <> normalise file <> "' is in " <> show (importantList) 
+    -- liftIO $ Prelude.putStrLn $ "---------------------------------------------------------------------"
     return isImportant
 
   -- accessing the original config
@@ -204,7 +204,7 @@ makeRules_AgdaPublishProject egc eappc = do
     let sourcefile = eappc.>generateLiterate_Source_AbDir </> relfile -<.> ".agda"
     let targetfile = eappc.>generateLiterate_Target_AbDir </> relfile -<.> ".lagda"
     putInfo $ "Generating literate file " ++ targetfile ++ " for " ++ sourcefile
-    need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile]
+    need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile, egc.>root_AbFile]
 
     isImportant <- askOracle (FileImportantnessOracle (eappc.>generateTex_ImportantSource_AbFiles, file))
     case isImportant of
