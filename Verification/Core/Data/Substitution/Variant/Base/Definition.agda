@@ -11,7 +11,6 @@ open import Verification.Core.Set.Setoid.Morphism
 open import Verification.Core.Set.Setoid.Morphism.Property
 open import Verification.Core.Set.Contradiction
 open import Verification.Core.Set.Function.Property
--- open import Verification.Core.Set.Set.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Category.Std.Morphism.Iso
@@ -59,7 +58,8 @@ open import Verification.Core.Category.Std.RelativeMonad.Finitary.Definition
 
 module _ {A : 𝒰 𝑖} (R : ⋆List A -> A -> 𝒰 𝑖) where
   CtxHom : ⋆List A -> ⋆List A -> 𝒰 _
-  CtxHom as bs = ⋆List[ a ∈ as ] (R bs a)
+  CtxHom as bs = ⋆Listᴰ (R bs) as
+  -- CtxHom as bs = ⋆List[ a ∈ as ] (R bs a)
 
 
 
@@ -148,7 +148,7 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
 
   ----------------------------------------------------------
-  -- the inclusion ι : ⧜𝐒𝐮𝐛𝐬𝐭 T -> 𝐒𝐮𝐛𝐬𝐭 T
+  -- the inclusion ι
 
   instance
     hasInclusion:⧜𝐒𝐮𝐛𝐬𝐭,𝐒𝐮𝐛𝐬𝐭 : hasInclusion (⧜𝐒𝐮𝐛𝐬𝐭 T) (𝐒𝐮𝐛𝐬𝐭 T)
@@ -238,7 +238,7 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
 
   ----------------------------------------------------------
-  -- the inclusion ι : ⧜𝐒𝐮𝐛𝐬𝐭 T -> 𝐒𝐮𝐛𝐬𝐭 T
+  -- the inclusion ι
 
 
   instance

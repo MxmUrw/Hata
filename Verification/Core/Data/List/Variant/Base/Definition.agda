@@ -9,15 +9,35 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 
 
-pattern ⦋⦌ = []
--- pattern ⦋_⦌ a = a ∷ []
-pattern ⦋_،_⦌ a b = a ∷ b ∷ []
-pattern ⦋_،_،_⦌ a b c = a ∷ b ∷ c ∷ []
-pattern ⦋_،_،_،_⦌ a b c d = a ∷ b ∷ c ∷ d ∷ []
-pattern ⦋_،_،_،_،_⦌ a b c d e = a ∷ b ∷ c ∷ d ∷ e ∷ []
 
+--------------------------------------------------------------------
+-- [Definition]
+-- (NOTE: Lists are actually defined in Agda.Builtin.List,
+--        we merely reproduce the definition here for introduction
+--        purposes.)
+--
+private
+  -- | For any type |A|, lists with elements of type |A| are defined
+  --   as the data type [..] with two constructors.
+  data List' (A : 𝒰 𝑖) : 𝒰 𝑖 where
+
+  -- | - The constructor [..], which denotes the empty list.
+    []  : List' A
+
+  -- | - The constructor [..], which denotes the operation
+  --     of prepending an element |a| to a list |as|,
+  --     resulting in the larger list |a ∷ as|.
+    _∷_ : A -> List' A → List' A
+
+-- #Notation/Rewrite# List' = List
+-- //
+
+
+
+--------------------------------------------------------------------
+-- [Hide]
+-- Some proofs which should be moved somewhere else.
 module _ {A : 𝒰 𝑖} where
-
   module _ {{_ : isDiscrete A}} where
     private
       lem-1 : (a b : List A) → Decision (a ≡-Str b)
@@ -39,15 +59,20 @@ module _ {A : 𝒰 𝑖} where
 
 
 module _ {A : 𝒰 𝑖} where
-
   instance
     isSetoid:List : isSetoid (List A)
     isSetoid:List = isSetoid:byId
+-- //
 
+--------------------------------------------------------------------
+-- [Hide]
+-- | We provide patterns for using lists with a few elements
 
+pattern ⦋⦌ = []
+-- pattern ⦋_⦌ a = a ∷ []
+pattern ⦋_،_⦌ a b = a ∷ b ∷ []
+pattern ⦋_،_،_⦌ a b c = a ∷ b ∷ c ∷ []
+pattern ⦋_،_،_،_⦌ a b c d = a ∷ b ∷ c ∷ d ∷ []
+pattern ⦋_،_،_،_،_⦌ a b c d e = a ∷ b ∷ c ∷ d ∷ e ∷ []
 
-record Notation:hasRec (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗) where
-  field rec : A -> B
-
-open Notation:hasRec {{...}} public
-
+-- //

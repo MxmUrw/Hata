@@ -32,7 +32,14 @@ module _ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) where
 
   syntax ⋆Listᴰ (λ a -> B) as = ⋆List[ a ∈ as ] B
 
+module _ {A : 𝒰 𝑖} (R : ⋆List A -> A -> 𝒰 𝑖) where
+  CtxHom : ⋆List A -> ⋆List A -> 𝒰 _
+  CtxHom as bs = ⋆List[ a ∈ as ] (R bs a)
 
+  -- CtxHom as bs = ⋆Listᴰ (R bs) as
+
+
+-- [Hide]
 module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
 
   instance
@@ -87,6 +94,6 @@ module _ {A : 𝒰 𝑖} {R : A -> 𝒰 𝑗} where
 
   cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a} -> {f g : R a} -> incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 f ≣ incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 g -> f ≣ g
   cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 refl-≣ = refl-≣
-
+-- //
 
 

@@ -8,8 +8,6 @@ open import Verification.Conventions.Prelude.Classes.Operators.Unary
 open import Verification.Conventions.Prelude.Data.StrictId
 
 
--- #Notation/Annotatable# trans
--- #Notation/SemanticCategory# \mathrm{Eqv} = Equiv
 
 -- [Definition]
 -- | We call a type |A| a /setoid/ if it is equipped with an

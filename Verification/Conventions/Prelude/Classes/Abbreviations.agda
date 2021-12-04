@@ -26,4 +26,8 @@ open INotation:Reinterpret {{...}} public
 --   infix 400 _-Mod
 -- open INotation:Module {{...}} public
 
+record Notation:hasRec (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
+  field rec : A -> B
+
+open Notation:hasRec {{...}} public
 

@@ -34,23 +34,6 @@ module _ {A : 𝒰 𝑖} where
   rightᶠ (a , p) = a , right-∍ p
 
 
-♮ℕᵘ : 𝒰₀
-♮ℕᵘ = List ⊤-𝒰
-
-macro ♮ℕ = #structureOn ♮ℕᵘ
-
-ι-♮ℕ : Nat -> ♮ℕ
-ι-♮ℕ zero = []
-ι-♮ℕ (suc n) = tt ∷ ι-♮ℕ n
-
-instance
-  fromNat♮ℕ : HasFromNat ♮ℕ
-  fromNat♮ℕ = record { Constraint = λ _ → 𝟙-𝒰 ; fromNat = λ n -> ι-♮ℕ n }
-
-instance
-  isSetoid:♮ℕ : isSetoid ♮ℕ
-  isSetoid:♮ℕ = isSetoid:byId
-
 record _≤-人ℕ_ (a b : 人ℕ) : 𝒰₀ where
   constructor _,_
   field fst : 人ℕ
