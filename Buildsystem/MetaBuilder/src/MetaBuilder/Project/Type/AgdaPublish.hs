@@ -125,9 +125,20 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
 
 -------------------------------------------------------
 -- Oracle types
+-------------------------------------------------------
 
+-- oracle for getting the list of commands
+-- (such that all files need only to be regenerated, when the list actually changed)
 newtype SpecialCommandsOracle = SpecialCommandsOracle [String] deriving (Show,Typeable,Eq,Hashable,Binary,NFData)
 type instance RuleResult SpecialCommandsOracle = [SpecialCommand]
+
+-- oracle for "Importantness" of files
+-- (the generation of the .lagda file
+--  depends on whether we want to only include it for agda's sake,
+--  or to really include it in the document
+--  - when its Importantness changes, it should be regenerated)
+newtype FileImportantnessOracle = FileImportantnessOracle String deriving (Show,Typeable,Eq,Hashable,Binary,NFData)
+type instance RuleResult FileImportantnessOracle = Bool
 
 -------------------------------------------------------
 -- AgdaPublish rules
@@ -141,7 +152,11 @@ makeRules_AgdaPublishProject egc eappc = do
     contents <- liftIO $ mapM (TIO.readFile) source_AbFiles
     commands <- liftIO $ assumeRight $ generateCommands contents
     return commands
-    -- :: Action [SpecialCommand]
+
+  getFileImportantness <- addOracle $ \(FileImportantnessOracle file) -> do
+    let importantList = (eappc.>generateTex_ImportantSource_AbFiles)
+    let isImportant = normalise file `elem` importantList
+    return isImportant
 
   -- accessing the original config
   let appc = eappc.>originalConfig
@@ -188,10 +203,7 @@ makeRules_AgdaPublishProject egc eappc = do
     putInfo $ "Generating literate file " ++ targetfile ++ " for " ++ sourcefile
     need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile]
 
-    let importantList = (eappc.>generateTex_ImportantSource_AbFiles)
-    -- putInfo $ "Checking if file " <> file <> " is in file list: " <> show importantList
-
-    let isImportant = normalise file `elem` importantList
+    isImportant <- getFileImportantness (FileImportantnessOracle file)
     case isImportant of
       False -> do
         -------
