@@ -1,12 +1,12 @@
 
-module Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition where
+module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition where
 
 open import Verification.Conventions hiding (_⊔_)
 
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Product.Definition
 
@@ -23,8 +23,8 @@ open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.FiniteIndexed.Definition
-open import Verification.Core.Data.Renaming.Definition
-open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
+-- open import Verification.Core.Data.Renaming.Definition
+-- open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition

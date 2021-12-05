@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Size where
+module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Size where
 
 open import Verification.Conventions hiding (Structure ; ℕ)
 
@@ -53,8 +53,8 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.FormalSystem
 
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat
 

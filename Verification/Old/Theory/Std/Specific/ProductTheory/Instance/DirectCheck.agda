@@ -16,7 +16,7 @@ open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoid
 open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 open import Verification.Core.Data.Sum.Instance.Monad
 open import Verification.Core.Data.Universe.Everything
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition
 open import Verification.Core.Theory.Std.Presentation.Token.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition

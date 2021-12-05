@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.DirectFail where
+module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.DirectFail where
 
 open import Verification.Conventions hiding (Structure)
 
@@ -49,8 +49,8 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.FormalSystem
 
 
 module _ {𝑨 : 𝕋× 𝑖} where

@@ -28,7 +28,9 @@ open import Verification.Core.Data.Indexed.Instance.SeparatingFamily
 
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Element.As.Indexed
 
 open import Verification.Core.Category.Std.Category.Subcategory.Full
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition

@@ -17,10 +17,10 @@ open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer.Definition
 
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition
 -- open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.FormalSystem
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
 
 open import Verification.Core.Theory.Std.Specific.ProductClosedTheory.Inference.Boundary

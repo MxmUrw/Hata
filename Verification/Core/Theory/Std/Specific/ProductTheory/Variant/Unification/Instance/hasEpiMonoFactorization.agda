@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.hasEpiMonoFactorization where
+module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.hasEpiMonoFactorization where
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -39,9 +39,9 @@ open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.FormalSystem
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Unification.Instance.PCF.Occur
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.FormalSystem
+open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Occur
 
 open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
 
