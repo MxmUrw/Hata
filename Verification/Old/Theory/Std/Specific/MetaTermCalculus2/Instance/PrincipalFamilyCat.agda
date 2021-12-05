@@ -5,7 +5,8 @@ open import Verification.Core.Conventions hiding (Structure)
 open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.As.Monoid

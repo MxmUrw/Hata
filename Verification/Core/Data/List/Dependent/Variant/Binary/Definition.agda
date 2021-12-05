@@ -17,6 +17,8 @@ open import Verification.Core.Data.Prop.Definition
 -- open import Verification.Core.Data.Nat.Definition
 -- open import Verification.Core.Data.Nat.Instance.Monoid
 open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 -- open import Verification.Core.Data.List.Variant.Unary.Instance.Monoid
 -- open import Verification.Core.Set.Contradiction
 open import Verification.Core.Algebra.Monoid.Definition
@@ -32,11 +34,6 @@ module _ {A : 𝒰 𝑖} (B : A -> 𝒰 𝑗) where
 
   syntax ⋆Listᴰ (λ a -> B) as = ⋆List[ a ∈ as ] B
 
-module _ {A : 𝒰 𝑖} (R : ⋆List A -> A -> 𝒰 𝑖) where
-  CtxHom : ⋆List A -> ⋆List A -> 𝒰 _
-  CtxHom as bs = ⋆List[ a ∈ as ] (R bs a)
-
-  -- CtxHom as bs = ⋆Listᴰ (R bs) as
 
 
 -- [Hide]

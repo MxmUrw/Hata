@@ -14,7 +14,8 @@ open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2
 -- open import Verification.Core.Theory.Std.Specific.MetaTermCalculus.Instance.LogicalFramework
 open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Core.Theory.Std.TypologicalTypeTheory.CwJ.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.Monoidal
 open import Verification.Core.Data.Type.Definition
 open import Verification.Core.Data.Lift.Definition

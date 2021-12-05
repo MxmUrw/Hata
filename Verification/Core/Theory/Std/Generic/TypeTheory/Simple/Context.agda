@@ -6,7 +6,8 @@ open import Verification.Core.Set.Setoid
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 
 data Ctx-⦿ (A : 𝒰 𝑖) : 𝒰 𝑖 where

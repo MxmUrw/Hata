@@ -10,7 +10,8 @@ open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Category.Std.Category.Opposite
 open import Verification.Core.Category.Std.Category.Instance.Category
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 
 record hasBaseChange 𝑗 (𝒞 : Category 𝑖) : 𝒰 (𝑗 ⁺ ､ 𝑖) where

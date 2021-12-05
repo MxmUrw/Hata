@@ -9,7 +9,8 @@ open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Category.Std.Natural.Definition
 open import Verification.Core.Category.Std.Natural.Instance.Setoid
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 
 module _ (𝒞 : Category 𝑖) (𝒟 : Category 𝑗) where

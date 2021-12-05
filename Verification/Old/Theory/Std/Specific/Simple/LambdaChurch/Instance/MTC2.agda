@@ -10,7 +10,8 @@ open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.Fin.Definition
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.Sum.Instance.Monad
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.Monoidal
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition

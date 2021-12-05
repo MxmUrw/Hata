@@ -5,7 +5,8 @@ open import Verification.Core.Conventions hiding (isSet)
 open import Verification.Core.Data.Fin.Definition
 open import Verification.Core.Set.Set.Definition
 open import Verification.Core.Set.Setoid
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice
 open import Verification.Core.Theory.Std.Presentation.Signature.SingleSorted.Definition as SingleSorted

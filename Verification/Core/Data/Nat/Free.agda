@@ -23,16 +23,6 @@ instance
   fromNat人ℕ : HasFromNat 人ℕ
   fromNat人ℕ = record { Constraint = λ _ → 𝟙-𝒰 ; fromNat = λ n -> ι-人ℕ n }
 
-module _ {A : 𝒰 𝑖} where
-  [_]ᶠ : ⋆List A -> 𝒰 𝑖
-  [_]ᶠ as = ∑ λ a -> as ∍ a
-
-  leftᶠ : ∀{as bs} -> [ as ]ᶠ -> [ as ⋆ bs ]ᶠ
-  leftᶠ (a , p) = a , left-∍ p
-
-  rightᶠ : ∀{as bs} -> [ bs ]ᶠ -> [ as ⋆ bs ]ᶠ
-  rightᶠ (a , p) = a , right-∍ p
-
 
 record _≤-人ℕ_ (a b : 人ℕ) : 𝒰₀ where
   constructor _,_

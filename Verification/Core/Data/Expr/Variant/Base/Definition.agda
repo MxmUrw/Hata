@@ -4,7 +4,8 @@ module Verification.Core.Data.Expr.Variant.Base.Definition where
 open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Core.Data.AllOf.List
 open import Verification.Core.Data.AllOf.Sum
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.SourceCode.Variant.Tokenized.Definition
 
 {-

@@ -9,7 +9,8 @@ open import Verification.Core.Category.Std.Category.Subcategory.Full2
 open import Verification.Core.Set.Setoid.Definition
 -- open import Verification.Core.Set.Discrete
 -- open import Verification.Core.Set.Decidable
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 
 -------------------------------------------------------------------

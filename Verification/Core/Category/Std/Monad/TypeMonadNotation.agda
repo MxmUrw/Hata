@@ -12,7 +12,8 @@ open import Verification.Core.Category.Std.Category.Instance.Category
 
 open import Verification.Core.Category.Std.Monad.Definition
 
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 
 module _ {T : _ -> _} {{_ : Monad (𝐓𝐲𝐩𝐞 𝑖) on T}} where

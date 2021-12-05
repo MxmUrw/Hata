@@ -6,7 +6,8 @@ open import Verification.Core.Data.Prop.Everything
 open import Verification.Core.Data.Int.Definition
 open import Verification.Core.Data.Int.Definition
 open import Verification.Core.Data.Rational.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 open import Verification.Core.Set.Setoid
 open import Verification.Core.Algebra.Monoid

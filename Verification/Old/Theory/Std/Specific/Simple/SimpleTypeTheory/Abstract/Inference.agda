@@ -4,7 +4,8 @@ module Verification.Core.Theory.Formal.Specific.SimpleTypeTheory.Abstract.Infere
 open import Verification.Core.Conventions
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Prop.Everything
 open import Verification.Core.Order.WellFounded.Definition
 open import Verification.Core.Order.Preorder

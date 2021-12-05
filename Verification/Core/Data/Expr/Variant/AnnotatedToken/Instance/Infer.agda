@@ -14,7 +14,8 @@ open import Verification.Core.Data.AllOf.Collection.TermTools
 -- open import Verification.Core.Data.AllOf.Product
 -- open import Verification.Core.Data.AllOf.Sum
 -- open import Verification.Core.Data.Expr.Variant.Base.Definition
--- open import Verification.Core.Data.Universe.Everything
+-- open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 open import Verification.Core.Category.Std.AllOf.Collection.Basics
 open import Verification.Core.Category.Std.AllOf.Collection.Limits

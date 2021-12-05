@@ -12,7 +12,8 @@ open import Verification.Core.Category.Std.Functor.Instance.Category
 open import Verification.Core.Category.Std.Monad.Definition
 open import Verification.Core.Category.Std.Monad.KleisliCategory.Instance.Monoidal
 open import Verification.Core.Category.Std.Monad.TypeMonadNotation
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.Monoidal
 open import Verification.Core.Data.Sum.Instance.Functor
 

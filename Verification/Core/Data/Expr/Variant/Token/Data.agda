@@ -5,7 +5,8 @@ open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Sum
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 record TokenExprData : 𝒰₁ where
   field TokenType : 𝒰₀

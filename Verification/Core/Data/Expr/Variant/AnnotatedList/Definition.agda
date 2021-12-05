@@ -7,7 +7,8 @@ open import Verification.Core.Data.FinR.Definition
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.AllOf.List
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 -- open import Verification.Core.Data.SourceCode.Variant.Tokenized.Definition
 
 open import Verification.Core.Data.SourceCode.Variant.HaskellLike.Definition

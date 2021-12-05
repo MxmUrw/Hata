@@ -6,7 +6,8 @@ open import Verification.Core.Set.Setoid
 open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice
 open import Verification.Core.Order.WellFounded.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
 open import Verification.Core.Category.Std.Morphism.Epi.Definition

@@ -8,7 +8,8 @@ open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.AllOf.List
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.Substitution.Variant.Normal.Definition

@@ -83,7 +83,7 @@ agdaPublishProjects:
       - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
       - = Multisorted Simple Terms
       - == Definition
-      - Core/Theory/Std/Specific/ProductTheory/Unification/Definition.agda
+      - Core/Theory/Std/Specific/ProductTheory/Variant/Unification/Definition.agda
       - == Substitution and Category Instance
       - = Unfication
       - Core/Computation/Unification/Definition.agda

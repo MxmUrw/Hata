@@ -4,7 +4,7 @@ module Verification.Core.Data.Indexed.Duplicate where
 open import Verification.Core.Conventions
 
 open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Set.Definition
 open import Verification.Core.Set.Contradiction
@@ -16,7 +16,8 @@ open import Verification.Core.Category.Std.Functor.Adjoint
 open import Verification.Core.Category.Std.Functor.Adjoint.Property.Preservation
 
 open import Verification.Core.Data.Universe.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Product

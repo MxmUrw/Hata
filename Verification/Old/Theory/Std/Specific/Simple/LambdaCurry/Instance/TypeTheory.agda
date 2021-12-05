@@ -20,7 +20,8 @@ open import Verification.Core.Category.Std.Fibration.Instance.BaseChange
 
 open import Verification.Core.Category.Std.Limit.Specific.Pullback
 -- open import Verification.Core.Category.Std.Fibration.Specific.Fam.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 
 open import Verification.Core.Theory.Std.Generic.ProgrammingLanguage.Definition
 open import Verification.Core.Category.Std.Graph.Definition

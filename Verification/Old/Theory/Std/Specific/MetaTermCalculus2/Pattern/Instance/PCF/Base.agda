@@ -9,7 +9,8 @@ open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.List.Variant.Binary.Element
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.List.Variant.Unary.Definition
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition

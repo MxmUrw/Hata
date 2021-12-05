@@ -7,7 +7,8 @@ open import Verification.Core.Set.Discrete
 open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Set.Definition
 open import Verification.Core.Set.Set.Instance.Category
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Prop.Everything
 -- open import Verification.Core.Data.Sum.Definition

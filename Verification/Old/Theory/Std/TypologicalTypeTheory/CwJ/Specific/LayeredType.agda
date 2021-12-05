@@ -7,7 +7,8 @@ open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Category.Std.Natural.Definition
 open import Verification.Core.Category.Std.Functor.Instance.Category
 open import Verification.Core.Category.Std.Morphism.Iso
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Algebra.MonoidAction.Definition

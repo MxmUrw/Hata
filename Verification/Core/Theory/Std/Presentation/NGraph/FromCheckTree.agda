@@ -8,7 +8,8 @@ open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Sum.Instance.Functor
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 
@@ -22,7 +23,8 @@ open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.Semiring
 
 open import Verification.Core.Category.Std.Monad.Definition

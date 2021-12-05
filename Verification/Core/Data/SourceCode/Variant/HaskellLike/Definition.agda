@@ -5,7 +5,8 @@ open import Verification.Conventions hiding (ℕ ; lookup)
 open import Verification.Core.Data.FinR.Definition
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Sum
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.List.Variant.Unary.Instance.Traversable
 open import Verification.Core.Category.Std.Functor.Definition

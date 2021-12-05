@@ -5,7 +5,8 @@ open import Verification.Conventions hiding (lookup ; ℕ)
 
 open import Verification.Core.Data.AllOf.Product
 open import Verification.Core.Data.Expr.Variant.Base.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Opposite
 open import Verification.Core.Category.Std.Category.Construction.Product

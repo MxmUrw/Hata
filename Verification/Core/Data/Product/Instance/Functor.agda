@@ -3,7 +3,8 @@ module Verification.Core.Data.Product.Instance.Functor where
 
 open import Verification.Conventions
 open import Verification.Core.Data.Product.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Construction.Product
 open import Verification.Core.Category.Std.Functor.Definition

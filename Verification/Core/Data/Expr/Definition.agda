@@ -3,7 +3,8 @@ module Verification.Core.Data.Expr.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 

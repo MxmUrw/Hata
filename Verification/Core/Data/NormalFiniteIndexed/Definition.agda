@@ -21,7 +21,8 @@ open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
 open import Verification.Core.Data.List.Variant.Unary.Instance.Monoid
 open import Verification.Core.Data.Universe.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Core.Data.Universe.Instance.SeparatingFamily
 

@@ -10,7 +10,8 @@ open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.Fin.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 -- open import Verification.Core.Theory.Std.Presentation.Signature.SingleSorted.Definition
 import Verification.Core.Theory.Std.Specific.Simple.LambdaCurry.Definition as Λ
 open import Verification.Core.Theory.Std.Specific.Simple.LambdaCurry.Definition hiding (_⇒_)

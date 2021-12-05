@@ -9,7 +9,8 @@ open import Verification.Core.Set.Discrete
 -- open import Verification.Core.Algebra.Monoid.Free
 -- open import Verification.Core.Data.List.Variant.Binary.Element
 -- open import Verification.Core.Order.Lattice
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Product.Definition
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple

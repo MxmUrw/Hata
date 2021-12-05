@@ -18,7 +18,8 @@ open import Verification.Core.Category.Std.Functor.Adjoint
 open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
 open import Verification.Core.Data.Universe.Definition
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Core.Data.Universe.Instance.SeparatingFamily
 

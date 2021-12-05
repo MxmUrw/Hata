@@ -3,7 +3,8 @@ module Verification.Core.Data.Real.Root where
 
 open import Verification.Core.Conventions renaming (∑_ to ∑'_)
 open import Verification.Core.Data.Prop.Everything
-open import Verification.Core.Data.Universe.Everything
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Int.Definition
 open import Verification.Core.Data.Rational.Definition
 
