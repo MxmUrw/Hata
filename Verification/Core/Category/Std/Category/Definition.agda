@@ -6,7 +6,7 @@ open import Verification.Conventions
 open import Verification.Core.Set.Setoid
 
 --------------------------------------------------------------------------------
--- == Basic definitions
+-- Basic definitions
 
 -- We define categories, functors and natural transformations.
 

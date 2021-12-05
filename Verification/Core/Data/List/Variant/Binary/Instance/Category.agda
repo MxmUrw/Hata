@@ -10,6 +10,7 @@ open import Verification.Core.Set.Setoid.As.Groupoid
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
 open import Verification.Core.Category.Std.Groupoid.Definition
 
 module _ {A : 𝒰 𝑖} where

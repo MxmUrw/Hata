@@ -1,20 +1,24 @@
 
-module Verification.Core.Data.List.Variant.Binary.Element where
+module Verification.Core.Data.List.Variant.Binary.Element.As.Indexed where
 
 open import Verification.Core.Conventions
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Free
--- open import Verification.Core.Data.Prop.Definition
-open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Morphism.Iso
 
+open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
-open import Verification.Core.Data.Universe.Everything
-open import Verification.Core.Data.Universe.Instance.Semiring
+open import Verification.Core.Data.Universe.Definition
+open import Verification.Core.Data.Universe.Instance.Category
+open import Verification.Core.Data.Universe.Instance.Monoid.By.Coproduct
 
 
 module _ {A : 𝒰 𝑖} where

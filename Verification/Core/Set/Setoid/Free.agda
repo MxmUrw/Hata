@@ -16,20 +16,19 @@ module _ {A : 𝒰 𝑖} (R : A -> A -> 𝒰 𝑗) where
     _∙-RST_ : ∀{a b c} -> RST a b -> RST b c -> RST a c
 
 
+module _ {A : 𝒰 𝑖} where
+  isSetoid:byFree : (R : A -> A -> 𝒰 𝑗) -> isSetoid A
+  isSetoid:byFree R = isSetoid:byDef (RST R) refl-RST sym-RST _∙-RST_
+
+
+-- [Hide]
 module _ {A : 𝒰 𝑖} {R : A -> A -> 𝒰 𝑗} {X : 𝒰 𝑘} {{_ : isSetoid {𝑙} X}} where
   rec-RST : {f : A -> X} (F : ∀{a b} -> R a b -> f a ∼ f b) -> ∀{a b} -> RST R a b -> f a ∼ f b
   rec-RST F (incl x) = F x
   rec-RST F refl-RST = refl
   rec-RST F (sym-RST p) = sym (rec-RST F p)
   rec-RST F (p ∙-RST q) = rec-RST F p ∙ rec-RST F q
-
-
--- record Free-𝐒𝐭𝐝 (A : 𝒰 𝑖) (E : A -> A -> 𝒰 𝑗) : 𝒰 𝑖 where
-
-
-module _ {A : 𝒰 𝑖} where
-  isSetoid:byFree : (R : A -> A -> 𝒰 𝑗) -> isSetoid A
-  isSetoid:byFree R = isSetoid:byDef (RST R) refl-RST sym-RST _∙-RST_
+-- //
 
 
 

@@ -13,13 +13,18 @@ open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
 open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
 
+-- the element relation
 
+-- [Definition]
+-- | Let [..] be a type.
 module _ {A : 𝒰 𝑖} where
 
-  -- the element relation
+  -- |> The element relation [..] is defined similar to
+  --    definition (?).
   data _∍_ : ⋆List A -> A -> 𝒰 𝑖 where
-    incl : ∀{x} -> incl x ∍ x
-    right-∍ : ∀{a b x} -> b ∍ x -> (a ⋆ b) ∍ x
-    left-∍ : ∀{a b x} -> a ∍ x -> (a ⋆ b) ∍ x
+    incl : ∀ {x} -> incl x ∍ x
+    right-∍ : ∀ {a b x} -> b ∍ x -> (a ⋆ b) ∍ x
+    left-∍ : ∀ {a b x} -> a ∍ x -> (a ⋆ b) ∍ x
 
+-- //
 
