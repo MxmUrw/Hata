@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.FreeMonoid.Instance.Monoid where
+module Verification.Core.Data.List.Variant.Binary.Instance.Monoid where
 
 open import Verification.Core.Conventions hiding (ℕ)
 
@@ -8,8 +8,8 @@ open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Free
 open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
-open import Verification.Core.Data.List.Variant.FreeMonoid.Instance.Setoid
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
 
 
 module _ {A : 𝒰 𝑖} where

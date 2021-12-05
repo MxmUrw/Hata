@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.Base.Instance.Monoid where
+module Verification.Core.Data.List.Variant.Unary.Instance.Monoid where
 
 open import Verification.Conventions
 
@@ -8,7 +8,7 @@ open import Verification.Core.Set.Contradiction
 open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Data.List.Variant.Base.Definition
+open import Verification.Core.Data.List.Variant.Unary.Definition
 
 -- [Lemma]
 -- | Let [..] be a type.

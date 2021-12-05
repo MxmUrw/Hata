@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Dependent.Variant.FreeMonoid.Definition where
+module Verification.Core.Data.List.Dependent.Variant.Binary.Definition where
 
 
 open import Verification.Core.Conventions hiding (ℕ)
@@ -16,8 +16,8 @@ open import Verification.Core.Set.Function.Property
 open import Verification.Core.Data.Prop.Definition
 -- open import Verification.Core.Data.Nat.Definition
 -- open import Verification.Core.Data.Nat.Instance.Monoid
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
--- open import Verification.Core.Data.List.Variant.Base.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Definition
+-- open import Verification.Core.Data.List.Variant.Unary.Instance.Monoid
 -- open import Verification.Core.Set.Contradiction
 open import Verification.Core.Algebra.Monoid.Definition
 

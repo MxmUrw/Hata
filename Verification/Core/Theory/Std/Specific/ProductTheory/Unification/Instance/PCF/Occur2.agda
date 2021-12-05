@@ -9,7 +9,7 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Variant.Binary.Element
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Everything -- hiding (isSetoid:Function)
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory -- hiding (isSetoid:Function)
@@ -41,7 +41,7 @@ open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice hiding (⊥)
 
 open import Verification.Core.Data.Sum.Definition
-open import Verification.Core.Data.List.Variant.Base.Definition
+open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid

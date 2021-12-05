@@ -6,7 +6,7 @@ open import Verification.Core.Conventions renaming (ℕ to Nat)
 open import Verification.Core.Set.Setoid
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
+open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Order.Preorder
 
 

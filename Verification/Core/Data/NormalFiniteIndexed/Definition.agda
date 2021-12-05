@@ -19,7 +19,7 @@ open import Verification.Core.Category.Std.Functor.EssentiallySurjective
 open import Verification.Core.Category.Std.Functor.Adjoint
 open import Verification.Core.Category.Std.Category.Structured.SeparatingFamily
 
-open import Verification.Core.Data.List.Variant.Base.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Unary.Instance.Monoid
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
@@ -34,7 +34,7 @@ open import Verification.Core.Data.Indexed.Property.Iso
 
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Variant.Binary.Element
 
 open import Verification.Core.Category.Std.Category.Subcategory.Full public
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition

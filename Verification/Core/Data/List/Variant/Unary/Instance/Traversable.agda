@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.Base.Instance.Traversable where
+module Verification.Core.Data.List.Variant.Unary.Instance.Traversable where
 
 open import Verification.Conventions
 

@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.Base.Natural where
+module Verification.Core.Data.List.Variant.Unary.Natural where
 
 open import Verification.Conventions
 

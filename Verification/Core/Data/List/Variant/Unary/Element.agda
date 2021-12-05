@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.Base.Element where
+module Verification.Core.Data.List.Variant.Unary.Element where
 
 open import Verification.Conventions
 
@@ -9,7 +9,7 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Data.Nat.Free
 
-open import Verification.Core.Data.List.Variant.Base.Definition
+open import Verification.Core.Data.List.Variant.Unary.Definition
 
 
 -- | Having defined lists, we want to speak about elements

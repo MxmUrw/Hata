@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.FreeMonoid.Element.Definition where
+module Verification.Core.Data.List.Variant.Binary.Element.Definition where
 
 open import Verification.Core.Conventions hiding (ℕ)
 
@@ -9,9 +9,9 @@ open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Free
 open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
-open import Verification.Core.Data.List.Variant.FreeMonoid.Instance.Setoid
-open import Verification.Core.Data.List.Variant.FreeMonoid.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
 
 
 module _ {A : 𝒰 𝑖} where

@@ -7,7 +7,7 @@ module Verification.Core.Theory.Std.Presentation.Token.Definition2 where
 
 open import Verification.Conventions hiding (lookup ; ℕ)
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
+open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Sum.Definition
@@ -22,7 +22,7 @@ open import Verification.Core.Category.Std.Monad.TypeMonadNotation
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.Sum.Instance.Monad
 open import Verification.Core.Data.Universe.Everything
-open import Verification.Core.Data.List.Variant.Base.Instance.Traversable
+open import Verification.Core.Data.List.Variant.Unary.Instance.Traversable
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 

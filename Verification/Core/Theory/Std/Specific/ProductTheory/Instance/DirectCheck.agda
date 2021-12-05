@@ -27,7 +27,7 @@ open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.FiniteIndexed.Definition
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Variant.Binary.Element
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.Substitution.Property.Base
 open import Verification.Core.Theory.Std.Presentation.NGraph.Definition

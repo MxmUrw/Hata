@@ -19,8 +19,8 @@ open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice
 open import Verification.Core.Order.WellFounded.Definition
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
-open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Element
 open import Verification.Core.Algebra.MonoidWithZero.Definition
 open import Verification.Core.Algebra.MonoidWithZero.Ideal
 open import Verification.Core.Algebra.MonoidAction.Definition

@@ -15,7 +15,7 @@ open import Verification.Core.Category.Std.Fibration.GrothendieckConstruction.Op
 
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Variant.Binary.Element
 
 open import Verification.Core.Data.Universe.Everything
 open import Verification.Core.Data.FiniteIndexed.Definition

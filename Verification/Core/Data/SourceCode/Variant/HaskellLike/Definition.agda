@@ -6,8 +6,8 @@ open import Verification.Core.Data.FinR.Definition
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.Universe.Everything
-open import Verification.Core.Data.List.Variant.Base.Definition
-open import Verification.Core.Data.List.Variant.Base.Instance.Traversable
+open import Verification.Core.Data.List.Variant.Unary.Definition
+open import Verification.Core.Data.List.Variant.Unary.Instance.Traversable
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free

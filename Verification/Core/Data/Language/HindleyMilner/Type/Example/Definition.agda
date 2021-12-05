@@ -2,9 +2,9 @@
 module Verification.Core.Data.Language.HindleyMilner.Type.Example.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
-open import Verification.Core.Data.List.Variant.Base.Definition
-open import Verification.Core.Data.List.Variant.Base.Element
-open import Verification.Core.Data.List.Variant.Base.Natural
+open import Verification.Core.Data.List.Variant.Unary.Definition
+open import Verification.Core.Data.List.Variant.Unary.Element
+open import Verification.Core.Data.List.Variant.Unary.Natural
 
 
 -- [Definition]

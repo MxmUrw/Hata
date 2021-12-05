@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.FreeMonoid.Element where
+module Verification.Core.Data.List.Variant.Binary.Element where
 
 open import Verification.Core.Conventions
 open import Verification.Core.Set.Setoid.Definition
@@ -7,7 +7,7 @@ open import Verification.Core.Set.Setoid.Free
 -- open import Verification.Core.Data.Prop.Definition
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
+open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Morphism.Iso
 

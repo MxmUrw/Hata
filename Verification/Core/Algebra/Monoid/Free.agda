@@ -1,8 +1,8 @@
 
 module Verification.Core.Algebra.Monoid.Free where
 
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition public
-open import Verification.Core.Data.List.Variant.FreeMonoid.Instance.Category public
+open import Verification.Core.Data.List.Variant.Binary.Definition public
+open import Verification.Core.Data.List.Variant.Binary.Instance.Category public
 
 
 

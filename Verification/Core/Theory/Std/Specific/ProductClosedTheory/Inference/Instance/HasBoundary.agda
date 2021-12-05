@@ -6,7 +6,7 @@ open import Verification.Conventions hiding (_⊔_)
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.FreeMonoid.Element
+open import Verification.Core.Data.List.Variant.Binary.Element
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FinR.Definition

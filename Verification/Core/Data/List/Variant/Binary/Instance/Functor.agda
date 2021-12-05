@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.List.Variant.FreeMonoid.Instance.Functor where
+module Verification.Core.Data.List.Variant.Binary.Instance.Functor where
 
 open import Verification.Core.Conventions
 
@@ -12,7 +12,7 @@ open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
 
-open import Verification.Core.Data.List.Variant.FreeMonoid.Definition
+open import Verification.Core.Data.List.Variant.Binary.Definition
 
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
