@@ -204,9 +204,11 @@ makeRules_AgdaPublishProject egc eappc = do
     let sourcefile = eappc.>generateLiterate_Source_AbDir </> relfile -<.> ".agda"
     let targetfile = eappc.>generateLiterate_Target_AbDir </> relfile -<.> ".lagda"
     putInfo $ "Generating literate file " ++ targetfile ++ " for " ++ sourcefile
-    need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile, egc.>root_AbFile]
+    need [sourcefile, egc.>metabuilder_AbFile, eappc.>commands_AbFile] -- , egc.>root_AbFile
 
-    isImportant <- askOracle (FileImportantnessOracle (eappc.>generateTex_ImportantSource_AbFiles, file))
+    -- isImportant <- askOracle (FileImportantnessOracle (eappc.>generateTex_ImportantSource_AbFiles, file))
+    let importantList = eappc.>generateTex_ImportantSource_AbFiles
+    let isImportant = normalise file `elem` importantList
     case isImportant of
       False -> do
         -------
