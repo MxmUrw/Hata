@@ -49,3 +49,16 @@ module _ (𝓅 : 𝒯⊔Param 𝑖) where
 -- #Notation/Rewrite# 𝒯⊔Terms = Terms_{𝒯⊔}
 -- //
 
+
+-- [Hide]
+-- | We also define |𝒯⊔term| as a function |𝐅𝐢𝐧𝐈𝐱 ⟶ 𝐈𝐱|.
+
+  open import Verification.Core.Data.Indexed.Definition
+  open import Verification.Core.Data.FiniteIndexed.Definition
+
+  𝒯⊔termᵘ : (𝐅𝐢𝐧𝐈𝐱 (Sort 𝓅)) -> (𝐈𝐱 (Sort 𝓅) (𝐔𝐧𝐢𝐯 𝑖))
+  𝒯⊔termᵘ Γ = indexed (λ τ → 𝒯⊔Term ⟨ Γ ⟩ τ)
+
+  macro 𝒯⊔term = #structureOn 𝒯⊔termᵘ
+-- //
+

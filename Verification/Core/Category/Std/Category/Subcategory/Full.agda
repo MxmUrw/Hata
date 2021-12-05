@@ -85,8 +85,9 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞'}} where
       -- instance
       --   isEquivRel:
 
-      isSetoid:FullSubcategoryHom : isSetoid (FullSubcategoryHom a b)
-      isSetoid:FullSubcategoryHom = isSetoid:byDef _∼-FullSubcategoryHom_ {!!} {!!} {!!}
+      instance
+        isSetoid:FullSubcategoryHom : isSetoid (FullSubcategoryHom a b)
+        isSetoid:FullSubcategoryHom = isSetoid:byDef _∼-FullSubcategoryHom_ {!!} {!!} {!!}
         -- isSetoid._∼'_ isSetoid:FullSubcategoryHom = _∼-FullSubcategoryHom_
         -- isSetoid.isEquivRel:∼ isSetoid:FullSubcategoryHom = {!!}
 

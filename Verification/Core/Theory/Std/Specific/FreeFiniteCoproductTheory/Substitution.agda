@@ -25,7 +25,7 @@ open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Defi
 -- | Let [..] be a parametrization.
 module _ (𝓅 : 𝒯⊔Param 𝑖) where
 
-  -- |> applying a substitution |σ : 𝒯⊔Subst 𝓅 Γ Δ| to terms
+  -- |> Applying a substitution |σ : 𝒯⊔Subst 𝓅 Γ Δ| to terms
   --    is defined by mutual induction over the definition
   --    of |𝒯⊔Term| and |𝒯⊔Terms| (where the latter is actually the definition
   --    of dependent lists).
@@ -64,17 +64,6 @@ module _ (𝓅 : 𝒯⊔Param 𝑖) where
 -- //
 
 
-
--- mutual
---   reext-Terms-𝕋× : ∀{a b αs} -> 𝑓𝑖𝑛 (Type-𝕋× 𝑨) a ⟶ Term-𝕋× 𝑨 b -> Terms-𝕋× 𝑨 αs a ⟶ Terms-𝕋× 𝑨 αs b
---   -- reext-Terms-𝕋× f (incl-Terms x) = incl-Terms (λ i a → reext-Term-𝕋× f i (x i a))
---   reext-Terms-𝕋× f ◌-⧜ = ◌-⧜
---   reext-Terms-𝕋× f (x ⋆-⧜ y) = reext-Terms-𝕋× f x ⋆-⧜ reext-Terms-𝕋× f y
---   reext-Terms-𝕋× f (incl x) = incl (reext-Term-𝕋× f _ x)
-
---   reext-Term-𝕋× : ∀{a b} -> 𝑓𝑖𝑛 (Type-𝕋× 𝑨) a ⟶ Term-𝕋× 𝑨 b -> Term-𝕋× 𝑨 a ⟶ Term-𝕋× 𝑨 b
---   reext-Term-𝕋× f i (var x) = f i x
---   reext-Term-𝕋× f i (con c x) = con c (reext-Terms-𝕋× f x)
 
 
 

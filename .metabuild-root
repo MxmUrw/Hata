@@ -91,9 +91,9 @@ agdaPublishProjects:
       - Core/Computation/Unification/Definition.agda
       - == Idea of unification algorithm
       - == Categorical Unification
-      - Core/Computation/Unification/Categorical/Definition.agda
-      - Core/Computation/Unification/Categorical/PrincipalFamily.agda
-      - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
+      # - Core/Computation/Unification/Categorical/Definition.agda
+      # - Core/Computation/Unification/Categorical/PrincipalFamily.agda
+      # - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
       - == Categorical Unification for Simple Terms
       # - === Definition
       # - === Hindley Milner Example
