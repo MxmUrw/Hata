@@ -81,11 +81,13 @@ agdaPublishProjects:
       - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
       - === Coequalizers
       - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
-      - = Multisorted Simple Terms
+      - = Multisorted Terms
       - == Definition
-      - Core/Theory/Std/Specific/ProductTheory/Variant/Unification/Definition.agda
+      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Param.agda
+      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Definition.agda
       - == Substitution and Category Instance
-      - = Unfication
+      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Substitution.agda
+      - = Unification
       - Core/Computation/Unification/Definition.agda
       - == Idea of unification algorithm
       - == Categorical Unification
