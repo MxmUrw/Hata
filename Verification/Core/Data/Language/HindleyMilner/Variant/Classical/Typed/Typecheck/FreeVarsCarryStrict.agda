@@ -36,6 +36,8 @@ open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Proofs
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition2
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
@@ -83,52 +85,6 @@ assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b
 assoc-l-⊔-ℒHMTypes = {!!}
 
 
-record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
-  constructor _/_⊩_,_,_,_
-  field metas : ℒHMTypes
-  field typeMetas : ℒHMTypes
-  field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
-  field typ : ℒHMType (⟨ metas ⊔ typeMetas ⟩)
-  field isInstance : Γ <Γ ctx
-  -- field hiddenEpiSub : μs ⟶ metas
-  -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
-  field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (Q , ctx ⇃[ ι₀ ]⇂ᶜ) ⊢ typ) te
-
-open CtxTypingInstance public
-
--- record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
---   constructor _⊩_,_,_,_
---   field metas : ℒHMTypes
---   field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
---   field typ : ℒHMType (⟨ metas ⟩)
---   field isInstance : Γ <Γ ctx
---   -- field hiddenEpiSub : μs ⟶ metas
---   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
---   field hasType : isTypedℒHM (metas ⊩ (Q , ctx) ⊢ typ) te
-
--- open CtxTypingInstance public
-
-
-module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM k}  where
-  record _<TI_ (𝑇 : CtxTypingInstance Γ te) (𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
-    field tiSubₐ : metas 𝑇 ⟶ metas 𝑆
-    field tiSubₓ : typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
-    field typProof : typ 𝑇 ⇃[ ⦗ tiSubₐ ◆ ι₀ , tiSubₓ ⦘ ]⇂ ≡ typ 𝑆
-    field subProof : isInstance 𝑇 .fst ◆ tiSubₐ ∼ isInstance 𝑆 .fst
-
-    -- field tiSub : metas 𝑇 ⊔ typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
-
-    ctxProofTI : ctx 𝑇 ⇃[ tiSubₐ ]⇂ᶜ ≡ ctx 𝑆
-    ctxProofTI = {!!}
-
-  open _<TI_ public
-
-
-InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
-InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
-
-TypingDecision : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
-TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (InitialCtxTypingInstance Γ te)
 
 
 

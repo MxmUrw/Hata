@@ -58,7 +58,7 @@ agdaPublishProjects:
       - Core/Data/List/Variant/Unary/Element.agda
       - Core/Data/List/Variant/Unary/Natural.agda
       - == Hindley Milner Types
-      - Core/Data/Language/HindleyMilner/Type/Example/Definition.agda
+      - Core/Data/Language/HindleyMilner/Type/Variant/Direct/Definition.agda
       - == Equality and Setoids
       - Conventions/Prelude/Classes/Setoid.agda
       - == Monoids
@@ -85,6 +85,9 @@ agdaPublishProjects:
       - == Definition
       - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Param.agda
       - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Definition.agda
+      - == Types as example
+      - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Signature.agda
+      - Core/Data/Language/HindleyMilner/Type/VariantTranslation/Definition.agda
       - == Substitution and Category Instance
       - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Substitution.agda
       - = Unification
@@ -111,9 +114,15 @@ agdaPublishProjects:
       - === Simple terms have coequalizers
       - = Hindley Damas Milner Type Theory
       - == Untyped terms
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Untyped/Definition.agda
+      - == Types and Contexts
+      - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Definition.agda
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Context/Definition.agda
       - == Typed terms
-      - == Small proof
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
       - == Typechecking algorithm
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Main.agda
       - === Case Var
       - === Case Let
       - === Case Lam

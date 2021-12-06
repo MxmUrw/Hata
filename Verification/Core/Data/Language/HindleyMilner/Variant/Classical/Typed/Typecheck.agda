@@ -5,6 +5,26 @@ open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
+
+open import Verification.Core.Data.Product.Definition
+
+open import Verification.Core.Data.List.Variant.Unary.Definition
+open import Verification.Core.Data.List.Variant.Unary.Element
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
+
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+open import Verification.Core.Computation.Unification.Definition
+
+{-
+open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Core.Set.Setoid.Definition
+open import Verification.Core.Set.Discrete
+open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.AllOf.Collection.Basics
 open import Verification.Core.Data.AllOf.Collection.TermTools
@@ -29,7 +49,7 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Order.Preorder
 
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
-
+-}
 
 
 record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where

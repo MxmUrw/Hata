@@ -5,25 +5,39 @@ open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.AllOf.Collection.Basics
-open import Verification.Core.Data.AllOf.Collection.TermTools
-open import Verification.Core.Category.Std.AllOf.Collection.Basics
-open import Verification.Core.Category.Std.AllOf.Collection.Limits
+
+open import Verification.Core.Data.Product.Definition
+
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+
+open import Verification.Core.Data.List.Variant.Unary.Definition
+open import Verification.Core.Data.List.Variant.Unary.Element
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
+
+open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
+open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
+open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
+open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
+
+open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Subcategory.Full
+open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+open import Verification.Core.Computation.Unification.Definition
 
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
-
-open import Verification.Core.Data.Language.HindleyMilner.Type.Definition
--- open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
-
-open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
 
 open import Verification.Core.Order.Preorder
 
 
+-- [Hide]
 
 record _<Γ_ {k} {Q : ℒHMQuant k} {μs νs} (Γ : ℒHMCtxFor Q μs) (Γ' : ℒHMCtxFor Q νs) : 𝒰₀ where
   field fst : μs ⟶ νs
@@ -150,14 +164,17 @@ sz = ⧜subst (construct-⋆Listᴰ λ {tt x → con ℕᵗ ◌-⧜})
 ϖ₁ = ⦗ sz , id ⦘
 
 module §-ϖ where
+  -- NOTE: These errors could be missing imports
   prop-1 : ∀{a : ℒHMTypes} {f : ⊥ ⟶ a} -> ⦗ id , f ⦘ ◆ ι₀ ∼ id {a = a ⊔ ⊥}
-  prop-1 {a} {f} = ⦗ id , f ⦘ ◆ ι₀                  ⟨ append-⦗⦘ ⟩-∼
-           ⦗ id ◆ ι₀ , f ◆ ι₀ ⦘                     ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-l-◆ , expand-⊥) ⟩-∼
-           ⦗ ι₀ {a = a} {b = ⊥} , elim-⊥ ⦘          ⟨ cong-∼ {{isSetoidHom:⦗⦘}} ((unit-r-◆ ⁻¹) , (expand-⊥ ⁻¹)) ⟩-∼
-           ⦗ ι₀ {b = ⊥} ◆ id , ι₁ {a = a} ◆ id ⦘    ⟨ expand-ι₀,ι₁ ⁻¹ ⟩-∼
-           id {a = a ⊔ ⊥}                       ∎
+  prop-1 {a} {f} = {!!}
+           --   ⦗ id , f ⦘ ◆ ι₀                  ⟨ append-⦗⦘ ⟩-∼
+           -- ⦗ id ◆ ι₀ , f ◆ ι₀ ⦘                     ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-l-◆ , expand-⊥) ⟩-∼
+           -- ⦗ ι₀ {a = a} {b = ⊥} , elim-⊥ ⦘          ⟨ cong-∼ {{isSetoidHom:⦗⦘}} ((unit-r-◆ ⁻¹) , (expand-⊥ ⁻¹)) ⟩-∼
+           -- ⦗ ι₀ {b = ⊥} ◆ id , ι₁ {a = a} ◆ id ⦘    ⟨ expand-ι₀,ι₁ ⁻¹ ⟩-∼
+           -- id {a = a ⊔ ⊥}                       ∎
 
 
   prop-2 : ∀{a b : ℒHMTypes} {f g : (a ⊔ ⊥) ⟶ b} -> ι₀ ◆ f ∼ ι₀ ◆ g -> f ∼ g
-  prop-2 = ?
+  prop-2 = {!!}
 
+-- //

@@ -7,9 +7,10 @@ open import Verification.Core.Set.Setoid
 open import Verification.Core.Set.Contradiction
 open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
-open import Verification.Core.Data.Nat.Free
+-- open import Verification.Core.Data.Nat.Free
 
 open import Verification.Core.Data.List.Variant.Unary.Definition
+open import Verification.Core.Data.List.Variant.Unary.Natural
 
 -- dependent lists
 

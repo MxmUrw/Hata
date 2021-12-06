@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.Language.HindleyMilner.Type.Example.Definition where
+module Verification.Core.Data.Language.HindleyMilner.Type.Variant.Direct.Definition where
 
 open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
 open import Verification.Core.Data.List.Variant.Unary.Definition
@@ -8,11 +8,12 @@ open import Verification.Core.Data.List.Variant.Unary.Natural
 
 
 -- [Definition]
--- | The type of monotypes (with one type constant |ℕᵗ| and arrow types |_⇒ᵗ|)
+-- | The type of monotypes (with two type constants |ℕᵗ|, |𝔹ᵗ| and arrow types |_⇒ᵗ|)
 --   is defined as the type [....]
 data MonoType : (μs : ♮ℕ) -> 𝒰₀ where
   var   : ∀ {μs x} -> μs ∍♮ x -> MonoType μs
   ℕᵗ    : ∀ {μs} -> MonoType μs
+  𝔹ᵗ    : ∀ {μs} -> MonoType μs
   _⇒ᵗ_  : ∀ {μs} -> MonoType μs -> MonoType μs -> MonoType μs
 -- //
 
