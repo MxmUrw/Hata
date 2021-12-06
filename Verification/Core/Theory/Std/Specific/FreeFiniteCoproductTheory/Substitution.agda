@@ -63,6 +63,10 @@ module _ (𝓅 : 𝒯⊔Param 𝑖) where
 
 -- //
 
+-- [Lemma]
+-- | This category has epi-mono factorization.
+
+-- //
 
 
 

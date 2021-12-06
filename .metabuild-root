@@ -91,23 +91,37 @@ agdaPublishProjects:
       - Core/Computation/Unification/Definition.agda
       - == Idea of unification algorithm
       - == Categorical Unification
+      - === Pointed categories
+      - === Ideals in pointed categories
+      - ==== Definition
+      - ==== Principal ideals
+      - ==== Equivalence between principal ideals and coequalizers
+      - === Wellfounded sets and sized categories
+      - === Principal families and Core proof
+      - === A principal family for a principal family cat
       # - Core/Computation/Unification/Categorical/Definition.agda
       # - Core/Computation/Unification/Categorical/PrincipalFamily.agda
       # - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
       - == Categorical Unification for Simple Terms
-      # - === Definition
-      # - === Hindley Milner Example
-      # - === Functor, Monad instance
-      # - Core/Theory/Std/Specific/ProductTheory/Unification/Instance/FormalSystem.agda
-      # - == Categorical Unification for Simple Terms
-      # - = Hindley Damas Milner Type Theory
-      # - == Untyped terms
-      # - == Typed terms
-      # - == Small proof
-      # - == Typechecking algorithm
+      - === Base cases
+      - ==== Var \& Var
+      - ==== Var \& Con
+      - ==== Con \& Con (fail)
+      - === Recursion step
+      - === Simple terms have coequalizers
+      - = Hindley Damas Milner Type Theory
+      - == Untyped terms
+      - == Typed terms
+      - == Small proof
+      - == Typechecking algorithm
+      - === Case Var
+      - === Case Let
+      - === Case Lam
+      - === Case App
       - = Appendix
       - == Notes
       - Core/Data/List/Notes/ReasonForFreeMonoidVariant.agda
+
 
 
     libraryDefinitions_Filename: hata.agda-lib
