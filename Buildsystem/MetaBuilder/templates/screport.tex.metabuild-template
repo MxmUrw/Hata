@@ -40,6 +40,15 @@ fontsize=11pt,
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Bibliography
+\usepackage [
+  backend=biber,
+  style=alphabetic,
+  natbib=true
+  ]{biblatex}
+\addbibresource{{{BIBFILE}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % quote at beginning of chapter
 % taken from https://tex.stackexchange.com/questions/53377/inspirational-quote-at-start-of-chapter
 
@@ -234,4 +243,7 @@ numbered=no
 
 {{CONTENT}}
 
+\printbibliography[%Prints bibliography
+heading=bibintoc   % adds bibliography to table of contents
+]
 \end{document}

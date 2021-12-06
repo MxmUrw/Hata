@@ -43,6 +43,7 @@ data AgdaPublishProjectConfig = AgdaPublishProjectConfig
   , fastbuild              :: Bool
   , projectName            :: String
   , libraryDefinitions_Filename :: String
+  , bibfile_RelFile :: String
   }
   deriving (Generic, Show)
 
@@ -66,8 +67,10 @@ data ExtraAgdaPublishProjectConfig = ExtraAgdaPublishProjectConfig
   , libraryDefinitions_Source_AbFile  :: FilePath
   , libraryDefinitions_Target_AbFile  :: FilePath
   , agdaSty_Target_AbFile             :: FilePath
-  , quiverSty_Target_AbFile             :: FilePath
+  , quiverSty_Target_AbFile           :: FilePath
   , commands_AbFile                   :: FilePath
+  , bibfile_Source_AbFile             :: String
+  , bibfile_Target_AbFile             :: String
   }
   deriving (Show)
 
@@ -93,8 +96,11 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       generateTex_ImportantSource_AbFiles = ((\f -> normalise (generateTex_Source_AbDir </> f -<.> "lagda")) <$> (include_RelFiles))
       readCommands_ImportantSource_AbFiles = ((\f -> source_AbDir </> f) <$> (include_RelFiles))
 
-      libraryDefinitions_Source_AbFile = egc.>rootAbDir </> appc.>libraryDefinitions_Filename
-      libraryDefinitions_Target_AbFile = buildLiterateRoot </> appc.>libraryDefinitions_Filename
+      libraryDefinitions_Source_AbFile = normalise (egc.>rootAbDir </> appc.>libraryDefinitions_Filename)
+      libraryDefinitions_Target_AbFile = normalise (buildLiterateRoot </> appc.>libraryDefinitions_Filename)
+
+      bibfile_Source_AbFile = normalise (source_AbDir </> appc.>bibfile_RelFile)
+      bibfile_Target_AbFile = normalise (buildTex </> appc.>bibfile_RelFile)
 
       agdaSty_Target_AbFile = buildTex </> "agda.sty"
       quiverSty_Target_AbFile = buildTex </> "quiver.sty"
@@ -117,6 +123,8 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
   , readCommands_ImportantSource_AbFiles = readCommands_ImportantSource_AbFiles
   , libraryDefinitions_Source_AbFile = libraryDefinitions_Source_AbFile
   , libraryDefinitions_Target_AbFile = libraryDefinitions_Target_AbFile
+  , bibfile_Source_AbFile = bibfile_Source_AbFile
+  , bibfile_Target_AbFile = bibfile_Target_AbFile
   , agdaSty_Target_AbFile = agdaSty_Target_AbFile
   , quiverSty_Target_AbFile = quiverSty_Target_AbFile
   , originalConfig = appc
@@ -185,7 +193,13 @@ makeRules_AgdaPublishProject egc eappc = do
     -- but being needed for successfull agda processing
     let generateTex_Source_Files = ((\f -> eappc.>generateTex_Source_AbDir </> f -<.> "lagda")            <$> source_Files)
 
-    let deps = [eappc.>mainTex_AbFile , eappc.>agdaSty_Target_AbFile , eappc.>quiverSty_Target_AbFile] ++ (eappc.>generateTex_Target_AbFiles) ++ generateTex_Source_Files
+    let deps = [ eappc.>mainTex_AbFile
+               , eappc.>agdaSty_Target_AbFile 
+               , eappc.>quiverSty_Target_AbFile
+               , eappc.>bibfile_Target_AbFile
+               ]
+               ++ (eappc.>generateTex_Target_AbFiles)
+               ++ generateTex_Source_Files
     need deps
 
     let build = cmd_ "xelatex" (Cwd (eappc.>generatePdf_Source_AbDir)) [eappc.>mainTex_AbFile]
@@ -193,10 +207,13 @@ makeRules_AgdaPublishProject egc eappc = do
       True  -> build
       False -> build >> build
 
+    -- also call biber for bibliography
+    cmd_ "biber" (Cwd (eappc.>generatePdf_Source_AbDir)) [dropExtension $ eappc.>mainTex_AbFile]
+
   eappc.>mainTex_AbFile %> \file -> do
     template <- liftIO (templatefileMainTex (eappc.>originalConfig.>agdaPublishDocumentDescription))
     need [template, egc.>metabuilder_AbFile, egc.>root_AbFile]
-    content <- liftIO $ generateMainTex (eappc.>generateTex_Target_AbDir </> appc.>source_RelDir) (appc.>agdaPublishDocumentDescription)
+    content <- liftIO $ generateMainTex (eappc.>generateTex_Target_AbDir </> appc.>source_RelDir) (appc.>agdaPublishDocumentDescription) eappc
     liftIO $ TIO.writeFile file content
 
   (eappc.>generateLiterate_Target_AbDir ++ "//*.lagda") %> \file -> do
@@ -246,6 +263,10 @@ makeRules_AgdaPublishProject egc eappc = do
     content <- liftIO (generateQuiverSty)
     liftIO $ TIO.writeFile file content
 
+  -- bibfile
+  (eappc.>bibfile_Target_AbFile) %> \file -> do
+    need [egc.>metabuilder_AbFile]
+    copyFile' (eappc.>bibfile_Source_AbFile) file
 
   (eappc.>commands_AbFile) %> \file -> do
     -- source_Files <- getDirectoryFiles (eappc.>source_AbDir) ["//*.agda"]
@@ -345,8 +366,8 @@ templatefileMainTex doc = case (documentType doc) of
   Book     -> getDataFileName "templates/screport.tex.metabuild-template"
 
 
-generateMainTex :: FilePath -> DocumentDescription -> IO Text
-generateMainTex texroot doc = do
+generateMainTex :: FilePath -> DocumentDescription -> ExtraAgdaPublishProjectConfig -> IO Text
+generateMainTex texroot doc eappc = do
   file <- templatefileMainTex doc
   template <- TIO.readFile file
 
@@ -357,6 +378,7 @@ generateMainTex texroot doc = do
                 . replace (T.pack "{{SUBTITLE}}") (case doc.>documentSubtitle of
                                                      Just a -> T.pack a
                                                      Nothing -> T.pack "")
+                . replace (T.pack "{{BIBFILE}}") (T.pack $ toStandard $ eappc.>bibfile_Target_AbFile) -- we need to turn the path seps into '/'
                 ) template
 
   return content

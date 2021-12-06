@@ -23,6 +23,7 @@ agdaPublishProjects:
     autobuild: false
     fastbuild: true
     source_RelDir: Verification
+    bibfile_RelFile: "Notes/Topic/VTC/references.bib"
     libraryDefinitions_Filename: hata.agda-lib
     agdaPublishDocumentDescription:
       documentTitle: "Verified Type Checking (Test)"
@@ -41,6 +42,7 @@ agdaPublishProjects:
     autobuild: false
     fastbuild: true
     source_RelDir: Verification
+    bibfile_RelFile: "Notes/Topic/VTC/references.bib"
     # include_RelFiles:
     #   - Experimental/Theory/Std/Generic/Theory/Definition.agda
     #   - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
@@ -112,7 +114,8 @@ agdaPublishProjects:
       - ==== Con \& Con (fail)
       - === Recursion step
       - === Simple terms have coequalizers
-      - = Hindley Damas Milner Type Theory
+      - = Hindley-Milner Type Theory
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Notes/Introduction.agda
       - == Untyped terms
       - Core/Data/Language/HindleyMilner/Variant/Classical/Untyped/Definition.agda
       - == Types and Contexts
@@ -139,6 +142,7 @@ agdaPublishProjects:
     autobuild: false
     fastbuild: false
     source_RelDir: Verification
+    bibfile_RelFile: "Notes/Topic/Hata/references.bib"
     agdaPublishDocumentDescription:
       documentTitle: "Project 旗"
       documentSubtitle: "Theory and Implementation of Programming Languages \\\\ \\vskip 0.8em Exposition, Development notes and Manual"

@@ -2,3 +2,4 @@ _build/
 *.stackdump
 **/dist-newstyle/cache/
 **/.vscode/
+**/auto/*.el
