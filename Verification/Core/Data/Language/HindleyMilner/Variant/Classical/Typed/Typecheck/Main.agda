@@ -41,6 +41,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.Var
 
 open import Verification.Core.Order.Preorder
 
@@ -72,7 +73,7 @@ assoc-l-⊔-ℒHMTypes = {!!}
      (InitialCtxTypingInstance Γ te)
 
 -- | Proof.
-γ {μs} {k} {Q} Γ (var k∍i) = {!!}
+γ {μs} {k} {Q} Γ (var k∍i) = right $ typecheck-Var.Result Γ k∍i
 
 γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
 

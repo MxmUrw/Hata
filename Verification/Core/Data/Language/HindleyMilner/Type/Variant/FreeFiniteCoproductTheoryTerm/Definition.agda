@@ -74,8 +74,9 @@ abstract
 
 infixl 80 _⇃[_]⇂
 
-_⇃[_]⇂ : ∀{a b : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ a ⟩ tt -> (a ⟶ b) -> 𝒯⊔Term 𝒹 ⟨ b ⟩ tt
-_⇃[_]⇂ x f = subst-⧜𝐒𝐮𝐛𝐬𝐭 f tt x
+abstract
+  _⇃[_]⇂ : ∀{a b : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ a ⟩ tt -> (a ⟶ b) -> 𝒯⊔Term 𝒹 ⟨ b ⟩ tt
+  _⇃[_]⇂ x f = subst-⧜𝐒𝐮𝐛𝐬𝐭 f tt x
 
 -- //
 

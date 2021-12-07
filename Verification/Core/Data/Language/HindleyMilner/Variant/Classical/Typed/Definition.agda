@@ -41,28 +41,64 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 
 open import Verification.Core.Order.Preorder
 
+----------------------------------------------------------------------------------
+-- Definition of the Hindley Milner type system
+--
+
+-- | The type system as displayed in \ref{} contains the rules /inst/ and /gen/,
+--   which can be applied in between any derivation steps, and are not mentioned
+--   in the term. This makes it more difficult to deal with typing derivations
+--   for a given term |t|, as different derivation trees for the same typing exist.
+--
+-- | In the proof of completeness of algorithm W in \cite{Damas:1984}, it is mentioned
+--   that it is enough to show that the algorithm derives a typing which is more general
+--   than any other given typing derivation |Δ ⊢ τ|, when that given typing derivation
+--   does not contain an /inst/ or /gen/ rule.
+--
+-- | A slightly different approach is taken in \cite{CDDK:1986}, where it is first shown
+--   that an alternative set of typing rules \ref{}, without the "term-less" rules /inst/
+--   and /gen/ may be used instead, in the sense that a principal type for this typing system
+--   is also a principal typing system for the original rules.
+--   \begin{align}
+--       Γ ⊢' τ &⟹ Γ ⊢ τ \\
+--       Γ ⊢ τ \text{ (principal)} &⟹ Γ ⊢' τ \text{ (principal)}
+--   \end{align}
+--
+-- | We thus use this alternative typing system in our implementation, and
+--   show that our algorithm derives a principal typing with regards to it.
 
 
+----------------------------------------------------------------------------------
+-- Prereqs
+--
 
+-- | First we define a record type to hold judgement statements
 
-
-
-record ℒHMJudgementᵈ : 𝒰₀ where
+-- [Definition]
+-- | A /judgement statement/ is an element of the type [..], which
+--   is defined by
+record ℒHMJudgement : 𝒰₀ where
   constructor _⊩_⊢_
+  -- | - A list of metavariables [..].
   field metavars : ℒHMTypes
+  -- | - A size for the context [..].
   field {contextsize} : ♮ℕ
+  -- | - A context [..] containing |contextsize| many types,
+  --     each of which may use metavariables from |metavars|.
   field context : ℒHMCtx contextsize metavars
   -- field quantifiers : Listᴰ (const (ℒHMTypes)) contextsize
   -- field context : Listᴰ² (λ a -> ℒHMType ⟨ a ⟩) quantifiers
+
+  -- | - A type [..] representing the "return type" of the
+  --     judgement, using the same metavars as the context.
   field type : ℒHMType ⟨ metavars ⟩
 
-open ℒHMJudgementᵈ public
+open ℒHMJudgement public
+-- //
 
-macro ℒHMJudgement = #structureOn ℒHMJudgementᵈ
-
-
--- [Definition]
--- | We define size of a judgement.
+-- [Notation]
+-- | We define the following function to return the
+--   size of a context.
 s : ℒHMJudgement -> ♮ℕ
 s (_ ⊩ Γ ⊢ τ) = size-Listᴰ (fst Γ)
 
@@ -101,15 +137,6 @@ module §-isAbstr where
 -- //
 
 
--- module _ {k νs} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q νs) (τ : ℒHMType ⟨ νs ⟩) (κs : ℒHMTypes) where
---   record Abstraction : 𝒰₀ where
---     constructor abstraction
---     field otherMetas : ℒHMTypes
---     field otherCtx : ℒHMCtxFor Q otherMetas
---     field otherType : ℒHMType ⟨ otherMetas ⊔ κs ⟩
---     field isAbstrProof : isAbstr κs Γ otherCtx τ otherType
-
--- open Abstraction public
 
 -- [Definition]
 -- | We define the hindley milner typing relation for lambda terms.
@@ -150,6 +177,9 @@ data isTypedℒHM : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰�
 -- //
 
 
+-- [Lemma]
+-- | We can substitute meta variables inside of
+--   contexts.
 transp-isTypedℒHM : ∀{k μs te} {Q : ℒHMQuant k}
          -> {Γ₀ : ℒHMCtxFor Q μs} {τ₀ : ℒHMType ⟨ μs ⟩}
          -> {Γ₁ : ℒHMCtxFor Q μs} {τ₁ : ℒHMType ⟨ μs ⟩}
@@ -157,6 +187,9 @@ transp-isTypedℒHM : ∀{k μs te} {Q : ℒHMQuant k}
          -> isTypedℒHM (μs ⊩ (_ , Γ₀) ⊢ τ₀) te
          -> isTypedℒHM (μs ⊩ (_ , Γ₁) ⊢ τ₁) te
 transp-isTypedℒHM = {!!}
+-- //
+
+
 
 
 -- [Hide]
@@ -176,10 +209,10 @@ module §-isTypedℒHM where
           -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
           -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂)) te
     prop-2 σ (var x xp ρ) = {!!}
-    prop-2 σ (app te se) =
-      let te' = prop-2 σ te
-          se' = prop-2 σ se
-      in app te' se'
+    prop-2 σ (app te se) = {!!}
+      -- let te' = prop-2 σ te
+      --     se' = prop-2 σ se
+      -- in app te' se'
     prop-2 σ (lam te) = {!!}
     prop-2 σ (slet ab set te) = {!!}
 

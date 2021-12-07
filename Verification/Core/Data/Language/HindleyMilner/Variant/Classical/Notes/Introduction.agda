@@ -9,3 +9,9 @@ module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Notes.Int
 --   A further detailed description was done by Damas \cite{Damas:1984}.
 
 
+
+
+
+
+
+

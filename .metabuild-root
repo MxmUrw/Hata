@@ -53,67 +53,67 @@ agdaPublishProjects:
       documentDate: ""
       documentFilesAndHeadings:
       - Notes/HataStandardImport.agda
-      - = Introduction
-      - = Basics
-      - == Lists
-      - Core/Data/List/Variant/Unary/Definition.agda
-      - Core/Data/List/Variant/Unary/Element.agda
-      - Core/Data/List/Variant/Unary/Natural.agda
-      - == Hindley Milner Types
-      - Core/Data/Language/HindleyMilner/Type/Variant/Direct/Definition.agda
-      - == Equality and Setoids
-      - Conventions/Prelude/Classes/Setoid.agda
-      - == Monoids
-      - Core/Algebra/Monoid/Definition.agda
-      - Core/Data/List/Variant/Unary/Instance/Monoid.agda
-      - == Binary lists
-      - Core/Data/List/Variant/Binary/Definition.agda
-      - Core/Data/List/Variant/Binary/Element/Definition.agda
-      - Core/Data/List/Variant/Binary/Instance/Setoid.agda
-      - Core/Data/List/Variant/Binary/Instance/Monoid.agda
-      - = Category theory
-      - == Categories
-      - Core/Category/Std/Category/Definition.agda
-      - Core/Data/Universe/Instance/Category.agda
-      - == Morphisms in categories
-      - Core/Category/Std/Morphism/Iso/Definition.agda
-      - Core/Category/Std/Morphism/Epi/Definition.agda
-      - == Colimits
-      - === Coproducts
-      - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
-      - === Coequalizers
-      - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
-      - = Multisorted Terms
-      - == Definition
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Param.agda
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Definition.agda
-      - == Types as example
-      - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Signature.agda
-      - Core/Data/Language/HindleyMilner/Type/VariantTranslation/Definition.agda
-      - == Substitution and Category Instance
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Substitution.agda
-      - = Unification
-      - Core/Computation/Unification/Definition.agda
-      - == Idea of unification algorithm
-      - == Categorical Unification
-      - === Pointed categories
-      - === Ideals in pointed categories
-      - ==== Definition
-      - ==== Principal ideals
-      - ==== Equivalence between principal ideals and coequalizers
-      - === Wellfounded sets and sized categories
-      - === Principal families and Core proof
-      - === A principal family for a principal family cat
-      # - Core/Computation/Unification/Categorical/Definition.agda
-      # - Core/Computation/Unification/Categorical/PrincipalFamily.agda
-      # - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
-      - == Categorical Unification for Simple Terms
-      - === Base cases
-      - ==== Var \& Var
-      - ==== Var \& Con
-      - ==== Con \& Con (fail)
-      - === Recursion step
-      - === Simple terms have coequalizers
+      # - = Introduction
+      # - = Basics
+      # - == Lists
+      # - Core/Data/List/Variant/Unary/Definition.agda
+      # - Core/Data/List/Variant/Unary/Element.agda
+      # - Core/Data/List/Variant/Unary/Natural.agda
+      # - == Hindley Milner Types
+      # - Core/Data/Language/HindleyMilner/Type/Variant/Direct/Definition.agda
+      # - == Equality and Setoids
+      # - Conventions/Prelude/Classes/Setoid.agda
+      # - == Monoids
+      # - Core/Algebra/Monoid/Definition.agda
+      # - Core/Data/List/Variant/Unary/Instance/Monoid.agda
+      # - == Binary lists
+      # - Core/Data/List/Variant/Binary/Definition.agda
+      # - Core/Data/List/Variant/Binary/Element/Definition.agda
+      # - Core/Data/List/Variant/Binary/Instance/Setoid.agda
+      # - Core/Data/List/Variant/Binary/Instance/Monoid.agda
+      # - = Category theory
+      # - == Categories
+      # - Core/Category/Std/Category/Definition.agda
+      # - Core/Data/Universe/Instance/Category.agda
+      # - == Morphisms in categories
+      # - Core/Category/Std/Morphism/Iso/Definition.agda
+      # - Core/Category/Std/Morphism/Epi/Definition.agda
+      # - == Colimits
+      # - === Coproducts
+      # - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
+      # - === Coequalizers
+      # - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
+      # - = Multisorted Terms
+      # - == Definition
+      # - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Param.agda
+      # - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Definition.agda
+      # - == Types as example
+      # - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Signature.agda
+      # - Core/Data/Language/HindleyMilner/Type/VariantTranslation/Definition.agda
+      # - == Substitution and Category Instance
+      # - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Substitution.agda
+      # - = Unification
+      # - Core/Computation/Unification/Definition.agda
+      # - == Idea of unification algorithm
+      # - == Categorical Unification
+      # - === Pointed categories
+      # - === Ideals in pointed categories
+      # - ==== Definition
+      # - ==== Principal ideals
+      # - ==== Equivalence between principal ideals and coequalizers
+      # - === Wellfounded sets and sized categories
+      # - === Principal families and Core proof
+      # - === A principal family for a principal family cat
+      # # - Core/Computation/Unification/Categorical/Definition.agda
+      # # - Core/Computation/Unification/Categorical/PrincipalFamily.agda
+      # # - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
+      # - == Categorical Unification for Simple Terms
+      # - === Base cases
+      # - ==== Var \& Var
+      # - ==== Var \& Con
+      # - ==== Con \& Con (fail)
+      # - === Recursion step
+      # - === Simple terms have coequalizers
       - = Hindley-Milner Type Theory
       - Core/Data/Language/HindleyMilner/Variant/Classical/Notes/Introduction.agda
       - == Untyped terms
@@ -127,6 +127,7 @@ agdaPublishProjects:
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Main.agda
       - === Case Var
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Var.agda
       - === Case Let
       - === Case Lam
       - === Case App
