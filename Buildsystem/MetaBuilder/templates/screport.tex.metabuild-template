@@ -33,6 +33,7 @@ fontsize=11pt,
 \usepackage{tabularx}
 \usepackage{enumitem}
 \usepackage{verbatim} % For hidden environments
+\usepackage{ebproof} % proof derivations
 
 %% local sty
 \usepackage{quiver}
