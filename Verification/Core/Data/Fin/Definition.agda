@@ -10,8 +10,9 @@ open import Verification.Core.Set.Discrete
 open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Totalorder
 
-open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
+-- open import Cubical.Data.Fin.Base renaming (elim to elim-Fin ; toℕ to toℕ-Fin) public
 
+{-
 macro
   𝔽 : ∀ n -> SomeStructure
   𝔽 n = #structureOn (Fin n)
@@ -53,4 +54,4 @@ module _ {n : ℕ} where
   --   isFinite:Fin : isFinite (𝔽 n)
   --   isFinite:Fin = {!!}
 
-
+-}

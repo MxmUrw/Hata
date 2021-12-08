@@ -9,12 +9,12 @@ packages:
     version: 2.6.3
     git: https://github.com/MxmUrw/agda.git
     pantry-tree:
-      size: 705672
-      sha256: e63b6bd9516c9a92178452af2020ccc16e92d2472ceff76acb32ab9bab0d9073
-    commit: 3a94364b14e2ab8ead5cf38ab2bcc2db7a396e83
+      size: 715328
+      sha256: 239d397c3566d02928d024390e64179512e698a71e1e7beed3f986f76be85722
+    commit: 57494bdc9f48785eed5da64571f05689444fd091
   original:
     git: https://github.com/MxmUrw/agda.git
-    commit: 3a94364b14e2ab8ead5cf38ab2bcc2db7a396e83
+    commit: 57494bdc9f48785eed5da64571f05689444fd091
 snapshots:
 - completed:
     size: 468996

@@ -60,6 +60,7 @@ instance TShow Wildcard where
   tshow InlineHidden = "[hide]"
   tshow Inline = "[inline]"
   tshow (Ownline _) = ""
+  tshow (OwnlineHidden _) = "[hide]"
 
 setTrailingCmd :: Text -> Text
 setTrailingCmd t = "\\renewcommand{\\AgdaTrailingText}{" <> val <> "}%\n"
@@ -70,6 +71,8 @@ wildcardPrePost Inline = ("\\begin{code}[inline]%\n","\\end{code}%\n{}")
 wildcardPrePost InlineHidden = ("\\begin{code}[hide]%\n","\\end{code}%\n{}")
 wildcardPrePost (Ownline "") = ("\\begin{code}%\n", "\\end{code}%\n")
 wildcardPrePost (Ownline trailing) = (setTrailingCmd trailing <> "\\begin{code}%\n", "\\end{code}%\n")
+wildcardPrePost (OwnlineHidden "") = ("\\begin{code}[hide]%\n", "\\end{code}%\n")
+wildcardPrePost (OwnlineHidden trailing) = (setTrailingCmd trailing <> "\\begin{code}[hide]%\n", "\\end{code}%\n")
 
 instance TShow BlockFlat where
   tshow (CommentFlat lines) = (tshow lines)
@@ -210,7 +213,10 @@ data CommentPart =
   deriving (Show)
 
 data Wildcard =
-  Inline | InlineHidden | Ownline Text
+  Inline
+  | InlineHidden
+  | Ownline Text
+  | OwnlineHidden Text
   deriving (Show)
 
 data WildParagraph = WildParagraph Wildcard [CommentPart]
@@ -341,6 +347,7 @@ pWildcard :: Parsec Text () Wildcard
 pWildcard = try (const Inline <$> string "[..]")
           <|> try (const InlineHidden <$> string "[]")
           <|> try ((Ownline . T.pack) <$> (string "[..." *> many (satisfy (/= ']')) <* string "]"))
+          <|> try ((OwnlineHidden . T.pack) <$> (string "[---" *> many (satisfy (/= ']')) <* string "]"))
 
 simple a = Split a []
 

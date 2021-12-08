@@ -3,7 +3,7 @@ module Verification.Core.Category.Std.Category.Structured.FiniteCoproduct.Defini
 
 open import Verification.Conventions
 open import Verification.Core.Set.Setoid
-open import Verification.Core.Data.Fin.Definition
+-- open import Verification.Core.Data.Fin.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 

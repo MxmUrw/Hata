@@ -105,6 +105,11 @@ parent=chapter
 \declaretheorem[
 style=plain,
 sibling=theorem
+]{proposition}
+
+\declaretheorem[
+style=plain,
+sibling=theorem
 ]{lemma}
 
 \declaretheorem[

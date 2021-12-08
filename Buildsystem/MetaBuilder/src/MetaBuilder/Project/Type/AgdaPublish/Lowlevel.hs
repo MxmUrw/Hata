@@ -65,26 +65,30 @@ instance TShow a => TShow (Prefixed a) where
   tshow (Prefixed t a) = t <> tshow a
 
 data Tag =
-  Theorem
+  Definition
+  | Theorem
+  | Proposition
   | Lemma
-  | Definition
-  | Notation
+  | Corollary
+  | Proof
   | Example
   | Remark
+  | Notation
   | Hide
-  | Corollary
   | Wrapper
   | End
   deriving (Show, Eq)
 instance TShow Tag where
-  tshow Theorem = "theorem"
-  tshow Lemma = "lemma"
   tshow Definition = "definition"
+  tshow Theorem = "theorem"
+  tshow Proposition = "proposition"
+  tshow Lemma = "lemma"
+  tshow Corollary = "corollary"
+  tshow Proof = "proof"
   tshow Notation = "notation"
   tshow Example = "example"
   tshow Remark = "remark"
   tshow Hide = "comment"
-  tshow Corollary = "corollary"
   tshow Wrapper = "mywrapper"
   tshow End = undefined -- We do not expect this to be printed!
 
@@ -328,9 +332,11 @@ parseTag = ((\_ -> Definition) <$> string "Definition")
            <|> ((\_ -> Example) <$> string "Example")
            <|> ((\_ -> Remark) <$> string "Remark")
            <|> ((\_ -> Lemma) <$> string "Lemma")
+           <|> ((\_ -> Proposition) <$> string "Proposition")
            <|> ((\_ -> Corollary) <$> string "Corollary")
            <|> ((\_ -> Wrapper) <$> string "Wrapper")
            <|> ((\_ -> Hide) <$> string "Hide")
+           <|> ((\_ -> Proof) <$> string "Proof")
 
 
 parseTagLLLine :: Parser Tag
