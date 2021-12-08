@@ -73,7 +73,7 @@ assoc-l-⊔-ℒHMTypes = {!!}
      (InitialCtxTypingInstance Γ te)
 
 -- | Proof.
-γ {μs} {k} {Q} Γ (var k∍i) = right $ typecheck-Var.Result Γ k∍i
+γ {μs} {k} {Q} Γ (var k∍i) = right $ (_ , typecheck-Var.Result Γ k∍i)
 
 γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
 

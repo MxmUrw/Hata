@@ -46,6 +46,19 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 
 open import Verification.Core.Order.Preorder
 
+-- [Lemma]
+-- | "Inversion of Var"
+
+inv-var : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs}
+          -> {α : ℒHMType ⟨ μs ⟩}
+          -> ∀{i} -> {k∍i : k ∍♮ i}
+          -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α) (var k∍i)
+          -> ∑ λ (σ : (lookup-Listᴰ Q k∍i) ⟶ μs)
+             -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , σ ⦘ ]⇂ ≡ α
+inv-var (var _ σ x) = σ , x
+
+-- //
+
 
 
 -- [Lemma]
@@ -57,10 +70,11 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
   -- |> Furthermore, assume
   --    that we have [..] and [..].
   module _ {i : ⊤-𝒰} (k∍i : k ∍♮ i) where
-  -- |> Then the term |var k∍i| has a principal typing instance.
+    -- |> Then the term |var k∍i| has a principal typing instance.
 
---  //
+    --  //
 
+    -- [Proof]
     -- | Define all the following things.
     vα = lookup-Listᴰ Q k∍i
     α = lookup-Listᴰ² Γ k∍i
@@ -75,6 +89,7 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
     Γ<Γ₀ : Γ <Γ Γ₀
     Γ<Γ₀ = record { fst = σᵤ₀ ; snd = refl-≡ }
 
+    -- | We also have a proof of [..] [].
     lem-1 : lookup-Listᴰ² (Γ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ⦘ ]⇂ ≡ lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂
     lem-1 = trans-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i ι₀ ι₁) (lookup-Listᴰ² Γ k∍i ⇃[≀ §-ℒHMTypes.prop-1 ⁻¹ ≀]⇂)
 
@@ -82,67 +97,64 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
     𝑇 : CtxTypingInstance Γ (var k∍i)
     𝑇 = (μs / vα ⊩ Γ , α₀ , reflexive , var k∍i ι₁ lem-1)
 
-    Result : InitialCtxTypingInstance Γ (var k∍i)
-    Result = {!!}
+    -- | Now assume that [..] is another given typing instance.
+    module _ (𝑆@(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , varP) : CtxTypingInstance Γ (var k∍i)) where
+
+      -- | In particular, since |varP| is a proof that |Γ₁ ⊢ var k∍i : α₁|,
+      --   we know that the derivation must have been given by a |var| constructor,
+      --   and thus we know that there must be the following substitution,
+      --   together with a proof that under this substitution,
+      --   indeed the type |α₁| is the result.
+      IP : ∑ λ (ρ : (lookup-Listᴰ Q k∍i) ⟶ (μs₁ ⊔ να₁))
+           -> lookup-Listᴰ² (Γ₁ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂ ≡ α₁
+      IP = inv-var varP
+
+      -- | Let us call the substitution [..], and the proof [..].
+      ρ = IP .fst
+      ρp = IP .snd
+
+      -- | We now have to give a substitution from the metavariables
+      --   of our proposedly initial typing instance |𝑇| to the given
+      --   typing instance |𝑆|, namely [..]. But since |𝑇| uses the same
+      --   variables (for the context) as the input for the algorithm, |Γ|,
+      --   such a substitution is given exactly by the proof of |Γ<Γ₁|
+      --   of |𝑆|.
+      σᵤ₁ : μs ⟶ μs₁
+      σᵤ₁ = Γ<Γ₁ .fst
+
+      -- | Next, we have ...
+      lem-4 : Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ
+      lem-4 = Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
+              Γ ⇃[ σᵤ₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ⟨ cong _⇃[ ι₀ {b = να₁} ]⇂ᶜ (Γ<Γ₁ .snd) ⟩-≡
+              Γ₁ ⇃[ ι₀ ]⇂ᶜ           ∎-≡
+
+      -- | And also ...
+
+      lem-5 : lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ ≡ α₁
+      lem-5 = lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
+
+              ⟨ cong _⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ (functoriality-id-⇃[]⇂ {τ = lookup-Listᴰ² Γ k∍i}) ⟩-≡
+              lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
+
+              ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ρ)) ⟩-≡
+
+              lookup-Listᴰ² (Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
+
+              ⟨ cong (λ ξ -> lookup-Listᴰ² ξ k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂) lem-4 ⟩-≡
+
+              lookup-Listᴰ² (Γ₁ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
+
+              ⟨ ρp ⟩-≡
+
+              α₁
+
+              ∎-≡
+
+      -- | Which means that we have a proof of initiality.
+      Result : 𝑇 <TI 𝑆
+      Result = record { tiSubₐ = σᵤ₁ ; tiSubₓ = ρ ; typProof = lem-5 ; subProof = unit-l-◆ }
+
+-- //
 
 
-{-
-  let vα = lookup-Listᴰ Q k∍i
-      α = lookup-Listᴰ² Γ k∍i
-      σᵤ₀ : μs ⟶ μs ⊔ vα
-      σᵤ₀ = ι₀
 
-      α₀ = α ⇃[ id ]⇂
-
-      Γ₀ = Γ ⇃[ ι₀ ]⇂ᶜ
-
-      Γ<Γ₀ : Γ <Γ Γ₀
-      Γ<Γ₀ = record { fst = σᵤ₀ ; snd = refl-≡ }
-
-      lem-1 : lookup-Listᴰ² (Γ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ⦘ ]⇂ ≡ lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂
-      lem-1 = trans-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i ι₀ ι₁) (lookup-Listᴰ² Γ k∍i ⇃[≀ §-ℒHMTypes.prop-1 ⁻¹ ≀]⇂)
-
-  in right ((μs / vα ⊩ Γ , α₀ , reflexive , var k∍i ι₁ lem-1)
-
-           -- now we have to prove that this is the "initial" such typing instance
-           , λ {(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , var {Γ = Γ₁'} _ ρ Γp) →
-
-               -- given another instance, which has to use `var` to prove the typing
-
-                let σᵤ₁ : μs ⟶ μs₁
-                    σᵤ₁ = Γ<Γ₁ .fst
-
-
-                    σᵤ₁-ty : lookup-Listᴰ Q k∍i ⟶ μs₁ ⊔ να₁
-                    σᵤ₁-ty = ρ
-
-                    lem-4 : Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ
-                    lem-4 = Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
-                            Γ ⇃[ σᵤ₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ⟨ cong _⇃[ ι₀ ]⇂ᶜ (Γ<Γ₁ .snd) ⟩-≡
-                            Γ₁ ⇃[ ι₀ ]⇂ᶜ           ∎-≡
-
-
-                    lem-5 : lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ ≡ α₁
-                    lem-5 = lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂ ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
-
-                            ⟨ cong _⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ (functoriality-id-⇃[]⇂ {τ = lookup-Listᴰ² Γ k∍i}) ⟩-≡
-                            lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
-
-                            ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ρ)) ⟩-≡
-
-                            lookup-Listᴰ² (Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
-
-                            ⟨ cong (λ ξ -> lookup-Listᴰ² ξ k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂) lem-4 ⟩-≡
-
-                            lookup-Listᴰ² (Γ₁ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
-
-                            ⟨ Γp ⟩-≡
-
-                            α₁
-
-                            ∎-≡
-
-                in record { tiSubₐ = σᵤ₁ ; tiSubₓ = ρ ; typProof = lem-5 ; subProof = unit-l-◆ }
-
-               })
--}
