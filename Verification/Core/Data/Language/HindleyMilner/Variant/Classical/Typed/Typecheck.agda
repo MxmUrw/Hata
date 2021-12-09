@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck where
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
@@ -21,7 +21,7 @@ open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Fun
 open import Verification.Core.Computation.Unification.Definition
 
 {-
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition

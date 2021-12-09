@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Expr.Variant.Base.InferenceTask where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Data.AllOf.Product
 open import Verification.Core.Data.Expr.Variant.Base.Definition

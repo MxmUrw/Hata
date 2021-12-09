@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Language.HindleyMilner.Variant.Unnamed.Typed.Instance.AdjointInfer where
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free

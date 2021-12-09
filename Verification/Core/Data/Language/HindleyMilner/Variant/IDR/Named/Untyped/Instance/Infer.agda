@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Language.HindleyMilner.Variant.Untyped.Instance.Infer where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Set.AllOf.Setoid
 open import Verification.Core.Data.AllOf.Collection.Basics

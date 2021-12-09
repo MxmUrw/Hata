@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Expr.Variant.AnnotatedList.Instance.Monad where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Algebra.Pointed.Definition
 open import Verification.Core.Data.Nat.Definition

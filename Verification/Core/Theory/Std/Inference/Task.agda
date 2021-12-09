@@ -1,7 +1,7 @@
 
 module Verification.Core.Theory.Std.Inference.Task where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 
 open import Verification.Core.Set.Setoid.Definition

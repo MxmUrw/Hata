@@ -131,6 +131,7 @@ agdaPublishProjects:
       - === Case Let
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/SLet.agda
       - === Case Lam
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Lam.agda
       - === Case App
       - = Appendix
       - == Notes

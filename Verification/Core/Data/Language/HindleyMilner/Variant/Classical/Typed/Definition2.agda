@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition2 where
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
@@ -40,7 +40,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Order.Preorder
 
 {-
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition

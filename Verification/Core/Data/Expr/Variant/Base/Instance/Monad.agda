@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Expr.Variant.Base.Instance.Monad where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Instance.Category

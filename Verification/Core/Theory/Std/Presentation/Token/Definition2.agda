@@ -5,7 +5,7 @@ module Verification.Core.Theory.Std.Presentation.Token.Definition2 where
 {-# FOREIGN GHC import Data.HashMap.Strict (HashMap) #-}
 
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.Product.Definition

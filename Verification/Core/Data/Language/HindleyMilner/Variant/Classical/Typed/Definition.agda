@@ -2,7 +2,7 @@
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition where
 
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition

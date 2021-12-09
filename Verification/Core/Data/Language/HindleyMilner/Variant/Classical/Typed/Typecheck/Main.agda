@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Main where
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
@@ -42,6 +42,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.Var
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.SLet
 
 open import Verification.Core.Order.Preorder
 
@@ -75,7 +76,11 @@ assoc-l-⊔-ℒHMTypes = {!!}
 -- | Proof.
 γ {μs} {k} {Q} Γ (var k∍i) = right $ (_ , typecheck-Var.Result Γ k∍i)
 
-γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
+γ {μs = νs} {Q = Q} Γ (slet te se) with γ Γ te
+... | (left err) = {!!}
+... | (right 𝑇-te) with γ _ se
+... | (left err) = {!!}
+... | (right 𝑇-se) = right (typecheck-slet.Result Γ te se 𝑇-te 𝑇-se)
 
 γ {μs = νsₐ} Γ (app te se) = {!!}
 

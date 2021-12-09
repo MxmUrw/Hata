@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.List.Dependent.Variant.Unary.Definition where
 
-open import Verification.Conventions hiding (Vec)
+open import Verification.Conventions
 
 open import Verification.Core.Set.Setoid
 open import Verification.Core.Set.Contradiction

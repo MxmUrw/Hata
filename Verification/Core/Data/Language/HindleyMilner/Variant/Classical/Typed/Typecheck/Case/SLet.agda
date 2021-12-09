@@ -1,8 +1,7 @@
-{-# OPTIONS -W noNoEquivWhenSplitting #-}
 
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.SLet where
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
@@ -323,8 +322,11 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
                    fst Γ<Γ₃             ∎
 
           -- | All together we see that [..], by taking [....]
-          Result : 𝑇 <TI 𝑆
-          Result = record { tiSubₐ = σᵃ₁₃ ; tiSubₓ = σˣ₁₃ ; typProof = lem-30 ; subProof = lem-40 }
+          lem-50 : 𝑇 <TI 𝑆
+          lem-50 = record { tiSubₐ = σᵃ₁₃ ; tiSubₓ = σˣ₁₃ ; typProof = lem-30 ; subProof = lem-40 }
+
+        Result : InitialCtxTypingInstance Γ (slet te se)
+        Result = 𝑇 , lem-50
 
 
   -- | With this we are done.

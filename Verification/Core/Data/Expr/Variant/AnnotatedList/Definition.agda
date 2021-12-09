@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Expr.Variant.AnnotatedList.Definition where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Data.FinR.Definition
 open import Verification.Core.Data.Nat.Definition

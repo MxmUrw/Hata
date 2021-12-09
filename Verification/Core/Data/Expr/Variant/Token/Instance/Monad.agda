@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Expr.Variant.Token.Instance.Monad where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Set.Setoid.Definition

@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.SourceCode.Variant.Tokenized.Definition where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category

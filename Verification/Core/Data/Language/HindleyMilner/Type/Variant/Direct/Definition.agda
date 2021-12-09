@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Language.HindleyMilner.Type.Variant.Direct.Definition where
 
-open import Verification.Conventions hiding (lookup ; ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.List.Variant.Unary.Element
 open import Verification.Core.Data.List.Variant.Unary.Natural

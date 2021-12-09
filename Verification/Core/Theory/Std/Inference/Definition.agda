@@ -1,7 +1,7 @@
 
 module Verification.Core.Theory.Std.Inference.Definition where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Data.Nat.Free
 open import Verification.Core.Data.Universe.Definition

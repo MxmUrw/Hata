@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Tree.Variant.Syntax.Definition where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.Nat.Free

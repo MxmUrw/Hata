@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Tree.Variant.AnnotatedToken.Definition where
 
-open import Verification.Conventions hiding (lookup ; ℕ)
+open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Algebra.AllOf.Pointed
 open import Verification.Core.Data.AllOf.Collection.Basics
 open import Verification.Core.Data.AllOf.Collection.TermTools
