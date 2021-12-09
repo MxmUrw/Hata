@@ -57,6 +57,7 @@ open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
 open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
 open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
 
+
 private
   _⟶_ = Hom
 
@@ -79,11 +80,35 @@ private
   assoc-l-⊔-ℒHMTypes = {!!}
 
 
+-- [Lemma]
+-- | "Inversion of App"
+
+inv-app : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {β : ℒHMType ⟨ μs ⟩}
+           --------------------------------------
+           -- constructor inputs
+           -> {te : UntypedℒHM k}
+           -> {se : UntypedℒHM k}
+           --------------------------------------
+           -- condition: is typed
+           -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ β) (app te se)
+           --------------------------------------
+           -- result: we have a lot
+           -> ∑ λ (α : ℒHMType ⟨ μs ⟩)
+           -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α ⇒ β) te
+             ×-𝒰 isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α) se
+inv-app (app x x₁) = _ , (x , x₁)
+
+-- //
+
+
+
+
+
 
 -- [Proof]
 -- | Let [..], [..], [..], [..] be the input of the
 --   algorithm.
-module typecheck-lam {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q νsₐ) where
+module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q νsₐ) where
 
   -- | Furthermore, assume we have the terms [..] and [..].
   module _ (te : UntypedℒHM k) (se : UntypedℒHM k) where
@@ -108,14 +133,14 @@ module typecheck-lam {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
         )
 
       -- | Next use this context to typecheck the term |se|.
-      module _ (𝑆-te! : InitialCtxTypingInstance Γ₀ se) where
+      module _ (𝑇-se! : InitialCtxTypingInstance Γ₀ se) where
 
-        open Σ 𝑆-te! renaming
-          ( fst to 𝑆-te
+        open Σ 𝑇-se! renaming
+          ( fst to 𝑇-se
           ; snd to Ω₁
           )
 
-        open CtxTypingInstance 𝑆-te renaming
+        open CtxTypingInstance 𝑇-se renaming
           ( metas to νs₁ₐ
           ; typeMetas to νs₁ₓ
           ; ctx to Γ₁
@@ -241,11 +266,14 @@ module typecheck-lam {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
           -- we know that under `σ₂₃` both α₂ and `β₂ ⇒ γ₂` are the same
           module lem-5 where abstract
             Proof : α₂ ⇃[ σ₂₃ ]⇂ ≡ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂
+            Proof = {!!}
+            {-
             Proof = α₂ ⇃[ π ◆ ⟨ splitting factor:f ⟩⁻¹ ]⇂      ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α₂} {f = π} {⟨ splitting factor:f ⟩⁻¹}) ⟩-≡
                   -- α₂ ⇃[ π ]⇂ ⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂  ⟨ cong _⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂ lem-5b ⟩-≡
                   α₂ ⇃[ π ]⇂ ⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂  ⟨ cong _⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂ ? ⟩-≡
                   (β₂ ⇒ γ₂) ⇃[ π ]⇂ ⇃[ ⟨ splitting factor:f ⟩⁻¹ ]⇂ ⟨ functoriality-◆-⇃[]⇂ {τ = β₂ ⇒ γ₂} {f = π} {⟨ splitting factor:f ⟩⁻¹} ⟩-≡
                   (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂                              ∎-≡
+                  -}
 
             --   where
             --     lem-5a : (asArr α₂) ◆ π ∼ (asArr (β₂ ⇒ γ₂)) ◆ π
@@ -264,11 +292,271 @@ module typecheck-lam {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
                         --      -- here: substitution of st term is st value
                         -- in ?
 
-          -- postulate lem-6 : Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ ≡ Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
-          {-
-          lem-6 = Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₂} {f = ι₀} {σ₂₃} ⟩-≡
+          module lem-6 where abstract
+            Proof : Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ ≡ Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
+            Proof = Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₂} {f = ι₀} {σ₂₃} ⟩-≡
                   Γ₂ ⇃[ ι₀ ◆ σ₂₃ ]⇂ᶜ       ⟨ Γ₂ ⇃[≀ lem-0 ≀]⇂-CtxFor ⟩-≡
-                  Γ₂ ⇃[ σᵃ₂₃ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
+                  Γ₂ ⇃[ σᵃ₂₃ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₂}) ⟩-≡
                   Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ∎-≡
-          -}
+
+          -------------
+          -- lift the typing of se and te to νs₃
+
+          module sp₃ where abstract
+            Proof : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
+            Proof = Γ₁⊢βᵇ₁
+                >> isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ βᵇ₁) se <<
+                ⟪ §-isTypedℒHM.prop-3 {Γ = Γ₁} ι₁ ⟫
+                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁) se <<
+                ⟪ §-isTypedℒHM.prop-3 {Γ = Γ₁} ι₀ ⟫
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) se <<
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂) se <<
+                ⟪ §-isTypedℒHM.prop-2 {Γ = _ , Γ₂ ⇃[ ι₀ ]⇂ᶜ} {τ = β₂} σ₂₃ ⟫
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
+                ⟪ transp-isTypedℒHM lem-6.Proof refl-≡ ⟫
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se <<
+
+          module tp₃ where abstract
+            Proof : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₃ ⇒ γ₃)) te
+            Proof = Γ₀⊢αᵇ₀
+
+                >> isTypedℒHM (νs₀ ⊩ (_ , Γ₀ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ) te <<
+
+                ⟪ §-isTypedℒHM.prop-4 {Γ = Γ₀} σᵃ₀₁ ι₀ ⟫
+
+                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ ι₀ ]⇂) te <<
+
+                ⟪ transp-isTypedℒHM (cong _⇃[ ι₀ ]⇂ᶜ (Γ₀<Γ₁ .snd)) refl-≡ ⟫
+
+                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ) te <<
+
+                ⟪ §-isTypedℒHM.prop-3 {Γ = Γ₁} ι₀ ⟫
+
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) te <<
+                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₂) te <<
+
+                ⟪ §-isTypedℒHM.prop-2 σ₂₃ ⟫
+
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ α₂ ⇃[ σ₂₃ ]⇂) te <<
+
+                ⟪ transp-isTypedℒHM lem-6.Proof lem-5.Proof ⟫
+
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂) te <<
+                ⟪ {!!} ⟫
+                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃ ⇒ γ₃) te <<
+
+          -- this shows that we do have the typing instance
+          𝑇 : CtxTypingInstance Γ (app te se)
+          𝑇 = νs₃ₐ / νs₃ₓ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , (app tp₃.Proof sp₃.Proof)
+
+          -- | Now we want to show that this is the initial typing instance.
+          -- | > Assume we are given another typing instance.
+          module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
+            open CtxTypingInstance 𝑆 renaming
+              ( metas to νs₄ₐ
+              ; typeMetas to νs₄ₓ
+              ; ctx to Ξ
+              ; typ to ζ₄
+              ; isInstance to Γ<Ξ
+              ; hasType to Ξ⊢ζ₄
+              )
+
+
+            -- | We know that the lam typing must have been derived by the
+            --   app rule.
+            inR = inv-app Ξ⊢ζ₄
+            ξ₄ = inR .fst
+            Ξ⊢ξ⇒ζ = inR .snd .fst
+            Ξ⊢ξ = inR .snd .snd
+            -- α₃⇒β₃=δ₃ = inR .snd .snd .fst
+            -- Γ₃α₃⊢β₃ = inR .snd .snd .snd
+
+
+
+            νs₄ : ℒHMTypes
+            νs₄ = νs₄ₐ ⊔ νs₄ₓ
+
+            σᵃᵤ₄ : νs ⟶ νs₄ₐ
+            σᵃᵤ₄ = fst Γ<Ξ
+
+            module ΩR₀ where abstract
+              Proof : 𝑇-te <TI (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+              Proof = Ω₀ (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+
+            σᵃ₀₄ : νs₀ₐ ⟶ νs₄ₐ
+            σᵃ₀₄ = tiSubₐ ΩR₀.Proof
+
+            σˣ₀₄ : νs₀ₓ ⟶ νs₄ₐ ⊔ νs₄ₓ
+            σˣ₀₄ = tiSubₓ ΩR₀.Proof
+
+            Γ₀<Ξ : Γ₀ <Γ Ξ
+            Γ₀<Ξ = record { fst = σᵃ₀₄ ; snd = ctxProofTI ΩR₀.Proof }
+
+            module ΩR₁ where abstract
+              Proof : 𝑇-se <TI (νs₄ₐ / νs₄ₓ ⊩ Ξ , ξ₄ , Γ₀<Ξ , Ξ⊢ξ)
+              Proof = Ω₁ (νs₄ₐ / νs₄ₓ ⊩ Ξ , ξ₄ , Γ₀<Ξ , Ξ⊢ξ)
+
+            σᵃ₁₄ : νs₁ₐ ⟶ νs₄ₐ
+            σᵃ₁₄ = tiSubₐ ΩR₁.Proof
+
+            σˣ₁₄ : νs₁ₓ ⟶ νs₄ₐ ⊔ νs₄ₓ
+            σˣ₁₄ = tiSubₓ ΩR₁.Proof
+
+
+            -------
+            -- we can build a substitution from νs₂ by mapping γ to ζ₄
+            -- {}
+            σₜ₄ : st ⟶ νs₄
+            σₜ₄ = ⧜subst (incl ζ₄)
+
+            σ₂₄ : νs₂ ⟶ νs₄
+            σ₂₄ = ⦗ σᵃ₁₄ ◆ ι₀ , ⦗ ⦗ σˣ₀₄ , σˣ₁₄ ⦘ , σₜ₄ ⦘ ⦘ -- ⦗ σ₁₄ , σₜ₄ ⦘
+            -- {}
+            ------
+
+            -- we know that under this substitution,
+            -- u = α₂ and v = β₂ ⇒ γ₂ become both ξ⇒ζ
+
+            module lem-11 where abstract
+              Proof : u ⇃[ σ₂₄ ]⇂ ≡ ξ₄ ⇒ ζ₄
+              Proof = αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ ι₀ ]⇂ ⇃[ id ⇃⊔⇂ ι₀ ]⇂ ⇃[ σ₂₄ ]⇂     ⟨ {!!} ⟩-≡
+                      αᵇ₀ ⇃[ ⦗ σᵃ₀₁ ◆ σᵃ₁₄ ◆ ι₀ , σˣ₀₄ ⦘ ]⇂             ⟨ {!!} ⟩-≡
+                      αᵇ₀ ⇃[ ⦗ σᵃ₀₄ ◆ ι₀ , σˣ₀₄ ⦘ ]⇂                    ⟨ typProof ΩR₀.Proof ⟩-≡
+                      ξ₄ ⇒ ζ₄                                         ∎-≡
+
+            -- we show how β₂ and γ₂ evaluate under σ₂₄
+            module lem-12a where abstract
+              Proof : β₂ ⇃[ σ₂₄ ]⇂ ≡ ξ₄
+              Proof = βᵇ₁ ⇃[ id ⇃⊔⇂ ι₁ ]⇂ ⇃[ id ⇃⊔⇂ ι₀ ]⇂ ⇃[ σ₂₄ ]⇂   ⟨ {!!} ⟩-≡
+                      βᵇ₁ ⇃[ ⦗ σᵃ₁₄ ◆ ι₀ , σˣ₁₄ ⦘ ]⇂                 ⟨ typProof ΩR₁.Proof ⟩-≡
+                      ξ₄                                            ∎-≡
+
+            module lem-12b where abstract
+              Proof : γ₂ ⇃[ σ₂₄ ]⇂ ≡ ζ₄
+              Proof = {!!} -- γᵇₜ ⇃[ ι₁ ◆ ι₁ ]⇂ ⇃[ σ₂₄ ]⇂           ⟨ {!!} ⟩-≡
+                        -- γᵇₜ ⇃[ σₜ₄ ]⇂                         ∎-≡
+
+            module lem-12 where abstract
+              Proof : v ⇃[ σ₂₄ ]⇂ ≡ ξ₄ ⇒ ζ₄
+              Proof = {!!} -- λ i -> lem-12a.Proof i ⇒ lem-12b.Proof i
+
+            -- taken together
+            module lem-13 where abstract
+              Proof : (asArr u) ◆ σ₂₄ ∼ (asArr v) ◆ σ₂₄
+              Proof = ((sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭) ∙-≣ lem-13a) ∙-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭
+                where
+                  lem-13a : ((asArr u) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ₂₄) ∼ ((asArr v) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ₂₄)
+                  lem-13a = {!!} -- cong-Str ⧜subst (cong-Str incl (≡→≡-Str (trans-Path lem-11.Proof (sym-Path lem-12.Proof))))
+
+
+            -- ... thus we can use the universal property
+            -- to get ⟨ x ⟩ ⟶ νs₄
+            ε : ⟨ x ⟩ ⟶ νs₄
+            ε = ⦗ σ₂₄ , {!!} ⦘₌ -- lem-13
+
+            -- using this coequalizer derived hom, we can now build the proper
+            -- 3 -> 4 morphisms
+
+            --------------------------------------
+            -- i) the "a" version
+            σᵃ₃₄ : νs₃ₐ ⟶ νs₄ₐ
+            σᵃ₃₄ = ι₀ ◆ ⟨ ϕ ⟩ ◆ ε ◆ ϖ₀
+
+            module lem-20 where abstract
+              Proof : σᵃ₂₃ ◆ ι₀ ◆ ⟨ ϕ ⟩ ∼ ι₀ ◆ π₌
+              Proof = σᵃ₂₃ ◆ ι₀ ◆ ⟨ ϕ ⟩              ⟨ lem-0 ⁻¹ ◈ refl ⟩-∼
+                      ι₀ ◆ σ₂₃ ◆ ⟨ ϕ ⟩               ⟨ refl ⟩-∼
+                      ι₀ ◆ (π₌ ◆ ⟨ ϕ ⟩⁻¹) ◆ ⟨ ϕ ⟩    ⟨ assoc-l-◆ ∙ (refl ◈ assoc-l-◆) ⟩-∼
+                      ι₀ ◆ (π₌ ◆ (⟨ ϕ ⟩⁻¹ ◆ ⟨ ϕ ⟩))  ⟨ refl ◈ (refl ◈ inv-l-◆ (of ϕ)) ⟩-∼
+                      ι₀ ◆ (π₌ ◆ id)                ⟨ refl ◈ unit-r-◆ ⟩-∼
+                      ι₀ ◆ π₌                       ∎
+
+            module lem-21 where abstract
+              Proof : σᵃ₂₃ ◆ ι₀ ◆ ⟨ ϕ ⟩ ◆ ε ∼ σᵃ₁₄ ◆ ι₀
+              Proof = σᵃ₂₃ ◆ ι₀ ◆ ⟨ ϕ ⟩ ◆ ε      ⟨ lem-20.Proof ◈ refl ⟩-∼
+                      ι₀ ◆ π₌ ◆ ε                ⟨ assoc-l-◆ ⟩-∼
+                      ι₀ ◆ (π₌ ◆ ε)              ⟨ refl ◈ reduce-π₌ ⟩-∼
+                      ι₀ ◆ σ₂₄                   ⟨ reduce-ι₀ ⟩-∼
+                      σᵃ₁₄ ◆ ι₀                  ∎
+
+            module lem-22 where abstract
+              Proof : σᵃ₂₃ ◆ σᵃ₃₄ ∼ σᵃ₁₄
+              Proof = σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩ ◆ ε ◆ ϖ₀)    ⟨ assoc-r-◆ ⟩-∼
+                      (σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩ ◆ ε)) ◆ ϖ₀  ⟨ assoc-r-◆ ◈ refl ⟩-∼
+                      ((σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩)) ◆ ε) ◆ ϖ₀ ⟨ assoc-r-◆ ◈ refl ◈ refl ⟩-∼
+                      (((σᵃ₂₃ ◆ ι₀) ◆ ⟨ ϕ ⟩) ◆ ε) ◆ ϖ₀ ⟨ lem-21.Proof ◈ refl ⟩-∼
+                      σᵃ₁₄ ◆ ι₀ ◆ ϖ₀                  ⟨ assoc-l-◆ ⟩-∼
+                      σᵃ₁₄ ◆ (ι₀ ◆ ϖ₀)                ⟨ refl ◈ reduce-ι₀ ⟩-∼
+                      σᵃ₁₄ ◆ id                       ⟨ unit-r-◆ ⟩-∼
+                      σᵃ₁₄                            ∎
+
+            module lem-22b where abstract
+              Proof : σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩ ◆ ε) ∼ σᵃ₁₄ ◆ ι₀
+              Proof = σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩ ◆ ε)     ⟨ assoc-r-◆ ⟩-∼
+                      ((σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩)) ◆ ε) ⟨ assoc-r-◆ ◈ refl ⟩-∼
+                      (((σᵃ₂₃ ◆ ι₀) ◆ ⟨ ϕ ⟩) ◆ ε) ⟨ lem-21.Proof ⟩-∼
+                      σᵃ₁₄ ◆ ι₀                  ∎
+
+            module lem-23 where abstract
+              Proof : fst Γ<Γ₃ ◆ σᵃ₃₄ ∼ σᵃᵤ₄
+              Proof = (σᵃᵤ₀ ◆ σᵃ₀₁) ◆ σᵃ₂₃ ◆ σᵃ₃₄       ⟨ assoc-l-◆ ⟩-∼
+                      (σᵃᵤ₀ ◆ σᵃ₀₁) ◆ (σᵃ₂₃ ◆ σᵃ₃₄)     ⟨ refl ◈ lem-22.Proof ⟩-∼
+                      (σᵃᵤ₀ ◆ σᵃ₀₁) ◆ σᵃ₁₄              ⟨ assoc-l-◆ ⟩-∼
+                      σᵃᵤ₀ ◆ (σᵃ₀₁ ◆ σᵃ₁₄)              ⟨ refl ◈ subProof ΩR₁.Proof ⟩-∼
+                      σᵃᵤ₀ ◆ σᵃ₀₄                       ⟨ subProof ΩR₀.Proof  ⟩-∼
+                      σᵃᵤ₄                              ∎
+
+            --------------------------------------
+            -- i) the "x" version
+            σˣ₃₄ : νs₃ₓ ⟶ νs₄
+            σˣ₃₄ = ι₁ ◆ ⟨ ϕ ⟩ ◆ ε
+
+            module lem-30 where abstract
+              Proof : σᵃ₃₄ ◆ ι₀ ∼ ι₀ ◆ ⟨ ϕ ⟩ ◆ ε
+              Proof = cancel-epi {{_}} {{isEpi:epiHom factor:f}} lem-30a
+                where
+                  lem-30a : σᵃ₂₃ ◆ (σᵃ₃₄ ◆ ι₀) ∼ σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩ ◆ ε)
+                  lem-30a = σᵃ₂₃ ◆ (σᵃ₃₄ ◆ ι₀)      ⟨ assoc-r-◆ ⟩-∼
+                            (σᵃ₂₃ ◆ σᵃ₃₄) ◆ ι₀      ⟨ lem-22.Proof ◈ refl ⟩-∼
+                            σᵃ₁₄ ◆ ι₀               ⟨ lem-22b.Proof ⁻¹ ⟩-∼
+                            σᵃ₂₃ ◆ (ι₀ ◆ ⟨ ϕ ⟩ ◆ ε) ∎
+
+            module lem-31 where abstract
+              open import Verification.Core.Category.Std.Category.Notation.Associativity
+              Proof : σ₂₃ ◆ ⦗ σᵃ₃₄ ◆ ι₀ , σˣ₃₄ ⦘ ∼ σ₂₄
+              Proof = σ₂₃ ◆ ⦗ σᵃ₃₄ ◆ ι₀ , σˣ₃₄ ⦘      ⟨ refl ◈ cong-∼ {{isSetoidHom:⦗⦘}} (lem-30.Proof , refl) ⟩-∼
+                      σ₂₃ ◆ ⦗ ι₀ ◆ ⟨ ϕ ⟩ ◆ ε , σˣ₃₄ ⦘
+                        ⟨ refl ◈ cong-∼ {{isSetoidHom:⦗⦘}} (assoc-l-◆ , assoc-l-◆) ⟩-∼
+                      σ₂₃ ◆ ⦗ ι₀ ◆ (⟨ ϕ ⟩ ◆ ε) , (ι₁ ◆ (⟨ ϕ ⟩ ◆ ε)) ⦘
+                        ⟨ refl ◈ expand-ι₀,ι₁ ⁻¹ ⟩-∼
+                      (π₌ ◆ ⟨ ϕ ⟩⁻¹) ◆ (⟨ ϕ ⟩ ◆ ε)
+                        ⟨ assoc-[ab][cd]∼a[bc]d-◆ ⟩-∼
+                      π₌ ◆ (⟨ ϕ ⟩⁻¹ ◆ ⟨ ϕ ⟩) ◆ ε
+                        ⟨ refl ◈ inv-l-◆ (of ϕ) ◈ refl ⟩-∼
+                      π₌ ◆ id ◆ ε
+                        ⟨ unit-r-◆ ◈ refl ⟩-∼
+                      π₌ ◆ ε
+                        ⟨ reduce-π₌ {{_}} {{of x}} ⟩-∼
+                      σ₂₄
+                        ∎
+
+            module lem-32 where abstract
+              Proof : γ₃ ⇃[ ⦗ σᵃ₃₄ ◆ ι₀ , σˣ₃₄ ⦘ ]⇂ ≡ ζ₄
+              Proof = γ₂ ⇃[ σ₂₃ ]⇂ ⇃[ ⦗ σᵃ₃₄ ◆ ι₀ , σˣ₃₄ ⦘ ]⇂    ⟨ functoriality-◆-⇃[]⇂ {τ = γ₂} {f = σ₂₃} {⦗ σᵃ₃₄ ◆ ι₀ , σˣ₃₄ ⦘} ⟩-≡
+                      γ₂ ⇃[ σ₂₃ ◆ ⦗ σᵃ₃₄ ◆ ι₀ , σˣ₃₄ ⦘ ]⇂        ⟨ γ₂ ⇃[≀ lem-31.Proof ≀]⇂ ⟩-≡
+                      γ₂ ⇃[ σ₂₄ ]⇂                               ⟨ lem-12b.Proof ⟩-≡
+                      ζ₄                                         ∎-≡
+
+            isInitial:𝑇 : 𝑇 <TI 𝑆
+            isInitial:𝑇 = record { tiSubₐ = σᵃ₃₄ ; tiSubₓ = σˣ₃₄ ; typProof = lem-32.Proof ; subProof = lem-23.Proof }
+
+          -- | Which means that we finally have our result [..], which is [....]
+
+          Result : InitialCtxTypingInstance Γ (app te se)
+          Result = 𝑇 , isInitial:𝑇
+
+          -- | And we are done!
+
+-- //
 

@@ -19,10 +19,12 @@ open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
-open import Verification.Core.Category.Std.Category.Definition
+-- open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition using (append-⦗⦘ ; ⦗≀_≀⦘)
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+  -- renaming (_⇃⊔⇂_ to _⇃⊔⇂ᵘ_)
+
 open import Verification.Core.Computation.Unification.Definition
 
 open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
@@ -34,7 +36,26 @@ open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Unif
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
 
+--------------------------------------
+-- optimizations
 
+open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
+open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
+open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
+open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
+open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
+open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
+
+private
+  _⟶_ = Hom
+  -- _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+  -- ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+
+
+-- abstract
+--   infixl 100 _⇃⊔⇂_
+--   _⇃⊔⇂_ : ∀{a b c d : ⧜𝒯⊔Term 𝒹} -> (a ⟶ b) -> (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
+--   _⇃⊔⇂_ = _⇃⊔⇂ᵘ_
 
 
 

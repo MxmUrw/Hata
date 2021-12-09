@@ -133,6 +133,7 @@ agdaPublishProjects:
       - === Case Lam
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Lam.agda
       - === Case App
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/App.agda
       - = Appendix
       - == Notes
       - Core/Data/List/Notes/ReasonForFreeMonoidVariant.agda

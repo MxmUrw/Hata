@@ -79,10 +79,10 @@ module _ {k} {Q : ℒHMQuant k} where
         σ₀₂ = σ₀₁ ◆ σ₁₂
 
         lem-1 : Γ₀ ⇃[ σ₀₂ ]⇂-CtxFor ≡ Γ₂
-        lem-1 = Γ₀ ⇃[ σ₀₁ ◆ σ₁₂ ]⇂-CtxFor      ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor) ⟩-≡
-                Γ₀ ⇃[ σ₀₁ ]⇂-CtxFor ⇃[ σ₁₂ ]⇂-CtxFor ⟨ cong _⇃[ σ₁₂ ]⇂-CtxFor (snd Γ₀<Γ₁) ⟩-≡
-                Γ₁  ⇃[ σ₁₂ ]⇂-CtxFor                 ⟨ snd Γ₁<Γ₂ ⟩-≡
-                Γ₂                                  ∎-≡
+        lem-1 = {!!} -- Γ₀ ⇃[ σ₀₁ ◆ σ₁₂ ]⇂-CtxFor      ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor) ⟩-≡
+                -- Γ₀ ⇃[ σ₀₁ ]⇂-CtxFor ⇃[ σ₁₂ ]⇂-CtxFor ⟨ cong _⇃[ σ₁₂ ]⇂-CtxFor (snd Γ₀<Γ₁) ⟩-≡
+                -- Γ₁  ⇃[ σ₁₂ ]⇂-CtxFor                 ⟨ snd Γ₁<Γ₂ ⟩-≡
+                -- Γ₂                                  ∎-≡
 
     in record { fst = σ₀₂ ; snd = lem-1 }
 

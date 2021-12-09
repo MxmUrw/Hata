@@ -23,6 +23,7 @@ open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+  -- using (append-⇃⊔⇂)
 open import Verification.Core.Computation.Unification.Definition
 
 open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
@@ -131,17 +132,17 @@ module §-ℒHMCtx where
             ->  lookup-Listᴰ² (Γ ⇃[ σ₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , σ₁ ⦘ ]⇂
               ≡
                 lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
-    prop-2 {Γ = b ∷ Γ} incl σ₀ σ₁ =
-      let lem-0 : (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ∼ ⦗ σ₀ , σ₁ ⦘
-          lem-0 = (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘   ⟨ append-⇃⊔⇂ {f0 = σ₀} {id} {id} {σ₁} ⟩-∼
-                  ⦗ σ₀ ◆ id , id ◆ σ₁ ⦘       ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-r-◆ {f = σ₀} , unit-l-◆ {f = σ₁}) ⟩-∼
-                  ⦗ σ₀ , σ₁ ⦘                 ∎
+    prop-2 {Γ = b ∷ Γ} incl σ₀ σ₁ = {!!}
+      -- let lem-0 : (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ∼ ⦗ σ₀ , σ₁ ⦘
+      --     lem-0 = (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘   ⟨ append-⇃⊔⇂ {f0 = σ₀} {id} {id} {σ₁} ⟩-∼
+      --             ⦗ σ₀ ◆ id , id ◆ σ₁ ⦘       ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-r-◆ {f = σ₀} , unit-l-◆ {f = σ₁}) ⟩-∼
+      --             ⦗ σ₀ , σ₁ ⦘                 ∎
 
-          lem-1 : b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂ ≡ b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
-          lem-1 = b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂    ⟨ functoriality-◆-⇃[]⇂ {τ = b} {f = (σ₀ ⇃⊔⇂ id)} {g = ⦗ id , σ₁ ⦘} ⟩-≡
-                  b ⇃[ (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ]⇂      ⟨ b ⇃[≀ lem-0 ≀]⇂ ⟩-≡
-                  b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂                    ∎-≡
-      in {!!}
+      --     lem-1 : b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂ ≡ b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
+      --     lem-1 = b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂    ⟨ functoriality-◆-⇃[]⇂ {τ = b} {f = (σ₀ ⇃⊔⇂ id)} {g = ⦗ id , σ₁ ⦘} ⟩-≡
+      --             b ⇃[ (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ]⇂      ⟨ b ⇃[≀ lem-0 ≀]⇂ ⟩-≡
+      --             b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂                    ∎-≡
+      -- in {!!}
       --  lem-1
     prop-2 {Γ = b ∷ Γ} (skip k∍i) σ₀ σ₁ = {!!}
     -- prop-2 {Γ = Γ} k∍i σ₀ σ₁

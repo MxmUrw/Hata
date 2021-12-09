@@ -44,6 +44,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.Var
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.SLet
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.Lam
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.App
 
 open import Verification.Core.Order.Preorder
 
@@ -83,11 +84,17 @@ assoc-l-⊔-ℒHMTypes = {!!}
 ... | (left err) = {!!}
 ... | (right 𝑇-se) = right (typecheck-slet.Result Γ te se 𝑇-te 𝑇-se)
 
-γ {μs = νsₐ} Γ (app te se) = {!!}
+γ {μs = νsₐ} Γ (app te se) with γ Γ te
+... | (left err) = {!!}
+... | (right 𝑇-te) with γ _ se
+... | (left err) = {!!}
+... | (right 𝑇-se) with unify-ℒHMTypes _ _
+... | (left err) = {!!}
+... | (right x) = right (typecheck-app.Result Γ te se 𝑇-te 𝑇-se x)
 
 γ {μs} {k} {Q = Q} Γ (lam te) with γ _ te
 ... | (left err) = {!!}
-... | (right 𝑇-te) = right (typecheck-app.Result Γ te 𝑇-te)
+... | (right 𝑇-te) = right (typecheck-lam.Result Γ te 𝑇-te)
 
 -- //
 
