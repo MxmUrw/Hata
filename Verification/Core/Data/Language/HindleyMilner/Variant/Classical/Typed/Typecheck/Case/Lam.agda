@@ -25,12 +25,14 @@ open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Defi
 open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
 open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
 
-open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Category.Std.Category.Definition
+-- open import Verification.Core.Category.Std.Morphism.Iso
+open import Verification.Core.Category.Std.Morphism.Iso renaming (_≅_ to _≅ᵘ_ ; ⟨_⟩⁻¹ to ⟨_⟩⁻¹ᵘ)
 open import Verification.Core.Category.Std.Morphism.Epi.Definition
 open import Verification.Core.Category.Std.Category.Subcategory.Full
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+-- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition using (append-⦗⦘ ; ⦗≀_≀⦘)
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
 open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
 open import Verification.Core.Computation.Unification.Definition
@@ -48,9 +50,22 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 
 open import Verification.Core.Order.Preorder
 
-{-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
-{-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
-{-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
+open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
+open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
+open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
+open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
+open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
+open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
+
+private
+  _⟶_ = Hom
+
+  _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+  ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+
+-- {-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
+-- {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
+-- {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
 {-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
 {-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
 
@@ -691,6 +706,7 @@ module typecheck-app {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
                   ∎-≡
 
+
         -- | Which means that here is our result!
         -- here we additionally need that ⇒ distributes over substitution (or the other way round)
         lem-50 : (α₂ ⇒ β₂) ⇃[ ⦗ σᵃ₂₃ ◆ ι₀ , σˣ₂₃ ⦘ ]⇂ ≡ α₃' ⇒ β₃
@@ -698,6 +714,12 @@ module typecheck-app {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         -- λ i -> lem-40 i ⇒ lem-42 i
 
         -- | But what exactly is your problem then ?
+
+        isInitial:𝑇 : 𝑇 <TI 𝑆
+        isInitial:𝑇 = record { tiSubₐ = σᵃ₂₃ ; tiSubₓ = σˣ₂₃ ; typProof = trans-Path lem-50 α₃⇒β₃=δ₃ ; subProof = lem-20.Proof }
+
+      Result : InitialCtxTypingInstance Γ (lam te)
+      Result = 𝑇 , isInitial:𝑇
 
 -- //
 

@@ -55,3 +55,35 @@ module _ {𝓅 : 𝒯⊔Param 𝑖} where
     isRelativeMonad.reunit-r isRelativeMonad:𝒯⊔term = {!!}
     isRelativeMonad.reassoc isRelativeMonad:𝒯⊔term = {!!}
 
+
+--------------------------------------
+-- named definitions for the category
+module _ (𝓅 : 𝒯⊔Param 𝑖) where
+  open import Verification.Core.Data.Substitution.Variant.Base.Definition
+  open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+
+  macro ⧜𝒯⊔Term = #structureOn (InductiveSubstitution (𝒯⊔term 𝓅))
+
+  module Overwrite:isCategory:⧜𝒯⊔Term where
+    open isCategory (isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
+
+  module Overwrite:hasCoproducts:⧜𝒯⊔Term where
+    open hasCoproducts (hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
+
+  module Overwrite:isCoproduct:⧜𝒯⊔Term {a b : ⧜𝒯⊔Term} where
+    open isCoproduct (isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅} {a = a} {b = b}) public
+
+  module Overwrite:hasInitial:⧜𝒯⊔Term where
+    open hasInitial (hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
+
+  module Overwrite:isInitial:⧜𝒯⊔Term where
+    open isInitial (isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
+
+  module Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term where
+    open hasFiniteCoproducts (hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
+
+
+
+
+
+

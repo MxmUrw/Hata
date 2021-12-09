@@ -24,11 +24,11 @@ open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Defi
 open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
 open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
 
-open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Morphism.Iso renaming (_≅_ to _≅ᵘ_ ; ⟨_⟩⁻¹ to ⟨_⟩⁻¹ᵘ)
 open import Verification.Core.Category.Std.Category.Subcategory.Full
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+-- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
 open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
 open import Verification.Core.Computation.Unification.Definition
@@ -46,15 +46,30 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 
 open import Verification.Core.Order.Preorder
 
-{-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
-{-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
-{-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
+open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
+open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
+open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
+open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
+open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
+open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
+
+private
+  _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+  ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+  _⟶_ = Hom
+
+
+-- {-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
+-- {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
+-- {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
 {-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
 {-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
+
 
 private
   assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
   assoc-l-⊔-ℒHMTypes = {!!}
+
 
 -- [Lemma]
 -- | "Inversion of SLet". The following holds.
@@ -247,7 +262,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
           σ₂₃₊ = metasProof isAb₂
 
           あ : ((νs₃ₐ ⊔ νs₃ₓ) ⊔ νs₃ₓ₊) ≅ (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))
-          あ = let x = assoc-l-⊔-ℒHMTypes {a = νs₃ₐ} {b = νs₃ₓ} {c = νs₃ₓ₊} in x
+          あ = {!!} -- let x = assoc-l-⊔-ℒHMTypes {a = νs₃ₐ} {b = νs₃ₓ} {c = νs₃ₓ₊} in x
 
           α₃' : ℒHMType ⟨(νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))⟩
           α₃' = α₃ ⇃[ ⟨ あ ⟩ ]⇂
@@ -271,6 +286,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
             Proof : (νs₀ₐ / νs₀ₓ ⊩ Γ₀ , αᵇ₀ , Γ<Γ₀ , Γ₀⊢αᵇ₀) <TI ((νs₃ₐ) / (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ , α₃' , Γ<Γ₃ , lem-11.Proof)
             Proof = Ω₀ ((νs₃ₐ) / (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ , α₃' , Γ<Γ₃ , lem-11.Proof)
 
+
           σᵃ₀₃ : νs₀ₐ ⟶ νs₃ₐ
           σᵃ₀₃ = tiSubₐ Ω₀R.Proof
 
@@ -279,8 +295,15 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
           α₀' = αᵇ₀ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂
 
+          -- ⟨a⟩⁻¹ : (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊)) ⟶ (νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊)
+          -- ⟨a⟩⁻¹ = {!!}
+
+          -- module lem-14 where abstract
+          --   Proof : ⦗ σᵃ₀₃ ◆ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨a⟩⁻¹ ⦘ ≣ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨a⟩⁻¹
+          --   Proof = {!!}
+
           module lem-14 where abstract
-            Proof : ⦗ σᵃ₀₃ ◆ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ∼ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹
+            Proof : ⦗ σᵃ₀₃ ◆ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ≣ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹
             Proof = {!!}
 
           module lem-15 where abstract
@@ -332,5 +355,5 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
   -- | With this we are done.
 
 -- //
-
-
+{-
+-}
