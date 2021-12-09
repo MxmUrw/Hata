@@ -109,7 +109,7 @@ inv-lam = {!!}
 -- [Proof]
 -- | Let [..], [..], [..], [..] be the input of the
 --   algorithm.
-module typecheck-app {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) where
+module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) where
 
   -- | Furthermore, assume we have the term [..].
   module _ (te : UntypedℒHM (tt ∷ k)) where
