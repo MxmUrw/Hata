@@ -107,6 +107,15 @@ abstract
 
 -- [Hide]
 
+  --------------------------------------
+  -- is setoid hom
+  _⇃[≀_≀]⇂ : ∀{a b : ℒHMTypes} -> (τ : ℒHMType ⟨ a ⟩) -> {f g : a ⟶ b}
+                -> f ∼ g -> τ ⇃[ f ]⇂ ≡ τ ⇃[ g ]⇂
+  _⇃[≀_≀]⇂ τ {f = f} {g} p = cong fromArr (≡-Str→≡ (refl-≣ ◈ p))
+
+  --------------------------------------
+  -- respects ◆
+
   module _ {a b c : ℒHMTypes} where
     abstract
       functoriality-◆-⇃[]⇂ : ∀{τ : ℒHMType ⟨ a ⟩} -> {f : a ⟶ b} -> {g : b ⟶ c}
@@ -161,6 +170,8 @@ abstract
           lem-0 = trans-Path (trans-Path lem-3a lem-3b) (lem-2)
 
 
+  -------------------------
+  -- respects id
 
   module _ {a : ℒHMTypes} where
     abstract
