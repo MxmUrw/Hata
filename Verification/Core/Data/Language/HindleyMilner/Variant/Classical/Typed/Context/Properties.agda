@@ -38,30 +38,24 @@ open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFinit
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
 
 
--- module _ (n : ♮ℕ) (m : ℒHMTypes) where
---   ℒHMCtxᵘ = Listᴰ (const (ℒHMPolyType m)) n
 
--- module _ (n : ♮ℕ) where
---   macro ℒHMCtx = #structureOn (ℒHMCtxᵘ n)
+map-ℒHMCtx : ∀{n : ♮ℕ} -> {q : ℒHMQuant n} {a b : ℒHMTypes} -> a ⟶ b -> ℒHMCtx q a ⟶ ℒHMCtx q b
+map-ℒHMCtx f [] = []
+map-ℒHMCtx f (c ∷ xs) = (c ⇃[ f ⇃⊔⇂ id ]⇂) ∷ (map-ℒHMCtx f xs)
 
-map-ℒHMCtxFor : ∀{n : ♮ℕ} -> {q : ℒHMQuant n} {a b : ℒHMTypes} -> a ⟶ b -> ℒHMCtxFor q a ⟶ ℒHMCtxFor q b
-map-ℒHMCtxFor f [] = []
-map-ℒHMCtxFor f (c ∷ xs) = (c ⇃[ f ⇃⊔⇂ id ]⇂) ∷ (map-ℒHMCtxFor f xs)
+isSetoidHom:map-ℒHMCtx : ∀{n : ♮ℕ} {q : ℒHMQuant n} -> {a b : ℒHMTypes} -> {f g : a ⟶ b}
+                        -> (f ∼ g) -> map-ℒHMCtx {q = q} f ≡ map-ℒHMCtx g
+isSetoidHom:map-ℒHMCtx {q = q} {f = f} {g}  p = funExt lem-0
+  where
+    lem-0 : ∀ x -> map-ℒHMCtx {q = q} f x ≡ map-ℒHMCtx g x
+    lem-0 [] = refl-≡
+    lem-0 (c ∷ x) = {!!}
 
-map-ℒHMCtx : ∀{n : ♮ℕ} -> {a b : ℒHMTypes} -> a ⟶ b -> ℒHMCtx n a ⟶ ℒHMCtx n b
-map-ℒHMCtx f (q , Γ) = q , map-ℒHMCtxFor f Γ
 
--- map-ℒHMCtx f ([] , []) = [] , []
--- map-ℒHMCtx f (b ∷ bs , c ∷ cs) = (b ∷ bs) , (mapOf ℒHMPolyType f b) ∷ map-ℒHMCtx f x
-
-isSetoidHom:map-ℒHMCtx-2 : ∀{n : ♮ℕ} -> {a b : ℒHMTypes} -> {f g : a ⟶ b}
-                          -> (f ∼ g) -> map-ℒHMCtx {n = n} f ≡ map-ℒHMCtx g
-isSetoidHom:map-ℒHMCtx-2 = {!!}
-
-instance
-  isSetoidHom:map-ℒHMCtx : ∀{n : ♮ℕ} -> {a b : ℒHMTypes}
-                            -> isSetoidHom (a ⟶ b) ((ℒHMCtx n a -> ℒHMCtx n b) since isSetoid:byPath) map-ℒHMCtx
-  isSetoidHom:map-ℒHMCtx = record { cong-∼ = isSetoidHom:map-ℒHMCtx-2 }
+-- instance
+--   isSetoidHom:map-ℒHMCtx : ∀{n : ♮ℕ} -> {a b : ℒHMTypes}
+--                             -> isSetoidHom (a ⟶ b) ((ℒHMCtx n a -> ℒHMCtx n b) since isSetoid:byPath) map-ℒHMCtx
+--   isSetoidHom:map-ℒHMCtx = record { cong-∼ = isSetoidHom:map-ℒHMCtx-2 }
 
 
 -- instance
@@ -71,12 +65,14 @@ instance
 --   isFunctor.functoriality-id isFunctor:ℒHMCtx = {!!}
 --   isFunctor.functoriality-◆ isFunctor:ℒHMCtx = {!!}
 
-infixl 80 _⇃[_]⇂-Ctx
-_⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx k a -> (a ⟶ b) -> ℒHMCtx k b
-_⇃[_]⇂-Ctx x f = map-ℒHMCtx f x
+infixl 80 _⇃[_]⇂-CtxFor
+-- _⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx k a -> (a ⟶ b) -> ℒHMCtx k b
+-- _⇃[_]⇂-Ctx x f = map-ℒHMCtx f x
 
-_⇃[_]⇂-CtxFor : ∀{k} -> ∀{a b : ℒHMTypes} -> {Q : ℒHMQuant k} -> ℒHMCtxFor Q a -> (a ⟶ b) -> ℒHMCtxFor Q b
-_⇃[_]⇂-CtxFor x f = map-ℒHMCtxFor f x
+_⇃[_]⇂-CtxFor : ∀{k} -> ∀{a b : ℒHMTypes} -> {Q : ℒHMQuant k} -> ℒHMCtx Q a -> (a ⟶ b) -> ℒHMCtx Q b
+_⇃[_]⇂-CtxFor x f = map-ℒHMCtx f x
+
+{-
 
 
 
@@ -88,7 +84,7 @@ abstract
         p' = cong-∼ p
     in funExt⁻¹ p' Γ
 
-  _⇃[≀_≀]⇂-CtxFor : ∀{k} {Q : ℒHMQuant k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtxFor Q a) -> {f g : a ⟶ b}
+  _⇃[≀_≀]⇂-CtxFor : ∀{k} {Q : ℒHMQuant k} -> ∀{a b : ℒHMTypes} -> (Γ : ℒHMCtx Q a) -> {f g : a ⟶ b}
                 -> f ∼ g -> Γ ⇃[ f ]⇂-CtxFor ≡ Γ ⇃[ g ]⇂-CtxFor
   _⇃[≀_≀]⇂-CtxFor Γ {f = f} {g} p = {!!}
 
@@ -105,13 +101,13 @@ abstract
     functoriality-◆-⇃[]⇂-Ctx = {!!}
 
   module _ {k} {Q : ℒHMQuant k} {a b c : ℒHMTypes} where
-    functoriality-◆-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> {f : a ⟶ b} -> {g : b ⟶ c}
+    functoriality-◆-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtx Q a} -> {f : a ⟶ b} -> {g : b ⟶ c}
                             -> Γ ⇃[ f ]⇂-CtxFor ⇃[ g ]⇂-CtxFor ≡ Γ ⇃[ f ◆ g ]⇂-CtxFor
     functoriality-◆-⇃[]⇂-CtxFor = {!!}
 
   module _ {k} {Q : ℒHMQuant k} {a : ℒHMTypes} where
 
-    functoriality-id-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtxFor Q a} -> Γ ⇃[ id ]⇂-CtxFor ≡ Γ
+    functoriality-id-⇃[]⇂-CtxFor : ∀{Γ : ℒHMCtx Q a} -> Γ ⇃[ id ]⇂-CtxFor ≡ Γ
     functoriality-id-⇃[]⇂-CtxFor = {!!}
 
 
@@ -126,7 +122,7 @@ module §-ℒHMCtx where
   abstract
     prop-2 : ∀{μs νs : ℒHMTypes}
             -> ∀{k i} -> {Q : ℒHMQuant k}
-            -> {Γ : ℒHMCtxFor Q μs} -> (k∍i : k ∍♮ i)
+            -> {Γ : ℒHMCtx Q μs} -> (k∍i : k ∍♮ i)
             -> ∀ (σ₀ : μs ⟶ νs)
             -> ∀ (σ₁ : lookup-Listᴰ Q k∍i ⟶ νs)
             ->  lookup-Listᴰ² (Γ ⇃[ σ₀ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , σ₁ ⦘ ]⇂
@@ -149,11 +145,11 @@ module §-ℒHMCtx where
 
     prop-3 : ∀{μs νs : ℒHMTypes}
             -> ∀{k i} -> {Q : ℒHMQuant k}
-            -> {Γ : ℒHMCtxFor Q μs} -> (k∍i : k ∍♮ i)
+            -> {Γ : ℒHMCtx Q μs} -> (k∍i : k ∍♮ i)
             -> ∀ (σ : μs ⊔ lookup-Listᴰ Q k∍i ⟶ νs)
             ->  lookup-Listᴰ² (Γ ⇃[ ι₀ ◆ σ ]⇂-CtxFor) k∍i ⇃[ ⦗ id , ι₁ ◆ σ ⦘ ]⇂
               ≡
                 lookup-Listᴰ² Γ k∍i ⇃[ σ ]⇂
     prop-3 = {!!}
 
-
+-}

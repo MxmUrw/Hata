@@ -29,6 +29,8 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} (C : ∀{a} -> B a -> 𝒰 𝑘) w
     [] : Listᴰ² []
     _∷_ : ∀{a as} -> {b : B a} {bs : Listᴰ B as} -> (c : C b) -> (cs : Listᴰ² bs) -> Listᴰ² (b ∷ bs)
 
+  syntax Listᴰ² (λ a -> B) as = List²[ a ∈ as ] B
+
 
 
 module §-HM-Helpers where
@@ -70,4 +72,7 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} w
 
   split-Listᴰ² : ∀{as : List A} {a : A} {bs : Listᴰ B as} {b : B a} -> Listᴰ² C (b ∷ bs) -> (C b) × Listᴰ² C bs
   split-Listᴰ² (b ∷ xs) = b , xs
+
+
+
 
