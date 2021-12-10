@@ -409,7 +409,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
                   ⦗ ι₀ ◆ ⟨ ϕ ⟩ ◆ σᵃ₁₃ , ⦗ ι₁ ◆ ⟨ ϕ ⟩ ◆ σᵃ₁₃ , σˣ₁₃ ◆ ϖ₀ ⦘ ⦘
 
-                  ⟨ {!!} ⟩-∼
+                  ⟨ §-assoc-l-⊔'.prop-2 ⟩-∼
 
                   ⟨ あ ⟩⁻¹ ◆ ⦗ ⦗ ι₀ ◆ ⟨ ϕ ⟩ ◆ σᵃ₁₃ , ι₁ ◆ ⟨ ϕ ⟩ ◆ σᵃ₁₃ ⦘ , σˣ₁₃ ◆ ϖ₀ ⦘
 
@@ -423,7 +423,6 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
                   ∎
 
-{-
         -- | And nr 32, that is almost 42.
         module lem-32 where abstract
           Proof : ψ⁻¹ ◆ (⟨ あ ⟩⁻¹ ◆ ⦗ ⟨ ϕ ⟩ ◆ σᵃ₁₃ , σˣ₁₃ ◆ ϖ₀ ⦘) ∼ ⦗ σᵃ₁₃ , (σˣ₁₃ ◆ ϖ₀) ⦘
@@ -646,8 +645,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         -- | Which means that here is our result!
         -- here we additionally need that ⇒ distributes over substitution (or the other way round)
         lem-50 : (α₂ ⇒ β₂) ⇃[ ⦗ σᵃ₂₃ ◆ ι₀ , σˣ₂₃ ⦘ ]⇂ ≡ α₃' ⇒ β₃
-        lem-50 = {!!}
-        -- λ i -> lem-40 i ⇒ lem-42 i
+        lem-50 = trans-Path (§-⇃[]⇂.prop-1) (λ i -> lem-40.Proof i ⇒ lem-42.Proof i)
 
         -- | But what exactly is your problem then ?
 
@@ -734,8 +732,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
                   αᵘ ⇃[ σα₃ ◆ ι₀ ]⇂                       ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = αᵘ} {f = σα₃} {ι₀}) ⟩-≡
                   -- here we need to use the fact that ⇃[ σα₃ ]⇂, applied to `incl`
                   -- gives us the value of that incl. (since the substitution is abstract)
-                  αᵘ ⇃[ σα₃ ]⇂ ⇃[ ι₀ ]⇂                   ⟨ {!!} ⟩-≡
-                  -- αᵘ ⇃[ σα₃ ]⇂ ⇃[ ι₀ ]⇂                   ⟨ refl-≡ ⟩-≡
+                  αᵘ ⇃[ σα₃ ]⇂ ⇃[ ι₀ ]⇂                   ⟨ cong _⇃[ ι₀ ]⇂ (§-⇃[]⇂.prop-2) ⟩-≡
                   α₃ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ ι₀ ]⇂       ⟨ functoriality-◆-⇃[]⇂ {τ = α₃} {f = ⦗ id , elim-⊥ ⦘} {ι₀} ⟩-≡
                   α₃ ⇃[ ⦗ id , elim-⊥ ⦘ ◆ ι₀ ]⇂           ⟨ α₃ ⇃[≀ §-ϖ.prop-1  ≀]⇂ ⟩-≡
                   α₃ ⇃[ id ]⇂                             ⟨ functoriality-id-⇃[]⇂ ⟩-≡
@@ -765,6 +762,5 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         Result = ¬𝑇-te 𝑆-te
 
 -- //
--}
 
 
