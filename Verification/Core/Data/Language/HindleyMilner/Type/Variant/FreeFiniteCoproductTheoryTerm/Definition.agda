@@ -16,6 +16,7 @@ open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.List.Variant.Unary.Element
 open import Verification.Core.Data.List.Variant.Unary.Natural
 open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
@@ -180,9 +181,9 @@ abstract
           lem-0 : fromArr (⧜subst (incl τ) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 内id-⧜𝐒𝐮𝐛𝐬𝐭) ≡ τ
           lem-0 = cong fromArr (≡-Str→≡ (unit-r-◆ {f = (⧜subst (incl τ))}))
 
-  -------------------------
-  -- preserves the constructors of 𝒹
   module §-⇃[]⇂ where
+    -------------------------
+    -- preserves the constructors of 𝒹
     module _ {a b : ℒHMTypes} {σ : a ⟶ b} where
       abstract
         prop-1 : {α β : ℒHMType ⟨ a ⟩} -> (α ⇒ β) ⇃[ σ ]⇂ ≡ α ⇃[ σ ]⇂ ⇒ β ⇃[ σ ]⇂
@@ -196,6 +197,19 @@ abstract
             lem-2 = cong₂-Str _⇒_
                      (cong-Str fromArr (sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭))
                      (cong-Str fromArr (sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭))
+
+    -------------------------
+    -- substituting single arrows get us the content of the arrow
+    module _ {μs : ℒHMTypes} where
+      abstract
+        prop-2 : {α : ℒHMType ⟨ μs ⟩} -> (var incl) ⇃[ asArr α ]⇂ ≡ α
+        prop-2 {α} =
+          let
+            lem-1 : (⧜subst (incl (var incl)) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 ⧜subst (incl α))
+                  ≣ (⧜subst (incl (var incl)) ◆-⧜𝐒𝐮𝐛𝐬𝐭 ⧜subst (incl α))
+            lem-1 = sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭
+
+          in ≡-Str→≡ (cong-Str fromArr lem-1)
 
 -- //
 

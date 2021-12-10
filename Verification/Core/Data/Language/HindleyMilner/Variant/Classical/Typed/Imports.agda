@@ -191,6 +191,42 @@ module §-assoc-l-⊔' where
             ι₀ ◆ _         ⟨ reduce-ι₀ ⟩-∼
             ι₀             ∎
 
+  prop-2 : ∀{a b c x : ℒHMTypes}
+           -> {f : a ⟶ x} {g : b ⟶ x} {h : c ⟶ x}
+           -> ⦗ f , ⦗ g , h ⦘ ⦘ ∼ ⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘
+  prop-2 {f = f} {g} {h} = byExpand-ι₀,ι₁ lem-1 (byExpand-ι₀,ι₁ lem-2 lem-3)
+    where
+      lem-1 : ι₀ ◆ ⦗ f , ⦗ g , h ⦘ ⦘ ∼ ι₀ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘)
+      lem-1 = ι₀ ◆ ⦗ f , ⦗ g , h ⦘ ⦘   ⟨ reduce-ι₀ ⟩-∼
+              f                                                   ⟨ reduce-ι₀ ⁻¹ ⟩-∼
+              ι₀ ◆ ⦗ f , g ⦘                                      ⟨ refl ◈ reduce-ι₀ ⁻¹ ⟩-∼
+              ι₀ ◆ (ι₀ ◆ ⦗ ⦗ f , g ⦘ , h ⦘)                       ⟨ assoc-r-◆ ⟩-∼
+              (ι₀ ◆ ι₀) ◆ ⦗ ⦗ f , g ⦘ , h ⦘                       ⟨ reduce-ι₀ ⁻¹ ◈ refl ⟩-∼
+              (ι₀ ◆ ⟨ assoc-l-⊔'.Proof ⟩⁻¹) ◆ ⦗ ⦗ f , g ⦘ , h ⦘   ⟨ assoc-l-◆ ⟩-∼
+              ι₀ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ∎
+
+      lem-2 : ι₀ ◆ (ι₁ ◆ ⦗ f , ⦗ g , h ⦘ ⦘) ∼ ι₀ ◆ (ι₁ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘))
+      lem-2 = ι₀ ◆ (ι₁ ◆ ⦗ f , ⦗ g , h ⦘ ⦘)   ⟨ refl ◈ reduce-ι₁ ⟩-∼
+              ι₀ ◆ ⦗ g , h ⦘   ⟨ reduce-ι₀ ⟩-∼
+              g   ⟨ reduce-ι₁ ⁻¹ ⟩-∼
+              ι₁ ◆ ⦗ f , g ⦘   ⟨ refl ◈ reduce-ι₀ ⁻¹ ⟩-∼
+              ι₁ ◆ (ι₀ ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ⟨ assoc-r-◆ ⟩-∼
+              (ι₁ ◆ ι₀) ◆ ⦗ ⦗ f , g ⦘ , h ⦘   ⟨ reduce-ι₀ ⁻¹ ◈ refl ⟩-∼
+              (ι₀ ◆ _) ◆ ⦗ ⦗ f , g ⦘ , h ⦘   ⟨ assoc-l-◆ ⟩-∼
+              ι₀ ◆ (_ ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ⟨ refl ◈ (reduce-ι₁ ⁻¹ ◈ refl) ⟩-∼
+              ι₀ ◆ ((ι₁ ◆ _) ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ⟨ refl ◈ assoc-l-◆ ⟩-∼
+              ι₀ ◆ (ι₁ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘))   ∎
+
+      lem-3 : ι₁ ◆ (ι₁ ◆ ⦗ f , ⦗ g , h ⦘ ⦘) ∼ ι₁ ◆ (ι₁ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘))
+      lem-3 = ι₁ ◆ (ι₁ ◆ ⦗ f , ⦗ g , h ⦘ ⦘)   ⟨ refl ◈ reduce-ι₁ ⟩-∼
+              ι₁ ◆ ⦗ g , h ⦘   ⟨ reduce-ι₁ ⟩-∼
+              h   ⟨ reduce-ι₁ ⁻¹ ⟩-∼
+              (ι₁) ◆ ⦗ ⦗ f , g ⦘ , h ⦘   ⟨ reduce-ι₁ ⁻¹ ◈ refl ⟩-∼
+              (ι₁ ◆ _) ◆ ⦗ ⦗ f , g ⦘ , h ⦘   ⟨ assoc-l-◆ ⟩-∼
+              ι₁ ◆ (_ ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ⟨ refl ◈ (reduce-ι₁ ⁻¹ ◈ refl) ⟩-∼
+              ι₁ ◆ ((ι₁ ◆ _) ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ⟨ refl ◈ assoc-l-◆ ⟩-∼
+              ι₁ ◆ (ι₁ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘))   ∎
+
 
 assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
 assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔'.Proof {a = a} {b} {c}
