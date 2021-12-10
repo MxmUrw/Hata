@@ -77,10 +77,10 @@ module §-ℒHMTypes where
 
 module §2-isTypedℒHM where
 
-  prop-1 : ∀{k μs te} {Q R : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {τ : ℒHMType ⟨ μs ⟩}
+  prop-1 : ∀{k μs te} {Q R : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {τ : ℒHMType ⟨ μs ⟩}
         -> (σs : ℒHMQuantMap μs Q R)
-        -> isTypedℒHM (μs ⊩ (R , apply-ℒHMQuantMap σs Γ) ⊢ τ) te
-        -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ τ) te
+        -> isTypedℒHM (μs ⊩ (apply-ℒHMQuantMap σs Γ) ⊢ τ) te
+        -> isTypedℒHM (μs ⊩ (Γ) ⊢ τ) te
   prop-1 {μs = μs} {Q = Q} {R} {Γ} σs (var k∍i ψ {α} p) = var k∍i ϕ lem-5
     where
       ϕ : lookup-Listᴰ Q k∍i ⟶ μs
@@ -127,7 +127,7 @@ module §2-isTypedℒHM where
               apply-ℒHMQuantMap σs Γ ⇃[ ϕ ]⇂ᶜ       ⟨ sym-Path (§-ℒHMQuantMap.prop-1 ϕ σs Γ) ⟩-≡
               apply-ℒHMQuantMap σs' (Γ ⇃[ ϕ ]⇂ᶜ)    ∎-≡
 
-      lem-2 : isTypedℒHM (μs₁ ⊩ R , apply-ℒHMQuantMap σs' (Γ ⇃[ ϕ ]⇂ᶜ) ⊢ α) _
+      lem-2 : isTypedℒHM (μs₁ ⊩ apply-ℒHMQuantMap σs' (Γ ⇃[ ϕ ]⇂ᶜ) ⊢ α) _
       lem-2 = p
               ⟪ transp-isTypedℒHM lem-1 refl-≡ ⟫
 
@@ -136,7 +136,7 @@ module §2-isTypedℒHM where
               α' ⇃[ id ]⇂          ⟨ α' ⇃[≀ §-ℒHMTypes.prop-1 ≀]⇂ ⟩-≡
               α' ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂  ∎-≡
 
-      lem-5 : isTypedℒHM (μs ⊩ (κs ∷ R) , ((α' ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂) ∷ apply-ℒHMQuantMap σs Γ) ⊢ τ) _
+      lem-5 : isTypedℒHM (μs ⊩ ((α' ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂) ∷ apply-ℒHMQuantMap σs Γ) ⊢ τ) _
       lem-5 = q
               ⟪ transp-isTypedℒHM ((λ i -> lem-4 i ∷ apply-ℒHMQuantMap σs Γ)) refl-≡ ⟫
 

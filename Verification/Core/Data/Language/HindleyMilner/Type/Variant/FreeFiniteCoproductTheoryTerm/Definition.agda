@@ -99,7 +99,6 @@ infixl 80 _⇃[_]⇂
 abstract
   _⇃[_]⇂ : ∀{a b : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ a ⟩ tt -> (a ⟶ b) -> 𝒯⊔Term 𝒹 ⟨ b ⟩ tt
   _⇃[_]⇂ x f = fromArr (asArr x ◆ f)
-  -- subst-⧜𝐒𝐮𝐛𝐬𝐭 f tt x
 
 -- //
 
@@ -123,7 +122,7 @@ abstract
       functoriality-◆-⇃[]⇂ {τ} {f} {g} = cong fromArr lem-0
         where
 
-          -- | Removing the abstraction. We switch over in two steps from the abstract
+          --   Removing the abstraction. We switch over in two steps from the abstract
           --   to the non-abstract.
           lem-3a : (⧜subst (incl (fromArr (⧜subst (incl τ) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 f))) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g)
                   ≡ (⧜subst (incl (fromArr (⧜subst (incl τ) ◆-⧜𝐒𝐮𝐛𝐬𝐭 f))) ◆-⧜𝐒𝐮𝐛𝐬𝐭 g)
@@ -142,11 +141,11 @@ abstract
 
             in trans-Path p-0 (cong (λ ξ -> ⧜subst (incl (fromArr ξ)) ◆-⧜𝐒𝐮𝐛𝐬𝐭 g) p-1)
 
-          -- | With removed `abstract`, the terms are definitionally equal.
+          --   With removed `abstract`, the terms are definitionally equal.
           lem-3 : (⧜subst (incl (fromArr (⧜subst (incl τ) ◆-⧜𝐒𝐮𝐛𝐬𝐭 f))) ◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ≡ (((asArr τ ◆-⧜𝐒𝐮𝐛𝐬𝐭 f)) ◆-⧜𝐒𝐮𝐛𝐬𝐭 g)
           lem-3 = refl-≡
 
-          -- | Recreating the abstraction.
+          --   Recreating the abstraction.
           lem-3b : (((asArr τ ◆-⧜𝐒𝐮𝐛𝐬𝐭 f)) ◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ≡ (((asArr τ ◆ f)) ◆ g)
           lem-3b =
             let p-0 : (asArr τ ◆-⧜𝐒𝐮𝐛𝐬𝐭 f) ≡ (asArr τ ◆ f)
@@ -161,11 +160,11 @@ abstract
 
             in trans-Path (cong (_◆-⧜𝐒𝐮𝐛𝐬𝐭 g) p-0) p-1
 
-          -- | The actual proof is by associativity.
+          --   The actual proof is by associativity.
           lem-2 : (((asArr τ 内◆-⧜𝐒𝐮𝐛𝐬𝐭 f)) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ≡ (⧜subst (incl τ) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 (f 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g))
           lem-2 = ≡-Str→≡ assoc-l-◆
 
-          -- | With that we are done.
+          --   With that we are done.
           lem-0 : (⧜subst (incl (fromArr (⧜subst (incl τ) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 f))) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g) ≡ (⧜subst (incl τ) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 (f 内◆-⧜𝐒𝐮𝐛𝐬𝐭 g))
           lem-0 = trans-Path (trans-Path lem-3a lem-3b) (lem-2)
 
@@ -182,3 +181,5 @@ abstract
           lem-0 = cong fromArr (≡-Str→≡ (unit-r-◆ {f = (⧜subst (incl τ))}))
 
 -- //
+
+

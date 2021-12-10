@@ -43,23 +43,23 @@ open import Verification.Core.Order.Preorder
 
 
 
-record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
+record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q μs) (te : UntypedℒHM k) : 𝒰₀ where
   constructor _/_⊩_,_,_,_
   field metas : ℒHMTypes
   field typeMetas : ℒHMTypes
-  field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
+  field ctx : ℒHMCtx Q (metas) --  ⊔ typeMetas)
   field typ : ℒHMType (⟨ metas ⊔ typeMetas ⟩)
   field isInstance : Γ <Γ ctx
   -- field hiddenEpiSub : μs ⟶ metas
   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
-  field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (Q , ctx ⇃[ ι₀ ]⇂ᶜ) ⊢ typ) te
+  field hasType : isTypedℒHM (metas ⊔ typeMetas ⊩ (ctx ⇃[ ι₀ ]⇂ᶜ) ⊢ typ) te
 
 open CtxTypingInstance public
 
--- record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) : 𝒰₀ where
+-- record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q μs) (te : UntypedℒHM k) : 𝒰₀ where
 --   constructor _⊩_,_,_,_
 --   field metas : ℒHMTypes
---   field ctx : ℒHMCtxFor Q (metas) --  ⊔ typeMetas)
+--   field ctx : ℒHMCtx Q (metas) --  ⊔ typeMetas)
 --   field typ : ℒHMType (⟨ metas ⟩)
 --   field isInstance : Γ <Γ ctx
 --   -- field hiddenEpiSub : μs ⟶ metas
@@ -69,7 +69,7 @@ open CtxTypingInstance public
 -- open CtxTypingInstance public
 
 
-module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM k}  where
+module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {te : UntypedℒHM k}  where
   record _<TI_ (𝑇 : CtxTypingInstance Γ te) (𝑆 : CtxTypingInstance Γ te) : 𝒰₀ where
     field tiSubₐ : metas 𝑇 ⟶ metas 𝑆
     field tiSubₓ : typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
@@ -84,8 +84,8 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {te : UntypedℒHM 
   open _<TI_ public
 
 
-InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
+InitialCtxTypingInstance : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtx Q μs) (te : UntypedℒHM k) -> 𝒰₀
 InitialCtxTypingInstance Γ te = ∑ λ (𝑇 : CtxTypingInstance Γ te) -> ∀(𝑆 : CtxTypingInstance Γ te) -> 𝑇 <TI 𝑆
 
-TypingDecision : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtxFor Q μs) (te : UntypedℒHM k) -> 𝒰₀
+TypingDecision : ∀{μs k} -> {Q : ℒHMQuant k} -> (Γ : ℒHMCtx Q μs) (te : UntypedℒHM k) -> 𝒰₀
 TypingDecision Γ te = (CtxTypingInstance Γ te -> ⊥-𝒰 {ℓ₀}) + (InitialCtxTypingInstance Γ te)

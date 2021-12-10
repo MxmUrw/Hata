@@ -39,15 +39,15 @@ open import Verification.Core.Order.Preorder
 
 -- [Hide]
 
-record _<Γ_ {k} {Q : ℒHMQuant k} {μs νs} (Γ : ℒHMCtxFor Q μs) (Γ' : ℒHMCtxFor Q νs) : 𝒰₀ where
+record _<Γ_ {k} {Q : ℒHMQuant k} {μs νs} (Γ : ℒHMCtx Q μs) (Γ' : ℒHMCtx Q νs) : 𝒰₀ where
   field fst : μs ⟶ νs
-  field snd : Γ ⇃[ fst ]⇂-CtxFor ≡ Γ'
+  field snd : Γ ⇃[ fst ]⇂ᶜ ≡ Γ'
 open _<Γ_ public
 
 record SomeℒHMCtxᵘ {k} (Q : ℒHMQuant k) : 𝒰₀ where
   constructor somectx
   field {fst} : ℒHMTypes
-  field snd : ℒHMCtxFor Q fst
+  field snd : ℒHMCtx Q fst
 
 open SomeℒHMCtxᵘ public
 
@@ -69,7 +69,7 @@ module _ {k} {Q : ℒHMQuant k} where
   reflexive-SomeℒHMCtx : ∀{a} -> a ≤-SomeℒHMCtx a
   reflexive-SomeℒHMCtx = record
     { fst = id
-    ; snd = functoriality-id-⇃[]⇂-CtxFor
+    ; snd = functoriality-id-⇃[]⇂ᶜ
     }
 
   _⟡-SomeℒHMCtx_ : ∀{a b c} -> a ≤-SomeℒHMCtx b -> b ≤-SomeℒHMCtx c -> a ≤-SomeℒHMCtx c
@@ -78,10 +78,10 @@ module _ {k} {Q : ℒHMQuant k} where
         σ₁₂ = fst Γ₁<Γ₂
         σ₀₂ = σ₀₁ ◆ σ₁₂
 
-        lem-1 : Γ₀ ⇃[ σ₀₂ ]⇂-CtxFor ≡ Γ₂
-        lem-1 = {!!} -- Γ₀ ⇃[ σ₀₁ ◆ σ₁₂ ]⇂-CtxFor      ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor) ⟩-≡
-                -- Γ₀ ⇃[ σ₀₁ ]⇂-CtxFor ⇃[ σ₁₂ ]⇂-CtxFor ⟨ cong _⇃[ σ₁₂ ]⇂-CtxFor (snd Γ₀<Γ₁) ⟩-≡
-                -- Γ₁  ⇃[ σ₁₂ ]⇂-CtxFor                 ⟨ snd Γ₁<Γ₂ ⟩-≡
+        lem-1 : Γ₀ ⇃[ σ₀₂ ]⇂ᶜ ≡ Γ₂
+        lem-1 = {!!} -- Γ₀ ⇃[ σ₀₁ ◆ σ₁₂ ]⇂ᶜ      ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ) ⟩-≡
+                -- Γ₀ ⇃[ σ₀₁ ]⇂ᶜ ⇃[ σ₁₂ ]⇂ᶜ ⟨ cong _⇃[ σ₁₂ ]⇂ᶜ (snd Γ₀<Γ₁) ⟩-≡
+                -- Γ₁  ⇃[ σ₁₂ ]⇂ᶜ                 ⟨ snd Γ₁<Γ₂ ⟩-≡
                 -- Γ₂                                  ∎-≡
 
     in record { fst = σ₀₂ ; snd = lem-1 }
@@ -101,8 +101,8 @@ module _ {k} {Q : ℒHMQuant k} where
 -- special functions
 module _ {k} {Q : ℒHMQuant k} where
   tail-SomeℒHMCtx : ∀{νsas νsbs μs : ℒHMTypes}
-                    -> ∀{as : ℒHMCtxFor Q νsas} {a : ℒHMType ⟨ νsas ⊔ μs ⟩}
-                    -> ∀{bs : ℒHMCtxFor Q νsbs} {b : ℒHMType ⟨ νsbs ⊔ μs ⟩}
+                    -> ∀{as : ℒHMCtx Q νsas} {a : ℒHMType ⟨ νsas ⊔ μs ⟩}
+                    -> ∀{bs : ℒHMCtx Q νsbs} {b : ℒHMType ⟨ νsbs ⊔ μs ⟩}
                     -> somectx {tt ∷ k} (a ∷ as) ≤ somectx (b ∷ bs)
                     -> (somectx as) ≤ (somectx bs)
   tail-SomeℒHMCtx record { fst = fst ; snd = snd } = record { fst = fst ; snd = {!!} }
@@ -120,7 +120,7 @@ module _ {μs} where
   lookup-ℒHMQuantMap (σ ∷ σs) incl = σ
   lookup-ℒHMQuantMap (σ ∷ σs) (skip k∍i) = lookup-ℒHMQuantMap σs k∍i
 
-  apply-ℒHMQuantMap : ∀{k} {Q R : ℒHMQuant k} -> (ℒHMQuantMap μs Q R) -> ℒHMCtxFor Q μs -> ℒHMCtxFor R μs
+  apply-ℒHMQuantMap : ∀{k} {Q R : ℒHMQuant k} -> (ℒHMQuantMap μs Q R) -> ℒHMCtx Q μs -> ℒHMCtx R μs
   apply-ℒHMQuantMap [] [] = []
   apply-ℒHMQuantMap (σ ∷ σs) (τ ∷ Γ) = τ ⇃[ ⦗ ι₀ , σ ⦘ ]⇂ ∷ apply-ℒHMQuantMap σs Γ
 
@@ -134,7 +134,7 @@ module _ {μs₀} {μs₁} where
 module §-ℒHMQuantMap where
   module _ {μs₀} {μs₁} where
     prop-1 : ∀{k} {Q R : ℒHMQuant k} -> (ϕ : μs₀ ⟶ μs₁) -> (σs : ℒHMQuantMap μs₀ Q R)
-             -> (Γ : ℒHMCtxFor Q μs₀)
+             -> (Γ : ℒHMCtx Q μs₀)
              -> apply-ℒHMQuantMap (extend-ℒHMQuantMap ϕ σs) (Γ ⇃[ ϕ ]⇂ᶜ)
                ≡ (apply-ℒHMQuantMap σs Γ ⇃[ ϕ ]⇂ᶜ)
     prop-1 ϕ [] [] = refl-≡
@@ -144,7 +144,7 @@ module §-ℒHMQuantMap where
         lem-1 = {!!}
 
   prop-2 : ∀{k i μs₀} {Q R : ℒHMQuant k} -> (σs : ℒHMQuantMap μs₀ Q R)
-            -> (Γ : ℒHMCtxFor Q μs₀)
+            -> (Γ : ℒHMCtx Q μs₀)
             -> (k∍i : k ∍♮ i)
             -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ ι₀ , lookup-ℒHMQuantMap σs k∍i ⦘ ]⇂
               ≡ lookup-Listᴰ² (apply-ℒHMQuantMap σs Γ) k∍i

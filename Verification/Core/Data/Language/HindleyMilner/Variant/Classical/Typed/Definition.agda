@@ -85,7 +85,8 @@ record ℒHMJudgement : 𝒰₀ where
   field {contextsize} : ♮ℕ
   -- | - A context [..] containing |contextsize| many types,
   --     each of which may use metavariables from |metavars|.
-  field context : ℒHMCtx contextsize metavars
+  field {quant} : ℒHMQuant contextsize
+  field context : ℒHMCtx quant metavars
   -- field quantifiers : Listᴰ (const (ℒHMTypes)) contextsize
   -- field context : Listᴰ² (λ a -> ℒHMType ⟨ a ⟩) quantifiers
 
@@ -100,7 +101,7 @@ open ℒHMJudgement public
 -- | We define the following function to return the
 --   size of a context.
 s : ℒHMJudgement -> ♮ℕ
-s (_ ⊩ Γ ⊢ τ) = size-Listᴰ (fst Γ)
+s j = contextsize j
 
 -- //
 
@@ -112,7 +113,7 @@ pattern _∷'_ x xs = _∷_ {a = tt} x xs
 
 -- [Definition]
 -- | We define an /abstraction of metavariables/.
-record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtxFor Q μs₀) (Γ₁ : ℒHMCtxFor Q μs₁)
+record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtx Q μs₀) (Γ₁ : ℒHMCtx Q μs₁)
                (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
   constructor isAbstr:byDef
   field metasProof : μs₀ ≅ (μs₁ ⊔ κs)
@@ -127,11 +128,11 @@ open isAbstr public
 
 -- [Hide]
 module §-isAbstr where
-  prop-1 : ∀{k} {Q : ℒHMQuant k} {κs : ℒHMTypes} {μs₀ μs₁ μs₂} {Γ₀ : ℒHMCtxFor Q μs₀} {Γ₁ : ℒHMCtxFor Q μs₁}
+  prop-1 : ∀{k} {Q : ℒHMQuant k} {κs : ℒHMTypes} {μs₀ μs₁ μs₂} {Γ₀ : ℒHMCtx Q μs₀} {Γ₁ : ℒHMCtx Q μs₁}
                {τ₀ : ℒHMType ⟨ μs₀ ⟩} {τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩}
            -> (σ₁₂ : μs₁ ⟶ μs₂)
            -> isAbstr κs Γ₀ Γ₁ τ₀ τ₁
-           -> isAbstr κs Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂-CtxFor) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂)
+           -> isAbstr κs Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂ᶜ) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂)
   prop-1 = {!!}
 
 -- //
@@ -143,37 +144,37 @@ module §-isAbstr where
 data isTypedℒHM : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰₀ where
 -- | - Variable terms.
   var  : ∀{μs k i} -> {Q : ℒHMQuant k}
-         -> {Γ : ℒHMCtxFor Q μs}
+         -> {Γ : ℒHMCtx Q μs}
          -> (k∍i : k ∍♮ i)
          -> (σ : (lookup-Listᴰ Q k∍i) ⟶ μs)
          -> ∀{α}
          -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , σ ⦘ ]⇂ ≡ α
-         -> isTypedℒHM ((μs) ⊩ (Q , Γ) ⊢ α) (var k∍i)
+         -> isTypedℒHM ((μs) ⊩ Γ ⊢ α) (var k∍i)
 
 -- | - Application terms.
-  app : ∀{μs k te₀ te₁} {Γ : ℒHMCtx k μs} {α β : ℒHMType ⟨ μs ⟩}
+  app : ∀{μs k te₀ te₁} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {α β : ℒHMType ⟨ μs ⟩}
         -> isTypedℒHM (μs ⊩ Γ ⊢ (α ⇒ β)) te₀
         -> isTypedℒHM (μs ⊩ Γ ⊢ α) te₁
         -> isTypedℒHM (μs ⊩ Γ ⊢ β) (app te₀ te₁)
 
 -- | - Lambda terms.
-  lam : ∀{μs k te} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs}
+  lam : ∀{μs k te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs}
          {α : ℒHMType ⟨ μs ⊔ ⊥ ⟩}
          {β : ℒHMType ⟨ μs ⟩}
-         -> isTypedℒHM (μs ⊩ (⊥ ∷' Q , α ∷ Γ) ⊢ β) te
-         -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) (lam te)
+         -> isTypedℒHM (μs ⊩ α ∷ Γ ⊢ β) te
+         -> isTypedℒHM (μs ⊩ Γ ⊢ α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) (lam te)
 
 -- | - Let terms.
   slet : ∀{μs κs νs k te₀ te₁}
         -> {Q : ℒHMQuant k}
-        -> {Γ : ℒHMCtxFor Q μs} {Γ' : ℒHMCtxFor Q νs}
+        -> {Γ : ℒHMCtx Q μs} {Γ' : ℒHMCtx Q νs}
         -> {α : ℒHMType ⟨ μs ⟩}
         -> {α' : ℒHMType ⟨ νs ⊔ κs ⟩}
         -> {β : ℒHMType ⟨ νs ⟩}
         -> isAbstr (κs) (Γ) (Γ') α α'
-        -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α) te₀
-        -> isTypedℒHM (νs ⊩ (κs ∷' Q , α' ∷ Γ') ⊢ β) te₁
-        -> isTypedℒHM (νs ⊩ (Q , Γ') ⊢ β) (slet te₀ te₁)
+        -> isTypedℒHM (μs ⊩ Γ ⊢ α) te₀
+        -> isTypedℒHM (νs ⊩ (α' ∷ Γ') ⊢ β) te₁
+        -> isTypedℒHM (νs ⊩ Γ' ⊢ β) (slet te₀ te₁)
 -- //
 
 
@@ -181,11 +182,11 @@ data isTypedℒHM : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰�
 -- | We can substitute meta variables inside of
 --   contexts.
 transp-isTypedℒHM : ∀{k μs te} {Q : ℒHMQuant k}
-         -> {Γ₀ : ℒHMCtxFor Q μs} {τ₀ : ℒHMType ⟨ μs ⟩}
-         -> {Γ₁ : ℒHMCtxFor Q μs} {τ₁ : ℒHMType ⟨ μs ⟩}
+         -> {Γ₀ : ℒHMCtx Q μs} {τ₀ : ℒHMType ⟨ μs ⟩}
+         -> {Γ₁ : ℒHMCtx Q μs} {τ₁ : ℒHMType ⟨ μs ⟩}
          -> Γ₀ ≡ Γ₁ -> τ₀ ≡ τ₁
-         -> isTypedℒHM (μs ⊩ (_ , Γ₀) ⊢ τ₀) te
-         -> isTypedℒHM (μs ⊩ (_ , Γ₁) ⊢ τ₁) te
+         -> isTypedℒHM (μs ⊩ Γ₀ ⊢ τ₀) te
+         -> isTypedℒHM (μs ⊩ Γ₁ ⊢ τ₁) te
 transp-isTypedℒHM = {!!}
 -- //
 
@@ -196,18 +197,18 @@ transp-isTypedℒHM = {!!}
 -- | Some properties of the typing relation.
 module §-isTypedℒHM where
   abstract
-    prop-1 : ∀{μs k} -> {Γ : ℒHMCtx k μs} {τ : ℒHMType ⟨ μs ⟩}
-            -> ∀ te
-            -> isTypedℒHM (μs ⊩ Γ ⊢ τ) (lam te)
-            -> ∑ λ νs -> ∑ λ (Δ : ℒHMCtx (tt ∷ k) νs) -> ∑ λ (τ' : ℒHMType ⟨ νs ⟩)
-            -> isTypedℒHM (νs ⊩ Δ ⊢ τ') te
-    prop-1 te (lam p) = {!!} , ({!!} , ({!!} , p))
+    -- prop-1 : ∀{μs k} -> {Q : ℒHMQuant k} -> {Γ : ℒHMCtx Q μs} {τ : ℒHMType ⟨ μs ⟩}
+    --         -> ∀ te
+    --         -> isTypedℒHM (μs ⊩ Γ ⊢ τ) (lam te)
+    --         -> ∑ λ νs -> ∑ λ (Δ : ℒHMCtx (tt ∷ k) νs) -> ∑ λ (τ' : ℒHMType ⟨ νs ⟩)
+    --         -> isTypedℒHM (νs ⊩ Δ ⊢ τ') te
+    -- prop-1 te (lam p) = {!!} , ({!!} , ({!!} , p))
 
 
-    prop-2 : ∀{k μs νs te} {Γ : ℒHMCtx k μs} {τ : ℒHMType ⟨ μs ⟩}
+    prop-2 : ∀{k μs νs te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {τ : ℒHMType ⟨ μs ⟩}
           -> (σ : μs ⟶ νs)
           -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
-          -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂-Ctx) ⊢ (τ ⇃[ σ ]⇂)) te
+          -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂ᶜ) ⊢ (τ ⇃[ σ ]⇂)) te
     prop-2 σ (var x xp ρ) = {!!}
     prop-2 σ (app te se) = {!!}
       -- let te' = prop-2 σ te
@@ -216,17 +217,17 @@ module §-isTypedℒHM where
     prop-2 σ (lam te) = {!!}
     prop-2 σ (slet ab set te) = {!!}
 
-    prop-4 : ∀{k μsₐ μsₓ νsₓ νsₐ te} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
+    prop-4 : ∀{k μsₐ μsₓ νsₓ νsₐ te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
           -> (σₐ : μsₐ ⟶ νsₐ)
           -> (σₓ : μsₓ ⟶ νsₓ)
-          -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (_ , Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
-          -> isTypedℒHM (νsₐ ⊔ νsₓ ⊩ (_ , Γ ⇃[ σₐ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ σₐ ⇃⊔⇂ σₓ ]⇂)) te
+          -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
+          -> isTypedℒHM (νsₐ ⊔ νsₓ ⊩ (Γ ⇃[ σₐ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ σₐ ⇃⊔⇂ σₓ ]⇂)) te
     prop-4 = {!!}
 
-    prop-3 : ∀{k μsₐ μsₓ νsₓ te} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
+    prop-3 : ∀{k μsₐ μsₓ νsₓ te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
           -> (σ : μsₓ ⟶ νsₓ)
-          -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (_ , Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
-          -> isTypedℒHM (μsₐ ⊔ νsₓ ⊩ (_ , Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ id ⇃⊔⇂ σ ]⇂)) te
+          -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
+          -> isTypedℒHM (μsₐ ⊔ νsₓ ⊩ (Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ id ⇃⊔⇂ σ ]⇂)) te
     prop-3 = {!!}
 
 -- //

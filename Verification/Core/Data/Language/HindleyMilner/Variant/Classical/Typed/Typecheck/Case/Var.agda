@@ -49,10 +49,10 @@ open import Verification.Core.Order.Preorder
 -- [Lemma]
 -- | "Inversion of Var"
 
-inv-var : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs}
+inv-var : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs}
           -> {α : ℒHMType ⟨ μs ⟩}
           -> ∀{i} -> {k∍i : k ∍♮ i}
-          -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α) (var k∍i)
+          -> isTypedℒHM (μs ⊩ Γ ⊢ α) (var k∍i)
           -> ∑ λ (σ : (lookup-Listᴰ Q k∍i) ⟶ μs)
              -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ id , σ ⦘ ]⇂ ≡ α
 inv-var (var _ σ x) = σ , x
@@ -60,12 +60,82 @@ inv-var (var _ σ x) = σ , x
 -- //
 
 
+module §-ℒHMCtx where
+  -------------------------------------------------
+  -- lookup-commutation lemma, proof
+
+  -- [Hide]
+  abstract
+    prop-2-proof : ∀{μs νs : ℒHMTypes} {k} -> {Q : ℒHMQuant k} -> {Γ : ℒHMCtx Q μs}
+                    -> ∀{i} -> (k∍i : k ∍♮ i)
+                    -> ∀ (σ₀ : μs ⟶ νs)
+                    -> ∀ (σ₁ : lookup-Listᴰ Q k∍i ⟶ νs)
+                    -> lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
+                      ≡
+                      lookup-Listᴰ² (Γ ⇃[ σ₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , σ₁ ⦘ ]⇂
+
+    prop-2-proof {Γ = b ∷ Γ} incl σ₀ σ₁ =
+
+      let lem-0 : (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ∼ ⦗ σ₀ , σ₁ ⦘
+          lem-0 = (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘   ⟨ append-⇃⊔⇂ {f0 = σ₀} {id} {id} {σ₁} ⟩-∼
+                  ⦗ σ₀ ◆ id , id ◆ σ₁ ⦘       ⟨ cong-∼ {{isSetoidHom:⦗⦘}} (unit-r-◆ {f = σ₀} , unit-l-◆ {f = σ₁}) ⟩-∼
+                  ⦗ σ₀ , σ₁ ⦘                 ∎
+
+          lem-1 : b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂ ≡ b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
+          lem-1 = b ⇃[ σ₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , σ₁ ⦘ ]⇂    ⟨ functoriality-◆-⇃[]⇂ {τ = b} {f = (σ₀ ⇃⊔⇂ id)} {g = ⦗ id , σ₁ ⦘} ⟩-≡
+                  b ⇃[ (σ₀ ⇃⊔⇂ id) ◆ ⦗ id , σ₁ ⦘ ]⇂      ⟨ b ⇃[≀ lem-0 ≀]⇂ ⟩-≡
+                  b ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂                    ∎-≡
+      in sym-Path lem-1
+
+    prop-2-proof {Γ = b ∷ Γ} (skip k∍i) σ₀ σ₁ = prop-2-proof {Γ = Γ} k∍i σ₀ σ₁
+
+-- //
+
+
+  -------------------------------------------------
+  -- lookup-commutation lemma, description
+
+  -- [Lemma]
+  -- | Let [..] be metavariables.
+  module _ {μs νs : ℒHMTypes} where
+
+  -- |> Assume we have a size [..],
+  --   a quantification [..] of that size,
+  --   and a context [..] over that quantification.
+    module _ {k} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} where
+
+  -- |> Let [..] and [..] describe an element of that context.
+      module _ {i} (k∍i : k ∍♮ i) where
+
+  -- | Now if there are two substitutions [..] and [..],
+  --   such that |⦗ σ₀ , σ₁ ⦘| can be applied to
+  --   the type of the |k| entry of the context,
+        module _ (σ₀ : μs ⟶ νs) (σ₁ : lookup-Listᴰ Q k∍i ⟶ νs) where
+
+  -- |> then applying these two substitutions after looking
+  --   up the type of |k| is the same as first applying |σ₀|
+  --   to the whole context, then looking up that value,
+  --   and then applying |σ₁| on the bound variables of the |k| entry.
+          prop-2 : lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σ₀ , σ₁ ⦘ ]⇂
+                    ≡
+                    lookup-Listᴰ² (Γ ⇃[ σ₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , σ₁ ⦘ ]⇂
+          prop-2 = prop-2-proof {Γ = Γ} k∍i σ₀ σ₁
+  -- //
+
+  -- [Proof]
+  -- | The proof goes by induction on the context, and merely involves some
+  --   coproduct related equational reasoning.
+
+  -- //
+
+
+
 
 -- [Lemma]
 -- | Typechecking the /var/ case.
 --   Let [..], [..], [..], [..] be the input of the
 --   algorithm.
-module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μs) where
+module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q μs) where
 
   -- |> Furthermore, assume
   --    that we have [..] and [..].
@@ -83,7 +153,7 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
     α₀ = α ⇃[ id ]⇂
 
-    Γ₀ : ℒHMCtxFor Q (μs ⊔ vα)
+    Γ₀ : ℒHMCtx Q (μs ⊔ vα)
     Γ₀ = Γ ⇃[ ι₀ ]⇂ᶜ
 
     Γ<Γ₀ : Γ <Γ Γ₀
@@ -91,7 +161,7 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
     -- | We also have a proof of [..] [].
     lem-1 : lookup-Listᴰ² (Γ ⇃[ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ι₁ ⦘ ]⇂ ≡ lookup-Listᴰ² Γ k∍i ⇃[ id ]⇂
-    lem-1 = trans-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i ι₀ ι₁) (lookup-Listᴰ² Γ k∍i ⇃[≀ §-ℒHMTypes.prop-1 ⁻¹ ≀]⇂)
+    lem-1 = trans-Path (sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i ι₀ ι₁)) (lookup-Listᴰ² Γ k∍i ⇃[≀ §-ℒHMTypes.prop-1 ⁻¹ ≀]⇂)
 
     -- | This means that we have a typing instance.
     𝑇 : CtxTypingInstance Γ (var k∍i)
@@ -124,7 +194,7 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
       -- | Next, we have ...
       lem-4 : Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ
-      lem-4 = Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path functoriality-◆-⇃[]⇂-CtxFor ⟩-≡
+      lem-4 = Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ}) ⟩-≡
               Γ ⇃[ σᵤ₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ⟨ cong _⇃[ ι₀ {b = να₁} ]⇂ᶜ (Γ<Γ₁ .snd) ⟩-≡
               Γ₁ ⇃[ ι₀ ]⇂ᶜ           ∎-≡
 
@@ -136,7 +206,7 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
               ⟨ cong _⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂ (functoriality-id-⇃[]⇂ {τ = lookup-Listᴰ² Γ k∍i}) ⟩-≡
               lookup-Listᴰ² Γ k∍i ⇃[ ⦗ σᵤ₁ ◆ ι₀ , ρ ⦘ ]⇂
 
-              ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ρ)) ⟩-≡
+              ⟨ (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i (σᵤ₁ ◆ ι₀) (ρ)) ⟩-≡
 
               lookup-Listᴰ² (Γ ⇃[ σᵤ₁ ◆ ι₀ ]⇂ᶜ) k∍i ⇃[ ⦗ id , ρ ⦘ ]⇂
 
