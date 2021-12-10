@@ -40,36 +40,8 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 
 open import Verification.Core.Order.Preorder
 
-{-
-open import Verification.Conventions hiding (ℕ ; _⊔_)
-open import Verification.Core.Set.Setoid.Definition
-open import Verification.Core.Set.Discrete
-open import Verification.Core.Algebra.Monoid.Definition
--- open import Verification.Core.Data.
--- open import Verification.Core.Algebra.Monoid.Free
--- open import Verification.Core.Data.AllOf.Collection.Basics
--- open import Verification.Core.Data.AllOf.Collection.TermTools
--- open import Verification.Core.Category.Std.AllOf.Collection.Basics
--- open import Verification.Core.Category.Std.AllOf.Collection.Limits
-open import Verification.Core.Category.Std.Category.Subcategory.Full
 
--- open import Verification.Core.Theory.Std.Specific.ProductTheory.Module
--- open import Verification.Core.Theory.Std.Specific.ProductTheory.Instance.hasBoundaries
 
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
-open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
-open import Verification.Core.Data.Language.HindleyMilner.Helpers
-open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
-open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
-
--- open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
-
-open import Verification.Core.Order.Preorder
--}
-
--- module §-⊔ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
-  -- prop-1 : ∀{a b : ⟨ 𝒞 ⟩} -> id {a = a ⊔ b} ∼ ⦗ ι₀ , ι₁ ⦘
-  -- prop-1 = {!!}
 
 module §-ℒHMTypes where
   prop-1 : ∀{a b : ℒHMTypes} -> id {a = a ⊔ b} ∼ ⦗ ι₀ , ι₁ ⦘

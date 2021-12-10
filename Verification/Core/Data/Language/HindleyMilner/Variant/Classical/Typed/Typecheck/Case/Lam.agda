@@ -35,7 +35,7 @@ inv-lam : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {τ : ℒHMType �
            -> ∑ λ (β : ℒHMType ⟨ μs ⟩)
            -> (α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β ≡ τ)
               ×-𝒰 isTypedℒHM (μs ⊩ α ∷ Γ ⊢ β) te
-inv-lam = {!!}
+inv-lam (lam te) = _ , _ , refl-≡ , te
 
 -- //
 
@@ -75,12 +75,9 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
     Γ<Γ₀ : Γ <Γ Γ₀
     Γ<Γ₀ = record { fst = ι₀ ; snd = refl-≡ }
 
-    -- call typechecking recursively on `te`
-    -- res = γ (α₀ ∷ Γ₀) te
-
     -- | Next, the algorithm computes the typing for |te|,
     --   thus we assume that there is such a typing instance.
-    module _ (𝑇-te! : InitialCtxTypingInstance (α₀ ∷ Γ₀) te) where
+    module Success-te (𝑇-te! : InitialCtxTypingInstance (α₀ ∷ Γ₀) te) where
 
       open Σ 𝑇-te! renaming
         ( fst to 𝑇-te
@@ -92,7 +89,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         ; typeMetas to μs₁ₓ
         ; ctx to Δ
         ; typ to β₁
-        ; isInstance to α₀Γ₀<α₁Γ₁
+        ; isInstance to Δ<α₁Γ₁
         ; hasType to Δ⊢β₁
         )
       -- (μs₁ₐ / μs₁ₓ ⊩ (α₁ ∷ Γ₁) , β₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢β₁)
@@ -110,7 +107,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
       -- | And we have actually [..] [] [].
       lem-00 : Δ ≡ α₁Γ₁
-      lem-00 = {!!}
+      lem-00 = §-split-Listᴰ².prop-1
 
       α₁Γ₁⊢β₁ : isTypedℒHM ((μs₁ₐ ⊔ μs₁ₓ) ⊩ α₁Γ₁ ⇃[ ι₀ ]⇂ᶜ ⊢ β₁) te
       α₁Γ₁⊢β₁ = Δ⊢β₁
@@ -121,11 +118,10 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
       -- | The following definitions follow.
       σᵃ₀₁ : μs₀ ⟶ μs₁ₐ
-      σᵃ₀₁ = α₀Γ₀<α₁Γ₁ .fst
+      σᵃ₀₁ = Δ<α₁Γ₁ .fst
 
       Γ₀<Γ₁ : Γ₀ <Γ Γ₁
-      Γ₀<Γ₁ = record { fst = σᵃ₀₁ ; snd = {!!} }
-        -- tail-SomeℒHMCtx (α₀Γ₀<α₁Γ₁)
+      Γ₀<Γ₁ = record { fst = σᵃ₀₁ ; snd = λ i -> split-Listᴰ² (snd Δ<α₁Γ₁ i) .snd }
 
       f : μs ⟶ μs₁ₐ
       f = ι₀ ◆ σᵃ₀₁
@@ -217,6 +213,8 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
                   Γ ⇃[ ι₀ ◆ (σᵃ₀₁ ◆ (ι₀ ◆ ψ⁻¹)) ]⇂ᶜ       ⟨ Γ ⇃[≀ lem-03.Proof ≀]⇂ᶜ ⟩-≡
                   Γ ⇃[ σᵃᵤ₂ ◆ ι₀ ]⇂ᶜ           ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ}) ⟩-≡
                   Γ ⇃[ σᵃᵤ₂ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ      ∎-≡
+
+{-
 
       module lem-04b where abstract
         Proof : α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ ψ⁻¹ ]⇂ ≡ α₂
@@ -527,7 +525,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         -- | Maybe this one's great as well.
         module lem-35 where abstract
           Proof : α₁ ⇃[ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂ ≡ α₀ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂
-          Proof = α₁ ⇃[ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂                         ⟨ sym-Path (cong _⇃[ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂ (λ i -> split-Listᴰ² (α₀Γ₀<α₁Γ₁ .snd i) .fst)) ⟩-≡
+          Proof = α₁ ⇃[ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂                         ⟨ sym-Path (cong _⇃[ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂ (λ i -> split-Listᴰ² (Δ<α₁Γ₁ .snd i) .fst)) ⟩-≡
                   α₀ ⇃[ (σᵃ₀₁ ⇃⊔⇂ id) ]⇂ ⇃[ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂     ⟨ functoriality-◆-⇃[]⇂ {τ = α₀} {f = (σᵃ₀₁ ⇃⊔⇂ id)} {(σᵃ₁₃ ⇃⊔⇂ id)} ⟩-≡
                   α₀ ⇃[ (σᵃ₀₁ ⇃⊔⇂ id) ◆ (σᵃ₁₃ ⇃⊔⇂ id) ]⇂         ⟨ α₀ ⇃[≀ functoriality-◆-⊔ ⁻¹ ≀]⇂ ⟩-≡
                   α₀ ⇃[ ((σᵃ₀₁ ◆ σᵃ₁₃) ⇃⊔⇂ (id ◆ id)) ]⇂             ⟨ α₀ ⇃[≀ subProof ΩR.Proof ≀⇃⊔⇂≀ unit-2-◆ ≀]⇂ ⟩-≡
@@ -662,8 +660,114 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
       Result : InitialCtxTypingInstance Γ (lam te)
       Result = 𝑇 , isInitial:𝑇
 
+    ---------------------------------------------------------------
+    -- FAIL (no te typing)
+    ---------------------------------------------------------------
+    --
+    -- NOTE:
+    -- This is literally the same code as part of the initiality
+    -- proof above. With some other architecture / definitions
+    -- one should surely be able to prove both at the same time.
+    --
+
+    -- | Now, for the case where there is no typing for |te|.
+    module Fail-te (¬𝑇-te : ¬ CtxTypingInstance (α₀ ∷ Γ₀) te) where
+
+      -- | Then we also do not have a typing instance.
+      --   To show that, assume that we had one.
+
+      --------------------------------------
+      -- SAME CODE BEGIN
+      --
+
+      module _ (𝑆 : CtxTypingInstance Γ (lam te)) where
+        open CtxTypingInstance 𝑆 renaming
+          ( metas to μs₃ₐ
+          ; typeMetas to μs₃ₓ
+          ; ctx to Γ₃
+          ; typ to δ₃
+          ; isInstance to Γ<Γ₃
+          ; hasType to Γ₃⊢δ₃
+          )
+
+        -- | We know that the lam typing must have been derived by the
+        --   lam rule.
+        inR = inv-lam Γ₃⊢δ₃
+        α₃ = inR .fst
+        β₃ = inR .snd .fst
+        α₃⇒β₃=δ₃ = inR .snd .snd .fst
+        Γ₃α₃⊢β₃ = inR .snd .snd .snd
+
+        -- | The actual proof.
+        σᵃᵤ₃ : μs ⟶ μs₃ₐ
+        σᵃᵤ₃ = Γ<Γ₃ .fst
+
+        β₃' : ℒHMType ⟨(μs₃ₐ ⊔ μs₃ₓ ⊔ ⊥)⟩
+        β₃' = β₃ ⇃[ ι₀ ]⇂
+
+        Γ₃' : ℒHMCtx _ (μs₃ₐ ⊔ μs₃ₓ)
+        Γ₃' = Γ₃ ⇃[ ι₀ ]⇂ᶜ
+
+        lem-9 : isTypedℒHM (μs₃ₐ ⊔ μs₃ₓ ⊔ ⊥ ⊩ (α₃ ∷ Γ₃') ⇃[ ι₀ ]⇂ᶜ ⊢ β₃') te
+        lem-9 = Γ₃α₃⊢β₃
+                ⟪ §-isTypedℒHM.prop-2 ι₀ ⟫
+
+        α₃' : ℒHMType ⟨ μs₃ₐ ⊔ μs₃ₓ ⟩
+        α₃' = α₃ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂
+
+        σα₃ : st ⟶ μs₃ₐ ⊔ μs₃ₓ
+        σα₃ = ⧜subst (incl α₃')
+
+        σᵃ₀₃ : μs₀ ⟶ μs₃ₐ ⊔ μs₃ₓ
+        σᵃ₀₃ = ⦗ σᵃᵤ₃ ◆ ι₀ , σα₃ ⦘
+
+        -- | Now some lemma.
+        module lem-10a where abstract
+          private
+            P-0 : ι₁ ◆ ι₀ {b = ⊥} ◆ (σᵃ₀₃ ⇃⊔⇂ id) ∼ σα₃ ◆ ι₀
+            P-0 = ι₁ ◆ ι₀ {b = ⊥} ◆ (σᵃ₀₃ ⇃⊔⇂ id)     ⟨ assoc-l-◆ ⟩-∼
+                        ι₁ ◆ (ι₀ ◆ (σᵃ₀₃ ⇃⊔⇂ id))   ⟨ refl ◈ reduce-ι₀ ⟩-∼
+                        ι₁ ◆ (σᵃ₀₃ ◆ ι₀)            ⟨ assoc-r-◆ ⟩-∼
+                        (ι₁ ◆ σᵃ₀₃) ◆ ι₀            ⟨ reduce-ι₁ ◈ refl ⟩-∼
+                        (σα₃) ◆ ι₀                   ∎
+
+          Proof  : α₀ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂ ≡ α₃
+          Proof = αᵘ ⇃[ ι₁ ◆ ι₀ ]⇂ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂     ⟨ functoriality-◆-⇃[]⇂ {τ = αᵘ} {f = ι₁ ◆ ι₀} {σᵃ₀₃ ⇃⊔⇂ id} ⟩-≡
+                  αᵘ ⇃[ ι₁ ◆ ι₀ ◆ (σᵃ₀₃ ⇃⊔⇂ id) ]⇂       ⟨ αᵘ ⇃[≀ P-0 ≀]⇂ ⟩-≡
+                  αᵘ ⇃[ σα₃ ◆ ι₀ ]⇂                       ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = αᵘ} {f = σα₃} {ι₀}) ⟩-≡
+                  -- here we need to use the fact that ⇃[ σα₃ ]⇂, applied to `incl`
+                  -- gives us the value of that incl. (since the substitution is abstract)
+                  αᵘ ⇃[ σα₃ ]⇂ ⇃[ ι₀ ]⇂                   ⟨ {!!} ⟩-≡
+                  -- αᵘ ⇃[ σα₃ ]⇂ ⇃[ ι₀ ]⇂                   ⟨ refl-≡ ⟩-≡
+                  α₃ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ ι₀ ]⇂       ⟨ functoriality-◆-⇃[]⇂ {τ = α₃} {f = ⦗ id , elim-⊥ ⦘} {ι₀} ⟩-≡
+                  α₃ ⇃[ ⦗ id , elim-⊥ ⦘ ◆ ι₀ ]⇂           ⟨ α₃ ⇃[≀ §-ϖ.prop-1  ≀]⇂ ⟩-≡
+                  α₃ ⇃[ id ]⇂                             ⟨ functoriality-id-⇃[]⇂ ⟩-≡
+                  α₃                                      ∎-≡
+
+        -- | And lemma 10b!?
+        module lem-10b where abstract
+          Proof : Γ₀ ⇃[ σᵃ₀₃ ]⇂ᶜ ≡ Γ₃'
+          Proof = Γ ⇃[ ι₀ ]⇂ᶜ ⇃[ σᵃ₀₃ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂ᶜ {Γ = Γ} ⟩-≡
+                  Γ ⇃[ ι₀ ◆ σᵃ₀₃ ]⇂ᶜ       ⟨ Γ ⇃[≀ reduce-ι₀ ≀]⇂ᶜ ⟩-≡
+                  Γ ⇃[ σᵃᵤ₃ ◆ ι₀ ]⇂ᶜ        ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ}) ⟩-≡
+                  Γ ⇃[ σᵃᵤ₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ   ⟨ cong _⇃[ ι₀ ]⇂ᶜ (snd Γ<Γ₃) ⟩-≡
+                  Γ₃ ⇃[ ι₀ ]⇂ᶜ              ∎-≡
+
+        α₀Γ₀<α₃Γ₃' : (α₀ ∷' Γ₀) <Γ (α₃ ∷ Γ₃')
+        α₀Γ₀<α₃Γ₃' = record { fst = σᵃ₀₃ ; snd = λ i → lem-10a.Proof i ∷ lem-10b.Proof i }
+
+
+        𝑆-te : CtxTypingInstance (α₀ ∷' Γ₀) te
+        𝑆-te = ((μs₃ₐ ⊔ μs₃ₓ) / ⊥ ⊩ α₃ ∷ Γ₃' , β₃' , α₀Γ₀<α₃Γ₃' , lem-9)
+
+        --
+        -- SAME CODE END
+        --------------------------------------
+
+        Result : 𝟘-𝒰
+        Result = ¬𝑇-te 𝑆-te
+
 -- //
-
-
+-}
 
 

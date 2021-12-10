@@ -73,6 +73,11 @@ module _ {A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} {C : ∀{a} -> B a -> 𝒰 𝑘} w
   split-Listᴰ² : ∀{as : List A} {a : A} {bs : Listᴰ B as} {b : B a} -> Listᴰ² C (b ∷ bs) -> (C b) × Listᴰ² C bs
   split-Listᴰ² (b ∷ xs) = b , xs
 
+  module §-split-Listᴰ² where
+    prop-1 : ∀{as : List A} {a : A} {bs : Listᴰ B as} {b : B a} -> {cs : Listᴰ² C (b ∷ bs)}
+            -> cs ≡ (split-Listᴰ² cs .fst ∷ split-Listᴰ² cs .snd)
+    prop-1 {cs = c ∷ cs} = refl-≡
+
 
 
 
