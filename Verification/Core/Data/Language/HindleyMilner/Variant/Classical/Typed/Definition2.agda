@@ -35,6 +35,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.MetaVarReduction
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 
 open import Verification.Core.Order.Preorder
@@ -123,7 +124,7 @@ module §2-isTypedℒHM where
       σs' = extend-ℒHMQuantMap (ϕ) σs
 
       lem-1 : Γ₁ ≡ apply-ℒHMQuantMap σs' (Γ ⇃[ ϕ ]⇂ᶜ)
-      lem-1 = Γ₁                                    ⟨ inverseCtxProof isAb ⟩-≡
+      lem-1 = Γ₁                                    ⟨ §-isAbstr.inverseCtxProof isAb ⟩-≡
               apply-ℒHMQuantMap σs Γ ⇃[ ϕ ]⇂ᶜ       ⟨ sym-Path (§-ℒHMQuantMap.prop-1 ϕ σs Γ) ⟩-≡
               apply-ℒHMQuantMap σs' (Γ ⇃[ ϕ ]⇂ᶜ)    ∎-≡
 

@@ -6,32 +6,8 @@ open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.Product.Definition
-open import Verification.Core.Data.Sum.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
-
-open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Unary.Natural
-open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
-
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
-
--- open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Morphism.Iso renaming (_≅_ to _≅ᵘ_ ; ⟨_⟩⁻¹ to ⟨_⟩⁻¹ᵘ)
-open import Verification.Core.Category.Std.Category.Subcategory.Full
-open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
--- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
-open import Verification.Core.Computation.Unification.Definition
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
@@ -40,55 +16,32 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Unty
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.MetaVarReduction
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition2
 
-open import Verification.Core.Order.Preorder
 
-open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
-open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
-open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
-open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
-
-private
-  _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-  ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-  _⟶_ = Hom
-
-
--- {-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
--- {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
--- {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
-{-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
-{-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
-
-
-private
-  assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
-  assoc-l-⊔-ℒHMTypes = {!!}
 
 
 -- [Lemma]
 -- | "Inversion of SLet". The following holds.
 
-inv-slet : ∀{k νs} {Q : ℒHMQuant k} {Γ' : ℒHMCtxFor Q νs} {β : ℒHMType ⟨ νs ⟩}
+inv-slet : ∀{k νs} {Q : ℒHMQuant k} {Γ' : ℒHMCtx Q νs} {β : ℒHMType ⟨ νs ⟩}
            --------------------------------------
            -- constructor inputs
            -> {te₀ : UntypedℒHM k} {te₁ : UntypedℒHM (tt ∷ k)}
            --------------------------------------
            -- condition: is typed
-           -> isTypedℒHM (νs ⊩ (Q , Γ') ⊢ β) (slet te₀ te₁)
+           -> isTypedℒHM (νs ⊩ Γ' ⊢ β) (slet te₀ te₁)
            --------------------------------------
            -- result: we have a lot
-           -> ∑ λ μs -> ∑ λ κs -> ∑ λ (Γ : ℒHMCtxFor Q μs)
+           -> ∑ λ μs -> ∑ λ κs -> ∑ λ (Γ : ℒHMCtx Q μs)
            -> ∑ λ (α : ℒHMType ⟨ μs ⟩)
            -> ∑ λ (α' : ℒHMType ⟨ νs ⊔ κs ⟩)
            -> isAbstr κs Γ Γ' α α'
-              × isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α) te₀
-              × isTypedℒHM (νs ⊩ (κs ∷' Q , α' ∷ Γ') ⊢ β) te₁
+              × isTypedℒHM (μs ⊩ (Γ) ⊢ α) te₀
+              × isTypedℒHM (νs ⊩ (α' ∷ Γ') ⊢ β) te₁
 -- //
 -- [Proof]
 -- | By definition [].
@@ -104,7 +57,7 @@ inv-slet (slet x x₁ x₂) = _ , _ , _ , _ , _ , x , x₁ , x₂
 -- [Proof]
 -- | Let [..], [..], [..], [..] be the input of the
 --   algorithm.
-module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q μsᵤ) where
+module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q μsᵤ) where
 
   -- | Furthermore, assume we have the terms [..] and [..].
   module _ (te : UntypedℒHM k) (se : UntypedℒHM (tt ∷ k)) where
@@ -131,7 +84,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
       -- | Once we have typechecked te, we know that νs₀ₓ are the
       --   variables over which the type αᵇ₀ is quantified
       --   thus the context in which we typecheck `se` is the following
-      α₀Γ₀ : ℒHMCtxFor (νs₀ₓ ∷' Q) νs₀ₐ
+      α₀Γ₀ : ℒHMCtx (νs₀ₓ ∷' Q) νs₀ₐ
       α₀Γ₀ = αᵇ₀ ∷ Γ₀
 
       σᵃᵤ₀ = fst Γ<Γ₀
@@ -162,7 +115,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
         Γ₁ = split-Listᴰ² Δ .snd
 
         -- | Call this one
-        α₁Γ₁ : ℒHMCtxFor (νs₀ₓ ∷' Q) νs₁ₐ
+        α₁Γ₁ : ℒHMCtx (νs₀ₓ ∷' Q) νs₁ₐ
         α₁Γ₁ = α₁ ∷ Γ₁
 
         -- | And we have actually [..] [] [].
@@ -171,7 +124,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
         ... | (α₁ ∷ Γ₁) = refl-≡
 
         -- | We can restore the typing judgement to this context, i.e., we have
-        α₁Γ₁⊢βᵇ₁ : isTypedℒHM ((νs₁ₐ ⊔ νs₁ₓ) ⊩ (_ , α₁Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ βᵇ₁) se
+        α₁Γ₁⊢βᵇ₁ : isTypedℒHM ((νs₁ₐ ⊔ νs₁ₓ) ⊩ (α₁Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ βᵇ₁) se
         α₁Γ₁⊢βᵇ₁ = Δ⊢βᵇ₁
                    ⟪ transp-isTypedℒHM (cong (_⇃[ ι₀ ]⇂ᶜ) lem-00) refl-≡ ⟫
 
@@ -195,31 +148,31 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
         -- | And this typing judgement.
         -- abstract
-        Γ₁⊢α₁' : isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊔ νs₀ₓ ⊩ (_ , Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) ⊢ α₁') te
+        Γ₁⊢α₁' : isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊔ νs₀ₓ ⊩ Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⊢ α₁') te
         Γ₁⊢α₁' = Γ₀⊢αᵇ₀
-                  >> isTypedℒHM ((νs₀ₐ ⊔ νs₀ₓ) ⊩ Q , (Γ₀ ⇃[ ι₀ ]⇂ᶜ) ⊢ αᵇ₀) te <<
+                  >> isTypedℒHM ((νs₀ₐ ⊔ νs₀ₓ) ⊩ (Γ₀ ⇃[ ι₀ ]⇂ᶜ) ⊢ αᵇ₀) te <<
 
                   ⟪ §-isTypedℒHM.prop-4 {Γ = Γ₀} σᵃ₀₁ id ⟫
 
-                  >> isTypedℒHM (_ ⊩ Q , (Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ id ]⇂) te <<
+                  >> isTypedℒHM (_ ⊩ (Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ id ]⇂) te <<
 
                   ⟪ transp-isTypedℒHM (cong _⇃[ ι₀ ]⇂ᶜ lem-1b) lem-1a ⟫
 
-                  >> isTypedℒHM (_ ⊩ Q , (Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₁ ) te <<
+                  >> isTypedℒHM (_ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₁ ) te <<
 
                   ⟪ §-isTypedℒHM.prop-4 {Γ = Γ₁} ι₀ id ⟫
 
-                  >> isTypedℒHM (_ ⊩ Q , (Γ₁ ⇃[ ι₀ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ) te <<
+                  >> isTypedℒHM (_ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ) te <<
 
-                  ⟪ transp-isTypedℒHM (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₁}) refl-≡ ⟫
+                  ⟪ transp-isTypedℒHM (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₁}) refl-≡ ⟫
 
-                  >> isTypedℒHM (_ ⊩ Q , (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) ⊢ α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ) te <<
+                  >> isTypedℒHM (_ ⊩ (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) ⊢ α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ) te <<
 
 
 
         -- | And this lemma.
         lem-2 : Γ₁ ⇃[ ι₀ {b = νs₁ₓ} ◆ ι₀ {b = νs₀ₓ} ]⇂ᶜ ⇃[ ⟨ refl-≅ ⟩ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
-        lem-2 = trans-Path (functoriality-id-⇃[]⇂-CtxFor) (sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₁}))
+        lem-2 = trans-Path (functoriality-id-⇃[]⇂ᶜ) (sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₁}))
 
         -- | And something is an abstraction.
         isAb : isAbstr νs₀ₓ (Γ₁ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ) (Γ₁ ⇃[ ι₀ ]⇂ᶜ) α₁' (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
@@ -269,17 +222,17 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
           -- | We have this lemma.
           module lem-11 where abstract
-            Proof : isTypedℒHM (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ α₃') te
+            Proof : isTypedℒHM (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te
             Proof = Γ₂⊢α₂
-                  >> isTypedℒHM (νs₂ ⊩ Q , Γ₂ ⊢ α₂) te <<
+                  >> isTypedℒHM (νs₂ ⊩ Γ₂ ⊢ α₂) te <<
                   ⟪ §-isTypedℒHM.prop-2 ⟨ σ₂₃₊ ⟩ ⟫
-                  >> isTypedℒHM (_ ⊩ Q , Γ₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂ᶜ ⊢ α₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂) te <<
-                  ⟪ transp-isTypedℒHM (trans-Path (ctxProof isAb₂) (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₃})) (typeProof isAb₂) ⟫
-                  >> isTypedℒHM (_ ⊩ Q , Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⊢ α₃) te <<
+                  >> isTypedℒHM (_ ⊩ Γ₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂ᶜ ⊢ α₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂) te <<
+                  ⟪ transp-isTypedℒHM (trans-Path (ctxProof isAb₂) (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃})) (typeProof isAb₂) ⟫
+                  >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⊢ α₃) te <<
                   ⟪ §-isTypedℒHM.prop-2 ⟨ あ ⟩ ⟫
-                  >> isTypedℒHM (_ ⊩ Q , Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⇃[ ⟨ あ ⟩ ]⇂ᶜ ⊢ α₃ ⇃[ ⟨ あ ⟩ ]⇂) te <<
-                  ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₃}) (Γ₃ ⇃[≀ {!!} ≀]⇂ᶜ)) refl-≡ ⟫
-                  >> isTypedℒHM (_ ⊩ Q , Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te <<
+                  >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⇃[ ⟨ あ ⟩ ]⇂ᶜ ⊢ α₃ ⇃[ ⟨ あ ⟩ ]⇂) te <<
+                  ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃}) (Γ₃ ⇃[≀ {!!} ≀]⇂ᶜ)) refl-≡ ⟫
+                  >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te <<
 
           -- | And we call this one.
           module Ω₀R where abstract
@@ -311,13 +264,13 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
             Proof = {!!}
 
           abstract
-            lem-20 : isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (νs₀ₓ ∷ Q) , ((α₀' ∷ Γ₃) ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
+            lem-20 : isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ ((α₀' ∷ Γ₃) ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
             lem-20 = α₃Γ₃⊢β₃
-                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (νs₃ₓ₊ ∷ Q) , (α₃ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
+                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₃ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
                   ⟪ transp-isTypedℒHM ((λ i -> lem-15.Proof (~ i) ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ))) refl-≡ ⟫
-                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (νs₃ₓ₊ ∷ Q) , (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
+                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
                   ⟪ {!!} ⟫
-                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (νs₀ₓ ∷ Q) , (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
+                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
 
           α₀Γ₀<α₀'Γ₃ :  α₀Γ₀ <Γ (α₀' ∷ Γ₃)
           α₀Γ₀<α₀'Γ₃ = record { fst = σᵃ₀₃ ; snd = λ i -> α₀' ∷ ctxProofTI Ω₀R.Proof i }

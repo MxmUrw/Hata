@@ -3,33 +3,9 @@ module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Def
 
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
-open import Verification.Core.Set.Setoid.Definition
-open import Verification.Core.Set.Discrete
-open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
-
-open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Unary.Natural
-open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
-
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
-
-open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Morphism.Iso
-open import Verification.Core.Category.Std.Category.Subcategory.Full
-open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-open import Verification.Core.Computation.Unification.Definition
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
@@ -38,8 +14,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
-
-open import Verification.Core.Order.Preorder
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.MetaVarReduction
 
 ----------------------------------------------------------------------------------
 -- Definition of the Hindley Milner type system
@@ -111,31 +86,6 @@ pattern _∷'_ x xs = _∷_ {a = tt} x xs
 
 -- //
 
--- [Definition]
--- | We define an /abstraction of metavariables/.
-record isAbstr {k} {Q : ℒHMQuant k} (κs : ℒHMTypes) {μs₀ μs₁} (Γ₀ : ℒHMCtx Q μs₀) (Γ₁ : ℒHMCtx Q μs₁)
-               (τ₀ : ℒHMType ⟨ μs₀ ⟩) (τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩) : 𝒰₀ where
-  constructor isAbstr:byDef
-  field metasProof : μs₀ ≅ (μs₁ ⊔ κs)
-  field ctxProof : Γ₀ ⇃[ ⟨ metasProof ⟩ ]⇂ᶜ ≡ Γ₁ ⇃[ ι₀ ]⇂ᶜ
-  field typeProof : τ₀ ⇃[ ⟨ metasProof ⟩ ]⇂ ≡ τ₁
-
-  inverseCtxProof : Γ₀ ≡ Γ₁ ⇃[ ι₀ ◆ ⟨ metasProof ⟩⁻¹ ]⇂ᶜ
-  inverseCtxProof = {!!}
-
-open isAbstr public
--- //
-
--- [Hide]
-module §-isAbstr where
-  prop-1 : ∀{k} {Q : ℒHMQuant k} {κs : ℒHMTypes} {μs₀ μs₁ μs₂} {Γ₀ : ℒHMCtx Q μs₀} {Γ₁ : ℒHMCtx Q μs₁}
-               {τ₀ : ℒHMType ⟨ μs₀ ⟩} {τ₁ : ℒHMType ⟨ μs₁ ⊔ κs ⟩}
-           -> (σ₁₂ : μs₁ ⟶ μs₂)
-           -> isAbstr κs Γ₀ Γ₁ τ₀ τ₁
-           -> isAbstr κs Γ₀ (Γ₁ ⇃[ σ₁₂ ]⇂ᶜ) τ₀ (τ₁ ⇃[ σ₁₂ ⇃⊔⇂ id ]⇂)
-  prop-1 = {!!}
-
--- //
 
 
 
@@ -187,7 +137,7 @@ transp-isTypedℒHM : ∀{k μs te} {Q : ℒHMQuant k}
          -> Γ₀ ≡ Γ₁ -> τ₀ ≡ τ₁
          -> isTypedℒHM (μs ⊩ Γ₀ ⊢ τ₀) te
          -> isTypedℒHM (μs ⊩ Γ₁ ⊢ τ₁) te
-transp-isTypedℒHM = {!!}
+transp-isTypedℒHM {μs = μs} {te = te} Γ τ Γ₀⊢τ₀ = transport (λ i -> isTypedℒHM (μs ⊩ Γ i ⊢ τ i) te) Γ₀⊢τ₀
 -- //
 
 

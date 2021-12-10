@@ -3,34 +3,10 @@ module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Con
 
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
-open import Verification.Core.Set.Setoid.Definition
-open import Verification.Core.Set.Discrete
-open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.Product.Definition
 
-open import Verification.Core.Data.Nat.Free
-open import Verification.Core.Data.Universe.Instance.Category
-open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Unary.Natural
-open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 
--- open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
--- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-  -- using (append-⇃⊔⇂)
-open import Verification.Core.Computation.Unification.Definition
-
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Unification
 
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
@@ -38,25 +14,6 @@ open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFinit
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
 
 
-open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
-open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
-open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
-open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
-
-
-private
-  _⟶_ = Hom
-
-  -- _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-  -- ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-
--- {-# DISPLAY isCoequalizer.π₌ _ = π #-}
--- {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
--- {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
-{-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
-{-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
 
 
 
@@ -64,31 +21,10 @@ map-ℒHMCtx : ∀{n : ♮ℕ} -> {q : ℒHMQuant n} {a b : ℒHMTypes} -> a ⟶
 map-ℒHMCtx f [] = []
 map-ℒHMCtx f (c ∷ xs) = (c ⇃[ f ⇃⊔⇂ id ]⇂) ∷ (map-ℒHMCtx f xs)
 
-isSetoidHom:map-ℒHMCtx : ∀{n : ♮ℕ} {q : ℒHMQuant n} -> {a b : ℒHMTypes} -> {f g : a ⟶ b}
-                        -> (f ∼ g) -> map-ℒHMCtx {q = q} f ≡ map-ℒHMCtx g
-isSetoidHom:map-ℒHMCtx {q = q} {f = f} {g}  p = funExt lem-0
-  where
-    lem-0 : ∀ x -> map-ℒHMCtx {q = q} f x ≡ map-ℒHMCtx g x
-    lem-0 [] = refl-≡
-    lem-0 (c ∷ x) = {!!}
 
 
--- instance
---   isSetoidHom:map-ℒHMCtx : ∀{n : ♮ℕ} -> {a b : ℒHMTypes}
---                             -> isSetoidHom (a ⟶ b) ((ℒHMCtx n a -> ℒHMCtx n b) since isSetoid:byPath) map-ℒHMCtx
---   isSetoidHom:map-ℒHMCtx = record { cong-∼ = isSetoidHom:map-ℒHMCtx-2 }
-
-
--- instance
---   isFunctor:ℒHMCtx  : ∀{n} -> isFunctor ℒHMTypes 𝐔𝐧𝐢𝐯₀ (ℒHMCtx n)
---   isFunctor.map isFunctor:ℒHMCtx = map-ℒHMCtx
---   isFunctor.isSetoidHom:map isFunctor:ℒHMCtx = it
---   isFunctor.functoriality-id isFunctor:ℒHMCtx = {!!}
---   isFunctor.functoriality-◆ isFunctor:ℒHMCtx = {!!}
 
 infixl 80 _⇃[_]⇂ᶜ
--- _⇃[_]⇂-Ctx : ∀{k} -> ∀{a b : ℒHMTypes} -> ℒHMCtx k a -> (a ⟶ b) -> ℒHMCtx k b
--- _⇃[_]⇂-Ctx x f = map-ℒHMCtx f x
 
 _⇃[_]⇂ᶜ : ∀{k} -> ∀{a b : ℒHMTypes} -> {Q : ℒHMQuant k} -> ℒHMCtx Q a -> (a ⟶ b) -> ℒHMCtx Q b
 _⇃[_]⇂ᶜ x f = map-ℒHMCtx f x
