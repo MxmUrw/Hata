@@ -146,39 +146,99 @@ transp-isTypedℒHM {μs = μs} {te = te} Γ τ Γ₀⊢τ₀ = transport (λ i 
 -- [Hide]
 -- | Some properties of the typing relation.
 module §-isTypedℒHM where
+
   abstract
-    -- prop-1 : ∀{μs k} -> {Q : ℒHMQuant k} -> {Γ : ℒHMCtx Q μs} {τ : ℒHMType ⟨ μs ⟩}
-    --         -> ∀ te
-    --         -> isTypedℒHM (μs ⊩ Γ ⊢ τ) (lam te)
-    --         -> ∑ λ νs -> ∑ λ (Δ : ℒHMCtx (tt ∷ k) νs) -> ∑ λ (τ' : ℒHMType ⟨ νs ⟩)
-    --         -> isTypedℒHM (νs ⊩ Δ ⊢ τ') te
-    -- prop-1 te (lam p) = {!!} , ({!!} , ({!!} , p))
-
-
     prop-2 : ∀{k μs νs te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {τ : ℒHMType ⟨ μs ⟩}
           -> (σ : μs ⟶ νs)
           -> isTypedℒHM (μs ⊩ Γ ⊢ τ) te
           -> isTypedℒHM (νs ⊩ (Γ ⇃[ σ ]⇂ᶜ) ⊢ (τ ⇃[ σ ]⇂)) te
-    prop-2 σ (var x xp ρ) = {!!}
-    prop-2 σ (app te se) = {!!}
-      -- let te' = prop-2 σ te
-      --     se' = prop-2 σ se
-      -- in app te' se'
-    prop-2 σ (lam te) = {!!}
-    prop-2 σ (slet ab set te) = {!!}
+    prop-2 {Γ = Γ} {τ = τ} σ (var x xp ρ) = var x (xp ◆ σ) lem-1
+      where
+        lem-0 : ⦗ σ , xp ◆ σ ⦘ ∼ ⦗ id , xp ⦘ ◆ σ
+        lem-0 = ⦗ σ , xp ◆ σ ⦘      ⟨ ⦗≀ unit-l-◆ ⁻¹ , refl ≀⦘ ⟩-∼
+                ⦗ id ◆ σ , xp ◆ σ ⦘ ⟨ append-⦗⦘ ⁻¹ ⟩-∼
+                ⦗ id , xp ⦘ ◆ σ     ∎
+
+        lem-1 : lookup-Listᴰ² (Γ ⇃[ σ ]⇂ᶜ) x ⇃[ ⦗ id , xp ◆ σ ⦘ ]⇂ ≡ τ ⇃[ σ ]⇂
+        lem-1 = lookup-Listᴰ² (Γ ⇃[ σ ]⇂ᶜ) x ⇃[ ⦗ id , xp ◆ σ ⦘ ]⇂   ⟨ sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} x σ (xp ◆ σ)) ⟩-≡
+                lookup-Listᴰ² Γ x ⇃[ ⦗ σ , xp ◆ σ ⦘ ]⇂               ⟨ lookup-Listᴰ² Γ x ⇃[≀ lem-0 ≀]⇂ ⟩-≡
+                lookup-Listᴰ² Γ x ⇃[ ⦗ id , xp ⦘ ◆ σ ]⇂              ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = lookup-Listᴰ² Γ x}) ⟩-≡
+                lookup-Listᴰ² Γ x ⇃[ ⦗ id , xp ⦘ ]⇂ ⇃[ σ ]⇂          ⟨ cong _⇃[ σ ]⇂ ρ ⟩-≡
+                τ ⇃[ σ ]⇂                                            ∎-≡
+
+    prop-2 σ (app te se) = app (transp-isTypedℒHM refl-≡ §-⇃[]⇂.prop-1 (prop-2 σ te)) (prop-2 σ se)
+    prop-2 σ (lam {α = α} {β = β} te) =
+      let P = prop-2 σ te
+          lem-1 : α ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ≡ α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂
+          lem-1 = α ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂   ⟨ functoriality-◆-⇃[]⇂ {τ = α} ⟩-≡
+                  α ⇃[ (σ ⇃⊔⇂ id) ◆ ⦗ id , elim-⊥ ⦘   ]⇂   ⟨ α ⇃[≀ append-⇃⊔⇂ ≀]⇂ ⟩-≡
+                  α ⇃[ ⦗ (σ ◆ id) , (id ◆ elim-⊥) ⦘    ]⇂   ⟨ α ⇃[≀ ⦗≀ unit-r-◆ ∙ unit-l-◆ ⁻¹ , expand-⊥ ∙ expand-⊥ ⁻¹ ≀⦘ ≀]⇂ ⟩-≡
+                  α ⇃[ ⦗ (id ◆ σ) , (elim-⊥ ◆ σ) ⦘    ]⇂   ⟨ α ⇃[≀ append-⦗⦘ ⁻¹ ≀]⇂ ⟩-≡
+                  α ⇃[ ⦗ id , elim-⊥ ⦘ ◆ σ ]⇂               ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α}) ⟩-≡
+                  α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇃[ σ ]⇂          ∎-≡
+
+          lem-3 :  α ⇃[ σ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β ⇃[ σ ]⇂ ≡ (α ⇃[ ⦗ id , elim-⊥ ⦘ ]⇂ ⇒ β) ⇃[ σ ]⇂
+          lem-3 = trans-Path (cong (_⇒ β ⇃[ σ ]⇂) lem-1) (sym-Path §-⇃[]⇂.prop-1)
+
+      in transp-isTypedℒHM refl-≡ lem-3 (lam P)
+    prop-2 {μs = μs} {Γ = Γ} σ (slet {Γ = Γ₁} {α = α} {α' = α'} ab te se) =
+      let ϕ = metasProof ab
+          σ' : _ ⟶ _
+          σ' = ⟨ ϕ ⟩ ◆ (σ ⇃⊔⇂ id)
+
+          P-te = prop-2 σ' te
+          P-se = prop-2 σ se
+
+          lem-0 : Γ₁ ⇃[ σ' ]⇂ᶜ ⇃[ id ]⇂ᶜ ≡ Γ ⇃[ σ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
+          lem-0 = Γ₁ ⇃[ σ' ]⇂ᶜ ⇃[ id ]⇂ᶜ           ⟨ functoriality-id-⇃[]⇂ᶜ ⟩-≡
+                  Γ₁ ⇃[ σ' ]⇂ᶜ                     ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₁}) ⟩-≡
+                  Γ₁ ⇃[ ⟨ ϕ ⟩ ]⇂ᶜ ⇃[ σ ⇃⊔⇂ id ]⇂ᶜ  ⟨ cong _⇃[ σ ⇃⊔⇂ id ]⇂ᶜ (ctxProof ab) ⟩-≡
+                  Γ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ ⇃⊔⇂ id ]⇂ᶜ     ⟨ functoriality-◆-⇃[]⇂ᶜ {Γ = Γ} ⟩-≡
+                  Γ ⇃[ ι₀ ◆ (σ ⇃⊔⇂ id) ]⇂ᶜ        ⟨ Γ ⇃[≀ reduce-ι₀ ≀]⇂ᶜ ⟩-≡
+                  Γ ⇃[ σ ◆ ι₀ ]⇂ᶜ                 ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ}) ⟩-≡
+                  Γ ⇃[ σ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ            ∎-≡
+
+          lem-1 : α ⇃[ σ' ]⇂ ⇃[ id ]⇂ ≡ α' ⇃[ σ ⇃⊔⇂ id ]⇂
+          lem-1 = α ⇃[ σ' ]⇂ ⇃[ id ]⇂           ⟨ functoriality-id-⇃[]⇂ ⟩-≡
+                  α ⇃[ σ' ]⇂                     ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = α}) ⟩-≡
+                  α ⇃[ ⟨ ϕ ⟩ ]⇂ ⇃[ σ ⇃⊔⇂ id ]⇂  ⟨ cong _⇃[ σ ⇃⊔⇂ id ]⇂ (typeProof ab) ⟩-≡
+                  α' ⇃[ σ ⇃⊔⇂ id ]⇂           ∎-≡
+
+          ab-2 : isAbstr _ (Γ₁ ⇃[ σ' ]⇂ᶜ) (Γ ⇃[ σ ]⇂ᶜ) _ _
+          ab-2 = isAbstr:byDef refl-≅ lem-0 lem-1
+
+      in (slet ab-2 P-te P-se)
 
     prop-4 : ∀{k μsₐ μsₓ νsₓ νsₐ te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
           -> (σₐ : μsₐ ⟶ νsₐ)
           -> (σₓ : μsₓ ⟶ νsₓ)
           -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
           -> isTypedℒHM (νsₐ ⊔ νsₓ ⊩ (Γ ⇃[ σₐ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ σₐ ⇃⊔⇂ σₓ ]⇂)) te
-    prop-4 = {!!}
+    prop-4 {Γ = Γ} σₐ σₓ p =
+      let lem-0 : Γ ⇃[ ι₀ ]⇂ᶜ ⇃[ σₐ ⇃⊔⇂ σₓ ]⇂ᶜ ≡ Γ ⇃[ σₐ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
+          lem-0 = Γ ⇃[ ι₀ ]⇂ᶜ ⇃[ σₐ ⇃⊔⇂ σₓ ]⇂ᶜ   ⟨ functoriality-◆-⇃[]⇂ᶜ {Γ = Γ} ⟩-≡
+                  Γ ⇃[ ι₀ ◆ (σₐ ⇃⊔⇂ σₓ) ]⇂ᶜ      ⟨ Γ ⇃[≀ reduce-ι₀ ≀]⇂ᶜ ⟩-≡
+                  Γ ⇃[ σₐ ◆ ι₀ ]⇂ᶜ               ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ}) ⟩-≡
+                  Γ ⇃[ σₐ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ          ∎-≡
+      in p
+        ⟪ prop-2 (σₐ ⇃⊔⇂ σₓ) ⟫
+        ⟪ transp-isTypedℒHM lem-0 refl-≡ ⟫
 
     prop-3 : ∀{k μsₐ μsₓ νsₓ te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μsₐ} {τ : ℒHMType ⟨ μsₐ ⊔ μsₓ ⟩}
           -> (σ : μsₓ ⟶ νsₓ)
           -> isTypedℒHM (μsₐ ⊔ μsₓ ⊩ (Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ τ) te
           -> isTypedℒHM (μsₐ ⊔ νsₓ ⊩ (Γ ⇃[ ι₀ ]⇂ᶜ) ⊢ (τ ⇃[ id ⇃⊔⇂ σ ]⇂)) te
-    prop-3 = {!!}
+    prop-3 {Γ = Γ} σ p =
+      let
+          lem-00 : Γ ⇃[ id ]⇂ᶜ ≡  Γ
+          lem-00 = functoriality-id-⇃[]⇂ᶜ
+
+          lem-0 : Γ ⇃[ id ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ≡  Γ ⇃[ ι₀ ]⇂ᶜ
+          lem-0 = (cong _⇃[ ι₀ ]⇂ᶜ lem-00)
+
+      in p
+        ⟪ prop-4 {Γ = Γ} id σ ⟫
+        ⟪ transp-isTypedℒHM lem-0 refl-≡ ⟫
 
 -- //
 

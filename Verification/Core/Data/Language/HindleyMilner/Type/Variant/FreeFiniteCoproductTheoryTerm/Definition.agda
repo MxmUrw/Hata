@@ -180,6 +180,23 @@ abstract
           lem-0 : fromArr (⧜subst (incl τ) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 内id-⧜𝐒𝐮𝐛𝐬𝐭) ≡ τ
           lem-0 = cong fromArr (≡-Str→≡ (unit-r-◆ {f = (⧜subst (incl τ))}))
 
+  -------------------------
+  -- preserves the constructors of 𝒹
+  module §-⇃[]⇂ where
+    module _ {a b : ℒHMTypes} {σ : a ⟶ b} where
+      abstract
+        prop-1 : {α β : ℒHMType ⟨ a ⟩} -> (α ⇒ β) ⇃[ σ ]⇂ ≡ α ⇃[ σ ]⇂ ⇒ β ⇃[ σ ]⇂
+        prop-1 {α} {β} = ≡-Str→≡ (lem-1 ∙-≣ sym-≣ lem-2)
+          where
+            lem-1 : fromArr (⧜subst (incl (α ⇒ β)) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 σ) ≣ fromArr (⧜subst (incl (α ⇒ β)) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ)
+            lem-1 = cong-Str fromArr (sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭)
+
+            lem-2 : (fromArr (⧜subst (incl α) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 σ) ⇒ fromArr (⧜subst (incl β) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 σ))
+                    ≣ (fromArr (⧜subst (incl α) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ) ⇒ fromArr (⧜subst (incl β) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ))
+            lem-2 = cong₂-Str _⇒_
+                     (cong-Str fromArr (sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭))
+                     (cong-Str fromArr (sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭))
+
 -- //
 
 
