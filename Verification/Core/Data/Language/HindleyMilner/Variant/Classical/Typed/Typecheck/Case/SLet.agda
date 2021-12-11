@@ -62,9 +62,11 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
   -- | Furthermore, assume we have the terms [..] and [..].
   module _ (te : UntypedℒHM k) (se : UntypedℒHM (tt ∷ k)) where
 
+
+
     -- | First, the algorithm computes the typing for |te|,
     --   thus we assume that there is such a typing instance.
-    module _ (𝑇-te! : InitialCtxTypingInstance Γ te) where
+    module Success-te (𝑇-te! : InitialCtxTypingInstance Γ te) where
 
       open Σ 𝑇-te! renaming
         ( fst to 𝑇-te
@@ -91,7 +93,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
       -- | With this context we typecheck |se|, thus let us assume
       --   that there is such a typing instance [....]
-      module _ (𝑇-se! : InitialCtxTypingInstance (α₀Γ₀) se) where
+      module Success-se (𝑇-se! : InitialCtxTypingInstance (α₀Γ₀) se) where
 
         open Σ 𝑇-se! renaming
           ( fst to 𝑇-se
@@ -314,4 +316,181 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
   -- | With this we are done.
 
+      module Fail-se (¬𝑇-se : ¬ CtxTypingInstance (α₀Γ₀) se) where
+
+        --------------------------------------
+        -- BEGIN DUPLICATE CODE
+        --
+
+        module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
+          open CtxTypingInstance 𝑆 renaming
+            ( metas to νs₃ₐ
+            ; typeMetas to νs₃ₓ
+            ; ctx to Γ₃
+            ; typ to β₃
+            ; isInstance to Γ<Γ₃
+            ; hasType to Γ₃⊢slettese
+            )
+          -- (νs₃ₐ / νs₃ₓ ⊩ Γ₃ , β₃ , Γ<Γ₃ , Γ₃⊢slettese)
+
+
+          -- | We know that since we have a typing instance |Γ₃ ⊢ slet te se : β₃|,
+          --   there must be [..].
+          invR = inv-slet Γ₃⊢slettese
+          νs₂ = invR .fst
+          νs₃ₓ₊ = invR .snd .fst
+          Γ₂ = invR .snd .snd .fst
+          α₂ = invR .snd .snd .snd .fst
+          α₃ = invR .snd .snd .snd .snd .fst
+          isAb₂ = invR .snd .snd .snd .snd .snd .fst
+          Γ₂⊢α₂ = invR .snd .snd .snd .snd .snd .snd .fst
+          α₃Γ₃⊢β₃ = invR .snd .snd .snd .snd .snd .snd .snd
+
+          -- slet {μs = νs₂} {κs = νs₃ₓ₊} {Γ = Γ₂} {α = α₂} {α' = α₃}  isAb₂ Γ₂⊢α₂ α₃Γ₃⊢β₃
+
+          σ₂₃₊ : νs₂ ≅ νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊
+          σ₂₃₊ = metasProof isAb₂
+
+          あ : ((νs₃ₐ ⊔ νs₃ₓ) ⊔ νs₃ₓ₊) ≅ (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))
+          あ = assoc-l-⊔-ℒHMTypes
+
+          α₃' : ℒHMType ⟨(νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))⟩
+          α₃' = α₃ ⇃[ ⟨ あ ⟩ ]⇂
+
+          -- | We have this lemma.
+          module lem-11 where abstract
+            Proof : isTypedℒHM (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te
+            Proof = Γ₂⊢α₂
+                  >> isTypedℒHM (νs₂ ⊩ Γ₂ ⊢ α₂) te <<
+                  ⟪ §-isTypedℒHM.prop-2 ⟨ σ₂₃₊ ⟩ ⟫
+                  >> isTypedℒHM (_ ⊩ Γ₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂ᶜ ⊢ α₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂) te <<
+                  ⟪ transp-isTypedℒHM (trans-Path (ctxProof isAb₂) (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃})) (typeProof isAb₂) ⟫
+                  >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⊢ α₃) te <<
+                  ⟪ §-isTypedℒHM.prop-2 ⟨ あ ⟩ ⟫
+                  >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⇃[ ⟨ あ ⟩ ]⇂ᶜ ⊢ α₃ ⇃[ ⟨ あ ⟩ ]⇂) te <<
+                  ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃}) (Γ₃ ⇃[≀ §-assoc-l-⊔'.prop-1 ≀]⇂ᶜ)) refl-≡ ⟫
+                  >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te <<
+
+          -- | And we call this one.
+          module Ω₀R where abstract
+            Proof : (νs₀ₐ / νs₀ₓ ⊩ Γ₀ , αᵇ₀ , Γ<Γ₀ , Γ₀⊢αᵇ₀) <TI ((νs₃ₐ) / (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ , α₃' , Γ<Γ₃ , lem-11.Proof)
+            Proof = Ω₀ ((νs₃ₐ) / (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ , α₃' , Γ<Γ₃ , lem-11.Proof)
+
+
+          σᵃ₀₃ : νs₀ₐ ⟶ νs₃ₐ
+          σᵃ₀₃ = tiSubₐ Ω₀R.Proof
+
+          σˣ₀₃ : νs₀ₓ ⟶ νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊)
+          σˣ₀₃ = tiSubₓ Ω₀R.Proof
+
+          α₀' = αᵇ₀ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂
+
+          module lem-14 where abstract
+            sublem-01 : σᵃ₀₃ ◆ (ι₀ ◆ ι₀) ∼ σᵃ₀₃ ◆ ι₀ ◆ ⟨ あ ⟩⁻¹
+            sublem-01 = (refl ◈ §-assoc-l-⊔'.prop-1') ∙ assoc-r-◆
+
+            Proof : ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ≣ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹
+            Proof = ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘        ⟨ ⦗≀ sublem-01 , refl ≀⦘ ⟩-∼
+                    ⦗ σᵃ₀₃ ◆ ι₀ ◆ ⟨ あ ⟩⁻¹ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘  ⟨ append-⦗⦘ ⁻¹ ⟩-∼
+                    ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹            ∎
+
+          module lem-15 where abstract
+            Proof : α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂ ≡ α₃
+            Proof = α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂         ⟨ functoriality-◆-⇃[]⇂ {τ = α₀'} ⟩-≡
+                    α₀' ⇃[ (ι₀ ⇃⊔⇂ id) ◆ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂           ⟨ α₀' ⇃[≀ append-⇃⊔⇂ ≀]⇂ ⟩-≡
+                    α₀' ⇃[ ⦗ ι₀ ◆ ι₀ , id ◆ (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⦘ ]⇂             ⟨ α₀' ⇃[≀ ⦗≀ refl , unit-l-◆ ≀⦘ ≀]⇂ ⟩-≡
+                    α₀' ⇃[ ⦗ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂                    ⟨ functoriality-◆-⇃[]⇂ {τ = αᵇ₀} ⟩-≡
+                    αᵇ₀ ⇃[ (σᵃ₀₃ ⇃⊔⇂ id) ◆ ⦗ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂    ⟨ αᵇ₀ ⇃[≀ append-⇃⊔⇂ ≀]⇂ ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , id ◆ (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⦘ ]⇂    ⟨ αᵇ₀ ⇃[≀ ⦗≀ refl , unit-l-◆ ≀⦘ ≀]⇂ ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⦘ ]⇂         ⟨ αᵇ₀ ⇃[≀ lem-14.Proof ≀]⇂ ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹ ]⇂                  ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = αᵇ₀}) ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ]⇂ ⇃[ ⟨ あ ⟩⁻¹ ]⇂              ⟨ cong _⇃[ ⟨ あ ⟩⁻¹ ]⇂ (typProof Ω₀R.Proof) ⟩-≡
+                    α₃' ⇃[ ⟨ あ ⟩⁻¹ ]⇂                                         ⟨ functoriality-◆-⇃[]⇂ {τ = α₃} ⟩-≡
+                    α₃  ⇃[ ⟨ あ ⟩ ◆ ⟨ あ ⟩⁻¹ ]⇂                                ⟨ α₃ ⇃[≀ inv-r-◆ (of あ) ≀]⇂ ⟩-≡
+                    α₃  ⇃[ id ]⇂                                               ⟨ functoriality-id-⇃[]⇂ ⟩-≡
+                    α₃                                                         ∎-≡
+
+          abstract
+            lem-20 : isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ ((α₀' ∷ Γ₃) ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
+            lem-20 = α₃Γ₃⊢β₃
+                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₃ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
+                  ⟪ transp-isTypedℒHM ((λ i -> lem-15.Proof (~ i) ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ))) refl-≡ ⟫
+                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
+                  ⟪ §2-isTypedℒHM.prop-2 {α = α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂} (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⟫
+                  >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
+
+          α₀Γ₀<α₀'Γ₃ :  α₀Γ₀ <Γ (α₀' ∷ Γ₃)
+          α₀Γ₀<α₀'Γ₃ = record { fst = σᵃ₀₃ ; snd = λ i -> α₀' ∷ ctxProofTI Ω₀R.Proof i }
+
+          --
+          -- END DUPLICATE CODE
+          --------------------------------------
+
+          Result : 𝟘-𝒰
+          Result = ¬𝑇-se (νs₃ₐ / νs₃ₓ ⊩ α₀' ∷ Γ₃ , β₃ , α₀Γ₀<α₀'Γ₃ , lem-20)
+
+
+    module Fail-te (¬𝑇-te : ¬ CtxTypingInstance Γ te) where
+
+      --------------------------------------
+      -- BEGIN DUPLICATE CODE
+      --
+
+      module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
+        open CtxTypingInstance 𝑆 renaming
+          ( metas to νs₃ₐ
+          ; typeMetas to νs₃ₓ
+          ; ctx to Γ₃
+          ; typ to β₃
+          ; isInstance to Γ<Γ₃
+          ; hasType to Γ₃⊢slettese
+          )
+        -- (νs₃ₐ / νs₃ₓ ⊩ Γ₃ , β₃ , Γ<Γ₃ , Γ₃⊢slettese)
+
+
+        -- | We know that since we have a typing instance |Γ₃ ⊢ slet te se : β₃|,
+        --   there must be [..].
+        invR = inv-slet Γ₃⊢slettese
+        νs₂ = invR .fst
+        νs₃ₓ₊ = invR .snd .fst
+        Γ₂ = invR .snd .snd .fst
+        α₂ = invR .snd .snd .snd .fst
+        α₃ = invR .snd .snd .snd .snd .fst
+        isAb₂ = invR .snd .snd .snd .snd .snd .fst
+        Γ₂⊢α₂ = invR .snd .snd .snd .snd .snd .snd .fst
+        α₃Γ₃⊢β₃ = invR .snd .snd .snd .snd .snd .snd .snd
+
+        -- slet {μs = νs₂} {κs = νs₃ₓ₊} {Γ = Γ₂} {α = α₂} {α' = α₃}  isAb₂ Γ₂⊢α₂ α₃Γ₃⊢β₃
+
+        σ₂₃₊ : νs₂ ≅ νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊
+        σ₂₃₊ = metasProof isAb₂
+
+        あ : ((νs₃ₐ ⊔ νs₃ₓ) ⊔ νs₃ₓ₊) ≅ (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))
+        あ = assoc-l-⊔-ℒHMTypes
+
+        α₃' : ℒHMType ⟨(νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))⟩
+        α₃' = α₃ ⇃[ ⟨ あ ⟩ ]⇂
+
+        -- | We have this lemma.
+        module lem-11 where abstract
+          Proof : isTypedℒHM (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te
+          Proof = Γ₂⊢α₂
+                >> isTypedℒHM (νs₂ ⊩ Γ₂ ⊢ α₂) te <<
+                ⟪ §-isTypedℒHM.prop-2 ⟨ σ₂₃₊ ⟩ ⟫
+                >> isTypedℒHM (_ ⊩ Γ₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂ᶜ ⊢ α₂ ⇃[ ⟨ σ₂₃₊ ⟩ ]⇂) te <<
+                ⟪ transp-isTypedℒHM (trans-Path (ctxProof isAb₂) (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃})) (typeProof isAb₂) ⟫
+                >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⊢ α₃) te <<
+                ⟪ §-isTypedℒHM.prop-2 ⟨ あ ⟩ ⟫
+                >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⇃[ ⟨ あ ⟩ ]⇂ᶜ ⊢ α₃ ⇃[ ⟨ あ ⟩ ]⇂) te <<
+                ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃}) (Γ₃ ⇃[≀ §-assoc-l-⊔'.prop-1 ≀]⇂ᶜ)) refl-≡ ⟫
+                >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te <<
+
+        --
+        -- END DUPLICATE CODE
+        --------------------------------------
+
+        Result : 𝟘-𝒰
+        Result = ¬𝑇-te ((νs₃ₐ) / (νs₃ₓ ⊔ νs₃ₓ₊) ⊩ Γ₃ , α₃' , Γ<Γ₃ , lem-11.Proof)
+
 -- //
+

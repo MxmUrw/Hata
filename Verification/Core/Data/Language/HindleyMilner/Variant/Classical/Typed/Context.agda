@@ -170,7 +170,6 @@ module §-ℒHMQuantMap where
 
 
 
-{-
 
 sz : ∀{a b : ℒHMTypes} -> a ⟶ b
 sz = ⧜subst (construct-⋆Listᴰ λ {tt x → con ℕᵗ ◌-⧜})
@@ -197,4 +196,3 @@ module §-ϖ where
 
 -- //
 
--}

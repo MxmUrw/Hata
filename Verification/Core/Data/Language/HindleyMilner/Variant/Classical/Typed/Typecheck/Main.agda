@@ -43,9 +43,9 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.Var
--- open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.SLet
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.SLet
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.Lam
--- open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.App
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.App
 
 open import Verification.Core.Order.Preorder
 
@@ -56,13 +56,13 @@ open import Verification.Core.Order.Preorder
 {-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
 {-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
 
-instance
-  hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
-  hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
+-- instance
+--   hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
+--   hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
 
 
-assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
-assoc-l-⊔-ℒHMTypes = {!!}
+-- assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
+-- assoc-l-⊔-ℒHMTypes = {!!}
 
 
 
@@ -79,21 +79,19 @@ assoc-l-⊔-ℒHMTypes = {!!}
 -- | Proof.
 γ {μs} {k} {Q} Γ (var k∍i) = right $ (_ , typecheck-Var.Result Γ k∍i)
 
-γ {μs = νs} {Q = Q} Γ (slet te se) = {!!}
--- γ {μs = νs} {Q = Q} Γ (slet te se) with γ Γ te
--- ... | (left err) = {!!}
--- ... | (right 𝑇-te) with γ _ se
--- ... | (left err) = {!!}
--- ... | (right 𝑇-se) = right (typecheck-slet.Result Γ te se 𝑇-te 𝑇-se)
+γ {μs = νs} {Q = Q} Γ (slet te se) with γ Γ te
+... | (left err) = left (typecheck-slet.Fail-te.Result Γ te se err)
+... | (right 𝑇-te) with γ _ se
+... | (left err) = left (typecheck-slet.Success-te.Fail-se.Result Γ te se 𝑇-te err)
+... | (right 𝑇-se) = right (typecheck-slet.Success-te.Success-se.Result Γ te se 𝑇-te 𝑇-se)
 
-γ {μs = νsₐ} Γ (app te se) = {!!}
--- γ {μs = νsₐ} Γ (app te se) with γ Γ te
--- ... | (left err) = {!!}
--- ... | (right 𝑇-te) with γ _ se
--- ... | (left err) = {!!}
--- ... | (right 𝑇-se) with unify-ℒHMTypes _ _
--- ... | (left err) = {!!}
--- ... | (right x) = right (typecheck-app.Result Γ te se 𝑇-te 𝑇-se x)
+γ {μs = νsₐ} Γ (app te se) with γ Γ te
+... | (left err) = left (typecheck-app.Fail-te.Result Γ te se err)
+... | (right 𝑇-te) with γ _ se
+... | (left err) = left (typecheck-app.Success-te.Fail-se.Result Γ te se 𝑇-te err)
+... | (right 𝑇-se) with unify-ℒHMTypes _ _
+... | (left err) = left (typecheck-app.Success-te.Success-se.Fail-Coeq.Result Γ te se 𝑇-te 𝑇-se err)
+... | (right x) = right (typecheck-app.Success-te.Success-se.Success-Coeq.Result Γ te se 𝑇-te 𝑇-se x)
 
 γ {μs} {k} {Q = Q} Γ (lam te) with γ _ te
 ... | (left err) = left (typecheck-lam.Fail-te.Result Γ te err)

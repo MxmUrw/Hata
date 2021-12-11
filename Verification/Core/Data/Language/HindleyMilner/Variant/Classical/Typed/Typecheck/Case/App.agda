@@ -6,39 +6,41 @@ open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.Product.Definition
-open import Verification.Core.Data.Sum.Definition
+-- open import Verification.Core.Data.Product.Definition
+-- open import Verification.Core.Data.Sum.Definition
 
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
+-- open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
-open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Unary.Natural
-open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Binary.Element.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
+-- open import Verification.Core.Data.List.Variant.Unary.Definition
+-- open import Verification.Core.Data.List.Variant.Unary.Element
+-- open import Verification.Core.Data.List.Variant.Unary.Natural
+-- open import Verification.Core.Data.List.Variant.Binary.Definition
+-- open import Verification.Core.Data.List.Variant.Unary.Element
+-- open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+-- open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
+-- open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
+-- open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
+-- open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
+-- open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
+-- open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
 
 -- open import Verification.Core.Category.Std.Category.Definition
--- open import Verification.Core.Category.Std.Morphism.Iso
-open import Verification.Core.Category.Std.Morphism.Iso renaming (_≅_ to _≅ᵘ_ ; ⟨_⟩⁻¹ to ⟨_⟩⁻¹ᵘ)
-open import Verification.Core.Category.Std.Morphism.Epi.Definition
-open import Verification.Core.Category.Std.Category.Subcategory.Full
-open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
--- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition using (append-⦗⦘ ; ⦗≀_≀⦘)
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
-open import Verification.Core.Computation.Unification.Definition
+-- -- open import Verification.Core.Category.Std.Morphism.Iso
+-- open import Verification.Core.Category.Std.Morphism.Iso renaming (_≅_ to _≅ᵘ_ ; ⟨_⟩⁻¹ to ⟨_⟩⁻¹ᵘ)
+-- open import Verification.Core.Category.Std.Morphism.Epi.Definition
+-- open import Verification.Core.Category.Std.Category.Subcategory.Full
+-- open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
+-- -- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+-- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition using (append-⦗⦘ ; ⦗≀_≀⦘)
+-- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+-- open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
+-- open import Verification.Core.Computation.Unification.Definition
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
+
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
@@ -48,54 +50,24 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition2
 
-open import Verification.Core.Order.Preorder
-
-open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
-open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
-open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
-open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
-
-
-private
-  _⟶_ = Hom
-
-  _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-  ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-
--- {-# DISPLAY isCoequalizer.π₌ _ = π #-}
--- {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
--- {-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
-{-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
-{-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
-
-
-private
-  instance
-    hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
-    hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
-
-  assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
-  assoc-l-⊔-ℒHMTypes = {!!}
 
 
 -- [Lemma]
 -- | "Inversion of App"
 
-inv-app : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtxFor Q μs} {β : ℒHMType ⟨ μs ⟩}
+inv-app : ∀{k μs} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {β : ℒHMType ⟨ μs ⟩}
            --------------------------------------
            -- constructor inputs
            -> {te : UntypedℒHM k}
            -> {se : UntypedℒHM k}
            --------------------------------------
            -- condition: is typed
-           -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ β) (app te se)
+           -> isTypedℒHM (μs ⊩ Γ ⊢ β) (app te se)
            --------------------------------------
            -- result: we have a lot
            -> ∑ λ (α : ℒHMType ⟨ μs ⟩)
-           -> isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α ⇒ β) te
-             ×-𝒰 isTypedℒHM (μs ⊩ (Q , Γ) ⊢ α) se
+           -> isTypedℒHM (μs ⊩ Γ ⊢ α ⇒ β) te
+             ×-𝒰 isTypedℒHM (μs ⊩  Γ ⊢ α) se
 inv-app (app x x₁) = _ , (x , x₁)
 
 -- //
@@ -108,15 +80,16 @@ inv-app (app x x₁) = _ , (x , x₁)
 -- [Proof]
 -- | Let [..], [..], [..], [..] be the input of the
 --   algorithm.
-module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtxFor Q νsₐ) where
+module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q νsₐ) where
 
   -- | Furthermore, assume we have the terms [..] and [..].
   module _ (te : UntypedℒHM k) (se : UntypedℒHM k) where
 
+    νs = νsₐ
 
     -- | First the algorithm computes the typing for |te|,
     --   thus we assume that there is such a typing instance.
-    module _ (𝑇-te! : InitialCtxTypingInstance Γ te) where
+    module Success-te (𝑇-te! : InitialCtxTypingInstance Γ te) where
 
       open Σ 𝑇-te! renaming
         ( fst to 𝑇-te
@@ -132,8 +105,9 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
         ; hasType to Γ₀⊢αᵇ₀
         )
 
+
       -- | Next use this context to typecheck the term |se|.
-      module _ (𝑇-se! : InitialCtxTypingInstance Γ₀ se) where
+      module Success-se (𝑇-se! : InitialCtxTypingInstance Γ₀ se) where
 
         open Σ 𝑇-se! renaming
           ( fst to 𝑇-se
@@ -149,7 +123,6 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
           ; hasType to Γ₁⊢βᵇ₁
           )
 
-        νs = νsₐ
 
 
         σᵃᵤ₀ : _ ⟶ νs₀ₐ
@@ -218,7 +191,7 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
 
         -- | Now assume we have the coeq.
-        module _ (x : hasCoequalizer (asArr u) (asArr v)) where
+        module Success-Coeq (x : hasCoequalizer (asArr u) (asArr v)) where
 
           -- we now have the coequalizer `π₌`,
           -- but we need to factorize the map ι₀ ◆ π
@@ -294,57 +267,57 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
           module lem-6 where abstract
             Proof : Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ ≡ Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ
-            Proof = Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₂} {f = ι₀} {σ₂₃} ⟩-≡
-                  Γ₂ ⇃[ ι₀ ◆ σ₂₃ ]⇂ᶜ       ⟨ Γ₂ ⇃[≀ lem-0 ≀]⇂-CtxFor ⟩-≡
-                  Γ₂ ⇃[ σᵃ₂₃ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path (functoriality-◆-⇃[]⇂-CtxFor {Γ = Γ₂}) ⟩-≡
-                  Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ∎-≡
+            Proof = Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₂} {f = ι₀} {σ₂₃} ⟩-≡
+                    Γ₂ ⇃[ ι₀ ◆ σ₂₃ ]⇂ᶜ       ⟨ Γ₂ ⇃[≀ lem-0 ≀]⇂ᶜ ⟩-≡
+                    Γ₂ ⇃[ σᵃ₂₃ ◆ ι₀ ]⇂ᶜ      ⟨ sym-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₂}) ⟩-≡
+                    Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ∎-≡
 
           -------------
           -- lift the typing of se and te to νs₃
 
           module sp₃ where abstract
-            Proof : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
+            Proof : isTypedℒHM (νs₃ ⊩ (Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
             Proof = Γ₁⊢βᵇ₁
-                >> isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ βᵇ₁) se <<
+                >> isTypedℒHM (νs₁ₐ ⊔ νs₁ₓ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ βᵇ₁) se <<
                 ⟪ §-isTypedℒHM.prop-3 {Γ = Γ₁} ι₁ ⟫
-                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁) se <<
+                >> isTypedℒHM (νs₁ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁) se <<
                 ⟪ §-isTypedℒHM.prop-3 {Γ = Γ₁} ι₀ ⟫
-                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) se <<
-                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂) se <<
-                ⟪ §-isTypedℒHM.prop-2 {Γ = _ , Γ₂ ⇃[ ι₀ ]⇂ᶜ} {τ = β₂} σ₂₃ ⟫
-                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
+                >> isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) se <<
+                >> isTypedℒHM (νs₂ ⊩ (Γ₂ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂) se <<
+                ⟪ §-isTypedℒHM.prop-2 {Γ = Γ₂ ⇃[ ι₀ ]⇂ᶜ} {τ = β₂} σ₂₃ ⟫
+                >> isTypedℒHM (νs₃ ⊩ (Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
                 ⟪ transp-isTypedℒHM lem-6.Proof refl-≡ ⟫
-                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
-                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se <<
+                >> isTypedℒHM (νs₃ ⊩ (Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₂ ⇃[ σ₂₃ ]⇂) se <<
+                >> isTypedℒHM (νs₃ ⊩ (Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se <<
 
           module tp₃ where abstract
-            Proof : isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₃ ⇒ γ₃)) te
+            Proof : isTypedℒHM (νs₃ ⊩ (Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₃ ⇒ γ₃)) te
             Proof = Γ₀⊢αᵇ₀
 
-                >> isTypedℒHM (νs₀ ⊩ (_ , Γ₀ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ) te <<
+                >> isTypedℒHM (νs₀ ⊩ (Γ₀ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ) te <<
 
                 ⟪ §-isTypedℒHM.prop-4 {Γ = Γ₀} σᵃ₀₁ ι₀ ⟫
 
-                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ ι₀ ]⇂) te <<
+                >> isTypedℒHM (νs₁ ⊩ (Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ ) ⊢ αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ ι₀ ]⇂) te <<
 
                 ⟪ transp-isTypedℒHM (cong _⇃[ ι₀ ]⇂ᶜ (Γ₀<Γ₁ .snd)) refl-≡ ⟫
 
-                >> isTypedℒHM (νs₁ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ) te <<
+                >> isTypedℒHM (νs₁ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ) te <<
 
                 ⟪ §-isTypedℒHM.prop-3 {Γ = Γ₁} ι₀ ⟫
 
-                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) te <<
-                >> isTypedℒHM (νs₂ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₂) te <<
+                >> isTypedℒHM (νs₂ ⊩ (Γ₁ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₁ ⇃[ id ⇃⊔⇂ ι₀ ]⇂) te <<
+                >> isTypedℒHM (νs₂ ⊩ (Γ₂ ⇃[ ι₀ ]⇂ᶜ ) ⊢ α₂) te <<
 
                 ⟪ §-isTypedℒHM.prop-2 σ₂₃ ⟫
 
-                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ α₂ ⇃[ σ₂₃ ]⇂) te <<
+                >> isTypedℒHM (νs₃ ⊩ (Γ₂ ⇃[ ι₀ ]⇂ᶜ ⇃[ σ₂₃ ]⇂ᶜ) ⊢ α₂ ⇃[ σ₂₃ ]⇂) te <<
 
                 ⟪ transp-isTypedℒHM lem-6.Proof lem-5.Proof ⟫
 
-                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂) te <<
+                >> isTypedℒHM (νs₃ ⊩ (Γ₂ ⇃[ σᵃ₂₃ ]⇂ᶜ ⇃[ ι₀ ]⇂ᶜ) ⊢ (β₂ ⇒ γ₂) ⇃[ σ₂₃ ]⇂) te <<
                 ⟪ {!!} ⟫
-                >> isTypedℒHM (νs₃ ⊩ (_ , Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃ ⇒ γ₃) te <<
+                >> isTypedℒHM (νs₃ ⊩ (Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃ ⇒ γ₃) te <<
 
           -- this shows that we do have the typing instance
           𝑇 : CtxTypingInstance Γ (app te se)
@@ -453,7 +426,7 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
             -- ... thus we can use the universal property
             -- to get ⟨ x ⟩ ⟶ νs₄
             ε : ⟨ x ⟩ ⟶ νs₄
-            ε = ⦗ σ₂₄ , {!!} ⦘₌ -- lem-13
+            ε = ⦗ σ₂₄ , lem-13.Proof ⦘₌ -- lem-13
 
             -- using this coequalizer derived hom, we can now build the proper
             -- 3 -> 4 morphisms
@@ -557,6 +530,211 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
           Result = 𝑇 , isInitial:𝑇
 
           -- | And we are done!
+
+        --------------------------------------------------------------
+        -- FAIURE of coequalizer
+
+        module Fail-Coeq (¬Coeq : ¬ hasCoequalizerCandidate (asArr u , asArr v)) where
+
+          module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
+            open CtxTypingInstance 𝑆 renaming
+              ( metas to νs₄ₐ
+              ; typeMetas to νs₄ₓ
+              ; ctx to Ξ
+              ; typ to ζ₄
+              ; isInstance to Γ<Ξ
+              ; hasType to Ξ⊢ζ₄
+              )
+
+            -- | We know that the lam typing must have been derived by the
+            --   app rule.
+            inR = inv-app Ξ⊢ζ₄
+            ξ₄ = inR .fst
+            Ξ⊢ξ⇒ζ = inR .snd .fst
+            Ξ⊢ξ = inR .snd .snd
+
+
+            νs₄ : ℒHMTypes
+            νs₄ = νs₄ₐ ⊔ νs₄ₓ
+
+            σᵃᵤ₄ : νs ⟶ νs₄ₐ
+            σᵃᵤ₄ = fst Γ<Ξ
+
+            module ΩR₀ where abstract
+              Proof : 𝑇-te <TI (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+              Proof = Ω₀ (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+
+            σᵃ₀₄ : νs₀ₐ ⟶ νs₄ₐ
+            σᵃ₀₄ = tiSubₐ ΩR₀.Proof
+
+            σˣ₀₄ : νs₀ₓ ⟶ νs₄ₐ ⊔ νs₄ₓ
+            σˣ₀₄ = tiSubₓ ΩR₀.Proof
+
+            Γ₀<Ξ : Γ₀ <Γ Ξ
+            Γ₀<Ξ = record { fst = σᵃ₀₄ ; snd = ctxProofTI ΩR₀.Proof }
+
+            module ΩR₁ where abstract
+              Proof : 𝑇-se <TI (νs₄ₐ / νs₄ₓ ⊩ Ξ , ξ₄ , Γ₀<Ξ , Ξ⊢ξ)
+              Proof = Ω₁ (νs₄ₐ / νs₄ₓ ⊩ Ξ , ξ₄ , Γ₀<Ξ , Ξ⊢ξ)
+
+            σᵃ₁₄ : νs₁ₐ ⟶ νs₄ₐ
+            σᵃ₁₄ = tiSubₐ ΩR₁.Proof
+
+            σˣ₁₄ : νs₁ₓ ⟶ νs₄ₐ ⊔ νs₄ₓ
+            σˣ₁₄ = tiSubₓ ΩR₁.Proof
+
+
+            -------
+            -- we can build a substitution from νs₂ by mapping γ to ζ₄
+            -- {}
+            σₜ₄ : st ⟶ νs₄
+            σₜ₄ = ⧜subst (incl ζ₄)
+
+            σ₂₄ : νs₂ ⟶ νs₄
+            σ₂₄ = ⦗ σᵃ₁₄ ◆ ι₀ , ⦗ ⦗ σˣ₀₄ , σˣ₁₄ ⦘ , σₜ₄ ⦘ ⦘ -- ⦗ σ₁₄ , σₜ₄ ⦘
+            -- {}
+            ------
+
+            -- we know that under this substitution,
+            -- u = α₂ and v = β₂ ⇒ γ₂ become both ξ⇒ζ
+
+            module lem-11 where abstract
+              Proof : u ⇃[ σ₂₄ ]⇂ ≡ ξ₄ ⇒ ζ₄
+              Proof = αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ ι₀ ]⇂ ⇃[ id ⇃⊔⇂ ι₀ ]⇂ ⇃[ σ₂₄ ]⇂     ⟨ {!!} ⟩-≡
+                      αᵇ₀ ⇃[ ⦗ σᵃ₀₁ ◆ σᵃ₁₄ ◆ ι₀ , σˣ₀₄ ⦘ ]⇂             ⟨ {!!} ⟩-≡
+                      αᵇ₀ ⇃[ ⦗ σᵃ₀₄ ◆ ι₀ , σˣ₀₄ ⦘ ]⇂                    ⟨ typProof ΩR₀.Proof ⟩-≡
+                      ξ₄ ⇒ ζ₄                                         ∎-≡
+
+            -- we show how β₂ and γ₂ evaluate under σ₂₄
+            module lem-12a where abstract
+              Proof : β₂ ⇃[ σ₂₄ ]⇂ ≡ ξ₄
+              Proof = βᵇ₁ ⇃[ id ⇃⊔⇂ ι₁ ]⇂ ⇃[ id ⇃⊔⇂ ι₀ ]⇂ ⇃[ σ₂₄ ]⇂   ⟨ {!!} ⟩-≡
+                      βᵇ₁ ⇃[ ⦗ σᵃ₁₄ ◆ ι₀ , σˣ₁₄ ⦘ ]⇂                 ⟨ typProof ΩR₁.Proof ⟩-≡
+                      ξ₄                                            ∎-≡
+
+            module lem-12b where abstract
+              Proof : γ₂ ⇃[ σ₂₄ ]⇂ ≡ ζ₄
+              Proof = {!!} -- γᵇₜ ⇃[ ι₁ ◆ ι₁ ]⇂ ⇃[ σ₂₄ ]⇂           ⟨ {!!} ⟩-≡
+                        -- γᵇₜ ⇃[ σₜ₄ ]⇂                         ∎-≡
+
+            module lem-12 where abstract
+              Proof : v ⇃[ σ₂₄ ]⇂ ≡ ξ₄ ⇒ ζ₄
+              Proof = {!!} -- λ i -> lem-12a.Proof i ⇒ lem-12b.Proof i
+
+            -- taken together
+            module lem-13 where abstract
+              Proof : (asArr u) ◆ σ₂₄ ∼ (asArr v) ◆ σ₂₄
+              Proof = ((sym-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭) ∙-≣ lem-13a) ∙-≣ abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭
+                where
+                  lem-13a : ((asArr u) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ₂₄) ∼ ((asArr v) ◆-⧜𝐒𝐮𝐛𝐬𝐭 σ₂₄)
+                  lem-13a = {!!} -- cong-Str ⧜subst (cong-Str incl (≡→≡-Str (trans-Path lem-11.Proof (sym-Path lem-12.Proof))))
+
+            Result : 𝟘-𝒰
+            Result = ¬Coeq (νs₄ since record { π₌? = σ₂₄ ; equate-π₌? = lem-13.Proof })
+
+
+    ---------------------------------------------------------------
+    -- FAILURE of se
+
+      module Fail-se (¬𝑇-se : ¬ CtxTypingInstance Γ₀ se) where
+
+        --------------------------------------
+        -- BEGIN DUPLICATE CODE
+        --
+
+        module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
+          open CtxTypingInstance 𝑆 renaming
+            ( metas to νs₄ₐ
+            ; typeMetas to νs₄ₓ
+            ; ctx to Ξ
+            ; typ to ζ₄
+            ; isInstance to Γ<Ξ
+            ; hasType to Ξ⊢ζ₄
+            )
+
+
+          -- | We know that the lam typing must have been derived by the
+          --   app rule.
+          inR = inv-app Ξ⊢ζ₄
+          ξ₄ = inR .fst
+          Ξ⊢ξ⇒ζ = inR .snd .fst
+          Ξ⊢ξ = inR .snd .snd
+          -- α₃⇒β₃=δ₃ = inR .snd .snd .fst
+          -- Γ₃α₃⊢β₃ = inR .snd .snd .snd
+
+
+          νs₄ : ℒHMTypes
+          νs₄ = νs₄ₐ ⊔ νs₄ₓ
+
+          σᵃᵤ₄ : νs ⟶ νs₄ₐ
+          σᵃᵤ₄ = fst Γ<Ξ
+
+          module ΩR₀ where abstract
+            Proof : 𝑇-te <TI (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+            Proof = Ω₀ (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
+
+          σᵃ₀₄ : νs₀ₐ ⟶ νs₄ₐ
+          σᵃ₀₄ = tiSubₐ ΩR₀.Proof
+
+          σˣ₀₄ : νs₀ₓ ⟶ νs₄ₐ ⊔ νs₄ₓ
+          σˣ₀₄ = tiSubₓ ΩR₀.Proof
+
+          Γ₀<Ξ : Γ₀ <Γ Ξ
+          Γ₀<Ξ = record { fst = σᵃ₀₄ ; snd = ctxProofTI ΩR₀.Proof }
+
+          --
+          -- END DUPLICATE CODE
+          --------------------------------------
+
+          Result : 𝟘-𝒰
+          Result = ¬𝑇-se (νs₄ₐ / νs₄ₓ ⊩ Ξ , ξ₄ , Γ₀<Ξ , Ξ⊢ξ)
+
+
+    ---------------------------------------------------------------
+    -- FAILURE of te
+
+
+    module Fail-te (¬𝑇-te : ¬ CtxTypingInstance Γ te) where
+
+      --------------------------------------
+      -- BEGIN DUPLICATE CODE
+      --
+
+
+      module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
+        open CtxTypingInstance 𝑆 renaming
+          ( metas to νs₄ₐ
+          ; typeMetas to νs₄ₓ
+          ; ctx to Ξ
+          ; typ to ζ₄
+          ; isInstance to Γ<Ξ
+          ; hasType to Ξ⊢ζ₄
+          )
+
+
+        -- | We know that the lam typing must have been derived by the
+        --   app rule.
+        inR = inv-app Ξ⊢ζ₄
+        ξ₄ = inR .fst
+        Ξ⊢ξ⇒ζ = inR .snd .fst
+        Ξ⊢ξ = inR .snd .snd
+        -- α₃⇒β₃=δ₃ = inR .snd .snd .fst
+        -- Γ₃α₃⊢β₃ = inR .snd .snd .snd
+
+
+
+        νs₄ : ℒHMTypes
+        νs₄ = νs₄ₐ ⊔ νs₄ₓ
+
+        σᵃᵤ₄ : νs ⟶ νs₄ₐ
+        σᵃᵤ₄ = fst Γ<Ξ
+
+        --
+        -- END DUPLICATE CODE
+        --------------------------------------
+
+        Result : 𝟘-𝒰
+        Result = ¬𝑇-te (νs₄ₐ / νs₄ₓ ⊩ Ξ , ((ξ₄ ⇒ ζ₄)) , Γ<Ξ , Ξ⊢ξ⇒ζ)
 
 -- //
 
