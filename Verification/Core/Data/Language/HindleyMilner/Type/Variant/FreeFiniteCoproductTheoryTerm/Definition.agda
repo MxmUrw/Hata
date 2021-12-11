@@ -90,6 +90,10 @@ asArr t = ⧜subst (incl t)
 fromArr : ∀ {a} -> st ⟶ a -> ℒHMType ⟨ a ⟩
 fromArr (⧜subst (incl x)) = x
 
+isInjective:fromArr : ∀{a} {α β : st ⟶ a} -> fromArr α ≡ fromArr β -> α ≡ β
+isInjective:fromArr {α = ⧜subst (incl α)} {β = ⧜subst (incl β)} p = λ i -> ⧜subst (incl (p i))
+
+
 abstract
   unify-ℒHMTypes : ∀{a b : ℒHMTypes} -> (f g : a ⟶ b) -> (¬ hasCoequalizerCandidate (f , g)) +-𝒰 (hasCoequalizer f g)
   unify-ℒHMTypes f g = unify f g
@@ -101,9 +105,12 @@ abstract
   _⇃[_]⇂ : ∀{a b : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ a ⟩ tt -> (a ⟶ b) -> 𝒯⊔Term 𝒹 ⟨ b ⟩ tt
   _⇃[_]⇂ x f = fromArr (asArr x ◆ f)
 
+  -- the abstraction equality
+  abstract-⇃[]⇂ : ∀{a b : ℒHMTypes} -> {τ : 𝒯⊔Term 𝒹 ⟨ a ⟩ tt} -> {σ : a ⟶ b}
+                  -> fromArr (asArr τ ◆ σ) ≡ τ ⇃[ σ ]⇂
+  abstract-⇃[]⇂ = refl-≡
+
 -- //
-
-
 
 -- [Hide]
 
@@ -212,5 +219,4 @@ abstract
           in ≡-Str→≡ (cong-Str fromArr lem-1)
 
 -- //
-
 

@@ -77,6 +77,10 @@ module _ {A : 𝒰 𝑖} where
 
 -- [Hide]
 
+refl-≡ = refl-Path
+_∙-≡_ = trans-Path
+_⁻¹-≡_ = sym-Path
+
 module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
   ≡→∼ : ∀{a b : A} -> a ≡ b -> a ∼ b
   ≡→∼ {a} p = transport (λ i -> a ∼ p i) refl

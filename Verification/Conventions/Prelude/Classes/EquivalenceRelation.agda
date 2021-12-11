@@ -20,10 +20,6 @@ open import Verification.Conventions.Prelude.Classes.Setoid
 
 
 
-module _ {A : 𝒰 𝑖} where
-  refl-≡ : ∀{a : A} -> a ≡ a
-  refl-≡ = refl-Path
-
 
 -- [Definition]
 record isEquivRel {X : 𝒰 𝑖} (_≣_ : X -> X -> 𝒰 𝑗) : 𝒰 (𝑖 ⊔ 𝑗) where
