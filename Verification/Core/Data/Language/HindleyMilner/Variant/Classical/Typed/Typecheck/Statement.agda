@@ -56,17 +56,6 @@ record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q μs) (te : 
 
 open CtxTypingInstance public
 
--- record CtxTypingInstance {μs k} {Q : ℒHMQuant k} (Γ : ℒHMCtx Q μs) (te : UntypedℒHM k) : 𝒰₀ where
---   constructor _⊩_,_,_,_
---   field metas : ℒHMTypes
---   field ctx : ℒHMCtx Q (metas) --  ⊔ typeMetas)
---   field typ : ℒHMType (⟨ metas ⟩)
---   field isInstance : Γ <Γ ctx
---   -- field hiddenEpiSub : μs ⟶ metas
---   -- field hiddenEpiSubProof : hiddenEpiSub ◆ ι₀ ∼ (isInstance .fst)
---   field hasType : isTypedℒHM (metas ⊩ (Q , ctx) ⊢ typ) te
-
--- open CtxTypingInstance public
 
 
 module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {te : UntypedℒHM k}  where
@@ -76,10 +65,12 @@ module _ {μs k} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {te : UntypedℒHM k} 
     field typProof : typ 𝑇 ⇃[ ⦗ tiSubₐ ◆ ι₀ , tiSubₓ ⦘ ]⇂ ≡ typ 𝑆
     field subProof : isInstance 𝑇 .fst ◆ tiSubₐ ∼ isInstance 𝑆 .fst
 
-    -- field tiSub : metas 𝑇 ⊔ typeMetas 𝑇 ⟶ metas 𝑆 ⊔ typeMetas 𝑆
-
     ctxProofTI : ctx 𝑇 ⇃[ tiSubₐ ]⇂ᶜ ≡ ctx 𝑆
-    ctxProofTI = {!!}
+    ctxProofTI = ctx 𝑇 ⇃[ tiSubₐ ]⇂ᶜ  ⟨ cong _⇃[ tiSubₐ ]⇂ᶜ (sym-Path (isInstance 𝑇 .snd)) ⟩-≡
+                 Γ ⇃[ fst (isInstance 𝑇) ]⇂ᶜ ⇃[ tiSubₐ ]⇂ᶜ  ⟨ functoriality-◆-⇃[]⇂ᶜ {Γ = Γ} ⟩-≡
+                 Γ ⇃[ fst (isInstance 𝑇) ◆ tiSubₐ ]⇂ᶜ  ⟨ Γ ⇃[≀ subProof ≀]⇂ᶜ ⟩-≡
+                 Γ ⇃[ fst (isInstance 𝑆) ]⇂ᶜ           ⟨ isInstance 𝑆 .snd ⟩-≡
+                 ctx 𝑆 ∎-≡
 
   open _<TI_ public
 

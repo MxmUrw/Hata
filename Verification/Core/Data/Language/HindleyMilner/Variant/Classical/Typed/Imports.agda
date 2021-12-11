@@ -238,3 +238,14 @@ assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔'.Proof {a = a} {b} {c}
 -- END DUPLICATE CODE
 -------------
 
+---------------------------
+-- other categorical proofs
+
+module §-ℒHMTypes where
+  prop-1 : ∀{a b : ℒHMTypes} -> id {a = a ⊔ b} ∼ ⦗ ι₀ , ι₁ ⦘
+  prop-1 =
+    id                    ⟨ expand-ι₀,ι₁ ⟩-∼
+    ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘ ⟨ ⦗≀ unit-r-◆ , unit-r-◆ ≀⦘ ⟩-∼
+    ⦗ ι₀ , ι₁ ⦘           ∎
+
+

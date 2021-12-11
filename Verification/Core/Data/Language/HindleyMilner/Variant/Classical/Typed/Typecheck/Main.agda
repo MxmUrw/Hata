@@ -1,37 +1,12 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
+
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Main where
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
-open import Verification.Core.Set.Setoid.Definition
-open import Verification.Core.Set.Discrete
-open import Verification.Core.Set.Contradiction
-open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.Product.Definition
-open import Verification.Core.Data.Sum.Definition
 
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
-
-open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
-
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
-
-open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Morphism.Iso
-open import Verification.Core.Category.Std.Category.Subcategory.Full
-open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
-open import Verification.Core.Computation.Unification.Definition
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
@@ -48,23 +23,6 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Case.App
 
 open import Verification.Core.Order.Preorder
-
-
-{-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
-{-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}
-{-# DISPLAY isCoproduct.ι₁ _ = ι₁ #-}
-{-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
-{-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
-
--- instance
---   hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
---   hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
-
-
--- assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
--- assoc-l-⊔-ℒHMTypes = {!!}
-
-
 
 
 
