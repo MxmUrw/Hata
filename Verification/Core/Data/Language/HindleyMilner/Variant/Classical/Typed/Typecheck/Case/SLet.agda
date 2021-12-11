@@ -130,9 +130,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
         -- | We have the following facts.
         Γ₀<Γ₁ : Γ₀ <Γ Γ₁
-        Γ₀<Γ₁ = record { fst = α₀Γ₀<Δ .fst ; snd = {!!} }
-        -- Γ₀<Γ₁ = record { fst = α₀Γ₀<α₁Γ₁ .fst ; snd = {!!} }
-        --   -- tail-SomeℒHMCtx α₀Γ₀<α₁Γ₁
+        Γ₀<Γ₁ = record { fst = α₀Γ₀<Δ .fst ; snd = λ i -> split-Listᴰ² (snd α₀Γ₀<Δ i) .snd  }
 
         σᵃ₀₁ = fst Γ₀<Γ₁
 
@@ -140,11 +138,10 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
         α₁' = (α₁ ⇃[ ι₀ ⇃⊔⇂ id ]⇂)
 
         lem-1a : αᵇ₀ ⇃[ σᵃ₀₁ ⇃⊔⇂ id ]⇂ ≡ α₁
-        lem-1a = {!!} -- λ i -> split-Listᴰ² (α₀Γ₀<α₁Γ₁ .snd i) .fst
+        lem-1a = λ i -> split-Listᴰ² (α₀Γ₀<Δ .snd i) .fst
 
         lem-1b : Γ₀ ⇃[ σᵃ₀₁ ]⇂ᶜ ≡ Γ₁
-        lem-1b = {!!} -- λ i -> split-Listᴰ² (α₀Γ₀<α₁Γ₁ .snd i) .snd
-
+        lem-1b = λ i -> split-Listᴰ² (α₀Γ₀<Δ .snd i) .snd
 
         -- | And this typing judgement.
         -- abstract
@@ -215,7 +212,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
           σ₂₃₊ = metasProof isAb₂
 
           あ : ((νs₃ₐ ⊔ νs₃ₓ) ⊔ νs₃ₓ₊) ≅ (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))
-          あ = {!!} -- let x = assoc-l-⊔-ℒHMTypes {a = νs₃ₐ} {b = νs₃ₓ} {c = νs₃ₓ₊} in x
+          あ = assoc-l-⊔-ℒHMTypes
 
           α₃' : ℒHMType ⟨(νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊))⟩
           α₃' = α₃ ⇃[ ⟨ あ ⟩ ]⇂
@@ -231,7 +228,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
                   >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⊢ α₃) te <<
                   ⟪ §-isTypedℒHM.prop-2 ⟨ あ ⟩ ⟫
                   >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ◆ ι₀ ]⇂ᶜ ⇃[ ⟨ あ ⟩ ]⇂ᶜ ⊢ α₃ ⇃[ ⟨ あ ⟩ ]⇂) te <<
-                  ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃}) (Γ₃ ⇃[≀ {!!} ≀]⇂ᶜ)) refl-≡ ⟫
+                  ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃}) (Γ₃ ⇃[≀ §-assoc-l-⊔'.prop-1 ≀]⇂ᶜ)) refl-≡ ⟫
                   >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te <<
 
           -- | And we call this one.
@@ -248,20 +245,30 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
           α₀' = αᵇ₀ ⇃[ σᵃ₀₃ ⇃⊔⇂ id ]⇂
 
-          -- ⟨a⟩⁻¹ : (νs₃ₐ ⊔ (νs₃ₓ ⊔ νs₃ₓ₊)) ⟶ (νs₃ₐ ⊔ νs₃ₓ ⊔ νs₃ₓ₊)
-          -- ⟨a⟩⁻¹ = {!!}
-
-          -- module lem-14 where abstract
-          --   Proof : ⦗ σᵃ₀₃ ◆ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨a⟩⁻¹ ⦘ ≣ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨a⟩⁻¹
-          --   Proof = {!!}
-
           module lem-14 where abstract
-            Proof : ⦗ σᵃ₀₃ ◆ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ≣ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹
-            Proof = {!!}
+            sublem-01 : σᵃ₀₃ ◆ (ι₀ ◆ ι₀) ∼ σᵃ₀₃ ◆ ι₀ ◆ ⟨ あ ⟩⁻¹
+            sublem-01 = (refl ◈ §-assoc-l-⊔'.prop-1') ∙ assoc-r-◆
+
+            Proof : ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ≣ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹
+            Proof = ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘        ⟨ ⦗≀ sublem-01 , refl ≀⦘ ⟩-∼
+                    ⦗ σᵃ₀₃ ◆ ι₀ ◆ ⟨ あ ⟩⁻¹ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘  ⟨ append-⦗⦘ ⁻¹ ⟩-∼
+                    ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹            ∎
 
           module lem-15 where abstract
             Proof : α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂ ≡ α₃
-            Proof = {!!}
+            Proof = α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂         ⟨ functoriality-◆-⇃[]⇂ {τ = α₀'} ⟩-≡
+                    α₀' ⇃[ (ι₀ ⇃⊔⇂ id) ◆ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂           ⟨ α₀' ⇃[≀ append-⇃⊔⇂ ≀]⇂ ⟩-≡
+                    α₀' ⇃[ ⦗ ι₀ ◆ ι₀ , id ◆ (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⦘ ]⇂             ⟨ α₀' ⇃[≀ ⦗≀ refl , unit-l-◆ ≀⦘ ≀]⇂ ⟩-≡
+                    α₀' ⇃[ ⦗ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂                    ⟨ functoriality-◆-⇃[]⇂ {τ = αᵇ₀} ⟩-≡
+                    αᵇ₀ ⇃[ (σᵃ₀₃ ⇃⊔⇂ id) ◆ ⦗ ι₀ ◆ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂    ⟨ αᵇ₀ ⇃[≀ append-⇃⊔⇂ ≀]⇂ ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , id ◆ (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⦘ ]⇂    ⟨ αᵇ₀ ⇃[≀ ⦗≀ refl , unit-l-◆ ≀⦘ ≀]⇂ ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ (ι₀ ◆ ι₀) , (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⦘ ]⇂         ⟨ αᵇ₀ ⇃[≀ lem-14.Proof ≀]⇂ ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ◆ ⟨ あ ⟩⁻¹ ]⇂                  ⟨ sym-Path (functoriality-◆-⇃[]⇂ {τ = αᵇ₀}) ⟩-≡
+                    αᵇ₀ ⇃[ ⦗ σᵃ₀₃ ◆ ι₀ , σˣ₀₃ ⦘ ]⇂ ⇃[ ⟨ あ ⟩⁻¹ ]⇂              ⟨ cong _⇃[ ⟨ あ ⟩⁻¹ ]⇂ (typProof Ω₀R.Proof) ⟩-≡
+                    α₃' ⇃[ ⟨ あ ⟩⁻¹ ]⇂                                         ⟨ functoriality-◆-⇃[]⇂ {τ = α₃} ⟩-≡
+                    α₃  ⇃[ ⟨ あ ⟩ ◆ ⟨ あ ⟩⁻¹ ]⇂                                ⟨ α₃ ⇃[≀ inv-r-◆ (of あ) ≀]⇂ ⟩-≡
+                    α₃  ⇃[ id ]⇂                                               ⟨ functoriality-id-⇃[]⇂ ⟩-≡
+                    α₃                                                         ∎-≡
 
           abstract
             lem-20 : isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ ((α₀' ∷ Γ₃) ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃) se
@@ -269,7 +276,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
                   >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₃ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
                   ⟪ transp-isTypedℒHM ((λ i -> lem-15.Proof (~ i) ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ))) refl-≡ ⟫
                   >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ⇃[ ⦗ ι₀ , σˣ₀₃ ◆ ⟨ あ ⟩⁻¹ ⦘ ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
-                  ⟪ {!!} ⟫
+                  ⟪ §2-isTypedℒHM.prop-2 {α = α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂} (σˣ₀₃ ◆ ⟨ あ ⟩⁻¹) ⟫
                   >> isTypedℒHM ((νs₃ₐ ⊔ νs₃ₓ) ⊩ (α₀' ⇃[ ι₀ ⇃⊔⇂ id ]⇂ ∷ (Γ₃ ⇃[ ι₀ ]⇂ᶜ)) ⊢ β₃) se <<
 
           α₀Γ₀<α₀'Γ₃ :  α₀Γ₀ <Γ (α₀' ∷ Γ₃)
@@ -308,5 +315,3 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
   -- | With this we are done.
 
 -- //
-{-
--}

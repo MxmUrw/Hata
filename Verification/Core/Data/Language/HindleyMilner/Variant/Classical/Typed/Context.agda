@@ -114,7 +114,12 @@ data ℒHMQuantMap (μs : ℒHMTypes) : ∀{k} (Q R : ℒHMQuant k) -> 𝒰₀ w
   _∷_ : ∀{k νs₀ νs₁ Q R} -> (σ : νs₀ ⟶ μs ⊔ νs₁) -> ℒHMQuantMap μs {k} Q R
       -> ℒHMQuantMap μs {tt ∷ k} (νs₀ ∷ Q) (νs₁ ∷ R)
 
+
 module _ {μs} where
+  id-ℒHMQuant : ∀{k} {Q : ℒHMQuant k} -> ℒHMQuantMap μs Q Q
+  id-ℒHMQuant {Q = []} = []
+  id-ℒHMQuant {k = tyᵗ ∷ ks} {Q = incl ⟨_⟩₁ ∷ Q} = ι₁ ∷ id-ℒHMQuant
+
   lookup-ℒHMQuantMap : ∀{k i} -> {Q R : ℒHMQuant k} -> (σ : ℒHMQuantMap μs Q R) -> (k∍i : k ∍♮ i)
                        -> lookup-Listᴰ Q k∍i ⟶ μs ⊔ lookup-Listᴰ R k∍i
   lookup-ℒHMQuantMap (σ ∷ σs) incl = σ
@@ -123,7 +128,6 @@ module _ {μs} where
   apply-ℒHMQuantMap : ∀{k} {Q R : ℒHMQuant k} -> (ℒHMQuantMap μs Q R) -> ℒHMCtx Q μs -> ℒHMCtx R μs
   apply-ℒHMQuantMap [] [] = []
   apply-ℒHMQuantMap (σ ∷ σs) (τ ∷ Γ) = τ ⇃[ ⦗ ι₀ , σ ⦘ ]⇂ ∷ apply-ℒHMQuantMap σs Γ
-
 
 module _ {μs₀} {μs₁} where
   extend-ℒHMQuantMap : ∀{k} {Q R : ℒHMQuant k} -> (μs₀ ⟶ μs₁) -> (ℒHMQuantMap μs₀ Q R) -> (ℒHMQuantMap μs₁ Q R)
@@ -151,8 +155,22 @@ module §-ℒHMQuantMap where
   prop-2 (σ ∷ σs) (c ∷ Γ) incl = refl-≡
   prop-2 (σ ∷ σs) (c ∷ Γ) (skip k∍i) = prop-2 σs Γ k∍i
 
+  -- Applying the identity map does nothing
+  prop-3 : ∀{k μs} {Q : ℒHMQuant k}
+         -> {Γ : ℒHMCtx Q μs}
+         -> apply-ℒHMQuantMap (id-ℒHMQuant {Q = Q}) Γ ≡ Γ
+  prop-3 {k = ⦋⦌} {Q = .[]} {Γ = []} = refl-≡
+  prop-3 {k = tyᵗ ∷ k} {Q = .(_ ∷ _)} {Γ = c ∷ Γ} = λ i → lem-1 i ∷ prop-3 {Γ = Γ} i
+    where
+      lem-1 : c ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂ ≡ c
+      lem-1 = c ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂    ⟨ c ⇃[≀ ⦗≀ unit-r-◆ ⁻¹ , unit-r-◆ ⁻¹ ≀⦘ ≀]⇂ ⟩-≡
+              c ⇃[ ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘ ]⇂    ⟨ c ⇃[≀ expand-ι₀,ι₁ ⁻¹ ≀]⇂ ⟩-≡
+              c ⇃[ id ]⇂                      ⟨ functoriality-id-⇃[]⇂ ⟩-≡
+              c                               ∎-≡
 
 
+
+{-
 
 sz : ∀{a b : ℒHMTypes} -> a ⟶ b
 sz = ⧜subst (construct-⋆Listᴰ λ {tt x → con ℕᵗ ◌-⧜})
@@ -178,3 +196,5 @@ module §-ϖ where
   prop-2 = {!!}
 
 -- //
+
+-}

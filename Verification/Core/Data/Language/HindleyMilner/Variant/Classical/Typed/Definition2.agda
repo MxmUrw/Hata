@@ -116,4 +116,19 @@ module §2-isTypedℒHM where
       lem-10 : Γ ⇃[ ϕ ]⇂ᶜ ⇃[ ⟨ σ ⟩ ]⇂ᶜ ≡ Γ ⇃[ ι₀ ]⇂ᶜ
       lem-10 = {!!}
 
+  prop-2 : ∀{k μs νs₀ νs₁ te} {Q : ℒHMQuant k} {Γ : ℒHMCtx Q μs} {τ : ℒHMType ⟨ μs ⟩}
+        -- -> (σs : ℒHMQuantMap μs Q R)
+        -> {α : ℒHMType ⟨ μs ⊔ νs₀ ⟩}
+        -> (σ : νs₀ ⟶ μs ⊔ νs₁)
+        -> isTypedℒHM (μs ⊩ (α ⇃[ ⦗ ι₀ , σ ⦘ ]⇂ ∷' Γ) ⊢ τ) te
+        -> isTypedℒHM (μs ⊩ (α ∷ Γ) ⊢ τ) te
+  prop-2 {μs = μs} {νs₀} {νs₁} {te} {Q = Q} {Γ = Γ} {τ = τ} {α = α} σ p =
+    let σs : ℒHMQuantMap μs (νs₀ ∷' Q) (νs₁ ∷ Q)
+        σs = σ ∷ id-ℒHMQuant
+        lem-1 : isTypedℒHM (μs ⊩ (apply-ℒHMQuantMap σs (α ∷ Γ)) ⊢ τ) te
+        lem-1 = p
+              ⟪ transp-isTypedℒHM (λ i -> α ⇃[ ⦗ ι₀ , σ ⦘ ]⇂ ∷ §-ℒHMQuantMap.prop-3 {Γ = Γ} (~ i)) refl-≡ ⟫
+
+    in prop-1 σs lem-1
+
 

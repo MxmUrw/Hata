@@ -191,6 +191,9 @@ module §-assoc-l-⊔' where
             ι₀ ◆ _         ⟨ reduce-ι₀ ⟩-∼
             ι₀             ∎
 
+  prop-1' : ∀{a b c : ℒHMTypes} -> (ι₀ ◆ ι₀) ∼ ι₀ ◆ ⟨ assoc-l-⊔'.Proof {a = a} {b} {c} ⟩⁻¹
+  prop-1' = switch-≅-r {f = ι₀ ◆ ι₀} {ψ = assoc-l-⊔'.Proof} {g = ι₀} prop-1
+
   prop-2 : ∀{a b c x : ℒHMTypes}
            -> {f : a ⟶ x} {g : b ⟶ x} {h : c ⟶ x}
            -> ⦗ f , ⦗ g , h ⦘ ⦘ ∼ ⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘
