@@ -11,8 +11,7 @@ open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 
 
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Untyped.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
@@ -21,8 +20,6 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Definition2
-
-open import Verification.Core.Order.Preorder
 
 -- [Lemma]
 -- | "Inversion of Var"

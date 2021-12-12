@@ -7,8 +7,7 @@ open import Verification.Conventions hiding (ℕ ; _⊔_)
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Definition
