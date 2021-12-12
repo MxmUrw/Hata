@@ -4,7 +4,7 @@ module Verification.Core.Data.Tree.Variant.Token.Instance.Infer where
 open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Data.Nat.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Instance.Category
 open import Verification.Core.Data.AllOf.Product

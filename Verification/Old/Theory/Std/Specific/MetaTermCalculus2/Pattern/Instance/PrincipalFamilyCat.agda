@@ -14,7 +14,7 @@ open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category hiding (isCategory:𝒰)
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2

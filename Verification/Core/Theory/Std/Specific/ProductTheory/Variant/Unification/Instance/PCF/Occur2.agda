@@ -43,7 +43,7 @@ open import Verification.Core.Order.Lattice hiding (⊥)
 
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.Indexed.Instance.FiniteCoproductCategory

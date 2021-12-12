@@ -9,7 +9,7 @@ open import Verification.Core.Algebra.Monoid.Definition
 
 open import Verification.Core.Data.Product.Definition
 
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.List.Variant.Unary.Element

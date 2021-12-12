@@ -31,7 +31,7 @@ open import Verification.Core.Category.Std.Category.Subcategory.Definition
 open import Verification.Core.Category.Std.Morphism.EpiMono
 -- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.FiniteIndexed.Definition

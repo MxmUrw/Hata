@@ -4,7 +4,7 @@ module Verification.Core.Data.Indexed.LiftFunctor where
 open import Verification.Core.Conventions
 
 open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Set.Definition
 open import Verification.Core.Set.Contradiction

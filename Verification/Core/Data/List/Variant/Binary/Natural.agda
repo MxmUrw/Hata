@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.Nat.Free where
+module Verification.Core.Data.List.Variant.Binary.Naturaliant.Binary.Natural where
 
 open import Verification.Core.Conventions renaming (ℕ to Nat)
 

@@ -1,85 +1,23 @@
 
-module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition where
-
+module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Properties where
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
-open import Verification.Core.Set.Setoid.Definition
-open import Verification.Core.Set.Discrete
-open import Verification.Core.Algebra.Monoid.Definition
 
-open import Verification.Core.Data.Product.Definition
-
-open import Verification.Core.Data.List.Variant.Binary.Natural
-open import Verification.Core.Data.Universe.Definition
-open import Verification.Core.Data.Universe.Instance.Category
-open import Verification.Core.Data.List.Variant.Unary.Definition
-open import Verification.Core.Data.List.Variant.Unary.Element
-open import Verification.Core.Data.List.Variant.Unary.Natural
-open import Verification.Core.Data.List.Variant.Binary.Definition
-open import Verification.Core.Data.List.Variant.Binary.Element.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Unary.Definition
-open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
-open import Verification.Core.Data.Substitution.Variant.Base.Definition
-
--- open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition using (append-⦗⦘ ; ⦗≀_≀⦘)
-open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
-  -- renaming (_⇃⊔⇂_ to _⇃⊔⇂ᵘ_)
-
-open import Verification.Core.Computation.Unification.Definition
-
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Unification
-
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
 
 
-{-
---------------------------------------
--- optimizations
+-- [Hide]
 
-open Overwrite:isCategory:⧜𝒯⊔Term 𝒹
-open Overwrite:isCoproduct:⧜𝒯⊔Term 𝒹
-open Overwrite:hasCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasFiniteCoproducts:⧜𝒯⊔Term 𝒹
-open Overwrite:hasInitial:⧜𝒯⊔Term 𝒹
-open Overwrite:isInitial:⧜𝒯⊔Term 𝒹
-
-private
-  _⟶_ = Hom
-  -- _≅_ = _≅ᵘ_ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-  -- ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = ⧜𝒯⊔Term 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-
-
--- abstract
---   infixl 100 _⇃⊔⇂_
---   _⇃⊔⇂_ : ∀{a b c d : ⧜𝒯⊔Term 𝒹} -> (a ⟶ b) -> (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
---   _⇃⊔⇂_ = _⇃⊔⇂ᵘ_
-
-
-
---------------------------------------
--- actual beginning
-
--- [Notation]
--- | We write |ℒHMType| for a term in that signature, i.e.:
-ℒHMType : (Γ : 人ℕ) -> 𝒰₀
-ℒHMType Γ = 𝒯⊔Term 𝒹 Γ tt
--- //
-
--- [Notation]
--- | We denote the category of type substitutions by:
-ℒHMTypesᵘ : 𝒰₀
-ℒHMTypesᵘ = ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term 𝒹)
-
-macro ℒHMTypes = #structureOn ℒHMTypesᵘ
+instance
+  hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
+  hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
 
 -- //
+
+
 
 -- [Hide]
 st : ℒHMTypes
@@ -221,5 +159,3 @@ abstract
           in ≡-Str→≡ (cong-Str fromArr lem-1)
 
 -- //
-
--}

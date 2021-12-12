@@ -24,7 +24,7 @@ open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Core.Data.Universe.Instance.SeparatingFamily
 
 open import Verification.Core.Data.Nat.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Xiix
 open import Verification.Core.Data.Indexed.Instance.Monoid

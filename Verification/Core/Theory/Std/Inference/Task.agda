@@ -6,7 +6,7 @@ open import Verification.Conventions hiding (ℕ)
 
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Setoid.Instance.Category
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition

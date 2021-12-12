@@ -31,7 +31,7 @@ open import Verification.Core.Category.Std.Functor.Adjoint
 
 open import Verification.Core.Data.Indexed.Duplicate
 
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.FiniteIndexed.Definition

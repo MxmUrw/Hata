@@ -5,7 +5,7 @@ open import Verification.Conventions hiding (_⊔_)
 open import Verification.Core.Set.Contradiction
 open import Verification.Core.Set.Setoid.Definition
 open import Verification.Core.Set.Function.Surjective
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Sum.Instance.Functor

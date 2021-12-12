@@ -9,7 +9,7 @@ open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.Product.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.Sum.Instance.Functor
 open import Verification.Core.Data.Universe.Definition

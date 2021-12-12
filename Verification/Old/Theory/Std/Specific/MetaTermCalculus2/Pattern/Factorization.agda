@@ -30,7 +30,7 @@ open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Preservation
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
 
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory

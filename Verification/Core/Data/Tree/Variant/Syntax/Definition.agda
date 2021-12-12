@@ -4,7 +4,7 @@ module Verification.Core.Data.Tree.Variant.Syntax.Definition where
 open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.AllOf.List

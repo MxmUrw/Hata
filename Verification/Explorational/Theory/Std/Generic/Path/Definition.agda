@@ -2,7 +2,7 @@
 module Verification.Explorational.Theory.Std.Generic.Path.Definition where
 
 open import Verification.Conventions hiding (_⊕_)
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Category.Std.Category.Definition
 

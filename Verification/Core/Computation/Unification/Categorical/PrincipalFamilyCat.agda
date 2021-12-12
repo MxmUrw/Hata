@@ -14,7 +14,7 @@ open import Verification.Core.Data.Prop.Everything
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Sum.Definition
-open import Verification.Core.Data.Nat.Free
+open import Verification.Core.Data.List.Variant.Binary.Natural
 -- open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice
