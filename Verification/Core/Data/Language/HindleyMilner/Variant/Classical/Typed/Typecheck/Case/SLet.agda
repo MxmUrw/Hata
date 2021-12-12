@@ -67,14 +67,14 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
     -- | First, the algorithm computes the typing for |te|,
     --   thus we assume that there is such a typing instance.
-    module Success-te (𝑇-te! : InitialCtxTypingInstance Γ te) where
+    module Success-te (𝑇-te! : PrincipalTypeAssignment Γ te) where
 
       open Σ 𝑇-te! renaming
         ( fst to 𝑇-te
         ; snd to Ω₀
         )
 
-      open CtxTypingInstance 𝑇-te renaming
+      open TypeAssignment 𝑇-te renaming
         ( metas to νs₀ₐ
         ; typeMetas to νs₀ₓ
         ; ctx to Γ₀
@@ -94,14 +94,14 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
       -- | With this context we typecheck |se|, thus let us assume
       --   that there is such a typing instance [....]
-      module Success-se (𝑇-se! : InitialCtxTypingInstance (α₀Γ₀) se) where
+      module Success-se (𝑇-se! : PrincipalTypeAssignment (α₀Γ₀) se) where
 
         open Σ 𝑇-se! renaming
           ( fst to 𝑇-se
           ; snd to Ω₁
           )
 
-        open CtxTypingInstance 𝑇-se renaming
+        open TypeAssignment 𝑇-se renaming
           ( metas to νs₁ₐ
           ; typeMetas to νs₁ₓ
           ; ctx to Δ
@@ -110,7 +110,7 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
           ; hasType to Δ⊢βᵇ₁
           )
         -- (νs₁ₐ / νs₁ₓ ⊩ Δ , βᵇ₁ , α₀Γ₀<Δ , Δ⊢βᵇ₁)
-        -- module _ (((νs₁ₐ / νs₁ₓ ⊩ α₁Γ₁ , βᵇ₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢βᵇ₁), Ω₁) : InitialCtxTypingInstance (α₀Γ₀) se) where
+        -- module _ (((νs₁ₐ / νs₁ₓ ⊩ α₁Γ₁ , βᵇ₁ , α₀Γ₀<α₁Γ₁ , α₁Γ₁⊢βᵇ₁), Ω₁) : PrincipalTypeAssignment (α₀Γ₀) se) where
 
         -- | Since we know that |Δ| has the same quantifications as |α₀Γ₀|,
         --   we also know that it splits into [..] and [..].
@@ -180,13 +180,13 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
 
         -- | And this together gives us this typing instance.
-        𝑇 : CtxTypingInstance Γ (slet te se)
+        𝑇 : TypeAssignment Γ (slet te se)
         𝑇 = νs₁ₐ / νs₁ₓ ⊩ Γ₁ , βᵇ₁ , Γ<Γ₀ ⟡ Γ₀<Γ₁ , (slet isAb Γ₁⊢α₁' α₁Γ₁⊢βᵇ₁)
 
 
         -- | Now assume we are given another typing instance.
-        module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
-          open CtxTypingInstance 𝑆 renaming
+        module _ (𝑆 : TypeAssignment Γ (slet te se)) where
+          open TypeAssignment 𝑆 renaming
             ( metas to νs₃ₐ
             ; typeMetas to νs₃ₓ
             ; ctx to Γ₃
@@ -311,19 +311,19 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
           lem-50 : 𝑇 <TI 𝑆
           lem-50 = record { tiSubₐ = σᵃ₁₃ ; tiSubₓ = σˣ₁₃ ; typProof = lem-30 ; subProof = lem-40 }
 
-        Result : InitialCtxTypingInstance Γ (slet te se)
+        Result : PrincipalTypeAssignment Γ (slet te se)
         Result = 𝑇 , lem-50
 
 
   -- | With this we are done.
 
-      module Fail-se (¬𝑇-se : ¬ CtxTypingInstance (α₀Γ₀) se) where
+      module Fail-se (¬𝑇-se : ¬ TypeAssignment (α₀Γ₀) se) where
 
         --------------------------------------
         -- BEGIN DUPLICATE CODE
 
-        module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
-          open CtxTypingInstance 𝑆 renaming
+        module _ (𝑆 : TypeAssignment Γ (slet te se)) where
+          open TypeAssignment 𝑆 renaming
             ( metas to νs₃ₐ
             ; typeMetas to νs₃ₓ
             ; ctx to Γ₃
@@ -429,13 +429,13 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
           Result = ¬𝑇-se (νs₃ₐ / νs₃ₓ ⊩ α₀' ∷ Γ₃ , β₃ , α₀Γ₀<α₀'Γ₃ , lem-20)
 
 
-    module Fail-te (¬𝑇-te : ¬ CtxTypingInstance Γ te) where
+    module Fail-te (¬𝑇-te : ¬ TypeAssignment Γ te) where
 
       --------------------------------------
       -- BEGIN DUPLICATE CODE
 
-      module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
-        open CtxTypingInstance 𝑆 renaming
+      module _ (𝑆 : TypeAssignment Γ (slet te se)) where
+        open TypeAssignment 𝑆 renaming
           ( metas to νs₃ₐ
           ; typeMetas to νs₃ₓ
           ; ctx to Γ₃

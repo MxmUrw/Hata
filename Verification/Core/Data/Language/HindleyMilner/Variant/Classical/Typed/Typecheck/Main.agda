@@ -27,9 +27,9 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 -- | Typechecking for HM is decidable, the algorithm produces the
 --   initial typing instance. That is, there is a function [....]
 γ : ∀{μs k} {Q : ℒHMQuant k} -> (Γ : ℒHMCtx Q μs) -> (te : UntypedℒHM k)
-  -> (¬ CtxTypingInstance Γ te)
+  -> (¬ TypeAssignment Γ te)
     +
-     (InitialCtxTypingInstance Γ te)
+     (PrincipalTypeAssignment Γ te)
 
 -- | Proof.
 γ {μs} {k} {Q} Γ (var k∍i) = right $ (_ , typecheck-Var.Result Γ k∍i)

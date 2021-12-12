@@ -78,14 +78,14 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
     -- | Next, the algorithm computes the typing for |te|,
     --   thus we assume that there is such a typing instance.
-    module Success-te (𝑇-te! : InitialCtxTypingInstance (α₀ ∷ Γ₀) te) where
+    module Success-te (𝑇-te! : PrincipalTypeAssignment (α₀ ∷ Γ₀) te) where
 
       open Σ 𝑇-te! renaming
         ( fst to 𝑇-te
         ; snd to Ω
         )
 
-      open CtxTypingInstance 𝑇-te renaming
+      open TypeAssignment 𝑇-te renaming
         ( metas to μs₁ₐ
         ; typeMetas to μs₁ₓ
         ; ctx to Δ
@@ -257,13 +257,13 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
 
       -- | Finally we get a typing instance [..] given by [....]
 
-      𝑇 : CtxTypingInstance Γ (lam te)
+      𝑇 : TypeAssignment Γ (lam te)
       𝑇 = μs₂ₐ / (μs₂ₓ ⊔ μs₁ₓ) ⊩ Γ₂ , α₂ ⇒ β₂ , Γ<Γ₂ , (lem-05.Proof)
 
       -- | Now we want to show that this is the initial typing instance.
       -- | > Assume we are given another typing instance.
-      module _ (𝑆 : CtxTypingInstance Γ (lam te)) where
-        open CtxTypingInstance 𝑆 renaming
+      module _ (𝑆 : TypeAssignment Γ (lam te)) where
+        open TypeAssignment 𝑆 renaming
           ( metas to μs₃ₐ
           ; typeMetas to μs₃ₓ
           ; ctx to Γ₃
@@ -339,7 +339,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         α₀Γ₀<α₃Γ₃' = record { fst = σᵃ₀₃ ; snd = λ i → lem-10a.Proof i ∷ lem-10b.Proof i }
 
 
-        𝑆-te : CtxTypingInstance (α₀ ∷' Γ₀) te
+        𝑆-te : TypeAssignment (α₀ ∷' Γ₀) te
         𝑆-te = ((μs₃ₐ ⊔ μs₃ₓ) / ⊥ ⊩ α₃ ∷ Γ₃' , β₃' , α₀Γ₀<α₃Γ₃' , lem-9)
 
         module ΩR where abstract
@@ -653,7 +653,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         isInitial:𝑇 : 𝑇 <TI 𝑆
         isInitial:𝑇 = record { tiSubₐ = σᵃ₂₃ ; tiSubₓ = σˣ₂₃ ; typProof = trans-Path lem-50 α₃⇒β₃=δ₃ ; subProof = lem-20.Proof }
 
-      Result : InitialCtxTypingInstance Γ (lam te)
+      Result : PrincipalTypeAssignment Γ (lam te)
       Result = 𝑇 , isInitial:𝑇
 
     ---------------------------------------------------------------
@@ -667,7 +667,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
     --{}
 
     -- | Now, for the case where there is no typing for |te|.
-    module Fail-te (¬𝑇-te : ¬ CtxTypingInstance (α₀ ∷ Γ₀) te) where
+    module Fail-te (¬𝑇-te : ¬ TypeAssignment (α₀ ∷ Γ₀) te) where
 
       -- | Then we also do not have a typing instance.
       --   To show that, assume that we had one.
@@ -675,8 +675,8 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
       --------------------------------------
       -- DUPLICATE CODE BEGIN
 
-      module _ (𝑆 : CtxTypingInstance Γ (lam te)) where
-        open CtxTypingInstance 𝑆 renaming
+      module _ (𝑆 : TypeAssignment Γ (lam te)) where
+        open TypeAssignment 𝑆 renaming
           ( metas to μs₃ₐ
           ; typeMetas to μs₃ₓ
           ; ctx to Γ₃
@@ -751,7 +751,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         α₀Γ₀<α₃Γ₃' = record { fst = σᵃ₀₃ ; snd = λ i → lem-10a.Proof i ∷ lem-10b.Proof i }
 
 
-        𝑆-te : CtxTypingInstance (α₀ ∷' Γ₀) te
+        𝑆-te : TypeAssignment (α₀ ∷' Γ₀) te
         𝑆-te = ((μs₃ₐ ⊔ μs₃ₓ) / ⊥ ⊩ α₃ ∷ Γ₃' , β₃' , α₀Γ₀<α₃Γ₃' , lem-9)
 
         -- SAME CODE END

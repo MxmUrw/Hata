@@ -60,14 +60,14 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
     -- | First the algorithm computes the typing for |te|,
     --   thus we assume that there is such a typing instance.
-    module Success-te (𝑇-te! : InitialCtxTypingInstance Γ te) where
+    module Success-te (𝑇-te! : PrincipalTypeAssignment Γ te) where
 
       open Σ 𝑇-te! renaming
         ( fst to 𝑇-te
         ; snd to Ω₀
         )
 
-      open CtxTypingInstance 𝑇-te renaming
+      open TypeAssignment 𝑇-te renaming
         ( metas to νs₀ₐ
         ; typeMetas to νs₀ₓ
         ; ctx to Γ₀
@@ -78,14 +78,14 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
 
       -- | Next use this context to typecheck the term |se|.
-      module Success-se (𝑇-se! : InitialCtxTypingInstance Γ₀ se) where
+      module Success-se (𝑇-se! : PrincipalTypeAssignment Γ₀ se) where
 
         open Σ 𝑇-se! renaming
           ( fst to 𝑇-se
           ; snd to Ω₁
           )
 
-        open CtxTypingInstance 𝑇-se renaming
+        open TypeAssignment 𝑇-se renaming
           ( metas to νs₁ₐ
           ; typeMetas to νs₁ₓ
           ; ctx to Γ₁
@@ -278,13 +278,13 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
                 >> isTypedℒHM (νs₃ ⊩ (Γ₃ ⇃[ ι₀ ]⇂ᶜ) ⊢ β₃ ⇒ γ₃) te <<
 
           -- this shows that we do have the typing instance
-          𝑇 : CtxTypingInstance Γ (app te se)
+          𝑇 : TypeAssignment Γ (app te se)
           𝑇 = νs₃ₐ / νs₃ₓ ⊩ Γ₃ , γ₃ , Γ<Γ₃ , (app tp₃.Proof sp₃.Proof)
 
           -- | Now we want to show that this is the initial typing instance.
           -- | > Assume we are given another typing instance.
-          module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
-            open CtxTypingInstance 𝑆 renaming
+          module _ (𝑆 : TypeAssignment Γ (app te se)) where
+            open TypeAssignment 𝑆 renaming
               ( metas to νs₄ₐ
               ; typeMetas to νs₄ₓ
               ; ctx to Ξ
@@ -543,7 +543,7 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
           -- | Which means that we finally have our result [..], which is [....]
 
-          Result : InitialCtxTypingInstance Γ (app te se)
+          Result : PrincipalTypeAssignment Γ (app te se)
           Result = 𝑇 , isInitial:𝑇
 
           -- | And we are done!
@@ -553,8 +553,8 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
         module Fail-Coeq (¬Coeq : ¬ hasCoequalizerCandidate (asArr u , asArr v)) where
 
-          module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
-            open CtxTypingInstance 𝑆 renaming
+          module _ (𝑆 : TypeAssignment Γ (app te se)) where
+            open TypeAssignment 𝑆 renaming
               ( metas to νs₄ₐ
               ; typeMetas to νs₄ₓ
               ; ctx to Ξ
@@ -718,13 +718,13 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
     ---------------------------------------------------------------
     -- FAILURE of se
 
-      module Fail-se (¬𝑇-se : ¬ CtxTypingInstance Γ₀ se) where
+      module Fail-se (¬𝑇-se : ¬ TypeAssignment Γ₀ se) where
 
         --------------------------------------
         -- BEGIN DUPLICATE CODE
 
-        module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
-          open CtxTypingInstance 𝑆 renaming
+        module _ (𝑆 : TypeAssignment Γ (app te se)) where
+          open TypeAssignment 𝑆 renaming
             ( metas to νs₄ₐ
             ; typeMetas to νs₄ₓ
             ; ctx to Ξ
@@ -774,14 +774,14 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
     -- FAILURE of te
 
 
-    module Fail-te (¬𝑇-te : ¬ CtxTypingInstance Γ te) where
+    module Fail-te (¬𝑇-te : ¬ TypeAssignment Γ te) where
 
       --------------------------------------
       -- BEGIN DUPLICATE CODE
 
 
-      module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
-        open CtxTypingInstance 𝑆 renaming
+      module _ (𝑆 : TypeAssignment Γ (app te se)) where
+        open TypeAssignment 𝑆 renaming
           ( metas to νs₄ₐ
           ; typeMetas to νs₄ₓ
           ; ctx to Ξ

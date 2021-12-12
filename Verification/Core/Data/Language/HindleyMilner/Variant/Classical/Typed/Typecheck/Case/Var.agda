@@ -69,11 +69,11 @@ module typecheck-Var {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
     lem-1 = trans-Path (sym-Path (§-ℒHMCtx.prop-2 {Γ = Γ} k∍i ι₀ ι₁)) (lookup-Listᴰ² Γ k∍i ⇃[≀ §-ℒHMTypes.prop-1 ⁻¹ ≀]⇂)
 
     -- | This means that we have a typing instance.
-    𝑇 : CtxTypingInstance Γ (var k∍i)
+    𝑇 : TypeAssignment Γ (var k∍i)
     𝑇 = (μs / vα ⊩ Γ , α₀ , reflexive , var k∍i ι₁ lem-1)
 
     -- | Now assume that [..] is another given typing instance.
-    module _ (𝑆@(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , varP) : CtxTypingInstance Γ (var k∍i)) where
+    module _ (𝑆@(μs₁ / να₁ ⊩ Γ₁ , α₁ , Γ<Γ₁ , varP) : TypeAssignment Γ (var k∍i)) where
 
       -- | In particular, since |varP| is a proof that |Γ₁ ⊢ var k∍i : α₁|,
       --   we know that the derivation must have been given by a |var| constructor,
