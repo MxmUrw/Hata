@@ -660,12 +660,12 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
     ---------------------------------------------------------------
     -- FAIL (no te typing)
     ---------------------------------------------------------------
-    --
+    --{}
     -- NOTE:
     -- This is literally the same code as part of the initiality
     -- proof above. With some other architecture / definitions
     -- one should surely be able to prove both at the same time.
-    --
+    --{}
 
     -- | Now, for the case where there is no typing for |te|.
     module Fail-te (¬𝑇-te : ¬ CtxTypingInstance (α₀ ∷ Γ₀) te) where
@@ -674,8 +674,7 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
       --   To show that, assume that we had one.
 
       --------------------------------------
-      -- SAME CODE BEGIN
-      --
+      -- DUPLICATE CODE BEGIN
 
       module _ (𝑆 : CtxTypingInstance Γ (lam te)) where
         open CtxTypingInstance 𝑆 renaming
@@ -756,7 +755,6 @@ module typecheck-lam {μs : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ : �
         𝑆-te : CtxTypingInstance (α₀ ∷' Γ₀) te
         𝑆-te = ((μs₃ₐ ⊔ μs₃ₓ) / ⊥ ⊩ α₃ ∷ Γ₃' , β₃' , α₀Γ₀<α₃Γ₃' , lem-9)
 
-        --
         -- SAME CODE END
         --------------------------------------
 

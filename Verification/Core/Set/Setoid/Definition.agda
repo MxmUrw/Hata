@@ -24,7 +24,6 @@ module _ {A : 𝒰 𝑖} (S : isSetoid {𝑗} A) where
 
 
 
-
 module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isSetoid {𝑖₁} A}} {{_ : isSetoid {𝑗₁} B}} where
   instance
     isSetoid:× : isSetoid (A × B)

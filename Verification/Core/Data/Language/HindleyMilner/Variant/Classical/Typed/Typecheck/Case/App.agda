@@ -723,7 +723,6 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
         --------------------------------------
         -- BEGIN DUPLICATE CODE
-        --
 
         module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
           open CtxTypingInstance 𝑆 renaming
@@ -765,7 +764,6 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
           Γ₀<Ξ : Γ₀ <Γ Ξ
           Γ₀<Ξ = record { fst = σᵃ₀₄ ; snd = ctxProofTI ΩR₀.Proof }
 
-          --
           -- END DUPLICATE CODE
           --------------------------------------
 
@@ -781,7 +779,6 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
 
       --------------------------------------
       -- BEGIN DUPLICATE CODE
-      --
 
 
       module _ (𝑆 : CtxTypingInstance Γ (app te se)) where
@@ -812,7 +809,6 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
         σᵃᵤ₄ : νs ⟶ νs₄ₐ
         σᵃᵤ₄ = fst Γ<Ξ
 
-        --
         -- END DUPLICATE CODE
         --------------------------------------
 

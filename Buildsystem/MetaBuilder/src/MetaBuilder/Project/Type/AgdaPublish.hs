@@ -44,6 +44,7 @@ data AgdaPublishProjectConfig = AgdaPublishProjectConfig
   , projectName            :: String
   , libraryDefinitions_Filename :: String
   , bibfile_RelFile :: String
+  , abstract_RelFile :: String
   }
   deriving (Generic, Show)
 
@@ -71,6 +72,8 @@ data ExtraAgdaPublishProjectConfig = ExtraAgdaPublishProjectConfig
   , commands_AbFile                   :: FilePath
   , bibfile_Source_AbFile             :: String
   , bibfile_Target_AbFile             :: String
+  , abstract_Source_AbFile             :: String
+  , abstract_Target_AbFile             :: String
   }
   deriving (Show)
 
@@ -102,6 +105,9 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       bibfile_Source_AbFile = normalise (source_AbDir </> appc.>bibfile_RelFile)
       bibfile_Target_AbFile = normalise (buildTex </> appc.>bibfile_RelFile)
 
+      abstract_Source_AbFile = normalise (source_AbDir </> appc.>abstract_RelFile)
+      abstract_Target_AbFile = normalise (buildTex </> appc.>abstract_RelFile)
+
       agdaSty_Target_AbFile = buildTex </> "agda.sty"
       quiverSty_Target_AbFile = buildTex </> "quiver.sty"
 
@@ -125,6 +131,8 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
   , libraryDefinitions_Target_AbFile = libraryDefinitions_Target_AbFile
   , bibfile_Source_AbFile = bibfile_Source_AbFile
   , bibfile_Target_AbFile = bibfile_Target_AbFile
+  , abstract_Source_AbFile = abstract_Source_AbFile
+  , abstract_Target_AbFile = abstract_Target_AbFile
   , agdaSty_Target_AbFile = agdaSty_Target_AbFile
   , quiverSty_Target_AbFile = quiverSty_Target_AbFile
   , originalConfig = appc
@@ -197,6 +205,7 @@ makeRules_AgdaPublishProject egc eappc = do
                , eappc.>agdaSty_Target_AbFile 
                , eappc.>quiverSty_Target_AbFile
                , eappc.>bibfile_Target_AbFile
+               , eappc.>abstract_Target_AbFile
                ]
                ++ (eappc.>generateTex_Target_AbFiles)
                ++ generateTex_Source_Files
@@ -267,6 +276,12 @@ makeRules_AgdaPublishProject egc eappc = do
   (eappc.>bibfile_Target_AbFile) %> \file -> do
     need [egc.>metabuilder_AbFile]
     copyFile' (eappc.>bibfile_Source_AbFile) file
+
+  -- abstract
+  (eappc.>abstract_Target_AbFile) %> \file -> do
+    need [egc.>metabuilder_AbFile]
+    copyFile' (eappc.>abstract_Source_AbFile) file
+
 
   (eappc.>commands_AbFile) %> \file -> do
     -- source_Files <- getDirectoryFiles (eappc.>source_AbDir) ["//*.agda"]
@@ -379,6 +394,7 @@ generateMainTex texroot doc eappc = do
                                                      Just a -> T.pack a
                                                      Nothing -> T.pack "")
                 . replace (T.pack "{{BIBFILE}}") (T.pack $ toStandard $ eappc.>bibfile_Target_AbFile) -- we need to turn the path seps into '/'
+                . replace (T.pack "{{ABSTRACT}}") (T.pack $ toStandard $ eappc.>abstract_Target_AbFile) -- we need to turn the path seps into '/'
                 ) template
 
   return content

@@ -322,7 +322,6 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
         --------------------------------------
         -- BEGIN DUPLICATE CODE
-        --
 
         module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
           open CtxTypingInstance 𝑆 renaming
@@ -424,7 +423,6 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
           α₀Γ₀<α₀'Γ₃ :  α₀Γ₀ <Γ (α₀' ∷ Γ₃)
           α₀Γ₀<α₀'Γ₃ = record { fst = σᵃ₀₃ ; snd = λ i -> α₀' ∷ ctxProofTI Ω₀R.Proof i }
 
-          --
           -- END DUPLICATE CODE
           --------------------------------------
 
@@ -436,7 +434,6 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
 
       --------------------------------------
       -- BEGIN DUPLICATE CODE
-      --
 
       module _ (𝑆 : CtxTypingInstance Γ (slet te se)) where
         open CtxTypingInstance 𝑆 renaming
@@ -487,7 +484,6 @@ module typecheck-slet {μsᵤ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ 
                 ⟪ transp-isTypedℒHM (trans-Path (functoriality-◆-⇃[]⇂ᶜ {Γ = Γ₃}) (Γ₃ ⇃[≀ §-assoc-l-⊔'.prop-1 ≀]⇂ᶜ)) refl-≡ ⟫
                 >> isTypedℒHM (_ ⊩ Γ₃ ⇃[ ι₀ ]⇂ᶜ ⊢ α₃') te <<
 
-        --
         -- END DUPLICATE CODE
         --------------------------------------
 

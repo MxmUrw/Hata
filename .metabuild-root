@@ -24,6 +24,7 @@ agdaPublishProjects:
     fastbuild: true
     source_RelDir: Verification
     bibfile_RelFile: "Notes/Topic/VTC/references.bib"
+    abstract_RelFile: "Notes/Topic/VTC/Abstract.tex"
     libraryDefinitions_Filename: hata.agda-lib
     agdaPublishDocumentDescription:
       documentTitle: "Verified Type Checking (Test)"
@@ -43,6 +44,7 @@ agdaPublishProjects:
     fastbuild: true
     source_RelDir: Verification
     bibfile_RelFile: "Notes/Topic/VTC/references.bib"
+    abstract_RelFile: "Notes/Topic/VTC/Abstract.tex"
     # include_RelFiles:
     #   - Experimental/Theory/Std/Generic/Theory/Definition.agda
     #   - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
@@ -53,7 +55,7 @@ agdaPublishProjects:
       documentDate: ""
       documentFilesAndHeadings:
       - Notes/HataStandardImport.agda
-      # - = Introduction
+      - Notes/Topic/VTC/Introduction.agda
       # - = Basics
       # - == Lists
       # - Core/Data/List/Variant/Unary/Definition.agda
@@ -121,22 +123,24 @@ agdaPublishProjects:
       - == Types and Contexts
       - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Definition.agda
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Context/Definition.agda
-      - == Typed terms
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
-      - == Typechecking algorithm
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Main.agda
-      - === Case Var
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Var.agda
-      - === Case Let
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/SLet.agda
-      - === Case Lam
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Lam.agda
-      - === Case App
-      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/App.agda
-      - = Appendix
-      - == Notes
-      - Core/Data/List/Notes/ReasonForFreeMonoidVariant.agda
+      # - == Typed terms
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
+      # - == Typechecking algorithm
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Main.agda
+      # - === Case Var
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Var.agda
+      # - === Case Let
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/SLet.agda
+      # - === Case Lam
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Lam.agda
+      # - === Case App
+      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/App.agda
+      # - = Appendix
+      # - == Notes
+      # - Core/Data/List/Notes/ReasonForFreeMonoidVariant.agda
+      - Notes/Topic/VTC/Discussion.agda
+
 
 
 
@@ -147,6 +151,7 @@ agdaPublishProjects:
     fastbuild: false
     source_RelDir: Verification
     bibfile_RelFile: "Notes/Topic/Hata/references.bib"
+    abstract_RelFile: "Notes/Topic/VTC/Abstract.tex"
     agdaPublishDocumentDescription:
       documentTitle: "Project 旗"
       documentSubtitle: "Theory and Implementation of Programming Languages \\\\ \\vskip 0.8em Exposition, Development notes and Manual"
