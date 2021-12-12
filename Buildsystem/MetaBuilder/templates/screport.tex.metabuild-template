@@ -66,14 +66,6 @@ fontsize=11pt,
 \renewcommand*\dictumrule{}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% configuring japanese font
-
-\usepackage{xeCJK}
-\setCJKmainfont{EPSON 正楷書体Ｍ}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % Configuring Agda
 % \setlength{\AgdaEmptySkip}{4pt}
