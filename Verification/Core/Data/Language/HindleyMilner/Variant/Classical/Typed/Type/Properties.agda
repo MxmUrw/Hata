@@ -18,17 +18,90 @@ instance
 -- //
 
 
+-- | We define substitutions of types.
+--   for that we need some stuff.
+--   We mostly ignore the concrete definition
+--   of the category of type variables and
+--   substitutions. Merely using its categorical
+--   properties, in particular, that:
+-- | - it has coproducts,
+-- | - it has unification,
+-- | - it has epi-mono factorization.
+--
+-- |: Nevertheless, we also do want to work
+--    with concrete types, as defined in ...
+--    The relation of the category with these
+--    concrete types is given by the following few statements.
 
--- [Hide]
+-- | First, the element in |ℒHMTypes| representing
+--   a single type variable is given by:
 st : ℒHMTypes
 st = incl (incl tt)
 
-
-asArr : ∀ {a} -> ℒHMType ⟨ a ⟩ -> st ⟶ a
+-- | Next, given a type with type variables |μs|, we can consider it as a morphism
+--   from |st| to |μs| in |ℒHMType|.
+asArr : ∀{μs} -> ℒHMType ⟨ μs ⟩ -> (st ⟶ μs)
 asArr t = ⧜subst (incl t)
 
-fromArr : ∀ {a} -> st ⟶ a -> ℒHMType ⟨ a ⟩
+-- | Also, given such a morphism, we can extract the
+--   actual type from it.
+fromArr : ∀{μs} -> (st ⟶ μs) -> ℒHMType ⟨ μs ⟩
 fromArr (⧜subst (incl x)) = x
+
+-- | This allows us to define:
+abstract
+
+  -- [Definition]
+  -- | Let ... and a lot of stuff, then substitution is defined by:
+  _⇃[_]⇂ : ∀{μs νs : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ μs ⟩ tt -> (μs ⟶ νs) -> 𝒯⊔Term 𝒹 ⟨ νs ⟩ tt
+  _⇃[_]⇂ x f = fromArr (asArr x ◆ f)
+
+  infixl 80 _⇃[_]⇂
+
+  -- //
+
+  -- [Hide]
+  -- | Since substitution is abstract, we need a lemma for unwrapping the
+  --   definition.
+
+  -- the abstraction equality
+  abstract-⇃[]⇂ : ∀{a b : ℒHMTypes} -> {τ : 𝒯⊔Term 𝒹 ⟨ a ⟩ tt} -> {σ : a ⟶ b}
+                  -> fromArr (asArr τ ◆ σ) ≡ τ ⇃[ σ ]⇂
+  abstract-⇃[]⇂ = refl-≡
+  -- //
+
+-- [Lemma]
+-- | The substitution operation is functorial. That is,
+-- | 1. Substituting the identity morphism does not change the type.
+-- | 2. Substituting a composition of morphisms is the composition
+--      of substitutions.
+
+-- //
+
+-- [Proof]
+-- | To prove this, the definition of composition in |ℒHMTypes| has to be unwrapped,
+--   in order deal with the |fromArr| and |asArr| terms as given in REF Definition.
+--   But apart from that, it is done using the associativity and unitality of composition.
+--   Which in turn ultimately derives from the similar proofs in Section REF.
+
+-- //
+
+-- [Definition]
+-- | Instantiation and generic instantiation. Given a type scheme |τ : ℒHMType ⟨ μs ⊔ αs ⟩|,
+--   with free type variables |μs| and generic type variables |αs|, we can consider substitutions
+--   which only affect one kind of type variables:
+-- | - A substitution |σ : μs ⟶ νs| which only affects the free type variables.
+--     The type |τ' = τ ⇃[ σ ⇃⊔⇂ id ]⇂ : ℒHMType ⟨ μs ⊔ αs ⟩|, is called an /instance/ of the
+--     type |τ|.
+-- | - A substitution |σ : αs ⟶ μs ⊔ βs| which acts on the generic,bound variables |αs|,
+--     replacing them by terms which might contain the free variables |μs|, as well as
+--     elements of a list |βs| of new generic,bound variables.
+--     The type |τ' = τ ⇃[ ⦗ ι₀ , σ ⦘ ]⇂| is called a /generic instance/ of |τ|.
+
+-- //
+
+
+-- [Hide]
 
 isInjective:fromArr : ∀{a} {α β : st ⟶ a} -> fromArr α ≡ fromArr β -> α ≡ β
 isInjective:fromArr {α = ⧜subst (incl α)} {β = ⧜subst (incl β)} p = λ i -> ⧜subst (incl (p i))
@@ -38,17 +111,6 @@ abstract
   unify-ℒHMTypes : ∀{a b : ℒHMTypes} -> (f g : a ⟶ b) -> (¬ hasCoequalizerCandidate (f , g)) +-𝒰 (hasCoequalizer f g)
   unify-ℒHMTypes f g = unify f g
 
-
-infixl 80 _⇃[_]⇂
-
-abstract
-  _⇃[_]⇂ : ∀{a b : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ a ⟩ tt -> (a ⟶ b) -> 𝒯⊔Term 𝒹 ⟨ b ⟩ tt
-  _⇃[_]⇂ x f = fromArr (asArr x ◆ f)
-
-  -- the abstraction equality
-  abstract-⇃[]⇂ : ∀{a b : ℒHMTypes} -> {τ : 𝒯⊔Term 𝒹 ⟨ a ⟩ tt} -> {σ : a ⟶ b}
-                  -> fromArr (asArr τ ◆ σ) ≡ τ ⇃[ σ ]⇂
-  abstract-⇃[]⇂ = refl-≡
 
 -- //
 

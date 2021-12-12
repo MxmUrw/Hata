@@ -46,10 +46,10 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 -- Prereqs
 --
 
--- | First we define a record type to hold judgement statements
+-- | First we define a record type to hold typing statements.
 
 -- [Definition]
--- | A /judgement statement/ is an element of the type [..], which
+-- | A /typing statement/ is an element of the type [..], which
 --   is defined by
 record ℒHMJudgement : 𝒰₀ where
   constructor _⊩_⊢_
@@ -128,8 +128,8 @@ data isTypedℒHM : (Γ : ℒHMJudgement) -> (te : UntypedℒHM (s Γ)) -> 𝒰�
 
 
 -- [Lemma]
--- | We can substitute meta variables inside of
---   contexts.
+-- | We can transport along equalities of contexts and
+--   types.
 transp-isTypedℒHM : ∀{k μs te} {Q : ℒHMQuant k}
          -> {Γ₀ : ℒHMCtx Q μs} {τ₀ : ℒHMType ⟨ μs ⟩}
          -> {Γ₁ : ℒHMCtx Q μs} {τ₁ : ℒHMType ⟨ μs ⟩}

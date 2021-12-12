@@ -44,8 +44,9 @@ data UntypedℒHM : ♮ℕ -> 𝒰₀ where
   -- | - A constructor [..].
   lam : ∀{k} -> UntypedℒHM (tt ∷ k) -> UntypedℒHM k
 
--- #Notation/Rewrite# UntypedℒHM = Te
+-- #Notation/Rewrite# UntypedℒHM = Te_{HM}
 -- #Notation/Rewrite# ♮ℕ = {}^{∷}ℕ
+-- #Notation/Rewrite# 人ℕ = {}^{⋆}ℕ
 
 -- //
 

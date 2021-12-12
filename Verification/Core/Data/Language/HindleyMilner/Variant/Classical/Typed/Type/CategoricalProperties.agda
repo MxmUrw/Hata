@@ -8,17 +8,19 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
 
+
+-- [Hide]
+
+
 --------------------------------------
 -- NOTE
 -- This is code copied from:
 --   module Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.Monoidal where
 -- It is unclear why instantiation does
 -- not work here.
---
 
 -------------
 -- BEGIN DUPLICATE CODE
---
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -158,7 +160,6 @@ module §-assoc-l-⊔' where
 assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
 assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔'.Proof {a = a} {b} {c}
 
---
 -- END DUPLICATE CODE
 -------------
 
@@ -171,3 +172,6 @@ module §-ℒHMTypes where
     id                    ⟨ expand-ι₀,ι₁ ⟩-∼
     ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘ ⟨ ⦗≀ unit-r-◆ , unit-r-◆ ≀⦘ ⟩-∼
     ⦗ ι₀ , ι₁ ⦘           ∎
+
+
+-- //

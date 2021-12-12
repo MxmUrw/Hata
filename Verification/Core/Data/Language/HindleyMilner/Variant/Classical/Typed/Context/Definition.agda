@@ -13,19 +13,46 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 -----------------------------------------
 -- Ctx'
 
+-- | Contexts do contain type schemes, but they
+--   are not represented by a list of types
+--   with individual quantification declarations,
+--   but instead by two lists: The first defines the
+--   bound variables for each type in the context,
+--   the second list is the actual context, and
+--   contains a type for each quantification,
+--   using variables from that quantification,
+--   and an additionally given list of free variables.
 
 -- [Definition]
--- | We define a context quantification by
-ℒHMQuant : (k : ♮ℕ) -> 𝒰₀
+-- | A /context quantification/ is defined by the type family [..].
+--   It is defined as [....]
+ℒHMQuant : ♮ℕ -> 𝒰₀
 ℒHMQuant k = List[ i ∈ k ]  (ℒHMTypes)
+-- |> An element |Q : ℒHMQuant k| is |k|-sized list,
+--    where the |i|-th entry is the list of bound
+--    variables to be used by the |i|-th type scheme
+--    in the context (which is yet to be defined).
+
+-- #Notation/Rewrite# ℒHMQuant = Quant_{HM}
 
 -- //
 
 -- [Definition]
--- | We define a context for a quantification |q| by [....]
-ℒHMCtx : ∀{k} -> (q : ℒHMQuant k) -> ∀ μs -> 𝒰₀
-ℒHMCtx q μs = List²[ a ∈ q ] (ℒHMType ⟨ μs ⊔ a ⟩)
+-- | Given a context quantification |Q| of size |k|, and a
+--   set of variables |μs|, we define
+--   the /context over Q with free variables μs/.
+--   Such a context is an inhabitant of the type |ℒHMCtx Q μs| [],
+--   which is defined by [....]
+ℒHMCtx : ∀{k} -> (Q : ℒHMQuant k) -> ∀ μs -> 𝒰₀
+ℒHMCtx Q μs = List²[ αs ∈ Q ] (ℒHMType ⟨ μs ⊔ αs ⟩)
+
+-- #Notation/Rewrite# ℒHMCtx = Ctx_{HM}
+-- #Notation/Rewrite# List² = List
+
 -- //
+
+-- #Notation/Rewrite# μs = \bar{μ}
+-- #Notation/Rewrite# νs = \bar{ν}
 
 
 -- And a quantification together with a context by [....]

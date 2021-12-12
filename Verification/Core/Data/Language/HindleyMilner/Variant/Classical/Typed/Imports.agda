@@ -26,6 +26,7 @@ open import Verification.Core.Data.List.Variant.Unary.Definition public
 open import Verification.Core.Data.List.Variant.Unary.Element public
 open import Verification.Core.Data.List.Variant.Unary.Natural public
 open import Verification.Core.Data.List.Variant.Binary.Definition public
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid public
 open import Verification.Core.Data.List.Variant.Binary.Natural public
 open import Verification.Core.Data.List.Variant.Unary.Element public
 open import Verification.Core.Data.List.Variant.Binary.Element.Definition public

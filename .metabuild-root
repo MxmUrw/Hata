@@ -121,10 +121,12 @@ agdaPublishProjects:
       - == Untyped terms
       - Core/Data/Language/HindleyMilner/Variant/Classical/Untyped/Definition.agda
       - == Types and Contexts
-      - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Definition.agda
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Type/Definition.agda
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Context/Definition.agda
-      # - == Typed terms
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
+      - === Substitutions
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Type/Properties.agda
+      - == Typing rules
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
       # - == Typechecking algorithm
       # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
       # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Main.agda

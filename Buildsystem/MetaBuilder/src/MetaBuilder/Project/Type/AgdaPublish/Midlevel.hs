@@ -125,7 +125,7 @@ paragraphLL_OnlyContinuation ann = myToken f
           case mod of
             -- this is the case which we do not accept here,
             -- we only parse paragraphs which do not have the reset annotation
-            (Just PM_ResetAnnotation) -> trace "### Backtracking because found ResetAnnotation." Nothing
+            (Just PM_ResetAnnotation) -> Nothing -- trace "### Backtracking because found ResetAnnotation." Nothing
             _ -> case p of
                       Right par -> Just par
                       Left err -> Nothing -- trace ("Encountered error: " <> show err <> "\nwhile parsing a comment.") Nothing
@@ -138,8 +138,8 @@ paragraphLL :: Maybe Annotation -> Parsec [BlockLL] () Paragraph
 paragraphLL ann = myToken f
   where f :: BlockLL -> Maybe Paragraph
         f (CommentLL (FullComment mod ls)) = case p of
-                            -- Right par -> Just par
-                            Right par -> trace ("parsed paragraph [" <> show mod <> "]\n" <> show par <> "\n----\n")(Just par)
+                            Right par -> Just par
+                            -- Right par -> trace ("parsed paragraph [" <> show mod <> "]\n" <> show par <> "\n----\n")(Just par)
                             Left err -> Nothing -- trace ("Encountered error: " <> show err <> "\nwhile parsing a comment.") Nothing
             -- where p = parse (pParagraph mod ann) "" ((T.unlines (getMainPart <$> ls)))
             where p = parse (pParagraph mod ann) "" ((T.intercalate "\n" (getMainPart <$> ls)))
@@ -600,7 +600,7 @@ doParseML cmd blocks =
   let blocks2 = Prelude.filter (/= HiddenCommentLL) blocks
 
   in do lus <- showleft $ parse (parseToplevel <* eof) "" blocks2 
-        traceM $ "#####################################\n before flattening:\n " <> show lus <> "\n#########################################\n"
+        -- traceM $ "#####################################\n before flattening:\n " <> show lus <> "\n#########################################\n"
         flats <- flattenToplevel lus
         let changedFlats = executeCodeCommands cmd flats
         return changedFlats
