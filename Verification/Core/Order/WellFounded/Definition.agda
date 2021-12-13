@@ -1,6 +1,7 @@
 
 module Verification.Core.Order.WellFounded.Definition where
 
+open import Verification.Core.Set.Induction.WellFounded
 open import Verification.Core.Conventions
 
 

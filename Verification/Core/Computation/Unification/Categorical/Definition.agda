@@ -30,8 +30,12 @@ module _ (𝒞 : Category 𝑖) where
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
   module _ {{_ : isPtdCategory ′ 𝒞 ′}} where
 
-    data isPt : ∀{a b : 𝒞} (f : a ⟶ b) -> 𝒰 (𝑖 ､ 𝑗) where
-      incl : ∀{a b : 𝒞} -> {f : a ⟶ b} -> f ∼ pt -> isPt {a} {b} f
+    record isPt {a b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
+      constructor incl
+      field ⟨_⟩ : f ∼ pt
+      -- -> isPt {a} {b} f
+
+    open isPt public
 
 
 module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} {{_ : isPtdCategory 𝒞}} where

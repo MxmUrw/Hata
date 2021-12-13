@@ -3,6 +3,7 @@ module Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat 
 
 open import Verification.Conventions
 
+open import Verification.Core.Set.Induction.WellFounded
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer

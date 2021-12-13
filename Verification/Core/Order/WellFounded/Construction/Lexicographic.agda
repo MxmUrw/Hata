@@ -2,6 +2,7 @@
 module Verification.Core.Order.WellFounded.Construction.Lexicographic where
 
 open import Verification.Conventions
+open import Verification.Core.Set.Induction.WellFounded
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Order.WellFounded.Definition
 

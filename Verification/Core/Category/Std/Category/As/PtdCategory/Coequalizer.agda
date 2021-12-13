@@ -1,4 +1,6 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
+
 module Verification.Core.Category.Std.Category.As.PtdCategory.Coequalizer where
 
 open import Verification.Conventions
@@ -161,13 +163,13 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
             lem-8-2 = ⟨ (by-∼-≤ principal-r) ⟩ _ lem-8-1
 
             lem-8-3 : ⟨ some π' ↷ ⊤ ⟩ (some h)
-            lem-8-3 = transport-Str (cong-Str (λ ξ -> ⟨ ξ ↷ ⊤ ⟩ (some h)) rep≣π') lem-8-2
+            lem-8-3 = transport-Str (cong-Str (λ ξ -> ⟨ ξ ↷ ⊤-Idealᵣ ⟩ (some h)) rep≣π') lem-8-2
 
             lem-8-4 : ∑ λ (h' : x ⟶ d) -> π' ◆ h' ∼ h
             lem-8-4 with lem-8-3
             ... | incl (some e , tt , some π'e∼h) = e , π'e∼h
 
-        lem-9 : isId π' +-𝒰 _
+        lem-9 : isId π' +-𝒰 (sizeO x ≪ sizeO b)
         lem-9 with isGoodRep {{_}} {{P}}
         ... | left (incl rep∼zero) = impossible (rep∼zero ⁻¹ ∙ (by-≣-∼ rep≣π'))
         ... | just (left (incl rep∼id)) = left $ incl (cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (by-≣-∼ rep≣π' ⁻¹ ∙ rep∼id))
@@ -178,6 +180,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
         isCoequalizer.equate-π₌ lem-10 = lem-7
         isCoequalizer.compute-Coeq lem-10 = lem-8
         isCoequalizer.isEpi:π₌ lem-10 = reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 isEpi:rep
+
 
 
 

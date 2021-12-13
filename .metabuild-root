@@ -90,14 +90,14 @@ agdaPublishProjects:
       - = Many sorted terms over a signature
       - Core/Theory/Std/Specific/FirstOrderTerm/Introduction.agda
       - == Signature and definition of terms
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Param.agda
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Definition.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Param.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Definition.agda
       - == Types as example
-      - Core/Data/Language/HindleyMilner/Type/Variant/FreeFiniteCoproductTheoryTerm/Signature.agda
+      - Core/Data/Language/HindleyMilner/Type/Variant/FirstOrderTermTerm/Signature.agda
       - Core/Data/Language/HindleyMilner/Type/VariantTranslation/Definition.agda
       - == Derivation of a category structure via relative monads
       - == Substitution and Category Instance
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Substitution.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Substitution.agda
       - = Unification
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/Introduction.agda
       # - Core/Computation/Unification/Definition.agda
