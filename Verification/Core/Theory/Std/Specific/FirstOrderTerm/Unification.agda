@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Unification where
+module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification where
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -19,9 +19,9 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.List.VariantTranslation.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
 
 
 module _ {𝓅 : 𝒯⊔Param 𝑖} where

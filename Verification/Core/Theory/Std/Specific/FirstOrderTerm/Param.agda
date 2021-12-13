@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param where
+module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param where
 
 open import Verification.Conventions hiding (_⊔_)
 

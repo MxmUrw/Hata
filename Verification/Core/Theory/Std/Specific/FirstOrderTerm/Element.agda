@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Element where
+module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Element where
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -21,8 +21,8 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.List.VariantTranslation.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 
 
 

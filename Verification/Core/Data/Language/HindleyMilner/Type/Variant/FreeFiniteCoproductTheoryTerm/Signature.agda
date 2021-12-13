@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature where
+module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature where
 
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
@@ -25,11 +25,11 @@ open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
 open import Verification.Core.Computation.Unification.Definition
 
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Unification
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification
 
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 

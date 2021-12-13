@@ -7,7 +7,7 @@ open import Verification.Conventions hiding (ℕ ; _⊔_)
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature
 
 -- | Types are defined as in example ...
 --   We give the following names.

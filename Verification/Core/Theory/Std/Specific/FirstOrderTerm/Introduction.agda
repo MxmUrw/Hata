@@ -1,5 +1,6 @@
 
-module Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Introduction where
+module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Introduction where
+
 
 -- | In this chapter we define the notion of terms
 --   for which we are going to implement the unification algorithm.
@@ -18,6 +19,5 @@ module Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Introduct
 --   as the Kleisli category arising from a monadic structure.
 --   This is also standard, similarly to be found in \cite{UnifyCat:Goguen:1989} or REF.
 --
-
 
 

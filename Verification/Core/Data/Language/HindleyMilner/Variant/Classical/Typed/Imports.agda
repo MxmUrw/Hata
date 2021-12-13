@@ -35,16 +35,16 @@ open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition publ
 
 -------------
 -- Simple terms
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Param public
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Definition public
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.Functor public
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Instance.RelativeMonad public
-open import Verification.Core.Theory.Std.Specific.FreeFiniteCoproductTheory.Unification public
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param public
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition public
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor public
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad public
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification public
 
 -------------
 -- Types as simple terms
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Signature public
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FreeFiniteCoproductTheoryTerm.Definition public
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature public
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Definition public
 
 -------------
 -- Other data

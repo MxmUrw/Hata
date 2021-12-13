@@ -88,7 +88,7 @@ agdaPublishProjects:
       - === Coequalizers
       - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
       - = Many sorted terms over a signature
-      - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Introduction.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Introduction.agda
       - == Signature and definition of terms
       - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Param.agda
       - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Definition.agda
@@ -98,7 +98,8 @@ agdaPublishProjects:
       - == Derivation of a category structure via relative monads
       - == Substitution and Category Instance
       - Core/Theory/Std/Specific/FreeFiniteCoproductTheory/Substitution.agda
-      # - = Unification
+      - = Unification
+      - Core/Theory/Std/Specific/FirstOrderTerm/Unification/Introduction.agda
       # - Core/Computation/Unification/Definition.agda
       # - == Idea of unification algorithm
       # - == Categorical Unification
