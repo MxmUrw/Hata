@@ -16,7 +16,7 @@ import Text.Parsec hiding (Line)
 
 import qualified Data.List.Split as LS
 import qualified Data.List as L
-
+import qualified Data.Char as DC
 
 
 import Agda.Interaction.Highlighting.LaTeX.ExternalCall
@@ -622,6 +622,16 @@ regenerateTokens_MTC cmd container =
 --   let containers = concatM (executeCommand <$> cmd) container
 --   in generateToken <$> containers
 
+
+-----------------------------------------
+-- A special replacement function for
+-- replacing list names (i.e. "as", "xs", "bs1", ...) by "\vec{a}", ...
+
+replaceListNames :: TokenLike a => TC a -> TC a
+replaceListNames (TokenContainer orig (AnyHL (x1:'s':[])))                        = TokenContainer orig (AnyHL (descape ("\\vec{" <> [x1] <> "}")))
+replaceListNames (TokenContainer orig (AnyHL (x1:'s':x3:xs))) | not (DC.isLetter x3) = TokenContainer orig (AnyHL (descape ("\\vec{" <> [x1] <> "}" <> (x3:xs))))
+replaceListNames a = a
+
 tokReplacements =
   [ -- ("𝑖", descape "i")
     -- ("𝑖𝑖", descape "\\dot{i}")
@@ -640,7 +650,7 @@ processToken :: TokenLike a => TC a -> TC a
 processToken (TokenContainer orig (AnyHL "=")) = TokenContainer orig (AnyHL ":=")
 processToken (TokenContainer orig (AnyHL "→")) = TokenContainer orig (AnyHL (descape "\\operatorname{→}"))
 processToken (TokenContainer orig (AnyHL "field")) = TokenContainer (makePlainToken Nothing "") (AnyHL (descape "     "))
-processToken x = tryReplace tokReplacements g h x
+processToken x = tryReplace tokReplacements g h (replaceListNames x)
   where g (TokenContainer orig (AnyHL tok)) = Just tok
         g _ = Nothing
         h tok = TokenContainer (makePlainToken Nothing "") (AnyHL (descape tok))

@@ -2,12 +2,99 @@
 module Verification.Notes.Topic.VTC.Introduction where
 
 -- = Introduction
--- | We are about to talk about a formal verification in Agda...
-
--- ==* Motivation
--- | We are motivated by the fact that ...
-
+-- | The Hindley-Milner type system is well-studied. It forms the
+--   core theory of many real-life programming languages such as Standard-ML
+--   OCaML and Haskell REF, each with its own various extensions of the core
+--   typing system. Its main feature is the availability of type polymorphism,
+--   while allowing full type inference. This means that programs may be written
+--   without the additional overhead of specifying types, yet full type safety
+--   can be guaranteed after the type checker inferred that the program is well-typed
+--   at compile time. Polymorphism guarantees that functions which in an untyped
+--   programming language would be applicable to a value of any type continue
+--   to work exactly the same under this type system (by assigning them a type
+--   which expresses exactly this property).
+--
+-- | \medskip
+--
+-- | It was independently described by Hindley
+--   as an inference system for combinatorial logic \cite{HM:Hindley:1969}
+--   and by Milner as a type system for ML \cite{HM:Milner:1978}.
+--   Both give a type inference algorithm and prove soundness with respect to
+--   the typing rules. Completeness was shown by \citet{HM:Damas:1984}.
+--
+-- | Formalization of the Hindley-Milner type inference algorithm were first
+--   done independently by Naraschewski and Nipkow in Isabelle$/$HOL \cite{HMForm:NaraschewskiNipkow:1999},
+--   and by \citet{HMForm:DuboisMenissier-Morain:1999} in Coq.
+--   Subsequent developments include a further implementation in Isabelle$/$HOL
+--   by \citet{HMForm:UrbanNipkow:2008}, with an alternative representation of term variables
+--   using nominal sets. As well as a verified implementation
+--   of a full compiler for a subset of ML by \citet{HMForm:KMNO:2014}.
+--
+-- | \medskip
+--
+-- | The inference algorithm depends on a unification algorithm for (simple) types.
+--   Such an algorithm was first described by \citet{Unify:Robinson:1965}, a textbook account
+--   may be found in REF.
+--
+-- | Most of the formalizations of HM mentioned above do not include a unification algorithm;
+--   that such an algorithm exists is merely postulated axiomatically. This is possible because
+--   the type inference does not depend on the actual unification algorithm used, merely that
+--   it satisfies a few key properties - i.e., it should compute the /most general unifier/ of
+--   two given type-terms.
+--
+-- | Instead, a formalization of unification may be found in \cite{UnifyForm:MannaWaldinger:1981} (a hand-derived synthesis...?), \cite{UnifyForm:Paulson:1985} (a from that derived version in LCF),
+--    in \cite{UnifyForm:Bove:1999} and in \cite{UnifyForm:McBride:2000}.
+--
+-- | \medskip
+--
+-- | That the notion of unification is closely related to that of a coequalizer in
+--   category theory was noticed by Joe Goguen. It is expanded upon by \citet{UnifyCat:RydeheardBurstall:1986}, and also by \citet{UnifyCat:Goguen:1989} himself.
+--   a thesis which includes explanations of basic concepts is \citet{UnifyCat:Garcia:2004}.
+--   A formalization of higher order unification in Agda, which utilizes some categorical concepts,
+--   is presented in \cite{UnifyCat:VezzosiAbel:2014}.
+-- | \medskip
+--
+-- ==* Contributions
+--
+-- | In this thesis we present our formalization of a first-order unification algorithm,
+--   and an implementation of algorithm W which is proven to be sound and complete.
+--   The following aspects distinguish it from the pre-existing literature:
+-- | - Since we provide both a formalization of unification and of type inference,
+--     our algorithm can actually be executed (at least theoretically modulo missing theorem).
+-- | - The recursion of our unification algorithm is defined purely category theoretically.
+--     This follows up on the claim made in REF. And could make implementations of unification
+--     for other theories, such as higher order unification simpler.
+-- | - The type variables in the implementation and proof of algorithm W are treated
+--     purely categorically (to a high degree). This should make it very feasable to
+--     turn it into a proof for a family of HM-like type theories, requiring only
+--     certain properties from their category of substitutions.
+-- |: {}
+--
 -- ==* Structure
--- | In the following we have in chapter 1 ... and then something else...
+-- | 2. Before we really begin, we give a very short and informal introduction to
+--      theorem proving in dependently typed languages in general, and the notation
+--      of Agda in particular, explaining a few design choices of our most basic data
+--      data types on the way. We also show how the notation of Agda is simplified
+--      in this document.
+-- | 3. Next, we introduce the categorical concepts required by the later chapters.
+--      These are mostly categories, functors, coequalizers and epi-mono factorization.
+--      Too smaller degree of importance, but used by the formalization are relative monads
+--      and their Kleisli categories.
+-- | 4. We define many-sorted first order terms over a signature of function symbols.
+--      We derive the category of substitutions on them as Kleisli category over
+--      a relative monad. We sketch that this category has coproducts.
+-- | 5. We present unification informally, note how it relates to coequalizers.
+--      We show how the main induction step of unification can be proven in
+--      purely category-theoretic terms, compare with partially similar
+--      approaches in the literature.
+--      We define the neccessary structure on a category needed to support
+--      such an inductive solving in two steps.
+--      We briefly sketch how our category of type substitutions does fulfill
+--      these requirements.
+-- | 6. We present HM type inference informally, introduce the required definitions
+--      to state the soundness and completeness theorem. Then prove it.
+--
+
+
 
 

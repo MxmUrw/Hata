@@ -1,6 +1,33 @@
 
-% ----------------- type theory references --------------------------
-@inproceedings{TT:CDDK:1986,
+% ----------------- HM references --------------------------
+@article{HM:Hindley:1969,
+ ISSN = {00029947},
+ % Comment URL = {http://www.jstor.org/stable/1995158},
+ author = {R. Hindley},
+ journal = {Transactions of the American Mathematical Society},
+ pages = {29--60},
+ publisher = {American Mathematical Society},
+ title = {The Principal Type-Scheme of an Object in Combinatory Logic},
+ volume = {146},
+ year = {1969}
+}
+@article{HM:Milner:1978,
+  title={A theory of type polymorphism in programming},
+  author={Milner, Robin},
+  journal={Journal of computer and system sciences},
+  volume={17},
+  number={3},
+  pages={348--375},
+  year={1978},
+  publisher={Elsevier}
+}
+@PhDThesis{HM:Damas:1984,
+  title={Type assignment in programming languages},
+  author={Damas, Luis},
+  year={1984},
+  publisher={The University of Edinburgh}
+}
+@inproceedings{HM:CDDK:1986,
 author = {Cl\'{e}ment, Dominique and Despeyroux, Thierry and Kahn, Gilles and Despeyroux, Jo\"{e}lle},
 title = {A Simple Applicative Language: Mini-ML},
 year = {1986},
@@ -15,34 +42,155 @@ numpages = {15},
 location = {Cambridge, Massachusetts, USA},
 series = {LFP '86}
 }
-@article{TT:Damas:1984,
-  title={Type assignment in programming languages (PhD thesis)},
-  journal={PhD thesis},
-  author={Damas, Luis},
-  year={1984},
-  publisher={The University of Edinburgh}
-}
-@article{TT:Milner:1978,
-  title={A theory of type polymorphism in programming},
-  author={Milner, Robin},
-  journal={Journal of computer and system sciences},
-  volume={17},
+
+% ----------------- HM formalization references --------------------------
+@article{HMForm:NaraschewskiNipkow:1999,
+  title={Type inference verified: Algorithm W in Isabelle/HOL},
+  author={Naraschewski, Wolfgang and Nipkow, Tobias},
+  journal={Journal of Automated Reasoning},
+  volume={23},
   number={3},
-  pages={348--375},
-  year={1978},
+  pages={299--318},
+  year={1999},
+  publisher={Springer}
+}
+@article{HMForm:DuboisMenissier-Morain:1999,
+  title={Certification of a type inference tool for ML: Damas--Milner within Coq},
+  author={Dubois, Catherine and Menissier-Morain, Valerie},
+  journal={Journal of Automated Reasoning},
+  volume={23},
+  number={3},
+  pages={319--346},
+  year={1999},
+  publisher={Springer}
+}
+@article{HMForm:UrbanNipkow:2008,
+  title={Nominal verification of algorithm W},
+  author={Urban, Christian and Nipkow, Tobias},
+  journal={G. Huet, J.-J. L{\'e}vy, and G. Plotkin, editors, From Semantics to Computer Science. Essays in Honour of Gilles Kahn},
+  pages={363--382},
+  year={2008}
+}
+@article{HMForm:KMNO:2014,
+  title={CakeML: a verified implementation of ML},
+  author={Kumar, Ramana and Myreen, Magnus O and Norrish, Michael and Owens, Scott},
+  journal={ACM SIGPLAN Notices},
+  volume={49},
+  number={1},
+  pages={179--191},
+  year={2014},
+  publisher={ACM New York, NY, USA}
+}
+
+% ----------------- Unification references --------------------------
+@article{Unify:Robinson:1965,
+  title={A machine-oriented logic based on the resolution principle},
+  author={Robinson, John Alan},
+  journal={Journal of the ACM (JACM)},
+  volume={12},
+  number={1},
+  pages={23--41},
+  year={1965},
+  publisher={ACM New York, NY, USA}
+}
+
+% ----------------- Unification formalization references --------------------------
+
+@article{UnifyForm:MannaWaldinger:1981,
+  title={Deductive synthesis of the unification algorithm},
+  author={Manna, Zohar and Waldinger, Richard},
+  journal={Science of Computer Programming},
+  volume={1},
+  number={1-2},
+  pages={5--48},
+  year={1981},
   publisher={Elsevier}
 }
-@article{TT:Hindley:1969,
- ISSN = {00029947},
- % Comment URL = {http://www.jstor.org/stable/1995158},
- author = {R. Hindley},
- journal = {Transactions of the American Mathematical Society},
- pages = {29--60},
- publisher = {American Mathematical Society},
- title = {The Principal Type-Scheme of an Object in Combinatory Logic},
- volume = {146},
- year = {1969}
+
+@article{UnifyForm:Paulson:1985,
+  title={Verifying the unification algorithm in LCF},
+  author={Paulson, Lawrence C},
+  journal={Science of computer programming},
+  volume={5},
+  pages={143--169},
+  year={1985},
+  publisher={Elsevier}
 }
+
+@PhDThesis{UnifyForm:Bove:1999,
+  title={Programming in Martin-Löf Type Theory - Unification A non-trivial Example},
+  author={Bove, Ana},
+  publisher={Citeseer}
+}
+
+@PhDThesis{UnifyForm:McBride:2000,
+  title={Dependently typed functional programs and their proofs},
+  author={McBride, Conor},
+  year={2000},
+  publisher={University of Edinburgh. College of Science and Engineering. School of~…}
+}
+
+% ----------------- Categorical unification references --------------------------
+
+@incollection{UnifyCat:RydeheardBurstall:1986,
+  title={A categorical unification algorithm},
+  author={Rydeheard, David E and Burstall, Rod M},
+  booktitle={Category Theory and Computer Programming},
+  pages={493--505},
+  year={1986},
+  publisher={Springer}
+}
+
+@INPROCEEDINGS{UnifyCat:Goguen:1989,
+    author = {Joseph A. Goguen},
+    title = {What is Unification? - A Categorical View of Substitution, Equation and Solution},
+    booktitle = {Resolution of Equations in Algebraic Structures, Volume 1: Algebraic Techniques},
+    year = {1989},
+    pages = {217--261},
+    publisher = {Academic}
+}
+
+@phdthesis{UnifyCat:Garcia:2004,
+  title={Categorical Unification},
+  author={Gal{\'a}n Garc{\'\i}a, Mar{\'\i}a {\'A}ngeles},
+  year={2004}
+}
+
+@article{UnifyCat:VezzosiAbel:2014,
+  title={A Categorical Perspective on Pattern Unification},
+  author={Vezzosi, Andrea and Abel, Andreas},
+  journal={RISC-Linz},
+  pages={69},
+  year={2014},
+  publisher={Citeseer},
+  url={https://github.com/Saizan/miller}
+}
+
+% Something based on UnifyCat:RydeheardBurstall:1986,
+% but using non-categorical definitions
+@book{UnifyCat:SchmidtSiekmann:1988,
+  title={Unification algebras An axiomatic approach to unification, equation solving and constraint solving},
+  author={Schmidt-Schau{ss}, Manfred and Siekmann, J{o}rg H},
+  year={1988},
+  publisher={Universit{a}t Kaiserslautern, Fachbereich Informatik}
+}
+
+% Using UnifyCat:RydeheardBurstall:1986 for unification
+% of generalized (with powerset) terms
+@article{UnifyCat:EGMOV:2002,
+  title={A categorical approach to unification of generalised terms},
+  author={Eklund, Patrik and Gal{\'a}n, Maria A and Medina, Jes{\'u}s and Ojeda-Aciego, Manuel and Valverde, Agust{\'\i}n},
+  journal={Electronic Notes in Theoretical Computer Science},
+  volume={66},
+  number={5},
+  pages={41--51},
+  year={2002},
+  publisher={Elsevier}
+}
+
+
+% ----------------- Type theory references --------------------------
+
 @article{TT:AltenkirchKaposi:2016,
   title={Type theory in type theory using quotient inductive types},
   author={Altenkirch, Thorsten and Kaposi, Ambrus},

@@ -32,12 +32,12 @@ module _ {A : 𝒰 𝑖} where
 
   -- | - Given any list |bs|, we can conclude that
   --     the list |a ∷ bs| contains the element |a|.
-    incl : ∀ {a bs} -> (a ∷ bs) ∍♮ a
+    incl : ∀{a bs} -> (a ∷ bs) ∍♮ a
 
   -- | - Furthermore, if we know that some list |bs|
   --     already contains |a|, then after prepending any
   --     element |b| to that list, it still contains |a|.
-    skip : ∀ {a b bs} -> bs ∍♮ a -> (b ∷ bs) ∍♮ a
+    skip : ∀{a b bs} -> bs ∍♮ a -> (b ∷ bs) ∍♮ a
 
   -- |: Thus, every occurence of |a| in |as| corresponds
   --    to a proof |as ∍♮ a|, given by a sequence of |skip|

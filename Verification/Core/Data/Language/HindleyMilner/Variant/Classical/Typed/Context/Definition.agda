@@ -51,9 +51,6 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 
 -- //
 
--- #Notation/Rewrite# μs = \bar{μ}
--- #Notation/Rewrite# νs = \bar{ν}
-
 
 -- And a quantification together with a context by [....]
 -- ℒHMCtx : (k : ♮ℕ) -> (μs : ℒHMTypes) -> 𝒰₀

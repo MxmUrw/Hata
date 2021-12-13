@@ -41,6 +41,7 @@ data AgdaPublishProjectConfig = AgdaPublishProjectConfig
   , agdaPublishDocumentDescription :: DocumentDescription
   , autobuild              :: Bool
   , fastbuild              :: Bool
+  , latexRepeatBuild       :: Int
   , projectName            :: String
   , libraryDefinitions_Filename :: String
   , bibfile_RelFile :: String
@@ -211,13 +212,17 @@ makeRules_AgdaPublishProject egc eappc = do
                ++ generateTex_Source_Files
     need deps
 
-    let build = cmd_ "xelatex" (Cwd (eappc.>generatePdf_Source_AbDir)) [eappc.>mainTex_AbFile]
-    case (eappc.>originalConfig.>fastbuild) of
-      True  -> build
-      False -> build >> build
+    let build = do
+          cmd_ "xelatex" (Cwd (eappc.>generatePdf_Source_AbDir)) [eappc.>mainTex_AbFile]
+          -- also call biber for bibliography
+          cmd_ "biber" (Cwd (eappc.>generatePdf_Source_AbDir)) [dropExtension $ eappc.>mainTex_AbFile]
 
-    -- also call biber for bibliography
-    cmd_ "biber" (Cwd (eappc.>generatePdf_Source_AbDir)) [dropExtension $ eappc.>mainTex_AbFile]
+    -- repeat the building as often as required
+    let doNTimes n a | n <= 0    = return ()
+        doNTimes n a | otherwise = a >> doNTimes (n - 1)  a
+    -- execute
+    doNTimes (eappc.>originalConfig.>latexRepeatBuild) build
+
 
   eappc.>mainTex_AbFile %> \file -> do
     template <- liftIO (templatefileMainTex (eappc.>originalConfig.>agdaPublishDocumentDescription))

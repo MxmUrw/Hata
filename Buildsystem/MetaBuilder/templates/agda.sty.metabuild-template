@@ -287,6 +287,7 @@ calc, environ, xparse, xkeyval, mathtools}
 
     % Aspect colours.
     \definecolor{AgdaComment}      {HTML}{000000}
+    \definecolor{AgdaPragma}       {HTML}{000000}
     \definecolor{AgdaOption}       {HTML}{000000}
     \definecolor{AgdaKeyword}      {HTML}{000000}
     \definecolor{AgdaString}       {HTML}{000000}
