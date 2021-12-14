@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature where
+module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature where
 
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)

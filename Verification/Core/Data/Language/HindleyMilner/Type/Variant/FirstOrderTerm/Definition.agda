@@ -1,5 +1,5 @@
 
-module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Definition where
+module Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Definition where
 
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
@@ -36,7 +36,7 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Relati
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification
 
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
 
 
 {-

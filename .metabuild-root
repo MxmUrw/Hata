@@ -90,10 +90,10 @@ agdaPublishProjects:
       - = Many sorted terms over a signature
       - Core/Theory/Std/Specific/FirstOrderTerm/Introduction.agda
       - == Signature and definition of terms
-      - Core/Theory/Std/Specific/FirstOrderTerm/Param.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Signature.agda
       - Core/Theory/Std/Specific/FirstOrderTerm/Definition.agda
       - == Types as example
-      - Core/Data/Language/HindleyMilner/Type/Variant/FirstOrderTermTerm/Signature.agda
+      - Core/Data/Language/HindleyMilner/Type/Variant/FirstOrderTerm/Signature.agda
       - Core/Data/Language/HindleyMilner/Type/VariantTranslation/Definition.agda
       - == Derivation of a category structure via relative monads
       - == Substitution and Category Instance

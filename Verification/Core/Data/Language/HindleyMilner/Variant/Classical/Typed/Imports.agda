@@ -43,8 +43,8 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification pub
 
 -------------
 -- Types as simple terms
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature public
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Definition public
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature public
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Definition public
 
 -------------
 -- Other data

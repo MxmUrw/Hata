@@ -38,7 +38,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
 
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.Direct.Definition
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTermTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
 
 
 -- [Lemma]
