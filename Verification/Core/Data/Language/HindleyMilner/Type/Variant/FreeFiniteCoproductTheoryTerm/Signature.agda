@@ -25,7 +25,7 @@ open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
 open import Verification.Core.Computation.Unification.Definition
 
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
@@ -74,7 +74,7 @@ instance
   isSet:𝒹₀ = {!!}
 
 -- |: This makes |𝒹| into a signature for simple terms.
-𝒹 : 𝒯⊔Param ℓ₀
+𝒹 : 𝒯FOSignature ℓ₀
 𝒹 = record { Sort = 𝒹₀ ; Con = 𝒹₁ }
 
 -- //

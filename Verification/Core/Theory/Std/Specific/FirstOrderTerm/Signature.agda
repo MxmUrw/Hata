@@ -1,5 +1,5 @@
 
-module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param where
+module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature where
 
 open import Verification.Conventions hiding (_⊔_)
 
@@ -13,7 +13,7 @@ open import Verification.Core.Algebra.Monoid.Definition
 -- [Definition]
 -- | A signature for multisorted simple terms,
 --   which we call [..], is given by the following data.
-record 𝒯⊔Param (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
+record 𝒯FOSignature (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
 
   -- | 1. A set of sorts [..].
   field Sort : 𝒰 𝑖
@@ -25,15 +25,15 @@ record 𝒯⊔Param (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   field {{isSet-Str:Sort}} : isSet-Str Sort
   field {{isDiscrete:Con}} : ∀{αs α} -> isDiscrete (Con αs α)
 
-open 𝒯⊔Param public
+open 𝒯FOSignature public
 
--- #Notation/Rewrite# 𝒯⊔Param = 𝒯_{⊔}Data
+-- #Notation/Rewrite# 𝒯FOSignature = Sig_{FO}
 -- //
 
 
 -- [Hide]
 module _ (𝑖 : 𝔏) where
-  macro 𝕋× = #structureOn (𝒯⊔Param 𝑖)
+  macro 𝕋× = #structureOn (𝒯FOSignature 𝑖)
 -- //
 
 

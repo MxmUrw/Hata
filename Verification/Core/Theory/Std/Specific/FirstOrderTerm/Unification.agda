@@ -19,12 +19,12 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.List.VariantTranslation.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
 
 
-module _ {𝓅 : 𝒯⊔Param 𝑖} where
+module _ {𝓅 : 𝒯FOSignature 𝑖} where
 
   postulate
     instance

@@ -21,13 +21,13 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.List.VariantTranslation.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 
 
 
 -- [Definition]
 -- | Let [..] be a parametrization.
-module _ (𝓅 : 𝒯⊔Param 𝑖) where
+module _ (𝓅 : 𝒯FOSignature 𝑖) where
   -- |> Then multisorted terms,
   data 𝒯⊔Term : ⋆List (Sort 𝓅) -> Sort 𝓅 -> 𝒰 𝑖 where
   -- |> are defined as an inductive data type with the following two constructors

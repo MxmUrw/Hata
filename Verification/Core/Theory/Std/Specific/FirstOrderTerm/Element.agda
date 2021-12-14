@@ -21,14 +21,14 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.List.VariantTranslation.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 
 
 
 -- [Definition]
 -- | Let [..] be a parametrization.
-module _ (𝓅 : 𝒯⊔Param 𝑖) where
+module _ (𝓅 : 𝒯FOSignature 𝑖) where
 -- |> Similar to occurences of variables in lists, we define
 --    the type of occurences of variables in multisorted terms.
   mutual

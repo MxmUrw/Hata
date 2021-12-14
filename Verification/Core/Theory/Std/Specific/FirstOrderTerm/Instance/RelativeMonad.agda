@@ -24,7 +24,7 @@ open import Verification.Core.Data.List.Variant.Binary.Element.As.Indexed
 open import Verification.Core.Data.List.VariantTranslation.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Param
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Substitution
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
@@ -33,7 +33,7 @@ open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.FiniteIndexed.Definition
 
-module _ {𝓅 : 𝒯⊔Param 𝑖} where
+module _ {𝓅 : 𝒯FOSignature 𝑖} where
   repure-𝒯⊔term : ∀{a} -> 𝑓𝑖𝑛 (Sort 𝓅) a ⟶ 𝒯⊔term 𝓅 a
   repure-𝒯⊔term i x = var x
 
@@ -58,7 +58,7 @@ module _ {𝓅 : 𝒯⊔Param 𝑖} where
 
 --------------------------------------
 -- named definitions for the category
-module _ (𝓅 : 𝒯⊔Param 𝑖) where
+module _ (𝓅 : 𝒯FOSignature 𝑖) where
   open import Verification.Core.Data.Substitution.Variant.Base.Definition
   open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
