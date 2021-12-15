@@ -14,7 +14,31 @@ open import Verification.Core.Category.Std.Morphism.Epi.Definition
 open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 
 -- [Definition]
--- Let |𝒞| be a category. We define 
+-- | Let |𝒞| be a category. We define |Free-𝐙𝐌𝐂𝐚𝐭 𝒞| as the category obtained
+--   from |𝒞| by freely adjoining an additional arrow to each hom-set.
+--   This is done by defining each hom-set of |Free-𝐙𝐌𝐂𝐚𝐭 𝒞| by a data type
+--   with two constructors:
+-- | - One which includes arrows from |𝒞| into |Free-𝐙𝐌𝐂𝐚𝐭 𝒞|, namely |some : ⟨ a ⟩ ⟶ ⟨ b ⟩ → Hom-Free-𝐙𝐌𝐂𝐚𝐭 a b|
+-- | - And one which describes failure: |zero : Hom-Free-𝐙𝐌𝐂𝐚𝐭 a b|
+-- |: This could have been done using the |Maybe| data type,
+--    but as usual, dedicated data types are used for
+--    better type inference.
+
+-- //
+
+-- [Lemma]
+-- | There is indeed the structure of a category on |Free-𝐙𝐌𝐂𝐚𝐭 𝒞|
+--   which makes it into a category with zero morphisms,
+--   with |0 = zero|
+
+-- //
+
+-- [Proof]
+-- | The implementation of this structure is not difficult,
+--   rather an exercise in many case distinctions
+--   between |zero| and |some|.
+
+-- //
 
 -- [Hide]
 record Free-𝐙𝐌𝐂𝐚𝐭 (𝒞 : Category 𝑖) : 𝒰 (𝑖 ⌄ 0) where

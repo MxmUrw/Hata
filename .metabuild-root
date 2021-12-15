@@ -107,6 +107,7 @@ agdaPublishProjects:
       - == The optimist's lemma
       - Core/Computation/Unification/Categorical2/Introduction.agda
       - Core/Category/Std/Category/As/ZeroMorphismCategory/Definition.agda
+      - Core/Category/Std/Category/As/ZeroMorphismCategory/Free.agda
       - Core/Computation/Unification/Categorical2/Ideal.agda
       - Core/Computation/Unification/Categorical2/ZeroIdeal.agda
       - Core/Computation/Unification/Categorical2/SemilatticeStructure.agda

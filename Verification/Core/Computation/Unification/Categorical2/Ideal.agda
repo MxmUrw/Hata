@@ -20,12 +20,15 @@ open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Defi
 
 -- ===* Ideals in categories with zero morphisms
 
--- | Fix a category |𝒞| with zero morphisms for the remainder of this section. [][][]
+-- | Fix a category |𝒞| with zero morphisms for the remainder of the chapter.
+-- [Hide]
 module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
+-- //
   -- |> We denote objects of |𝒞| usually simply by |a|, |b| or |c|.
-  --   Most of the following statements are rather easy consequences
+  --   Most of the following statements concerning ideals
+  --   are rather easy consequences
   --   of the definitions, and we mostly just give an informal sketch
-  --   of the proof.
+  --   of the proofs.
   private variable a b c : 𝒞
 
   -- [Definition]
