@@ -105,6 +105,8 @@ agdaPublishProjects:
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/ProblemByExample.agda
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/SolutionSketch.agda
       - == The optimist's lemma
+      - Core/Computation/Unification/Categorical2/Introduction.agda
+      - Core/Computation/Unification/Categorical2/Ideal.agda
       # - Core/Computation/Unification/Definition.agda
       # - == Idea of unification algorithm
       # - == Categorical Unification

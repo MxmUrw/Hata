@@ -129,6 +129,14 @@ instance
   destructEl (hasU:Exp {A = A} {B}) f = f
   destructP (hasU:Exp {A = A} {B}) _ = record {}
 
+instance
+  hasU:∏ : ∀{A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} -> hasU (∀{a} -> B a) _ _
+  getU (hasU:∏ {A = A} {B}) = ∀{a} -> B a
+  getP (hasU:∏ {𝑖} {𝑗} {A = A} {B}) u = isAnything {A = ∀{a} -> B a} u (ℓ₀)
+  reconstruct (hasU:∏ {A = A} {B}) (x , _) = x
+  destructEl (hasU:∏ {A = A} {B}) f = f
+  destructP (hasU:∏ {A = A} {B}) _ = record {}
+
 hasU:Base : ∀(X : 𝒰 𝑖) -> hasU X _ _
 getU (hasU:Base X) = X
 getP (hasU:Base X) u = isAnything u ℓ₀

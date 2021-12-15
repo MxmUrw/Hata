@@ -13,6 +13,7 @@ open import Verification.Core.Category.Std.Morphism.Epi.Definition
 
 -- NOTE: this should actually go into "ZeroMorphismCategory"
 
+-- 
 record isPtdCategory (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field pt : ∀{a b : ⟨ 𝒞 ⟩} -> a ⟶ b
   field absorb-r-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> f ◆ pt {b} {c} ∼ pt {a} {c}
