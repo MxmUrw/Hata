@@ -63,8 +63,6 @@ agdaPublishProjects:
       - Core/Data/List/Variant/Unary/Definition.agda
       - Core/Data/List/Variant/Unary/Element.agda
       - Core/Data/List/Variant/Unary/Natural.agda
-      - == Hindley Milner Types
-      - Core/Data/Language/HindleyMilner/Type/Variant/Direct/Definition.agda
       - == Equality and Setoids
       - Conventions/Prelude/Classes/Setoid.agda
       - == Monoids
@@ -75,6 +73,8 @@ agdaPublishProjects:
       - Core/Data/List/Variant/Binary/Element/Definition.agda
       - Core/Data/List/Variant/Binary/Instance/Setoid.agda
       - Core/Data/List/Variant/Binary/Instance/Monoid.agda
+      - == Hindley Milner Types
+      - Core/Data/Language/HindleyMilner/Type/Variant/Direct/Definition.agda
       - = Category theory
       - == Categories
       - Core/Category/Std/Category/Definition.agda
@@ -87,19 +87,21 @@ agdaPublishProjects:
       - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
       - === Coequalizers
       - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
-      - = Many sorted terms over a signature
+      - = Many sorted terms
       - Core/Theory/Std/Specific/FirstOrderTerm/Introduction.agda
       - == Signature and definition of terms
       - Core/Theory/Std/Specific/FirstOrderTerm/Signature.agda
       - Core/Theory/Std/Specific/FirstOrderTerm/Definition.agda
-      - == Types as example
+      - == Simple types as example
       - Core/Data/Language/HindleyMilner/Type/Variant/FirstOrderTerm/Signature.agda
       - Core/Data/Language/HindleyMilner/Type/VariantTranslation/Definition.agda
-      - == Derivation of a category structure via relative monads
-      - == Substitution and Category Instance
-      - Core/Theory/Std/Specific/FirstOrderTerm/Substitution.agda
+      - == Substitutions
+      - Core/Theory/Std/Specific/FirstOrderTerm/Substitution/Definition.agda
+      - == Category of substitutions
+      - Core/Theory/Std/Specific/FirstOrderTerm/Substitution/Category.agda
       - = Unification
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/Introduction.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Unification/ProblemByExample.agda
       # - Core/Computation/Unification/Definition.agda
       # - == Idea of unification algorithm
       # - == Categorical Unification

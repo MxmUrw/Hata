@@ -153,6 +153,7 @@ parseHiddenCodeLLLine = tshow <$> (Prefixed <$>
   <|> string "{-#"
   <|> string "infix"
   <|> string "private"
+  <|> string "mutual"
   <|> string "variable"
   <|> string "instance "
   -- <|> string "unquoteDecl "

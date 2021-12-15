@@ -36,53 +36,59 @@ open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
 
 -------------------------------------------------
--- Definition of the data for the HM types
+-- Simple types in terms of first order terms
 
--- [Definition]
--- | The signature for monotypes with a "boolean" and
---   "natural numbers" type constant is given as follows:
+-- | As a concrete example, we show how the
+--   simple types from Definition REF can be
+--   expressed as first order terms.
+--   For this, a signature |Σ-Sim| needs to be defined.
+--   Since the terms of |Ty-Sim| do not have different sorts,
+--   the type [..] of sorts is given by [...,]
+Sort-Sim : 𝒰₀
+Sort-Sim = ⊤-𝒰
+-- |> its single inhabitant is called |tt : Sort-Sim|.
+--
+-- |> The function symbols of |Σ-Sim| can be conveniently
+--   defined using a data type. That is, the type family [..]
+data Con-Sim : List Sort-Sim → Sort-Sim → 𝒰 ℓ₀ where
+  -- |> is defined with the following constructors,
+  --    all the sorts are necessarily |tt|:
+  -- | - Two function symbols with an empty list of inputs [...,]
+  ℕᵗ 𝔹ᵗ : Con-Sim [] tt
+  -- | - and a function symbol with two inputs [....]
+  ⇒₂ᵗ : Con-Sim (tt ∷ tt ∷ []) tt
 
--- | 1. There is only one sort, so we define the type
---      of sorts as:
-𝒹₀ : 𝒰₀
-𝒹₀ = ⊤-𝒰
+-- #Notation/Rewrite# ⇒₂ᵗ = ⇒ᵗ
 
-pattern tyᵗ = tt
+-- |: {}
 
--- | 2. The constructors include the boolean, nat types,
---      as well as the obligatory arrow type.
-data 𝒹₁ : List 𝒹₀ → 𝒹₀ → 𝒰 ℓ₀ where
-  ⇒ᵗ : 𝒹₁ (tyᵗ ∷ tyᵗ ∷ []) tyᵗ
-  ℕᵗ : 𝒹₁ [] tyᵗ
-  𝔹ᵗ : 𝒹₁ [] tyᵗ
+-- [Remark]
+-- | We use the same constructor names as in the definition
+--   of |Ty-Sim|, but note that in this case the constructor |⇒ᵗ|
+--   does not take any arguments. Instead, it is claimed in its
+--   type that it has to be interpreted as having
+--   two inputs.
 
--- | 3. We show that the constructor type is discrete.
+-- //
+
+-- [Hide]
 instance
-  isDiscrete:𝒹₁ : ∀{xs : List 𝒹₀} {x : 𝒹₀} -> isDiscrete (𝒹₁ xs x)
-  isDiscrete:𝒹₁ {xs} {x} = record { _≟-Str_ = lem-1 }
+  isDiscrete:Con-Sim : ∀{xs : List Sort-Sim} {x : Sort-Sim} -> isDiscrete (Con-Sim xs x)
+  isDiscrete:Con-Sim {xs} {x} = record { _≟-Str_ = lem-1 }
     where
-      lem-1 : (a b : 𝒹₁ xs x) → Decision (a ≡-Str b)
-      lem-1 ⇒ᵗ ⇒ᵗ = yes refl-≣
+      lem-1 : (a b : Con-Sim xs x) → Decision (a ≡-Str b)
+      lem-1 ⇒₂ᵗ ⇒₂ᵗ = yes refl-≣
       lem-1 ℕᵗ ℕᵗ = yes refl-≣
       lem-1 ℕᵗ 𝔹ᵗ = no (λ ())
       lem-1 𝔹ᵗ ℕᵗ = no (λ ())
       lem-1 𝔹ᵗ 𝔹ᵗ = yes refl-≣
 
--- |> And that the sort type is a set.
-instance
-  isSet:𝒹₀ : isSet-Str (𝒹₀)
-  isSet:𝒹₀ = {!!}
-
--- |: This makes |𝒹| into a signature for simple terms.
-𝒹 : 𝒯FOSignature ℓ₀
-𝒹 = record { Sort = 𝒹₀ ; Con = 𝒹₁ }
-
 -- //
 
+-- | Finally, we construct the signature [..] by setting [....]
+Σ-Sim : 𝒯FOSignature ℓ₀
+Σ-Sim = record { Sort = Sort-Sim ; Con = Con-Sim }
 
--- [Hide]
-infixr 30 _⇒_
-pattern _⇒_ a b = con ⇒ᵗ (incl a ⋆-⧜ (incl b ⋆-⧜ ◌-⧜))
 
--- //
+
 
