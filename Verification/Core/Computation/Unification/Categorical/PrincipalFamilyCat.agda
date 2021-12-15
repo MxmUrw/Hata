@@ -68,8 +68,8 @@ IxC : (𝒞 : Category 𝑖) -> 𝒰 _
 IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> HomPair a b
 
 -- module _ (𝒞 : Category 𝑖) {{_ : isSizedCategory 𝒞}} where
---   𝓘C : (i : IxC 𝒞) -> Idealᵣ {𝒞 = Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (incl (fst (snd i)))
---   𝓘C (_ , _ , f , g) = asIdealᵣ (f , g)
+--   𝓘C : (i : IxC 𝒞) -> Ideal {𝒞 = Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (incl (fst (snd i)))
+--   𝓘C (_ , _ , f , g) = asIdeal (f , g)
   -- ′ (CoeqSolutions (arrow f) (arrow g)) ′
 
 -- module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞}} {{_ : isDiscrete 𝒞}} {{_ : isSet-Str 𝒞}} where
@@ -113,10 +113,10 @@ module _ {𝒞 : Category 𝑖}
     𝒷' (left x) = left x
     𝒷' (just (x , (f , g) , p)) = just (x , (f , g))
 
-    𝓘' : ∀{a} -> Ix a -> Idealᵣ a
-    𝓘' (left false) = ⊥-Idealᵣ
-    𝓘' (left true) = ⊤-Idealᵣ
-    𝓘' (just (_ , (f , g))) = asIdealᵣ (f , g)
+    𝓘' : ∀{a} -> Ix a -> Ideal a
+    𝓘' (left false) = ⊥-Ideal
+    𝓘' (left true) = ⊤-Ideal
+    𝓘' (just (_ , (f , g))) = asIdeal (f , g)
 
     Size' : WFT (ℓ₀ , ℓ₀)
     Size' = Lexi ⟨ SizeO {{SP}} ⟩ ⟨ SizeC {{SP2}} ⟩
@@ -149,10 +149,10 @@ module _ {𝒞 : Category 𝑖}
     size-inv (some x) (just (just good)) (just x₁) = right (first good)
     size-inv zero good i = initial-⊥-WFT
 
-    lem-1 : {a b : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} {g : a ⟶ b} {i : Ix a} → 𝓘' (inv g i) ∼-Idealᵣ (g ⁻¹↷ 𝓘' i)
+    lem-1 : {a b : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} {g : a ⟶ b} {i : Ix a} → 𝓘' (inv g i) ∼-Ideal (g ⁻¹↷ 𝓘' i)
     lem-1 {a} {b} {zero} {left false} = antisym P terminal-⊤
       where
-        P : ⊤ ≤ (zero ⁻¹↷ ⊥-Idealᵣ)
+        P : ⊤ ≤ (zero ⁻¹↷ ⊥-Ideal)
         ⟨ P ⟩ f x = incl (incl refl)
     lem-1 {a} {b} {zero} {left true} = antisym P terminal-⊤
       where
@@ -160,11 +160,11 @@ module _ {𝒞 : Category 𝑖}
         ⟨ P ⟩ f x = incl tt
     lem-1 {a} {b} {zero} {just (_ , (f , g))} = antisym P terminal-⊤
       where
-        P : ⊤ ≤ (zero ⁻¹↷ asIdealᵣ (f , g))
+        P : ⊤ ≤ (zero ⁻¹↷ asIdeal (f , g))
         P = incl (λ f₁ x → incl ideal-pt)
-    lem-1 {a} {b} {some x} {left false} = antisym initial-⊥-Idealᵣ P
+    lem-1 {a} {b} {some x} {left false} = antisym initial-⊥-Ideal P
       where
-        P : (some x ⁻¹↷ ⊥-Idealᵣ) ≤ ⊥-Idealᵣ
+        P : (some x ⁻¹↷ ⊥-Ideal) ≤ ⊥-Ideal
         ⟨ P ⟩ zero x = ideal-pt
     lem-1 {a} {b} {some x} {left true} = antisym P terminal-⊤
       where
@@ -172,10 +172,10 @@ module _ {𝒞 : Category 𝑖}
         P = incl (λ f x₁ → incl tt)
     lem-1 {a} {b} {some x} {just (_ , (f , g))} = antisym P Q
       where
-        P : asIdealᵣ (f ◆ x , g ◆ x) ≤ (some x ⁻¹↷ asIdealᵣ (f , g))
+        P : asIdeal (f ◆ x , g ◆ x) ≤ (some x ⁻¹↷ asIdeal (f , g))
         P = incl (λ f₁ (incl p) → incl (incl (assoc-r-◆ ∙ p ∙ assoc-l-◆)))
 
-        Q : (some x ⁻¹↷ asIdealᵣ (f , g)) ≤ asIdealᵣ (f ◆ x , g ◆ x)
+        Q : (some x ⁻¹↷ asIdeal (f , g)) ≤ asIdeal (f ◆ x , g ◆ x)
         Q = incl (λ f₁ (incl (incl p)) → incl (assoc-l-◆ ∙ p ∙ assoc-r-◆))
 
     lem-2 : {a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (b : Bx a) → isEpiPrincipalᵣ (𝓘' (𝒷' b))
@@ -194,22 +194,22 @@ module _ {𝒞 : Category 𝑖}
         fam' : Fin-R n → Ix (incl b)
         fam' i = right (famC S i)
 
-        covers₀ : ⋀-fin (λ i → asIdealᵣ (fst (snd (famC S i)) , snd (snd (famC S i))))
-                  ≤ asIdealᵣ (f , g)
+        covers₀ : ⋀-fin (λ i → asIdeal (fst (snd (famC S i)) , snd (snd (famC S i))))
+                  ≤ asIdeal (f , g)
         ⟨ covers₀ ⟩ zero h∈P = ideal-pt
         ⟨ covers₀ ⟩ (some h) h∈P = incl (some (coversC S (h) .snd Q))
           where
             Q : ∀(i : Fin-R n) -> (fst (snd (famC S i)) ◆ h) ∼ (snd (snd (famC S i)) ◆ h)
-            Q i with ⟨ §-∧-Idealᵣ.prop-1 h∈P i ⟩
+            Q i with ⟨ §-∧-Ideal.prop-1 h∈P i ⟩
             ... | some p = p
 
-        covers₁ : asIdealᵣ (f , g)
-                  ≤ ⋀-fin (λ i → asIdealᵣ (fst (snd (famC S i)) , snd (snd (famC S i))))
-        ⟨ covers₁ ⟩ zero h∈P = §-∧-Idealᵣ.prop-3 {P = (λ i → asIdealᵣ (fst (snd (famC S i)) , snd (snd (famC S i))))}
-        ⟨ covers₁ ⟩ (some h) (incl (some h∈P)) = §-∧-Idealᵣ.prop-2 {P = λ i → asIdealᵣ (fst (snd (famC S i)) , snd (snd (famC S i)))} λ i → incl (some (coversC S h .fst h∈P i))
+        covers₁ : asIdeal (f , g)
+                  ≤ ⋀-fin (λ i → asIdeal (fst (snd (famC S i)) , snd (snd (famC S i))))
+        ⟨ covers₁ ⟩ zero h∈P = §-∧-Ideal.prop-3 {P = (λ i → asIdeal (fst (snd (famC S i)) , snd (snd (famC S i))))}
+        ⟨ covers₁ ⟩ (some h) (incl (some h∈P)) = §-∧-Ideal.prop-2 {P = λ i → asIdeal (fst (snd (famC S i)) , snd (snd (famC S i)))} λ i → incl (some (coversC S h .fst h∈P i))
 
     lem-4 : {a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (i : Ix a) →
-            (∑ (λ b → 𝓘' (𝒷' b) ∼-Idealᵣ 𝓘' i)) +-𝒰
+            (∑ (λ b → 𝓘' (𝒷' b) ∼-Ideal 𝓘' i)) +-𝒰
             (∑ (λ n → isSplittable n i))
     lem-4 (left x) = left (left x , refl)
     lem-4 (just (x , (f , g))) with ∂C (f , g)
@@ -226,7 +226,7 @@ module _ {𝒞 : Category 𝑖}
                                                   ; ∂ = lem-4
                                                   }
 
-  isEpiPrincipal:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isEpiPrincipalᵣ (asIdealᵣ (f , g))
+  isEpiPrincipal:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isEpiPrincipalᵣ (asIdeal (f , g))
   isEpiPrincipal:byPrincipalFamilyCat {a} {b} {f} {g} = isPrincipal:Family (Free-𝐙𝐌𝐂𝐚𝐭 𝒞) _ (just (a , (f , g))) refl-≣
 
   instance

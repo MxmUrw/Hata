@@ -40,9 +40,9 @@ module _ {𝒞 : 𝒰 _}
 
   module _ {a b : 𝒞} {f g : a ⟶ b} where
     instance
-      isIdealᵣ:CoeqIdeal : isIdealᵣ b (CoeqIdealᵘ f g)
-      isIdealᵣ:CoeqIdeal = record
-        { transp-Idealᵣ = lem-1
+      isIdeal:CoeqIdeal : isIdeal b (CoeqIdealᵘ f g)
+      isIdeal:CoeqIdeal = record
+        { transp-Ideal = lem-1
         ; ideal-r-◆ = lem-2
         ; ideal-pt = lem-3
         }
@@ -58,28 +58,28 @@ module _ {𝒞 : 𝒰 _}
 
 module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
-  asIdealᵣ : ∀{a b : ⟨ 𝒞 ⟩} -> HomPair a b -> Idealᵣ {𝒞 = Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (incl b)
-  asIdealᵣ (f , g) = CoeqIdeal (some f) (some g)
+  asIdeal : ∀{a b : ⟨ 𝒞 ⟩} -> HomPair a b -> Ideal {𝒞 = Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (incl b)
+  asIdeal (f , g) = CoeqIdeal (some f) (some g)
 
 
   module _ {a b : ⟨ 𝒞 ⟩} where
     private
-      lem-1 : {p : HomPair a b} -> {x : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} {h : incl b ⟶ x} -> ⟨ asIdealᵣ p ⟩ h -> (h ∼ pt) +-𝒰 hasCoequalizerCandidate p
+      lem-1 : {p : HomPair a b} -> {x : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} {h : incl b ⟶ x} -> ⟨ asIdeal p ⟩ h -> (h ∼ pt) +-𝒰 hasCoequalizerCandidate p
       lem-1 {p} {incl x} {some f} (incl (some Q)) = right (x since record { π₌? = f ; equate-π₌? = Q })
       lem-1 {p} {x} {zero} Q = left zero
 
-      lem-4 : {p : HomPair a b} -> hasCoequalizerCandidate p -> ∑ λ (x : ⟨ 𝒞 ⟩) -> ∑ λ (h : b ⟶ x) -> ⟨ asIdealᵣ p ⟩ (some h)
+      lem-4 : {p : HomPair a b} -> hasCoequalizerCandidate p -> ∑ λ (x : ⟨ 𝒞 ⟩) -> ∑ λ (h : b ⟶ x) -> ⟨ asIdeal p ⟩ (some h)
       lem-4 {p} (j since jP) = j , π₌? , incl (some equate-π₌?)
 
 
-    Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isEpiPrincipalᵣ (asIdealᵣ f)
+    Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isEpiPrincipalᵣ (asIdeal f)
     Forward {f} (left noCandidate) =
-      let ⟨f⟩∼⊥ : asIdealᵣ f ∼ ⊥-Idealᵣ
+      let ⟨f⟩∼⊥ : asIdeal f ∼ ⊥-Ideal
           ⟨f⟩∼⊥ = antisym
                   (incl (λ h h∈⟨f⟩ → case lem-1 h∈⟨f⟩ of
                                     incl
                                     λ candidate → impossible (noCandidate candidate)))
-                  initial-⊥-Idealᵣ
+                  initial-⊥-Ideal
       in transp-isEpiPrincipalᵣ (⟨f⟩∼⊥ ⁻¹) isEpiPrincipalᵣ:⊥
     Forward {f , g} (just (x , sizedx)) = record
       { repObj = incl ⟨ x ⟩
@@ -91,11 +91,11 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
       where
         instance _ = of x
 
-        lem-2 : asIdealᵣ (f , g) ≤ (some π₌ ↷ ⊤)
+        lem-2 : asIdeal (f , g) ≤ (some π₌ ↷ ⊤)
         ⟨ lem-2 ⟩ (some h) (incl (some fh∼gh)) = incl (some ⦗ h , fh∼gh ⦘₌ , tt , some reduce-π₌)
         ⟨ lem-2 ⟩ zero x = incl (pt , tt , refl)
 
-        lem-3 : (some π₌ ↷ ⊤) ≤ asIdealᵣ (f , g)
+        lem-3 : (some π₌ ↷ ⊤) ≤ asIdeal (f , g)
         ⟨ lem-3 ⟩ (some h) (incl (e , tt , π₌e∼h)) = incl P
           where
             P : some (f ◆ h) ∼ some (g ◆ h)
@@ -119,7 +119,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
 
 
-    Backward : {f : HomPair a b} -> isEpiPrincipalᵣ (asIdealᵣ f) -> hasSizedCoequalizerDecision f
+    Backward : {f : HomPair a b} -> isEpiPrincipalᵣ (asIdeal f) -> hasSizedCoequalizerDecision f
     Backward {f , g} P with zeroOrEpi {{_}} {{P}}
     ... | left rep∼pt = left Proof
       where
@@ -127,7 +127,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
           instance _ = of Q
           instance _ = P
 
-          lem-3 : asIdealᵣ (f , g) ∼ ⊥-Idealᵣ
+          lem-3 : asIdeal (f , g) ∼ ⊥-Ideal
           lem-3 = §-EpiPrincipalᵣ.prop-1 rep∼pt
 
           Proof : 𝟘-𝒰
@@ -141,13 +141,13 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
       where
         instance _ = P
         x : ⟨ 𝒞 ⟩
-        x = ⟨ repObjOf (asIdealᵣ (f , g)) ⟩
+        x = ⟨ repObjOf (asIdeal (f , g)) ⟩
 
-        lem-5 : ⟨ asIdealᵣ (f , g) ⟩ rep
+        lem-5 : ⟨ asIdeal (f , g) ⟩ rep
         lem-5 = §-EpiPrincipalᵣ.prop-2
 
-        lem-6 : ⟨ asIdealᵣ (f , g) ⟩ (some π')
-        lem-6 = transport-Str (cong-Str (λ ξ -> ⟨ asIdealᵣ (f , g) ⟩ ξ) (rep≣π')) lem-5
+        lem-6 : ⟨ asIdeal (f , g) ⟩ (some π')
+        lem-6 = transport-Str (cong-Str (λ ξ -> ⟨ asIdeal (f , g) ⟩ ξ) (rep≣π')) lem-5
 
         lem-7 : f ◆ π' ∼ g ◆ π'
         lem-7 with lem-6
@@ -156,14 +156,14 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
         lem-8 : ∀{d : ⟨ 𝒞 ⟩} -> (h : b ⟶ d) -> f ◆ h ∼ g ◆ h -> ∑ λ (h' : x ⟶ d) -> π' ◆ h' ∼ h
         lem-8 {d} h fh∼gh = lem-8-4
           where
-            lem-8-1 : ⟨ asIdealᵣ (f , g) ⟩ (some h)
+            lem-8-1 : ⟨ asIdeal (f , g) ⟩ (some h)
             lem-8-1 = incl (some fh∼gh)
 
             lem-8-2 : ⟨ rep ↷ ⊤ ⟩ (some h)
             lem-8-2 = ⟨ (by-∼-≤ principal-r) ⟩ _ lem-8-1
 
             lem-8-3 : ⟨ some π' ↷ ⊤ ⟩ (some h)
-            lem-8-3 = transport-Str (cong-Str (λ ξ -> ⟨ ξ ↷ ⊤-Idealᵣ ⟩ (some h)) rep≣π') lem-8-2
+            lem-8-3 = transport-Str (cong-Str (λ ξ -> ⟨ ξ ↷ ⊤-Ideal ⟩ (some h)) rep≣π') lem-8-2
 
             lem-8-4 : ∑ λ (h' : x ⟶ d) -> π' ◆ h' ∼ h
             lem-8-4 with lem-8-3

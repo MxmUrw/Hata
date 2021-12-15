@@ -19,7 +19,7 @@ record hasSizedFamily (𝑗 : 𝔏) (𝒞 : ZeroMorphismCategory 𝑖) : 𝒰 (�
   field Base : ⟨ 𝒞 ⟩ -> 𝒰 𝑗
   field Ind : ⟨ 𝒞 ⟩ -> 𝒰 𝑗
   field 𝒷 : ∀ {a} -> Base a -> Ind a
-  field 𝓘 : ∀ {a} -> (i : Ind a) -> Idealᵣ a
+  field 𝓘 : ∀ {a} -> (i : Ind a) -> Ideal a
   field Size : WFT (ℓ₀ , ℓ₀)
   field size : ∀{a} -> Ind a -> ⟨ Size ⟩
 
@@ -66,7 +66,7 @@ module _ (𝒞 : 𝒰 𝑖)
     P : (s : ⟨ Size ⟩) -> 𝒰 _
     P s = ∀{a : 𝒞} -> ∀ (i : Ind a) -> size i ≡-Str s -> isEpiPrincipalᵣ (𝓘 i)
 
-    lem-40 : ∀{a : 𝒞} {U V : Idealᵣ a}
+    lem-40 : ∀{a : 𝒞} {U V : Ideal a}
               -> (PU : isEpiPrincipalᵣ U)
               -> isEpiPrincipalᵣ (repOf U {{PU}} ⁻¹↷ V)
               -> isEpiPrincipalᵣ (V ∧ U)

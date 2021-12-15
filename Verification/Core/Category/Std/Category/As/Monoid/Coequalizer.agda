@@ -45,24 +45,24 @@ module _ {M : 𝒰 _} {{_ : Monoid (𝑖 , 𝑖) on M}} where
 module _ {M : 𝒰 _} {{_ : Monoid₀ (𝑖 , 𝑖) on M}} where
   module _ {f g : M} where
     instance
-      isIdealᵣ:MonEqᵣ : isIdealᵣ ′ M ′ (MonEqᵣ f g)
-      isIdealᵣ.ideal-r-⋆ isIdealᵣ:MonEqᵣ {h} (incl P) i =
+      isIdeal:MonEqᵣ : isIdeal ′ M ′ (MonEqᵣ f g)
+      isIdeal.ideal-r-⋆ isIdeal:MonEqᵣ {h} (incl P) i =
         let P₀ : f ⋆ (h ⋆ i) ∼ g ⋆ (h ⋆ i)
             P₀ = f ⋆ (h ⋆ i)   ⟨ assoc-r-⋆ ⟩-∼
                   (f ⋆ h) ⋆ i   ⟨ P ≀⋆≀ refl ⟩-∼
                   (g ⋆ h) ⋆ i   ⟨ assoc-l-⋆ ⟩-∼
                   g ⋆ (h ⋆ i)   ∎
         in incl P₀
-      isIdealᵣ.ideal-◍ isIdealᵣ:MonEqᵣ = incl (absorb-r-⋆ ∙ absorb-r-⋆ ⁻¹)
+      isIdeal.ideal-◍ isIdeal:MonEqᵣ = incl (absorb-r-⋆ ∙ absorb-r-⋆ ⁻¹)
 
 
 module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
-  asIdealᵣ : ∀{a b : ⟨ 𝒞 ⟩} -> HomPair a b -> Idealᵣ (𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞)
-  asIdealᵣ (f , g) = MonEqᵣ (arrow f) (arrow g)
+  asIdeal : ∀{a b : ⟨ 𝒞 ⟩} -> HomPair a b -> Ideal (𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞)
+  asIdeal (f , g) = MonEqᵣ (arrow f) (arrow g)
 
   module _ {a b : ⟨ 𝒞 ⟩} where
     private
-      lem-1 : {p : HomPair a b} -> {h : 𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞} -> h ∈ asIdealᵣ p -> (h ∼ ◍) +-𝒰 hasCoequalizerCandidate p
+      lem-1 : {p : HomPair a b} -> {h : 𝖯𝖺𝗍𝗁𝖬𝗈𝗇 𝒞} -> h ∈ asIdeal p -> (h ∼ ◍) +-𝒰 hasCoequalizerCandidate p
       lem-1 {f , g} {[]} hP = left []
       lem-1 {f , g} {idp} (incl hP) = right (b since P₁)
         where
@@ -77,17 +77,17 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
 
 
-    -- Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isSpecialEpiPrincipalᵣ (asIdealᵣ f)
+    -- Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isSpecialEpiPrincipalᵣ (asIdeal f)
     -- Forward {f , g} (left x) = lem-11
     --   where
-    --     lem-10 : asIdealᵣ (f , g) ∼ ⊥-Idealᵣ
+    --     lem-10 : asIdeal (f , g) ∼ ⊥-Ideal
     --     lem-10 = antisym P Q
     --       where
-    --         P : asIdealᵣ (f , g) ≤ ⊥-Idealᵣ
+    --         P : asIdeal (f , g) ≤ ⊥-Ideal
     --         ⟨ P a ⟩ (incl h) = {!!}
 
-    --         Q : ⊥-Idealᵣ ≤ asIdealᵣ (f , g)
-    --         Q = initial-⊥-Idealᵣ {I = asIdealᵣ (f , g)}
+    --         Q : ⊥-Ideal ≤ asIdeal (f , g)
+    --         Q = initial-⊥-Ideal {I = asIdeal (f , g)}
 
     --     lem-11 = transp-isSpecialEpiPrincipalᵣ (lem-10 ⁻¹) it
 
@@ -117,15 +117,15 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 --     isSubsetoid.transp-Subsetoid isSubsetoid:MonEqᵣ (p) (incl P) = incl ((refl ≀⋆≀ p ⁻¹) ∙ P ∙ (refl ≀⋆≀ p))
 
 --   instance
---     isIdealᵣ:MonEqᵣ : isIdealᵣ M ′(MonEqᵣ f g)′
---     isIdealᵣ.ideal-r-⋆ isIdealᵣ:MonEqᵣ {h} (incl P) i =
+--     isIdeal:MonEqᵣ : isIdeal M ′(MonEqᵣ f g)′
+--     isIdeal.ideal-r-⋆ isIdeal:MonEqᵣ {h} (incl P) i =
 --       let P₀ : f ⋆ (h ⋆ i) ∼ g ⋆ (h ⋆ i)
 --           P₀ = f ⋆ (h ⋆ i)   ⟨ assoc-r-⋆ ⟩-∼
 --                 (f ⋆ h) ⋆ i   ⟨ P ≀⋆≀ refl ⟩-∼
 --                 (g ⋆ h) ⋆ i   ⟨ assoc-l-⋆ ⟩-∼
 --                 g ⋆ (h ⋆ i)   ∎
 --       in incl P₀
---     isIdealᵣ.ideal-◍ isIdealᵣ:MonEqᵣ = incl (absorb-r-⋆ ∙ absorb-r-⋆ ⁻¹)
+--     isIdeal.ideal-◍ isIdeal:MonEqᵣ = incl (absorb-r-⋆ ∙ absorb-r-⋆ ⁻¹)
 
 
 

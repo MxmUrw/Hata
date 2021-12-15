@@ -20,6 +20,7 @@ open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Defi
 
 -- ===* Ideals in categories with zero morphisms
 
+
 -- | Fix a category |𝒞| with zero morphisms for the remainder of the chapter.
 -- [Hide]
 module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
@@ -37,7 +38,7 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   --   at/ |a| if the following two conditions hold:
   module _ (a : 𝒞) (P : ∀{b : 𝒞} -> (f : a ⟶ b) -> 𝒰 𝑖) where
   -- | {}[]
-    record isIdealᵣ : 𝒰 𝑖 where
+    record isIdeal : 𝒰 𝑖 where
       -- | 1. Given any arrow |f| in this set, i.e. |P f| holds,
       --      then for any other arrow |g|, the composition |f ◆ g|
       --      is still in this set.
@@ -50,19 +51,19 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
       --      with regards to the equivalence relation,
       --      it cannot happen that one of them is in |P|
       --      while the other one is not.
-      field transp-Idealᵣ : {f g : a ⟶ b} -> (p : f ∼ g) -> P f -> P g
+      field transp-Ideal : {f g : a ⟶ b} -> (p : f ∼ g) -> P f -> P g
 
     -- |: A /left ideal/ could be defined by reversing arrows.
     --    Since we only need ideals in the direction as defined above,
     --    we usually skip the qualifier and simply speak of ideals.
 
-    open isIdealᵣ {{...}} public
+    open isIdeal {{...}} public
   -- //
 
   -- [Hide]
   module _ (a : 𝒞) where
-    Idealᵣᵘ = _ :& isIdealᵣ a
-    macro Idealᵣ = #structureOn Idealᵣᵘ
+    Idealᵘ = _ :& isIdeal a
+    macro Ideal = #structureOn Idealᵘ
 
   -- //
 
@@ -73,9 +74,9 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
     -- [Definition]
     -- | We define an equivalence relation on ideals.
     --   Let [..] be two ideals at a.
-    module _ (A B : Idealᵣ a) where
+    module _ (A B : Ideal a) where
       -- |> We say that |A ∼ B| [] if the following can be shown:
-      record _∼-Idealᵣ_ : 𝒰 (𝑖) where
+      record _∼-Ideal_ : 𝒰 (𝑖) where
         constructor incl
         field ⟨_⟩ : ∀(f : a ⟶ b) -> ⟨ A ⟩ f ↔ ⟨ B ⟩ f
         -- |> That is, two ideals are to be considered equivalent
@@ -98,25 +99,25 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
 
     -- //
 
-    open _∼-Idealᵣ_ public
-    -- _∼-Idealᵣ_ : (A B : Idealᵣ a) -> 𝒰 _
-    -- _∼-Idealᵣ_ A B = ∀{b} -> (f : a ⟶ b) -> ⟨ A ⟩ f ↔ ⟨ B ⟩ f
+    open _∼-Ideal_ public
+    -- _∼-Ideal_ : (A B : Ideal a) -> 𝒰 _
+    -- _∼-Ideal_ A B = ∀{b} -> (f : a ⟶ b) -> ⟨ A ⟩ f ↔ ⟨ B ⟩ f
 
 -- [Hide]
     private
-      lem-1 : ∀{A : Idealᵣ a} -> A ∼-Idealᵣ A
+      lem-1 : ∀{A : Ideal a} -> A ∼-Ideal A
       lem-1 = incl λ f → (id , id)
 
-      lem-2 : ∀{A B : Idealᵣ a} -> A ∼-Idealᵣ B -> B ∼-Idealᵣ A
+      lem-2 : ∀{A B : Ideal a} -> A ∼-Ideal B -> B ∼-Ideal A
       lem-2 P = incl λ f → ⟨ P ⟩ f .snd , ⟨ P ⟩ f .fst
 
-      lem-3 : ∀{A B C : Idealᵣ a} -> A ∼-Idealᵣ B -> B ∼-Idealᵣ C -> A ∼-Idealᵣ C
+      lem-3 : ∀{A B C : Ideal a} -> A ∼-Ideal B -> B ∼-Ideal C -> A ∼-Ideal C
       lem-3 P Q = incl λ f → ⟨ P ⟩ f .fst ◆ ⟨ Q ⟩ f .fst , ⟨ Q ⟩ f .snd ◆ ⟨ P ⟩ f .snd
 
 
     instance
-      isSetoid:Idealᵣ : isSetoid (Idealᵣ a)
-      isSetoid:Idealᵣ = isSetoid:byDef (_∼-Idealᵣ_) lem-1 lem-2 lem-3
+      isSetoid:Ideal : isSetoid (Ideal a)
+      isSetoid:Ideal = isSetoid:byDef (_∼-Ideal_) lem-1 lem-2 lem-3
 
     -- //
 
@@ -125,15 +126,15 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
     -- [Definition]
     -- | We define a preorder on ideals.
     --   Let [..] be two ideals at a.
-    module _ (A B : Idealᵣ a) where
+    module _ (A B : Ideal a) where
       -- |> We say that |A ≤ B| [] if the following can be shown:
-      record _≤-Idealᵣ_ : 𝒰 (𝑖) where
+      record _≤-Ideal_ : 𝒰 (𝑖) where
         constructor incl
         field ⟨_⟩ : (f : a ⟶ b) -> ⟨ A ⟩ f -> ⟨ B ⟩ f
 
       -- |> This merely expresses the fact that |A| is a subset of |B|.
 
-    open _≤-Idealᵣ_ public
+    open _≤-Ideal_ public
     -- //
 
     -- [Lemma]
@@ -149,26 +150,26 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
     -- //
 
 -- [Hide]
-    reflexive-Idealᵣ : ∀{A : Idealᵣ a} -> A ≤-Idealᵣ A
-    reflexive-Idealᵣ = incl λ f P → P
+    reflexive-Ideal : ∀{A : Ideal a} -> A ≤-Ideal A
+    reflexive-Ideal = incl λ f P → P
 
-    _⟡-Idealᵣ_ : ∀{A B C : Idealᵣ a} -> A ≤-Idealᵣ B -> B ≤-Idealᵣ C -> A ≤-Idealᵣ C
-    _⟡-Idealᵣ_ P Q = incl λ f → ⟨ P ⟩ f ◆ ⟨ Q ⟩ f
+    _⟡-Ideal_ : ∀{A B C : Ideal a} -> A ≤-Ideal B -> B ≤-Ideal C -> A ≤-Ideal C
+    _⟡-Ideal_ P Q = incl λ f → ⟨ P ⟩ f ◆ ⟨ Q ⟩ f
 
-    transp-≤-Idealᵣ : ∀{A B C D : Idealᵣ a} -> (A ∼ B) -> (C ∼ D) -> A ≤-Idealᵣ C -> B ≤-Idealᵣ D
-    transp-≤-Idealᵣ p q r = incl λ f → ⟨ p ⟩ f .snd ◆ ⟨ r ⟩ f ◆ ⟨ q ⟩ f .fst
+    transp-≤-Ideal : ∀{A B C D : Ideal a} -> (A ∼ B) -> (C ∼ D) -> A ≤-Ideal C -> B ≤-Ideal D
+    transp-≤-Ideal p q r = incl λ f → ⟨ p ⟩ f .snd ◆ ⟨ r ⟩ f ◆ ⟨ q ⟩ f .fst
 
     instance
-      isPreorder:Idealᵣ : isPreorder _ (Idealᵣ a)
-      isPreorder:Idealᵣ = record
-        { _≤_ = _≤-Idealᵣ_
-        ; reflexive = reflexive-Idealᵣ
-        ; _⟡_ = _⟡-Idealᵣ_
-        ; transp-≤ = transp-≤-Idealᵣ
+      isPreorder:Ideal : isPreorder _ (Ideal a)
+      isPreorder:Ideal = record
+        { _≤_ = _≤-Ideal_
+        ; reflexive = reflexive-Ideal
+        ; _⟡_ = _⟡-Ideal_
+        ; transp-≤ = transp-≤-Ideal
         }
 
-      isPartialorder:Idealᵣ : isPartialorder (Idealᵣ a)
-      isPartialorder:Idealᵣ = record { antisym = λ p q → incl λ f → ⟨ p ⟩ f , ⟨ q ⟩ f }
+      isPartialorder:Ideal : isPartialorder (Ideal a)
+      isPartialorder:Ideal = record { antisym = λ p q → incl λ f → ⟨ p ⟩ f , ⟨ q ⟩ f }
 
 
 -- //

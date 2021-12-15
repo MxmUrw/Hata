@@ -22,39 +22,39 @@ module _ {A : 𝒰 𝑖} (P : A -> 𝒰 𝑗) where
 -- end
 
 
-record isIdealᵣ {𝑗 : 𝔏 ^ 2} (A : Monoid₀ 𝑗) (P : 𝒫 ⟨ A ⟩ :& isSubsetoid) : 𝒰 𝑗 where
+record isIdeal {𝑗 : 𝔏 ^ 2} (A : Monoid₀ 𝑗) (P : 𝒫 ⟨ A ⟩ :& isSubsetoid) : 𝒰 𝑗 where
   field ideal-◍ : ◍ ∈ P
   field ideal-r-⋆ : ∀{a : ⟨ A ⟩} -> a ∈ P -> ∀ b -> (a ⋆ b) ∈ P
-open isIdealᵣ {{...}} public
+open isIdeal {{...}} public
 
 
 module _ (A : 𝐌𝐨𝐧₀ 𝑗) where
-  Idealᵣᵘ : 𝒰 _
-  Idealᵣᵘ = _ :& isIdealᵣ A
+  Idealᵘ : 𝒰 _
+  Idealᵘ = _ :& isIdeal A
 
-  macro Idealᵣ = #structureOn Idealᵣᵘ
+  macro Ideal = #structureOn Idealᵘ
 
 
 module _ {A : Monoid₀ 𝑖} where
 
   private
-    _∼-Ideal_ : Idealᵣ A -> Idealᵣ A -> 𝒰 _
+    _∼-Ideal_ : Ideal A -> Ideal A -> 𝒰 _
     _∼-Ideal_ = _∼-hasU_
 
   instance
-    isSetoid:Idealᵣ : isSetoid (Idealᵣ A)
-    isSetoid:Idealᵣ = isSetoid:hasU
+    isSetoid:Ideal : isSetoid (Ideal A)
+    isSetoid:Ideal = isSetoid:hasU
 
   instance
-    isPreorder:Idealᵣ : isPreorder _ (Idealᵣ A)
-    isPreorder._≤_ isPreorder:Idealᵣ I J = ⟨ I ⟩ ≤ ⟨ J ⟩
-    isPreorder.reflexive isPreorder:Idealᵣ = λ a → reflexive
-    isPreorder._⟡_ isPreorder:Idealᵣ = λ p q a → p a ⟡ q a
-    isPreorder.transp-≤ isPreorder:Idealᵣ = {!!}
+    isPreorder:Ideal : isPreorder _ (Ideal A)
+    isPreorder._≤_ isPreorder:Ideal I J = ⟨ I ⟩ ≤ ⟨ J ⟩
+    isPreorder.reflexive isPreorder:Ideal = λ a → reflexive
+    isPreorder._⟡_ isPreorder:Ideal = λ p q a → p a ⟡ q a
+    isPreorder.transp-≤ isPreorder:Ideal = {!!}
 
   instance
-    isPartialorder:Idealᵣ : isPartialorder (Idealᵣ A)
-    isPartialorder:Idealᵣ = record
+    isPartialorder:Ideal : isPartialorder (Ideal A)
+    isPartialorder:Ideal = record
       { antisym = λ p q -> incl $ antisym p q
       }
 

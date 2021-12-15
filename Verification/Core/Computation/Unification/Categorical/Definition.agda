@@ -60,69 +60,69 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   UpFamily : (a : 𝒞) -> 𝒰 _
   UpFamily a = ∀{b : 𝒞} -> (a ⟶ b) -> 𝒰 (𝑖)
 
-  record isIdealᵣ (a : 𝒞) (P : ∀{b : 𝒞} -> (f : a ⟶ b) -> 𝒰 (𝑖)) : 𝒰 (𝑖) where
-    field transp-Idealᵣ : ∀{b} -> {f g : a ⟶ b} -> (p : f ∼ g) -> P f -> P g
+  record isIdeal (a : 𝒞) (P : ∀{b : 𝒞} -> (f : a ⟶ b) -> 𝒰 (𝑖)) : 𝒰 (𝑖) where
+    field transp-Ideal : ∀{b} -> {f g : a ⟶ b} -> (p : f ∼ g) -> P f -> P g
     field ideal-r-◆ : ∀{b} -> {f : a ⟶ b} -> P f -> ∀{c} -> (g : b ⟶ c) -> P (f ◆ g)
     field ideal-pt : ∀{b} -> P {b} pt
 
-  open isIdealᵣ {{...}} public
+  open isIdeal {{...}} public
 
   module _ (a : 𝒞) where
-    Idealᵣᵘ = _ :& isIdealᵣ a
-    macro Idealᵣ = #structureOn Idealᵣᵘ
+    Idealᵘ = _ :& isIdeal a
+    macro Ideal = #structureOn Idealᵘ
 
 
   module _ {a : 𝒞} where
 
-    record _∼-Idealᵣ_ (A B : Idealᵣ a) : 𝒰 (𝑖) where
+    record _∼-Ideal_ (A B : Ideal a) : 𝒰 (𝑖) where
       constructor incl
       field ⟨_⟩ : ∀{b} -> (f : a ⟶ b) -> ⟨ A ⟩ f ↔ ⟨ B ⟩ f
 
-    open _∼-Idealᵣ_ public
-    -- _∼-Idealᵣ_ : (A B : Idealᵣ a) -> 𝒰 _
-    -- _∼-Idealᵣ_ A B = ∀{b} -> (f : a ⟶ b) -> ⟨ A ⟩ f ↔ ⟨ B ⟩ f
+    open _∼-Ideal_ public
+    -- _∼-Ideal_ : (A B : Ideal a) -> 𝒰 _
+    -- _∼-Ideal_ A B = ∀{b} -> (f : a ⟶ b) -> ⟨ A ⟩ f ↔ ⟨ B ⟩ f
 
     private
-      lem-1 : ∀{A : Idealᵣ a} -> A ∼-Idealᵣ A
+      lem-1 : ∀{A : Ideal a} -> A ∼-Ideal A
       lem-1 = incl λ f → (id , id)
 
-      lem-2 : ∀{A B : Idealᵣ a} -> A ∼-Idealᵣ B -> B ∼-Idealᵣ A
+      lem-2 : ∀{A B : Ideal a} -> A ∼-Ideal B -> B ∼-Ideal A
       lem-2 P = incl λ f → ⟨ P ⟩ f .snd , ⟨ P ⟩ f .fst
 
-      lem-3 : ∀{A B C : Idealᵣ a} -> A ∼-Idealᵣ B -> B ∼-Idealᵣ C -> A ∼-Idealᵣ C
+      lem-3 : ∀{A B C : Ideal a} -> A ∼-Ideal B -> B ∼-Ideal C -> A ∼-Ideal C
       lem-3 P Q = incl λ f → ⟨ P ⟩ f .fst ◆ ⟨ Q ⟩ f .fst , ⟨ Q ⟩ f .snd ◆ ⟨ P ⟩ f .snd
 
 
     instance
-      isSetoid:Idealᵣ : isSetoid (Idealᵣ a)
-      isSetoid:Idealᵣ = isSetoid:byDef (_∼-Idealᵣ_) lem-1 lem-2 lem-3
+      isSetoid:Ideal : isSetoid (Ideal a)
+      isSetoid:Ideal = isSetoid:byDef (_∼-Ideal_) lem-1 lem-2 lem-3
 
-    record _≤-Idealᵣ_ (A B : Idealᵣ a) : 𝒰 (𝑖) where
+    record _≤-Ideal_ (A B : Ideal a) : 𝒰 (𝑖) where
       constructor incl
       field ⟨_⟩ : ∀{b} -> (f : a ⟶ b) -> ⟨ A ⟩ f -> ⟨ B ⟩ f
 
-    open _≤-Idealᵣ_ public
+    open _≤-Ideal_ public
 
-    reflexive-Idealᵣ : ∀{A : Idealᵣ a} -> A ≤-Idealᵣ A
-    reflexive-Idealᵣ = incl λ f P → P
+    reflexive-Ideal : ∀{A : Ideal a} -> A ≤-Ideal A
+    reflexive-Ideal = incl λ f P → P
 
-    _⟡-Idealᵣ_ : ∀{A B C : Idealᵣ a} -> A ≤-Idealᵣ B -> B ≤-Idealᵣ C -> A ≤-Idealᵣ C
-    _⟡-Idealᵣ_ P Q = incl λ f → ⟨ P ⟩ f ◆ ⟨ Q ⟩ f
+    _⟡-Ideal_ : ∀{A B C : Ideal a} -> A ≤-Ideal B -> B ≤-Ideal C -> A ≤-Ideal C
+    _⟡-Ideal_ P Q = incl λ f → ⟨ P ⟩ f ◆ ⟨ Q ⟩ f
 
-    transp-≤-Idealᵣ : ∀{A B C D : Idealᵣ a} -> (A ∼ B) -> (C ∼ D) -> A ≤-Idealᵣ C -> B ≤-Idealᵣ D
-    transp-≤-Idealᵣ p q r = incl λ f → ⟨ p ⟩ f .snd ◆ ⟨ r ⟩ f ◆ ⟨ q ⟩ f .fst
+    transp-≤-Ideal : ∀{A B C D : Ideal a} -> (A ∼ B) -> (C ∼ D) -> A ≤-Ideal C -> B ≤-Ideal D
+    transp-≤-Ideal p q r = incl λ f → ⟨ p ⟩ f .snd ◆ ⟨ r ⟩ f ◆ ⟨ q ⟩ f .fst
 
     instance
-      isPreorder:Idealᵣ : isPreorder _ (Idealᵣ a)
-      isPreorder:Idealᵣ = record
-        { _≤_ = _≤-Idealᵣ_
-        ; reflexive = reflexive-Idealᵣ
-        ; _⟡_ = _⟡-Idealᵣ_
-        ; transp-≤ = transp-≤-Idealᵣ
+      isPreorder:Ideal : isPreorder _ (Ideal a)
+      isPreorder:Ideal = record
+        { _≤_ = _≤-Ideal_
+        ; reflexive = reflexive-Ideal
+        ; _⟡_ = _⟡-Ideal_
+        ; transp-≤ = transp-≤-Ideal
         }
 
-      isPartialorder:Idealᵣ : isPartialorder (Idealᵣ a)
-      isPartialorder:Idealᵣ = record { antisym = λ p q → incl λ f → ⟨ p ⟩ f , ⟨ q ⟩ f }
+      isPartialorder:Ideal : isPartialorder (Ideal a)
+      isPartialorder:Ideal = record { antisym = λ p q → incl λ f → ⟨ p ⟩ f , ⟨ q ⟩ f }
 
 -----------------------------------------------------------------------------------------
 -- The zero ideal
@@ -136,26 +136,26 @@ module _ {𝒞 : 𝒰 𝑖}
 
 -- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   module _ {a : 𝒞} where
-    record ⊥-Idealᵣᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
+    record ⊥-Idealᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor incl
       field ⟨_⟩ : f ∼ pt
 
-    open ⊥-Idealᵣᵘ public
+    open ⊥-Idealᵘ public
 
     macro
-      ⊥-Idealᵣ = #structureOn (λ {b} -> ⊥-Idealᵣᵘ {b})
+      ⊥-Ideal = #structureOn (λ {b} -> ⊥-Idealᵘ {b})
 
 
     instance
-      isIdealᵣ:⊥-Idealᵣ : isIdealᵣ a ⊥-Idealᵣᵘ
-      isIdealᵣ:⊥-Idealᵣ = record
-        { transp-Idealᵣ = λ f∼g (incl f∼pt) → incl (f∼g ⁻¹ ∙ f∼pt)
+      isIdeal:⊥-Ideal : isIdeal a ⊥-Idealᵘ
+      isIdeal:⊥-Ideal = record
+        { transp-Ideal = λ f∼g (incl f∼pt) → incl (f∼g ⁻¹ ∙ f∼pt)
         ; ideal-r-◆     = λ (incl f∼pt) g → incl ((f∼pt ◈ refl) ∙ absorb-l-◆)
         ; ideal-pt      = incl refl
         }
 
-    initial-⊥-Idealᵣ : ∀{I : Idealᵣ a} -> ′ (λ {b} -> ⊥-Idealᵣᵘ {b}) ′ ≤ I
-    initial-⊥-Idealᵣ = incl λ f (incl f∼pt) → transp-Idealᵣ (f∼pt ⁻¹) ideal-pt
+    initial-⊥-Ideal : ∀{I : Ideal a} -> ′ (λ {b} -> ⊥-Idealᵘ {b}) ′ ≤ I
+    initial-⊥-Ideal = incl λ f (incl f∼pt) → transp-Ideal (f∼pt ⁻¹) ideal-pt
 
 
 
@@ -171,73 +171,73 @@ module _ {𝒞 : 𝒰 𝑖}
   -- private
   --   𝒞 = ⟨ 𝒞' ⟩
   -- the meets
-  module _ {a : 𝒞} (I J : Idealᵣ a) where
-    record _∧-Idealᵣᵘ_ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
+  module _ {a : 𝒞} (I J : Ideal a) where
+    record _∧-Idealᵘ_ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor _,_
       field fst : ⟨ I ⟩ f
       field snd : ⟨ J ⟩ f
 
-    open _∧-Idealᵣᵘ_ public
+    open _∧-Idealᵘ_ public
 
     macro
-      _∧-Idealᵣ_ = #structureOn (λ {b} -> _∧-Idealᵣᵘ_ {b})
+      _∧-Ideal_ = #structureOn (λ {b} -> _∧-Idealᵘ_ {b})
 
-  module _ {a : 𝒞} {I J : Idealᵣ a} where
+  module _ {a : 𝒞} {I J : Ideal a} where
     instance
-      isIdealᵣ:∧-Idealᵣ : isIdealᵣ a (I ∧-Idealᵣᵘ J)
-      isIdealᵣ:∧-Idealᵣ = record
-        { transp-Idealᵣ = lem-1
+      isIdeal:∧-Ideal : isIdeal a (I ∧-Idealᵘ J)
+      isIdeal:∧-Ideal = record
+        { transp-Ideal = lem-1
         ; ideal-r-◆     = lem-2
         ; ideal-pt = ideal-pt , ideal-pt
         }
         where
-          lem-1 : {b : 𝒞} {f g : a ⟶ b} → f ∼ g → (I ∧-Idealᵣᵘ J) f → (I ∧-Idealᵣᵘ J) g
-          lem-1 p (A , B) = transp-Idealᵣ p A , transp-Idealᵣ p B
+          lem-1 : {b : 𝒞} {f g : a ⟶ b} → f ∼ g → (I ∧-Idealᵘ J) f → (I ∧-Idealᵘ J) g
+          lem-1 p (A , B) = transp-Ideal p A , transp-Ideal p B
 
-          lem-2 : {b : 𝒞} {f : a ⟶ b} → (I ∧-Idealᵣᵘ J) f →
-                  {c : 𝒞} (g : b ⟶ c) → (I ∧-Idealᵣᵘ J) (f ◆ g)
+          lem-2 : {b : 𝒞} {f : a ⟶ b} → (I ∧-Idealᵘ J) f →
+                  {c : 𝒞} (g : b ⟶ c) → (I ∧-Idealᵘ J) (f ◆ g)
           lem-2 (A , B) g = ideal-r-◆ A g , ideal-r-◆ B g
 
   -- the top element
   module _ {a : 𝒞} where
-    record ⊤-Idealᵣᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
+    record ⊤-Idealᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor tt
 
-    open ⊤-Idealᵣᵘ public
+    open ⊤-Idealᵘ public
 
     macro
-      ⊤-Idealᵣ = #structureOn (λ {b} -> ⊤-Idealᵣᵘ {b})
+      ⊤-Ideal = #structureOn (λ {b} -> ⊤-Idealᵘ {b})
 
     instance
-      isIdealᵣ:⊤-Idealᵣ : isIdealᵣ a ⊤-Idealᵣ
-      isIdealᵣ:⊤-Idealᵣ = record
-        { transp-Idealᵣ = λ p x → tt
+      isIdeal:⊤-Ideal : isIdeal a ⊤-Ideal
+      isIdeal:⊤-Ideal = record
+        { transp-Ideal = λ p x → tt
         ; ideal-r-◆     = λ x g → tt
         }
 
 
     instance
-      hasFiniteMeets:Idealᵣ : hasFiniteMeets (Idealᵣ a)
-      hasFiniteMeets:Idealᵣ = record
-                                { ⊤ = ⊤-Idealᵣ
+      hasFiniteMeets:Ideal : hasFiniteMeets (Ideal a)
+      hasFiniteMeets:Ideal = record
+                                { ⊤ = ⊤-Ideal
                                 ; terminal-⊤ = incl λ f x → tt
-                                ; _∧_ = λ I J -> I ∧-Idealᵣ J
+                                ; _∧_ = λ I J -> I ∧-Ideal J
                                 ; π₀-∧ = incl λ f x → x .fst
                                 ; π₁-∧ = incl λ f x → x .snd
                                 ; ⟨_,_⟩-∧ = λ f g → incl λ h x → ⟨ f ⟩ h x , ⟨ g ⟩ h x
                                 }
 
-    module §-∧-Idealᵣ where
-      prop-1 : ∀{n : ℕ} {P : Fin-R n -> Idealᵣ a} -> {x : 𝒞} {f : a ⟶ x} -> ⟨ ⋀-fin P ⟩ f -> ∀ i -> ⟨ P i ⟩ f
+    module §-∧-Ideal where
+      prop-1 : ∀{n : ℕ} {P : Fin-R n -> Ideal a} -> {x : 𝒞} {f : a ⟶ x} -> ⟨ ⋀-fin P ⟩ f -> ∀ i -> ⟨ P i ⟩ f
       prop-1 {zero} {P} {x} {f} f∈P ()
       prop-1 {suc n} {P} {x} {f} (f∈P0 , _   ) zero = f∈P0
       prop-1 {suc n} {P} {x} {f} (_    , f∈PS) (suc i) = prop-1 f∈PS i
 
-      prop-2 : ∀{n : ℕ} {P : Fin-R n -> Idealᵣ a} -> {x : 𝒞} {f : a ⟶ x} -> (∀ i -> ⟨ P i ⟩ f) -> ⟨ ⋀-fin P ⟩ f
+      prop-2 : ∀{n : ℕ} {P : Fin-R n -> Ideal a} -> {x : 𝒞} {f : a ⟶ x} -> (∀ i -> ⟨ P i ⟩ f) -> ⟨ ⋀-fin P ⟩ f
       prop-2 {zero} {P} {x} {f} f∈Pi = tt
       prop-2 {suc n} {P} {x} {f} f∈Pi = f∈Pi zero , prop-2 (λ i -> f∈Pi (suc i))
 
-      prop-3 : ∀{n : ℕ} -> ∀{b : 𝒞} -> {P : Fin-R n -> Idealᵣ a} -> ⟨ ⋀-fin P ⟩ (pt {a = a} {b})
+      prop-3 : ∀{n : ℕ} -> ∀{b : 𝒞} -> {P : Fin-R n -> Ideal a} -> ⟨ ⋀-fin P ⟩ (pt {a = a} {b})
       prop-3 {P = P} = ideal-pt {{_}} {{of ⋀-fin P}}
 
 -----------------------------------------------------------------------------------------
@@ -247,7 +247,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
   private
     𝒞 = ⟨ 𝒞' ⟩
 
-  module _ {a b : 𝒞} (f : a ⟶ b) (I : Idealᵣ b) where
+  module _ {a b : 𝒞} (f : a ⟶ b) (I : Ideal b) where
 
     record _↷ᵘ_ {x : 𝒞} (g : a ⟶ x) : 𝒰 (𝑖) where
       constructor incl
@@ -258,11 +258,11 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
     -- macro _↷_ = #structureOn (λ {x} -> _↷ᵘ_ {x})
 
 
-  module _ {a b : 𝒞} {h : a ⟶ b} {I : Idealᵣ b} where
+  module _ {a b : 𝒞} {h : a ⟶ b} {I : Ideal b} where
     instance
-      isIdealᵣ:↷ : isIdealᵣ a (h ↷ᵘ I)
-      isIdealᵣ:↷ = record
-        { transp-Idealᵣ = lem-1
+      isIdeal:↷ : isIdeal a (h ↷ᵘ I)
+      isIdeal:↷ = record
+        { transp-Ideal = lem-1
         ; ideal-r-◆     = lem-2
         ; ideal-pt = incl (pt , (ideal-pt , absorb-r-◆))
         }
@@ -280,10 +280,10 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
             in incl (e ◆ g , (ideal-r-◆ e∈I g , P))
 
   infixr 30 _↷_
-  _↷_ : ∀{a b : 𝒞} -> (f : a ⟶ b) -> Idealᵣ b -> Idealᵣ a
+  _↷_ : ∀{a b : 𝒞} -> (f : a ⟶ b) -> Ideal b -> Ideal a
   _↷_ f I = ′ f ↷ᵘ I ′
 
-  _≀↷≀_ : ∀{a b : 𝒞} -> {f g : a ⟶ b} -> f ∼ g -> {I J : Idealᵣ b} -> I ∼ J -> f ↷ I ∼ g ↷ J
+  _≀↷≀_ : ∀{a b : 𝒞} -> {f g : a ⟶ b} -> f ∼ g -> {I J : Ideal b} -> I ∼ J -> f ↷ I ∼ g ↷ J
   _≀↷≀_ {a} {b} {f} {g} f∼g {I} {J} I∼J = antisym
     (incl (λ h (incl (e , e∈I , fe∼h)) →
       let e∈J : ⟨ J ⟩ e
@@ -300,7 +300,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
       in incl (e , (e∈I , fe∼h))
     ))
 
-  assoc-l-↷ : ∀{a b c : 𝒞} {f : a ⟶ b} {g : b ⟶ c} -> {I : Idealᵣ c} -> (f ◆ g) ↷ I ∼ f ↷ (g ↷ I)
+  assoc-l-↷ : ∀{a b c : 𝒞} {f : a ⟶ b} {g : b ⟶ c} -> {I : Ideal c} -> (f ◆ g) ↷ I ∼ f ↷ (g ↷ I)
   assoc-l-↷ {a} {b} {c} {f} {g} {I} = antisym
     (incl (λ h (incl (e , e∈I , fge∼h)) → incl (g ◆ e , ((incl (e , (e∈I , refl))) , assoc-r-◆ ∙ fge∼h))))
     (incl λ h (incl (ge' , (incl (e , e∈I , ge∼ge')) , fge'∼h)) → incl (e , (e∈I ,
@@ -318,7 +318,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
   private
     𝒞 = ⟨ 𝒞' ⟩
 
-  record _⁻¹↷ᵘ_ {a b : 𝒞} (f : a ⟶ b) (I : Idealᵣ a) {x : 𝒞} (g : b ⟶ x) : 𝒰 (𝑖) where
+  record _⁻¹↷ᵘ_ {a b : 𝒞} (f : a ⟶ b) (I : Ideal a) {x : 𝒞} (g : b ⟶ x) : 𝒰 (𝑖) where
     constructor incl
     field ⟨_⟩ : ⟨ I ⟩ (f ◆ g)
 
@@ -326,12 +326,12 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
 
 
   infixr 30 _⁻¹↷_
-  _⁻¹↷_ : ∀{a b : 𝒞} -> (h : a ⟶ b) -> Idealᵣ a -> Idealᵣ b
+  _⁻¹↷_ : ∀{a b : 𝒞} -> (h : a ⟶ b) -> Ideal a -> Ideal b
   _⁻¹↷_ {a} {b} h I = (h ⁻¹↷ᵘ I) since P
     where
       lem-1 : {c : 𝒞} {f : b ⟶ c} {g : b ⟶ c} →
               f ∼ g → (h ⁻¹↷ᵘ I) f → (h ⁻¹↷ᵘ I) g
-      lem-1 {c} {f} {g} f∼g (incl f∈hI) = incl (transp-Idealᵣ (refl ◈ f∼g) f∈hI)
+      lem-1 {c} {f} {g} f∼g (incl f∈hI) = incl (transp-Ideal (refl ◈ f∼g) f∈hI)
 
       lem-2 : {d : 𝒞} {f : b ⟶ d} →
                 (h ⁻¹↷ᵘ I) f → {c : 𝒞} (g : d ⟶ c) → (h ⁻¹↷ᵘ I) (f ◆ g)
@@ -339,20 +339,20 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
         let P : ⟨ I ⟩ ((h ◆ f) ◆ g)
             P = ideal-r-◆ f∈hI g
             Q : ⟨ I ⟩ (h ◆ (f ◆ g))
-            Q = transp-Idealᵣ assoc-l-◆ P
+            Q = transp-Ideal assoc-l-◆ P
         in incl Q
 
-      P : isIdealᵣ b _
+      P : isIdeal b _
       P = record
-          { transp-Idealᵣ = lem-1
+          { transp-Ideal = lem-1
           ; ideal-r-◆ = lem-2
-          ; ideal-pt = incl (transp-Idealᵣ (absorb-r-◆ ⁻¹) ideal-pt)
+          ; ideal-pt = incl (transp-Ideal (absorb-r-◆ ⁻¹) ideal-pt)
           }
 
-  inv-↷-r : {a b : 𝒞} {f : a ⟶ b} -> {I : Idealᵣ a} -> f ↷ (f ⁻¹↷ I) ∼ I ∧ (f ↷ ⊤)
+  inv-↷-r : {a b : 𝒞} {f : a ⟶ b} -> {I : Ideal a} -> f ↷ (f ⁻¹↷ I) ∼ I ∧ (f ↷ ⊤)
   inv-↷-r {a} {b} {f} {I} = antisym
-    (incl (λ h (incl (e , incl e∈f⁻¹I , fe∼h)) → transp-Idealᵣ (fe∼h) (e∈f⁻¹I)  , (incl (e , (tt , fe∼h)))))
-    (incl λ h (h∈I , incl (e , tt , fe∼h)) → incl (e , (incl (transp-Idealᵣ (fe∼h ⁻¹) h∈I) , fe∼h)))
+    (incl (λ h (incl (e , incl e∈f⁻¹I , fe∼h)) → transp-Ideal (fe∼h) (e∈f⁻¹I)  , (incl (e , (tt , fe∼h)))))
+    (incl λ h (h∈I , incl (e , tt , fe∼h)) → incl (e , (incl (transp-Ideal (fe∼h ⁻¹) h∈I) , fe∼h)))
 
 
 -----------------------------------------------------------------------------------------
@@ -374,7 +374,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
 
 -- module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   module _ {a : 𝒞} where
-    record isEpiPrincipalᵣ (I : Idealᵣ a) : 𝒰 (𝑖) where
+    record isEpiPrincipalᵣ (I : Ideal a) : 𝒰 (𝑖) where
       field repObj : 𝒞
       field rep : a ⟶ repObj
       field principal-r : I ∼ rep ↷ ⊤
@@ -384,10 +384,10 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
 
     open isEpiPrincipalᵣ {{...}} public
 
-    repObjOf : (I : Idealᵣ a) {{_ : isEpiPrincipalᵣ I}} -> 𝒞
+    repObjOf : (I : Ideal a) {{_ : isEpiPrincipalᵣ I}} -> 𝒞
     repObjOf I = repObj
 
-    repOf : (I : Idealᵣ a) {{_ : isEpiPrincipalᵣ I}} -> a ⟶ repObjOf I
+    repOf : (I : Ideal a) {{_ : isEpiPrincipalᵣ I}} -> a ⟶ repObjOf I
     repOf I = rep
 
     instance
@@ -403,7 +403,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
           lem-1 : ⊤ ≤ (id ↷ ⊤)
           lem-1 = incl λ f x → incl (f , (x , unit-l-◆))
 
-    transp-isEpiPrincipalᵣ : ∀{I J : Idealᵣ a} -> (I ∼ J) -> isEpiPrincipalᵣ I -> isEpiPrincipalᵣ J
+    transp-isEpiPrincipalᵣ : ∀{I J : Ideal a} -> (I ∼ J) -> isEpiPrincipalᵣ I -> isEpiPrincipalᵣ J
     transp-isEpiPrincipalᵣ {I} {J} I∼J P =
       let
         instance _ = P
@@ -416,32 +416,32 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
         }
 
     instance
-      isEpiPrincipalᵣ:⊥ : isEpiPrincipalᵣ ⊥-Idealᵣ
+      isEpiPrincipalᵣ:⊥ : isEpiPrincipalᵣ ⊥-Ideal
       isEpiPrincipalᵣ:⊥ = record
         { repObj = a
         ; rep = pt
-        ; principal-r = antisym initial-⊥-Idealᵣ lem-1
+        ; principal-r = antisym initial-⊥-Ideal lem-1
         ; isGoodRep = left (incl refl)
         ; zeroOrEpi = left refl
         }
         where
-          lem-1 : (pt {a = a} {a} ↷ ⊤-Idealᵣ) ≤ ⊥-Idealᵣ
+          lem-1 : (pt {a = a} {a} ↷ ⊤-Ideal) ≤ ⊥-Ideal
           lem-1 = incl λ f (incl (e , tt , pt◆e∼f)) → incl (pt◆e∼f ⁻¹ ∙ absorb-l-◆)
 
     module §-EpiPrincipalᵣ where
 
-      prop-1 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> repOf I ∼ pt -> I ∼ ⊥-Idealᵣ
+      prop-1 : ∀{I : Ideal a} {{_ : isEpiPrincipalᵣ I}} -> repOf I ∼ pt -> I ∼ ⊥-Ideal
       prop-1 {I} p = principal-r ∙ (p ≀↷≀ refl) ∙ P
         where
-          P : (pt {a = a} {repObjOf I} ↷ ⊤-Idealᵣ) ∼ ⊥-Idealᵣ
+          P : (pt {a = a} {repObjOf I} ↷ ⊤-Ideal) ∼ ⊥-Ideal
           P = antisym
               (incl (λ f (incl (e , _ , pt◆e∼f)) →
                 let pt∼f : pt ∼ f
                     pt∼f = absorb-l-◆ ⁻¹ ∙ pt◆e∼f
                 in incl (pt∼f ⁻¹)
               ))
-              initial-⊥-Idealᵣ
+              initial-⊥-Ideal
 
-      prop-2 : ∀{I : Idealᵣ a} {{_ : isEpiPrincipalᵣ I}} -> ⟨ I ⟩ (repOf I)
+      prop-2 : ∀{I : Ideal a} {{_ : isEpiPrincipalᵣ I}} -> ⟨ I ⟩ (repOf I)
       prop-2 {I} {{IP}} = ⟨ by-∼-≤ (principal-r {{IP}} ⁻¹) ⟩ _ (incl (id , (tt , unit-r-◆)))
 

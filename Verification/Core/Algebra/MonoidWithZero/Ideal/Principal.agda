@@ -21,30 +21,30 @@ open import Verification.Core.Algebra.MonoidWithZero.Ideal.Instance.hasAction
 
 module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
 
-  record isPrincipalᵣ (I : Idealᵣ A) : 𝒰 (𝑖 ⁺) where
+  record isPrincipalᵣ (I : Ideal A) : 𝒰 (𝑖 ⁺) where
     field rep : ⟨ A ⟩
     field principal-r : I ∼ (rep ↷ ′ ⊤ ′)
 
   open isPrincipalᵣ {{...}} public
 
-  repOf : (I : Idealᵣ A) -> {{_ : isPrincipalᵣ I}} -> ⟨ A ⟩
+  repOf : (I : Ideal A) -> {{_ : isPrincipalᵣ I}} -> ⟨ A ⟩
   repOf I = rep
 
   module §-Principalᵣ where
     -- Principalᵣ::rep-in-ideal
-    prop-1 : ∀{I : Idealᵣ A} -> {{_ : isPrincipalᵣ I}} -> repOf I ∈ I
+    prop-1 : ∀{I : Ideal A} -> {{_ : isPrincipalᵣ I}} -> repOf I ∈ I
     prop-1 {I} =
       let P₀ = inv-∼-Setoid (⟨ principal-r ⟩) (incl (◌ , tt , unit-r-⋆ ⁻¹))
       in P₀
 
 
 Principalᵣ : (Monoid₀ (𝑖 , 𝑖)) -> 𝒰 _
-Principalᵣ A = Idealᵣ A :& isPrincipalᵣ
+Principalᵣ A = Ideal A :& isPrincipalᵣ
 
 
 module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
 
-  transp-isPrincipalᵣ : ∀{I J : Idealᵣ A} -> (I ∼ J) -> isPrincipalᵣ I -> isPrincipalᵣ J
+  transp-isPrincipalᵣ : ∀{I J : Ideal A} -> (I ∼ J) -> isPrincipalᵣ I -> isPrincipalᵣ J
   transp-isPrincipalᵣ I∼J pI = record
     { rep = rep {{pI}}
     ; principal-r = I∼J ⁻¹ ∙ principal-r {{pI}}
@@ -60,8 +60,8 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} where
       }
 
   instance
-    isPrincipalᵣ:0-Idealᵣ : isPrincipalᵣ {A = A} ⊥-Idealᵣ
-    isPrincipalᵣ:0-Idealᵣ = {!!}
+    isPrincipalᵣ:0-Ideal : isPrincipalᵣ {A = A} ⊥-Ideal
+    isPrincipalᵣ:0-Ideal = {!!}
 
 
 
@@ -74,10 +74,10 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} {{_ : hasSpecial A}} where
     field special : rep {{of I}} ∈ Special
   open isSpecialEpi {{...}} public
 
-  isSpecialEpiPrincipalᵣ : (I : Idealᵣ A) -> 𝒰 _
+  isSpecialEpiPrincipalᵣ : (I : Ideal A) -> 𝒰 _
   isSpecialEpiPrincipalᵣ = isPrincipalᵣ :> isSpecialEpi
 
-  transp-isSpecialEpiPrincipalᵣ : ∀{I J : Idealᵣ A} -> (I ∼ J) -> isSpecialEpiPrincipalᵣ I -> isSpecialEpiPrincipalᵣ J
+  transp-isSpecialEpiPrincipalᵣ : ∀{I J : Ideal A} -> (I ∼ J) -> isSpecialEpiPrincipalᵣ I -> isSpecialEpiPrincipalᵣ J
   transp-isSpecialEpiPrincipalᵣ {I} {J} I∼J PI =
     let instance
           P₀ : isPrincipalᵣ ′ ⟨ J ⟩ ′
@@ -100,7 +100,7 @@ module _ {𝑖 : 𝔏} {A : Monoid₀ (𝑖 , 𝑖)} {{_ : hasSpecial A}} where
       }
 
   instance
-    isSpecialEpi:⊥ : isSpecialEpi ⊥-Idealᵣ
+    isSpecialEpi:⊥ : isSpecialEpi ⊥-Ideal
     isSpecialEpi:⊥ = {!!}
 
   closed-⋆-isZeroOrEpi : ∀{a b : ⟨ A ⟩} -> isZeroOrEpi a -> isZeroOrEpi b -> isZeroOrEpi (a ⋆ b)
