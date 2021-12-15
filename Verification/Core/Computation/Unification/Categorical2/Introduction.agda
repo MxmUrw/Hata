@@ -33,6 +33,16 @@ module Verification.Core.Computation.Unification.Categorical2.Introduction where
 --   Such a subset
 --   is what McBride calls downward closed,
 --   and at the same time is exactly the notion of ideals in a category.
-
+--
+-- | \medskip
+--
+-- | The general idea of what we are doing here is fully present
+--   in \cite{UnifyForm:McBride:2000}. There are two differences:
+--   The smaller one is that
+--   we expand somewhat on the notions employed, in the hope that
+--   this makes the intuition behind the proof of the optimist's lemma
+--   a bit clearer: in our formalization that
+--   proof is reduced to a single chain of equational reasoning,
+--   requiring four steps. The larger one is explained in the next subsection.
 
 

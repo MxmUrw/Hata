@@ -58,13 +58,13 @@ module _ {𝒞 : 𝒰 _}
 
 module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
-  asIdealᵣ : ∀{a b : ⟨ 𝒞 ⟩} -> HomPair a b -> Idealᵣ {𝒞 = Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} (incl b)
+  asIdealᵣ : ∀{a b : ⟨ 𝒞 ⟩} -> HomPair a b -> Idealᵣ {𝒞 = Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (incl b)
   asIdealᵣ (f , g) = CoeqIdeal (some f) (some g)
 
 
   module _ {a b : ⟨ 𝒞 ⟩} where
     private
-      lem-1 : {p : HomPair a b} -> {x : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} {h : incl b ⟶ x} -> ⟨ asIdealᵣ p ⟩ h -> (h ∼ pt) +-𝒰 hasCoequalizerCandidate p
+      lem-1 : {p : HomPair a b} -> {x : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} {h : incl b ⟶ x} -> ⟨ asIdealᵣ p ⟩ h -> (h ∼ pt) +-𝒰 hasCoequalizerCandidate p
       lem-1 {p} {incl x} {some f} (incl (some Q)) = right (x since record { π₌? = f ; equate-π₌? = Q })
       lem-1 {p} {x} {zero} Q = left zero
 
@@ -86,7 +86,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
       ; rep = some π₌
       ; principal-r = antisym lem-2 lem-3
       ; isGoodRep = lem-5
-      ; zeroOrEpi = right (preserve-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 isEpi:π₌)
+      ; zeroOrEpi = right (preserve-isEpi-Free-𝐙𝐌𝐂𝐚𝐭 isEpi:π₌)
       }
       where
         instance _ = of x
@@ -172,14 +172,14 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
         lem-9 : isId π' +-𝒰 (sizeO x ≪ sizeO b)
         lem-9 with isGoodRep {{_}} {{P}}
         ... | left (incl rep∼zero) = impossible (rep∼zero ⁻¹ ∙ (by-≣-∼ rep≣π'))
-        ... | just (left (incl rep∼id)) = left $ incl (cancel-injective-some-Free-𝐏𝐭𝐝𝐂𝐚𝐭 (by-≣-∼ rep≣π' ⁻¹ ∙ rep∼id))
+        ... | just (left (incl rep∼id)) = left $ incl (cancel-injective-some-Free-𝐙𝐌𝐂𝐚𝐭 (by-≣-∼ rep≣π' ⁻¹ ∙ rep∼id))
         ... | just (just sized) = right sized
 
         lem-10 : isCoequalizer f g x
         isCoequalizer.π₌ lem-10 = π'
         isCoequalizer.equate-π₌ lem-10 = lem-7
         isCoequalizer.compute-Coeq lem-10 = lem-8
-        isCoequalizer.isEpi:π₌ lem-10 = reflect-isEpi-Free-𝐏𝐭𝐝𝐂𝐚𝐭 isEpi:rep
+        isCoequalizer.isEpi:π₌ lem-10 = reflect-isEpi-Free-𝐙𝐌𝐂𝐚𝐭 isEpi:rep
 
 
 

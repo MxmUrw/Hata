@@ -68,7 +68,7 @@ IxC : (𝒞 : Category 𝑖) -> 𝒰 _
 IxC 𝒞 = ∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ λ b -> HomPair a b
 
 -- module _ (𝒞 : Category 𝑖) {{_ : isSizedCategory 𝒞}} where
---   𝓘C : (i : IxC 𝒞) -> Idealᵣ {𝒞 = Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} (incl (fst (snd i)))
+--   𝓘C : (i : IxC 𝒞) -> Idealᵣ {𝒞 = Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (incl (fst (snd i)))
 --   𝓘C (_ , _ , f , g) = asIdealᵣ (f , g)
   -- ′ (CoeqSolutions (arrow f) (arrow g)) ′
 
@@ -103,10 +103,10 @@ module _ {𝒞 : Category 𝑖}
          {{_ : isPrincipalFamilyCat ′ ⟨ 𝒞 ⟩ ′}} where
 
   private
-    Ix : ∀(a : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞) -> 𝒰 _
+    Ix : ∀(a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞) -> 𝒰 _
     Ix (incl x) = Bool +-𝒰 (∑ λ (a : ⟨ 𝒞 ⟩) -> HomPair a x)
 
-    Bx : ∀(a : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞) -> 𝒰 _
+    Bx : ∀(a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞) -> 𝒰 _
     Bx (incl x) = Bool +-𝒰 (∑ λ (a : ⟨ 𝒞 ⟩) -> ∑ isBase {a = a} {x})
 
     𝒷' : ∀{a} -> Bx a -> Ix a
@@ -126,7 +126,7 @@ module _ {𝒞 : Category 𝑖}
     size' {a} (just (x , (f , g))) = sizeO a , sizeC (f , g)
 
   instance
-    hasSizedFamily:byIsPrincipalFamilyCat : hasSizedFamily _ ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
+    hasSizedFamily:byIsPrincipalFamilyCat : hasSizedFamily _ ′(Free-𝐙𝐌𝐂𝐚𝐭 𝒞)′
     hasSizedFamily:byIsPrincipalFamilyCat = record
       { Base = Bx
       ; Ind = Ix
@@ -137,19 +137,19 @@ module _ {𝒞 : Category 𝑖}
       }
 
   private
-    inv : {a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} → a ⟶ b → Ix a → Ix b
+    inv : {a b : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} → a ⟶ b → Ix a → Ix b
     inv (zero) _ = left true
     inv (some h) (left x) = left x
     inv (some h) (just (x , (f , g))) = just (x , (f ◆ h , g ◆ h))
 
-    size-inv : {a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} (g : a ⟶ b) -> isGood g -> (i : Ix a) → size' (inv g i) ⪣ size' i
+    size-inv : {a b : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (g : a ⟶ b) -> isGood g -> (i : Ix a) → size' (inv g i) ⪣ size' i
     size-inv (some x) good (left y) = left refl-≣
     size-inv (some x) (left (incl ())) (just x₁)
     size-inv (some x) (just (left (incl (some x∼id)))) (just (_ , (f , g))) = left (cong₂-Str _,_ refl-≣ (cong-sizeC (f ◆ x , g ◆ x) (f , g) ((refl ◈ x∼id) ∙ unit-r-◆ , (refl ◈ x∼id) ∙ unit-r-◆)))
     size-inv (some x) (just (just good)) (just x₁) = right (first good)
     size-inv zero good i = initial-⊥-WFT
 
-    lem-1 : {a b : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} {g : a ⟶ b} {i : Ix a} → 𝓘' (inv g i) ∼-Idealᵣ (g ⁻¹↷ 𝓘' i)
+    lem-1 : {a b : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} {g : a ⟶ b} {i : Ix a} → 𝓘' (inv g i) ∼-Idealᵣ (g ⁻¹↷ 𝓘' i)
     lem-1 {a} {b} {zero} {left false} = antisym P terminal-⊤
       where
         P : ⊤ ≤ (zero ⁻¹↷ ⊥-Idealᵣ)
@@ -178,7 +178,7 @@ module _ {𝒞 : Category 𝑖}
         Q : (some x ⁻¹↷ asIdealᵣ (f , g)) ≤ asIdealᵣ (f ◆ x , g ◆ x)
         Q = incl (λ f₁ (incl (incl p)) → incl (assoc-l-◆ ∙ p ∙ assoc-r-◆))
 
-    lem-2 : {a : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} (b : Bx a) → isEpiPrincipalᵣ (𝓘' (𝒷' b))
+    lem-2 : {a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (b : Bx a) → isEpiPrincipalᵣ (𝓘' (𝒷' b))
     lem-2 (left false) = isEpiPrincipalᵣ:⊥
     lem-2 (left true) = isEpiPrincipalᵣ:⊤
     lem-2 (just (x , (f , g) , isbase)) = Forward (isPrincipalC:Base f g isbase)
@@ -208,7 +208,7 @@ module _ {𝒞 : Category 𝑖}
         ⟨ covers₁ ⟩ zero h∈P = §-∧-Idealᵣ.prop-3 {P = (λ i → asIdealᵣ (fst (snd (famC S i)) , snd (snd (famC S i))))}
         ⟨ covers₁ ⟩ (some h) (incl (some h∈P)) = §-∧-Idealᵣ.prop-2 {P = λ i → asIdealᵣ (fst (snd (famC S i)) , snd (snd (famC S i)))} λ i → incl (some (coversC S h .fst h∈P i))
 
-    lem-4 : {a : Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞} (i : Ix a) →
+    lem-4 : {a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (i : Ix a) →
             (∑ (λ b → 𝓘' (𝒷' b) ∼-Idealᵣ 𝓘' i)) +-𝒰
             (∑ (λ n → isSplittable n i))
     lem-4 (left x) = left (left x , refl)
@@ -217,7 +217,7 @@ module _ {𝒞 : Category 𝑖}
     ... | just (n , splittable) = right (n , lem-3 splittable)
 
   instance
-    hasPrincipalFamily:byIsPrincipalFamilyCat : hasPrincipalFamily ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
+    hasPrincipalFamily:byIsPrincipalFamilyCat : hasPrincipalFamily ′(Free-𝐙𝐌𝐂𝐚𝐭 𝒞)′
     hasPrincipalFamily:byIsPrincipalFamilyCat = record
                                                   { _⁻¹*_ = inv
                                                   ; size:⁻¹* = size-inv
@@ -227,7 +227,7 @@ module _ {𝒞 : Category 𝑖}
                                                   }
 
   isEpiPrincipal:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isEpiPrincipalᵣ (asIdealᵣ (f , g))
-  isEpiPrincipal:byPrincipalFamilyCat {a} {b} {f} {g} = isPrincipal:Family (Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞) _ (just (a , (f , g))) refl-≣
+  isEpiPrincipal:byPrincipalFamilyCat {a} {b} {f} {g} = isPrincipal:Family (Free-𝐙𝐌𝐂𝐚𝐭 𝒞) _ (just (a , (f , g))) refl-≣
 
   instance
     hasSizedCoequalizerDecision:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> hasSizedCoequalizerDecision (f , g)

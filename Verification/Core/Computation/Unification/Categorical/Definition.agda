@@ -56,7 +56,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} {{_ : isZeroMorphis
   isGood:◆ (just (just x)) (just (just y)) = just (just (y ⟡-≪ x))
 
 
-module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
+module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   UpFamily : (a : 𝒞) -> 𝒰 _
   UpFamily a = ∀{b : 𝒞} -> (a ⟶ b) -> 𝒰 (𝑖)
 
@@ -134,7 +134,7 @@ module _ {𝒞 : 𝒰 𝑖}
   -- private
   --   𝒞 = ⟨ 𝒞' ⟩
 
--- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
+-- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   module _ {a : 𝒞} where
     record ⊥-Idealᵣᵘ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor incl
@@ -163,7 +163,7 @@ module _ {𝒞 : 𝒰 𝑖}
 -- The semilattice structure
 
 
--- module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
+-- module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
 module _ {𝒞 : 𝒰 𝑖}
          {{_ : isCategory {𝑗} 𝒞}}
          {{_ : isZeroMorphismCategory ′ 𝒞 ′}}
@@ -243,7 +243,7 @@ module _ {𝒞 : 𝒰 𝑖}
 -----------------------------------------------------------------------------------------
 -- The forward action
 
-module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
+module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
   private
     𝒞 = ⟨ 𝒞' ⟩
 
@@ -314,7 +314,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
 -----------------------------------------------------------------------------------------
 -- The inverse action
 
-module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
+module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
   private
     𝒞 = ⟨ 𝒞' ⟩
 
@@ -358,7 +358,7 @@ module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
 -----------------------------------------------------------------------------------------
 -- Epi principal
 
-module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞' ⟩ ′}} where
+module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞' ⟩ ′}} where
 
   private
     𝒞 = ⟨ 𝒞' ⟩

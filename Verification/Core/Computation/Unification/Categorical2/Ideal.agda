@@ -14,25 +14,18 @@ open import Verification.Core.Category.Std.Morphism.Epi.Definition
 open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 
 
--- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
+-- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   -- UpFamily : (a : 𝒞) -> 𝒰 _
   -- UpFamily a = ∀{b : 𝒞} -> (a ⟶ b) -> 𝒰 (𝑖)
 
-
+-- ===* Ideals in categories with zero morphisms
 
 -- | Fix a category |𝒞| with zero morphisms for the remainder of this section. [][][]
-module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where
+module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
   -- |> We denote objects of |𝒞| usually simply by |a|, |b| or |c|.
   --   Most of the following statements are rather easy consequences
   --   of the definitions, and we mostly just give an informal sketch
   --   of the proof.
-  -- | The idea of what we are doing here is fully present
-  --   in \cite{UnifyForm:McBride:2000}. The difference is that
-  --   we expand somewhat on the notions employed, in the hope that
-  --   this makes the intuition behind the proof of the optimist's lemma
-  --   a bit clearer: in our formalization that
-  --   proof is reduced to a single chain of equational reasoning,
-  --   requiring four steps.
   private variable a b c : 𝒞
 
   -- [Definition]
@@ -47,13 +40,15 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} wh
       --      is still in this set.
       field ideal-r-◆ : {f : a ⟶ b} -> P f -> (g : b ⟶ c) -> P (f ◆ g)
 
-      -- | 2. We further require that if two arrow are equal
+      -- | 2. All zero arrows are in this set.
+      field ideal-pt : ∀{b} -> P {b} pt
+
+      -- | 3. We further require that if two arrow are equal
       --      with regards to the equivalence relation,
       --      it cannot happen that one of them is in |P|
       --      while the other one is not.
       field transp-Idealᵣ : {f g : a ⟶ b} -> (p : f ∼ g) -> P f -> P g
 
-    -- field ideal-pt : ∀{b} -> P {b} pt
     -- |: A /left ideal/ could be defined by reversing arrows.
     --    Since we only need ideals in the direction as defined above,
     --    we usually skip the qualifier and simply speak of ideals.
@@ -132,6 +127,8 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} wh
       record _≤-Idealᵣ_ : 𝒰 (𝑖) where
         constructor incl
         field ⟨_⟩ : (f : a ⟶ b) -> ⟨ A ⟩ f -> ⟨ B ⟩ f
+
+      -- |> This merely expresses the fact that |A| is a subset of |B|.
 
     open _≤-Idealᵣ_ public
     -- //
