@@ -43,22 +43,22 @@ open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrde
 --------------------------------------
 -- optimizations
 
-open Overwrite:isCategory:𝐒𝐮𝐛𝐬𝐭-FO 𝒹
-open Overwrite:isCoproduct:𝐒𝐮𝐛𝐬𝐭-FO 𝒹
-open Overwrite:hasCoproducts:𝐒𝐮𝐛𝐬𝐭-FO 𝒹
-open Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-FO 𝒹
-open Overwrite:hasInitial:𝐒𝐮𝐛𝐬𝐭-FO 𝒹
-open Overwrite:isInitial:𝐒𝐮𝐛𝐬𝐭-FO 𝒹
+open Overwrite:isCategory:𝐒𝐮𝐛𝐬𝐭-Sim 𝒹
+open Overwrite:isCoproduct:𝐒𝐮𝐛𝐬𝐭-Sim 𝒹
+open Overwrite:hasCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim 𝒹
+open Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim 𝒹
+open Overwrite:hasInitial:𝐒𝐮𝐛𝐬𝐭-Sim 𝒹
+open Overwrite:isInitial:𝐒𝐮𝐛𝐬𝐭-Sim 𝒹
 
 private
   _⟶_ = Hom
-  -- _≅_ = _≅ᵘ_ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-FO 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
-  -- ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-FO 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+  -- _≅_ = _≅ᵘ_ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-Sim 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
+  -- ⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-Sim 𝒹} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}}
 
 
 -- abstract
 --   infixl 100 _⇃⊔⇂_
---   _⇃⊔⇂_ : ∀{a b c d : 𝐒𝐮𝐛𝐬𝐭-FO 𝒹} -> (a ⟶ b) -> (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
+--   _⇃⊔⇂_ : ∀{a b c d : 𝐒𝐮𝐛𝐬𝐭-Sim 𝒹} -> (a ⟶ b) -> (c ⟶ d) -> (a ⊔ c ⟶ b ⊔ d)
 --   _⇃⊔⇂_ = _⇃⊔⇂ᵘ_
 
 

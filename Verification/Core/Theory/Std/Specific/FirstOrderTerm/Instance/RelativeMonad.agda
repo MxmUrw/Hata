@@ -62,24 +62,24 @@ module _ (𝓅 : 𝒯FOSignature 𝑖) where
   open import Verification.Core.Data.Substitution.Variant.Base.Definition
   open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
-  macro 𝐒𝐮𝐛𝐬𝐭-FO = #structureOn (InductiveSubstitution (𝒯⊔term 𝓅))
+  macro 𝐒𝐮𝐛𝐬𝐭-Sim = #structureOn (InductiveSubstitution (𝒯⊔term 𝓅))
 
-  module Overwrite:isCategory:𝐒𝐮𝐛𝐬𝐭-FO where
+  module Overwrite:isCategory:𝐒𝐮𝐛𝐬𝐭-Sim where
     open isCategory (isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
 
-  module Overwrite:hasCoproducts:𝐒𝐮𝐛𝐬𝐭-FO where
+  module Overwrite:hasCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim where
     open hasCoproducts (hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
 
-  module Overwrite:isCoproduct:𝐒𝐮𝐛𝐬𝐭-FO {a b : 𝐒𝐮𝐛𝐬𝐭-FO} where
+  module Overwrite:isCoproduct:𝐒𝐮𝐛𝐬𝐭-Sim {a b : 𝐒𝐮𝐛𝐬𝐭-Sim} where
     open isCoproduct (isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅} {a = a} {b = b}) public
 
-  module Overwrite:hasInitial:𝐒𝐮𝐛𝐬𝐭-FO where
+  module Overwrite:hasInitial:𝐒𝐮𝐛𝐬𝐭-Sim where
     open hasInitial (hasInitial:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
 
-  module Overwrite:isInitial:𝐒𝐮𝐛𝐬𝐭-FO where
+  module Overwrite:isInitial:𝐒𝐮𝐛𝐬𝐭-Sim where
     open isInitial (isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
 
-  module Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-FO where
+  module Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim where
     open hasFiniteCoproducts (hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
 
 

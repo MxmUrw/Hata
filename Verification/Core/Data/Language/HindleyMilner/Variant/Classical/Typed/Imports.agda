@@ -56,20 +56,20 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition public
 
 -------------
 -- Specialized category modules
-open Overwrite:isCategory:𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim public
-open Overwrite:isCoproduct:𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim public
-open Overwrite:hasCoproducts:𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim public
-open Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim public
-open Overwrite:hasInitial:𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim public
-open Overwrite:isInitial:𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim public
+open Overwrite:isCategory:𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim public
+open Overwrite:isCoproduct:𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim public
+open Overwrite:hasCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim public
+open Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim public
+open Overwrite:hasInitial:𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim public
+open Overwrite:isInitial:𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim public
 
 -------------
 -- Other specialized definitions
 
 _⟶_ = Hom
 
-_≅_ = _≅ᵘ_ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term Σ-Sim}}}
-⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term Σ-Sim}}}
+_≅_ = _≅ᵘ_ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term Σ-Sim}}}
+⟨_⟩⁻¹ = ⟨_⟩⁻¹ᵘ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim} {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term Σ-Sim}}}
 
 -- {-# DISPLAY isCoequalizer.π₌ _ = π₌ #-}
 -- {-# DISPLAY isCoproduct.ι₀ _ = ι₀ #-}

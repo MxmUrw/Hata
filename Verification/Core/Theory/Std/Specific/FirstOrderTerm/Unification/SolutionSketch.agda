@@ -29,7 +29,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.Direct.De
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports hiding (unify ; [_])
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Properties
-private variable μs νs : 𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim
+private variable μs νs : 𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim
 
 -- [Hide]
 ∑' = ∑_
@@ -39,7 +39,7 @@ syntax ∑' (λ x -> P) = ∑[ x ] P
 postulate
   here : ∀{A : 𝒰 𝑖} -> Text -> A
 
-_[_] : ∀{αs βs : 𝐒𝐮𝐛𝐬𝐭-FO Σ-Sim} -> 𝒯⊔Term Σ-Sim ⟨ αs ⟩ tt ->  αs ⟶ βs -> 𝒯⊔Term Σ-Sim ⟨ βs ⟩ tt
+_[_] : ∀{αs βs : 𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim} -> 𝒯⊔Term Σ-Sim ⟨ αs ⟩ tt ->  αs ⟶ βs -> 𝒯⊔Term Σ-Sim ⟨ βs ⟩ tt
 _[_] = λ τ σ -> τ ⇃[ σ ]⇂
 -- //
 
