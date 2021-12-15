@@ -10,12 +10,12 @@ open import Verification.Core.Order.Preorder
 open import Verification.Core.Order.Lattice
 open import Verification.Core.Order.WellFounded.Definition
 open import Verification.Core.Category.Std.Category.Definition
-open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
 open import Verification.Core.Computation.Unification.Categorical.Definition
 
 
-record hasSizedFamily (𝑗 : 𝔏) (𝒞 : PtdCategory 𝑖) : 𝒰 (𝑗 ⁺ ､ 𝑖 ⁺) where
+record hasSizedFamily (𝑗 : 𝔏) (𝒞 : ZeroMorphismCategory 𝑖) : 𝒰 (𝑗 ⁺ ､ 𝑖 ⁺) where
   field Base : ⟨ 𝒞 ⟩ -> 𝒰 𝑗
   field Ind : ⟨ 𝒞 ⟩ -> 𝒰 𝑗
   field 𝒷 : ∀ {a} -> Base a -> Ind a
@@ -27,11 +27,11 @@ open hasSizedFamily {{...}} public
 
 module _ (𝑗 : 𝔏 ^ 4) where
   CategoryWithSizedFamily : _
-  CategoryWithSizedFamily = (PtdCategory (𝑗 ⌄ 0 ⋯ 2)) :& hasSizedFamily (𝑗 ⌄ 3)
+  CategoryWithSizedFamily = (ZeroMorphismCategory (𝑗 ⌄ 0 ⋯ 2)) :& hasSizedFamily (𝑗 ⌄ 3)
 
 
 
-module _ {𝑖 : 𝔏 ^ 3} {𝒞 : Category 𝑖} {{_ : isPtdCategory 𝒞}} {{_ : isSizedCategory 𝒞}} where
+module _ {𝑖 : 𝔏 ^ 3} {𝒞 : Category 𝑖} {{_ : isZeroMorphismCategory 𝒞}} {{_ : isSizedCategory 𝒞}} where
 
   module _ {{_ : hasSizedFamily 𝑗 ′ ⟨ 𝒞 ⟩ ′}} where
     record isSplittable {a : ⟨ 𝒞 ⟩} (n : ℕ) (i : Ind a) : 𝒰 (𝑗 ､ 𝑖 ⁺) where
@@ -40,7 +40,7 @@ module _ {𝑖 : 𝔏 ^ 3} {𝒞 : Category 𝑖} {{_ : isPtdCategory 𝒞}} {{_
       field famprops : ∀ k -> size (fam k) ≪ size i
     open isSplittable public
 
-record hasPrincipalFamily {𝑖 : 𝔏 ^ 3} {𝑗 : 𝔏} (𝒞 : Category 𝑖 :& (isSizedCategory :, (isPtdCategory :> hasSizedFamily 𝑗))) : 𝒰 (𝑖 ⁺ ､ 𝑗) where
+record hasPrincipalFamily {𝑖 : 𝔏 ^ 3} {𝑗 : 𝔏} (𝒞 : Category 𝑖 :& (isSizedCategory :, (isZeroMorphismCategory :> hasSizedFamily 𝑗))) : 𝒰 (𝑖 ⁺ ､ 𝑗) where
   field _⁻¹*_ : ∀{a b : ⟨ 𝒞 ⟩} (f : a ⟶ b) -> Ind a -> Ind b
   field size:⁻¹* : ∀{a b : ⟨ 𝒞 ⟩} (g : a ⟶ b) -> isGood g -> (i : Ind a) -> size (g ⁻¹* i) ⪣ size i
   field preserves-𝓘:⁻¹* : ∀{a b : ⟨ 𝒞 ⟩} {g : a ⟶ b} -> {i : Ind a} -> 𝓘 (g ⁻¹* i) ∼ (g ⁻¹↷ (𝓘 i))
@@ -56,7 +56,7 @@ module _ (𝑗 : 𝔏 ^ 4) where
 module _ (𝒞 : 𝒰 𝑖)
   {{_ : isCategory {𝑗} 𝒞 }}
   {{_ : isSizedCategory ′ 𝒞 ′}}
-  {{_ : isPtdCategory ′ 𝒞 ′}}
+  {{_ : isZeroMorphismCategory ′ 𝒞 ′}}
   {{_ : hasSizedFamily 𝑘 ′ 𝒞 ′}}
   {{_ : hasPrincipalFamily ′ 𝒞 ′}}
   -- {{_ : CategoryWithPrincipalFamily 𝑖 on 𝒞}} where

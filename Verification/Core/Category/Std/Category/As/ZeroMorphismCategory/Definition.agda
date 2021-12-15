@@ -1,5 +1,5 @@
 
-module Verification.Core.Category.Std.Category.As.PtdCategory.Definition where
+module Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition where
 
 open import Verification.Conventions
 
@@ -14,17 +14,17 @@ open import Verification.Core.Category.Std.Morphism.Epi.Definition
 -- NOTE: this should actually go into "ZeroMorphismCategory"
 
 -- 
-record isPtdCategory (𝒞 : Category 𝑖) : 𝒰 𝑖 where
+record isZeroMorphismCategory (𝒞 : Category 𝑖) : 𝒰 𝑖 where
   field pt : ∀{a b : ⟨ 𝒞 ⟩} -> a ⟶ b
   field absorb-r-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> {f : a ⟶ b} -> f ◆ pt {b} {c} ∼ pt {a} {c}
   field absorb-l-◆ : ∀{a b c : ⟨ 𝒞 ⟩} -> {f : b ⟶ c} -> pt {a} {b} ◆ f ∼ pt {a} {c}
 
-open isPtdCategory {{...}} public
+open isZeroMorphismCategory {{...}} public
 
 module _ (𝑖 : 𝔏 ^ 3) where
-  PtdCategory = (Category 𝑖) :& isPtdCategory
+  ZeroMorphismCategory = (Category 𝑖) :& isZeroMorphismCategory
 
-  macro 𝐏𝐭𝐝𝐂𝐚𝐭 = #structureOn PtdCategory
+  macro 𝐏𝐭𝐝𝐂𝐚𝐭 = #structureOn ZeroMorphismCategory
 
 
 
@@ -118,8 +118,8 @@ module _ {𝒞ᵘ : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞ᵘ}} where
     isCategory._◈_ isCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = lem-4
 
   instance
-    isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isPtdCategory ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
-    isPtdCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = record
+    isZeroMorphismCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 : isZeroMorphismCategory ′(Free-𝐏𝐭𝐝𝐂𝐚𝐭 𝒞)′
+    isZeroMorphismCategory:Free-𝐏𝐭𝐝𝐂𝐚𝐭 = record
       { pt = zero
       ; absorb-r-◆ = lem-5
       ; absorb-l-◆ = refl

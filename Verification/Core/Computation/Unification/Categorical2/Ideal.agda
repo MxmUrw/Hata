@@ -11,7 +11,7 @@ open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
 open import Verification.Core.Category.Std.Morphism.Epi.Definition
-open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 
 
 -- module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} where

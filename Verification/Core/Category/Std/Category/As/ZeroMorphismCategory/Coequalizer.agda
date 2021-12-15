@@ -1,7 +1,7 @@
 
 {-# OPTIONS --experimental-lossy-unification #-}
 
-module Verification.Core.Category.Std.Category.As.PtdCategory.Coequalizer where
+module Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Coequalizer where
 
 open import Verification.Conventions
 
@@ -12,7 +12,7 @@ open import Verification.Core.Order.Lattice
 open import Verification.Core.Order.WellFounded.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
-open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 open import Verification.Core.Computation.Unification.Categorical.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 
@@ -22,7 +22,7 @@ module _ {A : 𝒰 𝑖} {{_ : isSetoid {𝑗} A}} where
 
 module _ {𝒞 : 𝒰 _}
        {{_ : isCategory {𝑖} {𝑗} 𝒞}}
-       {{_ : isPtdCategory ′ 𝒞 ′}}
+       {{_ : isZeroMorphismCategory ′ 𝒞 ′}}
        where
 
   -- CoeqHoms : ∀{a b : ⟨ 𝒞 ⟩} -> (f g : a ⟶ b) -> UpFamily b

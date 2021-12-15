@@ -24,8 +24,8 @@ open import Verification.Core.Order.WellFounded.Construction.Lexicographic
 open import Verification.Core.Computation.Unification.Definition
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamily
 open import Verification.Core.Computation.Unification.Categorical.Definition
-open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
-open import Verification.Core.Category.Std.Category.As.PtdCategory.Coequalizer
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Coequalizer
 -- open import Verification.Core.Theory.Presentation.Signature.Definition
 
 

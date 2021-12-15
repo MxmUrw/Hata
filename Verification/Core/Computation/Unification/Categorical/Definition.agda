@@ -11,7 +11,7 @@ open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
 open import Verification.Core.Category.Std.Morphism.Epi.Definition
-open import Verification.Core.Category.Std.Category.As.PtdCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 
 
 instance
@@ -28,7 +28,7 @@ module _ (𝒞 : Category 𝑖) where
   HomFamily 𝑗 = ∀{a b : ⟨ 𝒞 ⟩} -> (f : a ⟶ b) -> 𝒰 𝑗
 
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
-  module _ {{_ : isPtdCategory ′ 𝒞 ′}} where
+  module _ {{_ : isZeroMorphismCategory ′ 𝒞 ′}} where
 
     record isPt {a b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
       constructor incl
@@ -38,7 +38,7 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
     open isPt public
 
 
-module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} {{_ : isPtdCategory 𝒞}} where
+module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} {{_ : isZeroMorphismCategory 𝒞}} where
 
   isGood : HomFamily 𝒞 _
   isGood {a} {b} g = isPt g +-𝒰 (isId g +-𝒰 (sizeO b ≪ sizeO a))
@@ -129,7 +129,7 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖 on 𝒞}} wh
 
 module _ {𝒞 : 𝒰 𝑖}
          {{_ : isCategory {𝑗} 𝒞}}
-         {{_ : isPtdCategory ′ 𝒞 ′}}
+         {{_ : isZeroMorphismCategory ′ 𝒞 ′}}
          where
   -- private
   --   𝒞 = ⟨ 𝒞' ⟩
@@ -166,7 +166,7 @@ module _ {𝒞 : 𝒰 𝑖}
 -- module _ {𝒞' : 𝐏𝐭𝐝𝐂𝐚𝐭 𝑖} where
 module _ {𝒞 : 𝒰 𝑖}
          {{_ : isCategory {𝑗} 𝒞}}
-         {{_ : isPtdCategory ′ 𝒞 ′}}
+         {{_ : isZeroMorphismCategory ′ 𝒞 ′}}
          where
   -- private
   --   𝒞 = ⟨ 𝒞' ⟩
