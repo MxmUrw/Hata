@@ -100,4 +100,3 @@ _ = refl-≡
 --   together with the warning that this is not necessarily the case in other relevant categories.
 --   Nevertheless, as it has no relevance for the present work, we identify these two concepts.
 
-

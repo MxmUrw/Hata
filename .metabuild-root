@@ -100,8 +100,11 @@ agdaPublishProjects:
       - == Category of substitutions
       - Core/Theory/Std/Specific/FirstOrderTerm/Substitution/Category.agda
       - = Unification
+      - == Informal description
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/Introduction.agda
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/ProblemByExample.agda
+      - Core/Theory/Std/Specific/FirstOrderTerm/Unification/SolutionSketch.agda
+      - == The optimist's lemma
       # - Core/Computation/Unification/Definition.agda
       # - == Idea of unification algorithm
       # - == Categorical Unification

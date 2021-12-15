@@ -101,11 +101,4 @@ module _ {μs : 人ℕ} where
 -- //
 
 
--- [Hide]
-infixr 30 _⇒_
-pattern _⇒_ a b = con ⇒₂ᵗ (incl a ⋆-⧜ (incl b ⋆-⧜ ◌-⧜))
-pattern ℕ = con ℕᵗ ◌-⧜
-
--- //
-
 

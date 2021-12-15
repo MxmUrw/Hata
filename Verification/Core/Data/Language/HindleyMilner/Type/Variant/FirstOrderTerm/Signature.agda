@@ -90,5 +90,13 @@ instance
 Σ-Sim = record { Sort = Sort-Sim ; Con = Con-Sim }
 
 
+-- [Hide]
+infixr 30 _⇒_
+pattern _⇒_ a b = con ⇒₂ᵗ (incl a ⋆-⧜ (incl b ⋆-⧜ ◌-⧜))
+pattern ℕ = con ℕᵗ ◌-⧜
+pattern 𝔹 = con 𝔹ᵗ ◌-⧜
+
+-- //
+
 
 

@@ -53,7 +53,7 @@ abstract
 
   -- [Definition]
   -- | Let ... and a lot of stuff, then substitution is defined by:
-  _⇃[_]⇂ : ∀{μs νs : ℒHMTypes} -> 𝒯⊔Term 𝒹 ⟨ μs ⟩ tt -> (μs ⟶ νs) -> 𝒯⊔Term 𝒹 ⟨ νs ⟩ tt
+  _⇃[_]⇂ : ∀{μs νs : ℒHMTypes} -> 𝒯⊔Term Σ-Sim ⟨ μs ⟩ tt -> (μs ⟶ νs) -> 𝒯⊔Term Σ-Sim ⟨ νs ⟩ tt
   _⇃[_]⇂ x f = fromArr (asArr x ◆ f)
 
   infixl 80 _⇃[_]⇂
@@ -65,7 +65,7 @@ abstract
   --   definition.
 
   -- the abstraction equality
-  abstract-⇃[]⇂ : ∀{a b : ℒHMTypes} -> {τ : 𝒯⊔Term 𝒹 ⟨ a ⟩ tt} -> {σ : a ⟶ b}
+  abstract-⇃[]⇂ : ∀{a b : ℒHMTypes} -> {τ : 𝒯⊔Term Σ-Sim ⟨ a ⟩ tt} -> {σ : a ⟶ b}
                   -> fromArr (asArr τ ◆ σ) ≡ τ ⇃[ σ ]⇂
   abstract-⇃[]⇂ = refl-≡
   -- //
@@ -192,7 +192,7 @@ abstract
 
   module §-⇃[]⇂ where
     -------------------------
-    -- preserves the constructors of 𝒹
+    -- preserves the constructors of Σ-Sim
     module _ {a b : ℒHMTypes} {σ : a ⟶ b} where
       abstract
         prop-1 : {α β : ℒHMType ⟨ a ⟩} -> (α ⇒ β) ⇃[ σ ]⇂ ≡ α ⇃[ σ ]⇂ ⇒ β ⇃[ σ ]⇂
