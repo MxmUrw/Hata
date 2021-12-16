@@ -25,7 +25,7 @@ open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Defi
 -- [Hide]
 module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
 -- //
-  -- |> We denote objects of |𝒞| usually simply by |a|, |b| or |c|.
+  -- |> We denote objects of |𝒞| usually simply by |a|, |b|, |c|, |x| or |y|.
   --   Most of the following statements concerning ideals
   --   are rather easy consequences
   --   of the definitions, and we mostly just give an informal sketch
@@ -58,6 +58,14 @@ module _ {𝑖} {𝒞 : 𝒰 _} {{_ : 𝐙𝐌𝐂𝐚𝐭 𝑖 on 𝒞}} where
     --    we usually skip the qualifier and simply speak of ideals.
 
     open isIdeal {{...}} public
+  -- //
+
+  -- [Example]
+  -- | Given two substitutions |t s : αs ⟶ βs|,
+  --   the subset of arrows in |𝐒𝐮𝐛𝐬𝐭-FO| with source |βs|
+  --   which are unifiers for |t| and |s|, is denoted
+  --   by |CoeqIdeal t s|. It is, in fact an ideal at |βs|.
+
   -- //
 
   -- [Hide]

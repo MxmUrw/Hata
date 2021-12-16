@@ -111,6 +111,8 @@ agdaPublishProjects:
       - Core/Computation/Unification/Categorical2/Ideal.agda
       - Core/Computation/Unification/Categorical2/ZeroIdeal.agda
       - Core/Computation/Unification/Categorical2/SemilatticeStructure.agda
+      - Core/Computation/Unification/Categorical2/ForwardAction.agda
+      - Core/Computation/Unification/Categorical2/InverseAction.agda
       # - Core/Computation/Unification/Definition.agda
       # - == Idea of unification algorithm
       # - == Categorical Unification

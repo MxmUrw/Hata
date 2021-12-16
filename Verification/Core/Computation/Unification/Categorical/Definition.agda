@@ -14,13 +14,6 @@ open import Verification.Core.Category.Std.Morphism.Epi.Definition
 open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
 
 
-instance
-  hasU:∏ : ∀{A : 𝒰 𝑖} {B : A -> 𝒰 𝑗} -> hasU (∀{a} -> B a) _ _
-  getU (hasU:∏ {A = A} {B}) = ∀{a} -> B a
-  getP (hasU:∏ {𝑖} {𝑗} {A = A} {B}) u = isAnything {A = ∀{a} -> B a} u (ℓ₀)
-  reconstruct (hasU:∏ {A = A} {B}) (x , _) = x
-  destructEl (hasU:∏ {A = A} {B}) f = f
-  destructP (hasU:∏ {A = A} {B}) _ = record {}
 
 
 module _ (𝒞 : Category 𝑖) where

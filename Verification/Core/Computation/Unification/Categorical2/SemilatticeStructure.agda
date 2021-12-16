@@ -19,7 +19,22 @@ open import Verification.Core.Computation.Unification.Categorical2.Ideal
 -- The semilattice structure
 
 -- ===* Meet-semilattice structure of ideals
--- | Next, consider
+-- | Next, consider the rigid-rigid case of the
+--   concrete implementation of the unification algorithm,
+--   as given in the beginning of this chapter.
+-- | Category theoretically, we have two substitutions |t s : 1 ⟶ αs|.
+--   We consider the interesting case where |t| and |s| (viewed as terms)
+--   have an arrow as topmost constructor. This means that we split the
+--   large unification problem into two smaller problems, namely the unification
+--   of the substitutions |t₀ s₀ : 1 ⟶ αs| and of |t₁ s₁ : 1 ⟶ αs|.
+--   Note that all involved substitutions have |αs| as list of variables.
+--   Therefore, it makes sense to consider the involved ideals. Let us
+--   say |I = CoeqIdeal t s|, |I₀ = CoeqIdeal t₀ s₀| and |I₁ = CoeqIdeal t₁ s₁|.
+--   We know that |t| and |s| are succesfully unified by a substitution |σ : αs ⟶ βs|
+--   iff that substitution unifies both pairs |t₀ s₀| and |t₁ s₁| separately.
+--   That is, |t ◆ σ ≡ s ◆ σ| holds iff |t₀ ◆ σ ≡ s₀ ◆ σ| and |t₁ ◆ σ ≡ s₁ ◆ σ|.
+--   But that is exactly the statement that |I ∼ (I₀ ∧ I₁)|, where |I₀ ∧ I₁| denotes
+--   the intersection of |I₀| and |I₁|, which is not yet defined.
 
 
 -- [Hide]
@@ -27,18 +42,43 @@ module _ {𝒞 : 𝒰 𝑖}
          {{_ : isCategory {𝑗} 𝒞}}
          {{_ : isZeroMorphismCategory ′ 𝒞 ′}}
          where
-  -- private
-  --   𝒞 = ⟨ 𝒞' ⟩
+  private variable a b : 𝒞
 
-  -- the meets
-  module _ {a : 𝒞} (I J : Ideal a) where
+-- //
+
+  -- [Definition]
+  -- | Let [..] be two ideals at |a|.
+  module _ (I J : Ideal a) where
+    -- |> {}[]
     record _∧-Idealᵘ_ {b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
+      -- |> Their /intersection/ |I ∧ J| is defined as a record type
+      --    with two fields. To show that |(I ∧ J) f| holds for an arrow |f : a ⟶ b|,
+      --    one must give:
       constructor _,_
+      -- | 1. A proof that [..].
       field fst : ⟨ I ⟩ f
+      -- | 2. A proof that [..].
       field snd : ⟨ J ⟩ f
 
     open _∧-Idealᵘ_ public
 
+    -- //
+
+    -- [Lemma]
+    -- | The subset |I ∧ J| is indeed an ideal if |I| and |J| are.
+
+    -- //
+
+    -- [Proof]
+    -- | A simple recombination of the available facts.
+
+    -- //
+
+    -- | We further define |⊤-Ideal| as the ideal which contains all arrows
+    --   and show that together with intersection, this gives a meet-semilattice structure
+    --   on ideals.
+
+-- [Hide]
     macro
       _∧-Ideal_ = #structureOn (λ {b} -> _∧-Idealᵘ_ {b})
 
@@ -47,7 +87,7 @@ module _ {𝒞 : 𝒰 𝑖}
       isIdeal:∧-Ideal : isIdeal a (I ∧-Idealᵘ J)
       isIdeal:∧-Ideal = record
         { transp-Ideal = lem-1
-        ; ideal-r-◆     = {!!} -- λ {_} -> lem-2 {_} {_}
+        ; ideal-r-◆     = λ x₁ g → lem-2 x₁ g
         ; ideal-pt = ideal-pt , ideal-pt
         }
         where
@@ -101,4 +141,3 @@ module _ {𝒞 : 𝒰 𝑖}
       prop-3 {P = P} = ideal-pt {{_}} {{of ⋀-fin P}}
 
 -- //
-
