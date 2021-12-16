@@ -178,9 +178,9 @@ module _ {𝒞 : Category 𝑖}
         Q : (some x ⁻¹↷ asIdeal (f , g)) ≤ asIdeal (f ◆ x , g ◆ x)
         Q = incl (λ f₁ (incl (incl p)) → incl (assoc-l-◆ ∙ p ∙ assoc-r-◆))
 
-    lem-2 : {a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (b : Bx a) → isEpiPrincipalᵣ (𝓘' (𝒷' b))
-    lem-2 (left false) = isEpiPrincipalᵣ:⊥
-    lem-2 (left true) = isEpiPrincipalᵣ:⊤
+    lem-2 : {a : Free-𝐙𝐌𝐂𝐚𝐭 𝒞} (b : Bx a) → isEpiPrincipal (𝓘' (𝒷' b))
+    lem-2 (left false) = isEpiPrincipal:⊥
+    lem-2 (left true) = isEpiPrincipal:⊤
     lem-2 (just (x , (f , g) , isbase)) = Forward (isPrincipalC:Base f g isbase)
 
     lem-3 : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isSplittableC ′ ⟨ 𝒞 ⟩ ′ n (f , g)
@@ -226,7 +226,7 @@ module _ {𝒞 : Category 𝑖}
                                                   ; ∂ = lem-4
                                                   }
 
-  isEpiPrincipal:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isEpiPrincipalᵣ (asIdeal (f , g))
+  isEpiPrincipal:byPrincipalFamilyCat : ∀{a b : ⟨ 𝒞 ⟩} {f g : a ⟶ b} -> isEpiPrincipal (asIdeal (f , g))
   isEpiPrincipal:byPrincipalFamilyCat {a} {b} {f} {g} = isPrincipal:Family (Free-𝐙𝐌𝐂𝐚𝐭 𝒞) _ (just (a , (f , g))) refl-≣
 
   instance

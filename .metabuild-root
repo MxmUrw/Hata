@@ -102,6 +102,7 @@ agdaPublishProjects:
       - = Unification
       - == Informal description
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/Introduction.agda
+      - Core/Computation/Unification/Definition.agda
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/ProblemByExample.agda
       - Core/Theory/Std/Specific/FirstOrderTerm/Unification/SolutionSketch.agda
       - == The optimist's lemma
@@ -113,41 +114,24 @@ agdaPublishProjects:
       - Core/Computation/Unification/Categorical2/SemilatticeStructure.agda
       - Core/Computation/Unification/Categorical2/ForwardAction.agda
       - Core/Computation/Unification/Categorical2/InverseAction.agda
-      # - Core/Computation/Unification/Definition.agda
-      # - == Idea of unification algorithm
-      # - == Categorical Unification
-      # - === Pointed categories
-      # - === Ideals in pointed categories
-      # - ==== Definition
-      # - ==== Principal ideals
-      # - ==== Equivalence between principal ideals and coequalizers
-      # - === Wellfounded sets and sized categories
-      # - === Principal families and Core proof
-      # - === A principal family for a principal family cat
-      # # - Core/Computation/Unification/Categorical/Definition.agda
-      # # - Core/Computation/Unification/Categorical/PrincipalFamily.agda
-      # # - Core/Computation/Unification/Categorical/PrincipalFamilyCat.agda
-      # - == Categorical Unification for Simple Terms
-      # - === Base cases
-      # - ==== Var \& Var
-      # - ==== Var \& Con
-      # - ==== Con \& Con (fail)
-      # - === Recursion step
-      # - === Simple terms have coequalizers
-      # - = Hindley-Milner Type Theory
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Notes/Introduction.agda
-      # - == Untyped terms
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Untyped/Definition.agda
-      # - == Types and Contexts
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Type/Definition.agda
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Context/Definition.agda
-      # - === Substitutions
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Type/Properties.agda
-      # - == Typing rules
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
-      # - == Typechecking algorithm
-      # - === Statement of the Theorem
-      # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
+      - Core/Computation/Unification/Categorical2/EpiPrincipal.agda
+      - Core/Computation/Unification/Categorical2/Optimist.agda
+      - == Further proofs for categorical unification
+      - Core/Computation/Unification/Categorical2/GenericUnification.agda
+      - = Hindley-Milner Type Theory
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Notes/Introduction.agda
+      - == Untyped terms
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Untyped/Definition.agda
+      - == Types and Contexts
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Type/Definition.agda
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Context/Definition.agda
+      - === Substitutions
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Type/Properties.agda
+      - == Typing rules
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Definition.agda
+      - == Typechecking algorithm
+      - === Statement of the Theorem
+      - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
       # - === Case Var
       # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Var.agda
       # - === Case Let

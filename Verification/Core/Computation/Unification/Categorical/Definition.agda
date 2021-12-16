@@ -367,7 +367,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
 
 -- module _ {𝒞 : 𝒰 𝑗} {{_ : isCategory {𝑖} 𝒞}} where
   module _ {a : 𝒞} where
-    record isEpiPrincipalᵣ (I : Ideal a) : 𝒰 (𝑖) where
+    record isEpiPrincipal (I : Ideal a) : 𝒰 (𝑖) where
       field repObj : 𝒞
       field rep : a ⟶ repObj
       field principal-r : I ∼ rep ↷ ⊤
@@ -375,17 +375,17 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
       field zeroOrEpi : isZeroOrEpi rep
       -- field factorPrinc : ∀{x} -> (f : a ⟶ x) -> ⟨ I ⟩ f -> ∑ λ (g : repObj ⟶ x) -> f ∼ rep ◆ g
 
-    open isEpiPrincipalᵣ {{...}} public
+    open isEpiPrincipal {{...}} public
 
-    repObjOf : (I : Ideal a) {{_ : isEpiPrincipalᵣ I}} -> 𝒞
+    repObjOf : (I : Ideal a) {{_ : isEpiPrincipal I}} -> 𝒞
     repObjOf I = repObj
 
-    repOf : (I : Ideal a) {{_ : isEpiPrincipalᵣ I}} -> a ⟶ repObjOf I
+    repOf : (I : Ideal a) {{_ : isEpiPrincipal I}} -> a ⟶ repObjOf I
     repOf I = rep
 
     instance
-      isEpiPrincipalᵣ:⊤ : isEpiPrincipalᵣ ⊤
-      isEpiPrincipalᵣ:⊤ = record
+      isEpiPrincipal:⊤ : isEpiPrincipal ⊤
+      isEpiPrincipal:⊤ = record
         { repObj = a
         ; rep = id
         ; principal-r = antisym lem-1 terminal-⊤
@@ -396,8 +396,8 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
           lem-1 : ⊤ ≤ (id ↷ ⊤)
           lem-1 = incl λ f x → incl (f , (x , unit-l-◆))
 
-    transp-isEpiPrincipalᵣ : ∀{I J : Ideal a} -> (I ∼ J) -> isEpiPrincipalᵣ I -> isEpiPrincipalᵣ J
-    transp-isEpiPrincipalᵣ {I} {J} I∼J P =
+    transp-isEpiPrincipal : ∀{I J : Ideal a} -> (I ∼ J) -> isEpiPrincipal I -> isEpiPrincipal J
+    transp-isEpiPrincipal {I} {J} I∼J P =
       let
         instance _ = P
       in record
@@ -409,8 +409,8 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
         }
 
     instance
-      isEpiPrincipalᵣ:⊥ : isEpiPrincipalᵣ ⊥-Ideal
-      isEpiPrincipalᵣ:⊥ = record
+      isEpiPrincipal:⊥ : isEpiPrincipal ⊥-Ideal
+      isEpiPrincipal:⊥ = record
         { repObj = a
         ; rep = pt
         ; principal-r = antisym initial-⊥-Ideal lem-1
@@ -423,7 +423,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
 
     module §-EpiPrincipalᵣ where
 
-      prop-1 : ∀{I : Ideal a} {{_ : isEpiPrincipalᵣ I}} -> repOf I ∼ pt -> I ∼ ⊥-Ideal
+      prop-1 : ∀{I : Ideal a} {{_ : isEpiPrincipal I}} -> repOf I ∼ pt -> I ∼ ⊥-Ideal
       prop-1 {I} p = principal-r ∙ (p ≀↷≀ refl) ∙ P
         where
           P : (pt {a = a} {repObjOf I} ↷ ⊤-Ideal) ∼ ⊥-Ideal
@@ -435,6 +435,6 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
               ))
               initial-⊥-Ideal
 
-      prop-2 : ∀{I : Ideal a} {{_ : isEpiPrincipalᵣ I}} -> ⟨ I ⟩ (repOf I)
+      prop-2 : ∀{I : Ideal a} {{_ : isEpiPrincipal I}} -> ⟨ I ⟩ (repOf I)
       prop-2 {I} {{IP}} = ⟨ by-∼-≤ (principal-r {{IP}} ⁻¹) ⟩ _ (incl (id , (tt , unit-r-◆)))
 

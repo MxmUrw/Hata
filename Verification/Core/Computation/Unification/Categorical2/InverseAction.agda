@@ -17,6 +17,7 @@ open import Verification.Core.Computation.Unification.Categorical2.ForwardAction
 open import Verification.Core.Computation.Unification.Categorical2.SemilatticeStructure
 
 
+
 -- ===* Inverse action on ideals
 -- | Let |I : Ideal a| be an ideal at |a|, and |f : a ⟶ b| an arrow.
 --   Then we define the ideal |f ↷⁻¹ I : Ideal b| to contain
@@ -30,11 +31,11 @@ open import Verification.Core.Computation.Unification.Categorical2.SemilatticeSt
 
 
 
-
 -- [Hide]
 module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
   private
     𝒞 = ⟨ 𝒞' ⟩
+    variable a b : 𝒞
 
   record _⁻¹↷ᵘ_ {a b : 𝒞} (f : a ⟶ b) (I : Ideal a) {x : 𝒞} (g : b ⟶ x) : 𝒰 (𝑖) where
     constructor incl
@@ -67,10 +68,26 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
           ; ideal-pt = incl (transp-Ideal (absorb-r-◆ ⁻¹) ideal-pt)
           }
 
-  inv-↷-r : {a b : 𝒞} {f : a ⟶ b} -> {I : Ideal a} -> f ↷ (f ⁻¹↷ I) ∼ I ∧ (f ↷ ⊤)
-  inv-↷-r {a} {b} {f} {I} = antisym
-    (incl (λ h (incl (e , incl e∈f⁻¹I , fe∼h)) → transp-Ideal (fe∼h) (e∈f⁻¹I)  , (incl (e , (tt , fe∼h)))))
-    (incl λ h (h∈I , incl (e , tt , fe∼h)) → incl (e , (incl (transp-Ideal (fe∼h ⁻¹) h∈I) , fe∼h)))
+-- //
+
+-- [Lemma]
+-- | Let [..] be an arrow, and [..] an ideal.
+  module _ {f : a ⟶ b} {I : Ideal a} where
+    -- |> Then |↷| and |↷⁻¹| are almost inverses of each other.
+    --   More concretely, the following is true:
+    inv-↷-r : f ↷ (f ⁻¹↷ I) ∼ (I ∧ (f ↷ ⊤))
+
+-- //
+
+-- [Proof]
+-- | Omitted.
+
+-- //
+
+-- [Hide]
+    inv-↷-r = antisym
+      (incl (λ h (incl (e , incl e∈f⁻¹I , fe∼h)) → transp-Ideal (fe∼h) (e∈f⁻¹I)  , (incl (e , (tt , fe∼h)))))
+      (incl λ h (h∈I , incl (e , tt , fe∼h)) → incl (e , (incl (transp-Ideal (fe∼h ⁻¹) h∈I) , fe∼h)))
 
 -- //
 

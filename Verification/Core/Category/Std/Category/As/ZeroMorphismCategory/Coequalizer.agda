@@ -13,6 +13,7 @@ open import Verification.Core.Order.WellFounded.Definition
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Sized.Definition
 open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Free
 open import Verification.Core.Computation.Unification.Categorical.Definition
 open import Verification.Core.Category.Std.Limit.Specific.Coequalizer
 
@@ -72,7 +73,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
       lem-4 {p} (j since jP) = j , π₌? , incl (some equate-π₌?)
 
 
-    Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isEpiPrincipalᵣ (asIdeal f)
+    Forward : {f : HomPair a b} -> hasSizedCoequalizerDecision f -> isEpiPrincipal (asIdeal f)
     Forward {f} (left noCandidate) =
       let ⟨f⟩∼⊥ : asIdeal f ∼ ⊥-Ideal
           ⟨f⟩∼⊥ = antisym
@@ -80,7 +81,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
                                     incl
                                     λ candidate → impossible (noCandidate candidate)))
                   initial-⊥-Ideal
-      in transp-isEpiPrincipalᵣ (⟨f⟩∼⊥ ⁻¹) isEpiPrincipalᵣ:⊥
+      in transp-isEpiPrincipal (⟨f⟩∼⊥ ⁻¹) isEpiPrincipal:⊥
     Forward {f , g} (just (x , sizedx)) = record
       { repObj = incl ⟨ x ⟩
       ; rep = some π₌
@@ -119,7 +120,7 @@ module _ {𝒞 : Category 𝑖} {{_ : isSizedCategory 𝒞}} where
 
 
 
-    Backward : {f : HomPair a b} -> isEpiPrincipalᵣ (asIdeal f) -> hasSizedCoequalizerDecision f
+    Backward : {f : HomPair a b} -> isEpiPrincipal (asIdeal f) -> hasSizedCoequalizerDecision f
     Backward {f , g} P with zeroOrEpi {{_}} {{P}}
     ... | left rep∼pt = left Proof
       where
