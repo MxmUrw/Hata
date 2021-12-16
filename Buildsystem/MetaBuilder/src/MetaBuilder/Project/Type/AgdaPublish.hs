@@ -65,6 +65,7 @@ data ExtraAgdaPublishProjectConfig = ExtraAgdaPublishProjectConfig
   , generatePdf_Source_AbDir          :: FilePath
   , generateTex_Target_AbFiles        :: [FilePath]
   , generateTex_ImportantSource_AbFiles :: [FilePath]
+  , generateTex_NotImportantSource_AbFiles :: [FilePath]
   , readCommands_ImportantSource_AbFiles :: [FilePath]
   , libraryDefinitions_Source_AbFile  :: FilePath
   , libraryDefinitions_Target_AbFile  :: FilePath
@@ -100,6 +101,9 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
       generateTex_ImportantSource_AbFiles = ((\f -> normalise (generateTex_Source_AbDir </> f -<.> "lagda")) <$> (include_RelFiles))
       readCommands_ImportantSource_AbFiles = ((\f -> source_AbDir </> f) <$> (include_RelFiles))
 
+      -- not important:
+      generateTex_NotImportantSource_AbFiles = ((\f -> normalise (generateTex_Source_AbDir </> f -<.> "lagda")) <$> (notImportantFiles (appc.>agdaPublishDocumentDescription)))
+
       libraryDefinitions_Source_AbFile = normalise (egc.>rootAbDir </> appc.>libraryDefinitions_Filename)
       libraryDefinitions_Target_AbFile = normalise (buildLiterateRoot </> appc.>libraryDefinitions_Filename)
 
@@ -127,6 +131,7 @@ deriveExtraProjectConfig_AgdaPublish egc appc =
   , generatePdf_Source_AbDir = generatePdf_Source_AbDir
   , generateTex_Target_AbFiles = generateTex_Target_AbFiles
   , generateTex_ImportantSource_AbFiles = generateTex_ImportantSource_AbFiles
+  , generateTex_NotImportantSource_AbFiles = generateTex_NotImportantSource_AbFiles
   , readCommands_ImportantSource_AbFiles = readCommands_ImportantSource_AbFiles
   , libraryDefinitions_Source_AbFile = libraryDefinitions_Source_AbFile
   , libraryDefinitions_Target_AbFile = libraryDefinitions_Target_AbFile
@@ -240,7 +245,8 @@ makeRules_AgdaPublishProject egc eappc = do
     -- isImportant <- askOracle (FileImportantnessOracle (eappc.>generateTex_ImportantSource_AbFiles, file))
     let importantList = eappc.>generateTex_ImportantSource_AbFiles
     let isImportant = normalise file `elem` importantList
-    case isImportant of
+    let isSkipped = normalise file `elem` (eappc.>generateTex_NotImportantSource_AbFiles)
+    case and [isImportant, not isSkipped] of
       False -> do
         -------
         -- If we only copy this file as a dependency
@@ -316,24 +322,28 @@ makeRules_AgdaPublishProject egc eappc = do
     let targetDir = eappc.>generateTex_Target_AbDir
     liftIO $ createDirectoryIfMissing True targetDir
 
-    -- let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
-    --       then ["--only-scope-checking"]
-    --       else []
+    let isImportant = normalise sourcefile `elem` (eappc.>generateTex_ImportantSource_AbFiles)
+    let isSkipped = normalise sourcefile `elem` (eappc.>generateTex_NotImportantSource_AbFiles)
+    if and [isImportant, not isSkipped] then
+      do
+    
+        let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
+              then PrettyCheckingFast
+              else PrettyCheckingSlow
+        -- load command file for prettifier
+        commands <- liftIO $ Yaml.decodeFileThrow (eappc.>commands_AbFile)
 
-    let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
-          then PrettyCheckingFast
-          else PrettyCheckingSlow
-    -- load command file for prettifier
-    commands <- liftIO $ Yaml.decodeFileThrow (eappc.>commands_AbFile)
+        -- instantiate the prettifier
+        let prtf = Prettifier (MetaBuilder.Project.Type.AgdaPublish.Highlevel.parseAndGenerate commands) (MetaBuilder.Project.Type.AgdaPublish.Common.prettyChars)
 
-    -- instantiate the prettifier
-    let prtf = Prettifier (MetaBuilder.Project.Type.AgdaPublish.Highlevel.parseAndGenerate commands) (MetaBuilder.Project.Type.AgdaPublish.Common.prettyChars)
-
-    -- call latex generation in the agda library
-    liftIO $ generatePrettyLatexIO fastbuildarg prtf sourcefile targetDir
-
-
-    -- cmd_ "agda" (Cwd (eappc.>generateTex_Source_AbDir)) (["--latex"] ++ fastbuildarg ++ ["--latex-dir=" ++ targetDir, sourcefile])
+        -- call latex generation in the agda library
+        liftIO $ generatePrettyLatexIO fastbuildarg prtf sourcefile targetDir
+      else do
+        let fastbuildarg = if (eappc.>originalConfig.>fastbuild)
+              then ["--only-scope-checking"]
+              else []
+        -- if the file is not important, we call the real agda
+        cmd_ "agda" (Cwd (eappc.>generateTex_Source_AbDir)) (["--latex"] ++ fastbuildarg ++ ["--latex-dir=" ++ targetDir, sourcefile])
 
 
   -- source_Files <- liftIO $ getDirectoryFilesIO (eapc.>source_AbDir) ["//*.agda"]

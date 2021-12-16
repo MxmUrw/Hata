@@ -68,13 +68,19 @@ open isCategory ⦃...⦄ public
 -- //
 
 
+-- [Hide]
 Category : (𝑗 : 𝔏 ^ 3) -> 𝒰 _
 Category 𝑗 = 𝒰 (𝑗 ⌄ 0) :& isCategory {𝑗 ⌄ 1 ⋯ 2}
+-- //
 
 
 -- [Notation]
--- | We set [..], i.e., we may also write |a ⟶ b| for |Hom a b|.
+-- | We usually write |a ⟶ b| for |Hom a b|. Note, that this arrow
+--   is longer than the arrow of Agda's function types.
 
+-- //
+
+-- [Hide]
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} (a b : 𝒞) where
   infixr 40 _⟶ᵘ_ _⟶_
   _⟶ᵘ_ = Hom a b

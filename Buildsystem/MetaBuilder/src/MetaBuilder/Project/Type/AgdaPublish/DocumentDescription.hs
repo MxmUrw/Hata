@@ -20,6 +20,7 @@ data DocumentDescription = DocumentDescription
   , documentDate :: String
   , documentType :: DocumentType
   , documentFilesAndHeadings :: [String]
+  , notImportantFiles :: [FilePath]
   }
   deriving (Generic,Show)
 

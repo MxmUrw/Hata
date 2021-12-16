@@ -1,9 +1,67 @@
 
 module Verification.Notes.Topic.VTC.AboutAgda where
 
-
--- == About Agda
--- | Agda is a dependently typed, functional programming language with a syntax similar
---   to Haskell,
+-- | The present work is formalized in Agda,
+--   a dependently typed, functional programming language with
+--   a syntax similar to Haskell. \cite{Agda:Norell:2007} Almost all statements in this thesis
+--   are verified.$\footnote{The formalization can be found here: \url{https://github.com/MxmUrw-Release/HindleyMilnerTypeInference}}$
+--   A small exception is the proof of the fact that
+--   our category of substitutions has epi-mono factorizations.
+-- | A goal of this thesis was to keep the gap between the
+--   written Agda code, and its presentation in terms of this document
+--   as small as possible. This is possible in Agda using so called literate source files,
+--   where code is interspersed into a document written in another format, such as
+--   \LaTeX{} or markdown. While this makes it possible to easily create
+--   documents with properly typeset Agda code, it is not completely satisfactory
+--   for two reasons:
+-- | - When presenting code for humans, one usually does not want to
+--     show the exact content as is present in the source code.
+--     Instead, irrelevant parts, such as imports or fixity declarations
+--     are usually hidden. More importantly, proofs are usually too verbose,
+--     and it is more appropriate to only present parts thereof.
+--     The actual problem is that the therefor required switching
+--     between \LaTeX{} and Agda results in a lot of additional noise ---
+--     which is quite unpleasant, considering that it is quite important
+--     to keep the pure Agda code readable when developing a formalization.
+--     This rather has the effect that, once annotations are introduced,
+--     the code is no longer actively editable.
+-- | - The syntax of Agda, being a programming language, necessarily does
+--     not support the different syntactical and graphical notations used
+--     in mathematical texts. This has the effect that it is not possible
+--     to direct the attention of the reader towards the important parts of
+--     a term. Instead, all aspects of the code, as required by Agda to understand
+--     it, are presented with seemingly the same degree of importantness,
+--     even details which are very secondary to human understanding, such as for example
+--     universe levels.
+-- |: This makes it almost inviting to restate everything twice: once with
+--   human-oriented notation, and once with the original one from the formalization.
+--   Yet, if the work is already invested in creating a human-readable version,
+--   then there is little incentive to keep the formalization around. And indeed,
+--   many presentations of formalizations follow this route.
 --
+-- | It definitely seems that an approach which brings these two facets of
+--   formal mathematical reasoning (verification and presentation) closer together,
+--   instead of insisting on their inherent difference, should be possible.
+--   In fact, it seems like an ideal worth striving for: Mathematical code
+--   in a human readable form, where at the same time all parts of the code
+--   base are guaranteed to be correct.
+--
+-- | \medskip
+--
+-- | Such a combination of purposes has been strived for in the creation of this thesis.
+--   As pure literate Agda documents do not fulfill the stated intentions,
+--   a custom pre- and postprocessing pipeline has been created. Human readable
+--   descriptions are written in Agda comments, with a lightweight syntax, which
+--   has special features to allow for mixing code and text in a way that both
+--   the source file, as well as the generated document, are kept as readable as possible.
+--
+-- | The main features include the following:
+-- | - Support for subscripts. Identifiers which are made of multiple parts joined
+--     together with dashes, the later parts are displayed as subscripts.
+-- | - Universe levels are hidden in the generated document.
+-- | - Keywords such as \AK{data}, \AK{record} or \AK{field} are hidden. Instead, a syntax is
+--     provided to make definitions of data or record types appear in-line with the text.
+
+-- |: For example, consider the following definition:
+
 

@@ -23,8 +23,19 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Substitution.Definition
 
 
--- | We show that substitutions form a category. But not here!
+-- | Let |Σ_FO| be a signature. The category of terms over |Σ_FO| and substitutions, is
+--   denoted by |𝐒𝐮𝐛𝐬𝐭-FO|. Usually, this category is defined as the Kleisli category
+--   of the term monad, but for our definition of terms it is easier to work with
+--   relative monads \cite{Altenkirch_Chapman_Uustalu_2014} instead.
 
+-- [Lemma]
+-- | The category |𝐒𝐮𝐛𝐬𝐭-FO| has coproducts.
 
+-- //
 
+-- [Lemma]
+-- | The category |𝐒𝐮𝐛𝐬𝐭-FO| has epi-mono factorizations.
+--   This lemma is not fully formalized.
+
+-- //
 

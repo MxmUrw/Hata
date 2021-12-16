@@ -1,0 +1,105 @@
+
+\begin{code}%
+\>[0]\AgdaKeyword{module}\AgdaSpace{}%
+\AgdaModule{Verification.Core.Data.List.Variant.Unary.DefinitionCopy}\AgdaSpace{}%
+\AgdaKeyword{where}\<%
+\\
+%
+\\[\AgdaEmptyExtraSkip]%
+\>[0]\AgdaKeyword{open}\AgdaSpace{}%
+\AgdaKeyword{import}\AgdaSpace{}%
+\AgdaModule{Verification.Conventions}\<%
+\\
+%
+\\[\AgdaEmptyExtraSkip]%
+\>[0]\AgdaKeyword{open}\AgdaSpace{}%
+\AgdaKeyword{import}\AgdaSpace{}%
+\AgdaModule{Verification.Core.Set.Setoid}\<%
+\\
+\>[0]\AgdaKeyword{open}\AgdaSpace{}%
+\AgdaKeyword{import}\AgdaSpace{}%
+\AgdaModule{Verification.Core.Set.Contradiction}\<%
+\\
+\>[0]\AgdaKeyword{open}\AgdaSpace{}%
+\AgdaKeyword{import}\AgdaSpace{}%
+\AgdaModule{Verification.Core.Set.Decidable}\<%
+\\
+\>[0]\AgdaKeyword{open}\AgdaSpace{}%
+\AgdaKeyword{import}\AgdaSpace{}%
+\AgdaModule{Verification.Core.Set.Discrete}\<%
+\\
+%
+\\[\AgdaEmptyExtraSkip]%
+\>[0]\AgdaComment{--------------------------------------------------------------------}\<%
+\\
+\>[0]\AgdaComment{--\ [Definition]}\<%
+\\
+\>[0]\AgdaComment{--\ (NOTE:\ Lists\ are\ actually\ defined\ in\ Agda.Builtin.List,}\<%
+\\
+\>[0]\AgdaComment{--\ \ \ \ \ \ \ \ we\ merely\ reproduce\ the\ definition\ here\ for\ introduction}\<%
+\\
+\>[0]\AgdaComment{--\ \ \ \ \ \ \ \ purposes.)}\<%
+\\
+\>[0]\AgdaComment{--}\<%
+\\
+\>[0]\AgdaKeyword{private}\<%
+\\
+\>[0][@{}l@{\AgdaIndent{0}}]%
+\>[2]\AgdaComment{--\ |\ For\ any\ type\ |A|,\ lists\ with\ elements\ of\ type\ |A|\ are\ defined}\<%
+\\
+%
+\>[2]\AgdaComment{--\ \ \ as\ the\ data\ type\ [..]\ with\ two\ constructors.}\<%
+\\
+%
+\>[2]\AgdaKeyword{data}\AgdaSpace{}%
+\AgdaDatatype{List'}\AgdaSpace{}%
+\AgdaSymbol{(}\AgdaBound{A}\AgdaSpace{}%
+\AgdaSymbol{:}\AgdaSpace{}%
+\AgdaFunction{𝒰}\AgdaSpace{}%
+\AgdaGeneralizable{𝑖}\AgdaSymbol{)}\AgdaSpace{}%
+\AgdaSymbol{:}\AgdaSpace{}%
+\AgdaFunction{𝒰}\AgdaSpace{}%
+\AgdaBound{𝑖}\AgdaSpace{}%
+\AgdaKeyword{where}\<%
+\\
+%
+\\[\AgdaEmptyExtraSkip]%
+%
+\>[2]\AgdaComment{--\ |\ -\ The\ constructor\ [..],\ which\ denotes\ the\ empty\ list.}\<%
+\\
+\>[2][@{}l@{\AgdaIndent{0}}]%
+\>[4]\AgdaInductiveConstructor{[]}%
+\>[8]\AgdaSymbol{:}\AgdaSpace{}%
+\AgdaDatatype{List'}\AgdaSpace{}%
+\AgdaBound{A}\<%
+\\
+%
+\\[\AgdaEmptyExtraSkip]%
+%
+\>[2]\AgdaComment{--\ |\ -\ The\ constructor\ [..],\ which\ denotes\ the\ operation}\<%
+\\
+%
+\>[2]\AgdaComment{--\ \ \ \ \ of\ prepending\ an\ element\ |a|\ to\ a\ list\ |as|,}\<%
+\\
+%
+\>[2]\AgdaComment{--\ \ \ \ \ resulting\ in\ the\ larger\ list\ |a\ ∷\ as|.}\<%
+\\
+\>[2][@{}l@{\AgdaIndent{0}}]%
+\>[4]\AgdaOperator{\AgdaInductiveConstructor{\AgdaUnderscore{}∷\AgdaUnderscore{}}}\AgdaSpace{}%
+\AgdaSymbol{:}\AgdaSpace{}%
+\AgdaBound{A}\AgdaSpace{}%
+\AgdaSymbol{->}\AgdaSpace{}%
+\AgdaDatatype{List'}\AgdaSpace{}%
+\AgdaBound{A}\AgdaSpace{}%
+\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaDatatype{List'}\AgdaSpace{}%
+\AgdaBound{A}\<%
+\\
+%
+\\[\AgdaEmptyExtraSkip]%
+\>[0]\AgdaComment{--\ \#Notation/Rewrite\#\ List'\ =\ List}\<%
+\\
+\>[0]\AgdaComment{--\ //}\<%
+\\
+\>[0]\<%
+\end{code}

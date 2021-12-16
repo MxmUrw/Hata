@@ -32,6 +32,7 @@ agdaPublishProjects:
       documentAuthor: "Maxim Urschumzew"
       documentType: SCReport
       documentDate: ""
+      notImportantFiles: []
       documentFilesAndHeadings:
       - = Main
       - Core/Data/List/Dependent/Variant/Unary/Definition.agda
@@ -55,12 +56,17 @@ agdaPublishProjects:
       documentAuthor: "Maxim Urschumzew"
       documentType: SCReport
       documentDate: ""
+      notImportantFiles:
+      - Core/Data/List/Variant/Unary/DefinitionCopy.agda
       documentFilesAndHeadings:
       - Notes/HataStandardImport.agda
       - Notes/Topic/VTC/Introduction.agda
-      - = Formalization in Agda
-      - Verification/Notes/Topic/VTC/AboutAgda.agda
+      - = About this formalization
+      - Notes/Topic/VTC/AboutAgda.agda
+      - Core/Data/List/Variant/Unary/DefinitionResult.agda
+      - Core/Data/List/Variant/Unary/DefinitionCopy.agda
       - = Basics
+      - Notes/Topic/VTC/BasicBasics.agda
       - == Lists
       - Core/Data/List/Variant/Unary/Definition.agda
       - Core/Data/List/Variant/Unary/Element.agda
@@ -170,6 +176,7 @@ agdaPublishProjects:
       documentAuthor: "Maxim Urschumzew"
       documentType: SCReport
       documentDate: ""
+      notImportantFiles: []
       documentFilesAndHeadings:
       - Overview.agda
       - ===About
