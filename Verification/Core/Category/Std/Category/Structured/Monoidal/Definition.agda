@@ -125,8 +125,8 @@ MonoidalCategory 𝑖 = Category 𝑖 :& isMonoidal
 
 module _ {𝒞 : 𝒰 _} {{_ : MonoidalCategory 𝑖 on 𝒞}} where
 
-  ⨂-𝔽 : ∀{n} -> (𝔽ʳ n -> 𝒞) -> 𝒞
-  ⨂-𝔽 = {!!}
+  -- ⨂-𝔽 : ∀{n} -> (𝔽ʳ n -> 𝒞) -> 𝒞
+  -- ⨂-𝔽 = {!!}
 
 
 module _ {𝑖} where

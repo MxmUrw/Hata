@@ -6,7 +6,7 @@ open import Verification.Conventions hiding (ℕ)
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category

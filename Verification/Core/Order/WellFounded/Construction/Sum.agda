@@ -2,6 +2,7 @@
 module Verification.Core.Order.WellFounded.Construction.Sum where
 
 open import Verification.Conventions
+open import Verification.Core.Set.Induction.WellFounded
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Order.WellFounded.Definition
 

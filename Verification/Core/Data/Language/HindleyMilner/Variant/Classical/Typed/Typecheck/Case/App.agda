@@ -167,7 +167,7 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
           -- we now have the coequalizer `π₌`,
           -- but we need to factorize the map ι₀ ◆ π
           π : νs₂ ⟶ ⟨ x ⟩
-          π = π₌ {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝒹}}} {{of x}}
+          π = π₌ {{isCategory:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term Σ-Sim}}} {{of x}}
 
           f : νs₂ₐ ⟶ ⟨ x ⟩
           f = ι₀ ◆ π
