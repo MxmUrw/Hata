@@ -115,5 +115,4 @@ TypeAssignmentDecision Γ te = (TypeAssignment Γ te -> ⊥-𝒰 {ℓ₀}) + (Pr
 
 -- //
 
--- | In the next section we are going to prove this theorem.
 

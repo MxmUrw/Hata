@@ -16,7 +16,8 @@ instance
 -- //
 
 -- [Example]
--- | The type |𝒰| of types is a category in the following way:
+-- | The type |𝒰| of types together with functions between
+--   them is a category.
 instance
   isCategory:𝒰 : isCategory (𝒰 𝑖)
   isCategory.Hom isCategory:𝒰 A B = A -> B
@@ -29,6 +30,14 @@ instance
   isCategory.assoc-l-◆ isCategory:𝒰 = refl
   isCategory.assoc-r-◆ isCategory:𝒰 = refl
   isCategory._◈_ isCategory:𝒰 p q = λ i -> p i ◆ q i
+-- //
+
+-- [Example]
+-- | Another, more generic example is the following:
+--   Given a category |𝒞|, inverting the direction
+--   of all arrows produces a new category, called the
+--   /opposite/ category, and denoted by |𝒞 ᵒᵖ|.
+
 -- //
 
 -- [Hide]

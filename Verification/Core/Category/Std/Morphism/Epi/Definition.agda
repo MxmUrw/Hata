@@ -9,22 +9,28 @@ open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 
 
+-- [Definition]
 
 -- | Let [..] [] be a category.
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
-  -- [Definition]
-  -- | An arrow |f : a ⟶ b| in |𝒞| is called an /epimorphism/ if
+  -- |> An arrow |f : a ⟶ b| in |𝒞| is called an /epimorphism/ if
   -- the following condition holds:
   record isEpi {a b : 𝒞} (f : a ⟶ b) : 𝒰 (𝑖 ､ 𝑗) where
     constructor epi
-    -- | For any two other arrows we can do ., ie.:
+    -- | If two parallel arrows |α| and |β| are equal after
+    --   post-composition with |f|, then they are really equal, ie.:
     field cancel-epi : ∀{x : 𝒞} -> ∀{α β : b ⟶ x} -> f ◆ α ∼ f ◆ β -> α ∼ β
-
 
   open isEpi {{...}} public
 
   -- //
+
+  -- | In classical mathematics, surjective functions are exactly the epimorphisms
+  --   in the category of sets. In our setting this is not quite so, since the notion
+  --   of surjectivity is stronger. Nevertheless, it is useful to think of epimorphisms
+  --   that way.
+
 
   -- [Hide]
   isEpi:id : ∀{a : 𝒞} -> isEpi (id {a = a})

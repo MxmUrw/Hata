@@ -10,10 +10,10 @@ open import Verification.Core.Category.Std.Functor.Faithful
 open import Verification.Core.Category.Std.Functor.Full
 
 
+-- [Definition]
 -- | Let [..] [] be a category.
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
-  -- [Definition]
   -- | An arrow |f : a ⟶ b| in |𝒞| is called an /isomorphism/,
   -- | if the following data is given.
   record isIso {a b : 𝒞} (f : Hom' {𝒞 = ′ 𝒞 ′} a b) : 𝒰 (𝑖 ､ 𝑗) where

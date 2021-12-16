@@ -25,12 +25,12 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 --   in the term. This makes it more difficult to deal with typing derivations
 --   for a given term |t|, as different derivation trees for the same typing exist.
 --
--- | In the proof of completeness of algorithm W in \cite{Damas:1984}, it is mentioned
+-- | In the proof of completeness of algorithm W in \cite{HM:Damas:1984}, it is mentioned
 --   that it is enough to show that the algorithm derives a typing which is more general
 --   than any other given typing derivation |Δ ⊢ τ|, when that given typing derivation
 --   does not contain an /inst/ or /gen/ rule.
 --
--- | A slightly different approach is taken in \cite{CDDK:1986}, where it is first shown
+-- | A slightly different approach is taken in \cite{HM:CDDK:1986}, where it is first shown
 --   that an alternative set of typing rules \ref{}, without the "term-less" rules /inst/
 --   and /gen/ may be used instead, in the sense that a principal type for this typing system
 --   is also a principal typing system for the original rules.

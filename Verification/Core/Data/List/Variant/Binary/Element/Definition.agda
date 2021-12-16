@@ -20,7 +20,7 @@ open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
 module _ {A : 𝒰 𝑖} where
 
   -- |> The element relation [..] is defined similar to
-  --    definition (?).
+  --    the definition for unary lists.
   data _∍_ : ⋆List A -> A -> 𝒰 𝑖 where
     incl : ∀ {x} -> incl x ∍ x
     right-∍ : ∀ {a b x} -> b ∍ x -> (a ⋆ b) ∍ x

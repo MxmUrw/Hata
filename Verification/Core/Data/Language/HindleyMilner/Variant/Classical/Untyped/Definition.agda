@@ -13,7 +13,7 @@ open import Verification.Core.Data.List.Variant.Unary.Natural
 -- open import Verification.Core.Data.AllOf.Collection.TermTools
 
 
--- | The terms of HM are defined in \cite{TT:Damas:1984} to be given by the
+-- | The terms of HM are defined in \cite{HM:Damas:1984} to be given by the
 --   BNF grammar
 --   $\begin{equation} e ::= x | ee' | λx.e | let x=e in e' \end{equation}$
 --   where x is an element of a set of identifiers. The let-term is a neccessary

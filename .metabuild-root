@@ -84,6 +84,7 @@ agdaPublishProjects:
       - == Hindley Milner Types
       - Core/Data/Language/HindleyMilner/Type/Variant/Direct/Definition.agda
       - = Category theory
+      - Core/Category/Std/Category/Introduction.agda
       - == Categories
       - Core/Category/Std/Category/Definition.agda
       - Core/Data/Universe/Instance/Category.agda
@@ -91,9 +92,8 @@ agdaPublishProjects:
       - Core/Category/Std/Morphism/Iso/Definition.agda
       - Core/Category/Std/Morphism/Epi/Definition.agda
       - == Colimits
-      - === Coproducts
+      - Core/Category/Std/Category/ColimitIntroduction.agda
       - Core/Category/Std/Limit/Specific/Coproduct/Variant/Binary.agda
-      - === Coequalizers
       - Core/Category/Std/Limit/Specific/Coequalizer/Definition.agda
       - = Many sorted terms
       - Core/Theory/Std/Specific/FirstOrderTerm/Introduction.agda
@@ -140,6 +140,7 @@ agdaPublishProjects:
       - == Typechecking algorithm
       - === Statement of the Theorem
       - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Statement.agda
+      - Notes/Topic/VTC/Declaration.agda
       # - === Case Var
       # - Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Case/Var.agda
       # - === Case Let

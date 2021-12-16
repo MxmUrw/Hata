@@ -51,7 +51,8 @@ _[_] = λ τ σ -> τ ⇃[ σ ]⇂
 --   The same general approach, yet formulated differently, is the one taken
 --   by \citet{UnifyForm:McBride:2000}.
 --
--- | The algorithm has the following type [...,]
+-- | The algorithm has the following type [...,] We present it using
+--   partially implemented Agda terms.
 {-# TERMINATING #-}
 unify : (t s : 𝒯⊔Term Σ-Sim ⟨ μs ⟩ tt) -> Maybe (∑[ νs ] (μs ⟶ νs))
 -- |> taking the terms |t| and |s|, both with variables from |μs| and returning

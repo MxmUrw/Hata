@@ -11,7 +11,12 @@ open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Data.List.Variant.Unary.Definition
 
 -- [Lemma]
--- | Let [..] be a type.
+-- | The type |List A| has a monoid structure,
+--   where |as ⋆ bs| is given by appending the lists.
+
+-- //
+
+-- [Hide]
 module _ {A : 𝒰 𝑖} where
   module ListProofs where
 
@@ -27,8 +32,9 @@ module _ {A : 𝒰 𝑖} where
 
   open ListProofs
 
-  instance
     -- | This means that lists are a monoid.
+
+  instance
     isMonoid:List : isMonoid ′(List A)′
     isMonoid:List = record
                       { _⋆_ = _<>_
@@ -39,9 +45,6 @@ module _ {A : 𝒰 𝑖} where
                       ; _≀⋆≀_ = {!!}
                       }
 
--- //
-
--- [Hide]
 
 module _ {A : 𝒰 𝑖} {B : 𝒰 _} {{_ : B is Monoid 𝑗}} where
   rec-List : (f : A -> B) -> List A -> B

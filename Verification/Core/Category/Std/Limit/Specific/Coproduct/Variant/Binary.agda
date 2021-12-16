@@ -23,29 +23,40 @@ macro
 
 -- //
 
+-- | Let [..] [] be a category.
 module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
+  -- |> The notion of initiality is related to "minimality"
+  --    in a very obvious way.
 
   -- [Definition]
-  -- | An object |x| of a category is called initial if:
+  -- | An object |x| of a category is called /initial/ if:
   record isInitial (x : 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
+    -- | It has an outgoing arrow to every object.
     field elim-⊥ : ∀{a} -> x ⟶ a
+    -- | These arrows are the only outgoing arrows.
     field expand-⊥ : ∀{a} -> {f : x ⟶ a} -> f ∼ elim-⊥
 
   open isInitial {{...}} public
   -- //
 
+  -- |> The notion of a coproduct is a bit more involved.
 
   -- [Definition]
-  -- | A coproduct is the following:
+  -- | We say that |x| is a coproduct of |a| and |b|,
   record isCoproduct (a b x : 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
+  -- | 1. If it is equipped with an inclusion from |a| and one from |b|.
     field ι₀ : a ⟶ x
     field ι₁ : b ⟶ x
+
+    -- | 2. And given such structure on any object |c|, there is an arrow
+    --      showing that |x| is more minimal.
     field ⦗_⦘ : ∀{c} -> ((a ⟶ c) × (b ⟶ c)) -> x ⟶ c
-    field {{isSetoidHom:⦗⦘}} : ∀{c} -> isSetoidHom ′((a ⟶ c) ×-𝒰 (b ⟶ c))′ (x ⟶ c) (⦗_⦘ {c})
+    -- | 3. Such that the following conditions hold.
     field reduce-ι₀ : ∀{c} {f : a ⟶ c} {g : b ⟶ c} -> ι₀ ◆ ⦗ f , g ⦘ ∼ f
     field reduce-ι₁ : ∀{c} {f : a ⟶ c} {g : b ⟶ c} -> ι₁ ◆ ⦗ f , g ⦘ ∼ g
     field expand-ι₀,ι₁  : ∀{c} {f : x ⟶ c} -> f ∼ ⦗ ι₀ ◆ f , ι₁ ◆ f ⦘
+    field {{isSetoidHom:⦗⦘}} : ∀{c} -> isSetoidHom ′((a ⟶ c) ×-𝒰 (b ⟶ c))′ (x ⟶ c) (⦗_⦘ {c})
   -- //
 
   open isCoproduct {{...}} public
