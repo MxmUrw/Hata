@@ -58,6 +58,8 @@ agdaPublishProjects:
       documentFilesAndHeadings:
       - Notes/HataStandardImport.agda
       - Notes/Topic/VTC/Introduction.agda
+      - = Formalization in Agda
+      - Verification/Notes/Topic/VTC/AboutAgda.agda
       - = Basics
       - == Lists
       - Core/Data/List/Variant/Unary/Definition.agda

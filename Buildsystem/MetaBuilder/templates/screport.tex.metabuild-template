@@ -9,7 +9,7 @@
 \documentclass[
 % draft,
 fontsize=11pt,
-% twoside
+twoside
 ]{scrreprt}
 
 % \usepackage[utf8]{inputenc}
@@ -236,8 +236,6 @@ numbered=no
   pdfsubject={},
   pdflang={English}}
 \begin{document}
-
-\maketitle
 
 \input{{{ABSTRACT}}}
 

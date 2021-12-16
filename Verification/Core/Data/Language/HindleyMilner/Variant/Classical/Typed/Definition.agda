@@ -15,6 +15,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.MetaVarReduction
 
+
 ----------------------------------------------------------------------------------
 -- Definition of the Hindley Milner type system
 --

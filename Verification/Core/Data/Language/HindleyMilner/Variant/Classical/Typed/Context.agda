@@ -93,7 +93,7 @@ data ℒHMQuantMap (μs : ℒHMTypes) : ∀{k} (Q R : ℒHMQuant k) -> 𝒰₀ w
 module _ {μs} where
   id-ℒHMQuant : ∀{k} {Q : ℒHMQuant k} -> ℒHMQuantMap μs Q Q
   id-ℒHMQuant {Q = []} = []
-  id-ℒHMQuant {k = tyᵗ ∷ ks} {Q = incl ⟨_⟩₁ ∷ Q} = ι₁ ∷ id-ℒHMQuant
+  id-ℒHMQuant {k = tt ∷ ks} {Q = incl ⟨_⟩₁ ∷ Q} = ι₁ ∷ id-ℒHMQuant
 
   lookup-ℒHMQuantMap : ∀{k i} -> {Q R : ℒHMQuant k} -> (σ : ℒHMQuantMap μs Q R) -> (k∍i : k ∍♮ i)
                        -> lookup-Listᴰ Q k∍i ⟶ μs ⊔ lookup-Listᴰ R k∍i
@@ -135,7 +135,7 @@ module §-ℒHMQuantMap where
          -> {Γ : ℒHMCtx Q μs}
          -> apply-ℒHMQuantMap (id-ℒHMQuant {Q = Q}) Γ ≡ Γ
   prop-3 {k = ⦋⦌} {Q = .[]} {Γ = []} = refl-≡
-  prop-3 {k = tyᵗ ∷ k} {Q = .(_ ∷ _)} {Γ = c ∷ Γ} = λ i → lem-1 i ∷ prop-3 {Γ = Γ} i
+  prop-3 {k = tt ∷ k} {Q = .(_ ∷ _)} {Γ = c ∷ Γ} = λ i → lem-1 i ∷ prop-3 {Γ = Γ} i
     where
       lem-1 : c ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂ ≡ c
       lem-1 = c ⇃[ ⦗ ι₀ , ι₁ ⦘ ]⇂    ⟨ c ⇃[≀ ⦗≀ unit-r-◆ ⁻¹ , unit-r-◆ ⁻¹ ≀⦘ ≀]⇂ ⟩-≡
