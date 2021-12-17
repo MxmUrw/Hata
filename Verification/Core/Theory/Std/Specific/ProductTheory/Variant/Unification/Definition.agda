@@ -39,7 +39,6 @@ module _ (𝑖 : 𝔏) where
 Type-𝕋× : ProductTheory 𝑖 -> 𝒰 𝑖
 Type-𝕋× a = Sort a
 
-𝒯ₓ₌
 
 
 data Term₁-𝕋× (a : 𝕋× 𝑖) : (Γ : ⋆List (Type-𝕋× a)) (τ : Type-𝕋× a) -> 𝒰 𝑖 where

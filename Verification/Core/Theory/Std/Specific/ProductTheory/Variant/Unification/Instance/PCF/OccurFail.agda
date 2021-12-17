@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.OccurFail where
 
 open import Verification.Conventions hiding (Structure ; ℕ)
@@ -9,7 +10,13 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.Nat.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 open import Verification.Core.Algebra.Monoid.Notation.Associativity
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition

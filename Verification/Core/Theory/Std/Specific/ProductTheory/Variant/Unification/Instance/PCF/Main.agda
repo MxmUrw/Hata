@@ -7,10 +7,17 @@ open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
+open import Verification.Core.Data.List.VariantTranslation.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
 open import Verification.Core.Data.Product.Definition
+open import Verification.Core.Data.Nat.Instance.Monoid
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Definition
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple
 -- open import Verification.Core.Theory.Std.Generic.TypeTheory.Simple.Judgement2
@@ -120,13 +127,14 @@ module _ {𝑨 : 𝕋× 𝑖} where
                     ((p : Fin-R 1) →
                     ((fst (fam' p .snd) ◆ h))
                     ∼ (snd (fam' p .snd) ◆ h))
-      covers-0 h p q = cong-Str ⟨_⟩ p
-        >> incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsx)) ≣ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsy))) <<
-        ⟪ cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
-        ⟪ cancel-injective-con₃ refl-≣ ⟫
-        ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⟫
-        ⟪ cong-Str ⧜subst ⟫
-        >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
+      covers-0 h p q = ?
+        -- cong-Str ⟨_⟩ p
+        -- >> incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsx)) ≣ (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsy))) <<
+        -- ⟪ cancel-injective-incl-Hom-⧜𝐒𝐮𝐛𝐬𝐭 ⟫
+        -- ⟪ cancel-injective-con₃ refl-≣ ⟫
+        -- ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⟫
+        -- ⟪ cong-Str ⧜subst ⟫
+        -- >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
 
       covers-1 : {x : 𝐂𝐭𝐱ᵘ 𝑨}
                     (h : incl _ ⟶ x) →
@@ -135,12 +143,13 @@ module _ {𝑨 : 𝕋× 𝑖} where
                     ∼ (snd (fam' p .snd) ◆ h))
                     ->
                     ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsx))) ∼ ⧜subst (incl (subst-⧜𝐒𝐮𝐛𝐬𝐭 h _ (con cx tsy)))
-      covers-1 h p = p (zero)
-        >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
-        ⟪ cong-Str ⟨_⟩ ⟫
-        ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ⁻¹ ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⁻¹ ⟫
-        ⟪ cong-Str (con cx) ⟫
-        ⟪ cong-Str incl ⟫
-        ⟪ cong-Str ⧜subst ⟫
+      covers-1 h p = ?
+        -- p (zero)
+        -- >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
+        -- ⟪ cong-Str ⟨_⟩ ⟫
+        -- ⟪ §-reext-Terms-𝕋×.prop-2 h tsx ⁻¹ ≀∼≀ §-reext-Terms-𝕋×.prop-2 h tsy ⁻¹ ⟫
+        -- ⟪ cong-Str (con cx) ⟫
+        -- ⟪ cong-Str incl ⟫
+        -- ⟪ cong-Str ⧜subst ⟫
 
 

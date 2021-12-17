@@ -98,10 +98,4 @@ monotone-l-⋆-人ℕ {a} {b} {c} (b-a , bap) = (b-a , p)
         c ⋆ (a ⋆ b-a) ⟨ refl ≀⋆≀ bap ⟩-∼
         c ⋆ b         ∎
 
-open import Verification.Core.Data.Nat.Instance.Monoid
-人length : 人ℕ -> Nat
-人length (incl x) = 1
-人length (x ⋆-⧜ x₁) = 人length x ⋆ 人length x₁
-人length ◌-⧜ = 0
-
 

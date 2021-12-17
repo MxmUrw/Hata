@@ -35,7 +35,15 @@ open import Verification.Core.Data.Indexed.Property.Iso
 
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Element.Instance.Functor
+open import Verification.Core.Data.List.Variant.Binary.Element.As.Indexed
+open import Verification.Core.Data.List.Variant.Binary.Element.Properties
+open import Verification.Core.Data.List.Variant.Binary.Natural
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
+open import Verification.Core.Data.List.VariantTranslation.Definition
 
 open import Verification.Core.Category.Std.Category.Subcategory.Full public
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition

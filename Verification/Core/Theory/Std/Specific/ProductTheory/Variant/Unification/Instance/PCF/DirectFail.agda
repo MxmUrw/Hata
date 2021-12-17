@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.DirectFail where
 
 open import Verification.Conventions hiding (Structure)
@@ -8,7 +9,13 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
+open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
+open import Verification.Core.Data.List.VariantTranslation.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category -- hiding (isSetoid:Function)
@@ -58,7 +65,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
   cancel-injective-con : ∀{αsx αsy α} {Γ : 𝐂𝐭𝐱 𝑨} {c : Con 𝑨 αsx α} {d : Con 𝑨 αsy α}
                          {tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩)}
                          {tsy : Terms-𝕋× 𝑨 (incl (ι αsy)) (incl ⟨ Γ ⟩)}
-                         -> con c tsx ≣ con d tsy
+                         -> Term₁-𝕋×.con c tsx ≣ con d tsy
                          -> αsx ≣ αsy
   cancel-injective-con refl-≣ = refl-≣
 
@@ -81,7 +88,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         lem-2 : 𝟘-𝒰
         lem-2 = ¬p (cancel-injective-con lem-1)
 
-    hasNoCoequalizerCandidate:byCon : ¬ (hasCoequalizerCandidate {X = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy))))
+    hasNoCoequalizerCandidate:byCon : ¬ (hasCoequalizerCandidate {𝒞 = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy))))
     hasNoCoequalizerCandidate:byCon P = lem-2 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩
@@ -95,7 +102,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
                          {tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩)}
                          {tsy : Terms-𝕋× 𝑨 (incl (ι αsy)) (incl ⟨ Γ ⟩)}
                          -> (p : αsx ≣ αsy)
-                         -> con c tsx ≣ con d tsy
+                         -> Term₁-𝕋×.con c tsx ≣ con d tsy
                          -> transport-Str (cong-Str (λ ξ -> Con 𝑨 ξ α) p) c ≣ d
   cancel-injective-con₂ p refl-≣ with isset-Str p refl-≣
   ... | refl-≣ = refl-≣
@@ -105,7 +112,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
                          {tsx : Terms-𝕋× 𝑨 (incl (ι αsx)) (incl ⟨ Γ ⟩)}
                          {tsy : Terms-𝕋× 𝑨 (incl (ι αsy)) (incl ⟨ Γ ⟩)}
                          -> (p : αsx ≣ αsy)
-                         -> con c tsx ≣ con d tsy
+                         -> Term₁-𝕋×.con c tsx ≣ con d tsy
                          -> transport-Str (cong-Str (λ ξ -> Terms-𝕋× 𝑨 (incl (ι ξ)) (incl ⟨ Γ ⟩)) p) tsx ≣ tsy
   cancel-injective-con₃ p refl-≣ with isset-Str p refl-≣
   ... | refl-≣ = refl-≣
@@ -134,7 +141,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         lem-2 : 𝟘-𝒰
         lem-2 = ¬p (cancel-injective-con₂ refl-≣ lem-1)
 
-    hasNoCoequalizerCandidate:byCon₂ : ¬ (hasCoequalizerCandidate {X = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy))))
+    hasNoCoequalizerCandidate:byCon₂ : ¬ (hasCoequalizerCandidate {𝒞 = 𝐂𝐭𝐱 𝑨} (⧜subst (incl (con c tsx)) , ⧜subst (incl (con d tsy))))
     hasNoCoequalizerCandidate:byCon₂ P = lem-2 {Γ' = Γ'}
       where
         Γ' = ⟨ P ⟩

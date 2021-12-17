@@ -11,5 +11,12 @@ The main results are available in the following modules (and corresponding file 
 
  - Main induction for unification algorithm: `Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Main`
  - Main induction for type inference: `Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Main`
+ 
+They can be typechecked with Agda by: 
+
+```
+agda Verification/Core/Theory/Std/Specific/ProductTheory/Variant/Unification/Instance/PCF/Main.agda
+agda Verification/Core/Data/Language/HindleyMilner/Variant/Classical/Typed/Typecheck/Main.agda
+```
 
 

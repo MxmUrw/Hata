@@ -9,7 +9,10 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category -- hiding (isSetoid:Function)
@@ -76,23 +79,23 @@ module _ {𝑨 : 𝕋× 𝑖} where
       --                   -> ∀{γ} -> (j : ⟨ Δ ⟩ ∍ γ) -> VarPath-Term-𝕋× (f τ x) j
       --                   -> VarPath-Terms-𝕋× (incl-Terms f) j
 
-    data VarPath-Terms-𝕋× : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> (t : Δ ⟶ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
-      left-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
-                  -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
+    -- data VarPath-Terms-𝕋× : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> (t : Δ ⟶ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
+    --   left-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+    --               -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
 
-      right-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
-                  -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
+    --   right-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+    --               -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
 
-      incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
-                  -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
+    --   incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
+    --               -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
 
 
-    data VarPath-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Sort 𝑨} -> (Γ ∍ s) -> 𝒰 𝑖 where
-      var : ∀{Γ s} -> (x : Γ ∍ s) -> VarPath-Term-𝕋× (var x) x
-      con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : 𝑒𝑙 (ι αs) ⟶ (Term-𝕋× 𝑨 (incl (Γ)))}
-      -- {ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl Γ) }
-            -> VarPath-Terms-𝕋× (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl ts)) x
-            -> VarPath-Term-𝕋× (con c (incl-Terms ts)) x
+    -- data VarPath-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Sort 𝑨} -> (Γ ∍ s) -> 𝒰 𝑖 where
+    --   var : ∀{Γ s} -> (x : Γ ∍ s) -> VarPath-Term-𝕋× (var x) x
+    --   con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : 𝑒𝑙 (ι αs) ⟶ (Term-𝕋× 𝑨 (incl (Γ)))}
+    --   -- {ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl Γ) }
+    --         -> VarPath-Terms-𝕋× (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl ts)) x
+    --         -> VarPath-Term-𝕋× (con c (incl-Terms ts)) x
 
 
   private VarPath = VarPath-Term-𝕋×
@@ -118,11 +121,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isFreeVar (var x) v with compare-∍ x v
     ... | left x≠v = left λ {(var q) → impossible x≠v}
     ... | just refl-≣-2 = right (var v)
-    isFreeVar (con c (incl-Terms x)) v with isFreeVars (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl x)) v
-    ... | left ¬p = left λ {(con c p) → ¬p p}
-    ... | just  p = right (con c p)
+    isFreeVar _ _ = ?
+    -- isFreeVar (con c (incl-Terms x)) v with isFreeVars (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl x)) v
+    -- ... | left ¬p = left λ {(con c p) → ¬p p}
+    -- ... | just  p = right (con c p)
 
-{-
   mutual
     factor-Occurs : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> ¬ (VarPath-Terms-𝕋× t v) -> (Terms-𝕋× 𝑨 Δ (incl (⟨ Γ ⟩ \\ v)))
     factor-Occurs ◌-⧜ v ¬occ = ◌-⧜
@@ -136,6 +139,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
     factor-Occur (con c ts) v ¬occ = con c (factor-Occurs ts v (λ {occ -> ¬occ (con c occ)}))
 
 
+{-
 
   module _ {Γ τ} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× t v)) where
 

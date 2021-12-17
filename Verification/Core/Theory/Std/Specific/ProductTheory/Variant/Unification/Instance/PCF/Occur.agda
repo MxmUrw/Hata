@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Occur where
 
 open import Verification.Conventions hiding (Structure)
@@ -9,7 +10,10 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category -- hiding (isSetoid:Function)
@@ -120,7 +124,6 @@ module _ {𝑨 : 𝕋× 𝑖} where
         prop-1 (con c ts) v ¬occ {_} {h} = λ i -> con c (prop-1s ts v (λ occ -> (¬occ (con c occ))) {h = h} i)
 
 
-    {-
     private
       Γ' : 𝐂𝐭𝐱 𝑨
       Γ' = incl (Γ \\ v)
@@ -129,7 +132,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
       t' = ⧜subst $ incl $ factor-Occur t v ¬occ
 
       π' : ι (incl Γ) ⟶ ι (Γ')
-      π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map t' ⟩ ⦘)
+      π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ ⦘)
 
       lem-12 : 人length ⟨ ⟨ ι Γ' ⟩ ⟩ ≪-𝒲-𝕋× 人length Γ
       lem-12 =  incl (zero , (§-\\.prop-1 {as = Γ} ⁻¹ ))
@@ -157,11 +160,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
           Q = cong (either (λ x → var x) (⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ i)) (§-iso-\\.prop-1 v)
 
           P : reext-Term-𝕋×
-                (λ i₁ a → either (λ x → var x) ((⟨ map t' ⟩) i₁) -- (λ { a incl → factor-Occur t v ¬occ })
+                (λ i₁ a → either (λ x → var x) ((⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩) i₁) -- (λ { a incl → factor-Occur t v ¬occ })
                                  (iso-\\ v i₁ a))
                 i t
                 ≡
-                either (λ x → var x) ((⟨ map t' ⟩) i)
+                either (λ x → var x) ((⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩) i)
                        (iso-\\ v i v)
           P = trans-Path (lem-4 t v ¬occ _) (sym-Path Q)
 
@@ -177,7 +180,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
           P-9 : ∀ i -> (x : Γ ∍ i) →
                 reext-Term-𝕋× (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) i
-                (either var ((⟨ map t' ⟩) i)
+                (either var ((⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩) i)
                 (iso-\\ v i x))
                 ≡ ⟨ h ⟩ i x
           P-9 i x with compare-∍ x v
@@ -223,14 +226,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
     isCoequalizer.compute-Coeq isCoequalizer:byNoOccur = compute-Coeq'
     isCoequalizer.isEpi:π₌ isCoequalizer:byNoOccur = isEpi:π'
 
-    -}
 
     hasCoequalizer:byNoOccur : hasCoequalizer (⧜subst (incl t)) (simpleVar v)
-    hasCoequalizer:byNoOccur = {!!} -- Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
+    hasCoequalizer:byNoOccur = Γ' since (isCoequalizer:byFullyFaithfull isCoequalizer:byNoOccur)
 
     hasSizedCoequalizer:byNoOccur : hasSizedCoequalizer (⧜subst (incl t)) (simpleVar v)
-    hasSizedCoequalizer:byNoOccur = {!!} -- hasCoequalizer:byNoOccur , right lem-12
-
-
+    hasSizedCoequalizer:byNoOccur = hasCoequalizer:byNoOccur , right lem-12
 
 

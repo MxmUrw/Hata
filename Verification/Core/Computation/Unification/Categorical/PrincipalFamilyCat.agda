@@ -25,6 +25,7 @@ open import Verification.Core.Computation.Unification.Definition
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamily
 open import Verification.Core.Computation.Unification.Categorical.Definition
 open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Definition
+open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Free
 open import Verification.Core.Category.Std.Category.As.ZeroMorphismCategory.Coequalizer
 -- open import Verification.Core.Theory.Presentation.Signature.Definition
 

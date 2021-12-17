@@ -24,6 +24,7 @@ open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Core.Data.Universe.Instance.SeparatingFamily
 
 open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.Nat.Instance.Monoid
 open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Xiix
@@ -38,6 +39,7 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Instance.Functor
 open import Verification.Core.Data.List.Variant.Binary.Element.As.Indexed
 open import Verification.Core.Data.List.Variant.Binary.Element.Properties
 open import Verification.Core.Data.List.Variant.Binary.Natural
+open import Verification.Core.Data.List.Variant.Binary.Misc
 open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
 
@@ -215,7 +217,7 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
     lem-3 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a}  -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ⟨ π-\\ x y p ⟩ a x ≣ skip-∍ y x p
     lem-3 {a = a} {x} {y} p with compare-∍ x x
     ... | left q = impossible q
-    ... | just p = transport⁻¹-=-∍-refl _ _ _
+    ... | just p = transport⁻¹-=-∍-refl _ p _
 
     lem-4 : ∀{as : 𝐅𝐢𝐧𝐈𝐱 A} {a : A} -> {x : ⟨ as ⟩ ∍ a}  -> {y : ⟨ as ⟩ ∍ a} -> (p : y ≠-∍ x) -> ⟨ π-\\ x y p ⟩ a y ≣ skip-∍ y x p
     lem-4 {a = a} {x} {y} (y≠x) with compare-∍ y x
@@ -271,7 +273,7 @@ module _ {A : 𝒰 𝑖} {{_ : isSet-Str A}} where
               (cong-Str (_∍_ (⟨ as ⟩ \\ x)) (sym-≣ (=-∍→≣ p2)))
               (skip-∍ y x p)))
             y
-      P = transport-Str (cong-Str (λ ξ ->
+      P = transport-Str (cong-Str {a = refl-≣} {b = sym-≣ (=-∍→≣ p2)} (λ ξ ->
             StrId
               (ι-\\ x a
               (transport-Str

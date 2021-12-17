@@ -5,11 +5,15 @@ open import Verification.Conventions hiding (Structure ; ℕ)
 
 -- open import Verification.Core.Conventions hiding (Structure ; isSetoid:byPath)
 open import Verification.Core.Set.Decidable
+open import Verification.Core.Set.Induction.WellFounded
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Set.Contradiction
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category -- hiding (isSetoid:Function)
@@ -44,6 +48,8 @@ open import Verification.Core.Order.Lattice hiding (⊥)
 
 open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.Nat.Definition
+open import Verification.Core.Data.Nat.Instance.Order
+open import Verification.Core.Data.Nat.Instance.Monoid
 open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid

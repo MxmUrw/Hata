@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Var where
 
 open import Verification.Conventions hiding (Structure)
@@ -8,7 +9,10 @@ open import Verification.Core.Set.Decidable
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.Misc
+open import Verification.Core.Data.List.Variant.Binary.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category -- hiding (isSetoid:Function)
@@ -132,7 +136,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
 
 
-    hasCoequalizer:varvar : hasCoequalizer {X = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
+    hasCoequalizer:varvar : hasCoequalizer {𝒞 = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
     hasCoequalizer:varvar = hasCoequalizer:this lem-11
 
 
