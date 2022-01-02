@@ -23,6 +23,7 @@ open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Substitution.Definition
 
 
 

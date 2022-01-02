@@ -1,6 +1,6 @@
 
 {-# OPTIONS --experimental-lossy-unification #-}
-module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Main where
+module Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Main where
 
 open import Verification.Conventions hiding (ℕ)
 
@@ -56,14 +56,14 @@ open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Definition
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.FormalSystem
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+
 
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat
 
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Base
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Size
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.DirectFail
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Base
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Size
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.DirectFail
 
 module _ {𝑨 : 𝕋× 𝑖} where
 
