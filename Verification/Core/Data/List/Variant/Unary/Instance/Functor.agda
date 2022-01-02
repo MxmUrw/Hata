@@ -10,6 +10,7 @@ open import Verification.Core.Set.Discrete
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Data.AllOf.Universe
+open import Verification.Core.Data.Universe.Definition
 
 -- [Example]
 -- | The data type |List| which assigns to a type |A|

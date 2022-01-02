@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.FinR.Definition where
 
-open import Verification.Conventions hiding (lookup)
+open import Verification.Conventions -- hiding (lookup)
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.Sum.Instance.Functor
 open import Verification.Core.Category.Std.Category.Definition
@@ -31,6 +31,7 @@ module _ {A : 𝒰 𝑖} where
   lookup' (x ∷ as) zero = x
   lookup' (x ∷ as) (suc i) = lookup' as i
 
+{-
 lookup : ∀ {n} {A : 𝒰 ℓ} → Fin-R n → Vec A n → A
 lookup zero    (x ∷ xs) = x
 lookup (suc i) (x ∷ xs) = lookup i xs
@@ -38,7 +39,7 @@ lookup (suc i) (x ∷ xs) = lookup i xs
 toVec : {A : 𝒰 ℓ} → (as : List A) -> Vec A (length as)
 toVec [] = []
 toVec (x ∷ as) = x ∷ toVec as
-
+-}
 
 --------------------------------------------------------------
 -- Helpers

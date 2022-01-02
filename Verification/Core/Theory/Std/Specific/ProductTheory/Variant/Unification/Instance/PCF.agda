@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF where
 
 open import Verification.Conventions
@@ -7,7 +8,7 @@ open import Verification.Core.Conventions hiding (Structure)
 open import Verification.Core.Set.Discrete
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
-open import Verification.Core.Data.List.Variant.Binary.Element
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 -- open import Verification.Core.Order.Lattice
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
@@ -52,29 +53,20 @@ open import Verification.Core.Computation.Unification.Definition
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat
 -- open import Verification.Core.Computation.Unification.Monoidic.Instance.hasUnification
 
-{-
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Base
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Main
 open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.PCF.Size
--}
+
 
 module _ {𝑨 : 𝕋× 𝑖} where
 
-  {-
   instance
     isPrincipalFamilyCat:𝐂𝐭𝐱-𝕋× : isPrincipalFamilyCat (𝐂𝐭𝐱 𝑨)
     isPrincipalFamilyCat:𝐂𝐭𝐱-𝕋× = record { isBase = isBase-𝕋× ; ∂C = ∂-𝕋× ; isPrincipalC:Base = decide-Base-𝕋× }
-  -}
 
-  -- abstract
-  --   instance
-  --     hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
-  --     hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat
-
-  postulate
+  abstract
     instance
       hasUnification:𝐂𝐭𝐱-𝕋× : hasUnification (𝐂𝐭𝐱 𝑨)
-
-      -- hasUnification:𝐂𝐭𝐱-𝕋× = {!!} --  hasUnification:byPrincipalFamilyCat
+      hasUnification:𝐂𝐭𝐱-𝕋× = hasUnification:byPrincipalFamilyCat
 
 

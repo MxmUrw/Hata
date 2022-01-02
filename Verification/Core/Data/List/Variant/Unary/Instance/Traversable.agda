@@ -4,6 +4,8 @@ module Verification.Core.Data.List.Variant.Unary.Instance.Traversable where
 open import Verification.Conventions
 
 open import Verification.Core.Set.Setoid
+open import Verification.Core.Data.List.Variant.Unary.Instance.Functor
+open import Verification.Core.Data.List.Variant.Unary.Instance.Monoid
 open import Verification.Core.Algebra.Monoid.Definition
 open import Verification.Core.Algebra.Monoid.Free
 open import Verification.Core.Category.Std.Category.Definition
@@ -39,13 +41,14 @@ instance
 
 module _ {A : 𝒰 𝑖} where
   join-List : List (List A) -> List A
-  join-List ⦋⦌ = []
+  join-List [] = []
   join-List (xs ∷ xss) = xs ⋆ join-List xss
 
   pure-List : A -> List A
   pure-List a = a ∷ []
 
 
+{-
 module _ {A : 𝒰 𝑖} where
   List→Vec : List A -> ∑ Vec A
   List→Vec [] = zero , []
@@ -55,5 +58,5 @@ module _ {A : 𝒰 𝑖} where
   Vec→List ⦋⦌ = []
   Vec→List (x ∷ xs) = x ∷ Vec→List xs
 
-
+-}
 

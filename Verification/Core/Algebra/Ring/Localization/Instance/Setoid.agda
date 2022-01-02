@@ -50,9 +50,9 @@ module _ {𝑖 : 𝔏 ^ 2} {R : CRing 𝑖} {M : MCS R} where
   instance
     isSetoid:Localize : isSetoid (Localize R M)
     isSetoid._∼_ isSetoid:Localize = ∼-Base LocRel
-    isSetoid.refl isSetoid:Localize {x = a / da} = incl ((⨡ ∢ closed-⨡) , refl)
-    isSetoid.sym isSetoid:Localize {x = a / da} {y = b / db} (incl (t , p)) = incl (t , sym p)
-    isSetoid._∙_ isSetoid:Localize {x = a / (da ∢ _)} {y = b / (db ∢ dbP)} {z = c / (dc ∢ _)} (incl ((s ∢ sP) , p)) (incl ((t ∢ tP) , q)) =
+    isSetoid.refl isSetoid:Localize {a = a / da} = incl ((⨡ ∢ closed-⨡) , refl)
+    isSetoid.sym isSetoid:Localize {a = a / da} {b = b / db} (incl (t , p)) = incl (t , sym p)
+    isSetoid._∙_ isSetoid:Localize {a = a / (da ∢ _)} {b = b / (db ∢ dbP)} {c = c / (dc ∢ _)} (incl ((s ∢ sP) , p)) (incl ((t ∢ tP) , q)) =
       let u : ⦋ ⟨ M ⟩ ⦌
           u = db ⋅ s ⋅ t ∢ closed-⋅ (closed-⋅ dbP sP) tP
 

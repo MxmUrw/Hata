@@ -46,6 +46,10 @@ instance
   isRing:ℤ = record {}
 -- open import Cubical.Data.Bool renaming (_⊕_ to _⊕-Bool_)
 
+instance
+  isCRing:ℤ : isCRing ℤ
+  isCRing:ℤ = {!!}
+
 
 -- ta : ℤ
 -- ta = pos 30 ⋅ pos 8

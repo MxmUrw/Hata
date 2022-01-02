@@ -4,6 +4,9 @@ module Verification.Core.Data.Rational.Definition where
 open import Verification.Core.Conventions
 open import Verification.Core.Data.Prop.Everything
 open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Int.Instance.Monoid
+open import Verification.Core.Data.Int.Instance.Ring
+open import Verification.Core.Data.Int.Instance.Order
 
 open import Verification.Core.Set.Setoid
 open import Verification.Core.Algebra.Monoid

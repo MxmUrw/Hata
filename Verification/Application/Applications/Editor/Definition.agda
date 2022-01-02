@@ -7,6 +7,7 @@ open import Verification.Application.Definition
 open import Verification.Application.Render.Definition
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Int.Definition
+open import Verification.Core.Data.Int.Instance.Monoid
 
 
 

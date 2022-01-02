@@ -8,6 +8,7 @@ open import Verification.Application.Configuration.Static
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.AllOf.Product
 open import Verification.Core.Data.AllOf.Universe
+open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Int.Definition
 open import Verification.Core.Data.Expr.Variant.Base.Definition
 
