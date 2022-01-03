@@ -34,6 +34,7 @@ record 𝒯FOSignature (𝑖 : 𝔏) : 𝒰 (𝑖 ⁺) where
   --      i.e., have decidable equality.
   field {{isDiscrete:Sort}} : isDiscrete Sort
   field {{isDiscrete:Con}} : ∀{αs α} -> isDiscrete (Con αs α)
+  field {{isSet-Str:Sort}} : isSet-Str Sort
 
 open 𝒯FOSignature public
 
@@ -58,10 +59,10 @@ module _ (𝑖 : 𝔏) where
 -- [Hide]
 -- | We show that the type of sorts of a signature
 --   is a set.
-module _ {Σ : 𝒯FOSignature 𝑖} where
-  instance
-    isSet-Str:Sort : isSet-Str (Sort Σ)
-    isSet-Str:Sort = {!!}
+-- module _ {Σ : 𝒯FOSignature 𝑖} where
+--   instance
+--     isSet-Str:Sort : isSet-Str (Sort Σ)
+--     isSet-Str:Sort = {!!}
 
 -- //
 

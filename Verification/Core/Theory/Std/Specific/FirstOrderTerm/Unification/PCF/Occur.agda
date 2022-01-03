@@ -58,23 +58,27 @@ open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
-open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+-- open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Element
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Substitution.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
 
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Size
 
 -- open import Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat
 
 
-module _ {𝑨 : 𝒯FOSignature 𝑖} where
+module _ {Σ : 𝒯FOSignature 𝑖} where
   private VarPath = VarPath-Term-𝕋×
 
+  simpleVar : ∀{Γ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ )} {τ : Sort Σ} -> (⟨ Γ ⟩ ∍ τ) -> incl (incl τ) ⟶ Γ
+  simpleVar v = ⧜subst (incl (repure _ v))
+
   mutual
-    isFreeVars : ∀{Γ Δ} -> (t : 𝒯⊔Terms 𝑨 Δ Γ) -> {s : Sort 𝑨} -> (v : Γ ∍ s) -> isDecidable (VarPath-𝒯⊔Terms 𝑨 t v)
+    isFreeVars : ∀{Γ Δ} -> (t : 𝒯⊔Terms Σ Δ Γ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> isDecidable (VarPath-𝒯⊔Terms Σ t v)
     isFreeVars ◌-⧜ v = left λ {()}
     isFreeVars (t ⋆-⧜ s) v with isFreeVars t v | isFreeVars s v
     ... | left ¬l | left ¬r = left λ {(left-Path l) → ¬l l
@@ -86,7 +90,7 @@ module _ {𝑨 : 𝒯FOSignature 𝑖} where
     ... | left q = left λ {(incl p) → q p}
     ... | just q = right (incl q)
 
-    isFreeVar : ∀{Γ τ} -> (t : 𝒯⊔Term 𝑨 Γ τ) -> {s : Sort 𝑨} -> (v : Γ ∍ s) -> isDecidable (VarPath 𝑨 t v)
+    isFreeVar : ∀{Γ τ} -> (t : 𝒯⊔Term Σ Γ τ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> isDecidable (VarPath-Term-𝕋× Σ t v)
     isFreeVar (var x) v with compare-∍ x v
     ... | left x≠v = left λ {(var q) → impossible x≠v}
     ... | just refl-≣-2 = right (var v)
@@ -95,32 +99,31 @@ module _ {𝑨 : 𝒯FOSignature 𝑖} where
     ... | just  p = right (con c p)
 
   mutual
-    factor-Occurs : ∀{Γ Δ} -> (t : 𝒯⊔Terms 𝑨 Δ Γ) -> {s : Sort 𝑨} -> (v : Γ ∍ s) -> ¬ (VarPath-𝒯⊔Terms 𝑨 t v) -> (𝒯⊔Terms 𝑨 Δ (incl (Γ \\ v)))
+    factor-Occurs : ∀{Γ Δ} -> (t : 𝒯⊔Terms Σ Δ Γ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> ¬ (VarPath-𝒯⊔Terms Σ t v) -> (𝒯⊔Terms Σ Δ ((Γ \\ v)))
     factor-Occurs ◌-⧜ v ¬occ = ◌-⧜
     factor-Occurs (t ⋆-⧜ s) v ¬occ = factor-Occurs t v (λ occ -> ¬occ (left-Path occ)) ⋆-⧜ factor-Occurs s v (λ occ -> ¬occ (right-Path occ))
     factor-Occurs (incl x) v ¬occ = incl (factor-Occur x v (λ occ -> ¬occ (incl occ)))
 
-    factor-Occur : ∀{Γ τ} -> (t : 𝒯⊔Term 𝑨 Γ τ) -> {s : Sort 𝑨} -> (v : Γ ∍ s) -> ¬ (VarPath-𝒯⊔Terms 𝑨 t v) -> (𝒯⊔Term 𝑨 (Γ \\ v) τ)
+    factor-Occur : ∀{Γ τ} -> (t : 𝒯⊔Term Σ Γ τ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> ¬ (VarPath-Term-𝕋× Σ t v) -> (𝒯⊔Term Σ (Γ \\ v) τ)
     factor-Occur (var x) v occ with compare-∍ x v
     ... | left q        = var (skip-∍ x v q)
     ... | just refl-≣-2 = impossible (occ (var x))
     factor-Occur (con c ts) v ¬occ = con c (factor-Occurs ts v (λ {occ -> ¬occ (con c occ)}))
 
 
-
-  module _ {Γ τ} (t : 𝒯⊔Term 𝑨 Γ τ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-𝒯⊔Terms t v)) where
+  module _ {Γ τ} (t : 𝒯⊔Term Σ Γ τ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× Σ t v)) where
 
     module §-factor where
       mutual
-        prop-1s : ∀{Γ Δ τ} (t : 𝒯⊔Terms 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-𝒯⊔Terms t v))
-                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 ′(𝒯⊔term 𝑨)′} -> ∀{h : (ι (incl ⟨ Γ ⟩)) ⟶ c} -> reext-𝒯⊔Terms (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) (factor-Occurs t v ¬occ)
+        prop-1s : ∀{Γ Δ τ} (t : 𝒯⊔Terms Σ Δ Γ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-𝒯⊔Terms Σ t v))
+                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> ∀{h : (ι (incl Γ)) ⟶ c} -> reext-𝒯⊔Terms (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) (factor-Occurs t v ¬occ)
                   ≡ reext-𝒯⊔Terms ⟨ h ⟩ t
         prop-1s ◌-⧜ v ¬occ {c} {h} = refl-≡
         prop-1s (t ⋆-⧜ s) v ¬occ {c} {h} = λ i → prop-1s t v (λ occ -> ¬occ (left-Path occ)) {h = h} i ⋆-⧜ prop-1s s v (λ occ -> ¬occ (right-Path occ)) {h = h} i
         prop-1s (incl x) v ¬occ {c} {h} = λ i → incl (prop-1 x v (λ occ -> ¬occ (incl occ)) {h = h} i)
 
-        prop-1 : ∀{Γ τ σ} (t : 𝒯⊔Term 𝑨 Γ τ) (v : Γ ∍ σ) (¬occ : ¬ (VarPath-𝒯⊔Terms t v))
-                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 ′(𝒯⊔term 𝑨)′} -> ∀{h : (ι (incl Γ)) ⟶ c} -> reext-𝒯⊔term (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) τ (factor-Occur t v ¬occ)
+        prop-1 : ∀{Γ τ σ} (t : 𝒯⊔Term Σ Γ τ) (v : Γ ∍ σ) (¬occ : ¬ (VarPath-Term-𝕋× Σ t v))
+                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> ∀{h : (ι (incl Γ)) ⟶ c} -> reext-𝒯⊔term (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) τ (factor-Occur t v ¬occ)
                   ≡ reext-𝒯⊔term ⟨ h ⟩ τ t
         prop-1 (var x) v ¬occ {c} {h} with compare-∍ x v
         ... | left q = cong (⟨ h ⟩ _) (≡-Str→≡ (§-ι-\\.prop-1 q))
@@ -129,35 +132,35 @@ module _ {𝑨 : 𝒯FOSignature 𝑖} where
 
 
     private
-      Γ' : 𝐂𝐭𝐱 𝑨
+      Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
       Γ' = incl (Γ \\ v)
 
-      t' : Γ' ⊢ τ
+      t' : (incl (incl τ)) ⟶ Γ'
       t' = ⧜subst $ incl $ factor-Occur t v ¬occ
 
-      π' : ι (incl Γ) ⟶ ι (Γ')
+      π' : incl (incl Γ) ⟶ ι (Γ')
       π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ ⦘)
 
       lem-12 : 人length ⟨ ⟨ ι Γ' ⟩ ⟩ ≪-𝒲-𝕋× 人length Γ
       lem-12 =  incl (zero , (§-\\.prop-1 {as = Γ} ⁻¹ ))
 
       mutual
-        lem-4s : ∀{Γ τ Δ} (t : 𝒯⊔Terms 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-𝒯⊔Terms t v))
-                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → 𝒯⊔Term 𝑨 ((⟨ Γ ⟩ \\ v)) i₁)
+        lem-4s : ∀{Γ τ Δ} (t : 𝒯⊔Terms Σ Δ Γ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-𝒯⊔Terms Σ t v))
+                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → 𝒯⊔Term Σ ((Γ \\ v)) i₁)
                 -> reext-𝒯⊔Terms (λ i₁ a → either (λ x → var x) (s i₁) (iso-\\ v i₁ a)) t ≡ factor-Occurs t v ¬occ
         lem-4s ◌-⧜ v ¬occ s = refl-≡
         lem-4s (t ⋆-⧜ t₁) v ¬occ s = λ i → lem-4s t v (λ occ -> ¬occ (left-Path occ)) s i ⋆-⧜ lem-4s t₁ v (λ occ -> ¬occ (right-Path occ)) s i
         lem-4s (incl x) v ¬occ s = λ i -> incl (lem-4 x v (λ occ -> ¬occ (incl occ)) s i)
 
-        lem-4 : ∀{Γ τ σ} (t : 𝒯⊔Term 𝑨 Γ σ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-𝒯⊔Terms t v))
-                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → 𝒯⊔Term 𝑨 (Γ \\ v) i₁)
+        lem-4 : ∀{Γ τ σ} (t : 𝒯⊔Term Σ Γ σ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× Σ t v))
+                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → 𝒯⊔Term Σ (Γ \\ v) i₁)
                 -> reext-𝒯⊔term (λ i₁ a → either (λ x → var x) (s i₁) (iso-\\ v i₁ a)) σ t ≡ factor-Occur t v ¬occ
         lem-4 (var x) v ¬occ s with compare-∍ x v
         ... | left x₁ = refl-≡
         ... | just refl-≣-2 = impossible (¬occ (var x))
         lem-4 (con c ts) v ¬occ s = λ i -> con c (lem-4s ts v (λ occ -> (¬occ (con c occ))) s i)
 
-      lem-5 : ∀ (i : Sort 𝑨) (x : incl τ ∍ i) -> ⟨ (map (⧜subst (incl t))) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
+      lem-5 : ∀ (i : Sort Σ) (x : incl τ ∍ i) -> ⟨ (map (⧜subst (incl t))) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
       lem-5 i incl = P
         where
           Q : either (λ x → var x) (⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ i) (iso-\\ v i v) ≡ factor-Occur t v ¬occ
@@ -197,7 +200,7 @@ module _ {𝑨 : 𝒯FOSignature 𝑖} where
           P : π' ◆ ξ ∼ h
           P = incl (λ i → funExt (P-9 i))
 
-      ι' : ι Γ' ⟶ ι (incl Γ)
+      ι' : ι Γ' ⟶ incl (incl Γ)
       ι' = incl (ι-\\ v ◆ repure)
 
 
@@ -209,7 +212,7 @@ module _ {𝑨 : 𝒯FOSignature 𝑖} where
           ... | left q = cong var (≡-Str→≡ (§-ι-\\.prop-2 q))
           ... | just (refl-≣ , q) = impossible (§-ι-\\.prop-3 q)
 
-    P-11 : ∀{x : 𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} -> {α β : ι Γ' ⟶ x} -> (π' ◆ α ∼ π' ◆ β) -> α ∼ β
+    P-11 : ∀{x : 𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> {α β : ι Γ' ⟶ x} -> (π' ◆ α ∼ π' ◆ β) -> α ∼ β
     P-11 {x} {α} {β} p = p
         ⟪ (_◈_ {f = ι'} {g = ι'} {h = π' ◆ α} {i = π' ◆ β} refl) ⟫
         >> ι' ◆ (π' ◆ α) ∼ ι' ◆ (π' ◆ β) <<
@@ -236,5 +239,4 @@ module _ {𝑨 : 𝒯FOSignature 𝑖} where
 
     hasSizedCoequalizer:byNoOccur : hasSizedCoequalizer (⧜subst (incl t)) (simpleVar v)
     hasSizedCoequalizer:byNoOccur = hasCoequalizer:byNoOccur , right lem-12
-
 
