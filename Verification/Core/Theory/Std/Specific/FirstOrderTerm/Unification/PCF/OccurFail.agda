@@ -63,8 +63,13 @@ open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
-open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+-- open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Substitution.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Element
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
 
 
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Occur
@@ -92,34 +97,34 @@ instance
   isContradiction:1≤0 : ∀{a : 人ℕ} -> isContradiction (1 ⋆ a ≤ 0)
   isContradiction:1≤0 = {!!}
 
-module _ {𝑨 : 𝕋× 𝑖} where
+module _ {Σ : 𝒯FOSignature 𝑖} where
 
   mutual
-    depths-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> 人ℕ
+    depths-𝕋× : ∀{Γ Δ} -> (t : 𝒯⊔Terms Σ Δ Γ) -> 人ℕ
     depths-𝕋× ◌-⧜ = 0
     depths-𝕋× (t ⋆-⧜ s) = depths-𝕋× t ⋆ depths-𝕋× s
     depths-𝕋× (incl x) = depth-𝕋× x
 
-    depth-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> 人ℕ
+    depth-𝕋× : ∀{Γ τ} -> (t : 𝒯⊔Term Σ Γ τ) -> 人ℕ
     depth-𝕋× (var x) = 0
     depth-𝕋× (con c x) = 1 ⋆ (depths-𝕋× x)
 
   module §-depth-𝕋× where
     mutual
-      prop-1s : ∀{Γ Δ} (t : Terms-𝕋× 𝑨 Δ Γ) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} -> (σ : ι (incl ⟨ Γ ⟩) ⟶ ι Γ')
-              -> (depths-𝕋× t) ≤ (depths-𝕋× (reext-Terms-𝕋× ⟨ σ ⟩ t))
+      prop-1s : ∀{Γ Δ} (t : 𝒯⊔Terms Σ Δ Γ) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (σ : incl (incl Γ) ⟶ ι Γ')
+              -> (depths-𝕋× t) ≤ (depths-𝕋× (reext-𝒯⊔Terms ⟨ σ ⟩ t))
       prop-1s ◌-⧜ σ = reflexive
       prop-1s (t ⋆-⧜ s) σ = prop-1s t σ ⩚⋆⩚ prop-1s s σ
       prop-1s (incl x) σ = prop-1 x σ
 
-      prop-1 : ∀{Γ τ} (t : Term₁-𝕋× 𝑨 Γ τ) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} -> (σ : ι (incl Γ) ⟶ ι Γ')
-              -> (depth-𝕋× t) ≤ (depth-𝕋× (reext-Term-𝕋× ⟨ σ ⟩ _ t))
+      prop-1 : ∀{Γ τ} (t : 𝒯⊔Term Σ Γ τ) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (σ : incl (incl Γ) ⟶ ι Γ')
+              -> (depth-𝕋× t) ≤ (depth-𝕋× (reext-𝒯⊔term ⟨ σ ⟩ _ t))
       prop-1 (var x) σ = initial-◌-≤
       prop-1 (con c x) σ = reflexive ⩚⋆⩚ prop-1s x σ
 
     mutual
-      prop-2s : ∀{Γ Δ τ'} (t : Terms-𝕋× 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ') (occ : (VarPath-Terms-𝕋× t v)) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} -> (σ : ι (incl ⟨ Γ ⟩) ⟶ ι Γ')
-              -> (depths-𝕋× t) ⋆ (depth-𝕋× (⟨ σ ⟩ _ v)) ≤ (depths-𝕋× (reext-Terms-𝕋× ⟨ σ ⟩ t))
+      prop-2s : ∀{Γ Δ τ'} (t : 𝒯⊔Terms Σ Δ Γ) (v : Γ ∍ τ') (occ : (VarPath-𝒯⊔Terms Σ t v)) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (σ : incl (incl Γ) ⟶ ι Γ')
+              -> (depths-𝕋× t) ⋆ (depth-𝕋× (⟨ σ ⟩ _ v)) ≤ (depths-𝕋× (reext-𝒯⊔Terms ⟨ σ ⟩ t))
       prop-2s (t ⋆-⧜ s) v (left-Path occ) σ = P
         where
           #t = depths-𝕋× t
@@ -140,37 +145,37 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
       prop-2s (incl x) v (incl occ) σ = prop-2 x v occ σ
 
-      prop-2 : ∀{Γ τ τ'} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ τ') (occ : (VarPath-Term-𝕋× t v)) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} -> (σ : ι (incl Γ) ⟶ ι Γ')
-              -> (depth-𝕋× t) ⋆ (depth-𝕋× (⟨ σ ⟩ _ v)) ≤ (depth-𝕋× (reext-Term-𝕋× ⟨ σ ⟩ _ t))
+      prop-2 : ∀{Γ τ τ'} (t : 𝒯⊔Term Σ Γ τ) (v : Γ ∍ τ') (occ : (VarPath-Term-𝕋× Σ t v)) -> ∀{Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (σ : incl (incl Γ) ⟶ ι Γ')
+              -> (depth-𝕋× t) ⋆ (depth-𝕋× (⟨ σ ⟩ _ v)) ≤ (depth-𝕋× (reext-𝒯⊔term ⟨ σ ⟩ _ t))
       prop-2 (var x) .x (var .x) σ = 命reflexive (unit-l-⋆)
       prop-2 (con c ts) v (con _ occ) σ = 命reflexive (assoc-l-⋆) ⟡ monotone-l-⋆-人ℕ (prop-2s ts v occ σ)
 
 
-  module _ {Γ τ} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ τ) (occ : (VarPath-Term-𝕋× t v)) {d} (pd : depth-𝕋× t ∼ 1 ⋆ d) where
-    -- module _ {σ : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizer (incl t) (simpleVar v) σ}} where
+  module _ {Γ τ} (t : 𝒯⊔Term Σ Γ τ) (v : Γ ∍ τ) (occ : (VarPath-Term-𝕋× Σ t v)) {d} (pd : depth-𝕋× t ∼ 1 ⋆ d) where
+    -- module _ {σ : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms Σ)} {{_ : isCoequalizer (incl t) (simpleVar v) σ}} where
 
-    module §-Occur-𝕋× {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} {{_ : isCoequalizerCandidate (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')}} where
+    module §-Occur-𝕋× {Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} {{_ : isCoequalizerCandidate (map (⧜subst (incl t))) (map (simpleVar v)) (ι Γ')}} where
 
       private
-        σ : ι (incl Γ) ⟶ ι Γ'
+        σ : incl (incl Γ) ⟶ ι Γ'
         σ = π₌?
 
-        val : Term₁-𝕋× 𝑨 ⟨ Γ' ⟩ τ
+        val : 𝒯⊔Term Σ ⟨ Γ' ⟩ τ
         val = ⟨ σ ⟩ _ v
 
-        lem-1 : reext-Term-𝕋× ⟨ σ ⟩ _ t ≡ val
+        lem-1 : reext-𝒯⊔term ⟨ σ ⟩ _ t ≡ val
         lem-1 = (funExt⁻¹ (⟨ equate-π₌? ⟩ _)) incl
 
-        lem-2 : depth-𝕋× (reext-Term-𝕋× ⟨ σ ⟩ _ t) ≡ depth-𝕋× val
+        lem-2 : depth-𝕋× (reext-𝒯⊔term ⟨ σ ⟩ _ t) ≡ depth-𝕋× val
         lem-2 = cong depth-𝕋× lem-1
 
-        lem-3 : depth-𝕋× t ⋆ depth-𝕋× val ≤ depth-𝕋× (reext-Term-𝕋× ⟨ σ ⟩ _ t)
+        lem-3 : depth-𝕋× t ⋆ depth-𝕋× val ≤ depth-𝕋× (reext-𝒯⊔term ⟨ σ ⟩ _ t)
         lem-3 = §-depth-𝕋×.prop-2 t v occ σ
 
         lem-4 : (1 ⋆ d) ⋆ depth-𝕋× val ≤ 0 ⋆ depth-𝕋× val
         lem-4 = (1 ⋆ d) ⋆ depth-𝕋× val             ⟨ 命reflexive (pd ⁻¹) ⩚⋆⩚ reflexive ⟩-≤
                 depth-𝕋× t ⋆ depth-𝕋× val          ⟨ lem-3 ⟩-≤
-                depth-𝕋× (reext-Term-𝕋× ⟨ σ ⟩ _ t)  ⟨ 命reflexive (fromPath lem-2) ⟩-≤
+                depth-𝕋× (reext-𝒯⊔term ⟨ σ ⟩ _ t)  ⟨ 命reflexive (fromPath lem-2) ⟩-≤
                 depth-𝕋× val                       ⟨ 命reflexive (unit-l-⋆ ⁻¹) ⟩-≤
                 0 ⋆ depth-𝕋× val                    ∎-≤
 

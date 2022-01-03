@@ -54,23 +54,27 @@ open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
-open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+-- open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
 
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Size
 
 
 
-module _ {𝑨 : 𝕋× 𝑖} where
-  module _ {s : Type 𝑨} {Γ : 𝐂𝐭𝐱 𝑨} (x y : ⟨ Γ ⟩ ∍ s) (y≠x : y ≠-∍ x) where
+module _ {Σ : 𝒯FOSignature 𝑖} where
+  module _ {s : Sort Σ} {Γ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (x y : ⟨ Γ ⟩ ∍ s) (y≠x : y ≠-∍ x) where
 
-    lem-11 : hasSizedCoequalizer {𝒞 = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
+    lem-11 : hasSizedCoequalizer {𝒞 = ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (simpleVar x) (simpleVar y)
     lem-11 = Γ' since (isCoequalizer:byFullyFaithfull lem-10) , right lem-12
       where
-        T : RelativeMonad (𝑓𝑖𝑛 (Type 𝑨))
-        T = ′ Term-𝕋× 𝑨 ′
+        T : RelativeMonad (𝑓𝑖𝑛 (Sort Σ))
+        T = 𝒯⊔term Σ
 
-        Γ' : 𝐂𝐭𝐱 𝑨
+        Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
         Γ' = incl (⟨ Γ ⟩ \\ x)
 
         π' : ι Γ ⟶ ι Γ'
@@ -96,7 +100,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
             P-8 : ⟨ h ⟩ s x ≡ ⟨ h ⟩ s y
             P-8 = funExt⁻¹ (⟨ p ⟩ s) incl
 
-            P-9 : (i : Sort 𝑨) (z : ⟨ Γ ⟩ ∍ i) →
+            P-9 : (i : Sort Σ) (z : ⟨ Γ ⟩ ∍ i) →
                   ⟨ h ⟩ i (ι-\\ x i (⟨ π-\\ x y y≠x ⟩ i z))  ≡  ⟨ h ⟩ i z
             P-9 i z with merge-embed y≠x z
             ... | left x = cong (⟨ h ⟩ i) (≡-Str→≡ x)
@@ -111,10 +115,10 @@ module _ {𝑨 : 𝕋× 𝑖} where
         cancel-epi-π' : ∀{z : 𝐒𝐮𝐛𝐬𝐭 T} -> {f g : ι Γ' ⟶ z} -> (π' ◆ f ∼ π' ◆ g) -> f ∼ g
         cancel-epi-π' {z} {f} {g} p = incl λ i -> funExt (P-9 i)
           where
-            P-8 : ∀ (i : Sort 𝑨) (z : ⟨ Γ' ⟩ ∍ i) ->  ⟨ f ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z)) ≡ ⟨ g ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z))
+            P-8 : ∀ (i : Sort Σ) (z : ⟨ Γ' ⟩ ∍ i) ->  ⟨ f ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z)) ≡ ⟨ g ⟩ i (⟨ π-\\ x y y≠x ⟩ i (ι-\\ x i z))
             P-8 i z = funExt⁻¹ (⟨ p ⟩ i) (ι-\\ x i z)
 
-            P-9 : ∀ (i : Sort 𝑨) (z : ⟨ Γ' ⟩ ∍ i) -> ⟨ f ⟩ i z ≡ ⟨ g ⟩ i z
+            P-9 : ∀ (i : Sort Σ) (z : ⟨ Γ' ⟩ ∍ i) -> ⟨ f ⟩ i z ≡ ⟨ g ⟩ i z
             P-9 i z = _ ⟨ sym-Path (cong (⟨ f ⟩ i) (≡-Str→≡ (embed-merge y≠x z))) ⟩-≡
                       _ ⟨ P-8 i z ⟩-≡
                       _ ⟨ (cong (⟨ g ⟩ i) (≡-Str→≡ (embed-merge y≠x z))) ⟩-≡
@@ -136,11 +140,11 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
 
 
-    hasCoequalizer:varvar : hasCoequalizer {𝒞 = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
+    hasCoequalizer:varvar : hasCoequalizer {𝒞 = ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (simpleVar x) (simpleVar y)
     hasCoequalizer:varvar = hasCoequalizer:this lem-11
 
 
-    hasSizedCoequalizer:varvar : hasSizedCoequalizer {𝒞 = 𝐂𝐭𝐱 𝑨} (simpleVar x) (simpleVar y)
+    hasSizedCoequalizer:varvar : hasSizedCoequalizer {𝒞 = ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (simpleVar x) (simpleVar y)
     hasSizedCoequalizer:varvar = lem-11
   -- record hasSizedCoequalizer {a b : 𝒞} (f g : a ⟶ b) : 𝒰 𝑖 where
 

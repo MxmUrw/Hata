@@ -56,6 +56,11 @@ module _ {𝓅 : 𝒯FOSignature 𝑖} where
     isRelativeMonad.reassoc isRelativeMonad:𝒯⊔term = {!!}
 
 
+module _ {Σ : 𝒯FOSignature 𝑖} where
+  simpleVar : ∀{Γ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ )} {τ : Sort Σ} -> (⟨ Γ ⟩ ∍ τ) -> incl (incl τ) ⟶ Γ
+  simpleVar v = ⧜subst (incl (repure _ v))
+
+
 --------------------------------------
 -- named definitions for the category
 module _ (𝓅 : 𝒯FOSignature 𝑖) where

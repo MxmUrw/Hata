@@ -57,43 +57,45 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 
 
 -- open import Verification.Core.Computation.Unification.Monoidic.PrincipalFamilyCat2
 
 
-module _ {𝑨 : 𝕋× 𝑖} where
+module _ {Σ : 𝒯FOSignature 𝑖} where
   mutual
-    -- data VarPath-Terms-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
-      -- left-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+    -- data VarPath-Terms-𝕋× : ∀{Γ Δ} -> (t : Terms-𝕋× Σ Δ Γ) -> {s : Sort Σ} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
+      -- left-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× Σ Δ Γ} -> {t' : Terms-𝕋× Σ Δ' Γ} -> {s : Sort Σ} -> {v : ⟨ Γ ⟩ ∍ s}
       --             -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
 
-      -- right-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× 𝑨 Δ Γ} -> {t' : Terms-𝕋× 𝑨 Δ' Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+      -- right-Path : ∀{Γ Δ Δ'} -> {t : Terms-𝕋× Σ Δ Γ} -> {t' : Terms-𝕋× Σ Δ' Γ} -> {s : Sort Σ} -> {v : ⟨ Γ ⟩ ∍ s}
       --             -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
 
-      -- incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
+      -- incl : ∀{Γ τ} -> {t : Term₁-𝕋× Σ Γ τ} -> {s : Sort Σ} -> {v : Γ ∍ s}
       --             -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
-      -- incl-Path-Terms : {Γ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} {Δ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× 𝑨)} (f : 𝑒𝑙 ⟨ Γ ⟩ ⟶ (Term-𝕋× 𝑨 Δ))
+      -- incl-Path-Terms : {Γ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× Σ)} {Δ : 𝐅𝐢𝐧𝐈𝐱 (Type-𝕋× Σ)} (f : 𝑒𝑙 ⟨ Γ ⟩ ⟶ (Term-𝕋× Σ Δ))
       --                   -> ∀{τ} -> (x : ⟨ Γ ⟩ ∍ τ)
       --                   -> ∀{γ} -> (j : ⟨ Δ ⟩ ∍ γ) -> VarPath-Term-𝕋× (f τ x) j
       --                   -> VarPath-Terms-𝕋× (incl-Terms f) j
 
-    -- data VarPath-Terms-𝕋× : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> (t : Δ ⟶ Γ) -> {s : Sort 𝑨} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
-    --   left-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+    -- data VarPath-Terms-𝕋× : ∀{Γ Δ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (t : Δ ⟶ Γ) -> {s : Sort Σ} -> (⟨ Γ ⟩ ∍ s) -> 𝒰 𝑖 where
+    --   left-Path : ∀{Γ Δ Δ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort Σ} -> {v : ⟨ Γ ⟩ ∍ s}
     --               -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t ⋆-⧜ t') v
 
-    --   right-Path : ∀{Γ Δ Δ' : 𝐂𝐭𝐱 𝑨} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort 𝑨} -> {v : ⟨ Γ ⟩ ∍ s}
+    --   right-Path : ∀{Γ Δ Δ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> {t : Δ ⟶ Γ} -> {t' : Δ' ⟶ Γ} -> {s : Sort Σ} -> {v : ⟨ Γ ⟩ ∍ s}
     --               -> (p : VarPath-Terms-𝕋× t v) -> VarPath-Terms-𝕋× (t' ⋆-⧜ t) v
 
-    --   incl : ∀{Γ τ} -> {t : Term₁-𝕋× 𝑨 Γ τ} -> {s : Sort 𝑨} -> {v : Γ ∍ s}
+    --   incl : ∀{Γ τ} -> {t : Term₁-𝕋× Σ Γ τ} -> {s : Sort Σ} -> {v : Γ ∍ s}
     --               -> (p : VarPath-Term-𝕋× t v) -> VarPath-Terms-𝕋× (incl t) v
 
 
-    -- data VarPath-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Sort 𝑨} -> (Γ ∍ s) -> 𝒰 𝑖 where
+    -- data VarPath-Term-𝕋× : ∀{Γ τ} -> (t : Term₁-𝕋× Σ Γ τ) -> {s : Sort Σ} -> (Γ ∍ s) -> 𝒰 𝑖 where
     --   var : ∀{Γ s} -> (x : Γ ∍ s) -> VarPath-Term-𝕋× (var x) x
-    --   con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con 𝑨 αs α) -> {ts : 𝑒𝑙 (ι αs) ⟶ (Term-𝕋× 𝑨 (incl (Γ)))}
-    --   -- {ts : Terms-𝕋× 𝑨 (incl (ι αs)) (incl Γ) }
+    --   con : ∀{Γ αs α s} {x : Γ ∍ s} -> (c : Con Σ αs α) -> {ts : 𝑒𝑙 (ι αs) ⟶ (Term-𝕋× Σ (incl (Γ)))}
+    --   -- {ts : Terms-𝕋× Σ (incl (ι αs)) (incl Γ) }
     --         -> VarPath-Terms-𝕋× (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl ts)) x
     --         -> VarPath-Term-𝕋× (con c (incl-Terms ts)) x
 
@@ -101,7 +103,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
   private VarPath = VarPath-Term-𝕋×
 
   mutual
-    isFreeVars : ∀{Γ Δ : 𝐂𝐭𝐱 𝑨} -> (t : (Δ) ⟶ Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
+    isFreeVars : ∀{Γ Δ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (t : (Δ) ⟶ Γ) -> {s : Sort Σ} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
     isFreeVars ◌-⧜ v = left λ {()}
     isFreeVars (t ⋆-⧜ s) v with isFreeVars t v | isFreeVars s v
     ... | left ¬l | left ¬r = left λ {(left-Path l) → ¬l l
@@ -114,10 +116,10 @@ module _ {𝑨 : 𝕋× 𝑖} where
     ... | just q = right (incl q)
 
     -- isFreeVars (t ⋆-⧜ t₁) v = {!!}
-    -- isFreeVars : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 (incl Δ) Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
+    -- isFreeVars : ∀{Γ Δ} -> (t : Terms-𝕋× Σ (incl Δ) Γ) -> {s : Sort Σ} -> (v : ⟨ Γ ⟩ ∍ s) -> isDecidable (VarPath-Terms-𝕋× t v)
     -- isFreeVars ◌-⧜ v = left λ {()}
 
-    isFreeVar : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Type 𝑨} -> (v : Γ ∍ s) -> isDecidable (VarPath t v)
+    isFreeVar : ∀{Γ τ} -> (t : Term₁-𝕋× Σ Γ τ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> isDecidable (VarPath t v)
     isFreeVar (var x) v with compare-∍ x v
     ... | left x≠v = left λ {(var q) → impossible x≠v}
     ... | just refl-≣-2 = right (var v)
@@ -127,12 +129,12 @@ module _ {𝑨 : 𝕋× 𝑖} where
     -- ... | just  p = right (con c p)
 
   mutual
-    factor-Occurs : ∀{Γ Δ} -> (t : Terms-𝕋× 𝑨 Δ Γ) -> {s : Type 𝑨} -> (v : ⟨ Γ ⟩ ∍ s) -> ¬ (VarPath-Terms-𝕋× t v) -> (Terms-𝕋× 𝑨 Δ (incl (⟨ Γ ⟩ \\ v)))
+    factor-Occurs : ∀{Γ Δ} -> (t : Terms-𝕋× Σ Δ Γ) -> {s : Sort Σ} -> (v : ⟨ Γ ⟩ ∍ s) -> ¬ (VarPath-Terms-𝕋× t v) -> (Terms-𝕋× Σ Δ (incl (⟨ Γ ⟩ \\ v)))
     factor-Occurs ◌-⧜ v ¬occ = ◌-⧜
     factor-Occurs (t ⋆-⧜ s) v ¬occ = factor-Occurs t v (λ occ -> ¬occ (left-Path occ)) ⋆-⧜ factor-Occurs s v (λ occ -> ¬occ (right-Path occ))
     factor-Occurs (incl x) v ¬occ = incl (factor-Occur x v (λ occ -> ¬occ (incl occ)))
 
-    factor-Occur : ∀{Γ τ} -> (t : Term₁-𝕋× 𝑨 Γ τ) -> {s : Type 𝑨} -> (v : Γ ∍ s) -> ¬ (VarPath-Term-𝕋× t v) -> (Term₁-𝕋× 𝑨 (Γ \\ v) τ)
+    factor-Occur : ∀{Γ τ} -> (t : Term₁-𝕋× Σ Γ τ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> ¬ (VarPath-Term-𝕋× t v) -> (Term₁-𝕋× Σ (Γ \\ v) τ)
     factor-Occur (var x) v occ with compare-∍ x v
     ... | left q        = var (skip-∍ x v q)
     ... | just refl-≣-2 = impossible (occ (var x))
@@ -141,19 +143,19 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
 {-
 
-  module _ {Γ τ} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× t v)) where
+  module _ {Γ τ} (t : Term₁-𝕋× Σ Γ τ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× t v)) where
 
     module §-factor where
       mutual
-        prop-1s : ∀{Γ Δ τ} (t : Terms-𝕋× 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-Terms-𝕋× t v))
-                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 ′(Term-𝕋× 𝑨)′} -> ∀{h : (ι (incl ⟨ Γ ⟩)) ⟶ c} -> reext-Terms-𝕋× (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) (factor-Occurs t v ¬occ)
+        prop-1s : ∀{Γ Δ τ} (t : Terms-𝕋× Σ Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-Terms-𝕋× t v))
+                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 ′(Term-𝕋× Σ)′} -> ∀{h : (ι (incl ⟨ Γ ⟩)) ⟶ c} -> reext-Terms-𝕋× (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) (factor-Occurs t v ¬occ)
                   ≡ reext-Terms-𝕋× ⟨ h ⟩ t
         prop-1s ◌-⧜ v ¬occ {c} {h} = refl-≡
         prop-1s (t ⋆-⧜ s) v ¬occ {c} {h} = λ i → prop-1s t v (λ occ -> ¬occ (left-Path occ)) {h = h} i ⋆-⧜ prop-1s s v (λ occ -> ¬occ (right-Path occ)) {h = h} i
         prop-1s (incl x) v ¬occ {c} {h} = λ i → incl (prop-1 x v (λ occ -> ¬occ (incl occ)) {h = h} i)
 
-        prop-1 : ∀{Γ τ σ} (t : Term₁-𝕋× 𝑨 Γ τ) (v : Γ ∍ σ) (¬occ : ¬ (VarPath-Term-𝕋× t v))
-                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 ′(Term-𝕋× 𝑨)′} -> ∀{h : (ι (incl Γ)) ⟶ c} -> reext-Term-𝕋× (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) τ (factor-Occur t v ¬occ)
+        prop-1 : ∀{Γ τ σ} (t : Term₁-𝕋× Σ Γ τ) (v : Γ ∍ σ) (¬occ : ¬ (VarPath-Term-𝕋× t v))
+                 -> ∀{c : 𝐒𝐮𝐛𝐬𝐭 ′(Term-𝕋× Σ)′} -> ∀{h : (ι (incl Γ)) ⟶ c} -> reext-Term-𝕋× (λ i₁ a → ⟨ h ⟩ i₁ (ι-\\ v i₁ a)) τ (factor-Occur t v ¬occ)
                   ≡ reext-Term-𝕋× ⟨ h ⟩ τ t
         prop-1 (var x) v ¬occ {c} {h} with compare-∍ x v
         ... | left q = cong (⟨ h ⟩ _) (≡-Str→≡ (§-ι-\\.prop-1 q))
@@ -162,7 +164,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
 
 
     private
-      Γ' : 𝐂𝐭𝐱 𝑨
+      Γ' : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
       Γ' = incl (Γ \\ v)
 
       t' : Γ' ⊢ τ
@@ -172,22 +174,22 @@ module _ {𝑨 : 𝕋× 𝑖} where
       π' = incl (iso-\\ v ◆ ⦗ repure , ⟨ map t' ⟩ ⦘)
 
       mutual
-        lem-4s : ∀{Γ τ Δ} (t : Terms-𝕋× 𝑨 Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-Terms-𝕋× t v))
-                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → Term₁-𝕋× 𝑨 ((⟨ Γ ⟩ \\ v)) i₁)
+        lem-4s : ∀{Γ τ Δ} (t : Terms-𝕋× Σ Δ Γ) (v : ⟨ Γ ⟩ ∍ τ) (¬occ : ¬ (VarPath-Terms-𝕋× t v))
+                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → Term₁-𝕋× Σ ((⟨ Γ ⟩ \\ v)) i₁)
                 -> reext-Terms-𝕋× (λ i₁ a → either (λ x → var x) (s i₁) (iso-\\ v i₁ a)) t ≡ factor-Occurs t v ¬occ
         lem-4s ◌-⧜ v ¬occ s = refl-≡
         lem-4s (t ⋆-⧜ t₁) v ¬occ s = λ i → lem-4s t v (λ occ -> ¬occ (left-Path occ)) s i ⋆-⧜ lem-4s t₁ v (λ occ -> ¬occ (right-Path occ)) s i
         lem-4s (incl x) v ¬occ s = λ i -> incl (lem-4 x v (λ occ -> ¬occ (incl occ)) s i)
 
-        lem-4 : ∀{Γ τ σ} (t : Term₁-𝕋× 𝑨 Γ σ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× t v))
-                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → Term₁-𝕋× 𝑨 (Γ \\ v) i₁)
+        lem-4 : ∀{Γ τ σ} (t : Term₁-𝕋× Σ Γ σ) (v : Γ ∍ τ) (¬occ : ¬ (VarPath-Term-𝕋× t v))
+                -> (s : ∀ i₁ -> ∀ (p : incl τ ∍ i₁) → Term₁-𝕋× Σ (Γ \\ v) i₁)
                 -> reext-Term-𝕋× (λ i₁ a → either (λ x → var x) (s i₁) (iso-\\ v i₁ a)) σ t ≡ factor-Occur t v ¬occ
         lem-4 (var x) v ¬occ s with compare-∍ x v
         ... | left x₁ = refl-≡
         ... | just refl-≣-2 = impossible (¬occ (var x))
         lem-4 (con c ts) v ¬occ s = λ i -> con c (lem-4s ts v (λ occ -> (¬occ (con c occ))) s i)
 
-      lem-5 : ∀ (i : Type 𝑨) (x : incl τ ∍ i) -> ⟨ (map (incl t)) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
+      lem-5 : ∀ (i : Sort Σ) (x : incl τ ∍ i) -> ⟨ (map (incl t)) ◆ π' ⟩ i x ≡ ⟨ (map (simpleVar v)) ◆ π' ⟩ i x
       lem-5 i incl = P
         where
           Q : either (λ x → var x) (⟨ map-ι-⧜𝐒𝐮𝐛𝐬𝐭 t' ⟩ i) (iso-\\ v i v) ≡ factor-Occur t v ¬occ
@@ -239,7 +241,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
           ... | left q = cong var (≡-Str→≡ (§-ι-\\.prop-2 q))
           ... | just (refl-≣ , q) = impossible (§-ι-\\.prop-3 q)
 
-    P-11 : ∀{x : 𝐒𝐮𝐛𝐬𝐭 (Terms 𝑨)} -> {α β : ι Γ' ⟶ x} -> (π' ◆ α ∼ π' ◆ β) -> α ∼ β
+    P-11 : ∀{x : 𝐒𝐮𝐛𝐬𝐭 (Terms Σ)} -> {α β : ι Γ' ⟶ x} -> (π' ◆ α ∼ π' ◆ β) -> α ∼ β
     P-11 {x} {α} {β} p = p
         ⟪ (_◈_ {f = ι'} {g = ι'} {h = π' ◆ α} {i = π' ◆ β} refl) ⟫
         >> ι' ◆ (π' ◆ α) ∼ ι' ◆ (π' ◆ β) <<

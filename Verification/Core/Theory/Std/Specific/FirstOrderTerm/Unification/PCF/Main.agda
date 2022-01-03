@@ -56,7 +56,9 @@ open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 
 
 open import Verification.Core.Computation.Unification.Categorical.PrincipalFamilyCat
@@ -65,9 +67,9 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Size
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.DirectFail
 
-module _ {𝑨 : 𝕋× 𝑖} where
+module _ {Σ : 𝒯FOSignature 𝑖} where
 
-  ∂-𝕋× : ∀{x y : 𝐂𝐭𝐱 𝑨} -> (t : HomPair x y) -> (isBase-𝕋× t +-𝒰 (∑ λ n -> isSplittableC (𝐂𝐭𝐱 𝑨) n t))
+  ∂-𝕋× : ∀{x y : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (t : HomPair x y) -> (isBase-𝕋× t +-𝒰 (∑ λ n -> isSplittableC (⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)) n t))
   ∂-𝕋× (⧜subst ◌-⧜ , ⧜subst ◌-⧜) = left isBase:⊥
   ∂-𝕋× {x} {y} (⧜subst (f₀ ⋆-⧜ f₁) , ⧜subst (g₀ ⋆-⧜ g₁)) = right (2 , record
     { famC = fam'
@@ -79,7 +81,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
       fam' (zero) = _ , ⧜subst f₀ , ⧜subst g₀
       fam' (suc n) = _ , ⧜subst f₁ , ⧜subst g₁
 
-      covers-0 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁) →
+      covers-0 : {x = x₁ : 𝐂𝐭𝐱ᵘ Σ} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁) →
                  (it isSetoid.∼ (⧜subst (f₀ ⋆-⧜ f₁) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
                  (⧜subst (g₀ ⋆-⧜ g₁) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
                  -> ((p : Fin-R 2) →
@@ -88,7 +90,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
       covers-0 {x = x₁} h q zero = ≀abstract≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 (π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ (≀abstract⁻¹≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 q))
       covers-0 {x = x₁} h q (suc n) = ≀abstract≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 ((π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ (≀abstract⁻¹≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 q)))
 
-      covers-1 : {x = x₁ : 𝐂𝐭𝐱ᵘ 𝑨} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁)
+      covers-1 : {x = x₁ : 𝐂𝐭𝐱ᵘ Σ} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁)
                  -> ((p : Fin-R 2) →
                     (it isSetoid.∼ (fst (fam' p .snd) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
                     (snd (fam' p .snd) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
@@ -121,7 +123,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
       fam' x = _ , f₀ , g₀
 
       covers-0 : {x : InductiveSubstitution
-                      ′ (λ Γ → indexed (Term₁-𝕋× 𝑨 FullSubcategory.⟨ Γ ⟩)) ′}
+                      ′ (λ Γ → indexed (𝒯⊔Term Σ FullSubcategory.⟨ Γ ⟩)) ′}
                     (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x) →
                     (it isSetoid.∼ (⧜subst (incl (con cx tsx)) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
                     (⧜subst (incl (con cx tsy)) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
@@ -141,7 +143,7 @@ module _ {𝑨 : 𝕋× 𝑖} where
         >> (⧜subst tsx ◆ h) ∼ (⧜subst tsy ◆ h) <<
 
       covers-1 : {x : InductiveSubstitution
-                      ′ (λ Γ → indexed (Term₁-𝕋× 𝑨 FullSubcategory.⟨ Γ ⟩)) ′}
+                      ′ (λ Γ → indexed (𝒯⊔Term Σ FullSubcategory.⟨ Γ ⟩)) ′}
                     (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x) →
                     ((p : Fin-R 1) →
                     (it isSetoid.∼ (fst (fam' p .snd) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))

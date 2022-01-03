@@ -79,5 +79,6 @@ module _ (Σ : 𝒯FOSignature 𝑖) where
   𝒯⊔termᵘ Γ = indexed (λ τ → 𝒯⊔Term ⟨ Γ ⟩ τ)
 
   macro 𝒯⊔term = #structureOn 𝒯⊔termᵘ
+
 -- //
 

@@ -59,6 +59,7 @@ open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.FiniteIndexed.Property.Merge
 
 -- open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
+
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Element
@@ -73,9 +74,6 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF
 
 module _ {Σ : 𝒯FOSignature 𝑖} where
   private VarPath = VarPath-Term-𝕋×
-
-  simpleVar : ∀{Γ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ )} {τ : Sort Σ} -> (⟨ Γ ⟩ ∍ τ) -> incl (incl τ) ⟶ Γ
-  simpleVar v = ⧜subst (incl (repure _ v))
 
   mutual
     isFreeVars : ∀{Γ Δ} -> (t : 𝒯⊔Terms Σ Δ Γ) -> {s : Sort Σ} -> (v : Γ ∍ s) -> isDecidable (VarPath-𝒯⊔Terms Σ t v)
