@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.CategoricalProperties where
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
@@ -8,6 +9,10 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
 
+
+-- testing
+-- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Variant.Binary using (reduce-ι₀ ; reduce-ι₁)
+-- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Reflection.Definition
 
 -- [Hide]
 
@@ -22,6 +27,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrde
 -------------
 -- BEGIN DUPLICATE CODE
 
+{-
 open import Verification.Conventions hiding (_⊔_)
 
 byExpand-ι₀,ι₁ : ∀{a b c : ℒHMTypes} -> {f g : a ⊔ b ⟶ c}
@@ -42,34 +48,38 @@ module assoc-l-⊔' {a b c : ℒHMTypes} where
   g : a ⊔ (b ⊔ c) ⟶ (a ⊔ b) ⊔ c
   g = ⦗ ι₀ ◆ ι₀ , ⦗ ι₁ ◆ ι₀ , ι₁ ⦘ ⦘
 
-  lem-1a : ι₀ ◆ (ι₀ ◆ (f ◆ g)) ∼ ι₀ ◆ (ι₀ ◆ id)
-  lem-1a = ι₀ ◆ (ι₀ ◆ (f ◆ g))   ⟨ refl ◈ assoc-r-◆ ⟩-∼
-            ι₀ ◆ ((ι₀ ◆ f) ◆ g)   ⟨ refl ◈ (reduce-ι₀ ◈ refl) ⟩-∼
-            ι₀ ◆ (_ ◆ g)          ⟨ assoc-r-◆ ⟩-∼
-            (ι₀ ◆ _) ◆ g          ⟨ reduce-ι₀ ◈ refl ⟩-∼
-            ι₀ ◆ g                ⟨ reduce-ι₀ ⟩-∼
-            ι₀ ◆ ι₀               ⟨ refl ◈ unit-r-◆ ⁻¹ ⟩-∼
-            ι₀ ◆ (ι₀ ◆ id)        ∎
+  abstract
+    lem-1a : ι₀ ◆ (ι₀ ◆ (f ◆ g)) ∼ ι₀ ◆ (ι₀ ◆ id)
+    lem-1a = ι₀ ◆ (ι₀ ◆ (f ◆ g))   ⟨ refl ◈ assoc-r-◆ ⟩-∼
+              ι₀ ◆ ((ι₀ ◆ f) ◆ g)   ⟨ refl ◈ (reduce-ι₀ ◈ refl) ⟩-∼
+              ι₀ ◆ (_ ◆ g)          ⟨ assoc-r-◆ ⟩-∼
+              (ι₀ ◆ _) ◆ g          ⟨ reduce-ι₀ ◈ refl ⟩-∼
+              ι₀ ◆ g                ⟨ reduce-ι₀ ⟩-∼
+              ι₀ ◆ ι₀               ⟨ refl ◈ unit-r-◆ ⁻¹ ⟩-∼
+              ι₀ ◆ (ι₀ ◆ id)        ∎
+-}
+{-
+  abstract
+    lem-1b : ι₁ ◆ (ι₀ ◆ (f ◆ g)) ∼ ι₁ ◆ (ι₀ ◆ id)
+    lem-1b = ι₁ ◆ (ι₀ ◆ (f ◆ g))   ⟨ refl ◈ assoc-r-◆ ⟩-∼
+              ι₁ ◆ ((ι₀ ◆ f) ◆ g)   ⟨ refl ◈ (reduce-ι₀ ◈ refl) ⟩-∼
+              ι₁ ◆ (_ ◆ g)          ⟨ assoc-r-◆ ⟩-∼
+              (ι₁ ◆ _) ◆ g          ⟨ reduce-ι₁ ◈ refl ⟩-∼
+              (ι₀ ◆ ι₁) ◆ g         ⟨ assoc-l-◆ ⟩-∼
+              ι₀ ◆ (ι₁ ◆ g)         ⟨ refl ◈ reduce-ι₁ ⟩-∼
+              ι₀ ◆ _                ⟨ reduce-ι₀ ⟩-∼
+              ι₁ ◆ ι₀               ⟨ refl ◈ unit-r-◆ ⁻¹ ⟩-∼
+              ι₁ ◆ (ι₀ ◆ id)        ∎
 
-  lem-1b : ι₁ ◆ (ι₀ ◆ (f ◆ g)) ∼ ι₁ ◆ (ι₀ ◆ id)
-  lem-1b = ι₁ ◆ (ι₀ ◆ (f ◆ g))   ⟨ refl ◈ assoc-r-◆ ⟩-∼
-            ι₁ ◆ ((ι₀ ◆ f) ◆ g)   ⟨ refl ◈ (reduce-ι₀ ◈ refl) ⟩-∼
-            ι₁ ◆ (_ ◆ g)          ⟨ assoc-r-◆ ⟩-∼
-            (ι₁ ◆ _) ◆ g          ⟨ reduce-ι₁ ◈ refl ⟩-∼
-            (ι₀ ◆ ι₁) ◆ g         ⟨ assoc-l-◆ ⟩-∼
-            ι₀ ◆ (ι₁ ◆ g)         ⟨ refl ◈ reduce-ι₁ ⟩-∼
-            ι₀ ◆ _                ⟨ reduce-ι₀ ⟩-∼
-            ι₁ ◆ ι₀               ⟨ refl ◈ unit-r-◆ ⁻¹ ⟩-∼
-            ι₁ ◆ (ι₀ ◆ id)        ∎
-
-  lem-1c : ι₁ ◆ (f ◆ g) ∼ ι₁ ◆ id
-  lem-1c = ι₁ ◆ (f ◆ g)          ⟨ assoc-r-◆ ⟩-∼
-            (ι₁ ◆ f) ◆ g          ⟨ reduce-ι₁ ◈ refl ⟩-∼
-            (ι₁ ◆ ι₁) ◆ g         ⟨ assoc-l-◆ ⟩-∼
-            ι₁ ◆ (ι₁ ◆ g)         ⟨ refl ◈ reduce-ι₁ ⟩-∼
-            ι₁ ◆ _                ⟨ reduce-ι₁ ⟩-∼
-            ι₁                    ⟨ unit-r-◆ ⁻¹ ⟩-∼
-            ι₁ ◆ id               ∎
+  abstract
+    lem-1c : ι₁ ◆ (f ◆ g) ∼ ι₁ ◆ id
+    lem-1c = ι₁ ◆ (f ◆ g)          ⟨ assoc-r-◆ ⟩-∼
+              (ι₁ ◆ f) ◆ g          ⟨ reduce-ι₁ ◈ refl ⟩-∼
+              (ι₁ ◆ ι₁) ◆ g         ⟨ assoc-l-◆ ⟩-∼
+              ι₁ ◆ (ι₁ ◆ g)         ⟨ refl ◈ reduce-ι₁ ⟩-∼
+              ι₁ ◆ _                ⟨ reduce-ι₁ ⟩-∼
+              ι₁                    ⟨ unit-r-◆ ⁻¹ ⟩-∼
+              ι₁ ◆ id               ∎
 
   lem-1 : f ◆ g ∼ id
   lem-1 = byExpand-ι₀,ι₁ (byExpand-ι₀,ι₁ lem-1a lem-1b) lem-1c
@@ -156,9 +166,13 @@ module §-assoc-l-⊔' where
               ι₁ ◆ ((ι₁ ◆ _) ◆ ⦗ ⦗ f , g ⦘ , h ⦘)   ⟨ refl ◈ assoc-l-◆ ⟩-∼
               ι₁ ◆ (ι₁ ◆ (⟨ assoc-l-⊔'.Proof ⟩⁻¹ ◆ ⦗ ⦗ f , g ⦘ , h ⦘))   ∎
 
+-}
+
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.Monoidal
+
 
 assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
-assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔'.Proof {a = a} {b} {c}
+assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔
 
 -- END DUPLICATE CODE
 -------------
@@ -172,6 +186,7 @@ module §-ℒHMTypes where
     id                    ⟨ expand-ι₀,ι₁ ⟩-∼
     ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘ ⟨ ⦗≀ unit-r-◆ , unit-r-◆ ≀⦘ ⟩-∼
     ⦗ ι₀ , ι₁ ⦘           ∎
+
 
 
 -- //

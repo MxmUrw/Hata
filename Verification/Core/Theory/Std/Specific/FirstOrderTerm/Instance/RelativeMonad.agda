@@ -87,7 +87,20 @@ module _ (𝓅 : 𝒯FOSignature 𝑖) where
   module Overwrite:hasFiniteCoproducts:𝐒𝐮𝐛𝐬𝐭-Sim where
     open hasFiniteCoproducts (hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 {T = 𝒯⊔term 𝓅}) public
 
+module _ {Σ : 𝒯FOSignature 𝑖} where
+  module §-reext-Terms-𝕋× where
+    prop-1 : ∀{a b x} -> (α β : 𝑓𝑖𝑛 (Sort Σ) (incl a) ⟶  𝒯⊔term Σ b) -> (t : 𝒯⊔Term Σ a x) -> reext α _ t ≡ reext β _ t -> ∀ i s -> α i s ≡ β i s
+    prop-1 α β (var x) p i s = {!!}
+    prop-1 α β (con c x) p i s = {!!}
 
+    prop-2 : ∀{x y : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} {αsx : ⋆List (Sort Σ)} -> (h : y ⟶ x)
+             -> (tsx : CtxHom (𝒯⊔Term Σ) (αsx) ⟨ y ⟩)
+             -> (reext-𝒯⊔Terms (sub-⧜𝐒𝐮𝐛𝐬𝐭 h) tsx)
+               ≣
+               (tsx ◆-⧜𝐒𝐮𝐛𝐬𝐭' h)
+    prop-2 {x} {y} h ◌-⧜ = refl-≣
+    prop-2 {x} {y} h (incl x₁) = refl-≣
+    prop-2 {x} {y} h (tsx ⋆-⧜ tsy) = cong₂-Str _⋆-⧜_ (prop-2 h tsx) (prop-2 h tsy)
 
 
 

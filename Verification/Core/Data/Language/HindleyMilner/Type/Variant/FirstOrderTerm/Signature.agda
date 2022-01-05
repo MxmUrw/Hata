@@ -29,7 +29,7 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Unification
 
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 
@@ -83,6 +83,10 @@ instance
       lem-1 𝔹ᵗ ℕᵗ = no (λ ())
       lem-1 𝔹ᵗ 𝔹ᵗ = yes refl-≣
 
+instance
+  isSet-Str:Sort-Sim : isSet-Str Sort-Sim
+  isSet-Str:Sort-Sim = {!!}
+
 -- //
 
 -- | Finally, we construct the signature [..] by setting [....]
@@ -91,6 +95,15 @@ instance
 
 
 -- [Hide]
+instance
+  Show:Con-Sim : ∀{τs τ} -> IShow (Con-Sim τs τ)
+  Show:Con-Sim = record { show = f }
+    where
+      f : ∀{τs τ} -> (Con-Sim τs τ) -> Text
+      f ℕᵗ = "ℕ"
+      f 𝔹ᵗ = "𝔹"
+      f ⇒₂ᵗ = "Arr"
+
 infixr 30 _⇒_
 pattern _⇒_ a b = con ⇒₂ᵗ (incl a ⋆-⧜ (incl b ⋆-⧜ ◌-⧜))
 pattern ℕ = con ℕᵗ ◌-⧜

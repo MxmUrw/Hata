@@ -47,6 +47,7 @@ open import Verification.Core.Order.Lattice hiding (⊥)
 open import Verification.Core.Data.List.Variant.Unary.Definition
 open import Verification.Core.Data.Nat.Definition
 open import Verification.Core.Data.List.Variant.Binary.Natural
+open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
 open import Verification.Core.Data.FiniteIndexed.Definition
@@ -66,6 +67,7 @@ open import Verification.Core.Computation.Unification.Categorical.PrincipalFamil
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Base
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Size
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.DirectFail
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
 
 module _ {Σ : 𝒯FOSignature 𝑖} where
 
@@ -81,7 +83,7 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
       fam' (zero) = _ , ⧜subst f₀ , ⧜subst g₀
       fam' (suc n) = _ , ⧜subst f₁ , ⧜subst g₁
 
-      covers-0 : {x = x₁ : 𝐂𝐭𝐱ᵘ Σ} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁) →
+      covers-0 : {x = x₁ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁) →
                  (it isSetoid.∼ (⧜subst (f₀ ⋆-⧜ f₁) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
                  (⧜subst (g₀ ⋆-⧜ g₁) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h)
                  -> ((p : Fin-R 2) →
@@ -90,7 +92,7 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
       covers-0 {x = x₁} h q zero = ≀abstract≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 (π₀-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ (≀abstract⁻¹≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 q))
       covers-0 {x = x₁} h q (suc n) = ≀abstract≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 ((π₁-⋆-⧜𝐒𝐮𝐛𝐬𝐭-≣ (≀abstract⁻¹≀-◆-⧜𝐒𝐮𝐛𝐬𝐭 q)))
 
-      covers-1 : {x = x₁ : 𝐂𝐭𝐱ᵘ Σ} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁)
+      covers-1 : {x = x₁ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (h : Hom-⧜𝐒𝐮𝐛𝐬𝐭' y x₁)
                  -> ((p : Fin-R 2) →
                     (it isSetoid.∼ (fst (fam' p .snd) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
                     (snd (fam' p .snd) 内◆-⧜𝐒𝐮𝐛𝐬𝐭 h))
@@ -109,7 +111,7 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
   ∂-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (var .x))) | just (.refl-≣ , refl-≣) | refl-≣ = left isBase:id
   ∂-𝕋× (⧜subst (incl (var x)) , ⧜subst (incl (con c x₁))) = left (isBase:sym (isBase:con-var _ _ _))
   ∂-𝕋× (⧜subst (incl (con c x)) , ⧜subst (incl (var x₁))) = left (isBase:con-var _ _ _)
-  ∂-𝕋× {x = x} {y = y} (⧜subst (incl (con {αs = αsx} cx tsx)) , ⧜subst (incl (con {αs = αsy} cy tsy))) with αsx ≟-Str αsy
+  ∂-𝕋× {x = x} {y = y} (⧜subst (incl (con {βs = αsx} cx tsx)) , ⧜subst (incl (con {βs = αsy} cy tsy))) with αsx ≟-Str αsy
   ... | no ¬p = left (isBase:con≠con cx cy tsx tsy ¬p)
   ... | yes refl-≣ with cx ≟-Str cy
   ... | no ¬p = left (isBase:con≠con₂ cx cy tsx tsy ¬p)

@@ -173,7 +173,7 @@ module typecheck-app {νsₐ : ℒHMTypes} {k : ♮ℕ} {Q : ℒHMQuant k} (Γ :
           f = ι₀ ◆ π
 
           factor:f : isSplitEpiMonoFactorizable f
-          factor:f = factorize {{_}} {{hasSplitEpiMonoFactorization:ℒHMTypes}} f
+          factor:f = factorize {{_}} {{hasSplitEpiMonoFactorization:𝐂𝐭𝐱-𝕋×}} f
 
           νs₃ₐ νs₃ₓ νs₃ : ℒHMTypes
           νs₃ₐ = image factor:f

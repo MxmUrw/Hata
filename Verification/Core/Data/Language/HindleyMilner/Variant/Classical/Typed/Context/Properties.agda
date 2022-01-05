@@ -1,4 +1,6 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
+
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Context.Properties where
 
 

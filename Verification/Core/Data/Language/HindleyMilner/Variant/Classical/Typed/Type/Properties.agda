@@ -1,4 +1,5 @@
 
+{-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Properties where
 
 open import Verification.Conventions hiding (ℕ ; _⊔_)
@@ -7,13 +8,17 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.hasEpiMonoFactorization
+  using (hasSplitEpiMonoFactorization:𝐂𝐭𝐱-𝕋×)
+  public
+
 
 
 -- [Hide]
 
-instance
-  hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
-  hasSplitEpiMonoFactorization:ℒHMTypes = {!!}
+-- instance
+--   hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
+--   hasSplitEpiMonoFactorization:ℒHMTypes = it
 
 -- //
 

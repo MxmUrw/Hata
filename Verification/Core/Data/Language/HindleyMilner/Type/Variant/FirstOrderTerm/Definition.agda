@@ -33,7 +33,7 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Unification
 
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature

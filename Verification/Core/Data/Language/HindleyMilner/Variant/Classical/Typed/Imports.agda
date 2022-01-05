@@ -39,7 +39,7 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Signature publi
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition public
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Functor public
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad public
-open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification public
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Unification public
 
 -------------
 -- Types as simple terms

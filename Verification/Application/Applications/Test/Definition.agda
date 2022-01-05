@@ -47,15 +47,16 @@ instance
 
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Example.Simple
+open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
-open import Verification.Core.Theory.Std.Specific.ProductTheory.Variant.Unification.Instance.Show
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Show
 
 doTest : Text -> TestError + Text
 doTest _ =
   let x = result-t-0
   in case x of
       (λ _ -> right "error")
-      λ res → let _ / _ ⊩ _ , τ , _ , _ = res .fst in right {!show {{Show:𝒯⊔Term}} τ!}
+      λ res → let _ / _ ⊩ _ , τ , _ , _ = res .fst in right (show {{Show:𝒯⊔Term}} τ)
 
 -- doTest input = do
 --   contentfile <- mapLeft (persistencyError ∘ parseError) (parseContentFile input)
