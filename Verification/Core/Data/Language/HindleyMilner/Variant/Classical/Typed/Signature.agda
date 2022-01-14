@@ -24,6 +24,7 @@ record isℒHMTypeCtx {𝑖 : 𝔏 ^ 2} {𝑗 : 𝔏} (𝒯 : 𝒰 𝑗) : 𝒰 
   field {{isCategory:ℒHMTypeCtx}} : isCategory {𝑖} 𝒯
   field {{hasCoproducts:ℒHMTypeCtx}} : hasFiniteCoproducts ′ 𝒯 ′
   field {{hasUnification:ℒHMTypeCtx}} : hasUnification ′ 𝒯 ′
+  field {{hasSplitEpiMonoFactorization:ℒHMTypeCtx}} : hasSplitEpiMonoFactorization ′ 𝒯 ′
   field ∼→≡ : ∀{a b : 𝒯} -> {f g : a ⟶ b} -> f ∼ g -> f ≡ g
 
   -- The main kind
