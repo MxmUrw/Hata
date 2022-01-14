@@ -50,13 +50,15 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Typecheck.Statement
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Show
+open import Verification.Core.Data.Substitution.Variant.Base.Definition
+open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
 
 doTest : Text -> TestError + Text
 doTest _ =
   let x = result-t-0
   in case x of
       (λ _ -> right "error")
-      λ res → let _ / _ ⊩ _ , τ , _ , _ = res .fst in right (show {{Show:𝒯⊔Term}} τ)
+      λ {((_ / _ ⊩ _ , (⧜subst (incl τ)) , _ , _), _) -> right (show {{Show:𝒯⊔Term}} τ)}
 
 -- doTest input = do
 --   contentfile <- mapLeft (persistencyError ∘ parseError) (parseContentFile input)

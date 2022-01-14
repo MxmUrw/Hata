@@ -134,7 +134,6 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
       myf : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (⟨ a ⟩ ⋆ ⟨ b ⟩ ⟶ ⟨ a ⊔ b ⟩)
       myf = {!!}
 
-{-
       mutual
         prop-3s : ∀{a bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (f : CtxHom (𝒯⊔Term Σ) ⟨ a ⟩ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩))
                   -> (∀{i} -> (bₓ∍i : ⟨ bₓ ⟩ ∍ i) -> ¬ (VarPath-𝒯⊔Terms Σ f (right-∍ bₓ∍i)))
@@ -254,7 +253,5 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
 
 
 
-
--}
 
 
