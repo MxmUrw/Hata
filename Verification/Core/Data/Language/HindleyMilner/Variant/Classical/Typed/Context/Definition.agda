@@ -8,6 +8,8 @@ open import Verification.Conventions hiding (ℕ ; _⊔_)
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Signature
+
 
 
 
@@ -27,8 +29,10 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 -- [Definition]
 -- | A /context quantification/ is defined by the type family [..].
 --   It is defined as [....]
-ℒHMQuant : ♮ℕ -> 𝒰₀
-ℒHMQuant k = List[ i ∈ k ]  (ℒHMTypes)
+module _ (Σ : ℒHMSignature 𝑖) where
+  ℒHMQuant : ♮ℕ -> 𝒰 _
+  ℒHMQuant k = List[ i ∈ k ]  (ℒHMTypes Σ)
+
 -- |> An element |Q : ℒHMQuant k| is |k|-sized list,
 --    where the |i|-th entry is the list of bound
 --    variables to be used by the |i|-th type scheme
@@ -44,8 +48,9 @@ open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Type
 --   the /context over Q with free variables μs/.
 --   Such a context is an inhabitant of the type |ℒHMCtx Q μs| [],
 --   which is defined by [....]
-ℒHMCtx : ∀{k} -> (Q : ℒHMQuant k) -> ∀ μs -> 𝒰₀
-ℒHMCtx Q μs = List²[ αs ∈ Q ] (ℒHMType ⟨ μs ⊔ αs ⟩)
+module _ {Σ : ℒHMSignature 𝑖} where
+  ℒHMCtx : ∀{k} -> (Q : ℒHMQuant Σ k) -> ∀ μs -> 𝒰 _
+  ℒHMCtx Q μs = List²[ αs ∈ Q ] (ℒHMType Σ (μs ⊔ αs))
 
 -- #Notation/Rewrite# ℒHMCtx = Ctx_{HM}
 -- #Notation/Rewrite# List² = List

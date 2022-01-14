@@ -2,28 +2,91 @@
 {-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Properties where
 
-open import Verification.Conventions hiding (ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_ ; Σ)
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
+-- open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.hasEpiMonoFactorization
-  using (hasSplitEpiMonoFactorization:𝐂𝐭𝐱-𝕋×)
-  public
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Signature
+
+
+-- module _ {Σ : ℒHMSignature 𝑖} where
+module _ {𝒯 : 𝒰 𝑖} {{_ : isℒHMTypeCtx {𝑗} 𝒯}} where
+  private
+    Σ : ℒHMSignature _
+    Σ = ′ 𝒯 ′
+
+  st : ℒHMTypes Σ
+  st = μκ
+
+
+  asArr : ∀{αs} -> ℒHMType Σ αs -> (st ⟶ αs)
+  asArr t = t
+
+  fromArr : ∀{αs} -> (st ⟶ αs) -> ℒHMType Σ αs
+  fromArr x = x
+
+  varincl : ℒHMType Σ st
+  varincl = id
+
+
+  -- abstract
+
+  _⇃[_]⇂ : ∀{μs νs : ℒHMTypes Σ} -> ℒHMType Σ μs -> (μs ⟶ νs) -> ℒHMType Σ νs
+  _⇃[_]⇂ x f = fromArr (asArr x ◆ f)
+
+  infixl 80 _⇃[_]⇂
+
+  abstract
+    unify-ℒHMTypes : ∀{a b : ℒHMTypes Σ} -> (f g : a ⟶ b) -> (¬ hasCoequalizerCandidate (f , g)) +-𝒰 (hasCoequalizer f g)
+    unify-ℒHMTypes f g = unify f g
+
+
+  --------------------------------------
+  -- is setoid hom
+  _⇃[≀_≀]⇂ : ∀{a b : ℒHMTypes Σ} -> (τ : ℒHMType Σ a) -> {f g : a ⟶ b}
+                -> f ∼ g -> τ ⇃[ f ]⇂ ≡ τ ⇃[ g ]⇂
+  _⇃[≀_≀]⇂ τ {f = f} {g} p = ∼→≡ (refl ◈ p)
+
+  --------------------------------------
+  -- respects ◆
+
+  module _ {a b c : ℒHMTypes Σ} where
+    abstract
+      functoriality-◆-⇃[]⇂ : ∀{τ : ℒHMType Σ a} -> {f : a ⟶ b} -> {g : b ⟶ c}
+                              -> τ ⇃[ f ]⇂ ⇃[ g ]⇂ ≡ τ ⇃[ f ◆ g ]⇂
+      functoriality-◆-⇃[]⇂ {τ} {f} {g} = ∼→≡ assoc-l-◆
+
+
+  -------------------------
+  -- respects id
+
+  module _ {a : ℒHMTypes Σ} where
+    abstract
+      functoriality-id-⇃[]⇂ : ∀{τ : ℒHMType Σ a} -> τ ⇃[ id ]⇂ ≡ τ
+      functoriality-id-⇃[]⇂ {τ} = ∼→≡ unit-r-◆
+
+  module §-⇃[]⇂ where
+    -------------------------
+    -- preserves the constructors of Σ-Sim
+    module _ {a b : ℒHMTypes Σ} {σ : a ⟶ b} where
+      abstract
+        prop-1 : {α β : ℒHMType Σ a} -> ((α ⇒ β) ⇃[ σ ]⇂) ≡ (α ⇃[ σ ]⇂ ⇒ β ⇃[ σ ]⇂)
+        prop-1 {α} {β} = {!!}
+
+
+    -------------------------
+    -- substituting single arrows get us the content of the arrow
+    module _ {μs : ℒHMTypes Σ} where
+      abstract
+        prop-2 : {α : ℒHMType Σ μs} -> (varincl) ⇃[ asArr α ]⇂ ≡ α
+        prop-2 {α} = ∼→≡ unit-l-◆
 
 
 
--- [Hide]
-
--- instance
---   hasSplitEpiMonoFactorization:ℒHMTypes : hasSplitEpiMonoFactorization ℒHMTypes
---   hasSplitEpiMonoFactorization:ℒHMTypes = it
-
--- //
-
-
-
+{-
 -- | We define substitutions of types.
 --   for that we need some stuff.
 --   We mostly ignore the concrete definition
@@ -227,3 +290,6 @@ abstract
           in ≡-Str→≡ (cong-Str fromArr lem-1)
 
 -- //
+
+
+-}

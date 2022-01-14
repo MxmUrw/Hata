@@ -130,41 +130,46 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
       prop-1 P = epi (lem-20 P)
 
     -- we can remove unused metavariables
-    mutual
-      prop-3s : ∀{a bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (f : CtxHom (𝒯⊔Term Σ) ⟨ a ⟩ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩))
-                -> (∀{i} -> (bₓ∍i : ⟨ bₓ ⟩ ∍ i) -> ¬ (VarPath-𝒯⊔Terms Σ f (right-∍ bₓ∍i)))
-                -> ∑ λ (f' : a ⟶ bₐ) -> f' ◆ ι₀ ∼ ⧜subst f
-      prop-3s ◌-⧜ ¬right = (elim-⊥) , expand-⊥ ∙ expand-⊥ ⁻¹
-      prop-3s (incl x) ¬right = let x' , xp = prop-3 x λ bₓ∍i x₁ → ¬right bₓ∍i (incl x₁) in ⧜subst (incl x') , xp
-      prop-3s (f ⋆-⧜ g) ¬right =
-        let f' , f'p = prop-3s f λ bₓ∍i x → ¬right bₓ∍i (left-Path x)
-            g' , g'p = prop-3s g λ bₓ∍i x → ¬right bₓ∍i (right-Path x)
-            lem-1 : f' ◆ ι₀ ∼ ⧜subst f
-            lem-1 = f'p
+    abstract
+      myf : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (⟨ a ⟩ ⋆ ⟨ b ⟩ ⟶ ⟨ a ⊔ b ⟩)
+      myf = {!!}
 
-            lem-2 : g' ◆ ι₀ ∼ ⧜subst g
-            lem-2 = g'p
+{-
+      mutual
+        prop-3s : ∀{a bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (f : CtxHom (𝒯⊔Term Σ) ⟨ a ⟩ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩))
+                  -> (∀{i} -> (bₓ∍i : ⟨ bₓ ⟩ ∍ i) -> ¬ (VarPath-𝒯⊔Terms Σ f (right-∍ bₓ∍i)))
+                  -> ∑ λ (f' : a ⟶ bₐ) -> f' ◆ ι₀ ∼ ⧜subst f
+        prop-3s ◌-⧜ ¬right = (elim-⊥) , expand-⊥ ∙ expand-⊥ ⁻¹
+        prop-3s (incl x) ¬right = let x' , xp = prop-3 x λ bₓ∍i x₁ → ¬right bₓ∍i (incl x₁) in ⧜subst (incl x') , xp
+        prop-3s (f ⋆-⧜ g) ¬right =
+          let f' , f'p = prop-3s f λ bₓ∍i x → ¬right bₓ∍i (left-Path x)
+              g' , g'p = prop-3s g λ bₓ∍i x → ¬right bₓ∍i (right-Path x)
+              lem-1 : f' ◆ ι₀ ∼ ⧜subst f
+              lem-1 = f'p
 
-            lem-3 : ⦗ f' , g' ⦘ ◆ ι₀ ∼ ⦗ ⧜subst f , ⧜subst g ⦘
-            lem-3 = append-⦗⦘ ∙ ⦗≀ lem-1 , lem-2 ≀⦘
+              lem-2 : g' ◆ ι₀ ∼ ⧜subst g
+              lem-2 = g'p
 
-            lem-4 : ⦗ ⧜subst f , ⧜subst g ⦘ ∼ ⧜subst (f ⋆-⧜ g)
-            lem-4 = {!!}
+              lem-3 : ⦗ f' , g' ⦘ ◆ ι₀ ∼ ⦗ ⧜subst f , ⧜subst g ⦘
+              lem-3 = append-⦗⦘ ∙ ⦗≀ lem-1 , lem-2 ≀⦘
 
-        in ⦗ f' , g' ⦘ , lem-3 ∙ lem-4
+              lem-4 : ⦗ ⧜subst f , ⧜subst g ⦘ ∼ ⧜subst (f ⋆-⧜ g)
+              lem-4 = {!!}
 
-      prop-3 : ∀{bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} {a} (f : 𝒯⊔Term Σ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩) a)
-               -> (∀{i} -> (bₓ∍i : ⟨ bₓ ⟩ ∍ i) -> ¬ (f ∋ right-∍ bₓ∍i))
-               -> ∑ λ (f' : 𝒯⊔Term Σ ⟨ bₐ ⟩ a) -> (asArr f') ◆ ι₀ ∼ asArr f
-      prop-3 (var (right-∍ x)) ¬right = impossible (¬right x (var (right-∍ x)))
-      prop-3 (var (left-∍ x)) ¬right = (var x) , abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 ⁻¹ ∙ lem-1
-        where
-          lem-1 : (asArr (var x) ◆-⧜𝐒𝐮𝐛𝐬𝐭 ι₀) ∼ asArr (var (left-∍ x))
-          lem-1 = {!!}
+          in ⦗ f' , g' ⦘ , lem-3 ∙ lem-4
 
-      prop-3 (con c x) ¬right =
-        let f , fp = prop-3s x λ bₓ∍i x₁ → ¬right bₓ∍i (con c x₁)
-        in (con c ⟨ f ⟩) , {!!}
+        prop-3 : ∀{bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} {a} (f : 𝒯⊔Term Σ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩) a)
+                -> (∀{i} -> (bₓ∍i : ⟨ bₓ ⟩ ∍ i) -> ¬ (f ∋ right-∍ bₓ∍i))
+                -> ∑ λ (f' : 𝒯⊔Term Σ ⟨ bₐ ⟩ a) -> (asArr f') ◆ ι₀ ∼ asArr f
+        prop-3 (var (right-∍ x)) ¬right = impossible (¬right x (var (right-∍ x)))
+        prop-3 (var (left-∍ x)) ¬right = (var x) , abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 ⁻¹ ∙ lem-1
+          where
+            lem-1 : (asArr (var x) ◆-⧜𝐒𝐮𝐛𝐬𝐭 ι₀) ∼ asArr (var (left-∍ x))
+            lem-1 = {!!}
+
+        prop-3 (con c x) ¬right =
+          let f , fp = prop-3s x λ bₓ∍i x₁ → ¬right bₓ∍i (con c x₁)
+          in (con c ⟨ f ⟩) , {!!}
 
     optimize-metas = prop-3s
 
@@ -250,6 +255,6 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
 
 
 
-
+-}
 
 

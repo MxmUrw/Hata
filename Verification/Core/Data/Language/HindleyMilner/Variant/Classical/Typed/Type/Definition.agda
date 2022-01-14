@@ -7,12 +7,20 @@ open import Verification.Conventions hiding (ℕ ; _⊔_)
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
+-- open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Signature
 
 
--- | Types are defined as in example ...
---   We give the following names.
+module _ (Σ : ℒHMSignature 𝑖) where
+  ℒHMType : ℒHMTypeCtx Σ -> 𝒰 _
+  ℒHMType αs = μκ ⟶ αs
 
+  ℒHMTypesᵘ : 𝒰 _
+  ℒHMTypesᵘ = ℒHMTypeCtx Σ
+
+  macro ℒHMTypes = #structureOn ℒHMTypesᵘ
+
+{-
 -- [Notation]
 -- | We write |ℒHMType| for a term in that signature, i.e.:
 ℒHMType : 人ℕ -> 𝒰₀
@@ -73,7 +81,7 @@ record ℒHMTypeScheme (μs : 人ℕ) : 𝒰₀ where
 
 -- //
 
-
+-}
 
 
 

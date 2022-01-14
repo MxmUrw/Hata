@@ -43,8 +43,8 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.Unific
 
 -------------
 -- Types as simple terms
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature public
-open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Definition public
+-- open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature public
+-- open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Definition public
 
 -------------
 -- Other data
@@ -53,6 +53,19 @@ open import Verification.Core.Data.Product.Definition public
 open import Verification.Core.Data.Sum.Definition public
 open import Verification.Core.Data.Substitution.Variant.Base.Definition public
 
+
+
+---------------
+-- instead of overwrites
+
+open import Verification.Core.Category.Std.Category.Definition public
+open import Verification.Core.Category.Std.Morphism.Iso.Definition public
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition public
+
+{-
+
+open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
 
 -------------
 -- Specialized category modules
@@ -77,7 +90,7 @@ _≅_ = _≅ᵘ_ {𝒞 = 𝐒𝐮𝐛𝐬𝐭-Sim Σ-Sim} {{isCategory:⧜𝐒�
 {-# DISPLAY _内◆-⧜𝐒𝐮𝐛𝐬𝐭_ f g = f ◆ g #-}
 {-# DISPLAY 内id-⧜𝐒𝐮𝐛𝐬𝐭 = id #-}
 
-
+-}
 
 
 

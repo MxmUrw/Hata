@@ -2,12 +2,13 @@
 {-# OPTIONS --experimental-lossy-unification #-}
 module Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.CategoricalProperties where
 
-open import Verification.Conventions hiding (ℕ ; _⊔_)
+open import Verification.Conventions hiding (ℕ ; _⊔_ ; Σ)
 
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Imports
 open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Type.Definition
 open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Data.Language.HindleyMilner.Type.Variant.FirstOrderTerm.Signature
+open import Verification.Core.Data.Language.HindleyMilner.Variant.Classical.Typed.Signature
 
 
 -- testing
@@ -171,8 +172,15 @@ module §-assoc-l-⊔' where
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Properties.Monoidal
 
 
-assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
-assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔
+
+module _ {𝒯 : 𝒰 𝑖} {{_ : isℒHMTypeCtx {𝑗} 𝒯}} where
+
+  private
+    Σ : ℒHMSignature _
+    Σ = ′ 𝒯 ′
+
+  assoc-l-⊔-ℒHMTypes : ∀{a b c : ℒHMTypes Σ} -> (a ⊔ b) ⊔ c ≅ a ⊔ (b ⊔ c)
+  assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔
 
 -- END DUPLICATE CODE
 -------------
@@ -180,12 +188,12 @@ assoc-l-⊔-ℒHMTypes {a} {b} {c} = assoc-l-⊔
 ---------------------------
 -- other categorical proofs
 
-module §-ℒHMTypes where
-  prop-1 : ∀{a b : ℒHMTypes} -> id {a = a ⊔ b} ∼ ⦗ ι₀ , ι₁ ⦘
-  prop-1 =
-    id                    ⟨ expand-ι₀,ι₁ ⟩-∼
-    ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘ ⟨ ⦗≀ unit-r-◆ , unit-r-◆ ≀⦘ ⟩-∼
-    ⦗ ι₀ , ι₁ ⦘           ∎
+  module §-ℒHMTypes where
+    prop-1 : ∀{a b : ℒHMTypes Σ} -> id {a = a ⊔ b} ∼ ⦗ ι₀ , ι₁ ⦘
+    prop-1 {a} {b} = {!!}
+      -- id {a = a ⊔ b}                    ⟨ expand-ι₀,ι₁ ⟩-∼
+      -- ⦗ ι₀ ◆ id , ι₁ ◆ id ⦘ ⟨ ⦗≀ unit-r-◆ , unit-r-◆ ≀⦘ ⟩-∼
+      -- ⦗ ι₀ , ι₁ ⦘           ∎
 
 
 

@@ -286,19 +286,19 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
     isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 : isInitial ⊥-⧜𝐒𝐮𝐛𝐬𝐭
     isInitial:⊥-⧜𝐒𝐮𝐛𝐬𝐭 = isInitial:⊥
 
-  abstract
-    instance
-      hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
-      hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
+  -- abstract
+  instance
+    hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    hasCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasCoproducts:byFFEso
 
-    instance
-      hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasFiniteCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
-      hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasFiniteCoproducts:byFFEso
+  instance
+    hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 : hasFiniteCoproducts (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    hasFiniteCoproducts:⧜𝐒𝐮𝐛𝐬𝐭 = hasFiniteCoproducts:byFFEso
 
-    module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
-      instance
-        isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 : isCoproduct a b (a ⊔ b)
-        isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 = isCoproduct:⊔
+  module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} where
+    instance
+      isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 : isCoproduct a b (a ⊔ b)
+      isCoproduct:⊔-⧜𝐒𝐮𝐛𝐬𝐭 = isCoproduct:⊔
 
 
 
