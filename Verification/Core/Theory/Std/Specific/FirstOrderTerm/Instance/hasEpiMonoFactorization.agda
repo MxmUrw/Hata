@@ -131,8 +131,6 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
 
     -- we can remove unused metavariables
     abstract
-      myf : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} -> (⟨ a ⟩ ⋆ ⟨ b ⟩ ⟶ ⟨ a ⊔ b ⟩)
-      myf = {!!}
 
       mutual
         prop-3s : ∀{a bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} (f : CtxHom (𝒯⊔Term Σ) ⟨ a ⟩ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩))
@@ -157,14 +155,15 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
 
           in ⦗ f' , g' ⦘ , lem-3 ∙ lem-4
 
+
         prop-3 : ∀{bₐ bₓ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} {a} (f : 𝒯⊔Term Σ (⟨ bₐ ⟩ ⋆ ⟨ bₓ ⟩) a)
                 -> (∀{i} -> (bₓ∍i : ⟨ bₓ ⟩ ∍ i) -> ¬ (f ∋ right-∍ bₓ∍i))
                 -> ∑ λ (f' : 𝒯⊔Term Σ ⟨ bₐ ⟩ a) -> (asArr f') ◆ ι₀ ∼ asArr f
         prop-3 (var (right-∍ x)) ¬right = impossible (¬right x (var (right-∍ x)))
-        prop-3 (var (left-∍ x)) ¬right = (var x) , abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 ⁻¹ ∙ lem-1
-          where
-            lem-1 : (asArr (var x) ◆-⧜𝐒𝐮𝐛𝐬𝐭 ι₀) ∼ asArr (var (left-∍ x))
-            lem-1 = {!!}
+        prop-3 (var (left-∍ x)) ¬right = (var x) , abstract-◆-⧜𝐒𝐮𝐛𝐬𝐭 ⁻¹ ∙ cong-Str ⧜subst (cong-Str incl {!!}) -- lem-1
+          -- where
+          --   lem-1 : (asArr (var x) ◆-⧜𝐒𝐮𝐛𝐬𝐭 ι₀) ∼ asArr (var (left-∍ x))
+          --   lem-1 = {!!}
 
         prop-3 (con c x) ¬right =
           let f , fp = prop-3s x λ bₓ∍i x₁ → ¬right bₓ∍i (con c x₁)
@@ -223,10 +222,18 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
         ϕ⁻¹ = ⦗ map-⨆ᶠ ιb₀f , map-⨆ᶠ ιb₁f ⦘
 
         ϕ' : (⨆ᶠ bF) ≅ (b₀ ⊔ b₁)
-        ϕ' = {!!}
+        ϕ' = ϕ since record { inverse-◆ = ϕ⁻¹ ; inv-r-◆ = {!!} ; inv-l-◆ = {!!} }
+
+        ρ₀ : b ⟶ ⨆ᶠ bF
+        ρ₀ = surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (incl (lem-1 {b = ⟨ b ⟩}))
+          where
+            lem-1 : ∀{b} -> (i : Sort Σ) → b ∍ i → 𝒯⊔Term Σ ⟨ ⨆ᶠᵘ (indexed (λ (x : [ b ]ᶠ) → incl (incl (fst x)))) ⟩ i
+            lem-1 {incl x₁} i x = var x
+            lem-1 {b ⋆-⧜ b₂} i (right-∍ x) = {!!}
+            lem-1 {b ⋆-⧜ b₂} i (left-∍ x) = {!!}
 
         ρ : b ≅ ⨆ᶠ bF
-        ρ = {!!}
+        ρ = ρ₀ since {!!}
 
         f' : a ⟶ b₀ ⊔ b₁
         f' = f ◆ ⟨ (ρ ∙-≅ ϕ') ⟩
@@ -239,7 +246,7 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
       image factorize-𝕋× = b₀
       rest factorize-𝕋× = b₁
       splitting factorize-𝕋× = sym-≅ (ρ ∙-≅ ϕ')
-      epiHom factorize-𝕋× = {!!}
+      epiHom factorize-𝕋× = f'e
       isEpi:epiHom factorize-𝕋× = {!!}
       factors factorize-𝕋× = {!!}
 

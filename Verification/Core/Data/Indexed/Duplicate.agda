@@ -1,7 +1,7 @@
 
 module Verification.Core.Data.Indexed.Duplicate where
 
-open import Verification.Core.Conventions
+open import Verification.Core.Conventions hiding (_⊔_)
 
 open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.List.Variant.Binary.Element.Definition
@@ -106,6 +106,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
   coadj-写 {◌-⧜} a = intro-⊤
 
   module _ {n} where
+
     instance
       isAdjoint:写,⨅ᶠ : 写 ⊣ (⨅ᶠ {n})
       isAdjoint.adj isAdjoint:写,⨅ᶠ = adj-写
@@ -116,7 +117,7 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
       isAdjoint.reduce-adj isAdjoint:写,⨅ᶠ = {!!}
 
     instance
-      preservesCoequalizers:写 : preservesCoequalizers 写
+      preservesCoequalizers:写 : preservesCoequalizers (写 {𝒞' = ⟨ 𝒞 ⟩} {{of 𝒞}} {I = [ n ]ᶠ})
       preservesCoequalizers:写 = preservesCoequalizers:byLeftAdjoint
 
 --------------------------------------------------------------
@@ -125,10 +126,11 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteProducts 𝒞}} {A : 𝒰 𝑗} w
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {A : 𝒰 𝑗} where
 
 
+
   ⨆ᶠᵘ : ∀{n : ⋆List A} -> 𝐈𝐱 [ n ]ᶠ 𝒞 -> ⟨ 𝒞 ⟩
   ⨆ᶠᵘ {incl x} a = ix a (x , incl)
-  ⨆ᶠᵘ {n ⋆-⧜ n₁} a = {!!}
-  ⨆ᶠᵘ {◌-⧜} a = {!!}
+  ⨆ᶠᵘ {x ⋆-⧜ y} a = ⨆ᶠᵘ {x} (indexed (λ (_ , p) → a ⌄ (_ , left-∍ p))) ⊔ ⨆ᶠᵘ {y} (indexed (λ (_ , p) → a ⌄ (_ , right-∍ p)))
+  ⨆ᶠᵘ {◌-⧜} a = ⊥
 
   module _ {n : ⋆List A} where
     macro ⨆ᶠ = #structureOn (⨆ᶠᵘ {n})

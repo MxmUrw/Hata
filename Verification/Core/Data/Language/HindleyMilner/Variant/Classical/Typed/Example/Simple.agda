@@ -17,6 +17,7 @@ open import Verification.Core.Data.Language.HindleyMilner.Helpers
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductCategory
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.RelativeMonad
+open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Instance.hasEpiMonoFactorization
 
 
 infixr 30 _⇒₃_
@@ -33,7 +34,7 @@ instance
   isℒHMTypeCtx.isCategory:ℒHMTypeCtx isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = it
   isℒHMTypeCtx.hasCoproducts:ℒHMTypeCtx isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = it
   isℒHMTypeCtx.hasUnification:ℒHMTypeCtx isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = it
-  isℒHMTypeCtx.hasSplitEpiMonoFactorization:ℒHMTypeCtx isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = {!it!}
+  isℒHMTypeCtx.hasSplitEpiMonoFactorization:ℒHMTypeCtx isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = it
   isℒHMTypeCtx.∼→≡ isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = ≡-Str→≡
   isℒHMTypeCtx.μκᵘ isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term = incl (incl tt)
   (isℒHMTypeCtx:𝐒𝐮𝐛𝐬𝐭𝒯⊔Term isℒHMTypeCtx.⇒ᵘ ⧜subst (incl f)) (⧜subst (incl g)) = ⧜subst (incl $ f ⇒₃ f)

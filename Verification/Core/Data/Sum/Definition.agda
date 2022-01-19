@@ -93,6 +93,29 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} where
     -- isInjective-𝒰.injective (isInjective-𝒰:either {f} {g}) {left x} {left x₁} p = cong-Str left (injective (injective {{isInjective-𝒰:left}} p))
     -- isInjective-𝒰.injective (isInjective-𝒰:either {f} {g}) {just x} {just x₁} p = cong-Str right (injective (injective {{isInjective-𝒰:right}} p))
 
+
+module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isSetoid {𝑖₁} A}} {{_ : isSetoid {𝑗₁} B}} where
+  instance
+    isSetoid:+ : isSetoid (A + B)
+    isSetoid:+ = isSetoid:byDef
+      (λ {(left a) (left b)  → Lift {𝑖₁ ､ 𝑗₁} {𝑖₁} (a ∼ b)
+         ;(left a) (right b) → ⊥-𝒰
+         ;(right a) (left b) → ⊥-𝒰
+         ;(right a) (right b) → Lift {𝑖₁ ､ 𝑗₁} {𝑗₁} (a ∼ b)
+         })
+      (λ { {left a}  → ↥ refl
+         ; {right a} → ↥ refl
+         })
+      {!!}
+      {!!}
+
+
+-- isSetoid:byDef (λ (a₀ , b₀) (a₁ , b₁) -> (a₀ ∼ a₁) × (b₀ ∼ b₁))
+                 -- (refl , refl)
+                 -- (λ (p , q) -> (p ⁻¹ , q ⁻¹))
+                 -- (λ (p₀ , q₀) (p₁ , q₁) -> (p₀ ∙ p₁ , q₀ ∙ q₁))
+
+
 {-
   isInjective:left : ∀{a b : A} -> left {B = B} a ≡ left b -> a ≡ b
   isInjective:left {a = a} p = cong (cancel-left a) p

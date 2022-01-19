@@ -48,12 +48,11 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {F : Functor 𝒞 𝒟} {
       _⊔'_ a b = eso (⟨ F ⟩ a ⊔ ⟨ F ⟩ b)
 
       module _ {a b : ⟨ 𝒞 ⟩} where
-        abstract
-          lem-10 : isCoproduct a b (a ⊔' b)
-          lem-10 = isCoproduct:byFullyFaithfull (transp-≅-Coproduct p)
-            where
-              p : (⟨ F ⟩ a ⊔ ⟨ F ⟩ b) ≅ ⟨ F ⟩ (eso (⟨ F ⟩ a ⊔ ⟨ F ⟩ b))
-              p = sym-≅ inv-eso
+        lem-10 : isCoproduct a b (a ⊔' b)
+        lem-10 = isCoproduct:byFullyFaithfull (transp-≅-Coproduct p)
+          where
+            p : (⟨ F ⟩ a ⊔ ⟨ F ⟩ b) ≅ ⟨ F ⟩ (eso (⟨ F ⟩ a ⊔ ⟨ F ⟩ b))
+            p = sym-≅ inv-eso
 
       lem-20 : hasCoproducts 𝒞
       hasCoproducts._⊔_ lem-20 = _⊔'_

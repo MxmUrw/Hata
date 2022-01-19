@@ -12,14 +12,15 @@ open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Data.List.Variant.Binary.Definition
 open import Verification.Core.Data.List.Variant.Binary.Instance.Setoid
 open import Verification.Core.Category.Std.Groupoid.Definition
+open import Verification.Core.Category.Std.Groupoid.Definition
 
 module _ {A : 𝒰 𝑖} where
-  instance
-    isCategory:⋆List : isCategory {_ , _} (⋆List A)
-    isCategory:⋆List = isCategory:bySetoid
+  -- instance
+    -- isCategory:⋆List : isCategory {_ , _} (⋆List A)
+    -- isCategory:⋆List = isCategory:byDiscrete
 
-    isGroupoid:⋆List : isGroupoid (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A)
-    isGroupoid:⋆List = isGroupoid:bySetoid
+    -- isGroupoid:⋆List : isGroupoid (𝖥𝗋𝖾𝖾-𝐌𝐨𝐧 A)
+    -- isGroupoid:⋆List = isGroupoid:byDiscrete
 
 
   
