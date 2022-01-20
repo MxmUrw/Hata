@@ -64,6 +64,23 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {𝒟 : Categor
       hasFiniteCoproducts.hasInitial:this hasFiniteCoproducts:𝐑𝐞𝐊𝐥𝐬     = hasInitial:𝐑𝐞𝐊𝐥𝐬
       hasFiniteCoproducts.hasCoproducts:this hasFiniteCoproducts:𝐑𝐞𝐊𝐥𝐬  = hasCoproducts:𝐑𝐞𝐊𝐥𝐬
 
+    --------------------------------------------------------------
+    -- By construction now, the functor ι-𝐑𝐞𝐊𝐥𝐬 is finite coproduct preserving
+    --
+    module _ {a b : ⟨ 𝒞 ⟩} where
+      instance
+        preservesCoproduct:ι-𝐑𝐞𝐊𝐥𝐬 : preservesCoproduct (ι-𝐑𝐞𝐊𝐥𝐬 {T = T}) a b (a ⊔ b)
+        preservesCoproduct:ι-𝐑𝐞𝐊𝐥𝐬 = record
+          { preserve-ι₀ = refl
+          ; preserve-ι₁ = refl
+          }
+
+    instance
+      isFiniteCoproductPreserving:ι-𝐑𝐞𝐊𝐥𝐬 : isFiniteCoproductPreserving (ι-𝐑𝐞𝐊𝐥𝐬 {T = T})
+      isFiniteCoproductPreserving.preservesCoproducts:this isFiniteCoproductPreserving:ι-𝐑𝐞𝐊𝐥𝐬 = it
+      isFiniteCoproductPreserving.preservesInitial:this isFiniteCoproductPreserving:ι-𝐑𝐞𝐊𝐥𝐬 = {!!}
+
+
 
 
 

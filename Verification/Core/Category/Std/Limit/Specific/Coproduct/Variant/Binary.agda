@@ -129,6 +129,14 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
         P : isIso (hom f)
         P = record { inverse-◆ = g ; inv-r-◆ = lem-1 ; inv-l-◆ = lem-2 }
 
+  module _ {a b : 𝒞} {{_ : isInitial a}} {{_ : isInitial b}} where
+    ≅:byIsInitial : a ≅ b
+    ≅:byIsInitial = elim-⊥ since record
+      { inverse-◆ = elim-⊥
+      ; inv-r-◆ = expand-⊥ ∙ expand-⊥ ⁻¹
+      ; inv-l-◆ = expand-⊥ ∙ expand-⊥ ⁻¹
+      }
+
 
 
 record hasInitial (𝒞 : Category 𝑖) : 𝒰 𝑖 where

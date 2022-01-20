@@ -9,16 +9,17 @@ open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Category.Std.Functor.Instance.Category
 open import Verification.Core.Category.Std.Natural.Definition
 open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Category.Std.RelativeMonad.Definition
 
 -- module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
-module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗} {{_ : isCategory {𝑙} 𝒟'}} where
+module _ {C : 𝒰 𝑖} {{_ : isCategory {𝑘} C}} {D : 𝒰 𝑗} {{_ : isCategory {𝑙} D}} where
 
   private
     𝒞 : Category _
-    𝒞 = ′ 𝒞' ′
+    𝒞 = ′ C ′
     𝒟 : Category _
-    𝒟 = ′ 𝒟' ′
+    𝒟 = ′ D ′
 
   module _ {J : Functor 𝒞 𝒟}  where
     record RelativeKleisli (T : RelativeMonad J) : 𝒰 𝑖 where
@@ -101,12 +102,22 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗}
       isCategory._◈_ isCategory:RelativeKleisli        = {!!} -- λ p q -> incl $ lem-4 ⟨ p ⟩ ⟨ q ⟩
 
 
-    ι-𝐑𝐞𝐊𝐥𝐬ᵘ : ⟨ 𝒞 ⟩ -> 𝐑𝐞𝐊𝐥𝐬 T
+    --------------------------------------------------------------
+    -- The functor from the category 𝒞 to 𝐑𝐞𝐊𝐥𝐬 T
+    --
+    -- Note: There is a functor |ι : 𝒞 → 𝐑𝐞𝐊𝐥𝐬 T|,
+    --       but there is no |♮ : 𝐑𝐞𝐊𝐥𝐬 T → 𝒞|,
+    --       because even though the objects of |𝐑𝐞𝐊𝐥𝐬 T|
+    --       are from |𝒞|, the morphisms lie in |𝒟|,
+    --       so we cannot build that functor.
+    --
+
+    ι-𝐑𝐞𝐊𝐥𝐬ᵘ : C -> 𝐑𝐞𝐊𝐥𝐬 T
     ι-𝐑𝐞𝐊𝐥𝐬ᵘ x = incl x
 
     macro ι-𝐑𝐞𝐊𝐥𝐬 = #structureOn ι-𝐑𝐞𝐊𝐥𝐬ᵘ
 
-    map-ι-𝐑𝐞𝐊𝐥𝐬 : ∀{a b : ⟨ 𝒞 ⟩} -> (a ⟶ b) -> ι-𝐑𝐞𝐊𝐥𝐬 a ⟶ ι-𝐑𝐞𝐊𝐥𝐬 b
+    map-ι-𝐑𝐞𝐊𝐥𝐬 : ∀{a b : C} -> (a ⟶ b) -> ι-𝐑𝐞𝐊𝐥𝐬 a ⟶ ι-𝐑𝐞𝐊𝐥𝐬 b
     map-ι-𝐑𝐞𝐊𝐥𝐬 f = incl (map f ◆ repure)
 
     instance
@@ -116,5 +127,9 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑘} 𝒞'}} {𝒟' : 𝒰 𝑗}
       isFunctor.functoriality-id isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 = {!!}
       isFunctor.functoriality-◆ isFunctor:ι-𝐑𝐞𝐊𝐥𝐬 = {!!}
 
+    open import Verification.Core.Category.Std.Functor.EssentiallySurjective
+    instance
+      isEssentiallySurjective:ι-𝐑𝐞𝐊𝐥𝐬 : isEssentiallySurjective ι-𝐑𝐞𝐊𝐥𝐬
+      isEssentiallySurjective:ι-𝐑𝐞𝐊𝐥𝐬 = essentiallysurjective (λ x -> ⟨ x ⟩) refl-≅
 
 

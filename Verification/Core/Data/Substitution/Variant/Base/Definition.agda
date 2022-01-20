@@ -311,4 +311,12 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 
 -- //
 
+-----------------------------------------
+-- finite coproduct generated
+--
+  open import Verification.Core.Category.Std.Category.Structured.FiniteCoproductGenerated
+  instance
+    isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isFiniteCoproductGenerated (𝐒𝐮𝐛𝐬𝐭 T)}}
+                                        -> isFiniteCoproductGenerated (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 = {!isFiniteCoproductGenerated:byIsFiniteCoproductPreserving ♮-⧜𝐒𝐮𝐛𝐬𝐭!}
 

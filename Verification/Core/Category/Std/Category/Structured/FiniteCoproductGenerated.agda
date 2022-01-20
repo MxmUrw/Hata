@@ -5,6 +5,7 @@ open import Verification.Conventions hiding (_⊔_)
 open import Verification.Core.Set.Setoid
 open import Verification.Core.Category.Std.Category.Definition
 open import Verification.Core.Category.Std.Category.Instance.Category
+open import Verification.Core.Category.Std.Category.Instance.2Category
 open import Verification.Core.Category.Std.Morphism.Iso
 open import Verification.Core.Category.Std.Category.Structured.FiniteCoproduct.Definition
 
@@ -25,8 +26,13 @@ open import Verification.Core.Data.List.Variant.Binary.Natural
 -- Finite coproducts via category of functors
 
 open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Definition
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Instance.Functor
+open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Preservation.Definition
 open import Verification.Core.Category.Std.Functor.Definition
+open import Verification.Core.Category.Std.Functor.EssentiallySurjective
 open import Verification.Core.Category.Std.Functor.Instance.Category
+open import Verification.Core.Category.Std.Natural.Definition
+open import Verification.Core.Category.Std.Natural.Instance.Setoid
 
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
 
@@ -35,31 +41,120 @@ module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
   ⨆ᶠᵘ {a ⋆-⧜ b}  d = ⨆ᶠᵘ (leftᶠ ◆-𝐂𝐚𝐭 d) ⊔ ⨆ᶠᵘ (rightᶠ ◆-𝐂𝐚𝐭 d)
   ⨆ᶠᵘ {◌-⧜}      d = ⊥
 
+  -----------------------------------------
+  -- Properties of ⨆ᶠ
   module _ {n : 人ℕ} where
     macro ⨆ᶠ = #structureOn (⨆ᶠᵘ {n})
 
   ∼-⨆ᶠ:byPointwise : ∀{n : 人ℕ} -> {F G : 𝐅𝐮𝐧𝐜 [ n ]ᶠ 𝒞} -> (∀(i : [ n ]ᶠ) -> ⟨ F ⟩ i ≅ ⟨ G ⟩ i) -> ⨆ᶠ F ≅ ⨆ᶠ G
   ∼-⨆ᶠ:byPointwise = {!!}
 
-  module _ {n : 人ℕ} {F G : 𝐅𝐮𝐧𝐜 [ n ]ᶠ 𝒞} where
-    ⨆ᶠ≀ : (F ∼ G) -> ⨆ᶠ F ≅ ⨆ᶠ G
-    ⨆ᶠ≀ = {!!}
+  ⨆ᶠ≀ : {n : 人ℕ} {F G : 𝐅𝐮𝐧𝐜 [ n ]ᶠ 𝒞} -> (F ∼ G) -> ⨆ᶠ F ≅ ⨆ᶠ G
+  ⨆ᶠ≀ {incl x} {F} {G} p = ⟨ ⟨ p ⟩ ⟩ _ since record
+                         { inverse-◆ = ⟨ ⟨ p ⟩⁻¹ ⟩ _
+                         ; inv-r-◆ = ⟨ inv-r-◆ (of p) ⟩ _
+                         ; inv-l-◆ = ⟨ inv-l-◆ (of p) ⟩ _
+                         }
+  ⨆ᶠ≀ {m ⋆-⧜ n} {F} {G} p = ⨆ᶠ≀ (refl ≀◆≀-𝐂𝐚𝐭 p) ≀⊔≀ ⨆ᶠ≀ (refl ≀◆≀-𝐂𝐚𝐭 p)
+  ⨆ᶠ≀ {◌-⧜} {F} {G} p = refl-≅
+
+
+
+  --------------------------------------------------------------------------------
+  -- [Lemma]
+  -- | If a functor |F : 𝒞 → 𝒟| preserves coproducts, then it also
+  --   preserves |⨆ᶠ|.
+  -- //
+  -- [Proof]
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗}
+         {{_ : hasFiniteCoproducts 𝒞}} {{_ : hasFiniteCoproducts 𝒟}}
+         (F : Functor 𝒞 𝒟) {{_ : isFiniteCoproductPreserving F}}
+         where
+  preserves-⨆ᶠ : ∀{n} -> ∀{x : 𝐅𝐮𝐧𝐜 [ n ]ᶠ 𝒞} -> ⟨ F ⟩ (⨆ᶠ x) ≅ ⨆ᶠ (x ◆-𝐂𝐚𝐭 F)
+  preserves-⨆ᶠ {incl x₁} {x} = refl-≅
+  preserves-⨆ᶠ {n ⋆-⧜ n₁} {x} =
+    ⟨ F ⟩ (⨆ᶠ (leftᶠ ◆-𝐂𝐚𝐭 x) ⊔ ⨆ᶠ (rightᶠ ◆-𝐂𝐚𝐭 x))
+
+    ⟨ preserves-⊔ ⟩-≅
+
+    (⟨ F ⟩ (⨆ᶠ (leftᶠ ◆-𝐂𝐚𝐭 x)) ⊔ (⟨ F ⟩ (⨆ᶠ (rightᶠ ◆-𝐂𝐚𝐭 x))))
+
+    ⟨ preserves-⨆ᶠ ≀⊔≀ preserves-⨆ᶠ ⟩-≅
+
+    ((⨆ᶠ (leftᶠ ◆-𝐂𝐚𝐭 x ◆-𝐂𝐚𝐭 F)) ⊔ (⨆ᶠ (rightᶠ ◆-𝐂𝐚𝐭 x ◆-𝐂𝐚𝐭 F)))
+
+    ⟨ ⨆ᶠ≀ assoc-l-◆-𝐂𝐚𝐭 ≀⊔≀ ⨆ᶠ≀ assoc-l-◆-𝐂𝐚𝐭 ⟩-≅
+
+    ⨆ᶠ (x ◆-𝐂𝐚𝐭 F)
+
+    ∎-≅
+
+  -- preserves-⊔ ∙-≅ ({!!} ≀⊔≀ {!!})
+  preserves-⨆ᶠ {◌-⧜} {x} = preserves-⊥
+
+  -- //
 
 
 
 
 
 
+module _ (𝒞 : Category 𝑖) {{_ : hasFiniteCoproducts 𝒞}} where
+  record isFiniteCoproductGenerated : 𝒰 𝑖 where
+    -- constructor isFiniteCoproductGenerated:byDefinition
+    field fcgSize : ⟨ 𝒞 ⟩ -> 人ℕ
+    field fcg : (a : ⟨ 𝒞 ⟩) -> 𝐅𝐮𝐧𝐜 [ fcgSize a ]ᶠ 𝒞
+    field fcgIso : ∀ (a : ⟨ 𝒞 ⟩) -> a ≅ ⨆ᶠ (fcg a)
+
+  open isFiniteCoproductGenerated {{...}} public
 
 
 
-record isFiniteCoproductGenerated (𝒞 : FiniteCoproductCategory 𝑖) : 𝒰 𝑖 where
-  -- constructor isFiniteCoproductGenerated:byDefinition
-  field fcgSize : ⟨ 𝒞 ⟩ -> 人ℕ
-  field fcg : (a : ⟨ 𝒞 ⟩) -> 𝐅𝐮𝐧𝐜 [ fcgSize a ]ᶠ (↳ 𝒞)
-  field fcgIso : ∀ (a : ⟨ 𝒞 ⟩) -> a ≅ ⨆ᶠ (fcg a)
+--------------------------------------------------------------
+-- Properties of FCG
 
--- open isFiniteCoproductGenerated {{...}} public
+-- [Lemma]
+-- | If there is a coproduct preserving, eso functor |𝒞 → 𝒟|,
+--   and |𝒞| is FCG, then so is |𝒟|.
+--
+-- //
+-- [Proof]
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}} {{_ : hasFiniteCoproducts 𝒟}} (F : Functor 𝒞 𝒟) where
+  module _ {{_ : isFiniteCoproductPreserving F}} {{_ : isEssentiallySurjective F}} where
+    module _ {{_ : isFiniteCoproductGenerated 𝒞}} where
+      private
+        fcg'Size : ⟨ 𝒟 ⟩ -> 人ℕ
+        fcg'Size a = fcgSize (eso a)
 
+        fcg' : (a : ⟨ 𝒟 ⟩) → Functor [ fcg'Size a ]ᶠ 𝒟
+        fcg' a = fcg (eso a) ◆-𝐂𝐚𝐭 F
+
+        fcg'Iso : (a : ⟨ 𝒟 ⟩) → a ≅ ⨆ᶠ (fcg' a)
+        fcg'Iso a = a
+
+                    ⟨ sym-≅ inv-eso ⟩-≅
+
+                    ⟨ F ⟩ (eso a)
+
+                    ⟨ cong-≅ (fcgIso (eso a)) ⟩-≅
+
+                    ⟨ F ⟩ (⨆ᶠ (fcg (eso a)))
+
+                    ⟨ preserves-⨆ᶠ F ⟩-≅
+
+                    ⨆ᶠ (fcg' a)
+
+                    ∎-≅
+
+      isFiniteCoproductGenerated:byIsFiniteCoproductPreserving : isFiniteCoproductGenerated 𝒟
+      isFiniteCoproductGenerated:byIsFiniteCoproductPreserving = record
+        { fcgSize = fcg'Size
+        ; fcg = fcg'
+        ; fcgIso = fcg'Iso
+        }
+
+
+
+-- //
 
 
