@@ -31,10 +31,6 @@ open import Verification.Core.Category.Std.Category.Construction.Coproduct
 open import Verification.Core.Category.Std.Category.Structured.FiniteCoproductGenerated
 
 
-module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} where
-  module _ {a b c d : ⟨ 𝒞 ⟩} where
-    _≀⊔≀_ : (a ≅ b) -> (c ≅ d) -> (a ⊔ c ≅ b ⊔ d)
-    _≀⊔≀_ = {!!}
 
 module §-eval-⋆ᶠ where
   module _ {as bs : 人ℕ} {𝒞 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}} {F : Functor ([ as ]ᶠ +-𝐂𝐚𝐭 [ bs ]ᶠ) 𝒞} where
@@ -55,7 +51,27 @@ module _ {I : 𝒰 𝑖} where
 
     fcg'Iso : (a : ⋆List I) -> incl a ≅ ⨆ᶠ (fcg' a)
     fcg'Iso (incl x) = refl-≅
-    fcg'Iso (a ⋆-⧜ a₁) = {!!}
+    fcg'Iso (a ⋆-⧜ b) =
+         incl (a ⋆-⧜ b)
+
+         ⟨  fcg'Iso a ≀⊔≀ fcg'Iso b ⟩-≅
+
+         ⨆ᶠ (fcg' a) ⊔ ⨆ᶠ (fcg' b)
+
+         ⟨ ⨆ᶠ≀ (sym-≅ reduce-ι₀-𝐂𝐚𝐭) ≀⊔≀ ⨆ᶠ≀ (sym-≅ reduce-ι₁-𝐂𝐚𝐭) ⟩-≅
+
+         ⨆ᶠ (ι₀-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭) ⊔ ⨆ᶠ (ι₁-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭)
+
+         ⟨ sym-≅ (§-eval-⋆ᶠ.prop-1) ⟩-≅
+
+         ⨆ᶠ (eval-⋆ᶠ ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭)
+
+         ⟨ refl-≅ ⟩-≅
+
+         ⨆ᶠ (fcg' (a ⋆-⧜ b))
+
+         ∎-≅
+
     fcg'Iso ◌-⧜ = refl-≅ -- refl-≅
 
 
@@ -63,14 +79,9 @@ module _ {I : 𝒰 𝑖} where
     isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 : isFiniteCoproductGenerated (𝐅𝐢𝐧𝐈𝐱 I)
     isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 = record
       { fcgSize = λ x -> fcg'Size ⟨ x ⟩
-      ; fcg = {!!}
-      ; fcgIso = {!!}
+      ; fcg = λ x -> fcg' ⟨ x ⟩
+      ; fcgIso = λ x -> fcg'Iso ⟨ x ⟩
       }
-    -- isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 = record
-    --   { fcgSize = λ x -> size ⟨ x ⟩
-    --   ; fcg = λ x -> fcg' ⟨ x ⟩
-    --   ; fcgIso = λ x -> fcg'Iso ⟨ x ⟩
-    --   }
 
 
 

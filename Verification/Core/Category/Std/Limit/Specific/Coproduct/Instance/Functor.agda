@@ -131,3 +131,17 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} {{_ : hasCoproducts �
 
         in lem-3
 
+  --------------------------------------------------------------
+  -- with isos
+
+  open import Verification.Core.Category.Std.Morphism.Iso
+
+  module _ {a b c d : 𝒞} where
+    _≀⊔≀_ : (a ≅ b) -> (c ≅ d) -> (a ⊔ c ≅ b ⊔ d)
+    _≀⊔≀_ p q = ⟨ p ⟩ ⇃⊔⇂ ⟨ q ⟩ since record
+              { inverse-◆ = ⟨ p ⟩⁻¹ ⇃⊔⇂ ⟨ q ⟩⁻¹
+              ; inv-r-◆ = functoriality-◆-⊔ ⁻¹ ∙ ((inv-r-◆ (of p) ≀⇃⊔⇂≀ inv-r-◆ (of q)) ∙ functoriality-id-⊔)
+              ; inv-l-◆ = functoriality-◆-⊔ ⁻¹ ∙ ((inv-l-◆ (of p) ≀⇃⊔⇂≀ inv-l-◆ (of q)) ∙ functoriality-id-⊔)
+              }
+
+

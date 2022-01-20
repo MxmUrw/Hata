@@ -70,5 +70,22 @@ module _ {𝒞 : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞}} where
 
 -- //
 
+-- [Hide]
+-- | Equation syntax for ≅
 
+module _ {A : 𝒰 𝑖} {{_ : isCategory {𝑗} A}} where
+  _⟨_⟩-≅_ : (x : A) {y : A} {z : A} → x ≅ y → y ≅ z → x ≅ z
+  _ ⟨ x≡y ⟩-≅ y≡z = x≡y ∙-≅ y≡z
+
+  ⟨⟩-≅-syntax : (x : A) {y z : A} → x ≅ y → y ≅ z → x ≅ z
+  ⟨⟩-≅-syntax = _⟨_⟩-≅_
+  infixr 2 ⟨⟩-≅-syntax
+  infixr 2 _⟨_⟩-≅_
+
+  infix  3 _∎-≅
+
+  _∎-≅ : (x : A) → x ≅ x
+  _ ∎-≅ = refl-≅
+
+-- //
 

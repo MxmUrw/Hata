@@ -140,6 +140,38 @@ module _ {A : 𝒰 𝑖} {B : 𝒰 𝑗} {{_ : isCategory {𝑖₁} A}} {{_ : is
     ⦗_⦘-𝐂𝐚𝐭 : Functor (𝒜 + ℬ) 𝒞
     ⦗_⦘-𝐂𝐚𝐭 = ′ ⦗_⦘ᵘ-𝐂𝐚𝐭 ′
 
+  module _ {𝒞 : Category 𝑘} {F : Functor 𝒜 𝒞} {G : Functor ℬ 𝒞} where
+    --
+    -- The injections ι₀-𝐂𝐚𝐭 , ι₁-𝐂𝐚𝐭 are trivial. They are also trivially natural isos.
+    --
+
+    reduceᵘ-ι₀-𝐂𝐚𝐭 : Natural (ι₀-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ F , G ⦘-𝐂𝐚𝐭) F
+    reduceᵘ-ι₀-𝐂𝐚𝐭 = (λ _ -> id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹)
+
+    macro reduce-ι₀-𝐂𝐚𝐭 = #structureOn reduceᵘ-ι₀-𝐂𝐚𝐭
+
+    instance
+      isIso:reduce-ι₀-𝐂𝐚𝐭 : isIso (hom reduceᵘ-ι₀-𝐂𝐚𝐭)
+      isIso:reduce-ι₀-𝐂𝐚𝐭 = record
+        { inverse-◆ = (λ _ → id) since natural (λ f -> unit-l-◆ ∙ unit-r-◆ ⁻¹)
+        ; inv-r-◆ = componentwise (λ x → unit-2-◆)
+        ; inv-l-◆ = componentwise (λ x → unit-2-◆)
+        }
+
+
+    reduceᵘ-ι₁-𝐂𝐚𝐭 : Natural (ι₁-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ F , G ⦘-𝐂𝐚𝐭) G
+    reduceᵘ-ι₁-𝐂𝐚𝐭 = (λ _ -> id) since natural (λ f → unit-l-◆ ∙ unit-r-◆ ⁻¹)
+
+    macro reduce-ι₁-𝐂𝐚𝐭 = #structureOn reduceᵘ-ι₁-𝐂𝐚𝐭
+
+    instance
+      isIso:reduce-ι₁-𝐂𝐚𝐭 : isIso (hom reduceᵘ-ι₁-𝐂𝐚𝐭)
+      isIso:reduce-ι₁-𝐂𝐚𝐭 = record
+        { inverse-◆ = (λ _ → id) since natural (λ f -> unit-l-◆ ∙ unit-r-◆ ⁻¹)
+        ; inv-r-◆ = componentwise (λ x → unit-2-◆)
+        ; inv-l-◆ = componentwise (λ x → unit-2-◆)
+        }
+
 --
 -- Old implementation here:
 --
