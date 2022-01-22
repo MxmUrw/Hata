@@ -196,12 +196,16 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
   surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ι a ⟶ ι b -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b
   surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f = ⧜subst (construct-⋆Listᴰ ⟨ f ⟩)
 
+  instance
+    isSetoidHom:surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isSetoidHom (ι a ⟶ ι b) ′(Hom-⧜𝐒𝐮𝐛𝐬𝐭' a b)′ surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+    isSetoidHom:surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = record { cong-∼ = λ {(incl p) → ≡→≡-Str (λ i -> ⧜subst (construct-⋆Listᴰ (funExt p i))) } }
+
   inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> ∀{f : ι a ⟶ ι b} -> map-ι-⧜𝐒𝐮𝐛𝐬𝐭 (surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 f) ∼ f
   inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = incl (funExt⁻¹ (inv-l-◆-construct-⋆Listᴰ _))
 
   instance
     isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {a} {b})
-    isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
+    isSurjective:map-ι-⧜𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭 {{isSetoidHom:surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭}} inv-surj-map-ι-⧜𝐒𝐮𝐛𝐬𝐭
 
   abstract
     内id-⧜𝐒𝐮𝐛𝐬𝐭 : ∀{a : ⧜𝐒𝐮𝐛𝐬𝐭 T} -> Hom-⧜𝐒𝐮𝐛𝐬𝐭' a a
@@ -312,11 +316,19 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 -- //
 
 -----------------------------------------
+-- isomorphism between this category and the
+-- non-inductively defined one
+  open import Verification.Core.Category.Std.Functor.Equivalence
+  instance
+    isIso-𝐂𝐚𝐭:ι-⧜𝐒𝐮𝐛𝐬𝐭 : isIso-𝐂𝐚𝐭 ι-⧜𝐒𝐮𝐛𝐬𝐭
+    isIso-𝐂𝐚𝐭:ι-⧜𝐒𝐮𝐛𝐬𝐭 = isIso-𝐂𝐚𝐭:byFFEso
+
+-----------------------------------------
 -- finite coproduct generated
 --
   open import Verification.Core.Category.Std.Category.Structured.FiniteCoproductGenerated
   instance
     isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isFiniteCoproductGenerated (𝐒𝐮𝐛𝐬𝐭 T)}}
                                         -> isFiniteCoproductGenerated (⧜𝐒𝐮𝐛𝐬𝐭 T)
-    isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 = {!isFiniteCoproductGenerated:byIsFiniteCoproductPreserving ♮-⧜𝐒𝐮𝐛𝐬𝐭!}
+    isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 = isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 (sym-≅-𝐂𝐚𝐭 ι-⧜𝐒𝐮𝐛𝐬𝐭)
 
