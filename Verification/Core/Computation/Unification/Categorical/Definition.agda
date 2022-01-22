@@ -342,7 +342,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} where
           ; ideal-pt = incl (transp-Ideal (absorb-r-◆ ⁻¹) ideal-pt)
           }
 
-  inv-↷-r : {a b : 𝒞} {f : a ⟶ b} -> {I : Ideal a} -> f ↷ (f ⁻¹↷ I) ∼ I ∧ (f ↷ ⊤)
+  inv-↷-r : {a b : 𝒞} {f : a ⟶ b} -> {I : Ideal a} -> f ↷ (f ⁻¹↷ I) ∼ I ∧ (f ↷ ⊤-Ideal)
   inv-↷-r {a} {b} {f} {I} = antisym
     (incl (λ h (incl (e , incl e∈f⁻¹I , fe∼h)) → transp-Ideal (fe∼h) (e∈f⁻¹I)  , (incl (e , (tt , fe∼h)))))
     (incl λ h (h∈I , incl (e , tt , fe∼h)) → incl (e , (incl (transp-Ideal (fe∼h ⁻¹) h∈I) , fe∼h)))
@@ -370,7 +370,7 @@ module _ {𝒞' : 𝐙𝐌𝐂𝐚𝐭 𝑖} {{_ : isSizedCategory ′ ⟨ 𝒞'
     record isEpiPrincipal (I : Ideal a) : 𝒰 (𝑖) where
       field repObj : 𝒞
       field rep : a ⟶ repObj
-      field principal-r : I ∼ rep ↷ ⊤
+      field principal-r : I ∼ rep ↷ ⊤-Ideal
       field isGoodRep : isGood rep
       field zeroOrEpi : isZeroOrEpi rep
       -- field factorPrinc : ∀{x} -> (f : a ⟶ x) -> ⟨ I ⟩ f -> ∑ λ (g : repObj ⟶ x) -> f ∼ rep ◆ g

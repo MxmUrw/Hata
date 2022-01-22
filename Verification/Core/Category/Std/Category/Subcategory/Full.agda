@@ -126,6 +126,7 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞'}} where
     instance
       isFull:𝑓𝑢𝑙𝑙 : isFull (𝑓𝑢𝑙𝑙 𝒞 ι)
       isSurjective.surj (isFull.isSurjective:map isFull:𝑓𝑢𝑙𝑙)     = λ x → incl x
+      isSurjective.isSetoidHom:surj (isFull.isSurjective:map isFull:𝑓𝑢𝑙𝑙) = {!!}
       isSurjective.inv-surj (isFull.isSurjective:map isFull:𝑓𝑢𝑙𝑙) = refl
 
     instance

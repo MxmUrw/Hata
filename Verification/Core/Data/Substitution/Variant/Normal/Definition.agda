@@ -181,7 +181,7 @@ module _ {I : 𝒰 𝑖} {T' : RelativeMonad (𝑓𝑖𝑛 I)} where
 
   instance
     isSurjective:map-ι-♮𝐒𝐮𝐛𝐬𝐭 : ∀{a b : ♮𝐒𝐮𝐛𝐬𝐭 T} -> isSurjective (map-ι-♮𝐒𝐮𝐛𝐬𝐭 {a} {b})
-    isSurjective:map-ι-♮𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 inv-surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭
+    isSurjective:map-ι-♮𝐒𝐮𝐛𝐬𝐭 = surjective surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭 {{?}} inv-surj-map-ι-♮𝐒𝐮𝐛𝐬𝐭
 
 
 

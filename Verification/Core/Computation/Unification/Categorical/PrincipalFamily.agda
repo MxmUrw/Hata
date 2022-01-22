@@ -83,12 +83,12 @@ module _ (𝒞 : 𝒰 𝑖)
           v : repObjOf U ⟶ repObjOf V'
           v = repOf V'
 
-          P₈ : (V ∧ U) ∼ (u ◆ v) ↷ ⊤
+          P₈ : (V ∧ U) ∼ (u ◆ v) ↷ ⊤-Ideal
           P₈ = V ∧ U                                          ⟨ refl ≀∧≀ principal-r ⟩-∼
-                (V ∧ (u ↷ ⊤))                                 ⟨ inv-↷-r ⁻¹ ⟩-∼
+                (V ∧ (u ↷ ⊤-Ideal))                                 ⟨ inv-↷-r ⁻¹ ⟩-∼
                 (u ↷ ((u ⁻¹↷ V)))                              ⟨ refl ≀↷≀ (principal-r)  ⟩-∼
-                (u ↷ ((v ↷ ⊤)))                                ⟨ assoc-l-↷ ⁻¹ ⟩-∼
-                ((u ◆ v) ↷ ⊤)                                   ∎
+                (u ↷ ((v ↷ ⊤-Ideal)))                                ⟨ assoc-l-↷ ⁻¹ ⟩-∼
+                ((u ◆ v) ↷ ⊤-Ideal)                                   ∎
 
       in record
          { repObj = _

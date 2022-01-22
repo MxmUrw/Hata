@@ -158,3 +158,28 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts
 -- //
 
 
+
+open import Verification.Core.Category.Std.Functor.Equivalence
+-- [Corollary]
+-- | If there is an equivalence of categories |F : 𝒞 ≅ 𝒟|, and |𝒞| is cfg, then so is |𝒟|.
+-- //
+
+-- [Proof]
+module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}} {{_ : hasFiniteCoproducts 𝒟}} (Fp : 𝒞 ≅-𝐂𝐚𝐭 𝒟) where
+  module _ {{_ : isFiniteCoproductGenerated 𝒞}} where
+    private
+      F : Functor 𝒞 𝒟
+      F = ′ ⟨ Fp ⟩ ′
+
+    isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 : isFiniteCoproductGenerated 𝒟
+    isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 = isFiniteCoproductGenerated:byIsFiniteCoproductPreserving F
+      where
+        instance
+          P-0 : isFiniteCoproductPreserving F
+          P-0 = {!!}
+
+        instance
+          P-1 : isEssentiallySurjective F
+          P-1 = isEssentiallySurjective:byIsIso-𝐂𝐚𝐭
+
+-- //
