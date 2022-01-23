@@ -13,15 +13,18 @@ open import Verification.Core.Data.List.Variant.Binary.Instance.Monoid
 open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Universe.Instance.Category
+open import Verification.Core.Data.Universe.Instance.FiniteCoproductCategory
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Sum.Definition
 open import Verification.Core.Data.List.Variant.Unary.Definition
 
 open import Verification.Core.Category.Std.Category.Definition
+open import Verification.Core.Category.Std.Category.Discrete
 open import Verification.Core.Category.Std.Category.Structured.Monoidal.Definition
 open import Verification.Core.Category.Std.Functor.Definition
 open import Verification.Core.Category.Std.RelativeMonad.Definition
 open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Definition
+open import Verification.Core.Category.Std.RelativeMonad.KleisliCategory.Instance.FiniteCoproductGenerated
 open import Verification.Core.Category.Std.Category.Subcategory.Definition
 open import Verification.Core.Category.Std.Morphism.EpiMono
 open import Verification.Core.Category.Std.Morphism.Iso
@@ -31,16 +34,21 @@ open import Verification.Core.Category.Std.Functor.Adjoint
 -- for coproducts of ⧜𝐒𝐮𝐛𝐬𝐭
 -- open import Verification.Core.Category.Std.Limit.Specific.Coproduct.Reflection.Definition
 
-open import Verification.Core.Data.Indexed.Duplicate
+-- open import Verification.Core.Data.Indexed.Duplicate
 
 open import Verification.Core.Data.List.Variant.Binary.Natural
 open import Verification.Core.Data.Indexed.Definition
 open import Verification.Core.Data.Indexed.Instance.Monoid
+open import Verification.Core.Data.Indexed.Instance.FiniteCoproductCategory
 open import Verification.Core.Data.FiniteIndexed.Definition
+open import Verification.Core.Data.FiniteIndexed.Instance.FiniteCoproductGenerated
 open import Verification.Core.Data.Renaming.Definition
 open import Verification.Core.Data.Renaming.Instance.CoproductMonoidal
 open import Verification.Core.Data.Substitution.Variant.Base.Definition
 open import Verification.Core.Data.List.Dependent.Variant.Binary.Definition
+open import Verification.Core.Data.List.Variant.Binary.Element.Definition
+open import Verification.Core.Data.List.Variant.Binary.ElementSum.Definition
+open import Verification.Core.Data.List.Variant.Binary.ElementSum.Instance.Category
 
 open import Verification.Core.Theory.Std.Generic.FormalSystem.Definition
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Definition
@@ -52,6 +60,7 @@ open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Element
 open import Verification.Core.Theory.Std.Specific.FirstOrderTerm.Unification.PCF.Occur
 
 open import Verification.Core.Category.Std.Factorization.EpiMono.Variant.Split.Definition
+open import Verification.Core.Category.Std.Category.Structured.FiniteCoproductGenerated
 
 record hasMembership {𝑘} {𝑖} {𝑗} (A : 𝒰 𝑖) (B : 𝒰 𝑗) : 𝒰 (𝑖 ､ 𝑗 ､ 𝑘 ⁺) where
   constructor hasMembership:byDef
@@ -174,44 +183,53 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
     module _ {a b : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)} {f : a ⟶ b} where
 
       private
-        abstract
-          β : (v : [ ⟨ b ⟩ ]ᶠ) -> isDecidable (⟨ f ⟩ ∋ snd v)
-          β (_ , v) = isFreeVars ⟨ f ⟩ v
+        bs = fcgSize b
+        b'ᵘ : [ bs ]ᶠ -> ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
+        b'ᵘ = ⟨ fcg b ⟩
+        macro b' = #structureOn b'ᵘ
 
+        abstract
+          β : (v : [ bs ]ᶠ) -> isDecidable (⟨ f ⟩ ∋ b' v)
+          β (member v) = isFreeVars ⟨ f ⟩ v
+
+        {-
         b₀f : [ ⟨ b ⟩ ]ᶠ -> ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
         b₀f x with β x
-        ... | (left _) = incl (incl (fst x))
+        ... | (left _) = incl (incl (getMemberSort x))
         ... | (right _) = ⊥
 
         b₁f : [ ⟨ b ⟩ ]ᶠ -> ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
         b₁f x with β x
         ... | (left _) = ⊥
-        ... | (right _) = incl (incl (fst x))
+        ... | (right _) = incl (incl (getMemberSort x))
 
-        ιbf : (v : [ ⟨ b ⟩ ]ᶠ) -> incl (incl (fst v)) ⟶ b₀f v ⊔ b₁f v
+        ιbf : (v : [ ⟨ b ⟩ ]ᶠ) -> incl (incl (getMemberSort v)) ⟶ b₀f v ⊔ b₁f v
         ιbf v with β v
         ... | left x = ι₀
         ... | just x = ι₁
 
-        ιb₀f : (v : [ ⟨ b ⟩ ]ᶠ) -> b₀f v ⟶ incl (incl (fst v))
+        ιb₀f : (v : [ ⟨ b ⟩ ]ᶠ) -> b₀f v ⟶ incl (incl (getMemberSort v))
         ιb₀f v with β v
         ... | left x = id
         ... | just x = elim-⊥
 
-        ιb₁f : (v : [ ⟨ b ⟩ ]ᶠ) -> b₁f v ⟶ incl (incl (fst v))
+        ιb₁f : (v : [ ⟨ b ⟩ ]ᶠ) -> b₁f v ⟶ incl (incl (getMemberSort v))
         ιb₁f v with β v
         ... | left x = elim-⊥
         ... | just x = id
 
         b₀ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
-        b₀ = ⨆ᶠ (indexed b₀f)
+        b₀ = ⨆ᶠ {!b₀f since isFunctor:byDiscrete!} -- (indexed b₀f)
 
         b₁ : ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)
-        b₁ = ⨆ᶠ (indexed b₁f)
+        b₁ = ⨆ᶠ {!!} -- (indexed b₁f)
 
         bF : 𝐈𝐱 [ ⟨ b ⟩ ]ᶠ (⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ))
-        bF = indexed (λ (x : [ ⟨ b ⟩ ]ᶠ) → incl (incl (fst x)))
+        bF = indexed (λ (x : [ ⟨ b ⟩ ]ᶠ) → incl (incl (getMemberSort x)))
+        -}
 
+      {-
+        {-
         ϕ : (⨆ᶠ bF) ⟶ (b₀ ⊔ b₁)
         ϕ = ⦗ ϕ' ⦘ᶠ
           where
@@ -240,13 +258,14 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
 
         f'e : a ⟶ b₀
         f'e = optimize-metas ⟨ f' ⟩ {!!} .fst
+        -}
 
 
       factorize-𝕋× : isSplitEpiMonoFactorizable f
       image factorize-𝕋× = b₀
       rest factorize-𝕋× = b₁
-      splitting factorize-𝕋× = sym-≅ (ρ ∙-≅ ϕ')
-      epiHom factorize-𝕋× = f'e
+      splitting factorize-𝕋× = ? -- sym-≅ (ρ ∙-≅ ϕ')
+      epiHom factorize-𝕋× = ? -- f'e
       isEpi:epiHom factorize-𝕋× = {!!}
       factors factorize-𝕋× = {!!}
 
@@ -257,6 +276,7 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
     hasSplitEpiMonoFactorization:𝐂𝐭𝐱-𝕋× : hasSplitEpiMonoFactorization (⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ))
     hasSplitEpiMonoFactorization:𝐂𝐭𝐱-𝕋× = record { factorize = λ _ -> factorize-𝕋× }
 
+-}
 
 
 

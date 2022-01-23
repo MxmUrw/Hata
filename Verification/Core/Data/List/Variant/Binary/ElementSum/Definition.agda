@@ -19,8 +19,10 @@ open import Verification.Core.Data.List.Variant.Binary.Element.Definition
 module _ {A : 𝒰 𝑖} where
   record [_]ᶠᵘ (as : ⋆List A) : 𝒰 𝑖 where
     constructor member
-    field {fst} : A
-    field snd : as ∍ fst
+    field {getMemberSort} : A
+    field getMember : as ∍ getMemberSort
+
+  open [_]ᶠᵘ public
 
   module _ (as : ⋆List A) where
     macro [_]ᶠ = #structureOn [ as ]ᶠᵘ

@@ -99,11 +99,14 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗}
 
 
 
-module _ (𝒞 : Category 𝑖) {{_ : hasFiniteCoproducts 𝒞}} where
-  record isFiniteCoproductGenerated : 𝒰 𝑖 where
+module _ (𝑗 : 𝔏) (𝒞 : Category 𝑖) {{_ : hasFiniteCoproducts 𝒞}} where
+  record isFiniteCoproductGenerated : 𝒰 (𝑖 ､ 𝑗 ⁺) where
     -- constructor isFiniteCoproductGenerated:byDefinition
+    field fcgProp : ⟨ 𝒞 ⟩ -> 𝒰 𝑗
+    field fcgPropIsoStable : ∀{a b : ⟨ 𝒞 ⟩} -> a ≅ b -> fcgProp a -> fcgProp b
     field fcgSize : ⟨ 𝒞 ⟩ -> 人ℕ
     field fcg : (a : ⟨ 𝒞 ⟩) -> 𝐅𝐮𝐧𝐜 [ fcgSize a ]ᶠ 𝒞
+    field fcgHasProp : ∀{a : ⟨ 𝒞 ⟩} -> ∀(i : [ fcgSize a ]ᶠ)-> fcgProp (⟨ fcg a ⟩ i)
     field fcgIso : ∀ (a : ⟨ 𝒞 ⟩) -> a ≅ ⨆ᶠ (fcg a)
 
   open isFiniteCoproductGenerated {{...}} public
@@ -121,10 +124,13 @@ module _ (𝒞 : Category 𝑖) {{_ : hasFiniteCoproducts 𝒞}} where
 -- [Proof]
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}} {{_ : hasFiniteCoproducts 𝒟}} (F : Functor 𝒞 𝒟) where
   module _ {{_ : isFiniteCoproductPreserving F}} {{_ : isEssentiallySurjective F}} where
-    module _ {{_ : isFiniteCoproductGenerated 𝒞}} where
+    module _ {{_ : isFiniteCoproductGenerated 𝑘 𝒞}} where
       private
         fcg'Size : ⟨ 𝒟 ⟩ -> 人ℕ
         fcg'Size a = fcgSize (eso a)
+
+        fcg'Prop : ⟨ 𝒟 ⟩ -> 𝒰 𝑘
+        fcg'Prop a = fcgProp (eso a)
 
         fcg' : (a : ⟨ 𝒟 ⟩) → Functor [ fcg'Size a ]ᶠ 𝒟
         fcg' a = fcg (eso a) ◆-𝐂𝐚𝐭 F
@@ -146,11 +152,19 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts
 
                     ∎-≅
 
-      isFiniteCoproductGenerated:byIsFiniteCoproductPreserving : isFiniteCoproductGenerated 𝒟
+      fcg'HasProp : {a : ⟨ 𝒟 ⟩} (i : [ fcg'Size a ]ᶠᵘ) → fcg'Prop (⟨ fcg' a ⟩ i)
+      fcg'HasProp {a} i =
+        let P = fcgHasProp {a = eso a} i
+        in {!!}
+
+      isFiniteCoproductGenerated:byIsFiniteCoproductPreserving : isFiniteCoproductGenerated 𝑘 𝒟
       isFiniteCoproductGenerated:byIsFiniteCoproductPreserving = record
         { fcgSize = fcg'Size
+        ; fcgProp = fcg'Prop
         ; fcg = fcg'
         ; fcgIso = fcg'Iso
+        ; fcgHasProp = {!!}
+        ; fcgPropIsoStable = {!!}
         }
 
 
@@ -166,12 +180,12 @@ open import Verification.Core.Category.Std.Functor.Equivalence
 
 -- [Proof]
 module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒞}} {{_ : hasFiniteCoproducts 𝒟}} (Fp : 𝒞 ≅-𝐂𝐚𝐭 𝒟) where
-  module _ {{_ : isFiniteCoproductGenerated 𝒞}} where
+  module _ {{_ : isFiniteCoproductGenerated 𝑘 𝒞}} where
     private
       F : Functor 𝒞 𝒟
       F = ′ ⟨ Fp ⟩ ′
 
-    isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 : isFiniteCoproductGenerated 𝒟
+    isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 : isFiniteCoproductGenerated 𝑘 𝒟
     isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 = isFiniteCoproductGenerated:byIsFiniteCoproductPreserving F
       where
         instance
