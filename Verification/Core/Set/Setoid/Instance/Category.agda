@@ -29,8 +29,8 @@ module _ {A : Setoid 𝑖} where
     isSetoidHom:id = {!!}
     -- isSetoidHom.preserves-∼ isSetoidHom:id p = p
 
-  id-Std : SetoidHom A A
-  id-Std = ′ id-𝒰 ′
+  id-𝐒𝐭𝐝 : SetoidHom A A
+  id-𝐒𝐭𝐝 = ′ id-𝒰 ′
 
 module _ {A : Setoid 𝑖} {B : Setoid 𝑗} {C : Setoid 𝑘}  where
   -- instance
@@ -38,8 +38,8 @@ module _ {A : Setoid 𝑖} {B : Setoid 𝑗} {C : Setoid 𝑘}  where
   isSetoidHom:◆ = {!!}
   -- isSetoidHom.preserves-∼ (isSetoidHom:◆ {f} {g}) p = preserves-∼ (preserves-∼ {{of f}} p)
 
-  _◆-Std_ : (f : SetoidHom A B) (g : SetoidHom B C) -> SetoidHom A C
-  _◆-Std_ f g = ′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{isSetoidHom:◆ {f = f} {g = g}}}
+  _◆-𝐒𝐭𝐝_ : (f : SetoidHom A B) (g : SetoidHom B C) -> SetoidHom A C
+  _◆-𝐒𝐭𝐝_ f g = ′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{isSetoidHom:◆ {f = f} {g = g}}}
 
 instance
   isCategory:Setoid : ∀{𝑗 : 𝔏 ^ 2} -> isCategory (Setoid 𝑗)
@@ -55,8 +55,8 @@ instance
   isCategory._◈_ isCategory:Setoid = {!!}
   -- isCategory.Hom' isCategory:Setoid = SetoidHom
   -- isCategory.isSetoid:Hom isCategory:Setoid = it
-  -- isCategory.id isCategory:Setoid = incl id-Std
-  -- isCategory._◆_ isCategory:Setoid f g = incl (⟨ f ⟩ ◆-Std ⟨ g ⟩)
+  -- isCategory.id isCategory:Setoid = incl id-𝐒𝐭𝐝
+  -- isCategory._◆_ isCategory:Setoid f g = incl (⟨ f ⟩ ◆-𝐒𝐭𝐝 ⟨ g ⟩)
   -- isCategory.unit-l-◆ isCategory:Setoid = {!!}
   -- isCategory.unit-r-◆ isCategory:Setoid = {!!}
   -- isCategory.unit-2-◆ isCategory:Setoid = {!!}
@@ -64,8 +64,11 @@ instance
   -- isCategory.assoc-r-◆ isCategory:Setoid = {!!}
   -- isCategory._◈_ isCategory:Setoid = {!!}
 
-Std : ∀(𝑖) -> Category _
-Std 𝑖 = ′ Setoid 𝑖 ′
+module _ (𝑖 : 𝔏 ^ 2) where
+  macro 𝐒𝐭𝐝 = #structureOn (Setoid 𝑖)
+
+-- Std : ∀(𝑖) -> Category _
+-- Std 𝑖 = ′ Setoid 𝑖 ′
 
   -- isCategory.Hom' (isCategory:Setoid {𝑗}) = SetoidHom
   -- isCategory.id (isCategory:Setoid {𝑗}) = {!!}
