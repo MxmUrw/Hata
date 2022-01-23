@@ -16,27 +16,10 @@ open import Verification.Core.Category.Std.Natural.Instance.Setoid
 open import Verification.Core.Category.Std.Functor.Representable2
 
 
-module _ {C : 𝒰 𝑖} {{_ : isCategory {𝑖₁} C}} {D : 𝒰 𝑗} {{_ : isCategory {𝑗₁} D}} where
-  private
-    𝒞 : Category _
-    𝒞 = ′ C ′
-
-    𝒟 : Category _
-    𝒟 = ′ D ′
-
-  map-Const : ∀{a b : D} -> a ⟶ b -> Const {𝒞 = 𝒞} {𝒟 = 𝒟} a ⟶ Const b
-  map-Const f = (λ _ → f) since natural (λ _ -> unit-r-◆ ∙ unit-l-◆ ⁻¹)
-
-  instance
-    isFunctor:Const : isFunctor 𝒟 (𝐅𝐮𝐧𝐜 𝒞 𝒟) (Const)
-    isFunctor.map isFunctor:Const = map-Const
-    isFunctor.isSetoidHom:map isFunctor:Const = {!!}
-    isFunctor.functoriality-id isFunctor:Const = {!!}
-    isFunctor.functoriality-◆ isFunctor:Const = {!!}
-
 
 module _ {𝒥 : Category 𝑖} {𝒞 : Category 𝑗} where
   record Cone (F : 𝐅𝐮𝐧𝐜 𝒥 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
+    constructor cone
     field pt : ⟨ 𝒞 ⟩
     field ◺ : Const pt ⟶ F
 
@@ -98,9 +81,15 @@ module _ {𝒥 : Category 𝑖} {𝒞 : Category 𝑗} where
       isCategory.assoc-r-◆ isCategory:Cone = incl assoc-r-◆
       isCategory._◈_ isCategory:Cone = λ p q -> incl (⟨ p ⟩ ◈ ⟨ q ⟩)
 
-  record hasConeLimit (F : 𝐅𝐮𝐧𝐜 𝒥 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
-    field rep : 𝐂𝐨𝐧𝐞 F
-    field {{isTerminal:rep}} : isTerminal rep
+  record isLimit (F : 𝐅𝐮𝐧𝐜 𝒥 𝒞) (rep : ⟨ 𝒞 ⟩) : 𝒰 (𝑖 ､ 𝑗) where
+    field limitCocone : Const rep ⟶ F
+    field limitUniversal : isTerminal (cone rep limitCocone)
+
+  open isLimit public
+
+  -- record hasLimit (F : 𝐅𝐮𝐧𝐜 𝒥 𝒞) : 𝒰 (𝑖 ､ 𝑗) where
+  --   field rep : 𝐂𝐨𝐧𝐞 F
+  --   field {{isTerminal:rep}} : isTerminal rep
 
 
 

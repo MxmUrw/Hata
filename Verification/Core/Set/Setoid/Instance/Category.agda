@@ -24,9 +24,10 @@ module _ {A B : Setoid 𝑖} where
 
 module _ {A : Setoid 𝑖} where
 
+
   instance
     isSetoidHom:id : isSetoidHom A A id-𝒰
-    isSetoidHom:id = {!!}
+    isSetoidHom:id = record { cong-∼ = λ p → p }
     -- isSetoidHom.preserves-∼ isSetoidHom:id p = p
 
   id-𝐒𝐭𝐝 : SetoidHom A A
@@ -35,8 +36,8 @@ module _ {A : Setoid 𝑖} where
 module _ {A : Setoid 𝑖} {B : Setoid 𝑗} {C : Setoid 𝑘}  where
   -- instance
   isSetoidHom:◆ : {f : SetoidHom A B} {g : SetoidHom B C} -> isSetoidHom A C (⟨ f ⟩ ◆-𝒰 ⟨ g ⟩)
-  isSetoidHom:◆ = {!!}
-  -- isSetoidHom.preserves-∼ (isSetoidHom:◆ {f} {g}) p = preserves-∼ (preserves-∼ {{of f}} p)
+  isSetoidHom:◆ {f} {g} = record { cong-∼ = λ p → cong-∼ {{of g}} (cong-∼ {{of f}} p) }
+
 
   _◆-𝐒𝐭𝐝_ : (f : SetoidHom A B) (g : SetoidHom B C) -> SetoidHom A C
   _◆-𝐒𝐭𝐝_ f g = ′ ⟨ f ⟩ ◆-𝒰 ⟨ g ⟩ ′ {{isSetoidHom:◆ {f = f} {g = g}}}
@@ -45,8 +46,8 @@ instance
   isCategory:Setoid : ∀{𝑗 : 𝔏 ^ 2} -> isCategory (Setoid 𝑗)
   isCategory.Hom isCategory:Setoid = SetoidHom
   isCategory.isSetoid:Hom isCategory:Setoid = isSetoid:SetoidHom
-  isCategory.id isCategory:Setoid = {!!}
-  isCategory._◆_ isCategory:Setoid = {!!}
+  isCategory.id isCategory:Setoid = id-𝐒𝐭𝐝
+  isCategory._◆_ isCategory:Setoid = _◆-𝐒𝐭𝐝_
   isCategory.unit-l-◆ isCategory:Setoid = {!!}
   isCategory.unit-r-◆ isCategory:Setoid = {!!}
   isCategory.unit-2-◆ isCategory:Setoid = {!!}
