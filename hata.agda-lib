@@ -2,4 +2,4 @@ name: HATA
 depend: cubical
 include: .
   Archive
-flags: --experimental-lossy-unification --erased-cubical --allow-unsolved-metas --no-import-sorts -W noNoEquivWhenSplitting
+flags: --erased-cubical --allow-unsolved-metas --no-import-sorts -W noNoEquivWhenSplitting
