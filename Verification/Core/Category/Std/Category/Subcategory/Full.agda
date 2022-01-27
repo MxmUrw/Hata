@@ -87,9 +87,10 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞'}} where
 
       instance
         isSetoid:FullSubcategoryHom : isSetoid (FullSubcategoryHom a b)
-        isSetoid:FullSubcategoryHom = isSetoid:byDef _∼-FullSubcategoryHom_ {!!} {!!} {!!}
+        isSetoid:FullSubcategoryHom = isSetoid:byDef _∼-FullSubcategoryHom_ (incl refl) (λ p → incl (sym ⟨ p ⟩)) (λ p q → incl (⟨ p ⟩ ∙ ⟨ q ⟩))
         -- isSetoid._∼'_ isSetoid:FullSubcategoryHom = _∼-FullSubcategoryHom_
         -- isSetoid.isEquivRel:∼ isSetoid:FullSubcategoryHom = {!!}
+
 
     instance
       isCategory:FullSubcategory : isCategory (FullSubcategory 𝒞 ι)
@@ -102,7 +103,7 @@ module _ {𝒞' : 𝒰 𝑖} {{_ : isCategory {𝑗} 𝒞'}} where
       isCategory.unit-2-◆ isCategory:FullSubcategory = {!!}
       isCategory.assoc-l-◆ isCategory:FullSubcategory = {!!}
       isCategory.assoc-r-◆ isCategory:FullSubcategory = {!!}
-      isCategory._◈_ isCategory:FullSubcategory = {!!}
+      isCategory._◈_ isCategory:FullSubcategory = λ p q → incl (⟨ p ⟩ ◈ ⟨ q ⟩)
 
 
     -- private

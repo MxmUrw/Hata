@@ -17,6 +17,7 @@ open import Verification.Core.Category.Std.Natural.Instance.Setoid
 open import Verification.Core.Category.Std.Functor.Representable2
 
 
+
 module _ (𝒥 : Category 𝑘) {𝒞 : Category 𝑙} where
 
   Coconst : 𝐅𝐮𝐧𝐜 𝒞 (𝐅𝐮𝐧𝐜 𝒥 𝒞 ᵒᵖ)

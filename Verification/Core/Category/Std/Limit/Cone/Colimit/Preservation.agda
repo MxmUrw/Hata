@@ -14,8 +14,8 @@ open import Verification.Core.Category.Std.Functor.Instance.Category
 open import Verification.Core.Category.Std.Natural.Definition
 open import Verification.Core.Category.Std.Natural.Instance.Setoid
 open import Verification.Core.Category.Std.Functor.Representable2
--- open import Verification.Core.Category.Std.Limit.Cone.Colimit.Definition
-open import Verification.Core.Category.Std.Limit.Representation.Colimit.Definition
+open import Verification.Core.Category.Std.Limit.Cone.Colimit.Definition
+-- open import Verification.Core.Category.Std.Limit.Representation.Colimit.Definition
 
 
 
