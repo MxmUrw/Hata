@@ -88,6 +88,9 @@ module _ {𝒞 : Category 𝑖} {𝒟 : Category 𝑗} where
               ; inv-r-◆   = lem-1
               ; inv-l-◆   = lem-2
               }
+  module _ (F : Functor 𝒞 𝒟) where
+    congOf-≅ : ∀{a b : ⟨ 𝒞 ⟩} -> (a ≅ b) -> ⟨ F ⟩ a ≅ ⟨ F ⟩ b
+    congOf-≅ = cong-≅
 
 
 module _ {𝒞 : Category 𝑖} where
