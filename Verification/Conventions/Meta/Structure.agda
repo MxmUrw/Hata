@@ -287,7 +287,7 @@ macro
       -- | In a context of all given variables, apply the predicate to the
       -- carrier set, given by ⟨_⟩
       Γ1 <- getContext
-      let Γ2 = rev (map-List snd tele)
+      let Γ2 = rev (tele)
       (res-Term , res-Type) <- inContext (Γ1 <> Γ2)
                do
                   carrier-level-Val <- unquoteTC carrier-level-Term
@@ -368,7 +368,7 @@ module TestInstancing where
 #struct _ name-IStructure mainArg name-Structure name-ctor =
   do
      ``𝟙`` <- quoteTC 𝟙-𝒰
-     `tt` <- quoteTC tt
+     `tt` <- quoteTC {A = 𝟙-𝒰} tt
 
      type-IStructure <- (getType name-IStructure)
      type-IStructure <- withReconstructed (return type-IStructure)
@@ -417,7 +417,7 @@ module TestInstancing where
      -- | Computing the result type
 
      Γ1 <- getContext
-     let Γ2 = rev (map-List snd tele)
+     let Γ2 = rev (tele)
      `𝑖` <- inContext (Γ2 <> Γ1)
                       do type-mainArg <- normalise type-mainArg
                          -- curΓ <- getContext
@@ -535,6 +535,7 @@ open TestStructure
 test : (R : Ring 𝑖) -> ⟨ R ⟩ -> ⟨ R ⟩
 test R a = a + a
 
+{-
 #struct2 : Name -> String -> Name -> Name -> TC 𝟙-𝒰
 #struct2 nameI mainArg a b =
   do
@@ -557,7 +558,7 @@ test R a = a + a
      defineFun b (clause [] [] (`tt`) ∷ [])
 
      return tt
-
+-}
 
     -- dothis : ℕ -> ℕ
     -- dothis n = invert n
