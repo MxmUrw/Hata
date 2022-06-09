@@ -83,11 +83,22 @@ record isSetoidHom {𝑖 𝑗 : 𝔏 ^ 2} (A : Setoid 𝑖) (B : Setoid 𝑗) (f
   field cong-∼ : ∀{a b} -> a ∼ b -> f a ∼ f b
 open isSetoidHom {{...}} public
 
+
 SetoidHom : (A : Setoid 𝑖) (B : Setoid 𝑗) -> 𝒰 _
 SetoidHom A B = (⟨ A ⟩ -> ⟨ B ⟩) :& isSetoidHom A B
 
+module _ {A : Setoid 𝑖} {B : Setoid 𝑗} where
+  congOf : (f : SetoidHom A B) -> ∀{a b : ⟨ A ⟩} -> a ∼ b -> ⟨ f ⟩ a ∼ ⟨ f ⟩ b
+  congOf f = cong-∼
 
 
+module _ {A : Setoid 𝑖} {B : Setoid 𝑗} where
+  _∼-SetoidHom_ : (f g : SetoidHom A B) -> 𝒰 _
+  _∼-SetoidHom_ f g = ∀{a} -> ⟨ f ⟩ a ∼ ⟨ g ⟩ a
+
+  instance
+    isSetoid:SetoidHom : isSetoid (SetoidHom A B)
+    isSetoid:SetoidHom = isSetoid:byDef _∼-SetoidHom_ refl (λ p -> sym p) (λ p q -> p ∙ q)
 
 
 

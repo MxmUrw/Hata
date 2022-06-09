@@ -11,16 +11,16 @@ module _ {A B : Setoid 𝑖} where
   -- instance
   --   isSetoid:SetoidHom-Base : isSetoid {𝑘} (Hom-Base SetoidHom A B)
   --   isSetoid:SetoidHom-Base = {!!} -- isSetoid:Hom-Base
-  module _ (f g : SetoidHom A B) where
-    record _∼-SetoidHom_ : 𝒰 𝑖 where
-      constructor pointwise
-      field ⟨_⟩ : ∀(a) -> ⟨ f ⟩ a ∼ ⟨ g ⟩ a
+  -- module _ (f g : SetoidHom A B) where
+  --   record _∼-SetoidHom_ : 𝒰 𝑖 where
+  --     constructor pointwise
+  --     field ⟨_⟩ : ∀(a) -> ⟨ f ⟩ a ∼ ⟨ g ⟩ a
 
-    open _∼-SetoidHom_ public
+  --   open _∼-SetoidHom_ public
 
-  instance
-    isSetoid:SetoidHom : isSetoid (SetoidHom A B)
-    isSetoid:SetoidHom = isSetoid:byDef _∼-SetoidHom_ (pointwise (λ a → refl)) {!!} {!!}
+  -- instance
+  --   isSetoid:SetoidHom : isSetoid (SetoidHom A B)
+  --   isSetoid:SetoidHom = isSetoid:byDef _∼-SetoidHom_ (pointwise (λ a → refl)) {!!} {!!}
 
 module _ {A : Setoid 𝑖} where
 

@@ -19,6 +19,29 @@ agdaProjects:
 
 
 agdaPublishProjects:
+  - projectName: catalg
+    autobuild: false
+    fastbuild: true
+    latexRepeatBuild: 1
+    source_RelDir: Verification
+    bibfile_RelFile: "Notes/Topic/VTC/references.bib"
+    abstract_RelFile: "Notes/Topic/CatAlg/Title.tex"
+    # include_RelFiles:
+    #   - Experimental/Theory/Std/Generic/Theory/Definition.agda
+    #   - Experimental/Theory/Std/Generic/LogicalFramework/Definition.agda
+    agdaPublishDocumentDescription:
+      documentTitle: "Categories and Algebra"
+      documentAuthor: "Maxim Urschumzew"
+      documentType: SCReport
+      documentDate: ""
+      notImportantFiles: []
+      documentFilesAndHeadings:
+      - Core/Category/Std/Category/As/Monoid2/Definition.agda
+      - Core/Algebra/Monoid/Instance/Category.agda
+    libraryDefinitions_Filename: hata.agda-lib
+
+
+
   - projectName: testvtc
     autobuild: false
     fastbuild: true
@@ -155,13 +178,6 @@ agdaPublishProjects:
       # # - == Notes
       # # - Core/Data/List/Notes/ReasonForFreeMonoidVariant.agda
       # - Notes/Topic/VTC/Discussion.agda
-
-
-
-
-
-
-
     libraryDefinitions_Filename: hata.agda-lib
 
   - projectName: hata-book
