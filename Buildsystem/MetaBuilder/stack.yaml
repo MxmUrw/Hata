@@ -44,6 +44,10 @@ extra-deps:
 - git: https://github.com/MxmUrw/agda.git
   commit: 57494bdc9f48785eed5da64571f05689444fd091
 
+nix:
+  pure: false
+  packages: [zlib.dev, zlib.out]
+
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
