@@ -123,7 +123,7 @@ fn encode_(ts: &UserTerm, curpath: FullPath) -> (EncTerm,HashMap<String,Vec<Path
 // printing them
 impl fmt::Display for EncTerm {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fn writeVec<T:fmt::Display>(f: &mut fmt::Formatter<'_>, xs: &Vec<T>) -> fmt::Result {
+        fn write_vec<T:fmt::Display>(f: &mut fmt::Formatter<'_>, xs: &Vec<T>) -> fmt::Result {
             write!(f,"[")?;
             for x in xs {
                 write!(f,"{}, ", x);
@@ -131,11 +131,11 @@ impl fmt::Display for EncTerm {
             write!(f,"]")?;
             Ok(())
         }
-        fn writeTupleVec<T:fmt::Display>(f: &mut fmt::Formatter<'_>, xs: &Vec<(T,Vec<T>)>) -> fmt::Result {
+        fn write_tuple_vec<T:fmt::Display>(f: &mut fmt::Formatter<'_>, xs: &Vec<(T,Vec<T>)>) -> fmt::Result {
             write!(f,"[")?;
             for (a,xs) in xs {
                 write!(f,"{} ", a)?;
-                writeVec(f,xs)?;
+                write_vec(f,xs)?;
                 write!(f,", ")?;
             }
             write!(f,"]")?;
@@ -145,9 +145,9 @@ impl fmt::Display for EncTerm {
         match self {
             EncTerm {app,λ} => {
                 write!(f,"\napp: ")?;
-                writeVec(f, app)?;
+                write_vec(f, app)?;
                 write!(f,"\nΛ  : ")?;
-                writeTupleVec(f, λ)?;
+                write_tuple_vec(f, λ)?;
                 write!(f,"\n")?;
             }
         };
