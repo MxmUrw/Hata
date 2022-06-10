@@ -3,10 +3,8 @@ mod user;
 use user::*;
 
 mod enc;
-use enc::*;
-
-mod enc2;
-use enc2::bittree::*;
+use enc::path::*;
+use enc::bittree::*;
 
 pub fn mtest() -> () {
     println!("hello!");
