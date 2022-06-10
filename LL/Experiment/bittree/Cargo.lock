@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "bitterms"
+name = "bittree"
 version = "0.1.0"
