@@ -6,8 +6,11 @@ mod enc;
 // use enc::path_::*;
 use enc::bittree::*;
 
+// use crate::path::Variant::SingleUnit::Definition::*;
+
 pub fn mtest() -> () {
     println!("hello!");
+
     // let t = t_plus();
     // println!("Term: {}", t);
     // println!("Encoded: {}", encode(&t));

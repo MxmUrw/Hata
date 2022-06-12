@@ -1,11 +1,16 @@
 
 #![allow(mixed_script_confusables)]
 #![allow(non_camel_case_types)]
+#![allow(non_snake_case)]
 
 mod term;
-mod path;
+mod exec;
+pub mod Term;
+pub mod Path;
+
 
 use term::*;
+
 
 fn main() {
     mtest();

@@ -5,20 +5,6 @@
 ////////////////////////////////////////////////////////////////
 // Encoded terms
 
-pub struct EncTerm {
-    app : Vec<Path>,
-    λ   : Vec<(Path,Vec<Path>)>,
-}
-
-impl EncTerm {
-    fn empty() -> Self {
-        EncTerm {app: vec![], λ: vec![]}
-    }
-    fn append(&mut self, other: &mut EncTerm) {
-        self.app.append(&mut other.app);
-        self.λ.append(&mut other.λ);
-    }
-}
 
 fn merge_vec_hashmaps<K: Eq + Hash + Clone,V>(xs: &mut HashMap<K,Vec<V>>, ys: &mut HashMap<K,Vec<V>>) -> () {
     for (k,y) in ys {
