@@ -2,9 +2,21 @@
 // use core::ops::BitOr;
 // use std::marker::Sized;
 
-pub trait IsPath<WordType>
+use std::fmt::Display;
+
+pub trait IsPathUnit
 {
-    fn push(&mut self, bits: WordType, bit_length: usize) -> ();
+    fn left() -> Self;
+    fn right() -> Self;
+}
+
+pub trait IsPath<PathUnit> :
+    Display + Clone
+where
+    PathUnit : IsPathUnit
+{
+    fn root() -> Self;
+    fn push(&mut self, bits: PathUnit, bit_length: usize);
 }
 
 

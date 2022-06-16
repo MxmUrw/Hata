@@ -10,10 +10,12 @@ pub mod Path;
 
 
 use term::*;
+use exec::*;
 
 
 fn main() {
     mtest();
+    exectest();
 }
 
 
@@ -22,9 +24,9 @@ fn main() {
 // Hello!
 //
 // Next steps:
-//  -[ ] make folders for our different path types in path::*
-//  -[ ] have three folders in term::*, namely for user terms, pure path terms, tiled terms
-//  -[ ] abstract path-term encoding (type and function) over an abstract path type (we currently only use the `push` functionality?)
+//  -[v] make folders for our different path types in path::*
+//  -[v] have three folders in term::*, namely for user terms, pure path terms, tiled terms
+//  -[v] abstract path-term encoding (type and function) over an abstract path type (we currently only use the `push` functionality?)
 //  -[ ] implement: fn: takes a path and creates a tile with only this bit set
 //  -[ ] implement: type: tiledata: contains the relative variable paths
 //  -[ ] implement: fn: creates tiledata from given tile-term
