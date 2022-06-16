@@ -1,10 +1,6 @@
 
-mod user;
-use user::definition::*;
 
-mod enc;
 // use enc::path_::*;
-use enc::bittree::*;
 
 use crate::BitTree::Variant::BitTree32::Definition::*;
 // use crate::path::Variant::SingleUnit::Definition::*;

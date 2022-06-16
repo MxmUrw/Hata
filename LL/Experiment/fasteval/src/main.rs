@@ -8,6 +8,7 @@ mod exec;
 pub mod Term;
 pub mod Path;
 pub mod BitTree;
+pub mod Tile;
 
 
 use term::*;
