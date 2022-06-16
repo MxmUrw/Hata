@@ -7,6 +7,7 @@ mod term;
 mod exec;
 pub mod Term;
 pub mod Path;
+pub mod BitTree;
 
 
 use term::*;
