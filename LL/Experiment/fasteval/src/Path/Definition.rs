@@ -16,7 +16,9 @@ where
     PathUnit : IsPathUnit
 {
     fn root() -> Self;
-    fn push(&mut self, bits: PathUnit, bit_length: usize);
+    fn push_at_leaf(&mut self, bits: PathUnit, bit_length: usize);
+    fn pop_at_leaf(&mut self, bit_length: usize) -> Self;
+    fn length(&self) -> usize;
 }
 
 

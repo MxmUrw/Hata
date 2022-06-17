@@ -9,6 +9,7 @@ pub mod Term;
 pub mod Path;
 pub mod BitTree;
 pub mod Tile;
+pub mod NodeKind;
 
 
 use term::*;

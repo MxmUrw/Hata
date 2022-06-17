@@ -31,7 +31,7 @@ fn encode_<Path,W>(ts: &TreeTerm, curpath_immut: &Path) -> (PathTerm<Path,W>, Ha
     match ts {
         TreeTerm::Λ(var,term) =>
         {
-            curpath.push(W::left(), 1);
+            curpath.push_at_leaf(W::left(), 1);
             let (mut t_, mut vars) = encode_(term, &curpath);
             let var_paths = match vars.remove(var) {
                 None => vec![],
@@ -45,8 +45,8 @@ fn encode_<Path,W>(ts: &TreeTerm, curpath_immut: &Path) -> (PathTerm<Path,W>, Ha
             // create the left and right paths
             let mut path_l = curpath.clone();
             let mut path_r = curpath.clone();
-            path_l.push(W::left(), 1);
-            path_r.push(W::right(), 1);
+            path_l.push_at_leaf(W::left(), 1);
+            path_r.push_at_leaf(W::right(), 1);
 
             // call myself recursively
             let (mut t_, mut tvars) = encode_(t, &path_l);

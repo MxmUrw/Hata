@@ -36,9 +36,17 @@ impl IsPath<u64> for SingleUnitPath
     {
         SingleUnitPath {length: 0, value: 0}
     }
-    fn push(&mut self, postpath: u64, length_postpath: usize)
+    fn push_at_leaf(&mut self, postpath: u64, length_postpath: usize)
     {
         SingleUnitPath::push(self, postpath, length_postpath);
+    }
+    fn pop_at_leaf(&mut self, length_postpath: usize) -> SingleUnitPath
+    {
+        todo!()
+    }
+    fn length(&self) -> usize
+    {
+        self.length
     }
 }
 

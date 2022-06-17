@@ -2,7 +2,8 @@
 
 pub trait IsBitTree
 {
-    fn height() -> usize;
+    fn full_height() -> usize;
+    fn slice_height() -> usize;
 }
 
 
