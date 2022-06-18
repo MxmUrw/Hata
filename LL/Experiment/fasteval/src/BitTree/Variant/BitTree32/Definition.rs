@@ -1,4 +1,6 @@
 
+use crate::BitTree::Definition::*;
+
 use std::string::*;
 use std::fmt;
 use std::vec::*;
@@ -24,6 +26,17 @@ impl BitTree32
 
 }
 
+impl IsBitTree for BitTree32
+{
+    fn full_height() -> usize
+    {
+        5
+    }
 
+    fn slice_height() -> usize
+    {
+        4
+    }
+}
 
 

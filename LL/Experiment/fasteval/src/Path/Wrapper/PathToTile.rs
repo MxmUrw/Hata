@@ -7,7 +7,7 @@ use crate::BitTree::Definition::*;
 use std::marker::PhantomData;
 
 
-pub struct PathToTile<BT,P,W>(P, PhantomData<(BT,W)>) where
+pub struct PathToTile<BT,P,W>(pub P, PhantomData<(BT,W)>) where
     BT: IsBitTree,
     P: IsPath<W>,
     W: IsPathUnit;

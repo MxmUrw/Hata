@@ -1,5 +1,6 @@
 
 use crate::Path::Definition::*;
+use more_asserts::*;
 
 #[derive(Debug, Clone, Copy)]
 pub struct SingleUnitPath
@@ -10,7 +11,7 @@ pub struct SingleUnitPath
 
 impl SingleUnitPath
 {
-    fn push(&mut self, postpath:u64, length_postpath:usize)
+    fn push_at_leaf(&mut self, postpath:u64, length_postpath:usize)
     {
         self.value |= postpath << self.length;
         self.length += length_postpath;
@@ -38,11 +39,28 @@ impl IsPath<u64> for SingleUnitPath
     }
     fn push_at_leaf(&mut self, postpath: u64, length_postpath: usize)
     {
-        SingleUnitPath::push(self, postpath, length_postpath);
+        SingleUnitPath::push_at_leaf(self, postpath, length_postpath);
     }
-    fn pop_at_leaf(&mut self, length_postpath: usize) -> SingleUnitPath
+    fn pop_at_leaf(&mut self, length_pop: usize) -> SingleUnitPath
     {
-        todo!()
+        // make sure that we have enough bits to pop
+        debug_assert_le!(length_pop, self.length);
+
+        // fill usize length lower bits with 1
+        let mask = (1 << length_pop) - 1;
+
+        // the popped value is
+        let res = self.value & mask;
+
+        // shift myself by length to the right
+        self.value >>= length_pop;
+        self.length -= length_pop;
+
+        SingleUnitPath
+        {
+            value: res,
+            length: length_pop
+        }
     }
     fn length(&self) -> usize
     {
