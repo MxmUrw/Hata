@@ -13,7 +13,6 @@ pub struct PathInTile<BT,P,W,NK>(pub P, PhantomData<(BT,W,NK)>) where
     W: IsPathUnit,
     NK: IsNodeKind;
 
-
 impl<BT,P,W,NK> PathInTile<BT,P,W,NK> where
     BT: IsBitTree,
     P: IsPath<W>,

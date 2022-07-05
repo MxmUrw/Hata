@@ -41,7 +41,7 @@ impl IsPath<u64> for SingleUnitPath
     {
         SingleUnitPath::push_at_leaf(self, postpath, length_postpath);
     }
-    fn pop_at_leaf(&mut self, length_pop: usize) -> SingleUnitPath
+    fn pop_at_root(&mut self, length_pop: usize) -> SingleUnitPath
     {
         // make sure that we have enough bits to pop
         debug_assert_le!(length_pop, self.length);
@@ -62,9 +62,18 @@ impl IsPath<u64> for SingleUnitPath
             length: length_pop
         }
     }
+    fn pop_at_root_bit(&mut self) -> bool
+    {
+        let bit_at_root = self.pop_at_root(1);
+        bit_at_root.value != 0
+    }
     fn length(&self) -> usize
     {
         self.length
+    }
+    fn as_path_unit(self) -> u64
+    {
+        self.value
     }
 }
 
