@@ -24,7 +24,7 @@ pub fn exectest() -> ()
             value: p_int
         };
 
-    let res = split_raw_path::<BitTree32,_,_,Shift0NodeKind>(&p);
+    let res = split_raw_path::<BitTree32,_,_,Shift1NodeKind>(&p);
     println!("The split path is: {} and {}", res.0.0, res.1.0);
 
 }
