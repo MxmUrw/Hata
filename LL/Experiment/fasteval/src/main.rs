@@ -5,11 +5,14 @@
 
 mod term;
 mod exec;
+pub mod AlgebraLL;
 pub mod Term;
 pub mod Path;
 pub mod BitTree;
 pub mod Tile;
-pub mod NodeKind;
+pub mod TileSet;
+pub mod Node;
+pub mod NodePath;
 
 
 use term::*;

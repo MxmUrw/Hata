@@ -1,7 +1,7 @@
 
 
 use crate::Path::Definition::*;
-use crate::NodeKind::Definition::*;
+use crate::Node::NodeKind::Definition::*;
 use crate::BitTree::Definition::*;
 
 use std::marker::PhantomData;

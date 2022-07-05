@@ -8,7 +8,7 @@ use crate::BitTree::Variant::BitTree32::Definition::*;
 use crate::Path::Variant::SingleUnit::Definition::*;
 use crate::Path::Convert::*;
 use crate::Term::Convert::TreeToPath;
-use crate::NodeKind::Definition::*;
+use crate::Node::NodeKind::Definition::*;
 
 pub fn exectest() -> ()
 {

@@ -1,6 +1,6 @@
 
 use crate::BitTree::Definition::*;
-use crate::NodeKind::Definition::*;
+use crate::Node::NodeKind::Definition::*;
 use crate::Path::Definition::*;
 use crate::Path::Wrapper::PathInTile::*;
 use crate::Path::Wrapper::PathToTile::*;
