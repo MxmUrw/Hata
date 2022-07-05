@@ -9,6 +9,7 @@ use std::fmt;
 use std::vec::*;
 use std::collections::HashMap;
 use std::hash::Hash;
+use std::ops::BitOr;
 
 /// A single bit-tree.
 ///
@@ -19,7 +20,7 @@ use std::hash::Hash;
 /// 8 ... 15
 /// 16 ... 31
 ///
-#[derive(PartialEq, Eq, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 pub struct BitTree32
 {
     pub bits: u32
@@ -28,6 +29,15 @@ pub struct BitTree32
 impl BitTree32
 {
 
+}
+
+impl BitOr for BitTree32
+{
+    type Output = BitTree32;
+    fn bitor(self, other: BitTree32) -> BitTree32
+    {
+        BitTree32 {bits: self.bits | other.bits}
+    }
 }
 
 impl IsBitTree for BitTree32
@@ -44,16 +54,21 @@ impl IsBitTree for BitTree32
 
     fn from<NK: IsNodeKind, P : IsPath<W>, W : IsPathUnit>(path: PathInTile<Self,P,W,NK>) -> BitTree32
     {
+        println!("Have the following path: {}", path.0);
         let mut p = path.0;
-        let mut tree : u32 = 1;
+        let mut index : u32 = 1;
 
         while p.length() > 0
         {
             let direction = p.pop_at_root_bit();
-            let tree = tree * 2 + 1 + (direction as u32);
+            index = index * 2 + (direction as u32);
         }
+        let tree = 1 << index;
 
-        BitTree32 {bits: tree}
+        let res = BitTree32 {bits: tree};
+        println!("The tree is: ");
+        println!("{res}");
+        res
     }
     fn empty() -> BitTree32
     {

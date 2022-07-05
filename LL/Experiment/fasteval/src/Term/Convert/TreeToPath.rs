@@ -1,4 +1,5 @@
 
+
 use std::hash::*;
 use std::collections::HashMap;
 
@@ -7,12 +8,6 @@ use crate::Term::Tree::Definition::*;
 use crate::Term::Path::Definition::*;
 
 
-pub fn run<P,W>(ts: &TreeTerm) -> PathTerm<P,W> where
-    P : IsPath<W>,
-    W : IsPathUnit
-{
-    todo!()
-}
 
 pub fn encode<Path,W>(ts: &TreeTerm) -> PathTerm<Path,W> where
     Path : IsPath<W>,

@@ -21,7 +21,7 @@ impl<BT,P,W,NK> PathInTile<BT,P,W,NK> where
 {
     pub fn new(p: P) -> Self
     {
-        println!("Constructing path in tile for {p}");
+        println!("Constructing path in tile for {p}. We have slice_height: {}, slice_shift: {}", BT::slice_height(), NK::slice_shift());
         // make sure that our path has the correct length
         // for paths in tiles, it must hold that
         // p.length ∈ [slice_shift .. slice_height+slice_shift]
