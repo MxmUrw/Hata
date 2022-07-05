@@ -16,6 +16,7 @@ use std::hash::Hash;
 /// 8 ... 15
 /// 16 ... 31
 ///
+#[derive(PartialEq, Eq, Hash)]
 pub struct BitTree32
 {
     pub bits: u32

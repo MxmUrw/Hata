@@ -4,14 +4,15 @@
 
 use std::fmt::Display;
 
-pub trait IsPathUnit
+pub trait IsPathUnit :
+  Eq + std::hash::Hash
 {
     fn left() -> Self;
     fn right() -> Self;
 }
 
 pub trait IsPath<PathUnit> :
-    Display + Clone
+    Display + Clone + Eq + std::hash::Hash
 where
     PathUnit : IsPathUnit
 {

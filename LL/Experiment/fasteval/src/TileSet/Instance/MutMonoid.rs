@@ -3,36 +3,51 @@ use crate::TileSet::Definition::*;
 use crate::BitTree::Definition::*;
 use crate::Tile::Definition::*;
 use crate::Path::Definition::*;
+use crate::Path::Wrapper::PathToTile::*;
 use crate::AlgebraLL::MutMonoid::Definition::*;
 use crate::NodePath::Definition::*;
 
+use std::marker::PhantomData;
+use std::collections::HashMap;
 
-impl<BT,P,W,NKG> IsMutMonoid<NodePath<P,W,NKG>> for TileSet<BT,P,W> where
+impl<T,BT,P,W,NKG1> IsMutMonoid<NodePath<P,W,NKG1>> for TileSet1<T,BT,P,W,NKG1> where
+    T: IsTile<BT,P,W,NKG1>,
     BT: IsBitTree,
-    P : IsPath<W>,
+    P: IsPath<W>,
     W: IsPathUnit
 {
-    fn empty() -> TileSet<BT,P,W>
+    fn empty() -> TileSet1<T,BT,P,W,NKG1>
+    {
+        TileSet1
+        {
+            tiles1: HashMap::new(),
+            phantomNKG1: PhantomData
+        }
+    }
+
+    fn single(np: NodePath<P,W,NKG1>) -> TileSet1<T,BT,P,W,NKG1>
+    {
+        let mut map = HashMap::new();
+        let (path,tile) = T::from(np);
+        map.insert(path,tile);
+        TileSet1
+        {
+            tiles1: map,
+            phantomNKG1: PhantomData
+        }
+    }
+
+    fn append(&mut self, other: TileSet1<T,BT,P,W,NKG1>)
     {
         todo!()
     }
 
-    fn single(a: NodePath<P,W,NKG>) -> TileSet<BT,P,W>
+    fn append_single(&mut self, other: NodePath<P,W,NKG1>)
     {
-        todo!()
-    }
-
-    fn append(&mut self, other: TileSet<BT,P,W>)
-    {
-        todo!()
-    }
-
-    fn append_single(&mut self, other: NodePath<P,W,NKG>)
-    {
-        todo!()
+        let (path,tile) = T::from(other);
+        self.tiles1.insert(path,tile);
     }
 }
-
 
 
 

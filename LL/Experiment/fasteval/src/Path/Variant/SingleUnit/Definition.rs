@@ -2,7 +2,7 @@
 use crate::Path::Definition::*;
 use more_asserts::*;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct SingleUnitPath
 {
     pub length: usize,
