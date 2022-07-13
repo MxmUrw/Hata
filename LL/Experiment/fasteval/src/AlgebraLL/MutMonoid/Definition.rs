@@ -1,9 +1,7 @@
-
-
-pub trait IsMutMonoid<A> where
+pub trait IsMutMonoid<A>
 {
     fn empty() -> Self;
-    fn single(a:A) -> Self;
+    fn single(a: A) -> Self;
     fn append(&mut self, other: Self);
     fn append_single(&mut self, other: A);
 
@@ -12,5 +10,3 @@ pub trait IsMutMonoid<A> where
     // 1. Monoid rules.
     // 2. a * [x] == append_single(a,x)
 }
-
-

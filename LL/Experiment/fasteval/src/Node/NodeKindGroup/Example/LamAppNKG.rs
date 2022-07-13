@@ -1,4 +1,3 @@
-
 // use crate::Node::NodeKindGroup::Definition::*;
 
 use std::fmt;
@@ -6,12 +5,10 @@ use std::fmt;
 pub enum LamAppNKG
 {
     Lam,
-    App
+    App,
 }
 
-
-
-impl fmt::Display for LamAppNKG where
+impl fmt::Display for LamAppNKG
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
     {
@@ -25,5 +22,3 @@ impl fmt::Display for LamAppNKG where
 
 // impl NodeKindGroup for LamAppNKG
 // {}
-
-

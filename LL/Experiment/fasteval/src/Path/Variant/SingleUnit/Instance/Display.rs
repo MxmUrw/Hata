@@ -1,4 +1,3 @@
-
 use crate::Path::Variant::SingleUnit::Definition::*;
 use std::fmt;
 
@@ -19,6 +18,3 @@ impl fmt::Display for SingleUnitPath
         // write!(f, "val: {:b}, w: {}", self.value, self.length)?;
     }
 }
-
-
-

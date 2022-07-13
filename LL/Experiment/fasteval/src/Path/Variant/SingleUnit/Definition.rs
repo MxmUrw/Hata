@@ -1,4 +1,3 @@
-
 use crate::Path::Definition::*;
 use more_asserts::*;
 
@@ -11,13 +10,12 @@ pub struct SingleUnitPath
 
 impl SingleUnitPath
 {
-    fn push_at_leaf(&mut self, postpath:u64, length_postpath:usize)
+    fn push_at_leaf(&mut self, postpath: u64, length_postpath: usize)
     {
         self.value |= postpath << self.length;
         self.length += length_postpath;
     }
 }
-
 
 impl IsPathUnit for u64
 {
@@ -35,7 +33,10 @@ impl IsPath<u64> for SingleUnitPath
 {
     fn root() -> SingleUnitPath
     {
-        SingleUnitPath {length: 0, value: 0}
+        SingleUnitPath {
+            length: 0,
+            value: 0,
+        }
     }
     fn push_at_leaf(&mut self, postpath: u64, length_postpath: usize)
     {
@@ -56,10 +57,9 @@ impl IsPath<u64> for SingleUnitPath
         self.value >>= length_pop;
         self.length -= length_pop;
 
-        SingleUnitPath
-        {
+        SingleUnitPath {
             value: res,
-            length: length_pop
+            length: length_pop,
         }
     }
     fn pop_at_root_bit(&mut self) -> bool
@@ -76,6 +76,3 @@ impl IsPath<u64> for SingleUnitPath
         self.value
     }
 }
-
-
-

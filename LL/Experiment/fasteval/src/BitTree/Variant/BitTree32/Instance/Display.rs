@@ -1,13 +1,10 @@
-
 use crate::BitTree::Variant::BitTree32::Definition::*;
 
-use std::string::*;
-use std::fmt;
-use std::vec::*;
 use std::collections::HashMap;
+use std::fmt;
 use std::hash::Hash;
-
-
+use std::string::*;
+use std::vec::*;
 
 ////////////////////////////////////////////////////
 // Printing trees
@@ -20,7 +17,13 @@ impl fmt::Display for BitTree32
         let mut bits = self.bits;
 
         // first we say how to print a single line
-        fn print_single_line(f: &mut fmt::Formatter, bits: &mut u32, line_number: u32, number_of_bits_to_print: usize, line_width: usize) -> fmt::Result
+        fn print_single_line(
+            f: &mut fmt::Formatter,
+            bits: &mut u32,
+            line_number: u32,
+            number_of_bits_to_print: usize,
+            line_width: usize,
+        ) -> fmt::Result
         {
             let l = line_number;
             let n = number_of_bits_to_print;
@@ -39,7 +42,7 @@ impl fmt::Display for BitTree32
             {
                 // get and print
                 let bit = *bits & 0b1;
-                write!(f,"{} ", bit)?;
+                write!(f, "{} ", bit)?;
 
                 // shift
                 *bits >>= 1;
@@ -47,11 +50,10 @@ impl fmt::Display for BitTree32
             Ok(())
         }
 
-
         // we have a first underflow bit
         let underflow = bits & 0b1;
         bits >>= 1;
-        writeln!(f,"underflow: {underflow}");
+        writeln!(f, "underflow: {underflow}");
 
         // we have 5 lines each double the size of the previous
         // - `i` is the line number
@@ -60,7 +62,7 @@ impl fmt::Display for BitTree32
         for i in 0..5
         {
             print_single_line(f, &mut bits, i, n, 16)?;
-            writeln!(f,"")?;
+            writeln!(f, "")?;
             n *= 2;
         }
 

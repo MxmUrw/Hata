@@ -1,17 +1,14 @@
-
-use crate::Path::Definition::*;
 use crate::BitTree::Definition::*;
-
+use crate::Path::Definition::*;
 
 // trait IsNodeKind<BT,P,W> where
-    // BT: IsBitTree,
-    // P: IsPath<W>,
-    // W: IsPathUnit
+// BT: IsBitTree,
+// P: IsPath<W>,
+// W: IsPathUnit
 pub trait IsNodeKind
 {
     fn slice_shift() -> usize;
 }
-
 
 pub struct Shift0NodeKind();
 
@@ -23,7 +20,6 @@ impl IsNodeKind for Shift0NodeKind
     }
 }
 
-
 pub struct Shift1NodeKind();
 
 impl IsNodeKind for Shift1NodeKind
@@ -33,6 +29,3 @@ impl IsNodeKind for Shift1NodeKind
         1
     }
 }
-
-
-

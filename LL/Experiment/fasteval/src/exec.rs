@@ -1,26 +1,25 @@
-
-
 // use Term::
 use crate::AlgebraLL::MutMonoid::Definition::*;
-use crate::Term::Tree::Instance::Display::*;
+use crate::BitTree::Variant::BitTree32::Definition::*;
+use crate::Node::NodeKind::Definition::*;
+use crate::Node::NodeKindGroup::Example::LamAppNKG::*;
+use crate::NodePath::Definition::*;
+use crate::Path::Convert::*;
+use crate::Path::Variant::SingleUnit::Definition::*;
+use crate::Term::Convert::TreeToPath;
+use crate::Term::Convert::TreeToTileSet;
+use crate::Term::Convert::TileSetToTree;
 use crate::Term::Path::Definition::*;
 use crate::Term::Path::Instance::Display::*;
 use crate::Term::Tree::Definition::*;
-use crate::BitTree::Variant::BitTree32::Definition::*;
-use crate::Path::Variant::SingleUnit::Definition::*;
-use crate::Path::Convert::*;
-use crate::Term::Convert::TreeToPath;
-use crate::Term::Convert::TreeToTileSet;
-use crate::Node::NodeKind::Definition::*;
-use crate::TileSet::Definition::*;
+use crate::Term::Tree::Instance::Display::*;
 use crate::Tile::Example::LamAppTile::*;
-use crate::Node::NodeKindGroup::Example::LamAppNKG::*;
-use crate::NodePath::Definition::*;
+use crate::TileSet::Definition::*;
 
 pub fn exectest() -> ()
 {
     let a = t_plus();
-    let res = TreeToPath::encode::<SingleUnitPath,u64>(&a);
+    let res = TreeToPath::encode::<SingleUnitPath, u64>(&a);
     println!("The encoded tree is: {res}");
 
     // 1100101
@@ -60,12 +59,9 @@ pub fn exectest() -> ()
     // println!("{ts}");
 
     println!("Encoding the term {a} to a tileset.");
-    let res2 = TreeToTileSet::encode::<SingleUnitPath,u64>(&a);
+    let res2 = TreeToTileSet::encode::<SingleUnitPath, u64>(&a);
     println!("The tileset is:\n{res2}");
 
-
+    let res3 = TileSetToTree::decode(&res2);
+    println!("The decoded term is: {res3}");
 }
-
-
-
-
