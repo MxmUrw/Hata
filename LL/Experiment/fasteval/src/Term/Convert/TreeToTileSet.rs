@@ -24,17 +24,18 @@ pub fn encode<Path,W>(ts: &TreeTerm) -> MyTileSet<Path,W> where
 }
 
 
-fn encode_<Path,W>(ts: &TreeTerm, curpath_immut: &Path) -> (MyTileSet<Path,W>, HashMap<String,Vec<Path>>) where
+fn encode_<Path,W>(ts: &TreeTerm, curpath: &Path) -> (MyTileSet<Path,W>, HashMap<String,Vec<Path>>) where
     Path : IsPath<W>,
     W : IsPathUnit + Clone
 {
-    let mut curpath = curpath_immut.clone();
+    // let curpath = curpath_immut.clone();
     println!("Encoding, curpath={}", curpath);
     match ts {
         TreeTerm::Λ(var,term) =>
         {
-            curpath.push_at_leaf(W::left(), 1);
-            let (mut t_, mut vars) = encode_(term, &curpath);
+            let mut path_l = curpath.clone();
+            path_l.push_at_leaf(W::left(), 1);
+            let (mut t_, mut vars) = encode_(term, &path_l);
             let var_paths = match vars.remove(var) {
                 None => vec![],
                 Some(a) => a
@@ -43,8 +44,8 @@ fn encode_<Path,W>(ts: &TreeTerm, curpath_immut: &Path) -> (MyTileSet<Path,W>, H
 
             // t_.λ.push((curpath,var_paths));
             println!("==============================");
-            println!("pushing lam @ {curpath_immut} to\n{t_}");
-            t_.append_single(NodePath::new(curpath, LamAppNKG::Lam));
+            println!("pushing lam @ {curpath} to\n{t_}");
+            t_.append_single(NodePath::new(curpath.clone(), LamAppNKG::Lam));
             println!("result\n{t_}");
             (t_, vars)
         },
@@ -61,8 +62,8 @@ fn encode_<Path,W>(ts: &TreeTerm, curpath_immut: &Path) -> (MyTileSet<Path,W>, H
             let (mut s_, mut svars) = encode_(s, &path_r);
             // println!("Term: {ts}, path: {curpath}");
             println!("==============================");
-            println!("pushing app @ {curpath_immut} to\n{t_}");
-            t_.append_single(NodePath::new(curpath, LamAppNKG::App));
+            println!("pushing app @ {curpath} to\n{t_}");
+            t_.append_single(NodePath::new(curpath.clone(), LamAppNKG::App));
             println!("pushing rhs to\n{t_}");
             t_.append(s_);
             println!("result\n{t_}");
@@ -72,7 +73,7 @@ fn encode_<Path,W>(ts: &TreeTerm, curpath_immut: &Path) -> (MyTileSet<Path,W>, H
         TreeTerm::Var(s) =>
         {
             let mut vars = HashMap::new();
-            vars.insert(s.clone(), vec![curpath]);
+            vars.insert(s.clone(), vec![curpath.clone()]);
             (TileSet1::empty(), vars)
         },
         TreeTerm::Invalid() => (TileSet1::empty(), HashMap::new())

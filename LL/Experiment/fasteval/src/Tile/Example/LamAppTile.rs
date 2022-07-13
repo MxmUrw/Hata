@@ -43,11 +43,11 @@ impl<BT> BitOr for LamAppTile<BT>
     type Output = LamAppTile<BT>;
     fn bitor(self, other: LamAppTile<BT>) -> LamAppTile<BT>
     {
-        println!("#########");
-        println!("# Computing bitor of: \n{}\n#### and\n{}", self.tree_app, other.tree_app);
+        // println!("#########");
+        // println!("# Computing bitor of: \n{}\n#### and\n{}", self.tree_app, other.tree_app);
 
         let tree_app = self.tree_app | other.tree_app;
-        println!("### result: \n{}", tree_app);
+        // println!("### result: \n{}", tree_app);
         let tree_lam = self.tree_lam | other.tree_lam;
         LamAppTile {tree_app, tree_lam}
     }
@@ -61,13 +61,13 @@ where
 {
     fn from(np: NodePath<P, W, LamAppNKG>) -> (PathToTile<BT, P, W>, Self)
     {
-        println!("Got the following nodepath: {np}, nodekind is: {}", &np.nodekind);
+        // println!("Got the following nodepath: {np}, nodekind is: {}", &np.nodekind);
         match np.nodekind
         {
             LamAppNKG::Lam => {
-                println!("Calling split lam, with {}", Shift1NodeKind::slice_shift());
+                // println!("Calling split lam, with {}", Shift1NodeKind::slice_shift());
                 let (to_tile, in_tile) = split_raw_path::<BT,_,_,Shift1NodeKind>(&np.path);
-                println!("Got to_tile, in_tile");
+                // println!("Got to_tile, in_tile");
                 let res = LamAppTile {
                     tree_lam: BT::from(in_tile),
                     tree_app: BT::empty()
@@ -75,9 +75,9 @@ where
                 (to_tile, res)
             },
             LamAppNKG::App => {
-                println!("Calling split app, with {}", Shift0NodeKind::slice_shift());
+                // println!("Calling split app, with {}", Shift0NodeKind::slice_shift());
                 let (to_tile, in_tile) = split_raw_path::<BT,_,_,Shift0NodeKind>(&np.path);
-                println!("Got to_tile, in_tile");
+                // println!("Got to_tile, in_tile");
                 let res = LamAppTile {
                     tree_lam: BT::empty(),
                     tree_app: BT::from(in_tile)
