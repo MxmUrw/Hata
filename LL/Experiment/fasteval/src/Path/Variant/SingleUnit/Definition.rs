@@ -75,4 +75,8 @@ impl IsPath<u64> for SingleUnitPath
     {
         self.value
     }
+    fn join_at_leaf(&mut self, other: Self)
+    {
+        self.push_at_leaf(other.value, other.length);
+    }
 }

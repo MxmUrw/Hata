@@ -2,19 +2,19 @@
 
 use std::fmt;
 
-pub enum LamAppNKG
+pub enum LamAppNKG<P>
 {
-    Lam,
+    Lam(Vec<P>),
     App,
 }
 
-impl fmt::Display for LamAppNKG
+impl<P> fmt::Display for LamAppNKG<P>
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
     {
         match self
         {
-            LamAppNKG::Lam => write!(f, "lam"),
+            LamAppNKG::Lam(_) => write!(f, "lam"),
             LamAppNKG::App => write!(f, "app"),
         }
     }

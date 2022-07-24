@@ -34,6 +34,7 @@ fn main()
 //  -[v] implement: fn: tileset-printing
 //  -[v] implement: fn: takes a tree-term and creates a tile-term (tileset)
 //  -[v] implement: fn: takes a tile-term and recreates a tree-term
+//  -[ ] think: memory layout for tiles (probably not hashmap?) and for tile-data
 //  -[ ] implement: type: tiledata: contains the relative variable paths
 //  -[ ] implement: fn: creates tiledata from given tile-term
 //  -[ ] implement: fn: shift tile {up,down}-{left,right} (this creates multiple tiles if we have over/under-flow)

@@ -17,6 +17,7 @@ where
     fn push_at_leaf(&mut self, bits: PathUnit, bit_length: usize);
     fn pop_at_root(&mut self, bit_length: usize) -> Self;
     fn pop_at_root_bit(&mut self) -> bool;
+    fn join_at_leaf(&mut self, other: Self);
     fn length(&self) -> usize;
     fn as_path_unit(self) -> PathUnit;
 }

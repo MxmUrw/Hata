@@ -11,7 +11,7 @@ use crate::Tile::Example::LamAppTile::*;
 use crate::TileSet::Definition::*;
 use crate::TileSet::Instance::MutMonoid::*;
 
-type MyTileSet<P, W> = TileSet1<LamAppTile<BitTree32>, BitTree32, P, W, LamAppNKG>;
+type MyTileSet<P, W> = TileSet1<LamAppTile<BitTree32, P, W>, BitTree32, P, W, LamAppNKG<P>>;
 
 pub fn encode<Path, W>(ts: &TreeTerm) -> MyTileSet<Path, W>
 where
@@ -40,14 +40,20 @@ where
             let var_paths = match vars.remove(var)
             {
                 None => vec![],
-                Some(a) => a,
+                Some(mut a) => {
+                    for p in &mut a
+                    {
+                        p.pop_at_root(curpath.length());
+                    }
+                    a
+                }
             };
             // println!("Term: {ts}, path: {curpath}");
 
             // t_.λ.push((curpath,var_paths));
             // println!("==============================");
             // println!("pushing lam @ {curpath} to\n{t_}");
-            t_.append_single(NodePath::new(curpath.clone(), LamAppNKG::Lam));
+            t_.append_single(NodePath::new(curpath.clone(), LamAppNKG::Lam(var_paths)));
             // println!("result\n{t_}");
             (t_, vars)
         }
@@ -69,7 +75,7 @@ where
             // println!("pushing rhs to\n{t_}");
             t_.append(s_);
             // println!("result\n{t_}");
-            // merge_vec_hashmaps(&mut tvars, &mut svars);
+            merge_vec_hashmaps(&mut tvars, &mut svars);
             (t_, tvars)
         }
         TreeTerm::Var(s) =>
@@ -81,3 +87,20 @@ where
         TreeTerm::Invalid() => (TileSet1::empty(), HashMap::new()),
     }
 }
+
+fn merge_vec_hashmaps<K: Eq + Hash + Clone, V>(
+    xs: &mut HashMap<K, Vec<V>>,
+    ys: &mut HashMap<K, Vec<V>>,
+) -> ()
+{
+    for (k, y) in ys
+    {
+        xs.entry(k.clone())
+            .and_modify(|v| v.append(y))
+            .or_insert(y.drain(0..).collect());
+    }
+    // ys.into_iter()
+    //     .map(move |(k,y)| {
+    //     });
+}
+
