@@ -1,5 +1,5 @@
 
-module Verification.Application.Editor.Notes where
+module Verification.Application.AgdaUI.Editor.Notes where
 
 open import Verification.Conventions
 

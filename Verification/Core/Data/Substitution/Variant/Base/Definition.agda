@@ -328,7 +328,7 @@ module _ {I : 𝒰 𝑖} {T : FinitaryRelativeMonad I} where
 --
   open import Verification.Core.Category.Std.Category.Structured.FiniteCoproductGenerated
   instance
-    isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isFiniteCoproductGenerated (𝐒𝐮𝐛𝐬𝐭 T)}}
-                                        -> isFiniteCoproductGenerated (⧜𝐒𝐮𝐛𝐬𝐭 T)
+    isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 : {{_ : isFiniteCoproductGenerated 𝑖 (𝐒𝐮𝐛𝐬𝐭 T)}}
+                                        -> isFiniteCoproductGenerated _ (⧜𝐒𝐮𝐛𝐬𝐭 T)
     isFiniteCoproductGenerated:⧜𝐒𝐮𝐛𝐬𝐭 = isFiniteCoproductGenerated:by≅-𝐂𝐚𝐭 (sym-≅-𝐂𝐚𝐭 ι-⧜𝐒𝐮𝐛𝐬𝐭)
 

@@ -37,10 +37,10 @@ open import Verification.Core.Category.Std.Morphism.Iso
 module _ {𝒞 : Category 𝑖} {{_ : hasFiniteCoproducts 𝒞}} {𝒟 : Category 𝑗} {{_ : hasFiniteCoproducts 𝒟}} where
   module _ {J : Functor 𝒞 𝒟} {T : RelativeMonad J} {{_ : isFiniteCoproductPreserving J}} where
 
-    module _ {{_ : isFiniteCoproductGenerated ′ ⟨ 𝒞 ⟩ ′}} where
+    module _ {{_ : isFiniteCoproductGenerated 𝑘 ′ ⟨ 𝒞 ⟩ ′}} where
 
       instance
-        isFiniteCoproductGenerated:𝐑𝐞𝐊𝐥𝐬 : isFiniteCoproductGenerated (𝐑𝐞𝐊𝐥𝐬 T)
+        isFiniteCoproductGenerated:𝐑𝐞𝐊𝐥𝐬 : isFiniteCoproductGenerated 𝑘 (𝐑𝐞𝐊𝐥𝐬 T)
         isFiniteCoproductGenerated:𝐑𝐞𝐊𝐥𝐬 = isFiniteCoproductGenerated:byIsFiniteCoproductPreserving ι-𝐑𝐞𝐊𝐥𝐬
 
 

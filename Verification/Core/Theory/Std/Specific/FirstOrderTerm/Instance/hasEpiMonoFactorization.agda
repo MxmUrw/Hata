@@ -188,9 +188,9 @@ module _ {Σ : 𝒯FOSignature 𝑖} where
         b'ᵘ = ⟨ fcg b ⟩
         macro b' = #structureOn b'ᵘ
 
-        abstract
-          β : (v : [ bs ]ᶠ) -> isDecidable (⟨ f ⟩ ∋ b' v)
-          β (member v) = isFreeVars ⟨ f ⟩ v
+        -- abstract
+        --   β : (v : [ bs ]ᶠ) -> isDecidable (⟨ f ⟩ ∋ b' v)
+        --   β (member v) = isFreeVars ⟨ f ⟩ v
 
         {-
         b₀f : [ ⟨ b ⟩ ]ᶠ -> ⧜𝐒𝐮𝐛𝐬𝐭 (𝒯⊔term Σ)

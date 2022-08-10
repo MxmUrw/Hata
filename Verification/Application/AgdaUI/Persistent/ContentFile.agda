@@ -1,15 +1,15 @@
 
-module Verification.Application.Persistent.ContentFile where
+module Verification.Application.AgdaUI.Persistent.ContentFile where
 
 open import Verification.Conventions
 open import Verification.Core.Set.Discrete
-open import Verification.Application.Configuration.Static
+open import Verification.Application.AgdaUI.Configuration.Static
 open import Verification.Core.Data.Expr.Variant.Base.Definition
 
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.AllOf.List
 
-open import Verification.Application.Persistent.Error
+open import Verification.Application.AgdaUI.Persistent.Error
 open import Verification.Core.Category.Std.Functor.Definition
 
 open import Verification.Core.Category.Std.Monad.Definition

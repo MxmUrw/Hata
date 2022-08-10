@@ -1,10 +1,10 @@
 
-module Verification.Application.Applications.InferStandalone.Definition where
+module Verification.Application.AgdaUI.Applications.InferStandalone.Definition where
 
 open import Verification.Conventions
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Application.Definition
-open import Verification.Application.Configuration.Static
+open import Verification.Application.AgdaUI.Definition
+open import Verification.Application.AgdaUI.Configuration.Static
 open import Verification.Core.Data.AllOf.Sum
 open import Verification.Core.Data.AllOf.Product
 open import Verification.Core.Data.AllOf.Universe
@@ -12,7 +12,7 @@ open import Verification.Core.Data.Universe.Definition
 open import Verification.Core.Data.Int.Definition
 open import Verification.Core.Data.Expr.Variant.Base.Definition
 
-open import Verification.Application.Persistent
+open import Verification.Application.AgdaUI.Persistent
 
 open import Verification.Core.Category.Std.Monad.Definition
 open import Verification.Core.Category.Std.Monad.TypeMonadNotation

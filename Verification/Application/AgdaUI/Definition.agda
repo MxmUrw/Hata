@@ -1,8 +1,8 @@
 
-module Verification.Application.Definition where
+module Verification.Application.AgdaUI.Definition where
 
 open import Verification.Core.Conventions
-open import Verification.Application.Render.Definition
+open import Verification.Application.AgdaUI.Render.Definition
 open import Verification.Core.Data.Product.Definition
 
 {-# FOREIGN GHC import Hata.Runtime.Application #-}

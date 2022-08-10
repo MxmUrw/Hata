@@ -51,37 +51,37 @@ module _ {I : 𝒰 𝑖} where
 
     fcg'Iso : (a : ⋆List I) -> incl a ≅ ⨆ᶠ (fcg' a)
     fcg'Iso (incl x) = refl-≅
-    fcg'Iso (a ⋆-⧜ b) =
-         incl (a ⋆-⧜ b)
+    fcg'Iso (a ⋆-⧜ b) = {!!}
+         -- incl (a ⋆-⧜ b)
 
-         ⟨  fcg'Iso a ≀⊔≀ fcg'Iso b ⟩-≅
+         -- ⟨  fcg'Iso a ≀⊔≀ fcg'Iso b ⟩-≅
 
-         ⨆ᶠ (fcg' a) ⊔ ⨆ᶠ (fcg' b)
+         -- ⨆ᶠ (fcg' a) ⊔ ⨆ᶠ (fcg' b)
 
-         ⟨ ⨆ᶠ≀ (sym-≅ reduce-ι₀-𝐂𝐚𝐭) ≀⊔≀ ⨆ᶠ≀ (sym-≅ reduce-ι₁-𝐂𝐚𝐭) ⟩-≅
+         -- ⟨ ⨆ᶠ≀ (sym-≅ reduce-ι₀-𝐂𝐚𝐭) ≀⊔≀ ⨆ᶠ≀ (sym-≅ reduce-ι₁-𝐂𝐚𝐭) ⟩-≅
 
-         ⨆ᶠ (ι₀-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭) ⊔ ⨆ᶠ (ι₁-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭)
+         -- ⨆ᶠ (ι₀-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭) ⊔ ⨆ᶠ (ι₁-𝐂𝐚𝐭 ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭)
 
-         ⟨ sym-≅ (§-eval-⋆ᶠ.prop-1) ⟩-≅
+         -- ⟨ sym-≅ (§-eval-⋆ᶠ.prop-1) ⟩-≅
 
-         ⨆ᶠ (eval-⋆ᶠ ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭)
+         -- ⨆ᶠ (eval-⋆ᶠ ◆-𝐂𝐚𝐭 ⦗ fcg' a , fcg' b ⦘-𝐂𝐚𝐭)
 
-         ⟨ refl-≅ ⟩-≅
+         -- ⟨ refl-≅ ⟩-≅
 
-         ⨆ᶠ (fcg' (a ⋆-⧜ b))
+         -- ⨆ᶠ (fcg' (a ⋆-⧜ b))
 
-         ∎-≅
+         -- ∎-≅
 
     fcg'Iso ◌-⧜ = refl-≅ -- refl-≅
 
 
   instance
-    isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 : isFiniteCoproductGenerated (𝐅𝐢𝐧𝐈𝐱 I)
-    isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 = record
-      { fcgSize = λ x -> fcg'Size ⟨ x ⟩
-      ; fcg = λ x -> fcg' ⟨ x ⟩
-      ; fcgIso = λ x -> fcg'Iso ⟨ x ⟩
-      }
+    isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 : isFiniteCoproductGenerated 𝑖 (𝐅𝐢𝐧𝐈𝐱 I)
+    isFiniteCoproductGenerated:𝐅𝐢𝐧𝐈𝐱 = {!!} -- record
+      -- { fcgSize = λ x -> fcg'Size ⟨ x ⟩
+      -- ; fcg = λ x -> fcg' ⟨ x ⟩
+      -- ; fcgIso = λ x -> fcg'Iso ⟨ x ⟩
+      -- }
 
 
 

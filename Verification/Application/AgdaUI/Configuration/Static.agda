@@ -1,5 +1,5 @@
 
-module Verification.Application.Configuration.Static where
+module Verification.Application.AgdaUI.Configuration.Static where
 
 open import Verification.Conventions
 

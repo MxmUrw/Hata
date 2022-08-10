@@ -1,10 +1,10 @@
 
-module Verification.Application.Applications.Editor.Definition where
+module Verification.Application.AgdaUI.Applications.Editor.Definition where
 
 open import Verification.Conventions
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Application.Definition
-open import Verification.Application.Render.Definition
+open import Verification.Application.AgdaUI.Definition
+open import Verification.Application.AgdaUI.Render.Definition
 open import Verification.Core.Data.Product.Definition
 open import Verification.Core.Data.Int.Definition
 open import Verification.Core.Data.Int.Instance.Monoid

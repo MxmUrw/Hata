@@ -1,5 +1,5 @@
 
-module Verification.Application.Render.Definition where
+module Verification.Application.AgdaUI.Render.Definition where
 
 open import Verification.Conventions
 open import Verification.Core.Algebra.Monoid.Definition

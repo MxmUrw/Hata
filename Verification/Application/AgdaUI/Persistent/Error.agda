@@ -1,5 +1,5 @@
 
-module Verification.Application.Persistent.Error where
+module Verification.Application.AgdaUI.Persistent.Error where
 
 open import Verification.Conventions
 

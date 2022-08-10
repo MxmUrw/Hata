@@ -1,19 +1,19 @@
 
 
-module Verification.Application.Main where
+module Verification.Application.AgdaUI.Main where
 
 open import Verification.Conventions
 open import Verification.Core.Algebra.Monoid.Definition
-open import Verification.Application.Definition
-open import Verification.Application.Render.Definition
+open import Verification.Application.AgdaUI.Definition
+open import Verification.Application.AgdaUI.Render.Definition
 open import Verification.Core.Data.Product.Definition
 -- open import Verification.Core.Data.Rational.Definition
 open import Verification.Core.Data.Int.Definition
 
 
-open import Verification.Application.Applications.InferStandalone.Definition
-open import Verification.Application.Applications.Editor.Definition
-open import Verification.Application.Applications.Test.Definition
+open import Verification.Application.AgdaUI.Applications.InferStandalone.Definition
+open import Verification.Application.AgdaUI.Applications.Editor.Definition
+open import Verification.Application.AgdaUI.Applications.Test.Definition
 
 -- open import Verification.Core.Data.Real.Application.Definition
 
