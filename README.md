@@ -1,3 +1,5 @@
+## This repository is archived! All new development happens [here](https://github.com/project-hata/hata).
+The old, outdated README follows below.
 
 # Table of Contents
 
